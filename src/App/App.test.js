@@ -1,9 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import App from "./App";
-import AppHeader from "./AppHeader/AppHeader";
-import AppContent from "./AppContent/AppContent";
+import App from './App';
+import AppHeader from './AppHeader/AppHeader';
+import AppContent from './AppContent/AppContent';
 
 describe('App', function() {
   it('renders AppHeader', () => {
