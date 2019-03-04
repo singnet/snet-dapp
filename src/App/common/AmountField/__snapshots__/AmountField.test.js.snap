@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AmountField renders input field with default props 1`] = `
+<input
+  name="unique-field-id-amount"
+  onChange={[Function]}
+  placeholder=""
+  type="number"
+/>
+`;
+
+exports[`AmountField renders input field with overridden defaults 1`] = `
+<input
+  name="unique-field-id-amount"
+  onChange={[Function]}
+  placeholder="overridden-placeholder"
+  type="number"
+  value={1}
+/>
+`;
