@@ -1,20 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AmountField renders input field with default props 1`] = `
-<input
+exports[`AmountField renders TextField with default props 1`] = `
+<TextField
+  label="Amount"
   name="unique-field-id-amount"
   onChange={[Function]}
-  placeholder=""
-  type="number"
+  required={false}
+  select={false}
+  value={0}
+  variant="standard"
 />
 `;
 
-exports[`AmountField renders input field with overridden defaults 1`] = `
-<input
+exports[`AmountField renders TextField with overridden defaults 1`] = `
+<TextField
+  label="Amount"
   name="unique-field-id-amount"
   onChange={[Function]}
-  placeholder="overridden-placeholder"
-  type="number"
+  required={true}
+  select={false}
   value={1}
+  variant="standard"
 />
 `;

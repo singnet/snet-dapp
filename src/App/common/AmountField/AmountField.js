@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import TextField from '@material-ui/core/TextField';
 
 class AmountField extends Component {
   updateAmount = (event) => {
@@ -8,13 +9,13 @@ class AmountField extends Component {
   };
 
   render() {
-    const { id, amount, placeholder } = this.props;
+    const { id, amount, label, required } = this.props;
     return (
-      <input
-        type="number"
+      <TextField
         name={`${id}-amount`}
         value={amount}
-        placeholder={placeholder}
+        label={label}
+        required={required}
         onChange={this.updateAmount}
       />
     );
@@ -22,14 +23,17 @@ class AmountField extends Component {
 }
 
 AmountField.propTypes = {
-  amount: PropTypes.number,
+  amount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   amountChangeHandler: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
-  placeholder: PropTypes.string,
+  label: PropTypes.string,
+  required: PropTypes.bool,
 };
 
 AmountField.defaultProps = {
-  placeholder: '',
+  amount: 0,
+  label: 'Amount',
+  required: false,
 };
 
 export default AmountField;
