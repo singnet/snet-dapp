@@ -29,7 +29,9 @@
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.10.0",
     "enzyme-to-json": "^3.3.5",
-    "react-test-renderer": "^16.8.3"
+    "jest-dom": "^3.1.2",
+    "react-test-renderer": "^16.8.3",
+    "react-testing-library": "^6.0.0"
   },
   "jest": {
     "snapshotSerializers": [
