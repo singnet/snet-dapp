@@ -7,6 +7,6 @@ describe('Tag', function() {
   it('renders the given tag label', () => {
     const { getByText } = render(<Tag>Some Tag</Tag>);
 
-    expect(getByText('Some Tags')).toBeInTheDocument();
+    expect(getByText('Some Tag')).toBeInTheDocument();
   });
 });
