@@ -13,7 +13,7 @@ class AccountInfo extends Component {
         </div>
         <div>
           <span>Token Balance</span>
-          <AGITokens>5.99990000</AGITokens>
+          <AGITokens>5.99990000</AGITokens>\
         </div>
         <div>
           <span>Escrow Balance</span>

@@ -1,0 +1,144 @@
+
+/***************** Full Width Section ******************/
+.full-width-section {
+  height: 198px;
+  background-size:cover; 
+  -moz-background-size:cover; 
+  -webkit-background-size:cover; 
+  box-sizing:content-box!important; 
+  -moz-box-sizing:content-box!important; 
+  -webkit-box-sizing:content-box!important;  
+  width:100%;  
+  position:relative;  
+  visibility:hidden;
+}
+
+.full-width-content.parallax_section {
+  background-size:cover; 
+  -moz-background-size:cover; 
+  -webkit-background-size:cover;
+}
+
+.full-width-content.vc_row-fluid .wpb_column {
+  background-position:center; 
+  background-size:cover; 
+  -moz-background-size:cover; 
+  -webkit-background-size:cover;
+}
+
+.wpb_row { position:relative; }
+
+.wpb_row .row-bg, 
+.full-width-section .row-bg {
+  position:absolute; top:0;
+  left:0; 
+  width:100%; 
+  height:100%; 
+  background-size:cover; 
+  -moz-background-size:cover; 
+  -webkit-background-size:cover;
+}
+
+.wpb_row .row-bg-wrap:after, 
+.wpb_row .row-bg[data-enable_gradient="true"][data-overlay_strength="image_trans"]:before {
+  display:block; 
+  position:absolute; 
+  top:0; 
+  left:0; 
+  width:100%; 
+  height:100%; 
+  content:' '; 
+  z-index:2;
+}
+
+/* shape divider */
+.nectar-shape-divider-wrap {
+	position: absolute;
+  top: auto;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 200px;
+  z-index: 2;
+  transform: translateZ(0);
+}
+
+.post-area.span_9 .nectar-shape-divider-wrap { overflow: hidden; }
+
+.nectar-shape-divider-wrap[data-position="top"] { 
+	top: -1px;
+	bottom: auto;
+}
+
+.nectar-shape-divider-wrap[data-position="top"] { transform: rotate(180deg); }
+.nectar-shape-divider-wrap[data-front="true"] { z-index: 50; }
+
+/*fix jagged edges*/
+.nectar-shape-divider-wrap[data-style="curve"]  .nectar-shape-divider {
+	filter: blur(0.5px);
+	transform: scale(1.03);
+}
+
+.nectar-shape-divider-wrap[data-style="waves_opacity"] svg path:first-child { opacity: 0.6; }
+
+.nectar-shape-divider-wrap[data-style="fan"] svg { width: 102%; left: -1%; }
+.nectar-shape-divider-wrap[data-style="fan"] svg polygon:nth-child(2) { opacity: 0.15; }
+.nectar-shape-divider-wrap[data-style="fan"] svg rect { opacity: 0.3; }
+
+.nectar-shape-divider-wrap[data-style="mountains"] svg path:first-child { opacity: 0.1; }
+.nectar-shape-divider-wrap[data-style="mountains"] svg path:nth-child(2) { opacity: 0.12; }
+.nectar-shape-divider-wrap[data-style="mountains"] svg path:nth-child(3) { opacity: 0.18; }
+.nectar-shape-divider-wrap[data-style="mountains"] svg path:nth-child(4) { opacity: 0.33; }
+
+.nectar-shape-divider-wrap[data-style="curve_opacity"] svg path:nth-child(1),
+.nectar-shape-divider-wrap[data-style="waves_opacity_alt"] svg path:nth-child(1) { opacity: 0.15; }
+.nectar-shape-divider-wrap[data-style="curve_opacity"] svg path:nth-child(2),
+.nectar-shape-divider-wrap[data-style="waves_opacity_alt"] svg path:nth-child(2) { opacity: 0.3; }
+
+.nectar-shape-divider {
+	width: 100%;
+	left: 0;
+	bottom: -1px;
+	height: 100%;
+	position: absolute;
+}
+
+.nectar-shape-divider-wrap.no-color .nectar-shape-divider { fill: #fff; }
+
+.row-bg-wrap.instance-0:after { 
+  background: #40ceff; 
+  background: linear-gradient(90deg,#40ceff 0%,#5a2ff1 100%);  
+  opacity: 1; 
+}
+
+.row-bg-wrap.instance-2:after { 
+  background: #40ceff; 
+  background: linear-gradient(90deg,#40ceff 0%,#5a2ff1 100%);  
+  opacity: 1; 
+}
+
+.row-bg-wrap.instance-4:after { 
+  background: #40ceff; 
+  background: linear-gradient(135deg,#40ceff 0%,#5a2ff1 100%);  
+  opacity: 0.8; 
+}
+
+.navigation-links { text-align: right; }
+.header-elements { padding: 10px; }
+
+@media only screen and (max-width: 1000px) {
+  .nectar-shape-divider { height: 75%; }
+  .nectar-shape-divider-wrap[data-style="clouds"] .nectar-shape-divider { height: 55%; }
+  .nectar-shape-divider-wrap[data-style="clouds"] .nectar-shape-divider { min-width: 800px; }
+}
+
+@media only screen and (max-width: 690px) {
+  .nectar-shape-divider { height: 33%; }
+  .nectar-shape-divider-wrap[data-style="clouds"] .nectar-shape-divider { height: 33%; }
+  .nectar-shape-divider-wrap[data-style="clouds"] .nectar-shape-divider { min-width: 690px; }
+}
+
+@media only screen and (min-width: 1000px) {
+  .nectar-shape-divider-wrap[data-style="clouds"] .nectar-shape-divider { min-width: 1700px; }
+}

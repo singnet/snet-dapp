@@ -1,0 +1,33 @@
+body { margin: 0; }
+
+nav {
+    position: relative;
+    z-index: 22;
+}
+
+ul {
+	padding: 0;
+	margin: 0;
+}
+
+li {
+	padding-right: 15px;
+    display: inline-block;
+    list-style: none;
+}
+
+a {
+	color: #fff;
+    font-size: 18px;
+    text-decoration: none;
+}
+
+.get-started {
+    background-color: #fff;
+    padding: 3px 10px !important;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #4086ff !important;
+}
+
+.get-started a { color: #4086ff; }
