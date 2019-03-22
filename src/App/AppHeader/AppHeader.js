@@ -32,20 +32,30 @@ class AppHeader extends Component {
                </svg>
             </div>
 
-            <Grid container className="header-elements">
-              <Grid item sm={4}>
-                <Logo />
+            
+            <div className="header-elements">
+              <Grid container className="desktop-view-header">
+                <Grid item xs={5} sm={5} md={3} lg={4}>
+                  <Logo />
+                </Grid>
+                <Grid item  sm={4} md={3} lg={3} className="network-name-container">
+                  <div className="network-name">
+                    <span>Ropsten Test Network</span>
+                  </div>
+                </Grid>
+                <Grid item className="navigation-links" xs={7} sm={3} md={6} lg={5}>
+                  <AppNav />
+                </Grid>
               </Grid>
-              <Grid item sm={2}>
-                <div className="network-name">
-                  <span>Ropsten Test Network</span>
-                </div>
+              <Grid container className="mobile-view-header">
+                <Grid item xs={12} sm={12} md={12} lg={12} className="network-name-container">
+                  <div className="network-name">
+                    <span>Ropsten Test Network</span>
+                  </div>
+                </Grid>
               </Grid>
-              <Grid item className="navigation-links" sm={6}>
-                <AppNav />
-              </Grid>
-            </Grid>
-
+            </div>
+          
           </div>
 
         </div>      	
