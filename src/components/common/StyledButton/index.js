@@ -70,7 +70,7 @@ function StyledButton(props) {
 }
 
 StyledButton.propTypes = {
-  type: PropTypes.oneOf(["blue", "gradient"])
+  type: PropTypes.oneOf(["blue", "gradient", "black"])
 };
 
 StyledButton.defaultProps = {
