@@ -21,14 +21,14 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     margin: 0,
-    color: "rgba(0,0,0,.87)",
+    color: theme.palette.text.black1,
     fontSize: 42,
     lineHeight: "57px"
   },
   description: {
     padding: "42px 0 21px",
     margin: 0,
-    color: "rgba(0,0,0,0.87)",
+    color: theme.palette.text.black1,
     fontFamily: theme.typography.secondary.main,
     fontSize: 24,
     lineHeight: "29px"

@@ -18,35 +18,35 @@ const useStyles = makeStyles(theme => ({
     borderStyle: "solid",
     borderColor: "transparent",
     padding: "13px 28px 11px",
-    color: "#fff",
+    color: theme.palette.text.white,
     textTransform: "uppercase",
     fontFamily: theme.typography.primary.main,
     fontWeight: 600,
     letterSpacing: "1.25px",
     lineHeight: "16px",
     "&:disabled": {
-      backgroundColor: "#e6e6e6",
-      color: "#bcbcbc"
+      backgroundColor: theme.backgroundColor.disabled,
+      color: theme.palette.text.disabled
     }
   },
   blueBg: {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.backgroundColor.blue,
     "&:hover": {
-      backgroundColor: "#fff",
-      borderColor: theme.palette.primary.main,
-      color: theme.palette.primary.main
+      backgroundColor: theme.backgroundColor.white,
+      borderColor: theme.palette.text.primary,
+      color: theme.palette.text.primary
     }
   },
   blackBg: {
-    backgroundColor: "#333",
+    backgroundColor: theme.backgroundColor.githubBlack,
     "& i": {
       fontSize: 24,
       marginRight: 5
     },
     "&:hover": {
-      backgroundColor: "#fff",
-      borderColor: "#333",
-      color: "#333"
+      backgroundColor: theme.backgroundColor.white,
+      borderColor: theme.backgroundColor.githubBlack,
+      color: theme.backgroundColor.githubBlack
     }
   }
 }));

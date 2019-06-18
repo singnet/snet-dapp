@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     alignItems: "center",
     display: "flex",
-    backgroundColor: "#220D3A",
+    backgroundColor: theme.palette.text.purple,
     padding: "15px 6%"
   },
   h1: {
@@ -40,11 +40,11 @@ const useStyles = makeStyles(theme => ({
       marginTop: 0,
       "& label": {
         top: "-17px",
-        color: theme.palette.secondary.main
+        color: theme.palette.text.secondary
       },
       "& svg": {
         right: "-35px",
-        color: theme.palette.secondary.main,
+        color: theme.palette.text.secondary,
         fontSize: 30
       }
     }
@@ -52,15 +52,15 @@ const useStyles = makeStyles(theme => ({
   navLinksAnchor: {
     textDecoration: "none",
     fontSize: 20,
-    color: theme.palette.secondary.main
+    color: theme.palette.text.secondary
   },
   activeTab: {
     paddingBottom: 12,
     fontWeight: 600,
     borderBottomWidth: "2px",
     borderBottomStyle: "solid",
-    borderBottomColor: "#fff",
-    color: "#fff"
+    borderBottomColor: theme.palette.text.white,
+    color: theme.palette.text.white
   },
   loginBtnsUl: {
     margin: 0,
@@ -77,24 +77,21 @@ const useStyles = makeStyles(theme => ({
     padding: "7px 12px",
     borderWidth: "1px",
     borderStyle: "solid",
-    borderColor: "#fff",
+    borderColor: theme.palette.text.white,
     borderRadius: 4,
     marginRight: 0
   },
   loginBtnsAnchor: {
     textDecoration: "none",
     fontSize: 20,
-    color: "#fff"
+    color: theme.palette.text.white
   },
   signupBtnText: {
     fontWeight: "600",
     letterSpacing: 1.79,
     lineHeight: "16px"
   },
-  UppercaseText: { textTransform: "uppercase" },
-  XXX: {
-    backgroundColor: "red"
-  }
+  UppercaseText: { textTransform: "uppercase" }
 }));
 
 function Header() {

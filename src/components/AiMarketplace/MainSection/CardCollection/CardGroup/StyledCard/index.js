@@ -27,13 +27,13 @@ const useStyles = makeStyles(theme => ({
   cardTitle: {
     fontWeight: 600,
     fontSize: 12,
-    color: theme.palette.secondary.main,
+    color: theme.palette.text.secondary,
     textTransform: "uppercase",
     letterSpacing: 2,
     fontFamily: theme.typography.primary.main
   },
   cardSubheader: {
-    color: "rgba(0,0,0,.87)",
+    color: theme.palette.text.black1,
     fontWeight: 600,
     fontSize: 20,
     letterSpacing: 0.25,
@@ -45,7 +45,7 @@ const useStyles = makeStyles(theme => ({
   },
   cardContent: { padding: "0 13px" },
   cardTypograpy: {
-    color: "rgba(0,0,0,0.6)",
+    color: theme.palette.text.gray2,
     fontFamily: theme.typography.secondary.main,
     fontSize: 14,
     lineHeight: "20px"
@@ -60,7 +60,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: 14,
     fontWeight: 600,
     letterSpacing: "1.25px",
-    color: theme.palette.primary.main
+    color: theme.palette.text.primary
   },
   showMore: {
     padding: 0,
@@ -69,7 +69,7 @@ const useStyles = makeStyles(theme => ({
   ratedCount: {
     marginLeft: 10,
     display: "inline-block",
-    color: theme.palette.secondary.main,
+    color: theme.palette.text.secondary,
     fontSize: 12,
     fontWeight: "600",
     letterSpacing: 2,

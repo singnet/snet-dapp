@@ -1,26 +1,32 @@
-import React from "react";
+import React, { Component, Fragment } from "react";
+// material ui imports
+import { withStyles } from "@material-ui/styles";
 
-// Material UI imports
-import { makeStyles } from "@material-ui/styles";
-
-const useStyles = makeStyles(theme => ({
+const useStyles = theme => ({
   errorText: {
     borderWidth: 1,
     borderStyle: "solid",
-    borderColor: "rgba(208,2,27,0.2)",
+    borderColor: theme.backgroundColor.red,
     padding: "13px 20px",
-    margin: "20px 0 !important",
-    backgroundColor: "rgba(208,2,27,0.2)",
-    color: "rgba(0,0,0,.6)",
+    backgroundColor: theme.backgroundColor.red,
+    color: theme.palette.text.gray2,
     fontSize: "14px !important",
     fontFamily: theme.typography.secondary.main,
     textAlign: "left"
   }
-}));
+});
 
-function ErrorMsgBox(props) {
-  const classes = useStyles();
-  return <p className={classes.errorText}>{props.errorMsg}</p>;
+class ErrorMsgBox extends Component {
+  render() {
+    const { classes } = this.props;
+    return (
+      <Fragment>
+        {this.props.showErr ? (
+          <p className={classes.errorText}>{this.props.errorMsg}</p>
+        ) : null}
+      </Fragment>
+    );
+  }
 }
 
-export default ErrorMsgBox;
+export default withStyles(useStyles)(ErrorMsgBox);

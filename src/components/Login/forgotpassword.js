@@ -7,6 +7,7 @@ import { withStyles } from "@material-ui/styles";
 
 // internal components
 import Header from "../common/LoginOnboardingHeader/index.js";
+import ErrorMsgBox from "../common/ErrorMsgBox/index.js";
 import StyledButton from "../common/StyledButton";
 
 // images
@@ -55,11 +56,11 @@ const useStyles = theme => ({
     "& h2": {
       margin: 0,
       fontSize: "36px",
-      color: "rgba(0,0,0,.87)"
+      color: theme.palette.text.black1
     },
     "& p": {
       margin: "17px 0 0",
-      color: "#616161",
+      color: theme.palette.text.gray3,
       fontSize: "22px",
       fontFamily: theme.typography.secondary.main
     },
@@ -77,43 +78,14 @@ const useStyles = theme => ({
     boxShadow:
       "0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.14), 0 1px 3px 0 rgba(0,0,0,0.2)",
     "& button": { width: "100%" },
+    "& p": { marginBottom: 10 },
     ["@media (max-width:527px)"]: {
       width: "100%"
     }
   },
   textField: {
     width: "100%",
-    margin: "0 0 20px 0"
-  },
-  errorText: {
-    borderWidth: 1,
-    borderStyle: "solid",
-    borderColor: "rgba(208,2,27,0.2)",
-    padding: "13px 20px",
-    margin: "20px 0 !important",
-    backgroundColor: "rgba(208,2,27,0.2)",
-    color: "rgba(0,0,0,.6)",
-    fontSize: "14px !important",
-    fontFamily: theme.typography.secondary.main,
-    textAlign: "left"
-  },
-  formButton: {
-    width: "100%",
-    padding: "13px 0",
-    border: 1,
-    borderStyle: "solid",
-    borderColor: "#4086ff",
-    borderRadius: 4,
-    backgroundColor: "#4086ff",
-    color: "#fff",
-    cursor: "pointer",
-    fontSize: "14px",
-    textTransform: "uppercase",
-    "&:hover": {
-      borderColor: "#4086ff",
-      backgroundColor: "#fff",
-      color: "#4086ff"
-    }
+    margin: "0 0 10px 0"
   }
 });
 
@@ -171,7 +143,7 @@ class ForgotPassword extends Component {
               value={username}
               onChange={this.handleUsername}
             />
-            {error && <p className={classes.errorText}>{error}</p>}
+            <ErrorMsgBox errorMsg="error state message" />
             <StyledButton
               type="blue"
               btnText="reset password"

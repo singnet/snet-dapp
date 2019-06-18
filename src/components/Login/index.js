@@ -22,7 +22,7 @@ const useStyles = theme => ({
     "& h2": {
       margin: 0,
       fontSize: "36px",
-      color: "rgba(0,0,0,.87)"
+      color: theme.palette.text.black1
     }
   },
   loginForm: {
@@ -34,7 +34,7 @@ const useStyles = theme => ({
       "0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.14), 0 1px 3px 0 rgba(0,0,0,0.2)",
     "& h3": {
       margin: "0 0 11px",
-      color: "rgba(0,0,0,0.6)",
+      color: theme.palette.text.gray2,
       fontSize: 16,
       letterSpacing: "0.29px",
       textTransform: "uppercase"
@@ -49,7 +49,7 @@ const useStyles = theme => ({
   horizontalLine: {
     marginTop: 15,
     display: "block",
-    color: "rgba(0,0,0,0.6)",
+    color: theme.palette.text.gray2,
     fontSize: 14,
     textTransform: "uppercase",
     textAlign: "center",
@@ -59,7 +59,7 @@ const useStyles = theme => ({
       verticalAlign: "middle",
       width: 160,
       height: 1,
-      backgroundColor: "#F5F7F8",
+      backgroundColor: theme.palette.text.gray5,
       marginRight: 10
     },
     "&::after": {
@@ -69,7 +69,7 @@ const useStyles = theme => ({
       width: 160,
       height: 1,
       marginLeft: 10,
-      backgroundColor: "#F5F7F8"
+      backgroundColor: theme.palette.text.gray5
     }
   },
   textField: {
@@ -79,17 +79,17 @@ const useStyles = theme => ({
     }
   },
   checkboxSection: {
-    marginTop: 10,
+    margin: "10px 0",
     display: "flex",
     alignItems: "baseline",
     justifyContent: "space-between",
     "& label": {
-      color: "#666",
+      color: theme.palette.text.gray4,
       fontSize: 14,
       letterSpacing: "0.25px"
     },
     "& a": {
-      color: "#666",
+      color: theme.palette.text.gray4,
       fontSize: 14,
       letterSpacing: "0.25px",
       textDecoration: "none"
@@ -181,12 +181,8 @@ class Login extends Component {
               </div>
               <Link to={Routes.FORGOT_PASSWORD}>Forgot password?</Link>
             </div>
-            {error && <ErrorMsgBox errorMsg={error} />}
-            <StyledButton
-              type="blue"
-              btnText="login"
-              onClick={this.handleSubmit}
-            />
+            <ErrorMsgBox errorMsg="error state message" showErr />
+            <StyledButton type="blue" btnText="login" />
           </form>
         </Grid>
       </Grid>

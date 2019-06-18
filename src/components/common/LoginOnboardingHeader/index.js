@@ -23,11 +23,11 @@ const useStyles = theme => ({
       margin: 0
     },
     "& p": {
-      color: theme.palette.secondary.main,
+      color: theme.palette.text.secondary,
       fontSize: "16px"
     },
     "& a": {
-      color: theme.palette.primary.main,
+      color: theme.palette.text.primary,
       textDecoration: "none"
     },
     ["@media (max-width:750px)"]: {

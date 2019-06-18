@@ -11,8 +11,6 @@ import Header from "../common/LoginOnboardingHeader/index.js";
 import StyledButton from "../common/StyledButton/index.js";
 import ErrorMsgBox from "../common/ErrorMsgBox/index.js";
 
-// images
-
 import Routes from "../../utility/stringConstants/routes";
 import { isValidEmail } from "../../utility/validation";
 import Session from "../../utility/stringConstants/session";
@@ -34,12 +32,12 @@ const useStyles = theme => ({
     },
     "& h2": {
       margin: 0,
-      color: "rgba(0,0,0,0.87)",
+      color: theme.palette.text.black1,
       fontSize: 36
     },
     "& p": {
       margin: "40px 0 40px",
-      color: "#616161",
+      color: theme.palette.text.gray3,
       fontFamily: theme.typography.secondary.main,
       fontSize: 20,
       lineHeight: "30px"
@@ -54,11 +52,11 @@ const useStyles = theme => ({
       listStyle: "none",
       "& i": {
         marginRight: 15,
-        color: "#00C48C",
+        color: theme.palette.text.green,
         fontSize: 20
       },
       "& p": {
-        color: "#666",
+        color: theme.palette.text.gray3,
         fontFamily: theme.typography.secondary.main,
         fontSize: 16,
         letterSpacing: "0.29px",
@@ -78,7 +76,7 @@ const useStyles = theme => ({
       "0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.14), 0 1px 3px 0 rgba(0,0,0,0.2)",
     "& h3": {
       margin: "0 0 11px",
-      color: "rgba(0,0,0,0.6)",
+      color: theme.palette.text.gray2,
       fontSize: 16,
       letterSpacing: "0.29px",
       textAlign: "center",
@@ -93,7 +91,7 @@ const useStyles = theme => ({
   horizontalLine: {
     marginTop: 15,
     display: "block",
-    color: "rgba(0,0,0,0.6)",
+    color: theme.palette.text.gray2,
     fontSize: 14,
     textTransform: "uppercase",
     textAlign: "center",
@@ -103,7 +101,7 @@ const useStyles = theme => ({
       verticalAlign: "middle",
       width: 160,
       height: 1,
-      backgroundColor: "#F5F7F8",
+      backgroundColor: theme.palette.text.gray5,
       marginRight: 10
     },
     "&::after": {
@@ -113,7 +111,7 @@ const useStyles = theme => ({
       width: 160,
       height: 1,
       marginLeft: 10,
-      backgroundColor: "#F5F7F8"
+      backgroundColor: theme.palette.text.gray5
     }
   },
   textField: {
@@ -128,19 +126,19 @@ const useStyles = theme => ({
     }
   },
   charCount: {
-    color: "rgba(0,0,0,0.6)",
+    color: theme.palette.text.gray2,
     fontFamily: theme.typography.secondary.main,
     fontSize: "12.17px",
     letterSpacing: "0.4px"
   },
   usernameError: {
-    color: "#B00020",
+    color: theme.palette.text.gray6,
     fontFamily: theme.typography.secondary.main,
     fontSize: "12.17px",
     letterSpacing: "0.4px"
   },
   passwordTxt: {
-    color: "rgba(0,0,0,0.6)",
+    color: theme.palette.text.gray2,
     fontFamily: theme.typography.secondary.main,
     fontSize: "12.17px",
     letterSpacing: "0.4px"
@@ -149,10 +147,10 @@ const useStyles = theme => ({
     textAlign: "center",
     "& p": {
       display: "inline-block",
-      color: "#666"
+      color: theme.palette.text.gray4
     },
     "& a": {
-      color: theme.palette.primary.main,
+      color: theme.palette.text.primary,
       fontSize: 14,
       textDecoration: "none"
     }
@@ -358,6 +356,7 @@ class SignUp extends Component {
           >
             <h2>Sign up for your free account in minutes</h2>
             <p>
+              {" "}
               Use your Github account to easily get started, or fill out the
               form. Get free credits for the first month and continue with your
               perferred wallet or credit card.{" "}
