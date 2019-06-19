@@ -110,7 +110,7 @@ class Authorization extends Component {
             <StyledButton
               btnText="resend code"
               type="transparent"
-              disabled={true}
+              disabled={false}
             />
             <StyledButton btnText="continue" disabled />
           </div>
