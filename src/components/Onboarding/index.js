@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 // material ui imports
 import { withStyles } from "@material-ui/styles";
+
 import ProgressBar from "./ProgressBar";
 import Header from "../common/LoginOnboardingHeader";
 import Authentication from "./Authentication";
@@ -39,6 +40,7 @@ class Authorization extends Component {
       activeSection: prevState.activeSection + 1
     }));
   };
+
   render() {
     const { classes } = this.props;
     const { activeSection } = this.state;
