@@ -42,7 +42,7 @@ const useStyles = theme => ({
     "& button": {
       width: "100%"
     },
-    ["@media (max-width:545px)"]: {
+    "@media (max-width:545px)": {
       width: "80%"
     }
   },
@@ -94,7 +94,7 @@ const useStyles = theme => ({
       letterSpacing: "0.25px",
       textDecoration: "none"
     },
-    ["@media (max-width:400px)"]: {
+    "@media (max-width:400px)": {
       flexDirection: "column"
     }
   }
@@ -124,7 +124,7 @@ class Login extends Component {
       .catch(err => {
         if (err.code === "UserNotConfirmedException") {
           sessionStorage.setItem(Session.USERNAME, username);
-          this.props.history.push(Routes.VERIFY);
+          this.props.history.push(Routes.ONBOARDING);
           return;
         }
         this.setState({ error: err.message });
@@ -181,8 +181,12 @@ class Login extends Component {
               </div>
               <Link to={Routes.FORGOT_PASSWORD}>Forgot password?</Link>
             </div>
-            <ErrorMsgBox errorMsg="error state message" showErr />
-            <StyledButton type="blue" btnText="login" />
+            <ErrorMsgBox errorMsg={error} showErr={error} />
+            <StyledButton
+              type="blue"
+              btnText="login"
+              onClick={this.handleSubmit}
+            />
           </form>
         </Grid>
       </Grid>
