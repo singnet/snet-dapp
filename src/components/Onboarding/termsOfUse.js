@@ -2,11 +2,8 @@ import React, { Component } from "react";
 
 // material ui imports
 import { withStyles } from "@material-ui/styles";
-import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-
-import ProgressBar from "./ProgressBar.js";
 import StyledButton from "../common/StyledButton";
 
 const useStyles = theme => ({
@@ -59,15 +56,19 @@ const useStyles = theme => ({
 
 class TermsOfUse extends Component {
   state = {
-    verificationCode: ""
+    hasAcceptedTerms: false
+  };
+
+  handleAcceptTerms = event => {
+    console.log(event.target.checked);
+    this.setState({ hasAcceptedTerms: event.target.checked });
   };
 
   render() {
-    const { classes } = this.props;
-    const { verificationCode } = this.state;
+    const { classes, handleNextSection } = this.props;
+    const { hasAcceptedTerms } = this.state;
     return (
       <div className={classes.onboardingContainer}>
-        <ProgressBar />
         <div className={classes.termsOfUseContainer}>
           <h3>Review and Accept Terms of Service</h3>
           <div className={classes.termsAndConditions}>
@@ -105,15 +106,18 @@ class TermsOfUse extends Component {
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={true}
-                  // onChange={handleChange('checkedB')}
-                  value="checkedB"
+                  checked={hasAcceptedTerms}
+                  onChange={this.handleAcceptTerms}
                   color="primary"
                 />
               }
               label="I agree to the Terms of Service"
             />
-            <StyledButton btnText="accept" disabled />
+            <StyledButton
+              btnText="accept"
+              disabled={!hasAcceptedTerms}
+              onClick={handleNextSection}
+            />
           </div>
         </div>
       </div>
