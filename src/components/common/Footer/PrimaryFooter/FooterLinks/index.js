@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
     marginBottom: 15,
     display: "inline-block",
     fontSize: 20,
-    fontWeight: 600
+    fontWeight: theme.typography.fontweight
   },
   marginLeft: {
     marginLeft: 35

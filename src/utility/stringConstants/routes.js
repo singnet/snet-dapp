@@ -4,6 +4,7 @@ const Routes = {
   VERIFY: "verfiy",
   FORGOT_PASSWORD: "forgotpassword",
   FORGOT_PASSWORD_SUBMIT: "forgotpasswordsubmit",
+  ONBOARDING: "onboarding",
   AI_MARKETPLACE: "aimarketplace"
 };
 
