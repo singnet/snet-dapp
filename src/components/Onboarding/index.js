@@ -5,6 +5,7 @@ import { withStyles } from "@material-ui/styles";
 import TextField from "@material-ui/core/TextField";
 import ProgressBar from "./ProgressBar";
 import StyledButton from "../common/StyledButton";
+import Header from "../common/LoginOnboardingHeader";
 
 const useStyles = theme => ({
   onboardingContainer: {
@@ -63,6 +64,21 @@ const useStyles = theme => ({
     "& button": {
       padding: " 13px 60px 11px"
     }
+  },
+  topSection: {
+    textAlign: "center",
+    "& h2": {
+      color: theme.palette.text.black1,
+      fontSize: 32,
+      fontWeight: theme.typography.fontweight
+    },
+    "& p": {
+      margin: "20px 0 0",
+      color: theme.palette.text.gray3,
+      fontFamily: theme.typography.secondary.main,
+      fontSize: 20,
+      lineHeight: "30px"
+    }
   }
 });
 
@@ -76,6 +92,14 @@ class Authorization extends Component {
     const { verificationCode, activeSection } = this.state;
     return (
       <div className={classes.onboardingContainer}>
+        <Header linkText="Log Out" />
+        <div className={classes.topSection}>
+          <h2>Welcome Username</h2>
+          <p>
+            You have successfully logged into your singularitynet account.
+            <br /> You are just steps away from completing your activation.
+          </p>
+        </div>
         <ProgressBar activeSection={activeSection} />
         <div className={classes.authenticationContent}>
           <h3>Validate Email</h3>

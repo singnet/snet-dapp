@@ -4,25 +4,9 @@ import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
 
 //  import internal components
-import Header from "../common/LoginOnboardingHeader";
 import ProgressSection, { ProgressStatusList } from "./ProgressSection";
 
 const useStyles = theme => ({
-  topSection: {
-    textAlign: "center",
-    "& h2": {
-      color: theme.palette.text.black1,
-      fontSize: 32,
-      fontWeight: theme.typography.fontweight
-    },
-    "& p": {
-      margin: "20px 0 0",
-      color: theme.palette.text.gray3,
-      fontFamily: theme.typography.secondary.main,
-      fontSize: 20,
-      lineHeight: "30px"
-    }
-  },
   tabsContainer: {
     width: "41%",
     margin: "40px auto 0",
@@ -76,34 +60,24 @@ class ProgressBar extends Component {
   render() {
     const { classes, activeSection } = this.props;
     return (
-      <div>
-        <Header linkText="Log Out" />
-        <div className={classes.topSection}>
-          <h2>Welcome Username</h2>
-          <p>
-            You have successfully logged into your singularitynet account.
-            <br /> You are just steps away from completing your activation.
-          </p>
-        </div>
-        <div className={classes.tabsContainer}>
-          <ul>
-            <ProgressSection
-              progressNumber={1}
-              progressText="Authentication"
-              progressStatus={this.computeProgressStatus(1,activeSection)}
-            />
-            <ProgressSection
-              progressNumber={2}
-              progressText="Terms of use"
-              progressStatus={this.computeProgressStatus(2,activeSection)}
-            />
-            <ProgressSection
-              progressNumber={3}
-              progressText="Wallet key"
-              progressStatus={this.computeProgressStatus(3,activeSection)}
-            />
-          </ul>
-        </div>
+      <div className={classes.tabsContainer}>
+        <ul>
+          <ProgressSection
+            progressNumber={1}
+            progressText="Authentication"
+            progressStatus={this.computeProgressStatus(1, activeSection)}
+          />
+          <ProgressSection
+            progressNumber={2}
+            progressText="Terms of use"
+            progressStatus={this.computeProgressStatus(2, activeSection)}
+          />
+          <ProgressSection
+            progressNumber={3}
+            progressText="Wallet key"
+            progressStatus={this.computeProgressStatus(3, activeSection)}
+          />
+        </ul>
       </div>
     );
   }
