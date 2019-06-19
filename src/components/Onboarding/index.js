@@ -34,7 +34,7 @@ const useStyles = theme => ({
 class Authorization extends Component {
   state = {
     verificationCode: "",
-    activeSection: 2
+    activeSection: 1
   };
 
   handleNextSection = () => {
