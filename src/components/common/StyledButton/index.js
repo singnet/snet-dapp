@@ -52,6 +52,7 @@ const useStyles = makeStyles(theme => ({
   },
   transparentBg: {
     backgroundColor: "transparent !important",
+    color: theme.palette.text.primary,
     "&:disabled": {
       color: "#ccc !important"
     }
@@ -77,7 +78,7 @@ function StyledButton(props) {
 }
 
 StyledButton.propTypes = {
-  type: PropTypes.oneOf(["blue", "gradient", "black"])
+  type: PropTypes.oneOf(["blue", "gradient", "black", "transparent"])
 };
 
 StyledButton.defaultProps = {
