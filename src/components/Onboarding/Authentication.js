@@ -6,7 +6,6 @@ import Session from "../../utility/stringConstants/session";
 import { Auth } from "aws-amplify";
 import Routes from "../../utility/stringConstants/routes";
 import { isValidNumber } from "../../utility/validation";
-import ErrorMsgBox from "../common/ErrorMsgBox";
 
 const useStyles = theme => ({
   authenticationContent: {
@@ -26,18 +25,18 @@ const useStyles = theme => ({
       color: theme.palette.text.black1,
       fontSize: 20,
       textAlign: "left"
-    },
-    "& p": {
-      padding: "30px 50px 20px",
-      margin: 0,
-      color: theme.palette.text.gray10,
-      fontSize: 14,
-      fontFamily: theme.typography.secondary.main,
-      lineHeight: "21px",
-      textAlign: "left",
-      "& span": {
-        fontWeight: theme.typography.fontweight
-      }
+    }
+  },
+  validateEmailDescription: {
+    padding: "30px 50px 20px",
+    margin: 0,
+    color: theme.palette.text.gray10,
+    fontSize: 14,
+    fontFamily: theme.typography.secondary.main,
+    lineHeight: "21px",
+    textAlign: "left",
+    "& span": {
+      fontWeight: theme.typography.fontweight
     }
   },
   pendingSection: {
@@ -61,7 +60,15 @@ const useStyles = theme => ({
     "& button": {
       padding: " 13px 60px 11px"
     }
-  }
+  },
+  infoText: {
+    margin: 0,
+    fontSize: "12.17px",
+    padding: "0 0 0 128px",
+    textAlign: "left"
+  },
+  errorMsg: { color: theme.palette.text.gray6 },
+  verifiedText: { color: theme.palette.text.aqua }
 });
 
 class Authentication extends Component {
@@ -115,7 +122,7 @@ class Authentication extends Component {
     return (
       <div className={classes.authenticationContent}>
         <h3>Validate Email</h3>
-        <p>
+        <p className={classes.validateEmailDescription}>
           <span>
             A verification code has been sent to your registered email address.
           </span>
@@ -144,7 +151,7 @@ class Authentication extends Component {
           value={verificationCode}
           onChange={this.handleVerificationCode}
         />
-        <ErrorMsgBox showErr={error} errorMsg={error} />
+        {error ? <p className={classes.errorMsg}>{error}</p> : null}
         <div className={classes.buttonsContainer}>
           <StyledButton
             btnText="resend code"
