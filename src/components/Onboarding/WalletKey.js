@@ -2,18 +2,13 @@ import React, { Component } from "react";
 
 // material ui imports
 import { withStyles } from "@material-ui/styles";
-import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 
-import ProgressBar from "./ProgressBar.js";
 import StyledButton from "../common/StyledButton";
+import { Auth, API } from "aws-amplify";
+import ErrorMsgBox from "../common/ErrorMsgBox";
+import { parseError } from "../../utility/errorHandling";
 
 const useStyles = theme => ({
-  onboardingContainer: {
-    paddingBottom: 40,
-    backgroundColor: theme.palette.text.gray8
-  },
   walletKeyContainer: {
     width: "41%",
     paddingBottom: 40,
@@ -70,33 +65,61 @@ const useStyles = theme => ({
 
 class TermsOfUse extends Component {
   state = {
-    verificationCode: ""
+    privateKey: undefined,
+    error: undefined
+  };
+  handleExportingPrivateKey = () => {
+    Auth.currentSession()
+      .then(data => {
+        API.get("Get Service", "/signup", {
+          headers: {
+            Authorization: data.idToken.jwtToken
+          }
+        })
+          .then(res => {
+            this.setState({ privateKey: res.data[0].private_key });
+          })
+          .catch(err => {
+            let error = parseError(err);
+            this.setState({ error });
+          });
+      })
+      .catch(err => {
+        let error = parseError(err);
+        this.setState({ error });
+      });
   };
 
   render() {
     const { classes } = this.props;
-    const { verificationCode } = this.state;
+    const { privateKey, error } = this.state;
     return (
-      <div className={classes.onboardingContainer}>
-        <ProgressBar />
-        <div className={classes.walletKeyContainer}>
-          <h3>Wallet Key</h3>
-          <p>
-            <span>Brief information about wallet and key.</span> Lorem ipsum
-            dolor sit amet, ad vis affert dictas. Has an scripta ponderum
-            accommodare, adhuc dolorum adolescens per
-          </p>
-          <StyledButton type="transparent" btnText="download to proceed" />
-          <div className={classes.warningBox}>
-            <i className="fas fa-exclamation-triangle"></i>
-            <span>
-              Please keep in mind that once wallet key is lost, it cant be
-              recovered.
-            </span>
-          </div>
-          <div className={classes.continueBtnContainer}>
-            <StyledButton type="blue" btnText="continue" disabled />
-          </div>
+      <div className={classes.walletKeyContainer}>
+        <h3>Wallet Key</h3>
+        <p>
+          <span>Brief information about wallet and key.</span> Lorem ipsum dolor
+          sit amet, ad vis affert dictas. Has an scripta ponderum accommodare,
+          adhuc dolorum adolescens per
+        </p>
+        {privateKey ? (
+          <p>{privateKey}</p>
+        ) : (
+          <StyledButton
+            type="transparent"
+            btnText="Export Private Key"
+            onClick={this.handleExportingPrivateKey}
+          />
+        )}
+        <div className={classes.warningBox}>
+          <i className="fas fa-exclamation-triangle"></i>
+          <span>
+            Please keep in mind that once wallet key is lost, it cant be
+            recovered.
+          </span>
+        </div>
+        <ErrorMsgBox showErr={error} errorMsg={error} />
+        <div className={classes.continueBtnContainer}>
+          <StyledButton type="blue" btnText="continue" disabled />
         </div>
       </div>
     );

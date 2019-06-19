@@ -33,7 +33,7 @@ const useStyles = theme => ({
       fontWeight: theme.typography.fontweight,
       textDecoration: "none"
     },
-    ["@media (max-width:750px)"]: {
+    "@media (max-width:750px)": {
       width: "75%"
     }
   },
@@ -44,7 +44,7 @@ const useStyles = theme => ({
         textDecoration: "underline"
       }
     },
-    ["@media (max-width:750px)"]: {
+    "@media (max-width:750px)": {
       maxWidth: "100%",
       flexBasis: "100%",
       textAlign: "left"
@@ -54,7 +54,7 @@ const useStyles = theme => ({
 
 class LoginOnboardingHeader extends Component {
   render() {
-    const { classes } = this.props;
+    const { classes, title, linkText, linkPath, linkClick } = this.props;
     return (
       <Grid container spacing={24}>
         <Grid container spacing={24} className={classes.loginHeader}>
@@ -74,8 +74,10 @@ class LoginOnboardingHeader extends Component {
             className={classes.loginHeaderLink}
           >
             <p>
-              {this.props.title}{" "}
-              <Link to={Routes.SIGNUP}>{this.props.linkText}</Link>
+              {title}{" "}
+              <Link to={linkPath} onClick={linkClick}>
+                {linkText}
+              </Link>
             </p>
           </Grid>
         </Grid>

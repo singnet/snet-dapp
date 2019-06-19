@@ -8,6 +8,8 @@ import Header from "../common/LoginOnboardingHeader";
 import Authentication from "./Authentication";
 import TermsOfUse from "./termsOfUse";
 import Session from "../../utility/stringConstants/session";
+import { Auth } from "aws-amplify";
+import WalletKey from "./WalletKey";
 
 const useStyles = theme => ({
   onboardingContainer: {
@@ -34,7 +36,7 @@ const useStyles = theme => ({
 class Authorization extends Component {
   state = {
     verificationCode: "",
-    activeSection: 1
+    activeSection: 3
   };
 
   handleNextSection = () => {
@@ -42,7 +44,13 @@ class Authorization extends Component {
       activeSection: prevState.activeSection + 1
     }));
   };
-
+  handleLogout = () => {
+    Auth.signOut()
+      .then(data => {
+        sessionStorage.removeItem(Session.USERNAME);
+      })
+      .catch(err => console.log(err));
+  };
   render() {
     const { classes } = this.props;
     const { activeSection } = this.state;
@@ -51,11 +59,12 @@ class Authorization extends Component {
     const headings = [`Welcome ${username}`, "Step 2", "Step 3"];
     const components = [
       <Authentication handleNextSection={this.handleNextSection} />,
-      <TermsOfUse handleNextSection={this.handleNextSection} />
+      <TermsOfUse handleNextSection={this.handleNextSection} />,
+      <WalletKey />
     ];
     return (
       <div className={classes.onboardingContainer}>
-        <Header linkText="Log Out" />
+        <Header linkText="Log Out" linkClick={this.handleLogout} />
         <div className={classes.topSection}>
           <h2>{headings[activeSection - 1]}</h2>
           <p>

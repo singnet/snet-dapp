@@ -14,6 +14,7 @@ import ErrorMsgBox from "../common/ErrorMsgBox/index.js";
 import Routes from "../../utility/stringConstants/routes";
 import { isValidEmail } from "../../utility/validation";
 import Session from "../../utility/stringConstants/session";
+import { parseError } from "../../utility/errorHandling.js";
 
 const useStyles = theme => ({
   signupMainContent: {
@@ -170,7 +171,7 @@ class SignUp extends Component {
     email: "",
     password: "",
     error: undefined,
-    toBeConfirmed: false,
+    toBeConfirmed: true,
     otp: ""
   };
 
@@ -235,7 +236,7 @@ class SignUp extends Component {
         this.props.history.push(Routes.AI_MARKETPLACE);
       })
       .catch(err => {
-        let error = err.message ? err.message : JSON.stringify(err);
+        let error = parseError(err);
         this.setState({ error });
       });
   };
@@ -353,7 +354,11 @@ class SignUp extends Component {
 
     return (
       <div>
-        <Header title="Already have an account?" linkText="Login" />
+        <Header
+          title="Already have an account?"
+          linkPath={Routes.LOGIN}
+          linkText="Login"
+        />
         <Grid container spacing={24} className={classes.signupMainContent}>
           <Grid
             item

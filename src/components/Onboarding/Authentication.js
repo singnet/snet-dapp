@@ -6,6 +6,8 @@ import Session from "../../utility/stringConstants/session";
 import { Auth } from "aws-amplify";
 import Routes from "../../utility/stringConstants/routes";
 import { isValidNumber } from "../../utility/validation";
+import ErrorMsgBox from "../common/ErrorMsgBox";
+import { parseError } from "../../utility/errorHandling";
 
 const useStyles = theme => ({
   authenticationContent: {
@@ -97,7 +99,7 @@ class Authentication extends Component {
         this.props.handleNextSection();
       })
       .catch(err => {
-        let error = err.message ? err.message : JSON.stringify(err);
+        let error = parseError(err);
         this.setState({ error, enableResend: true, loading: false });
       });
   };
@@ -111,7 +113,7 @@ class Authentication extends Component {
         this.props.handleNextSection();
       })
       .catch(err => {
-        let error = err.message ? err.message : JSON.stringify(err);
+        let error = parseError(err);
         this.setState({ error, loading: false });
       });
   };
