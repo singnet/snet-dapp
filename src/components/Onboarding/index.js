@@ -6,6 +6,8 @@ import { withStyles } from "@material-ui/styles";
 import ProgressBar from "./ProgressBar";
 import Header from "../common/LoginOnboardingHeader";
 import Authentication from "./Authentication";
+import TermsOfUse from "./termsOfUse";
+import Session from "../../utility/stringConstants/session";
 
 const useStyles = theme => ({
   onboardingContainer: {
@@ -44,18 +46,24 @@ class Authorization extends Component {
   render() {
     const { classes } = this.props;
     const { activeSection } = this.state;
+    let username = sessionStorage.getItem(Session.USERNAME);
+    const headings = [`Welcome ${username}`, "Step 2", "Step 3"];
+    const components = [
+      <Authentication handleNextSection={this.handleNextSection} />,
+      <TermsOfUse handleNextSection={this.handleNextSection} />
+    ];
     return (
       <div className={classes.onboardingContainer}>
         <Header linkText="Log Out" />
         <div className={classes.topSection}>
-          <h2>Welcome Username</h2>
+          <h2>{headings[activeSection - 1]}</h2>
           <p>
             You have successfully logged into your singularitynet account.
             <br /> You are just steps away from completing your activation.
           </p>
         </div>
         <ProgressBar activeSection={activeSection} />
-        <Authentication handleNextSection={this.handleNextSection} />
+        {components[activeSection - 1]}
       </div>
     );
   }
