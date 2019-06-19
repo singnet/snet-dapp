@@ -11,7 +11,7 @@ import { parseError } from "../../utility/errorHandling";
 
 const useStyles = theme => ({
   authenticationContent: {
-    width: "41%",
+    width: 630,
     paddingBottom: 40,
     margin: "40px auto 0",
     backgroundColor: theme.palette.text.white,
@@ -27,6 +27,9 @@ const useStyles = theme => ({
       color: theme.palette.text.black1,
       fontSize: 20,
       textAlign: "left"
+    },
+    "@media (max-width:724px)": {
+      width: "90%"
     }
   },
   validateEmailDescription: {

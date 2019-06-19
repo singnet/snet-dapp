@@ -10,7 +10,7 @@ import { parseError } from "../../utility/errorHandling";
 
 const useStyles = theme => ({
   walletKeyContainer: {
-    width: "41%",
+    width: 630,
     paddingBottom: 40,
     margin: "40px auto 0",
     backgroundColor: theme.palette.text.white,
@@ -38,6 +38,9 @@ const useStyles = theme => ({
       "& span": {
         fontWeight: theme.typography.fontweight
       }
+    },
+    "@media (max-width:724px)": {
+      width: "90%"
     }
   },
   warningBox: {
