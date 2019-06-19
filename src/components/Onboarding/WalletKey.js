@@ -73,7 +73,7 @@ class TermsOfUse extends Component {
     error: undefined
   };
   handleExportingPrivateKey = () => {
-    Auth.currentSession()
+    Auth.currentAuthenticatedUser({ bypassCache: true })
       .then(data => {
         API.get("Get Service", "/signup", {
           headers: {

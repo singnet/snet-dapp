@@ -36,7 +36,17 @@ const useStyles = theme => ({
 class Authorization extends Component {
   state = {
     verificationCode: "",
-    activeSection: 3
+    activeSection: 1
+  };
+
+  componentDidMount = () => {
+    Auth.currentAuthenticatedUser({ bypassCache: true })
+      .then(res => {
+        if (res.attributes.email_verified) {
+          this.setState({ activeSection: 2 });
+        }
+      })
+      .catch(err => {});
   };
 
   handleNextSection = () => {
