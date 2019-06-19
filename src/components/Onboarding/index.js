@@ -39,6 +39,16 @@ class Authorization extends Component {
     activeSection: 1
   };
 
+  componentDidMount = () => {
+    Auth.currentAuthenticatedUser({ bypassCache: true })
+      .then(res => {
+        if (res.attributes.email_verified) {
+          this.setState({ activeSection: 2 });
+        }
+      })
+      .catch(err => {});
+  };
+
   handleNextSection = () => {
     this.setState(prevState => ({
       activeSection: prevState.activeSection + 1
