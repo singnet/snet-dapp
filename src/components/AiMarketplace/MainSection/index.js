@@ -16,24 +16,6 @@ const useStyles = theme => ({
 });
 
 class MainSection extends Component {
-  componentDidMount = () => {
-    Auth.currentSession()
-      .then(data => {
-        this.fetchService(data.idToken.jwtToken);
-      })
-      .catch(err => {});
-  };
-  fetchService = jwtToken => {
-    API.get("Get Service", "/signup", {
-      headers: {
-        Authorization: jwtToken
-      }
-    })
-      .then(res => {
-        this.setState({ message: res.message });
-      })
-      .catch(err => {});
-  };
   render() {
     const classes = useStyles();
     return (

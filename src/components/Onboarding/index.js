@@ -9,6 +9,7 @@ import Authentication from "./Authentication";
 import TermsOfUse from "./termsOfUse";
 import Session from "../../utility/stringConstants/session";
 import { Auth } from "aws-amplify";
+import WalletKey from "./WalletKey";
 
 const useStyles = theme => ({
   onboardingContainer: {
@@ -35,7 +36,7 @@ const useStyles = theme => ({
 class Authorization extends Component {
   state = {
     verificationCode: "",
-    activeSection: 1
+    activeSection: 3
   };
 
   handleNextSection = () => {
@@ -46,8 +47,7 @@ class Authorization extends Component {
   handleLogout = () => {
     Auth.signOut()
       .then(data => {
-        console.log(data);
-        sessionStorage.removeItem(Session.USERNAME)
+        sessionStorage.removeItem(Session.USERNAME);
       })
       .catch(err => console.log(err));
   };
@@ -58,7 +58,8 @@ class Authorization extends Component {
     const headings = [`Welcome ${username}`, "Step 2", "Step 3"];
     const components = [
       <Authentication handleNextSection={this.handleNextSection} />,
-      <TermsOfUse handleNextSection={this.handleNextSection} />
+      <TermsOfUse handleNextSection={this.handleNextSection} />,
+      <WalletKey />
     ];
     return (
       <div className={classes.onboardingContainer}>
