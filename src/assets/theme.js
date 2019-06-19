@@ -27,7 +27,10 @@ const errorBgColor = "rgba(208,2,27,0.2)";
 const githubBlack = "#333";
 const black1 = "rgba(0,0,0,.87)";
 const green = "#00C48C";
+
+const darkOrange = "#AC5C2C";
 const orange = "#F29132";
+const orange1 = "#FFF8E7";
 
 const theme = createMuiTheme({
   palette: {
@@ -51,7 +54,9 @@ const theme = createMuiTheme({
       offWhite: offWhite,
       green: green,
       purple: purple,
-      orange: orange
+      darkOrange: darkOrange,
+      orange: orange,
+      orange1: orange1
     }
   },
   typography: {

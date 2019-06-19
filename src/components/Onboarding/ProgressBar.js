@@ -33,6 +33,7 @@ const useStyles = theme => ({
         verticalAlign: "middle"
       },
       "& i": {
+        marginRight: 5,
         color: theme.palette.text.green,
         fontSize: 20
       }
