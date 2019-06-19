@@ -2,6 +2,11 @@ import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
 import StyledButton from "../common/StyledButton";
 import { withStyles } from "@material-ui/styles";
+import Session from "../../utility/stringConstants/session";
+import { Auth } from "aws-amplify";
+import Routes from "../../utility/stringConstants/routes";
+import { isValidNumber } from "../../utility/validation";
+import ErrorMsgBox from "../common/ErrorMsgBox";
 
 const useStyles = theme => ({
   authenticationContent: {
@@ -61,11 +66,52 @@ const useStyles = theme => ({
 
 class Authentication extends Component {
   state = {
-    verificationCode: ""
+    verificationCode: "",
+    enableResend: false,
+    loading: false,
+    error: undefined
   };
+
+  handleVerificationCode = event => {
+    let verificationCode = event.currentTarget.value;
+    if (!isValidNumber(verificationCode) || verificationCode.length > 6) {
+      return;
+    }
+    this.setState({ verificationCode });
+  };
+
+  handleContinue = () => {
+    const { verificationCode } = this.state;
+    this.setState({ loading: true });
+    let username = sessionStorage.getItem(Session.USERNAME);
+    Auth.confirmSignUp(username, verificationCode)
+      .then(res => {
+        this.setState({ loading: false });
+        this.props.handleNextSection();
+      })
+      .catch(err => {
+        let error = err.message ? err.message : JSON.stringify(err);
+        this.setState({ error, enableResend: true, loading: false });
+      });
+  };
+
+  handleResendCode = () => {
+    this.setState({ loading: true });
+    let username = sessionStorage.getItem(Session.USERNAME);
+    Auth.resendSignUp(username)
+      .then(res => {
+        this.setState({ loading: false });
+        this.props.handleNextSection();
+      })
+      .catch(err => {
+        let error = err.message ? err.message : JSON.stringify(err);
+        this.setState({ error, loading: false });
+      });
+  };
+
   render() {
     const { classes } = this.props;
-    const { verificationCode } = this.state;
+    const { verificationCode, enableResend, loading, error } = this.state;
     return (
       <div className={classes.authenticationContent}>
         <h3>Validate Email</h3>
@@ -79,10 +125,14 @@ class Authentication extends Component {
           <span>‘otp@singularitynet.io’</span> in your inbox, make sure to check
           the spam folder. The code will be valid for 5 minutes.{" "}
         </p>
-        <div className={classes.pendingSection}>
-          <i className="far fa-hourglass"></i>
-          <span>Pending</span>
-        </div>
+        {loading ? (
+          <div className={classes.pendingSection}>
+            <i className="far fa-hourglass"></i>
+            <span>Pending</span>
+          </div>
+        ) : (
+          ""
+        )}
         <TextField
           id="outlined-verification-code"
           label="Verification Code"
@@ -92,16 +142,21 @@ class Authentication extends Component {
           margin="normal"
           variant="outlined"
           value={verificationCode}
-          onChange={this.handleUsername}
+          onChange={this.handleVerificationCode}
         />
-        <span></span>
+        <ErrorMsgBox showErr={error} errorMsg={error} />
         <div className={classes.buttonsContainer}>
           <StyledButton
             btnText="resend code"
             type="transparent"
-            disabled={false}
+            disabled={!enableResend}
+            onClick={this.handleResendCode}
           />
-          <StyledButton btnText="continue" disabled />
+          <StyledButton
+            btnText="continue"
+            disabled={verificationCode.length !== 6}
+            onClick={this.handleContinue}
+          />
         </div>
       </div>
     );

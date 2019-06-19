@@ -33,6 +33,12 @@ class Authorization extends Component {
     verificationCode: "",
     activeSection: 2
   };
+
+  handleNextSection = () => {
+    this.setState(prevState => ({
+      activeSection: prevState.activeSection + 1
+    }));
+  };
   render() {
     const { classes } = this.props;
     const { activeSection } = this.state;
@@ -47,7 +53,7 @@ class Authorization extends Component {
           </p>
         </div>
         <ProgressBar activeSection={activeSection} />
-        <Authentication />
+        <Authentication handleNextSection={this.handleNextSection} />
       </div>
     );
   }
