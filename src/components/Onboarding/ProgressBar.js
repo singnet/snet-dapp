@@ -5,6 +5,7 @@ import { withStyles } from "@material-ui/styles";
 
 //  import internal components
 import Header from "../common/LoginOnboardingHeader";
+import ProgressSection, { ProgressStatusList } from "./ProgressSection";
 
 const useStyles = theme => ({
   topSection: {
@@ -53,18 +54,7 @@ const useStyles = theme => ({
       }
     }
   },
-  number: {
-    borderRadius: 25,
-    padding: "3px 10px",
-    marginRight: 10,
-    backgroundColor: theme.palette.text.secondary,
-    color: theme.palette.text.white
-  },
-  TabTitle: {
-    color: theme.palette.text.secondary,
-    fontSize: 14,
-    fontFamily: theme.typography.secondary.main
-  },
+
   active: {
     "& span": {
       "&:first-of-type": { backgroundColor: theme.palette.text.primary },
@@ -73,7 +63,7 @@ const useStyles = theme => ({
   }
 });
 
-class TopSection extends Component {
+class ProgressBar extends Component {
   render() {
     const { classes } = this.props;
     return (
@@ -88,36 +78,21 @@ class TopSection extends Component {
         </div>
         <div className={classes.tabsContainer}>
           <ul>
-            <li className={classes.active}>
-              {this.props.completed ? (
-                <span>
-                  <i className="fas fa-check-circle"></i>
-                </span>
-              ) : (
-                <span className={classes.number}>1</span>
-              )}
-              <span className={classes.TabTitle}>Authentication</span>
-            </li>
-            <li>
-              {this.props.completed ? (
-                <span>
-                  <i className="fas fa-check-circle"></i>
-                </span>
-              ) : (
-                <span className={classes.number}>2</span>
-              )}
-              <span className={classes.TabTitle}>Terms of Use</span>
-            </li>
-            <li>
-              {this.props.completed ? (
-                <span>
-                  <i className="fas fa-check-circle"></i>
-                </span>
-              ) : (
-                <span className={classes.number}>3</span>
-              )}
-              <span className={classes.TabTitle}>Wallet Key</span>
-            </li>
+            <ProgressSection
+              progressNumber={1}
+              progressText="Authentication"
+              progressStatus={ProgressStatusList.IDLE}
+            />
+            <ProgressSection
+              progressNumber={2}
+              progressText="Terms of use"
+              progressStatus={ProgressStatusList.ACTIVE}
+            />
+            <ProgressSection
+              progressNumber={3}
+              progressText="Wallet key"
+              progressStatus={ProgressStatusList.COMPLETED}
+            />
           </ul>
         </div>
       </div>
@@ -125,4 +100,4 @@ class TopSection extends Component {
   }
 }
 
-export default withStyles(useStyles)(TopSection);
+export default withStyles(useStyles)(ProgressBar);

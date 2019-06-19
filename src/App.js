@@ -39,13 +39,12 @@ class App extends Component {
               path={`/${Routes.FORGOT_PASSWORD_SUBMIT}`}
               component={ForgotPasswordSubmit}
             />
-            {/*<Route path={`/${Routes.ONBOARDING}`} component={Onboarding} /> */}
-            <Route path="/" exact component={Onboarding} />
+            <Route path={`/${Routes.ONBOARDING}`} component={Onboarding} />
             <Route
               path={`/${Routes.AI_MARKETPLACE}`}
               component={AiMarketplace}
             />
-            {/*<Route path="/" exact component={AiMarketplace} /> */}
+            <Route path="/" exact component={AiMarketplace} />
             <Route component={PageNotFound} />
           </Switch>
         </Router>

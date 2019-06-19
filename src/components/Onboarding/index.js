@@ -3,8 +3,7 @@ import React, { Component } from "react";
 // material ui imports
 import { withStyles } from "@material-ui/styles";
 import TextField from "@material-ui/core/TextField";
-
-import TopSection from "./topSection.js";
+import ProgressBar from "./ProgressBar";
 import StyledButton from "../common/StyledButton";
 
 const useStyles = theme => ({
@@ -76,7 +75,7 @@ class Authorization extends Component {
     const { verificationCode } = this.state;
     return (
       <div className={classes.onboardingContainer}>
-        <TopSection />
+        <ProgressBar />
         <div className={classes.authenticationContent}>
           <h3>Validate Email</h3>
           <p>
