@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 
 // material ui imports
 import { withStyles } from "@material-ui/styles";
@@ -60,6 +60,10 @@ const useStyles = theme => ({
     "& button": {
       padding: "13px 60px"
     }
+  },
+  privateKey: {
+    marginBottom: "15px !important",
+    textAlign: "center !important"
   }
 });
 
@@ -77,6 +81,10 @@ class TermsOfUse extends Component {
           }
         })
           .then(res => {
+            if (res.data === "User Already Exist!") {
+              this.setState({ error: res.data });
+              return;
+            }
             this.setState({ privateKey: res.data[0].private_key });
           })
           .catch(err => {
@@ -102,21 +110,24 @@ class TermsOfUse extends Component {
           adhuc dolorum adolescens per
         </p>
         {privateKey ? (
-          <p>{privateKey}</p>
+          <p className={classes.privateKey}>{privateKey}</p>
         ) : (
-          <StyledButton
-            type="transparent"
-            btnText="Export Private Key"
-            onClick={this.handleExportingPrivateKey}
-          />
+          <Fragment>
+            <StyledButton
+              type="transparent"
+              btnText="Export Private Key"
+              onClick={this.handleExportingPrivateKey}
+            />
+            <div className={classes.warningBox}>
+              <i className="fas fa-exclamation-triangle"></i>
+              <span>
+                Please keep in mind that once wallet key is lost, it cant be
+                recovered.
+              </span>
+            </div>
+          </Fragment>
         )}
-        <div className={classes.warningBox}>
-          <i className="fas fa-exclamation-triangle"></i>
-          <span>
-            Please keep in mind that once wallet key is lost, it cant be
-            recovered.
-          </span>
-        </div>
+
         <ErrorMsgBox showErr={error} errorMsg={error} />
         <div className={classes.continueBtnContainer}>
           <StyledButton type="blue" btnText="continue" disabled />
