@@ -68,14 +68,15 @@ const useStyles = theme => ({
 
 class Authorization extends Component {
   state = {
-    verificationCode: ""
+    verificationCode: "",
+    activeSection: 2
   };
   render() {
     const { classes } = this.props;
-    const { verificationCode } = this.state;
+    const { verificationCode, activeSection } = this.state;
     return (
       <div className={classes.onboardingContainer}>
-        <ProgressBar />
+        <ProgressBar activeSection={activeSection} />
         <div className={classes.authenticationContent}>
           <h3>Validate Email</h3>
           <p>

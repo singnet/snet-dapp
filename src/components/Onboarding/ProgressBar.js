@@ -64,8 +64,17 @@ const useStyles = theme => ({
 });
 
 class ProgressBar extends Component {
+  computeProgressStatus = (progressNumber, activeSection) => {
+    if (progressNumber < activeSection) {
+      return ProgressStatusList.COMPLETED;
+    } else if (progressNumber === activeSection) {
+      return ProgressStatusList.ACTIVE;
+    } else if (progressNumber > activeSection) {
+      return ProgressStatusList.IDLE;
+    }
+  };
   render() {
-    const { classes } = this.props;
+    const { classes, activeSection } = this.props;
     return (
       <div>
         <Header linkText="Log Out" />
@@ -81,17 +90,17 @@ class ProgressBar extends Component {
             <ProgressSection
               progressNumber={1}
               progressText="Authentication"
-              progressStatus={ProgressStatusList.IDLE}
+              progressStatus={this.computeProgressStatus(1,activeSection)}
             />
             <ProgressSection
               progressNumber={2}
               progressText="Terms of use"
-              progressStatus={ProgressStatusList.ACTIVE}
+              progressStatus={this.computeProgressStatus(2,activeSection)}
             />
             <ProgressSection
               progressNumber={3}
               progressText="Wallet key"
-              progressStatus={ProgressStatusList.COMPLETED}
+              progressStatus={this.computeProgressStatus(3,activeSection)}
             />
           </ul>
         </div>
