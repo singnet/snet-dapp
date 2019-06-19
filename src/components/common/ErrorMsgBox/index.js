@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import PropTypes from "prop-types";
 // material ui imports
 import { withStyles } from "@material-ui/styles";
 
@@ -18,15 +19,16 @@ const useStyles = theme => ({
 
 class ErrorMsgBox extends Component {
   render() {
-    const { classes } = this.props;
+    const { classes, showErr, errorMsg } = this.props;
     return (
       <Fragment>
-        {this.props.showErr ? (
-          <p className={classes.errorText}>{this.props.errorMsg}</p>
-        ) : null}
+        {showErr ? <p className={classes.errorText}>{errorMsg}</p> : null}
       </Fragment>
     );
   }
 }
-
+ErrorMsgBox.propTypes = {
+  showErr: PropTypes.bool | PropTypes.string,
+  errorMsg: PropTypes.string
+};
 export default withStyles(useStyles)(ErrorMsgBox);
