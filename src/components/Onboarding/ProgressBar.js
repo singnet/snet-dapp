@@ -54,7 +54,6 @@ const useStyles = theme => ({
       }
     }
   },
-
   active: {
     "& span": {
       "&:first-of-type": { backgroundColor: theme.palette.text.primary },

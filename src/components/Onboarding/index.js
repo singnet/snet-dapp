@@ -3,6 +3,8 @@ import React, { Component } from "react";
 // material ui imports
 import { withStyles } from "@material-ui/styles";
 import TextField from "@material-ui/core/TextField";
+
+// internal components
 import ProgressBar from "./ProgressBar";
 import StyledButton from "../common/StyledButton";
 
@@ -70,6 +72,7 @@ class Authorization extends Component {
   state = {
     verificationCode: ""
   };
+
   render() {
     const { classes } = this.props;
     const { verificationCode } = this.state;
