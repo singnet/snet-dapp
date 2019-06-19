@@ -25,6 +25,7 @@ export const ProgressStatusList = {
 };
 
 const ProgressSection = ({ progressNumber, progressText, progressStatus }) => {
+  console.log(progressText, progressStatus);
   const classes = useStyles();
   return (
     <li>

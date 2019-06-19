@@ -27,7 +27,7 @@ const useStyles = theme => ({
   },
   signupInfo: {
     paddingRight: 100,
-    ["@media (max-width:960px)"]: {
+    "@media (max-width:960px)": {
       paddingRight: 0
     },
     "& h2": {
@@ -83,7 +83,7 @@ const useStyles = theme => ({
       textTransform: "uppercase"
     },
     "& button": { width: "100%" },
-    ["@media (max-width:960px)"]: {
+    "@media (max-width:960px)": {
       width: "95%",
       marginTop: 35
     }
@@ -153,6 +153,13 @@ const useStyles = theme => ({
       color: theme.palette.text.primary,
       fontSize: 14,
       textDecoration: "none"
+    }
+  },
+  buttonsContainer: {
+    marginTop: 10,
+    "& button": {
+      padding: " 13px 60px 11px",
+      marginTop: 10
     }
   }
 });
@@ -329,16 +336,18 @@ class SignUp extends Component {
           onChange={this.handleOTP}
         />
         {error && <ErrorMsgBox errorMsg={error} />}
-        <StyledButton
-          type="blue"
-          btnText="Resend"
-          onClick={this.handleResendOTP}
-        />
-        <StyledButton
-          type="blue"
-          btnText="Conitnue"
-          onClick={this.handleConfirmSignup}
-        />
+        <div className={classes.buttonsContainer}>
+          <StyledButton
+            type="blue"
+            btnText="Resend"
+            onClick={this.handleResendOTP}
+          />
+          <StyledButton
+            type="blue"
+            btnText="Conitnue"
+            onClick={this.handleConfirmSignup}
+          />
+        </div>
       </Fragment>
     );
 
