@@ -8,6 +8,7 @@ import Header from "../common/LoginOnboardingHeader";
 import Authentication from "./Authentication";
 import TermsOfUse from "./termsOfUse";
 import Session from "../../utility/stringConstants/session";
+import { Auth } from "aws-amplify";
 
 const useStyles = theme => ({
   onboardingContainer: {
@@ -42,7 +43,14 @@ class Authorization extends Component {
       activeSection: prevState.activeSection + 1
     }));
   };
-
+  handleLogout = () => {
+    Auth.signOut()
+      .then(data => {
+        console.log(data);
+        sessionStorage.removeItem(Session.USERNAME)
+      })
+      .catch(err => console.log(err));
+  };
   render() {
     const { classes } = this.props;
     const { activeSection } = this.state;
@@ -54,7 +62,7 @@ class Authorization extends Component {
     ];
     return (
       <div className={classes.onboardingContainer}>
-        <Header linkText="Log Out" />
+        <Header linkText="Log Out" linkClick={this.handleLogout} />
         <div className={classes.topSection}>
           <h2>{headings[activeSection - 1]}</h2>
           <p>

@@ -170,7 +170,7 @@ class SignUp extends Component {
     email: "",
     password: "",
     error: undefined,
-    toBeConfirmed: false,
+    toBeConfirmed: true,
     otp: ""
   };
 
@@ -353,7 +353,7 @@ class SignUp extends Component {
 
     return (
       <div>
-        <Header title="Already have an account?" linkText="Login" />
+        <Header title="Already have an account?" linkPath={Routes.LOGIN} linkText="Login" />
         <Grid container spacing={24} className={classes.signupMainContent}>
           <Grid
             item
