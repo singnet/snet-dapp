@@ -9,7 +9,8 @@ import classNames from "classnames";
 const buttonColor = {
   blue: "blueBg",
   gradient: "gradientBg",
-  black: "blackBg"
+  black: "blackBg",
+  transparent: "transparentBg"
 };
 
 const useStyles = makeStyles(theme => ({
@@ -21,7 +22,7 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.text.white,
     textTransform: "uppercase",
     fontFamily: theme.typography.primary.main,
-    fontWeight: 600,
+    fontWeight: theme.typography.fontweight,
     letterSpacing: "1.25px",
     lineHeight: "16px",
     "&:disabled": {
@@ -47,6 +48,12 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: theme.backgroundColor.white,
       borderColor: theme.backgroundColor.githubBlack,
       color: theme.backgroundColor.githubBlack
+    }
+  },
+  transparentBg: {
+    backgroundColor: "transparent !important",
+    "&:disabled": {
+      color: "#ccc !important"
     }
   }
 }));

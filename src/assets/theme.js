@@ -13,6 +13,9 @@ const gray6 = "#B00020";
 const gray7 = "#4a4a4a";
 const gray8 = "#fafafa";
 const gray9 = "#0000000a";
+const gray10 = "#444";
+const gray11 = "#ccc";
+const gray12 = "#d6d6d6";
 
 const whiteColor = "#fff";
 const offWhite = "rgba(255,255,255,.60)";
@@ -24,6 +27,7 @@ const errorBgColor = "rgba(208,2,27,0.2)";
 const githubBlack = "#333";
 const black1 = "rgba(0,0,0,.87)";
 const green = "#00C48C";
+const orange = "#F29132";
 
 const theme = createMuiTheme({
   palette: {
@@ -41,9 +45,13 @@ const theme = createMuiTheme({
       gray7: gray7,
       gray8: gray8,
       gray9: gray9,
+      gray10: gray10,
+      gray11: gray11,
+      gray12: gray12,
       offWhite: offWhite,
       green: green,
-      purple: purple
+      purple: purple,
+      orange: orange
     }
   },
   typography: {
@@ -55,7 +63,8 @@ const theme = createMuiTheme({
     },
     tertiary: {
       main: ["Roboto"]
-    }
+    },
+    fontweight: 600
   },
   backgroundColor: {
     blue: customBlue,

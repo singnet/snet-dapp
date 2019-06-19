@@ -23,11 +23,14 @@ const useStyles = theme => ({
       margin: 0
     },
     "& p": {
+      margin: 0,
       color: theme.palette.text.secondary,
       fontSize: "16px"
     },
     "& a": {
+      display: "inline-block",
       color: theme.palette.text.primary,
+      fontWeight: theme.typography.fontweight,
       textDecoration: "none"
     },
     ["@media (max-width:750px)"]: {

@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
     padding: "0 18px"
   },
   cardTitle: {
-    fontWeight: 600,
+    fontWeight: theme.typography.fontweight,
     fontSize: 12,
     color: theme.palette.text.secondary,
     textTransform: "uppercase",
@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
   },
   cardSubheader: {
     color: theme.palette.text.black1,
-    fontWeight: 600,
+    fontWeight: theme.typography.fontweight,
     fontSize: 20,
     letterSpacing: 0.25,
     fontFamily: theme.typography.primary.main
@@ -58,7 +58,7 @@ const useStyles = makeStyles(theme => ({
     padding: 0,
     fontFamily: theme.typography.primary.main,
     fontSize: 14,
-    fontWeight: 600,
+    fontWeight: theme.typography.fontweight,
     letterSpacing: "1.25px",
     color: theme.palette.text.primary
   },
@@ -71,7 +71,7 @@ const useStyles = makeStyles(theme => ({
     display: "inline-block",
     color: theme.palette.text.secondary,
     fontSize: 12,
-    fontWeight: "600",
+    fontWeight: theme.typography.fontweight,
     letterSpacing: 2,
     verticalAlign: "super"
   }

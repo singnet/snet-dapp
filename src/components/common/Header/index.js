@@ -56,7 +56,7 @@ const useStyles = makeStyles(theme => ({
   },
   activeTab: {
     paddingBottom: 12,
-    fontWeight: 600,
+    fontWeight: theme.typography.fontweight,
     borderBottomWidth: "2px",
     borderBottomStyle: "solid",
     borderBottomColor: theme.palette.text.white,
@@ -87,7 +87,7 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.text.white
   },
   signupBtnText: {
-    fontWeight: "600",
+    fontWeight: theme.typography.fontweight,
     letterSpacing: 1.79,
     lineHeight: "16px"
   },
