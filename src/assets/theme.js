@@ -16,6 +16,7 @@ const gray9 = "#0000000a";
 const gray10 = "#444";
 const gray11 = "#ccc";
 const gray12 = "#d6d6d6";
+const gray13 = "#e5e5e5";
 
 const whiteColor = "#fff";
 const offWhite = "rgba(255,255,255,.60)";
@@ -54,6 +55,7 @@ const theme = createMuiTheme({
       gray10: gray10,
       gray11: gray11,
       gray12: gray12,
+      gray13: gray13,
       offWhite: offWhite,
       green: green,
       purple: purple,

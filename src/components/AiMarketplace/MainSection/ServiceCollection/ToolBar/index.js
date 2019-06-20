@@ -9,9 +9,6 @@ import clsx from "clsx";
 import StyledDropdown from "../../../../common/StyledDropdown/index.js";
 
 const useStyles = makeStyles(theme => ({
-  toolBar: {
-    padding: "20px 0"
-  },
   sortBySection: {
     display: "flex",
     alignItems: "flex-end"
@@ -27,6 +24,7 @@ const useStyles = makeStyles(theme => ({
   },
   iconsContainer: {
     display: "flex",
+    alignItems: "flex-end",
     justifyContent: "flex-end",
     "& button": {
       border: "none",
@@ -41,7 +39,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function ToolBar() {
+function ToolBar(props) {
   const classes = useStyles();
   return (
     <Grid container spacing={24} className={classes.toolBar}>
@@ -63,12 +61,15 @@ function ToolBar() {
         <button>
           <Icon className={clsx(classes.icon, "fa fa-search")} />
         </button>
-        <button>
-          <Icon className={clsx(classes.icon, "fa fa-th-list")} />
-        </button>
-        <button>
-          <Icon className={clsx(classes.icon, "fa fa-th")} />
-        </button>
+        {props.listView ? (
+          <button>
+            <Icon className={clsx(classes.icon, "fa fa-th")} />
+          </button>
+        ) : (
+          <button>
+            <Icon className={clsx(classes.icon, "fa fa-th-list")} />
+          </button>
+        )}
       </Grid>
     </Grid>
   );

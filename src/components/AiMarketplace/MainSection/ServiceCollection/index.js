@@ -7,20 +7,20 @@ import StyledPagination from "./StyledPagination/index.js";
 // Material UI imports
 import { makeStyles } from "@material-ui/styles";
 const useStyles = makeStyles(theme => ({
-  cardCollection: {
+  serviceCollection: {
     paddingLeft: 25
   }
 }));
 
-function CardCollection() {
+function ServiceCollection() {
   const classes = useStyles();
   return (
-    <div className={classes.cardCollection}>
-      <ToolBar type="listView" />
+    <div className={classes.serviceCollection}>
+      <ToolBar />
       <CardGroup />
       <StyledPagination />
     </div>
   );
 }
 
-export default CardCollection;
+export default ServiceCollection;

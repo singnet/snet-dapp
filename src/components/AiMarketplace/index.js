@@ -11,9 +11,15 @@ import { makeStyles } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles(theme => ({
+  aiMarketPlaceContainer: {
+    backgroundColor: theme.palette.text.gray8
+  },
   mainWrapper: {
     width: "92%",
     margin: "0 auto"
+  },
+  topSection: {
+    marginBottom: 55
   },
   titleContainer: {
     display: "flex",
@@ -38,10 +44,10 @@ const useStyles = makeStyles(theme => ({
 function AiMarketplace() {
   const classes = useStyles();
   return (
-    <div>
+    <div className={classes.aiMarketPlaceContainer}>
       <Header />
       <div className={classes.mainWrapper}>
-        <Grid container spacing={24}>
+        <Grid container spacing={24} className={classes.topSection}>
           <Grid
             item
             xs={12}
