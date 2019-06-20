@@ -171,7 +171,7 @@ class SignUp extends Component {
     email: "",
     password: "",
     error: undefined,
-    toBeConfirmed: true,
+    toBeConfirmed: false,
     otp: ""
   };
 
@@ -233,7 +233,8 @@ class SignUp extends Component {
     event.stopPropagation();
     Auth.confirmSignUp(username, otp)
       .then(res => {
-        this.props.history.push(Routes.AI_MARKETPLACE);
+        sessionStorage.setItem(Session.USERNAME, username);
+        this.props.history.push(Routes.LOGIN);
       })
       .catch(err => {
         let error = parseError(err);
@@ -303,6 +304,7 @@ class SignUp extends Component {
         />
 
         {error && <ErrorMsgBox errorMsg={error} />}
+        <div style={{ marginTop: 20 }}></div>
         <StyledButton
           type="blue"
           btnText="Sign up for free credits"

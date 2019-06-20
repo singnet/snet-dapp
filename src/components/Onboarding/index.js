@@ -42,11 +42,30 @@ class Authorization extends Component {
   componentDidMount = () => {
     Auth.currentAuthenticatedUser({ bypassCache: true })
       .then(res => {
+        console.log("onboarding page", res);
         if (res.attributes.email_verified) {
           this.setState({ activeSection: 2 });
         }
       })
-      .catch(err => {});
+      .catch(err => {
+        console.log("onboarding err", err);
+      });
+  };
+
+  componentDidUpdate = () => {
+    console.log("session", sessionStorage.getItem(Session.USERNAME));
+    if (
+      sessionStorage.getItem(Session.USERNAME) &&
+      this.state.activeSection === 1
+    ) {
+      Auth.currentAuthenticatedUser({ bypassCache: true })
+        .then(res => {
+          if (res.attributes.email_verified) {
+            this.setState({ activeSection: 2 });
+          }
+        })
+        .catch(err => {});
+    }
   };
 
   handleNextSection = () => {
