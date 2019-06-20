@@ -17,14 +17,14 @@ const useStyles = theme => ({
 
 class MainSection extends Component {
   render() {
-    const classes = useStyles();
+    const { classes, servicesList } = this.props;
     return (
       <Grid container spacing={24} className={classes.mainSection}>
         <Grid item xs={12} sm={3} md={3} lg={3}>
           <Filter />
         </Grid>
         <Grid item xs={12} sm={9} md={9} lg={9}>
-          <CardCollection />
+          <CardCollection data={servicesList} />
         </Grid>
       </Grid>
     );

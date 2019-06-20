@@ -12,12 +12,12 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function CardCollection() {
+function CardCollection({ data }) {
   const classes = useStyles();
   return (
     <div className={classes.cardCollection}>
       <ToolBar type="listView" />
-      <CardGroup />
+      <CardGroup data={data} />
       <StyledPagination />
     </div>
   );

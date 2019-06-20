@@ -9,6 +9,8 @@ import MainSection from "./MainSection/index.js";
 // Material UI imports
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
+import { API, Auth } from "aws-amplify";
+import { APIEndpoints } from "../../utility/stringConstants/APIEndpoints.js";
 
 const useStyles = theme => ({
   mainWrapper: {
@@ -36,8 +38,29 @@ const useStyles = theme => ({
 });
 
 class AiMarketplace extends Component {
+  state = {
+    servicesList: []
+  };
+  componentDidMount = () => {
+    console.log("Auth", Object.keys(Auth.__proto__), Auth.__proto__);
+    Auth.currentSession().then(res => {
+      console.log("current user", res);
+      let apiName = APIEndpoints.GET_SERVICES_LIST.name;
+      let path = "/org/snet/service";
+
+      API.get(apiName, path)
+        .then(res => {
+          console.log("service API", res);
+          this.setState({ servicesList: res.data.result });
+        })
+        .catch(err => {
+          console.log("service err", err);
+        });
+    });
+  };
   render() {
-    const classes = useStyles();
+    const { classes } = this.props;
+    const { servicesList } = this.state;
     return (
       <div>
         <Header />
@@ -66,7 +89,7 @@ class AiMarketplace extends Component {
             </Grid>
           </Grid>
           <div>
-            <MainSection />
+            <MainSection servicesList={servicesList} />
           </div>
         </div>
         <Footer />

@@ -162,6 +162,9 @@ const useStyles = theme => ({
       padding: " 13px 60px 11px",
       marginTop: 10
     }
+  },
+  confirmOtp: {
+    margin: "0px auto !important"
   }
 });
 
@@ -171,7 +174,7 @@ class SignUp extends Component {
     email: "",
     password: "",
     error: undefined,
-    toBeConfirmed: false,
+    toBeConfirmed: true,
     otp: ""
   };
 
@@ -260,98 +263,142 @@ class SignUp extends Component {
 
     const renderForm = (
       <Fragment>
-        <h3>sign up with </h3>
-        <StyledButton btnText="github" type="black" iconClass="fab fa-github" />
-        <span className={classes.horizontalLine}>or</span>
-        <TextField
-          id="outlined-user-name"
-          label="UserName"
-          className={classes.textField}
-          value={username}
-          onChange={this.handleUsername}
-          margin="normal"
-          variant="outlined"
-        />
-        <div>
-          <TextField
-            id="outlined-email-input"
-            label="Email"
-            className={classes.textField}
-            type="email"
-            name="email"
-            autoComplete="email"
-            margin="normal"
-            variant="outlined"
-            value={email}
-            onChange={this.handleEmail}
-          />
-          {email !== "" && !isValidEmail(email) && (
-            <span className={classes.usernameError}>
-              Error msg - invalid email
-            </span>
-          )}
-        </div>
-        <TextField
-          id="outlined-password-input"
-          label="Password"
-          className={classes.textField}
-          type="password"
-          autoComplete="current-password"
-          margin="normal"
-          variant="outlined"
-          value={password}
-          onChange={this.handlePassword}
-        />
+        <Grid item xs={12} sm={12} md={6} lg={6} className={classes.signupInfo}>
+          <h2>Sign up for your free account in minutes</h2>
+          <p>
+            {" "}
+            Use your Github account to easily get started, or fill out the form.
+            Get free credits for the first month and continue with your
+            perferred wallet or credit card.{" "}
+          </p>
+          <ul>
+            <li>
+              <i className="fas fa-check-circle"></i>
+              <p>Built for you, powered for enterprise.</p>
+            </li>
+            <li>
+              <i className="fas fa-check-circle"></i>
+              <p>
+                Get 100 free credits to try out any of the AI services
+                available. Easily refill your credits anytime.{" "}
+              </p>
+            </li>
+            <li>
+              <i className="fas fa-check-circle"></i>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              </p>
+            </li>
+          </ul>
+        </Grid>
 
-        {error && <ErrorMsgBox errorMsg={error} />}
-        <div style={{ marginTop: 20 }}></div>
-        <StyledButton
-          type="blue"
-          btnText="Sign up for free credits"
-          onClick={this.handleSubmit}
-        />
+        <Grid item xs={12} sm={12} md={6} lg={6}>
+          <form noValidate autoComplete="off" className={classes.signupForm}>
+            <h3>sign up with </h3>
+            <StyledButton
+              btnText="github"
+              type="black"
+              iconClass="fab fa-github"
+            />
+            <span className={classes.horizontalLine}>or</span>
+            <TextField
+              id="outlined-user-name"
+              label="UserName"
+              className={classes.textField}
+              value={username}
+              onChange={this.handleUsername}
+              margin="normal"
+              variant="outlined"
+            />
+            <div>
+              <TextField
+                id="outlined-email-input"
+                label="Email"
+                className={classes.textField}
+                type="email"
+                name="email"
+                autoComplete="email"
+                margin="normal"
+                variant="outlined"
+                value={email}
+                onChange={this.handleEmail}
+              />
+              {email !== "" && !isValidEmail(email) && (
+                <span className={classes.usernameError}>
+                  Error msg - invalid email
+                </span>
+              )}
+            </div>
+            <TextField
+              id="outlined-password-input"
+              label="Password"
+              className={classes.textField}
+              type="password"
+              autoComplete="current-password"
+              margin="normal"
+              variant="outlined"
+              value={password}
+              onChange={this.handlePassword}
+            />
+
+            {error && <ErrorMsgBox errorMsg={error} />}
+            <div style={{ marginTop: 20 }}></div>
+            <StyledButton
+              type="blue"
+              btnText="Sign up for free credits"
+              onClick={this.handleSubmit}
+            />
+          </form>
+        </Grid>
       </Fragment>
     );
 
     const renderOTP = (
-      <Fragment>
-        <h3>Confirm Sign up </h3>
-        <p>
-          <strong>
-            A verfiication code has been sent to your email address
-          </strong>
-        </p>
-        <p>
-          Please enter the verification code below to confirm your email
-          address. If you are unable to find the email from
-          <strong> 'otp@singularitynet.io'</strong> in your inbox, make sure to
-          check the spam folder. The code will be valid only for 5 minutes.
-        </p>
-        <TextField
-          id="outlined-confirm-otp"
-          label="OTP"
-          className={classes.textField}
-          type="password"
-          autoComplete="otp"
-          margin="normal"
-          variant="outlined"
-          value={otp}
-          onChange={this.handleOTP}
-        />
-        {error && <ErrorMsgBox errorMsg={error} />}
-        <div className={classes.buttonsContainer}>
-          <StyledButton
-            type="blue"
-            btnText="Resend"
-            onClick={this.handleResendOTP}
+      <Grid item xs={12} sm={12} md={6} lg={6}>
+        <form
+          noValidate
+          autoComplete="off"
+          className={`${classes.signupForm} ${classes.confirmOtp}`}
+        >
+          <h3>Confirm Sign up </h3>
+          <p>
+            <strong>
+              A verfiication code has been sent to your email address
+            </strong>
+          </p>
+          <p>
+            Please enter the verification code below to confirm your email
+            address. If you are unable to find the email from
+            <strong> 'otp@singularitynet.io'</strong> in your inbox, make sure
+            to check the spam folder. The code will be valid only for 5 minutes.
+          </p>
+          <TextField
+            id="outlined-confirm-otp"
+            label="OTP"
+            className={classes.textField}
+            type="password"
+            autoComplete="otp"
+            margin="normal"
+            variant="outlined"
+            value={otp}
+            onChange={this.handleOTP}
           />
-          <StyledButton
-            type="blue"
-            btnText="Conitnue"
-            onClick={this.handleConfirmSignup}
-          />
-        </div>
-      </Fragment>
+          {error && <ErrorMsgBox errorMsg={error} />}
+          <div className={classes.buttonsContainer}>
+            <StyledButton
+              type="blue"
+              btnText="Resend"
+              onClick={this.handleResendOTP}
+            />
+            <StyledButton
+              type="blue"
+              btnText="Conitnue"
+              onClick={this.handleConfirmSignup}
+            />
+          </div>
+        </form>
+      </Grid>
     );
 
     return (
@@ -362,47 +409,7 @@ class SignUp extends Component {
           linkText="Login"
         />
         <Grid container spacing={24} className={classes.signupMainContent}>
-          <Grid
-            item
-            xs={12}
-            sm={12}
-            md={6}
-            lg={6}
-            className={classes.signupInfo}
-          >
-            <h2>Sign up for your free account in minutes</h2>
-            <p>
-              {" "}
-              Use your Github account to easily get started, or fill out the
-              form. Get free credits for the first month and continue with your
-              perferred wallet or credit card.{" "}
-            </p>
-            <ul>
-              <li>
-                <i className="fas fa-check-circle"></i>
-                <p>Built for you, powered for enterprise.</p>
-              </li>
-              <li>
-                <i className="fas fa-check-circle"></i>
-                <p>
-                  Get 100 free credits to try out any of the AI services
-                  available. Easily refill your credits anytime.{" "}
-                </p>
-              </li>
-              <li>
-                <i className="fas fa-check-circle"></i>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                </p>
-              </li>
-            </ul>
-          </Grid>
-          <Grid item xs={12} sm={12} md={6} lg={6}>
-            <form noValidate autoComplete="off" className={classes.signupForm}>
-              {toBeConfirmed ? renderOTP : renderForm}
-            </form>
-          </Grid>
+          {toBeConfirmed ? renderOTP : renderForm}
         </Grid>
       </div>
     );
