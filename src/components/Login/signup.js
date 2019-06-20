@@ -164,7 +164,8 @@ const useStyles = theme => ({
     }
   },
   confirmOtp: {
-    margin: "0px auto !important"
+    width: 410,
+    margin: "0 auto"
   }
 });
 
@@ -174,7 +175,7 @@ class SignUp extends Component {
     email: "",
     password: "",
     error: undefined,
-    toBeConfirmed: true,
+    toBeConfirmed: false,
     otp: ""
   };
 
@@ -355,12 +356,15 @@ class SignUp extends Component {
     );
 
     const renderOTP = (
-      <Grid item xs={12} sm={12} md={6} lg={6}>
-        <form
-          noValidate
-          autoComplete="off"
-          className={`${classes.signupForm} ${classes.confirmOtp}`}
-        >
+      <Grid
+        item
+        xs={12}
+        sm={12}
+        md={6}
+        lg={6}
+        className={`${classes.confirmOtp}`}
+      >
+        <form noValidate autoComplete="off" className={`${classes.signupForm}`}>
           <h3>Confirm Sign up </h3>
           <p>
             <strong>
