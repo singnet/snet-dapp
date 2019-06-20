@@ -2,11 +2,10 @@ import React, { Component } from "react";
 
 // imported components
 import Filter from "./Filter/index.js";
-import CardCollection from "./CardCollection/index.js";
+import ServiceCollection from "./ServiceCollection/index.js";
 
 // Material UI imports
 import Grid from "@material-ui/core/Grid";
-import { Auth, API } from "aws-amplify";
 import { withStyles } from "@material-ui/styles";
 
 const useStyles = theme => ({
@@ -24,7 +23,7 @@ class MainSection extends Component {
           <Filter />
         </Grid>
         <Grid item xs={12} sm={9} md={9} lg={9}>
-          <CardCollection data={servicesList} />
+          <ServiceCollection data={servicesList} />
         </Grid>
       </Grid>
     );

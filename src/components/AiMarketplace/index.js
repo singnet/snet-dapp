@@ -13,9 +13,15 @@ import { API, Auth } from "aws-amplify";
 import { APIEndpoints } from "../../utility/stringConstants/APIEndpoints.js";
 
 const useStyles = theme => ({
+  aiMarketPlaceContainer: {
+    backgroundColor: theme.palette.text.gray8
+  },
   mainWrapper: {
     width: "92%",
     margin: "0 auto"
+  },
+  topSection: {
+    marginBottom: 55
   },
   titleContainer: {
     display: "flex",
@@ -41,6 +47,7 @@ class AiMarketplace extends Component {
   state = {
     servicesList: []
   };
+
   componentDidMount = () => {
     console.log("Auth", Object.keys(Auth.__proto__), Auth.__proto__);
     Auth.currentSession().then(res => {
@@ -58,11 +65,12 @@ class AiMarketplace extends Component {
         });
     });
   };
+
   render() {
     const { classes } = this.props;
     const { servicesList } = this.state;
     return (
-      <div>
+      <div className={classes.aiMarketPlaceContainer}>
         <Header />
         <div className={classes.mainWrapper}>
           <Grid container spacing={24}>

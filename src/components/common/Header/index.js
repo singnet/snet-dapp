@@ -67,7 +67,10 @@ const useStyles = makeStyles(theme => ({
     padding: 0,
     display: "flex",
     alignItems: "center",
-    justifyContent: "flex-end"
+    justifyContent: "flex-end",
+    "& a": {
+      textDecoration: "none"
+    }
   },
   loginBtnsLi: {
     marginRight: 26,
