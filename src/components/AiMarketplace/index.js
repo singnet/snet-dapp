@@ -7,10 +7,12 @@ import StyledButton from "../common/StyledButton/index.js";
 import MainSection from "./MainSection/index.js";
 
 // Material UI imports
-import { makeStyles } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
+import { withStyles } from "@material-ui/styles";
+import { API, Auth } from "aws-amplify";
+import { APIEndpoints } from "../../utility/stringConstants/APIEndpoints.js";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = theme => ({
   aiMarketPlaceContainer: {
     backgroundColor: theme.palette.text.gray8
   },
@@ -39,44 +41,69 @@ const useStyles = makeStyles(theme => ({
     fontSize: 24,
     lineHeight: "29px"
   }
-}));
+});
 
-function AiMarketplace() {
-  const classes = useStyles();
-  return (
-    <div className={classes.aiMarketPlaceContainer}>
-      <Header />
-      <div className={classes.mainWrapper}>
-        <Grid container spacing={24} className={classes.topSection}>
-          <Grid
-            item
-            xs={12}
-            sm={3}
-            md={3}
-            lg={3}
-            className={classes.titleContainer}
-          >
-            <h2 className={classes.title}>AI Marketplace</h2>
+class AiMarketplace extends Component {
+  state = {
+    servicesList: []
+  };
+
+  componentDidMount = () => {
+    console.log("Auth", Object.keys(Auth.__proto__), Auth.__proto__);
+    Auth.currentSession().then(res => {
+      console.log("current user", res);
+      let apiName = APIEndpoints.GET_SERVICES_LIST.name;
+      let path = "/org/snet/service";
+
+      API.get(apiName, path)
+        .then(res => {
+          console.log("service API", res);
+          this.setState({ servicesList: res.data.result });
+        })
+        .catch(err => {
+          console.log("service err", err);
+        });
+    });
+  };
+
+  render() {
+    const { classes } = this.props;
+    const { servicesList } = this.state;
+    return (
+      <div className={classes.aiMarketPlaceContainer}>
+        <Header />
+        <div className={classes.mainWrapper}>
+          <Grid container spacing={24}>
+            <Grid
+              item
+              xs={12}
+              sm={3}
+              md={3}
+              lg={3}
+              className={classes.titleContainer}
+            >
+              <h2 className={classes.title}>AI Marketplace</h2>
+            </Grid>
+            <Grid item xs={12} sm={9} md={9} lg={9}>
+              <p className={classes.description}>
+                Want to find the right AI service for your project? You’ve come
+                to the right place. <br />
+                We’ve got a growing marketplace with hundreds of AI services for
+                you to utilize. <br />
+                They’re powered by a community of amazing developers from all
+                over the globe.
+              </p>
+              <StyledButton type="blue" btnText="Sign up for free credits" />
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={9} md={9} lg={9}>
-            <p className={classes.description}>
-              Want to find the right AI service for your project? You’ve come to
-              the right place. <br />
-              We’ve got a growing marketplace with hundreds of AI services for
-              you to utilize. <br />
-              They’re powered by a community of amazing developers from all over
-              the globe.
-            </p>
-            <StyledButton type="blue" btnText="Sign up for free credits" />
-          </Grid>
-        </Grid>
-        <div>
-          <MainSection />
+          <div>
+            <MainSection servicesList={servicesList} />
+          </div>
         </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
-  );
+    );
+  }
 }
 
-export default AiMarketplace;
+export default withStyles(useStyles)(AiMarketplace);

@@ -6,7 +6,6 @@ import ServiceCollection from "./ServiceCollection/index.js";
 
 // Material UI imports
 import Grid from "@material-ui/core/Grid";
-import { Auth, API } from "aws-amplify";
 import { withStyles } from "@material-ui/styles";
 
 const useStyles = theme => ({
@@ -17,14 +16,14 @@ const useStyles = theme => ({
 
 class MainSection extends Component {
   render() {
-    const classes = useStyles();
+    const { classes, servicesList } = this.props;
     return (
       <Grid container spacing={24} className={classes.mainSection}>
         <Grid item xs={12} sm={3} md={3} lg={3}>
           <Filter />
         </Grid>
         <Grid item xs={12} sm={9} md={9} lg={9}>
-          <ServiceCollection />
+          <ServiceCollection data={servicesList} />
         </Grid>
       </Grid>
     );

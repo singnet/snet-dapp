@@ -100,7 +100,7 @@ const useStyles = makeStyles(theme => ({
 function Header() {
   const classes = useStyles();
   const [isLoggedIn, toggleLoggedIn] = useState(false);
-  Auth.currentSession().then(data => {
+  Auth.currentAuthenticatedUser({ bypassCache: true }).then(data => {
     console.log("signout", Auth.user);
     if (data === null || data === undefined) {
       toggleLoggedIn(false);

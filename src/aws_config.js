@@ -1,17 +1,8 @@
-export const APIEndpoints = {
-  GET_SERVICE: {
-    name: "Get Service",
-    endpoint: "https://3zjz5tihg2.execute-api.us-east-1.amazonaws.com/ropsten",
-    service: "lambda",
-    region: "us-east-1"
-  }
-};
+import { APIEndpoints } from "./utility/stringConstants/APIEndpoints";
 
 let endpoints = [];
 
-Object.values(APIEndpoints).map(value => {
-  endpoints.push(value);
-});
+Object.values(APIEndpoints).map(value => endpoints.push(value));
 
 export const aws_config = {
   // OPTIONAL - if your API requires authentication
@@ -24,7 +15,6 @@ export const aws_config = {
     userPoolId: "us-east-1_65MHedYHj",
     // REQUIRED - Amazon Cognito Web Client ID (26-char alphanumeric string)
     userPoolWebClientId: "49d6u3538qjlet95rs2aoo9usj"
-    // storage: {}
   },
   API: {
     endpoints

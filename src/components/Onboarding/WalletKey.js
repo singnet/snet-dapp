@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 
 // material ui imports
 import { withStyles } from "@material-ui/styles";
@@ -7,6 +7,8 @@ import StyledButton from "../common/StyledButton";
 import { Auth, API } from "aws-amplify";
 import ErrorMsgBox from "../common/ErrorMsgBox";
 import { parseError } from "../../utility/errorHandling";
+import Routes from "../../utility/stringConstants/routes";
+import { withRouter } from "react-router";
 
 const useStyles = theme => ({
   walletKeyContainer: {
@@ -63,24 +65,37 @@ const useStyles = theme => ({
     "& button": {
       padding: "13px 60px"
     }
+  },
+  privateKey: {
+    marginBottom: "15px !important",
+    textAlign: "center !important"
   }
 });
 
 class TermsOfUse extends Component {
   state = {
     privateKey: undefined,
-    error: undefined
+    error: undefined,
+    allowContinue: false
   };
   handleExportingPrivateKey = () => {
-    Auth.currentSession()
+    Auth.currentSession({ bypassCache: true })
       .then(data => {
+        console.log("response", data);
         API.get("Get Service", "/signup", {
           headers: {
             Authorization: data.idToken.jwtToken
           }
         })
           .then(res => {
-            this.setState({ privateKey: res.data[0].private_key });
+            if (res.data === "User Already Exist!") {
+              this.setState({ error: res.data, allowContinue: true });
+              return;
+            }
+            this.setState({
+              privateKey: res.data.data[0].private_key,
+              allowContinue: true
+            });
           })
           .catch(err => {
             let error = parseError(err);
@@ -95,7 +110,7 @@ class TermsOfUse extends Component {
 
   render() {
     const { classes } = this.props;
-    const { privateKey, error } = this.state;
+    const { privateKey, error, allowContinue } = this.state;
     return (
       <div className={classes.walletKeyContainer}>
         <h3>Wallet Key</h3>
@@ -105,28 +120,36 @@ class TermsOfUse extends Component {
           adhuc dolorum adolescens per
         </p>
         {privateKey ? (
-          <p>{privateKey}</p>
+          <p className={classes.privateKey}>{privateKey}</p>
         ) : (
-          <StyledButton
-            type="transparent"
-            btnText="Export Private Key"
-            onClick={this.handleExportingPrivateKey}
-          />
+          <Fragment>
+            <StyledButton
+              type="transparent"
+              btnText="Export Private Key"
+              onClick={this.handleExportingPrivateKey}
+            />
+            <div className={classes.warningBox}>
+              <i className="fas fa-exclamation-triangle"></i>
+              <span>
+                Please keep in mind that once wallet key is lost, it cant be
+                recovered.
+              </span>
+            </div>
+          </Fragment>
         )}
-        <div className={classes.warningBox}>
-          <i className="fas fa-exclamation-triangle"></i>
-          <span>
-            Please keep in mind that once wallet key is lost, it cant be
-            recovered.
-          </span>
-        </div>
+
         <ErrorMsgBox showErr={error} errorMsg={error} />
         <div className={classes.continueBtnContainer}>
-          <StyledButton type="blue" btnText="continue" disabled />
+          <StyledButton
+            type="blue"
+            btnText="continue"
+            disabled={!allowContinue}
+            onClick={() => this.props.history.push(Routes.AI_MARKETPLACE)}
+          />
         </div>
       </div>
     );
   }
 }
 
-export default withStyles(useStyles)(TermsOfUse);
+export default withStyles(useStyles)(withRouter(TermsOfUse));
