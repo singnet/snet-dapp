@@ -6,7 +6,6 @@ import CardCollection from "./CardCollection/index.js";
 
 // Material UI imports
 import Grid from "@material-ui/core/Grid";
-import { Auth, API } from "aws-amplify";
 import { withStyles } from "@material-ui/styles";
 
 const useStyles = theme => ({

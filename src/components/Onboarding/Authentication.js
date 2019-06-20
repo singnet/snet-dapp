@@ -4,9 +4,7 @@ import StyledButton from "../common/StyledButton";
 import { withStyles } from "@material-ui/styles";
 import Session from "../../utility/stringConstants/session";
 import { Auth } from "aws-amplify";
-import Routes from "../../utility/stringConstants/routes";
 import { isValidNumber } from "../../utility/validation";
-import ErrorMsgBox from "../common/ErrorMsgBox";
 import { parseError } from "../../utility/errorHandling";
 
 const useStyles = theme => ({
