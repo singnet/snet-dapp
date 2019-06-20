@@ -36,7 +36,7 @@ const useStyles = theme => ({
 class Authorization extends Component {
   state = {
     verificationCode: "",
-    activeSection: 3
+    activeSection: 1
   };
 
   handleNextSection = () => {
@@ -54,6 +54,7 @@ class Authorization extends Component {
   render() {
     const { classes } = this.props;
     const { activeSection } = this.state;
+
     let username = sessionStorage.getItem(Session.USERNAME);
     const headings = [`Welcome ${username}`, "Step 2", "Step 3"];
     const components = [

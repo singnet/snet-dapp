@@ -8,13 +8,17 @@ import ProgressSection, { ProgressStatusList } from "./ProgressSection";
 
 const useStyles = theme => ({
   tabsContainer: {
-    width: "41%",
+    width: 630,
     margin: "40px auto 0",
     "& ul": {
       margin: 0,
       padding: 0,
       display: "flex",
-      justifyContent: "space-between"
+      justifyContent: "space-between",
+      "@media (max-width:470px)": {
+        flexDirection: "column",
+        alignItems: "center"
+      }
     },
     "& li": {
       listStyle: "none",
@@ -30,13 +34,22 @@ const useStyles = theme => ({
         marginRight: 16,
         display: "inline-block",
         backgroundColor: theme.palette.text.gray12,
-        verticalAlign: "middle"
+        verticalAlign: "middle",
+        "@media (max-width:724px)": {
+          display: "none"
+        }
       },
       "& i": {
         marginRight: 5,
         color: theme.palette.text.green,
         fontSize: 20
+      },
+      "@media (max-width:470px)": {
+        marginBottom: 20
       }
+    },
+    "@media (max-width:724px)": {
+      width: "90%"
     }
   },
   active: {

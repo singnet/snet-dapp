@@ -136,7 +136,11 @@ class Login extends Component {
     const { username, password, error } = this.state;
     return (
       <Grid container spacing={24}>
-        <Header title="New to singularityNET?" linkPath={Routes.SIGNUP} linkText="SignUp" />
+        <Header
+          title="New to singularityNET?"
+          linkPath={Routes.SIGNUP}
+          linkText="SignUp"
+        />
         <Grid
           item
           xs={12}

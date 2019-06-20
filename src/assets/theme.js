@@ -29,8 +29,11 @@ const black1 = "rgba(0,0,0,.87)";
 const green = "#00C48C";
 
 const darkOrange = "#AC5C2C";
+
 const orange = "#F29132";
 const orange1 = "#FFF8E7";
+
+const aqua = "#00C48C";
 
 const theme = createMuiTheme({
   palette: {
@@ -56,7 +59,8 @@ const theme = createMuiTheme({
       purple: purple,
       darkOrange: darkOrange,
       orange: orange,
-      orange1: orange1
+      orange1: orange1,
+      aqua: aqua
     }
   },
   typography: {

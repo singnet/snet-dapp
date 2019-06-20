@@ -12,7 +12,7 @@ const useStyles = theme => ({
     backgroundColor: theme.palette.text.gray8
   },
   termsOfUseContainer: {
-    width: "41%",
+    width: 630,
     paddingBottom: 40,
     margin: "40px auto 0",
     backgroundColor: theme.palette.text.white,
@@ -28,6 +28,9 @@ const useStyles = theme => ({
       color: theme.palette.text.black1,
       fontSize: 20,
       textAlign: "left"
+    },
+    "@media (max-width:724px)": {
+      width: "90%"
     }
   },
   termsAndConditions: {
@@ -50,6 +53,9 @@ const useStyles = theme => ({
     justifyContent: "space-between",
     "& button": {
       padding: "13px 61px 11px"
+    },
+    [theme.breakpoints.down("xs")]: {
+      flexDirection: "column"
     }
   }
 });
