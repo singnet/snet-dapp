@@ -3,7 +3,14 @@
   "parser": "babel-eslint",
   "plugins": ["react", "prettier"],
   "rules": {
-    "prettier/prettier": ["error", { "singleQuote": false }],
-    "max-len": ["error", { "code": 120, "ignoreUrls": true }]
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": false,
+        "max-len": ["error", { "code": 120, "ignoreUrls": true }]
+      }
+    ],
+    "max-len": ["error", { "code": 120, "ignoreUrls": true }],
+    "exceptAfterSingleLine": "error"
   }
 }
