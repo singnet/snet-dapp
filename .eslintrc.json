@@ -1,0 +1,9 @@
+{
+  "extends": ["react-app", "eslint:recommended", "plugin:prettier/recommended"],
+  "parser": "babel-eslint",
+  "plugins": ["react", "prettier"],
+  "rules": {
+    "prettier/prettier": ["error", { "singleQuote": false }],
+    "max-len": ["error", { "code": 120, "ignoreUrls": true }]
+  }
+}
