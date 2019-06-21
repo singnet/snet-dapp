@@ -78,6 +78,7 @@ class TermsOfUse extends Component {
     error: undefined,
     allowContinue: false
   };
+
   handleExportingPrivateKey = () => {
     Auth.currentSession({ bypassCache: true })
       .then(data => {

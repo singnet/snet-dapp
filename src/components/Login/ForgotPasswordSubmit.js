@@ -8,12 +8,15 @@ class ForgotPasswordSubmit extends Component {
     code: "",
     password: ""
   };
+
   handleCode = event => {
     this.setState({ code: event.currentTarget.value });
   };
+
   handlePassword = event => {
     this.setState({ password: event.currentTarget.value });
   };
+
   handleSubmit = event => {
     event.preventDefault();
     let username;

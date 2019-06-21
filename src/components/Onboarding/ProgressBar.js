@@ -70,6 +70,7 @@ class ProgressBar extends Component {
       return ProgressStatusList.IDLE;
     }
   };
+
   render() {
     const { classes, activeSection } = this.props;
     return (

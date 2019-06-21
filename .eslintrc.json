@@ -7,10 +7,10 @@
       "error",
       {
         "singleQuote": false,
-        "max-len": ["error", { "code": 120, "ignoreUrls": true }]
+        "max-len": { "code": 120, "ignoreUrls": true }
       }
     ],
     "max-len": ["error", { "code": 120, "ignoreUrls": true }],
-    "exceptAfterSingleLine": "error"
+    "lines-between-class-members": ["error", "always"]
   }
 }
