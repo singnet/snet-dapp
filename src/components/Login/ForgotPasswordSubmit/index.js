@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Auth } from "aws-amplify";
 
-import Session from "../../utility/stringConstants/Session";
-import Routes from "../../utility/stringConstants/Routes";
+import Session from "../../../utility/stringConstants/Session";
+import Routes from "../../../utility/stringConstants/Routes";
 
 class ForgotPasswordSubmit extends Component {
     state = {
