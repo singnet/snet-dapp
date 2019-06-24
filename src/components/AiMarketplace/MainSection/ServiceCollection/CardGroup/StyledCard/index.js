@@ -1,8 +1,5 @@
 import React from "react";
-
 import StarRatingComponent from "react-star-rating-component";
-
-// Material UI imports
 import { makeStyles } from "@material-ui/styles";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";

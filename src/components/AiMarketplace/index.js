@@ -1,16 +1,13 @@
 import React, { Component } from "react";
+import Grid from "@material-ui/core/Grid";
+import { withStyles } from "@material-ui/styles";
+import { API, Auth } from "aws-amplify";
 
-// import components
+import { APIEndpoints } from "../../utility/stringConstants/APIEndpoints.js";
 import Header from "../common/Header/index.js";
 import Footer from "../common/Footer/index.js";
 import StyledButton from "../common/StyledButton/index.js";
 import MainSection from "./MainSection/index.js";
-
-// Material UI imports
-import Grid from "@material-ui/core/Grid";
-import { withStyles } from "@material-ui/styles";
-import { API, Auth } from "aws-amplify";
-import { APIEndpoints } from "../../utility/stringConstants/APIEndpoints.js";
 
 const useStyles = theme => ({
   aiMarketPlaceContainer: {

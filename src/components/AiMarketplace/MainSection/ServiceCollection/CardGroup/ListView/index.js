@@ -1,8 +1,5 @@
 import React from "react";
-
 import StarRatingComponent from "react-star-rating-component";
-
-// Material UI imports
 import { makeStyles } from "@material-ui/styles";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -11,7 +8,6 @@ import CardActions from "@material-ui/core/CardActions";
 import Typography from "@material-ui/core/Typography";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import IconButton from "@material-ui/core/IconButton";
-import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(theme => ({
   card: {

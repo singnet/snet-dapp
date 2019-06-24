@@ -1,13 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-
-import Routes from "../../../utility/stringConstants/routes";
-
-// material components
 import { withStyles } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 
-// images
 import Logo from "../../../assets/images/LoginLogo.png";
 
 const useStyles = theme => ({

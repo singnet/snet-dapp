@@ -1,12 +1,9 @@
 import React, { Component } from "react";
-
-// imported components
-import Filter from "./Filter/index.js";
-import ServiceCollection from "./ServiceCollection/index.js";
-
-// Material UI imports
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
+
+import Filter from "./Filter/index.js";
+import ServiceCollection from "./ServiceCollection/index.js";
 
 const useStyles = theme => ({
   mainSection: {

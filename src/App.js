@@ -1,16 +1,7 @@
 import React, { Component } from "react";
 import Amplify from "aws-amplify";
-import { aws_config } from "./aws_config";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
-// components
-import AiMarketplace from "./components/AiMarketplace/index.js";
-import SignUp from "./components/Login/signup.js";
-import Login from "./components/Login";
-
-//  material ui theme
 import { ThemeProvider } from "@material-ui/styles";
-import theme from "./assets/theme.js";
 
 import "./App.css";
 import Routes from "./utility/stringConstants/routes";
@@ -19,6 +10,11 @@ import ForgotPassword from "./components/Login/forgotpassword";
 import ForgotPasswordSubmit from "./components/Login/ForgotPasswordSubmit";
 import Onboarding from "./components/Onboarding";
 import PageNotFound from "./components/PageNotFound";
+import AiMarketplace from "./components/AiMarketplace/index.js";
+import SignUp from "./components/Login/signup.js";
+import Login from "./components/Login";
+import { aws_config } from "./aws_config";
+import theme from "./assets/theme.js";
 
 Amplify.configure(aws_config);
 

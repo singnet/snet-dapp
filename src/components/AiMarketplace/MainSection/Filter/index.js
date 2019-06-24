@@ -1,6 +1,4 @@
 import React from "react";
-
-// Material UI imports
 import { makeStyles } from "@material-ui/styles";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
