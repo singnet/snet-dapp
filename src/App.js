@@ -19,34 +19,25 @@ import theme from "./assets/Theme";
 Amplify.configure(aws_config);
 
 class App extends Component {
-  render() {
-    return (
-      <ThemeProvider theme={theme}>
-        <Router>
-          <Switch>
-            <Route path={`/${Routes.SIGNUP}`} component={SignUp} />
-            <Route path={`/${Routes.LOGIN}`} component={Login} />
-            <Route path={`/${Routes.VERIFY}`} component={Verify} />
-            <Route
-              path={`/${Routes.FORGOT_PASSWORD}`}
-              component={ForgotPassword}
-            />
-            <Route
-              path={`/${Routes.FORGOT_PASSWORD_SUBMIT}`}
-              component={ForgotPasswordSubmit}
-            />
-            <Route path={`/${Routes.ONBOARDING}`} component={Onboarding} />
-            <Route
-              path={`/${Routes.AI_MARKETPLACE}`}
-              component={AiMarketplace}
-            />
-            <Route path="/" exact component={AiMarketplace} />
-            <Route component={PageNotFound} />
-          </Switch>
-        </Router>
-      </ThemeProvider>
-    );
-  }
+    render() {
+        return (
+            <ThemeProvider theme={theme}>
+                <Router>
+                    <Switch>
+                        <Route path={`/${Routes.SIGNUP}`} component={SignUp} />
+                        <Route path={`/${Routes.LOGIN}`} component={Login} />
+                        <Route path={`/${Routes.VERIFY}`} component={Verify} />
+                        <Route path={`/${Routes.FORGOT_PASSWORD}`} component={ForgotPassword} />
+                        <Route path={`/${Routes.FORGOT_PASSWORD_SUBMIT}`} component={ForgotPasswordSubmit} />
+                        <Route path={`/${Routes.ONBOARDING}`} component={Onboarding} />
+                        <Route path={`/${Routes.AI_MARKETPLACE}`} component={AiMarketplace} />
+                        <Route path="/" exact component={AiMarketplace} />
+                        <Route component={PageNotFound} />
+                    </Switch>
+                </Router>
+            </ThemeProvider>
+        );
+    }
 }
 
 export default App;

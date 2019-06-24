@@ -6,27 +6,27 @@ import PrimaryFooter from "./PrimaryFooter";
 import SecondaryFooter from "./SecondaryFooter";
 
 const useStyles = makeStyles(theme => ({
-  footer: {
-    padding: "18px 0 25px",
-    backgroundColor: theme.palette.text.purple,
-    color: theme.palette.text.offWhite
-  },
-  footerWrapper: {
-    width: "75%",
-    margin: "0 auto"
-  }
+    footer: {
+        padding: "18px 0 25px",
+        backgroundColor: theme.palette.text.purple,
+        color: theme.palette.text.offWhite,
+    },
+    footerWrapper: {
+        width: "75%",
+        margin: "0 auto",
+    },
 }));
 
 const Footer = () => {
-  const classes = useStyles();
-  return (
-    <footer className={classes.footer}>
-      <Grid container spacing={24} className={classes.footerWrapper}>
-        <PrimaryFooter />
-        <SecondaryFooter />
-      </Grid>
-    </footer>
-  );
+    const classes = useStyles();
+    return (
+        <footer className={classes.footer}>
+            <Grid container spacing={24} className={classes.footerWrapper}>
+                <PrimaryFooter />
+                <SecondaryFooter />
+            </Grid>
+        </footer>
+    );
 };
 
 export default Footer;

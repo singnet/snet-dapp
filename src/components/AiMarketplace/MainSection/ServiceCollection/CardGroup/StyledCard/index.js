@@ -12,114 +12,110 @@ import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(theme => ({
-  card: {
-    width: 302,
-    padding: "13px 0",
-    margin: "0 20px 20px 0",
-    display: "inline-block"
-  },
-  cardHeader: {
-    padding: "0 18px"
-  },
-  cardTitle: {
-    fontWeight: theme.typography.fontweight,
-    fontSize: 12,
-    color: theme.palette.text.secondary,
-    textTransform: "uppercase",
-    letterSpacing: 2,
-    fontFamily: theme.typography.primary.main
-  },
-  cardSubheader: {
-    color: theme.palette.text.black1,
-    fontWeight: theme.typography.fontweight,
-    fontSize: 20,
-    letterSpacing: 0.25,
-    fontFamily: theme.typography.primary.main
-  },
-  CardMedia: {
-    height: 175,
-    margin: "5px 0 13px"
-  },
-  cardContent: { padding: "0 13px" },
-  cardTypograpy: {
-    color: theme.palette.text.gray2,
-    fontFamily: theme.typography.secondary.main,
-    fontSize: 14,
-    lineHeight: "20px"
-  },
-  cardActions: {
-    padding: "16px 13px 0",
-    justifyContent: "space-between"
-  },
-  detailsBtn: {
-    padding: 0,
-    fontFamily: theme.typography.primary.main,
-    fontSize: 14,
-    fontWeight: theme.typography.fontweight,
-    letterSpacing: "1.25px",
-    color: theme.palette.text.primary
-  },
-  showMore: {
-    padding: 0,
-    margin: 0
-  },
-  ratedCount: {
-    marginLeft: 10,
-    display: "inline-block",
-    color: theme.palette.text.secondary,
-    fontSize: 12,
-    fontWeight: theme.typography.fontweight,
-    letterSpacing: 2,
-    verticalAlign: "super"
-  }
+    card: {
+        width: 302,
+        padding: "13px 0",
+        margin: "0 20px 20px 0",
+        display: "inline-block",
+    },
+    cardHeader: {
+        padding: "0 18px",
+    },
+    cardTitle: {
+        fontWeight: theme.typography.fontweight,
+        fontSize: 12,
+        color: theme.palette.text.secondary,
+        textTransform: "uppercase",
+        letterSpacing: 2,
+        fontFamily: theme.typography.primary.main,
+    },
+    cardSubheader: {
+        color: theme.palette.text.black1,
+        fontWeight: theme.typography.fontweight,
+        fontSize: 20,
+        letterSpacing: 0.25,
+        fontFamily: theme.typography.primary.main,
+    },
+    CardMedia: {
+        height: 175,
+        margin: "5px 0 13px",
+    },
+    cardContent: { padding: "0 13px" },
+    cardTypograpy: {
+        color: theme.palette.text.gray2,
+        fontFamily: theme.typography.secondary.main,
+        fontSize: 14,
+        lineHeight: "20px",
+    },
+    cardActions: {
+        padding: "16px 13px 0",
+        justifyContent: "space-between",
+    },
+    detailsBtn: {
+        padding: 0,
+        fontFamily: theme.typography.primary.main,
+        fontSize: 14,
+        fontWeight: theme.typography.fontweight,
+        letterSpacing: "1.25px",
+        color: theme.palette.text.primary,
+    },
+    showMore: {
+        padding: 0,
+        margin: 0,
+    },
+    ratedCount: {
+        marginLeft: 10,
+        display: "inline-block",
+        color: theme.palette.text.secondary,
+        fontSize: 12,
+        fontWeight: theme.typography.fontweight,
+        letterSpacing: 2,
+        verticalAlign: "super",
+    },
 }));
 
 const StyledCard = props => {
-  const classes = useStyles();
-  return (
-    <Card className={classes.card}>
-      <CardHeader
-        className={classes.cardHeader}
-        classes={{
-          title: classes.cardTitle,
-          subheader: classes.cardSubheader
-        }}
-        title={props.cardTitle}
-        subheader={props.cardSubheader}
-      ></CardHeader>
-      <CardMedia
-        className={classes.CardMedia}
-        image={props.cardMedia}
-        title={props.title}
-      ></CardMedia>
-      <CardContent className={classes.cardContent}>
-        <div className={classes.ratingSection}>
-          <StarRatingComponent
-            name="rate1"
-            starCount={5}
-            value={3}
-            starColor={"#FFC200"}
-            emptyStarColor={"rgba(161,163,168,0.35)"}
-            className={classes.ratingStars}
-          />
-          <span className={classes.ratedCount}>
-            {props.ratingGiven} {props.totalRating}
-          </span>
-        </div>
-        <Typography className={classes.cardTypograpy} component="p">
-          {props.cardDescription}
-        </Typography>
-      </CardContent>
-      <CardActions className={classes.cardActions}>
-        <Button color="primary" className={classes.detailsBtn}>
-          deatils
-        </Button>
-        <IconButton aria-label="Settings" className={classes.showMore}>
-          <MoreVertIcon />
-        </IconButton>
-      </CardActions>
-    </Card>
-  );
+    const classes = useStyles();
+    return (
+        <Card className={classes.card}>
+            <CardHeader
+                className={classes.cardHeader}
+                classes={{
+                    title: classes.cardTitle,
+                    subheader: classes.cardSubheader,
+                }}
+                title={props.cardTitle}
+                subheader={props.cardSubheader}
+            ></CardHeader>
+            <CardMedia className={classes.CardMedia} image={props.cardMedia} title={props.title}></CardMedia>
+            <CardContent className={classes.cardContent}>
+                <div className={classes.ratingSection}>
+                    <StarRatingComponent
+                        name="rate1"
+                        starCount={5}
+                        value={3}
+                        starColor={"#FFC200"}
+                        emptyStarColor={"rgba(161,163,168,0.35)"}
+                        className={classes.ratingStars}
+                    />
+                    <span className={classes.ratedCount}>
+                        {props.ratingGiven} {props.totalRating}
+                    </span>
+                </div>
+                <Typography className={classes.cardTypograpy} component="p">
+                    {props.cardDescription}
+                </Typography>
+            </CardContent>
+            <CardActions className={classes.cardActions}>
+                <Button color="primary" className={classes.detailsBtn}>
+                    deatils
+                </Button>
+                <IconButton aria-label="Settings" className={classes.showMore}>
+                    <MoreVertIcon />
+                </IconButton>
+            </CardActions>
+        </Card>
+    );
 };
 
 export default StyledCard;

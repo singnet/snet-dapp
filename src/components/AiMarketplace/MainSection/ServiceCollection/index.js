@@ -6,20 +6,20 @@ import CardGroup from "./CardGroup";
 import StyledPagination from "./StyledPagination";
 
 const useStyles = makeStyles(theme => ({
-  serviceCollection: {
-    paddingLeft: 25
-  }
+    serviceCollection: {
+        paddingLeft: 25,
+    },
 }));
 
 const ServiceCollection = ({ data }) => {
-  const classes = useStyles();
-  return (
-    <div className={classes.serviceCollection}>
-      <ToolBar />
-      <CardGroup data={data} />
-      <StyledPagination />
-    </div>
-  );
+    const classes = useStyles();
+    return (
+        <div className={classes.serviceCollection}>
+            <ToolBar />
+            <CardGroup data={data} />
+            <StyledPagination />
+        </div>
+    );
 };
 
 export default ServiceCollection;

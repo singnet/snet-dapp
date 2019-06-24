@@ -37,53 +37,53 @@ const orange1 = "#FFF8E7";
 const aqua = "#00C48C";
 
 const theme = createMuiTheme({
-  palette: {
-    text: {
-      primary: customBlue,
-      secondary: customGray1,
-      white: whiteColor,
-      disabled: disabledTxtColor,
-      black1: black1,
-      gray2: gray2,
-      gray3: gray3,
-      gray4: gray4,
-      gray5: gray5,
-      gray6: gray6,
-      gray7: gray7,
-      gray8: gray8,
-      gray9: gray9,
-      gray10: gray10,
-      gray11: gray11,
-      gray12: gray12,
-      gray13: gray13,
-      offWhite: offWhite,
-      green: green,
-      purple: purple,
-      darkOrange: darkOrange,
-      orange: orange,
-      orange1: orange1,
-      aqua: aqua
-    }
-  },
-  typography: {
-    primary: {
-      main: ["OpenSans"]
+    palette: {
+        text: {
+            primary: customBlue,
+            secondary: customGray1,
+            white: whiteColor,
+            disabled: disabledTxtColor,
+            black1: black1,
+            gray2: gray2,
+            gray3: gray3,
+            gray4: gray4,
+            gray5: gray5,
+            gray6: gray6,
+            gray7: gray7,
+            gray8: gray8,
+            gray9: gray9,
+            gray10: gray10,
+            gray11: gray11,
+            gray12: gray12,
+            gray13: gray13,
+            offWhite: offWhite,
+            green: green,
+            purple: purple,
+            darkOrange: darkOrange,
+            orange: orange,
+            orange1: orange1,
+            aqua: aqua,
+        },
     },
-    secondary: {
-      main: ["Raleway"]
+    typography: {
+        primary: {
+            main: ["OpenSans"],
+        },
+        secondary: {
+            main: ["Raleway"],
+        },
+        tertiary: {
+            main: ["Roboto"],
+        },
+        fontweight: 600,
     },
-    tertiary: {
-      main: ["Roboto"]
+    backgroundColor: {
+        blue: customBlue,
+        disabled: disabledBgColor,
+        red: errorBgColor,
+        white: whiteColor,
+        githubBlack: githubBlack,
     },
-    fontweight: 600
-  },
-  backgroundColor: {
-    blue: customBlue,
-    disabled: disabledBgColor,
-    red: errorBgColor,
-    white: whiteColor,
-    githubBlack: githubBlack
-  }
 });
 
 export default theme;

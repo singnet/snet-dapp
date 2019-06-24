@@ -1,5 +1,5 @@
 const Session = {
-  USERNAME: "username"
+    USERNAME: "username",
 };
 
 export default Session;
