@@ -1,14 +1,12 @@
 import React, { Component } from "react";
-
-// material ui imports
 import { withStyles } from "@material-ui/styles";
+import { Auth } from "aws-amplify";
 
 import ProgressBar from "./ProgressBar";
 import Header from "../common/LoginOnboardingHeader";
 import Authentication from "./Authentication";
 import TermsOfUse from "./termsOfUse";
 import Session from "../../utility/stringConstants/session";
-import { Auth } from "aws-amplify";
 import WalletKey from "./WalletKey";
 
 const useStyles = theme => ({
@@ -42,7 +40,6 @@ class Authorization extends Component {
   componentDidMount = () => {
     Auth.currentAuthenticatedUser({ bypassCache: true })
       .then(res => {
-        console.log("onboarding page", res);
         if (res.attributes.email_verified) {
           this.setState({ activeSection: 2 });
         }
@@ -53,7 +50,6 @@ class Authorization extends Component {
   };
 
   componentDidUpdate = () => {
-    console.log("session", sessionStorage.getItem(Session.USERNAME));
     if (
       sessionStorage.getItem(Session.USERNAME) &&
       this.state.activeSection === 1

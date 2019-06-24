@@ -1,7 +1,5 @@
 import React from "react";
-
 import Pagination from "material-ui-flat-pagination";
-// Material UI imports
 import { makeStyles } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 import FormControl from "@material-ui/core/FormControl";
@@ -35,23 +33,12 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-// handleClick(offset) {
-//   // this.setState({ offset });
-//   console.log('clicked')
-// }
-
-function StyledPagination() {
+const StyledPagination = () => {
   const classes = useStyles();
   return (
     <Grid container spacing={24} className={classes.paginationContainer}>
       <Grid item xs={12} sm={6} md={6} lg={6} className={classes.pagination}>
-        <Pagination
-          limit={10}
-          offset={0}
-          total={200}
-          reduced={true}
-          // onClick={(e, offset) => this.handleClick(offset)}
-        />
+        <Pagination limit={10} offset={0} total={200} reduced={true} />
       </Grid>
       <Grid
         item
@@ -65,7 +52,6 @@ function StyledPagination() {
         <FormControl variant="outlined" className={classes.pageListformControl}>
           <Select
             value={1}
-            // onChange={handleChange}
             input={
               <OutlinedInput
                 labelWidth={75}
@@ -85,6 +71,6 @@ function StyledPagination() {
       </Grid>
     </Grid>
   );
-}
+};
 
 export default StyledPagination;

@@ -1,15 +1,12 @@
-import React, { Component, useState, Fragment } from "react";
+import React, { useState, Fragment } from "react";
 import { Link } from "react-router-dom";
-// Material UI imports
 import { makeStyles } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
+import { Auth } from "aws-amplify";
 
-import StyledDropdown from "../StyledDropdown/index.js";
-
-// import Images
+import StyledDropdown from "../StyledDropdown/";
 import Logo from "../../../assets/images/Logo.png";
 import Routes from "../../../utility/stringConstants/routes.js";
-import { Auth } from "aws-amplify";
 
 const useStyles = makeStyles(theme => ({
   header: {
@@ -97,11 +94,11 @@ const useStyles = makeStyles(theme => ({
   UppercaseText: { textTransform: "uppercase" }
 }));
 
-function Header() {
+const Header = () => {
   const classes = useStyles();
   const [isLoggedIn, toggleLoggedIn] = useState(false);
+
   Auth.currentAuthenticatedUser({ bypassCache: true }).then(data => {
-    console.log("signout", Auth.user);
     if (data === null || data === undefined) {
       toggleLoggedIn(false);
     }
@@ -111,12 +108,11 @@ function Header() {
   const handleSignOut = () => {
     Auth.signOut()
       .then(data => {
-        console.log("signout", data);
         toggleLoggedIn(false);
       })
       .catch(err => console.log("signout", err));
   };
-  console.log("isLoggedIn", isLoggedIn);
+
   return (
     <Grid container spacing={24}>
       <header className={classes.header}>
@@ -201,6 +197,6 @@ function Header() {
       </header>
     </Grid>
   );
-}
+};
 
 export default Header;

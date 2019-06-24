@@ -1,6 +1,4 @@
 import React from "react";
-
-// Material UI imports
 import { makeStyles } from "@material-ui/styles";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -29,7 +27,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function StyledDropdown(props) {
+const StyledDropdown = props => {
   const classes = useStyles();
 
   const [state, setState] = React.useState({
@@ -62,6 +60,6 @@ function StyledDropdown(props) {
       </Select>
     </FormControl>
   );
-}
+};
 
 export default StyledDropdown;

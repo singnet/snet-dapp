@@ -1,14 +1,12 @@
 import React, { Component, Fragment } from "react";
-
-// material ui imports
 import { withStyles } from "@material-ui/styles";
+import { withRouter } from "react-router";
+import { Auth, API } from "aws-amplify";
 
 import StyledButton from "../common/StyledButton";
-import { Auth, API } from "aws-amplify";
 import ErrorMsgBox from "../common/ErrorMsgBox";
 import { parseError } from "../../utility/errorHandling";
 import Routes from "../../utility/stringConstants/routes";
-import { withRouter } from "react-router";
 
 const useStyles = theme => ({
   walletKeyContainer: {
@@ -82,7 +80,6 @@ class TermsOfUse extends Component {
   handleExportingPrivateKey = () => {
     Auth.currentSession({ bypassCache: true })
       .then(data => {
-        console.log("response", data);
         API.get("Get Service", "/signup", {
           headers: {
             Authorization: data.idToken.jwtToken
@@ -138,7 +135,6 @@ class TermsOfUse extends Component {
             </div>
           </Fragment>
         )}
-
         <ErrorMsgBox showErr={error} errorMsg={error} />
         <div className={classes.continueBtnContainer}>
           <StyledButton

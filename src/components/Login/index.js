@@ -1,18 +1,13 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-
-// material components
 import { withStyles } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
+import { Auth } from "aws-amplify";
 
-// internal components
 import Header from "../common/LoginOnboardingHeader/index.js";
 import StyledButton from "../common/StyledButton/index.js";
 import ErrorMsgBox from "../common/ErrorMsgBox/index.js";
-
-import { Auth } from "aws-amplify";
-// import { AWS } from "@aws-amplify/core";
 import Routes from "../../utility/stringConstants/routes";
 import Session from "../../utility/stringConstants/session";
 
@@ -183,10 +178,7 @@ class Login extends Component {
               onChange={this.handlePassword}
             />
             <div className={classes.checkboxSection}>
-              <div className={classes.checkbox}>
-                {/* <input type="checkbox" />
-                <label>Remember Me</label> */}
-              </div>
+              <div className={classes.checkbox} />
               <Link to={Routes.FORGOT_PASSWORD}>Forgot password?</Link>
             </div>
             <ErrorMsgBox errorMsg={error} showErr={error} />

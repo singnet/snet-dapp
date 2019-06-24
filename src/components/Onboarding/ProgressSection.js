@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-
 import { makeStyles } from "@material-ui/styles";
 
 const useStyles = makeStyles(theme => ({
@@ -25,8 +24,8 @@ export const ProgressStatusList = {
 };
 
 const ProgressSection = ({ progressNumber, progressText, progressStatus }) => {
-  console.log(progressText, progressStatus);
   const classes = useStyles();
+
   return (
     <li>
       {progressStatus === ProgressStatusList.COMPLETED ? (

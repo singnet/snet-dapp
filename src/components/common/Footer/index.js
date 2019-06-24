@@ -1,11 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
+import { makeStyles } from "@material-ui/styles";
+import Grid from "@material-ui/core/Grid";
 
 import PrimaryFooter from "./PrimaryFooter/index.js";
 import SecondaryFooter from "./SecondaryFooter/index.js";
-
-// Material Ui imports
-import { makeStyles } from "@material-ui/styles";
-import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles(theme => ({
   footer: {
@@ -19,7 +17,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function Footer() {
+const Footer = () => {
   const classes = useStyles();
   return (
     <footer className={classes.footer}>
@@ -29,6 +27,6 @@ function Footer() {
       </Grid>
     </footer>
   );
-}
+};
 
 export default Footer;

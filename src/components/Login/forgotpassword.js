@@ -1,16 +1,11 @@
 import React, { Component } from "react";
-
-// material components
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/styles";
 
-// internal components
 import Header from "../common/LoginOnboardingHeader/index.js";
 import ErrorMsgBox from "../common/ErrorMsgBox/index.js";
 import StyledButton from "../common/StyledButton";
-
-// images
 import Routes from "../../utility/stringConstants/routes";
 import { Auth } from "aws-amplify";
 import Session from "../../utility/stringConstants/session";
@@ -143,7 +138,7 @@ class ForgotPassword extends Component {
               value={username}
               onChange={this.handleUsername}
             />
-            <ErrorMsgBox errorMsg="error state message" />
+            <ErrorMsgBox errorMsg={error} showErr={error} />
             <StyledButton
               type="blue"
               btnText="reset password"

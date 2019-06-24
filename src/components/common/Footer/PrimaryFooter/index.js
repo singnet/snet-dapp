@@ -1,23 +1,13 @@
-import React, { Component } from "react";
-
-// import components
-import FooterLinks from "./FooterLinks/index.js";
-
-// Material UI imports
+import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import Grid from "@material-ui/core/Grid";
 
-// import Images
+import FooterLinks from "./FooterLinks/index.js";
 import Logo from "../../../../assets/images/Logo.png";
 
 const useStyles = makeStyles(theme => ({
   PrimaryFooter: {
     width: "100%",
     display: "flex"
-  },
-  footerLogoSection: {
-    padding: 0,
-    margin: 0
   },
   footerLogoSection: {
     textAlign: "right",
@@ -36,7 +26,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function PrimaryFooter() {
+const PrimaryFooter = () => {
   const classes = useStyles();
   return (
     <div className={classes.PrimaryFooter}>
@@ -87,6 +77,6 @@ function PrimaryFooter() {
       <FooterLinks />
     </div>
   );
-}
+};
 
 export default PrimaryFooter;

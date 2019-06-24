@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-
-// material ui imports
 import { withStyles } from "@material-ui/styles";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+
 import StyledButton from "../common/StyledButton";
 
 const useStyles = theme => ({
@@ -66,7 +65,6 @@ class TermsOfUse extends Component {
   };
 
   handleAcceptTerms = event => {
-    console.log(event.target.checked);
     this.setState({ hasAcceptedTerms: event.target.checked });
   };
 

@@ -1,16 +1,12 @@
 import React, { Component, Fragment } from "react";
 import { Auth } from "aws-amplify";
-
-// material components
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/styles";
 
-// internal components
 import Header from "../common/LoginOnboardingHeader/index.js";
 import StyledButton from "../common/StyledButton/index.js";
 import ErrorMsgBox from "../common/ErrorMsgBox/index.js";
-
 import Routes from "../../utility/stringConstants/routes";
 import { isValidEmail } from "../../utility/validation";
 import Session from "../../utility/stringConstants/session";

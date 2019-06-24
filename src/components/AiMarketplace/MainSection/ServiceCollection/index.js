@@ -1,11 +1,9 @@
 import React from "react";
+import { makeStyles } from "@material-ui/styles";
 
 import ToolBar from "./ToolBar/index.js";
 import CardGroup from "./CardGroup/index.js";
 import StyledPagination from "./StyledPagination/index.js";
-
-// Material UI imports
-import { makeStyles } from "@material-ui/styles";
 
 const useStyles = makeStyles(theme => ({
   serviceCollection: {

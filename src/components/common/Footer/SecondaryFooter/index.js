@@ -1,6 +1,4 @@
 import React from "react";
-
-// Material UI imports
 import { makeStyles } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 
@@ -32,7 +30,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function SecondaryFooter() {
+const SecondaryFooter = () => {
   const classes = useStyles();
   return (
     <Grid container spacing={24} className={classes.secondaryFooter}>
@@ -86,6 +84,6 @@ function SecondaryFooter() {
       </Grid>
     </Grid>
   );
-}
+};
 
 export default SecondaryFooter;

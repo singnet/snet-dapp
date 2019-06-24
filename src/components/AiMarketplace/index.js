@@ -46,15 +46,11 @@ class AiMarketplace extends Component {
   };
 
   componentDidMount = () => {
-    console.log("Auth", Object.keys(Auth.__proto__), Auth.__proto__);
     Auth.currentSession().then(res => {
-      console.log("current user", res);
       let apiName = APIEndpoints.GET_SERVICES_LIST.name;
       let path = "/org/snet/service";
-
       API.get(apiName, path)
         .then(res => {
-          console.log("service API", res);
           this.setState({ servicesList: res.data.result });
         })
         .catch(err => {

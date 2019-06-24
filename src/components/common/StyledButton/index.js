@@ -1,7 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-
-// Material UI imports
 import { makeStyles } from "@material-ui/styles";
 import Button from "@material-ui/core/Button";
 import classNames from "classnames";
@@ -59,7 +57,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function StyledButton(props) {
+const StyledButton = props => {
   const classes = useStyles();
 
   return (
@@ -75,7 +73,7 @@ function StyledButton(props) {
       {props.btnText}
     </Button>
   );
-}
+};
 
 StyledButton.propTypes = {
   type: PropTypes.oneOf(["blue", "gradient", "black", "transparent"])

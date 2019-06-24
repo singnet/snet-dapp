@@ -1,6 +1,4 @@
 import React from "react";
-
-// Material UI imports
 import { makeStyles } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 import Icon from "@material-ui/core/Icon";
