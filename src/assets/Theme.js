@@ -4,21 +4,15 @@ const customBlue = "#4086ff";
 
 const purple = "#220D3A";
 
-const customGray1 = "#9b9b9b";
-const gray2 = "rgba(0,0,0,0.6)";
-const gray3 = "#616161";
-const gray4 = "#666";
-const gray5 = "#f5f7f8";
-const gray6 = "#B00020";
-const gray7 = "#4a4a4a";
-const gray8 = "#fafafa";
-const gray9 = "#0000000a";
-const gray10 = "#444";
-const gray11 = "#ccc";
-const gray12 = "#d6d6d6";
-const gray13 = "#e5e5e5";
+const darkShadedGray = "#212121";
+const mediumShadeGray = "#666";
+const lightShadedGray = "#9b9b9b";
+
+const gray = "rgba(0,0,0,0.04)";
+const gray1 = "#e5e5e5";
 
 const whiteColor = "#fff";
+const offWhiteColor = "#fAFAFA";
 const offWhite = "rgba(255,255,255,.60)";
 
 const disabledBgColor = "#e6e6e6";
@@ -40,22 +34,13 @@ const theme = createMuiTheme({
     palette: {
         text: {
             primary: customBlue,
-            secondary: customGray1,
             white: whiteColor,
             disabled: disabledTxtColor,
             black1: black1,
-            gray2: gray2,
-            gray3: gray3,
-            gray4: gray4,
-            gray5: gray5,
-            gray6: gray6,
-            gray7: gray7,
-            gray8: gray8,
-            gray9: gray9,
-            gray10: gray10,
-            gray11: gray11,
-            gray12: gray12,
-            gray13: gray13,
+            darkShadedGray: darkShadedGray,
+            mediumShadeGray: mediumShadeGray,
+            lightShadedGray: lightShadedGray,
+            offWhiteColor: offWhiteColor,
             offWhite: offWhite,
             green: green,
             purple: purple,
@@ -63,6 +48,7 @@ const theme = createMuiTheme({
             orange: orange,
             orange1: orange1,
             aqua: aqua,
+            gray: gray,
         },
     },
     typography: {

@@ -13,13 +13,13 @@ export const useStyles = makeStyles(theme => ({
     cardTitle: {
         fontWeight: theme.typography.fontweight,
         fontSize: 12,
-        color: theme.palette.text.secondary,
+        color: theme.palette.text.lightShadedGray,
         textTransform: "uppercase",
         letterSpacing: 2,
         fontFamily: theme.typography.primary.main,
     },
     cardSubheader: {
-        color: theme.palette.text.black1,
+        color: theme.palette.text.darkShadedGray,
         fontWeight: theme.typography.fontweight,
         fontSize: 20,
         letterSpacing: 0.25,
@@ -31,7 +31,7 @@ export const useStyles = makeStyles(theme => ({
     },
     cardContent: { padding: "0 13px" },
     cardTypograpy: {
-        color: theme.palette.text.gray2,
+        color: theme.palette.text.mediumShadeGray,
         fontFamily: theme.typography.secondary.main,
         fontSize: 14,
         lineHeight: "20px",
@@ -51,11 +51,12 @@ export const useStyles = makeStyles(theme => ({
     showMore: {
         padding: 0,
         margin: 0,
+        color: theme.palette.text.lightShadedGray,
     },
     ratedCount: {
         marginLeft: 10,
         display: "inline-block",
-        color: theme.palette.text.secondary,
+        color: theme.palette.text.lightShadedGray,
         fontSize: 12,
         fontWeight: theme.typography.fontweight,
         letterSpacing: 2,

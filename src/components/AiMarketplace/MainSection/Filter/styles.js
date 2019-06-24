@@ -1,14 +1,17 @@
 import { makeStyles } from "@material-ui/styles";
 
 export const useStyles = makeStyles(theme => ({
+    filterContainer: {
+        boxShadow: "0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.14), 0 1px 3px 0 rgba(0,0,0,0.2)",
+    },
     filterResetBtnContainer: {
         padding: "15px 22px",
         display: "flex",
         justifyContent: "space-between",
-        backgroundColor: theme.palette.text.gray8,
+        backgroundColor: theme.palette.text.offWhiteColor,
     },
     h2: {
-        color: theme.palette.text.black1,
+        color: theme.palette.text.darkShadedGray,
     },
     resetBtn: {
         border: "none",
@@ -21,11 +24,15 @@ export const useStyles = makeStyles(theme => ({
         fontFamily: theme.typography.primary.main,
     },
     filterExpansionPanel: {
+        marginBottom: 1,
         boxShadow: "none",
-        backgroundColor: theme.palette.text.gray9,
+        backgroundColor: theme.palette.text.gray,
+        "&::before": {
+            position: "static",
+        },
     },
     filtersHeadingTitle: {
-        color: theme.palette.text.gray7,
+        color: theme.palette.text.darkShadedGray,
         fontSize: 16,
         fontFamily: theme.typography.primary.main,
     },
@@ -42,7 +49,7 @@ export const useStyles = makeStyles(theme => ({
         },
     },
     count: {
-        color: theme.palette.text.gray4,
+        color: theme.palette.text.mediumShadeGray,
         fontFamily: theme.typography.tertiary.main,
         fontSize: 14,
     },
@@ -50,6 +57,6 @@ export const useStyles = makeStyles(theme => ({
         fontFamily: theme.typography.primary.main,
         fontSize: 14,
         letterSpacing: "0.25px",
-        color: theme.palette.text.gray4,
+        color: theme.palette.text.mediumShadeGray,
     },
 }));

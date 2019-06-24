@@ -20,7 +20,7 @@ export const useStyles = makeStyles(theme => ({
         alignItems: "center",
         justifyContent: "flex-end",
         "& span": {
-            color: theme.palette.text.secondary,
+            color: theme.palette.text.lightShadedGray,
             fontSize: 14,
         },
     },
