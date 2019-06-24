@@ -1,30 +1,8 @@
 import React from "react";
-import { makeStyles } from "@material-ui/styles";
 
 import FooterLinks from "./FooterLinks";
 import Logo from "../../../../assets/images/Logo.png";
-
-const useStyles = makeStyles(theme => ({
-    PrimaryFooter: {
-        width: "100%",
-        display: "flex",
-    },
-    footerLogoSection: {
-        textAlign: "right",
-        borderRightWidth: 1,
-        borderRightStyle: "solid",
-        padding: "15px 35px 15px 0",
-        margin: 0,
-    },
-    footerLinks: {
-        listStyle: "none",
-    },
-    footerLinkText: {
-        color: theme.palette.text.offWhite,
-        textDecoration: "none",
-        lineHeight: "25px",
-    },
-}));
+import { useStyles } from "./styles";
 
 const PrimaryFooter = () => {
     const classes = useStyles();

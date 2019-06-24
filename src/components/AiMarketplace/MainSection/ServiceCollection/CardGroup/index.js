@@ -4,11 +4,7 @@ import { withStyles } from "@material-ui/styles";
 import ListView from "./ListView";
 import StyledCard from "./StyledCard";
 
-const useStyles = theme => ({
-    cardCollection: {
-        marginTop: 20,
-    },
-});
+import { useStyles } from "./styles";
 
 class CardGroup extends Component {
     render() {

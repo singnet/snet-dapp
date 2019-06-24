@@ -1,40 +1,16 @@
 import React from "react";
 import Pagination from "material-ui-flat-pagination";
-import { makeStyles } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import MenuItem from "@material-ui/core/MenuItem";
 
-const useStyles = makeStyles(theme => ({
-    paginationContainer: {
-        paddingTop: 10,
-    },
-    pageListformControl: {
-        width: 72,
-        margin: "0 12px 0 21px",
-        "& fieldset": {
-            paddingLeft: "0 !important",
-            top: 0,
-            "& legend": {
-                display: "none",
-            },
-        },
-    },
-    pageCountSection: {
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "flex-end",
-        "& span": {
-            color: theme.palette.text.secondary,
-            fontSize: 14,
-        },
-    },
-}));
+import { useStyles } from "./styles";
 
 const StyledPagination = () => {
     const classes = useStyles();
+
     return (
         <Grid container spacing={24} className={classes.paginationContainer}>
             <Grid item xs={12} sm={6} md={6} lg={6} className={classes.pagination}>

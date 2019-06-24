@@ -8,6 +8,8 @@ const darkShadedGray = "#212121";
 const mediumShadeGray = "#666";
 const lightShadedGray = "#9b9b9b";
 
+const gray = "rgba(0,0,0,0.04)";
+
 const whiteColor = "#fff";
 const offWhiteColor = "#fAFAFA";
 const offWhite = "rgba(255,255,255,.60)";
@@ -45,6 +47,7 @@ const theme = createMuiTheme({
             orange: orange,
             orange1: orange1,
             aqua: aqua,
+            gray: gray,
         },
     },
     typography: {

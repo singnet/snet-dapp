@@ -1,34 +1,7 @@
 import React from "react";
-import { makeStyles } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 
-const useStyles = makeStyles(theme => ({
-    secondaryFooter: {
-        paddingTop: 15,
-        borderTopWidth: 1,
-        borderTopStyle: "solid",
-        marginTop: 11,
-    },
-    copyrightText: {
-        margin: 0,
-        fontSize: 14,
-        lineHeight: "19px",
-    },
-    socialIconsList: {
-        padding: 0,
-        margin: 0,
-        display: "flex",
-        justifyContent: "flex-end",
-    },
-    socialIconsLink: {
-        listStyle: "none",
-        marginLeft: 45,
-    },
-    socialIcon: {
-        color: theme.palette.text.white,
-        fontSize: 35,
-    },
-}));
+import { useStyles } from "./styles";
 
 const SecondaryFooter = () => {
     const classes = useStyles();

@@ -1,31 +1,9 @@
 import React from "react";
-import { makeStyles } from "@material-ui/styles";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 
-const useStyles = makeStyles(theme => ({
-    formControl: {
-        "& label": {
-            color: theme.palette.text.primary,
-            fontSize: 18,
-            "& div": {
-                "&::before": {
-                    borderBottom: "none",
-                },
-            },
-        },
-        "& svg": {
-            right: "-15px",
-            color: theme.palette.text.primary,
-        },
-        "& label + div": {
-            "&::before": {
-                borderBottom: "none",
-            },
-        },
-    },
-}));
+import { useStyles } from "./styles";
 
 const StyledDropdown = props => {
     const classes = useStyles();
