@@ -4,12 +4,7 @@ import { withStyles } from "@material-ui/styles";
 
 import Filter from "./Filter";
 import ServiceCollection from "./ServiceCollection";
-
-const useStyles = theme => ({
-    mainSection: {
-        padding: "40px 0 60px",
-    },
-});
+import { useStyles } from "./styles";
 
 class MainSection extends Component {
     render() {

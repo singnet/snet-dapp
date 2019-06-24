@@ -2,12 +2,7 @@ import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
 
 import ListView from "./ListView";
-
-const useStyles = theme => ({
-    cardCollection: {
-        marginTop: 20,
-    },
-});
+import { useStyles } from "./styles";
 
 class CardGroup extends Component {
     render() {

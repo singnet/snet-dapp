@@ -1,21 +1,9 @@
 import React from "react";
-import { makeStyles } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 
 import PrimaryFooter from "./PrimaryFooter";
 import SecondaryFooter from "./SecondaryFooter";
-
-const useStyles = makeStyles(theme => ({
-    footer: {
-        padding: "18px 0 25px",
-        backgroundColor: theme.palette.text.purple,
-        color: theme.palette.text.offWhite,
-    },
-    footerWrapper: {
-        width: "75%",
-        margin: "0 auto",
-    },
-}));
+import { useStyles } from "./styles";
 
 const Footer = () => {
     const classes = useStyles();
