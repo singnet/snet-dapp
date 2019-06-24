@@ -38,7 +38,8 @@ const useStyles = makeStyles(theme => ({
     }
   },
   mediaContainer: {
-    maxWidth: "100% !important"
+    maxWidth: "100% !important",
+    display: "none"
   },
   CardMedia: {
     width: 214,
@@ -98,13 +99,20 @@ function ListView(props) {
   return (
     <Card className={classes.card}>
       <Grid container spacing={24} className={classes.cardItemsContainer}>
-        {/* <Grid item xs={12} sm={1} md={1} lg={1} className={classes.mediaContainer}>
+        <Grid
+          item
+          xs={12}
+          sm={1}
+          md={1}
+          lg={1}
+          className={classes.mediaContainer}
+        >
           <CardMedia
             className={classes.CardMedia}
             image={props.cardMedia}
             title={props.title}
           />
-        </Grid> */}
+        </Grid>
         <Grid item xs={12} sm={10} md={10} lg={10}>
           <CardHeader
             className={classes.cardHeader}
