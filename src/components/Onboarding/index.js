@@ -73,6 +73,7 @@ class Authorization extends Component {
       activeSection: prevState.activeSection + 1
     }));
   };
+
   handleLogout = () => {
     Auth.signOut()
       .then(data => {
@@ -80,6 +81,7 @@ class Authorization extends Component {
       })
       .catch(err => console.log(err));
   };
+
   render() {
     const { classes } = this.props;
     const { activeSection } = this.state;

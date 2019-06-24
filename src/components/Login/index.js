@@ -106,12 +106,15 @@ class Login extends Component {
     password: "",
     error: undefined
   };
+
   handleUsername = event => {
     this.setState({ username: event.currentTarget.value });
   };
+
   handlePassword = event => {
     this.setState({ password: event.currentTarget.value });
   };
+
   handleSubmit = event => {
     this.setState({ error: undefined });
     const { username, password } = this.state;

@@ -9,6 +9,7 @@ class Verify extends Component {
     username: "",
     loading: ""
   };
+
   componentDidMount = () => {
     if (sessionStorage.getItem(Session.USERNAME)) {
       let username = sessionStorage.getItem(Session.USERNAME);
@@ -19,6 +20,7 @@ class Verify extends Component {
   handleChange = event => {
     this.setState({ otp: event.target.value });
   };
+
   handleSubmit = event => {
     this.setState({ loading: "loading" });
     const { username, otp } = this.state;
@@ -40,6 +42,7 @@ class Verify extends Component {
         this.setState({ loading: "" });
       });
   };
+
   render() {
     const { otp, username, loading } = this.state;
     return (
