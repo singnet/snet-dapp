@@ -11,7 +11,7 @@ import MainSection from "./MainSection";
 
 const useStyles = theme => ({
     aiMarketPlaceContainer: {
-        backgroundColor: theme.palette.text.gray8,
+        backgroundColor: theme.palette.text.offWhiteColor,
     },
     mainWrapper: {
         width: "92%",
@@ -26,14 +26,14 @@ const useStyles = theme => ({
     },
     title: {
         margin: 0,
-        color: theme.palette.text.black1,
+        color: theme.palette.text.darkShadedGray,
         fontSize: 42,
         lineHeight: "57px",
     },
     description: {
         padding: "42px 0 21px",
         margin: 0,
-        color: theme.palette.text.black1,
+        color: theme.palette.text.darkShadedGray,
         fontFamily: theme.typography.secondary.main,
         fontSize: 24,
         lineHeight: "29px",

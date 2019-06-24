@@ -37,11 +37,11 @@ const useStyles = makeStyles(theme => ({
             marginTop: 0,
             "& label": {
                 top: "-17px",
-                color: theme.palette.text.secondary,
+                color: theme.palette.text.lightShadedGray,
             },
             "& svg": {
                 right: "-35px",
-                color: theme.palette.text.secondary,
+                color: theme.palette.text.lightShadedGray,
                 fontSize: 30,
             },
         },
@@ -49,7 +49,7 @@ const useStyles = makeStyles(theme => ({
     navLinksAnchor: {
         textDecoration: "none",
         fontSize: 20,
-        color: theme.palette.text.secondary,
+        color: theme.palette.text.lightShadedGray,
     },
     activeTab: {
         paddingBottom: 12,
