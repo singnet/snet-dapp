@@ -9,7 +9,6 @@ const mediumShadeGray = "#666";
 const lightShadedGray = "#9b9b9b";
 
 const gray = "rgba(0,0,0,0.04)";
-const gray1 = "#e5e5e5";
 
 const whiteColor = "#fff";
 const offWhiteColor = "#fAFAFA";
