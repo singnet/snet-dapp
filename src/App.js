@@ -5,7 +5,6 @@ import { ThemeProvider } from "@material-ui/styles";
 
 import "./App.css";
 import Routes from "./utility/stringConstants/Routes";
-import Verify from "./components/Login/Verify";
 import ForgotPassword from "./components/Login/ForgotPassword";
 import ForgotPasswordSubmit from "./components/Login/ForgotPasswordSubmit";
 import Onboarding from "./components/Onboarding";
