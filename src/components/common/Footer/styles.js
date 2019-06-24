@@ -10,4 +10,18 @@ export const useStyles = makeStyles(theme => ({
         width: "75%",
         margin: "0 auto",
     },
+    footerLinks: {
+        listStyle: "none",
+    },
+    footerLinkText: {
+        color: theme.palette.text.offWhite,
+        textDecoration: "none",
+        lineHeight: "25px",
+    },
+    footerLinksTitle: {
+        marginBottom: 15,
+        display: "inline-block",
+        fontSize: 20,
+        fontWeight: theme.typography.fontweight,
+    },
 }));
