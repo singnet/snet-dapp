@@ -19,12 +19,7 @@ export const useStyles = makeStyles(theme => ({
         textDecoration: "none",
         lineHeight: "25px",
     },
-    footerLinksTitle: {
-        marginBottom: 15,
-        display: "inline-block",
-        fontSize: 20,
-        fontWeight: theme.typography.fontweight,
-    },
+
     marginLeft: {
         marginLeft: 35,
     },
