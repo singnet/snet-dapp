@@ -56,7 +56,18 @@ const PrimaryFooterMain = [
     },
 ];
 
+const SecondaryFooter = [
+    { title: "Facebook", className: "fab fa-facebook-f" },
+    { title: "Linkedin", className: "fab fa-linkedin-in" },
+    { title: "Github", className: "fab fa-github" },
+    { title: "Twitter", className: "fab fa-twitter" },
+    { title: "Instagram", className: "fab fa-instagram" },
+    { title: "Youtube", className: "fab fa-youtube" },
+    { title: "Envelope", className: "far fa-envelope" },
+];
+
 export const FooterData = {
     PrimaryFooterLeft,
     PrimaryFooterMain,
+    SecondaryFooter,
 };
