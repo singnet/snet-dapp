@@ -22,6 +22,7 @@ class CardGroup extends Component {
     return (
       <div className={classes.cardCollection}>
         <ListView
+          cardMedia={CardImg}
           cardTitle="Text Analysis"
           cardSubheader="Summarize URL"
           ratingGiven="3.0"
@@ -29,6 +30,7 @@ class CardGroup extends Component {
           cardDescription="This is an AI algorithm for summarizing content in webpages.  Input a URL and you will get the text summary"
         />
         <ListView
+          cardMedia={CardImg}
           cardTitle="Text Analysis"
           cardSubheader="Summarize URL"
           ratingGiven="3.0"
@@ -36,6 +38,7 @@ class CardGroup extends Component {
           cardDescription="This is an AI algorithm for summarizing content in webpages.  Input a URL and you will get the text summary"
         />
         <ListView
+          cardMedia={CardImg}
           cardTitle="Text Analysis"
           cardSubheader="Summarize URL"
           ratingGiven="3.0"
@@ -43,6 +46,7 @@ class CardGroup extends Component {
           cardDescription="This is an AI algorithm for summarizing content in webpages.  Input a URL and you will get the text summary"
         />
         <ListView
+          cardMedia={CardImg}
           cardTitle="Text Analysis"
           cardSubheader="Summarize URL"
           ratingGiven="3.0"
@@ -50,6 +54,7 @@ class CardGroup extends Component {
           cardDescription="This is an AI algorithm for summarizing content in webpages.  Input a URL and you will get the text summary"
         />
         <ListView
+          cardMedia={CardImg}
           cardTitle="Text Analysis"
           cardSubheader="Summarize URL"
           ratingGiven="3.0"

@@ -3,8 +3,10 @@ import React from "react";
 import StarRatingComponent from "react-star-rating-component";
 
 // Material UI imports
+import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/styles";
 import Card from "@material-ui/core/Card";
+import CardMedia from "@material-ui/core/CardMedia";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
@@ -14,9 +16,14 @@ import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(theme => ({
+  cardItemsContainer: {
+    flexWrap: "nowrap"
+  },
   card: {
-    padding: "10px 0 15px",
-    position: "relative",
+    width: "100%",
+    padding: "10px 20px 10px 15px",
+    display: "flex",
+    alignItems: "center",
     boxShadow: "none",
     backgroundColor: theme.palette.text.gray8,
     "&:nth-child(2n)": {
@@ -29,6 +36,13 @@ const useStyles = makeStyles(theme => ({
       borderRadius: 4,
       backgroundColor: theme.palette.text.white
     }
+  },
+  mediaContainer: {
+    maxWidth: "100% !important"
+  },
+  CardMedia: {
+    width: 214,
+    height: 120
   },
   cardHeader: {
     padding: "0 18px"
@@ -50,16 +64,19 @@ const useStyles = makeStyles(theme => ({
   },
   cardContent: { padding: "0 13px" },
   cardTypograpy: {
+    marginTop: 5,
     color: theme.palette.text.gray2,
     fontFamily: theme.typography.secondary.main,
     fontSize: 14,
     lineHeight: "20px"
   },
-  cardActions: {
-    position: "absolute",
-    right: 27,
-    top: "50%",
-    transform: "translateY(-50%)"
+  demoBtn: {
+    padding: "0 30px 0 0",
+    fontFamily: theme.typography.primary.main,
+    fontSize: 14,
+    fontWeight: theme.typography.fontweight,
+    letterSpacing: "1.25px",
+    color: theme.palette.text.primary
   },
   showMore: {
     padding: 0,
@@ -80,38 +97,55 @@ function ListView(props) {
   const classes = useStyles();
   return (
     <Card className={classes.card}>
-      <CardHeader
-        className={classes.cardHeader}
-        classes={{
-          title: classes.cardTitle
-        }}
-        title={props.cardTitle}
-      ></CardHeader>
-
-      <CardContent className={classes.cardContent}>
-        <div className={classes.ratingSection}>
-          <span className={classes.cardSubheader}>{props.cardSubheader}</span>
-          <StarRatingComponent
-            name="rate1"
-            starCount={5}
-            value={3}
-            starColor={"#FFC200"}
-            emptyStarColor={"rgba(161,163,168,0.35)"}
-            className={classes.ratingStars}
+      <Grid container spacing={24} className={classes.cardItemsContainer}>
+        {/* <Grid item xs={12} sm={1} md={1} lg={1} className={classes.mediaContainer}>
+          <CardMedia
+            className={classes.CardMedia}
+            image={props.cardMedia}
+            title={props.title}
           />
-          <span className={classes.ratedCount}>
-            {props.ratingGiven} {props.totalRating}
-          </span>
-        </div>
-        <Typography className={classes.cardTypograpy} component="p">
-          {props.cardDescription}
-        </Typography>
-      </CardContent>
-      <CardActions className={classes.cardActions}>
-        <IconButton aria-label="Settings" className={classes.showMore}>
-          <MoreVertIcon />
-        </IconButton>
-      </CardActions>
+        </Grid> */}
+        <Grid item xs={12} sm={10} md={10} lg={10}>
+          <CardHeader
+            className={classes.cardHeader}
+            classes={{
+              title: classes.cardTitle
+            }}
+            title={props.cardTitle}
+          />
+          <CardContent className={classes.cardContent}>
+            <div className={classes.ratingSection}>
+              <span className={classes.cardSubheader}>
+                {props.cardSubheader}
+              </span>
+              <StarRatingComponent
+                name="rate1"
+                starCount={5}
+                value={3}
+                starColor={"#FFC200"}
+                emptyStarColor={"rgba(161,163,168,0.35)"}
+                className={classes.ratingStars}
+              />
+              <span className={classes.ratedCount}>
+                {props.ratingGiven} {props.totalRating}
+              </span>
+            </div>
+            <Typography className={classes.cardTypograpy} component="p">
+              {props.cardDescription}
+            </Typography>
+          </CardContent>
+        </Grid>
+        <Grid item xs={12} sm={1} md={1} lg={1}>
+          <CardActions className={classes.cardActions}>
+            <Button color="primary" className={classes.demoBtn}>
+              demo
+            </Button>
+            <IconButton aria-label="Settings" className={classes.showMore}>
+              <MoreVertIcon />
+            </IconButton>
+          </CardActions>
+        </Grid>
+      </Grid>
     </Card>
   );
 }
