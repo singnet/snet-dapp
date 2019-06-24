@@ -4,13 +4,13 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/styles";
 
-import Header from "../common/LoginOnboardingHeader/index.js";
-import StyledButton from "../common/StyledButton/index.js";
-import ErrorMsgBox from "../common/ErrorMsgBox/index.js";
-import Routes from "../../utility/stringConstants/routes";
-import { isValidEmail } from "../../utility/validation";
-import Session from "../../utility/stringConstants/session";
-import { parseError } from "../../utility/errorHandling.js";
+import Header from "../common/LoginOnboardingHeader";
+import StyledButton from "../common/StyledButton";
+import ErrorMsgBox from "../common/ErrorMsgBox";
+import Routes from "../../utility/stringConstants/Routes";
+import { isValidEmail } from "../../utility/Validation";
+import Session from "../../utility/stringConstants/Session";
+import { parseError } from "../../utility/ErrorHandling";
 
 const useStyles = theme => ({
   signupMainContent: {

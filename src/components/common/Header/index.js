@@ -6,7 +6,7 @@ import { Auth } from "aws-amplify";
 
 import StyledDropdown from "../StyledDropdown/";
 import Logo from "../../../assets/images/Logo.png";
-import Routes from "../../../utility/stringConstants/routes.js";
+import Routes from "../../../utility/stringConstants/Routes";
 
 const useStyles = makeStyles(theme => ({
   header: {

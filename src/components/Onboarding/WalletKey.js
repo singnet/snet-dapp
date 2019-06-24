@@ -5,8 +5,8 @@ import { Auth, API } from "aws-amplify";
 
 import StyledButton from "../common/StyledButton";
 import ErrorMsgBox from "../common/ErrorMsgBox";
-import { parseError } from "../../utility/errorHandling";
-import Routes from "../../utility/stringConstants/routes";
+import { parseError } from "../../utility/ErrorHandling";
+import Routes from "../../utility/stringConstants/Routes";
 
 const useStyles = theme => ({
   walletKeyContainer: {

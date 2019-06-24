@@ -4,9 +4,9 @@ import { Auth } from "aws-amplify";
 import { withStyles } from "@material-ui/styles";
 
 import StyledButton from "../common/StyledButton";
-import Session from "../../utility/stringConstants/session";
-import { isValidNumber } from "../../utility/validation";
-import { parseError } from "../../utility/errorHandling";
+import Session from "../../utility/stringConstants/Session";
+import { isValidNumber } from "../../utility/Validation";
+import { parseError } from "../../utility/ErrorHandling";
 
 const useStyles = theme => ({
   authenticationContent: {

@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 
-import FooterLinks from "./FooterLinks/index.js";
+import FooterLinks from "./FooterLinks";
 import Logo from "../../../../assets/images/Logo.png";
 
 const useStyles = makeStyles(theme => ({

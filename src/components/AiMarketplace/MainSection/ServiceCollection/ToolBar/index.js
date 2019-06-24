@@ -4,7 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import Icon from "@material-ui/core/Icon";
 import clsx from "clsx";
 
-import StyledDropdown from "../../../../common/StyledDropdown/index.js";
+import StyledDropdown from "../../../../common/StyledDropdown";
 
 const useStyles = makeStyles(theme => ({
   sortBySection: {

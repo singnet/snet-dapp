@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
 
-import ListView from "./ListView/index.js";
+import ListView from "./ListView";
 
 const useStyles = theme => ({
   cardCollection: {

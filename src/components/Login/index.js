@@ -5,11 +5,11 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import { Auth } from "aws-amplify";
 
-import Header from "../common/LoginOnboardingHeader/index.js";
-import StyledButton from "../common/StyledButton/index.js";
-import ErrorMsgBox from "../common/ErrorMsgBox/index.js";
-import Routes from "../../utility/stringConstants/routes";
-import Session from "../../utility/stringConstants/session";
+import Header from "../common/LoginOnboardingHeader";
+import StyledButton from "../common/StyledButton";
+import ErrorMsgBox from "../common/ErrorMsgBox";
+import Routes from "../../utility/stringConstants/Routes";
+import Session from "../../utility/stringConstants/Session";
 
 const useStyles = theme => ({
   loginDetails: {

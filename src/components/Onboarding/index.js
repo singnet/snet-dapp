@@ -5,8 +5,8 @@ import { Auth } from "aws-amplify";
 import ProgressBar from "./ProgressBar";
 import Header from "../common/LoginOnboardingHeader";
 import Authentication from "./Authentication";
-import TermsOfUse from "./termsOfUse";
-import Session from "../../utility/stringConstants/session";
+import TermsOfUse from "./TermsOfUse";
+import Session from "../../utility/stringConstants/Session";
 import WalletKey from "./WalletKey";
 
 const useStyles = theme => ({

@@ -3,12 +3,12 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/styles";
 
-import Header from "../common/LoginOnboardingHeader/index.js";
-import ErrorMsgBox from "../common/ErrorMsgBox/index.js";
+import Header from "../common/LoginOnboardingHeader";
+import ErrorMsgBox from "../common/ErrorMsgBox";
 import StyledButton from "../common/StyledButton";
-import Routes from "../../utility/stringConstants/routes";
+import Routes from "../../utility/stringConstants/Routes";
 import { Auth } from "aws-amplify";
-import Session from "../../utility/stringConstants/session";
+import Session from "../../utility/stringConstants/Session";
 
 const useStyles = theme => ({
   loginHeader: {
