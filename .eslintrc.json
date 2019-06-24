@@ -10,7 +10,7 @@
         "max-len": { "code": 120, "ignoreUrls": true }
       }
     ],
-    "max-len": ["error", { "code": 120, "ignoreUrls": true }],
-    "lines-between-class-members": ["error", "always"]
+    "lines-between-class-members": ["error", "always"],
+    "jsx-a11y/anchor-is-valid": false
   }
 }
