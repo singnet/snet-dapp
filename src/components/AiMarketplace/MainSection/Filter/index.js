@@ -62,7 +62,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function Filter() {
+const Filter = () => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -161,6 +161,6 @@ function Filter() {
       </div>
     </div>
   );
-}
+};
 
 export default Filter;

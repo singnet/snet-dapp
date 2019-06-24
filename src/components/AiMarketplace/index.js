@@ -47,6 +47,7 @@ class AiMarketplace extends Component {
 
   componentDidMount = () => {
     Auth.currentSession().then(res => {
+      console.log("token", res);
       let apiName = APIEndpoints.GET_SERVICES_LIST.name;
       let path = "/org/snet/service";
       API.get(apiName, path)

@@ -72,7 +72,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function ListView(props) {
+const ListView = props => {
   const classes = useStyles();
   return (
     <Card className={classes.card}>
@@ -110,6 +110,6 @@ function ListView(props) {
       </CardActions>
     </Card>
   );
-}
+};
 
 export default ListView;

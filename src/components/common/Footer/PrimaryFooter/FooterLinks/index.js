@@ -31,8 +31,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function FooterLinks() {
+const FooterLinks = () => {
   const classes = useStyles();
+
   return (
     <div className={classes.footerRightSideLinks}>
       <ul className={classes.footerLinksList}>
@@ -159,6 +160,6 @@ function FooterLinks() {
       </ul>
     </div>
   );
-}
+};
 
 export default FooterLinks;

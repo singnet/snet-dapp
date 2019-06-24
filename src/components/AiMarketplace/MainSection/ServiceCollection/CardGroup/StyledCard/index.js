@@ -74,7 +74,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function StyledCard(props) {
+const StyledCard = props => {
   const classes = useStyles();
   return (
     <Card className={classes.card}>
@@ -120,6 +120,6 @@ function StyledCard(props) {
       </CardActions>
     </Card>
   );
-}
+};
 
 export default StyledCard;

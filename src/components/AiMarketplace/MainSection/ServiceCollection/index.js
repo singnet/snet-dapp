@@ -11,7 +11,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function ServiceCollection({ data }) {
+const ServiceCollection = ({ data }) => {
   const classes = useStyles();
   return (
     <div className={classes.serviceCollection}>
@@ -20,6 +20,6 @@ function ServiceCollection({ data }) {
       <StyledPagination />
     </div>
   );
-}
+};
 
 export default ServiceCollection;

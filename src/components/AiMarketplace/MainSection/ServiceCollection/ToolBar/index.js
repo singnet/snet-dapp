@@ -37,8 +37,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function ToolBar(props) {
+const ToolBar = ({ listView }) => {
   const classes = useStyles();
+
   return (
     <Grid container spacing={24} className={classes.toolBar}>
       <Grid item xs={12} sm={6} md={6} lg={6} className={classes.sortBySection}>
@@ -59,7 +60,7 @@ function ToolBar(props) {
         <button>
           <Icon className={clsx(classes.icon, "fa fa-search")} />
         </button>
-        {props.listView ? (
+        {listView ? (
           <button>
             <Icon className={clsx(classes.icon, "fa fa-th")} />
           </button>
@@ -71,6 +72,6 @@ function ToolBar(props) {
       </Grid>
     </Grid>
   );
-}
+};
 
 export default ToolBar;
