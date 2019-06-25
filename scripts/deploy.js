@@ -1,4 +1,5 @@
-const { outPath } = require("./../config/paths.js");
+// const { outPath } = require("./../config/paths.js");
+const { outPath } = require("./path");
 
 const [, , Bucket, region] = process.argv;
 console.log("Region " + region + " Bucket " + Bucket);
@@ -23,6 +24,7 @@ readdir(outPath)
         Promise.all(
             files.map(Key => {
                 const fileRelativePath = getFilePath(Key);
+                console.log(fileRelativePath);
                 return s3
                     .upload({
                         Bucket,

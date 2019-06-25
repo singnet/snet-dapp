@@ -63,5 +63,9 @@ typings/
 #build to be deployed
 build/
 
+#deploy Paths
+scripts/path.js
+
 #endpoints
 src/utility/stringConstants/APIEndpoints.js
+
