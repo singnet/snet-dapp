@@ -5,8 +5,6 @@ import { API, Auth } from "aws-amplify";
 import { Link } from "react-router-dom";
 
 import { APIEndpoints } from "../../utility/stringConstants/APIEndpoints";
-import Header from "../common/Header";
-import Footer from "../common/Footer";
 import StyledButton from "../common/StyledButton";
 import MainSection from "./MainSection";
 
@@ -38,7 +36,6 @@ class AiMarketplace extends Component {
         const { servicesList } = this.state;
         return (
             <div className={classes.aiMarketPlaceContainer}>
-                <Header />
                 <div className={classes.mainWrapper}>
                     <Grid container spacing={24}>
                         <Grid item xs={12} sm={3} md={3} lg={3} className={classes.titleContainer}>
@@ -51,7 +48,7 @@ class AiMarketplace extends Component {
                                 We’ve got a growing marketplace with hundreds of AI services for you to utilize. <br />
                                 They’re powered by a community of amazing developers from all over the globe.
                             </p>
-                            <Link to={Routes.SIGNUP}>
+                            <Link to={Routes.SIGNUP} className={classes.signupLink}>
                                 <StyledButton type="blue" btnText="Sign up for free credits" />
                             </Link>
                         </Grid>
@@ -60,7 +57,6 @@ class AiMarketplace extends Component {
                         <MainSection servicesList={servicesList} />
                     </div>
                 </div>
-                <Footer />
             </div>
         );
     }

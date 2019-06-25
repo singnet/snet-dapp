@@ -5,7 +5,6 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import { Auth } from "aws-amplify";
 
-import Header from "../common/LoginOnboardingHeader";
 import StyledButton from "../common/StyledButton";
 import ErrorMsgBox from "../common/ErrorMsgBox";
 import Routes from "../../utility/stringConstants/Routes";
@@ -52,7 +51,6 @@ class Login extends Component {
         const { username, password, error } = this.state;
         return (
             <Grid container spacing={24}>
-                <Header title="New to singularityNET?" linkPath={Routes.SIGNUP} linkText="SignUp" />
                 <Grid item xs={12} sm={12} md={12} lg={12} className={classes.loginDetails}>
                     <h2>Welcome Back</h2>
                     <form noValidate autoComplete="off" className={classes.loginForm}>

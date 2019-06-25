@@ -8,6 +8,7 @@ import ErrorMsgBox from "../../common/ErrorMsgBox";
 import { parseError } from "../../../utility/ErrorHandling";
 import Routes from "../../../utility/stringConstants/Routes";
 import { useStyles } from "./styles";
+import { Icon } from "@material-ui/core";
 
 class TermsOfUse extends Component {
     state = {
@@ -65,7 +66,7 @@ class TermsOfUse extends Component {
                             onClick={this.handleExportingPrivateKey}
                         />
                         <div className={classes.warningBox}>
-                            <i className="fas fa-exclamation-triangle"></i>
+                            <Icon className="fas fa-exclamation-triangle" />
                             <span>Please keep in mind that once wallet key is lost, it cant be recovered.</span>
                         </div>
                     </Fragment>

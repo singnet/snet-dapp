@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { useStyles } from "./styles";
+import { Icon } from "@material-ui/core";
 
 export const ProgressStatusList = {
     IDLE: "idle",
@@ -16,7 +17,7 @@ const ProgressSection = ({ progressNumber, progressText, progressStatus }) => {
         <li>
             {progressStatus === ProgressStatusList.COMPLETED ? (
                 <span>
-                    <i className="fas fa-check-circle"></i>
+                    <Icon className="fas fa-check-circle" />
                 </span>
             ) : (
                 <span className={classes.number}>{progressNumber}</span>

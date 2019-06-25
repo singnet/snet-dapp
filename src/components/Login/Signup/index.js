@@ -4,7 +4,6 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/styles";
 
-import Header from "../../common/LoginOnboardingHeader";
 import StyledButton from "../../common/StyledButton";
 import ErrorMsgBox from "../../common/ErrorMsgBox";
 import Routes from "../../../utility/stringConstants/Routes";
@@ -221,7 +220,6 @@ class SignUp extends Component {
 
         return (
             <div>
-                <Header title="Already have an account?" linkPath={Routes.LOGIN} linkText="Login" />
                 <Grid container spacing={24} className={classes.signupMainContent}>
                     {toBeConfirmed ? renderOTP : renderForm}
                 </Grid>

@@ -3,7 +3,6 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/styles";
 
-import Header from "../../common/LoginOnboardingHeader";
 import ErrorMsgBox from "../../common/ErrorMsgBox";
 import StyledButton from "../../common/StyledButton";
 import Routes from "../../../utility/stringConstants/Routes";
@@ -40,9 +39,9 @@ class ForgotPassword extends Component {
     render() {
         const { classes } = this.props;
         const { username, error } = this.state;
+
         return (
             <Grid container spacing={24}>
-                <Header title="Already have an account?" linkText="Login" />
                 <Grid item xs={12} sm={12} md={12} lg={12} className={classes.forgotPwdContent}>
                     <h2>Forgot your pasword?</h2>
                     <p>We'll email you instructions on how to reset it.</p>
