@@ -15,12 +15,12 @@ export const useStyles = theme => ({
         },
         "& h2": {
             margin: 0,
-            color: theme.palette.text.black1,
+            color: theme.palette.text.darkShadedGray,
             fontSize: 36,
         },
         "& p": {
             margin: "40px 0 40px",
-            color: theme.palette.text.gray3,
+            color: theme.palette.text.mediumShadeGray,
             fontFamily: theme.typography.secondary.main,
             fontSize: 20,
             lineHeight: "30px",
@@ -39,7 +39,7 @@ export const useStyles = theme => ({
                 fontSize: 20,
             },
             "& p": {
-                color: theme.palette.text.gray3,
+                color: theme.palette.text.mediumShadeGray,
                 fontFamily: theme.typography.secondary.main,
                 fontSize: 16,
                 letterSpacing: "0.29px",
@@ -58,7 +58,7 @@ export const useStyles = theme => ({
         boxShadow: "0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.14), 0 1px 3px 0 rgba(0,0,0,0.2)",
         "& h3": {
             margin: "0 0 11px",
-            color: theme.palette.text.gray2,
+            color: theme.palette.text.darkShadedGray,
             fontSize: 16,
             letterSpacing: "0.29px",
             textAlign: "center",
@@ -73,7 +73,7 @@ export const useStyles = theme => ({
     horizontalLine: {
         marginTop: 15,
         display: "block",
-        color: theme.palette.text.gray2,
+        color: theme.palette.text.darkShadedGray,
         fontSize: 14,
         textTransform: "uppercase",
         textAlign: "center",
@@ -108,35 +108,35 @@ export const useStyles = theme => ({
         },
     },
     charCount: {
-        color: theme.palette.text.gray2,
+        color: theme.palette.text.mediumShadeGray,
         fontFamily: theme.typography.secondary.main,
         fontSize: "12.17px",
         letterSpacing: "0.4px",
     },
     usernameError: {
-        color: theme.palette.text.gray6,
+        color: theme.palette.text.errorRed,
         fontFamily: theme.typography.secondary.main,
         fontSize: "12.17px",
         letterSpacing: "0.4px",
     },
     passwordTxt: {
-        color: theme.palette.text.gray2,
+        color: theme.palette.text.mediumShadeGray,
         fontFamily: theme.typography.secondary.main,
         fontSize: "12.17px",
         letterSpacing: "0.4px",
     },
-    checkboxSection: {
-        textAlign: "center",
-        "& p": {
-            display: "inline-block",
-            color: theme.palette.text.gray4,
-        },
-        "& a": {
-            color: theme.palette.text.primary,
-            fontSize: 14,
-            textDecoration: "none",
-        },
-    },
+    // checkboxSection: {
+    //     textAlign: "center",
+    //     "& p": {
+    //         display: "inline-block",
+    //         color: theme.palette.text.gray4,
+    //     },
+    //     "& a": {
+    //         color: theme.palette.text.primary,
+    //         fontSize: 14,
+    //         textDecoration: "none",
+    //     },
+    // },
     buttonsContainer: {
         marginTop: 10,
         "& button": {

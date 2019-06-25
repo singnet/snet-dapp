@@ -1,49 +1,14 @@
 export const useStyles = theme => ({
-    loginHeader: {
-        width: "71%",
-        margin: "0 auto",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        padding: "30px 0",
-        "& h1": {
-            margin: 0,
-        },
-        "& p": {
-            color: "#9b9b9b",
-            fontSize: "16px",
-        },
-        "& a": {
-            color: "#4086ff",
-            textDecoration: "none",
-        },
-        ["@media (max-width:750px)"]: {
-            width: "75%",
-        },
-    },
-    loginHeaderLink: {
-        textAlign: "right",
-        "& a": {
-            "&:hover": {
-                textDecoration: "underline",
-            },
-        },
-        ["@media (max-width:750px)"]: {
-            maxWidth: "100%",
-            flexBasis: "100%",
-            textAlign: "left",
-        },
-    },
     forgotPwdContent: {
         textAlign: "center",
         "& h2": {
             margin: 0,
             fontSize: "36px",
-            color: theme.palette.text.black1,
+            color: theme.palette.text.darkShadedGray,
         },
         "& p": {
             margin: "17px 0 0",
-            color: theme.palette.text.gray3,
+            color: theme.palette.text.mediumShadeGray,
             fontSize: "22px",
             fontFamily: theme.typography.secondary.main,
         },

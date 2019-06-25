@@ -4,7 +4,7 @@ export const useStyles = theme => ({
         "& h2": {
             margin: 0,
             fontSize: "36px",
-            color: theme.palette.text.black1,
+            color: theme.palette.text.darkShadedGray,
         },
     },
     loginForm: {
@@ -15,7 +15,7 @@ export const useStyles = theme => ({
         boxShadow: "0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.14), 0 1px 3px 0 rgba(0,0,0,0.2)",
         "& h3": {
             margin: "0 0 11px",
-            color: theme.palette.text.gray2,
+            color: theme.palette.text.darkShadedGray,
             fontSize: 16,
             letterSpacing: "0.29px",
             textTransform: "uppercase",
@@ -30,7 +30,7 @@ export const useStyles = theme => ({
     horizontalLine: {
         marginTop: 15,
         display: "block",
-        color: theme.palette.text.gray2,
+        color: theme.palette.text.darkShadedGray,
         fontSize: 14,
         textTransform: "uppercase",
         textAlign: "center",
@@ -40,7 +40,7 @@ export const useStyles = theme => ({
             verticalAlign: "middle",
             width: 160,
             height: 1,
-            backgroundColor: theme.palette.text.gray5,
+            backgroundColor: theme.palette.text.gray1,
             marginRight: 10,
         },
         "&::after": {
@@ -50,7 +50,7 @@ export const useStyles = theme => ({
             width: 160,
             height: 1,
             marginLeft: 10,
-            backgroundColor: theme.palette.text.gray5,
+            backgroundColor: theme.palette.text.gray1,
         },
     },
     textField: {
@@ -65,12 +65,12 @@ export const useStyles = theme => ({
         alignItems: "baseline",
         justifyContent: "space-between",
         "& label": {
-            color: theme.palette.text.gray4,
+            color: theme.palette.text.mediumShadeGray,
             fontSize: 14,
             letterSpacing: "0.25px",
         },
         "& a": {
-            color: theme.palette.text.gray4,
+            color: theme.palette.text.mediumShadeGray,
             fontSize: 14,
             letterSpacing: "0.25px",
             textDecoration: "none",
