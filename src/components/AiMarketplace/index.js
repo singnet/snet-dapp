@@ -48,7 +48,7 @@ class AiMarketplace extends Component {
                                 We’ve got a growing marketplace with hundreds of AI services for you to utilize. <br />
                                 They’re powered by a community of amazing developers from all over the globe.
                             </p>
-                            <Link to={Routes.SIGNUP}>
+                            <Link to={Routes.SIGNUP} className={classes.signupLink}>
                                 <StyledButton type="blue" btnText="Sign up for free credits" />
                             </Link>
                         </Grid>

@@ -27,4 +27,7 @@ export const useStyles = theme => ({
         fontSize: 24,
         lineHeight: "29px",
     },
+    signupLink: {
+        textDecoration: "none",
+    },
 });
