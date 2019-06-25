@@ -3,7 +3,7 @@ import React, { Component, Fragment } from "react";
 import Header from "../common/Header";
 import Footer from "../common/Footer";
 
-const withInAppHeader = InputComponent => {
+const withInAppWrapper = InputComponent => {
     console.log("withInAppHeader");
     return class extends Component {
         render() {
@@ -18,4 +18,4 @@ const withInAppHeader = InputComponent => {
     };
 };
 
-export default withInAppHeader;
+export default withInAppWrapper;

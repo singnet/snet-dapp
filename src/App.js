@@ -8,7 +8,7 @@ import { aws_config } from "./aws_config";
 import theme from "./assets/Theme";
 import withRegistrationHeader from "./components/HOC/WithRegistrationHeader";
 import { HeaderData } from "./utility/stringConstants/Header";
-import withInAppHeader from "./components/HOC/WithInAppHeader";
+import withInAppWrapper from "./components/HOC/WithInAppHeader";
 
 const ForgotPassword = lazy(() => import("./components/Login/ForgotPassword"));
 const ForgotPasswordSubmit = lazy(() => import("./components/Login/ForgotPasswordSubmit"));
@@ -49,8 +49,8 @@ class App extends Component {
                                 path={`/${Routes.ONBOARDING}`}
                                 component={withRegistrationHeader(Onboarding, { ...HeaderData.ONBOARDING })}
                             />
-                            <Route path={`/${Routes.AI_MARKETPLACE}`} component={withInAppHeader(AiMarketplace)} />
-                            <Route path="/" exact component={withInAppHeader(AiMarketplace)} />
+                            <Route path={`/${Routes.AI_MARKETPLACE}`} component={withInAppWrapper(AiMarketplace)} />
+                            <Route path="/" exact component={withInAppWrapper(AiMarketplace)} />
                             <Route component={PageNotFound} />
                         </Switch>
                     </Suspense>
