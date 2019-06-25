@@ -209,7 +209,7 @@ class SignUp extends Component {
                         value={otp}
                         onChange={this.handleOTP}
                     />
-                    {error && <ErrorMsgBox errorMsg={error} />}
+                    <ErrorMsgBox errorMsg={error} showErr={error} />
                     <div className={classes.buttonsContainer}>
                         <StyledButton type="blue" btnText="Resend" onClick={this.handleResendOTP} />
                         <StyledButton type="blue" btnText="Conitnue" onClick={this.handleConfirmSignup} />

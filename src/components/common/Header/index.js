@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import { Auth } from "aws-amplify";
+import { connect } from "react-redux";
 
 import Logo from "../../../assets/images/Logo.png";
 import { useStyles } from "./styles";
@@ -9,7 +10,7 @@ import NavBar from "./NavBar";
 import HeaderActions from "./HeaderActions";
 import Title from "./Title";
 
-const Header = () => {
+const Header = props => {
     const classes = useStyles();
     const [isLoggedIn, toggleLoggedIn] = useState(false);
 
@@ -28,6 +29,8 @@ const Header = () => {
             .catch(err => console.log("signout", err));
     };
 
+    console.log("redux props", props);
+
     return (
         <Grid container spacing={24}>
             <header className={classes.header}>
@@ -45,4 +48,6 @@ const Header = () => {
     );
 };
 
-export default Header;
+const mapStateToProps = state => ({ ...state });
+
+export default connect(mapStateToProps)(Header);
