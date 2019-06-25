@@ -3,17 +3,18 @@ import Amplify from "aws-amplify";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { ThemeProvider } from "@material-ui/styles";
 
-import "./App.css";
 import Routes from "./utility/stringConstants/Routes";
-import ForgotPassword from "./components/Login/ForgotPassword";
 import ForgotPasswordSubmit from "./components/Login/ForgotPasswordSubmit";
-import Onboarding from "./components/Onboarding";
-import PageNotFound from "./components/PageNotFound";
-import AiMarketplace from "./components/AiMarketplace";
-import SignUp from "./components/Login/Signup";
-import Login from "./components/Login";
 import { aws_config } from "./aws_config";
 import theme from "./assets/Theme";
+import asyncComponent from "./components/common/AsyncComponent";
+
+const ForgotPassword = asyncComponent(() => import("./components/Login/ForgotPassword"));
+const Onboarding = asyncComponent(() => import("./components/Onboarding"));
+const PageNotFound = asyncComponent(() => import("./components/PageNotFound"));
+const AiMarketplace = asyncComponent(() => import("./components/AiMarketplace"));
+const SignUp = asyncComponent(() => import("./components/Login/Signup"));
+const Login = asyncComponent(() => import("./components/Login"));
 
 Amplify.configure(aws_config);
 
