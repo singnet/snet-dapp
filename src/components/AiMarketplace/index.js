@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 import { API, Auth } from "aws-amplify";
+import { Link } from "react-router-dom";
 
 import { APIEndpoints } from "../../utility/stringConstants/APIEndpoints";
 import Header from "../common/Header";
@@ -10,6 +11,7 @@ import StyledButton from "../common/StyledButton";
 import MainSection from "./MainSection";
 
 import { useStyles } from "./styles";
+import Routes from "../../utility/stringConstants/Routes";
 
 class AiMarketplace extends Component {
     state = {
@@ -49,7 +51,9 @@ class AiMarketplace extends Component {
                                 We’ve got a growing marketplace with hundreds of AI services for you to utilize. <br />
                                 They’re powered by a community of amazing developers from all over the globe.
                             </p>
-                            <StyledButton type="blue" btnText="Sign up for free credits" />
+                            <Link to={Routes.SIGNUP}>
+                                <StyledButton type="blue" btnText="Sign up for free credits" />
+                            </Link>
                         </Grid>
                     </Grid>
                     <div>

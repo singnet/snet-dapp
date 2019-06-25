@@ -140,9 +140,6 @@ class SignUp extends Component {
 
                 <Grid item xs={12} sm={12} md={6} lg={6}>
                     <form noValidate autoComplete="off" className={classes.signupForm}>
-                        <h3>sign up with </h3>
-                        <StyledButton btnText="github" type="black" iconClass="fab fa-github" />
-                        <span className={classes.horizontalLine}>or</span>
                         <TextField
                             id="outlined-user-name"
                             label="UserName"

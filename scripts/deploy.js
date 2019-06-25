@@ -23,7 +23,7 @@ readdir(s3OutPath)
         Promise.all(
             files.map(Key => {
                 const fileRelativePath = getFilePath(Key);
-                console.log(fileRelativePath);
+                console.log("fileRelativePath", fileRelativePath);
                 return s3
                     .upload({
                         Bucket,
@@ -44,5 +44,5 @@ readdir(s3OutPath)
         console.log(`Files uploaded successfully`);
     })
     .catch(error => {
-        console.log(error);
+        console.log("error", error);
     });

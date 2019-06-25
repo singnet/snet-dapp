@@ -56,9 +56,6 @@ class Login extends Component {
                 <Grid item xs={12} sm={12} md={12} lg={12} className={classes.loginDetails}>
                     <h2>Welcome Back</h2>
                     <form noValidate autoComplete="off" className={classes.loginForm}>
-                        <h3>log in with </h3>
-                        <StyledButton btnText="github" type="black" iconClass="fab fa-github" />
-                        <span className={classes.horizontalLine}>or</span>
                         <TextField
                             id="outlined-user-name"
                             label="UserName or Email"

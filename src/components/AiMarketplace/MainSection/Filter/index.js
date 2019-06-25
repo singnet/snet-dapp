@@ -2,10 +2,11 @@ import React from "react";
 
 import StyledExpansionPanel from "./StyledExpansionPanel.js";
 
-import { useStyles } from "./styles";
+import { useStylesHook } from "./styles";
 
 const Filter = () => {
-    const classes = useStyles();
+    const classes = useStylesHook();
+    console.log("classes hook", classes);
     return (
         <div className={classes.filterContainer}>
             <div className={classes.filterResetBtnContainer}>
