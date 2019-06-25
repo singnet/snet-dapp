@@ -18,12 +18,4 @@ export const useStyles = makeStyles(theme => ({
         display: "flex",
         justifyContent: "flex-end",
     },
-    socialIconsLink: {
-        listStyle: "none",
-        marginLeft: 45,
-    },
-    socialIcon: {
-        color: theme.palette.text.white,
-        fontSize: 35,
-    },
 }));

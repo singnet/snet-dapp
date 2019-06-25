@@ -24,4 +24,12 @@ export const useStyles = makeStyles(theme => ({
         fontSize: 20,
         fontWeight: theme.typography.fontweight,
     },
+    socialIconsLink: {
+        listStyle: "none",
+        marginLeft: 45,
+    },
+    socialIcon: {
+        color: theme.palette.text.white,
+        fontSize: 35,
+    },
 }));

@@ -12,7 +12,7 @@ const Footer = () => {
         <footer className={classes.footer}>
             <Grid container spacing={24} className={classes.footerWrapper}>
                 <PrimaryFooter leftData={FooterData.PrimaryFooterLeft} mainData={FooterData.PrimaryFooterMain} />
-                <SecondaryFooter />
+                <SecondaryFooter data={FooterData.SecondaryFooter} />
             </Grid>
         </footer>
     );

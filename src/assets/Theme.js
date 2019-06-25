@@ -9,7 +9,6 @@ const mediumShadeGray = "#666";
 const lightShadedGray = "#9b9b9b";
 
 const gray = "rgba(0,0,0,0.04)";
-const gray1 = "#e5e5e5";
 
 const whiteColor = "#fff";
 const offWhiteColor = "#fAFAFA";
@@ -36,19 +35,19 @@ const theme = createMuiTheme({
             primary: customBlue,
             white: whiteColor,
             disabled: disabledTxtColor,
-            black1: black1,
-            darkShadedGray: darkShadedGray,
-            mediumShadeGray: mediumShadeGray,
-            lightShadedGray: lightShadedGray,
-            offWhiteColor: offWhiteColor,
-            offWhite: offWhite,
-            green: green,
-            purple: purple,
-            darkOrange: darkOrange,
-            orange: orange,
-            orange1: orange1,
-            aqua: aqua,
-            gray: gray,
+            black1,
+            darkShadedGray,
+            mediumShadeGray,
+            lightShadedGray,
+            offWhiteColor,
+            offWhite,
+            green,
+            purple,
+            darkOrange,
+            orange,
+            orange1,
+            aqua,
+            gray,
         },
     },
     typography: {
@@ -68,7 +67,7 @@ const theme = createMuiTheme({
         disabled: disabledBgColor,
         red: errorBgColor,
         white: whiteColor,
-        githubBlack: githubBlack,
+        githubBlack,
     },
 });
 

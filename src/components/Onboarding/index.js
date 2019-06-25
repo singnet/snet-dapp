@@ -2,13 +2,13 @@ import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
 import { Auth } from "aws-amplify";
 
-import ProgressBar from "./ProgressBar";
 import Header from "../common/LoginOnboardingHeader";
 import Authentication from "./Authentication";
 import TermsOfUse from "./TermsOfUse";
 import Session from "../../utility/stringConstants/Session";
 import WalletKey from "./WalletKey";
 import { useStyles } from "./styles";
+import OnboardingContainer from "./OnboardingContainer";
 
 class Authorization extends Component {
     state = {
@@ -57,26 +57,53 @@ class Authorization extends Component {
     render() {
         const { classes } = this.props;
         const { activeSection } = this.state;
+        const username = sessionStorage.getItem(Session.USERNAME);
 
-        let username = sessionStorage.getItem(Session.USERNAME);
-        const headings = [`Welcome ${username}`, "Step 2", "Step 3"];
-        const components = [
-            <Authentication handleNextSection={this.handleNextSection} />,
-            <TermsOfUse handleNextSection={this.handleNextSection} />,
-            <WalletKey />,
+        const OnboardingDetails = [
+            {
+                title: `Welcome ${username}`,
+                description: (
+                    <p>
+                        You have successfully logged into your singularitynet account. <br />
+                        You are just steps away from completing your activation.
+                    </p>
+                ),
+                component: <Authentication handleNextSection={this.handleNextSection} />,
+            },
+            {
+                title: `Step 2`,
+                description: (
+                    <p>
+                        You have successfully logged into your singularitynet account. <br />
+                        You are just steps away from completing your activation.
+                    </p>
+                ),
+                component: <TermsOfUse handleNextSection={this.handleNextSection} />,
+            },
+            {
+                title: `Step 3`,
+                description: (
+                    <p>
+                        You have successfully logged into your singularitynet account. <br />
+                        You are just steps away from completing your activation.
+                    </p>
+                ),
+                component: <WalletKey />,
+            },
         ];
+
         return (
             <div className={classes.onboardingContainer}>
                 <Header linkText="Log Out" linkClick={this.handleLogout} />
-                <div className={classes.topSection}>
-                    <h2>{headings[activeSection - 1]}</h2>
-                    <p>
-                        You have successfully logged into your singularitynet account.
-                        <br /> You are just steps away from completing your activation.
-                    </p>
-                </div>
-                <ProgressBar activeSection={activeSection} />
-                {components[activeSection - 1]}
+                {OnboardingDetails.map((item, index) => (
+                    <OnboardingContainer
+                        key={item.title}
+                        classes={classes}
+                        item={item}
+                        active={activeSection === index + 1}
+                        activeSection={activeSection}
+                    />
+                ))}
             </div>
         );
     }
