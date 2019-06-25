@@ -4,11 +4,14 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { ThemeProvider } from "@material-ui/styles";
 
 import Routes from "./utility/stringConstants/Routes";
-import ForgotPasswordSubmit from "./components/Login/ForgotPasswordSubmit";
 import { aws_config } from "./aws_config";
 import theme from "./assets/Theme";
+import withRegistrationHeader from "./components/HOC/WithRegistrationHeader";
+import { HeaderData } from "./utility/stringConstants/Header";
+import withInAppHeader from "./components/HOC/WithInAppHeader";
 
 const ForgotPassword = lazy(() => import("./components/Login/ForgotPassword"));
+const ForgotPasswordSubmit = lazy(() => import("./components/Login/ForgotPasswordSubmit"));
 const Onboarding = lazy(() => import("./components/Onboarding"));
 const PageNotFound = lazy(() => import("./components/PageNotFound"));
 const AiMarketplace = lazy(() => import("./components/AiMarketplace"));
@@ -24,13 +27,30 @@ class App extends Component {
                 <Router>
                     <Suspense fallback={<div>Loading...</div>}>
                         <Switch>
-                            <Route path={`/${Routes.SIGNUP}`} component={SignUp} />
-                            <Route path={`/${Routes.LOGIN}`} component={Login} />
-                            <Route path={`/${Routes.FORGOT_PASSWORD}`} component={ForgotPassword} />
-                            <Route path={`/${Routes.FORGOT_PASSWORD_SUBMIT}`} component={ForgotPasswordSubmit} />
-                            <Route path={`/${Routes.ONBOARDING}`} component={Onboarding} />
-                            <Route path={`/${Routes.AI_MARKETPLACE}`} component={AiMarketplace} />
-                            <Route path="/" exact component={AiMarketplace} />
+                            <Route
+                                path={`/${Routes.SIGNUP}`}
+                                component={withRegistrationHeader(SignUp, { ...HeaderData.SIGNUP })}
+                            />
+                            <Route
+                                path={`/${Routes.LOGIN}`}
+                                component={withRegistrationHeader(Login, { ...HeaderData.LOGIN })}
+                            />
+                            <Route
+                                path={`/${Routes.FORGOT_PASSWORD}`}
+                                component={withRegistrationHeader(ForgotPassword, { ...HeaderData.FORGOT_PASSWORD })}
+                            />
+                            <Route
+                                path={`/${Routes.FORGOT_PASSWORD_SUBMIT}`}
+                                component={withRegistrationHeader(ForgotPasswordSubmit, {
+                                    ...HeaderData.FORGOT_PASSWORD_SUBMIT,
+                                })}
+                            />
+                            <Route
+                                path={`/${Routes.ONBOARDING}`}
+                                component={withRegistrationHeader(Onboarding, { ...HeaderData.ONBOARDING })}
+                            />
+                            <Route path={`/${Routes.AI_MARKETPLACE}`} component={withInAppHeader(AiMarketplace)} />
+                            <Route path="/" exact component={withInAppHeader(AiMarketplace)} />
                             <Route component={PageNotFound} />
                         </Switch>
                     </Suspense>
