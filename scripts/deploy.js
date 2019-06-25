@@ -1,5 +1,4 @@
-// const { outPath } = require("./../config/paths.js");
-const { outPath } = require("./path");
+const { s3OutPath } = require("./path");
 
 const [, , Bucket, region] = process.argv;
 console.log("Region " + region + " Bucket " + Bucket);
@@ -19,7 +18,7 @@ const getFilePath = file =>
         .slice(1)
         .join("/");
 
-readdir(outPath)
+readdir(s3OutPath)
     .then(files =>
         Promise.all(
             files.map(Key => {
