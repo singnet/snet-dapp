@@ -8,6 +8,7 @@ import Session from "../../../utility/stringConstants/Session";
 import { isValidNumber } from "../../../utility/Validation";
 import { parseError } from "../../../utility/ErrorHandling";
 import { useStyles } from "./styles";
+import { Icon } from "@material-ui/core";
 
 class Authentication extends Component {
     state = {
@@ -69,7 +70,7 @@ class Authentication extends Component {
                 </p>
                 {loading ? (
                     <div className={classes.pendingSection}>
-                        <i className="far fa-hourglass"></i>
+                        <Icon className="far fa-hourglass" />
                         <span>Pending</span>
                     </div>
                 ) : (

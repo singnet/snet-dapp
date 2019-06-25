@@ -33,7 +33,7 @@ export const useStyles = theme => ({
         "& li": {
             marginBottom: 15,
             listStyle: "none",
-            "& i": {
+            "& span": {
                 marginRight: 15,
                 color: theme.palette.text.green,
                 fontSize: 20,

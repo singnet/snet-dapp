@@ -12,6 +12,7 @@ import { isValidEmail } from "../../../utility/Validation";
 import Session from "../../../utility/stringConstants/Session";
 import { parseError } from "../../../utility/ErrorHandling";
 import { useStyles } from "./styles";
+import { Icon } from "@material-ui/core";
 
 class SignUp extends Component {
     state = {
@@ -117,18 +118,18 @@ class SignUp extends Component {
                     </p>
                     <ul>
                         <li>
-                            <i className="fas fa-check-circle"></i>
+                            <Icon className="fas fa-check-circle" />
                             <p>Built for you, powered for enterprise.</p>
                         </li>
                         <li>
-                            <i className="fas fa-check-circle"></i>
+                            <Icon className="fas fa-check-circle" />
                             <p>
                                 Get 100 free credits to try out any of the AI services available. Easily refill your
                                 credits anytime.{" "}
                             </p>
                         </li>
                         <li>
-                            <i className="fas fa-check-circle"></i>
+                            <Icon className="fas fa-check-circle" />
                             <p>
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
                                 incididunt ut labore et dolore magna aliqua.

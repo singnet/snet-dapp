@@ -2,10 +2,11 @@ import React from "react";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
+import PropTypes from "prop-types";
 
 import { useStyles } from "./styles";
 
-const StyledDropdown = props => {
+const StyledDropdown = ({ labelTxt, list }) => {
     const classes = useStyles();
 
     const [state, setState] = React.useState({
@@ -21,7 +22,7 @@ const StyledDropdown = props => {
 
     return (
         <FormControl className={classes.formControl}>
-            <InputLabel htmlFor="featured-label">{props.labelTxt}</InputLabel>
+            <InputLabel htmlFor="featured-label">{labelTxt}</InputLabel>
             <Select
                 native
                 value={state.featured}
@@ -32,12 +33,28 @@ const StyledDropdown = props => {
                 }}
             >
                 <option value="" />
-                <option value={10}>Ten</option>
-                <option value={20}>Twenty</option>
-                <option value={30}>Thirty</option>
+                {list.map(item => (
+                    <option key={item.value} value={item.value}>
+                        {item.label}
+                    </option>
+                ))}
             </Select>
         </FormControl>
     );
+};
+
+StyledDropdown.propTypes = {
+    labelTxt: PropTypes.string,
+    list: PropTypes.arrayOf(
+        PropTypes.shape({
+            value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+            label: PropTypes.string,
+        })
+    ),
+};
+
+StyledDropdown.defaultProps = {
+    list: [{ value: 10, label: "Ten" }, { value: 20, label: "Twenty" }, { value: 30, label: "Thirty" }],
 };
 
 export default StyledDropdown;
