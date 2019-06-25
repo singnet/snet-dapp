@@ -13,8 +13,8 @@ export const useStyles = makeStyles(theme => ({
         letterSpacing: "1.25px",
         lineHeight: "16px",
         "&:disabled": {
-            backgroundColor: theme.backgroundColor.disabled,
-            color: theme.palette.text.disabled,
+            backgroundColor: theme.palette.text.disabledBtnBg,
+            color: theme.palette.text.white,
         },
     },
     blueBg: {

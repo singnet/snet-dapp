@@ -25,7 +25,7 @@ export const useStyles = theme => ({
                 height: 1,
                 marginRight: 16,
                 display: "inline-block",
-                backgroundColor: theme.palette.text.gray12,
+                backgroundColor: theme.palette.text.lightGray,
                 verticalAlign: "middle",
                 "@media (max-width:724px)": {
                     display: "none",
@@ -47,7 +47,7 @@ export const useStyles = theme => ({
     active: {
         "& span": {
             "&:first-of-type": { backgroundColor: theme.palette.text.primary },
-            "&:last-of-type": { color: "#000" },
+            "&:last-of-type": { color: theme.palette.text.darkShadedGray },
         },
     },
 });

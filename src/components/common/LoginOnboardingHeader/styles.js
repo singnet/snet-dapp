@@ -12,7 +12,7 @@ export const useStyles = theme => ({
         },
         "& p": {
             margin: 0,
-            color: theme.palette.text.secondary,
+            color: theme.palette.text.mediumShadeGray,
             fontSize: "16px",
         },
         "& a": {
