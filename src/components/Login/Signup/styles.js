@@ -1,4 +1,6 @@
-export const useStyles = theme => ({
+import { makeStyles } from "@material-ui/styles";
+
+export const useStyles = makeStyles(theme => ({
     signupMainContent: {
         width: "71%",
         paddingBottom: 50,
@@ -148,4 +150,4 @@ export const useStyles = theme => ({
         width: 410,
         margin: "0 auto",
     },
-});
+}));

@@ -9,7 +9,7 @@ const ErrorMsgBox = ({ classes, showErr, errorMsg }) => {
 };
 
 ErrorMsgBox.propTypes = {
-    showErr: PropTypes.bool | PropTypes.string,
+    showErr: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
     errorMsg: PropTypes.string,
 };
 

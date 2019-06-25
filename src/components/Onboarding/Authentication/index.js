@@ -9,6 +9,7 @@ import { isValidNumber } from "../../../utility/Validation";
 import { parseError } from "../../../utility/ErrorHandling";
 import { useStyles } from "./styles";
 import { Icon } from "@material-ui/core";
+import ErrorMsgText from "../../common/ErrorMsgText";
 
 class Authentication extends Component {
     state = {
@@ -87,7 +88,7 @@ class Authentication extends Component {
                     value={verificationCode}
                     onChange={this.handleVerificationCode}
                 />
-                {error ? <p className={classes.errorMsg}>{error}</p> : null}
+                <ErrorMsgText error={error} />
                 <div className={classes.buttonsContainer}>
                     <StyledButton
                         btnText="resend code"
