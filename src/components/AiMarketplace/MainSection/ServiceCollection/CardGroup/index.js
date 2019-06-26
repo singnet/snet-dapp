@@ -3,9 +3,7 @@ import { withStyles } from "@material-ui/styles";
 
 import ListView from "./ListView";
 import StyledCard from "./StyledCard";
-
 import CardImg from "../../../../../assets/images/dummy-card.png";
-
 import { useStyles } from "./styles";
 
 const CardGroup = props => {
