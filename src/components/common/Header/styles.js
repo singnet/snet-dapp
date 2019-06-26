@@ -43,6 +43,12 @@ export const useStyles = makeStyles(theme => ({
         fontSize: 20,
         color: theme.palette.text.secondary,
     },
+    navLinksDropDown: {
+        listStyle: "none",
+        "& label": {
+            color: theme.palette.text.lightShadedGray,
+        },
+    },
     activeTab: {
         paddingBottom: 12,
         fontWeight: theme.typography.fontweight,

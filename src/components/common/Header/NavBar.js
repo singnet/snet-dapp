@@ -13,7 +13,7 @@ const NavBar = ({ data }) => {
                     <NavItem key={tab.title} title={tab.title} link={tab.link} active={tab.active} />
                 ))}
                 {data.dropdowns.map(dropdown => (
-                    <li key={dropdown.label} className={classes.navLinks}>
+                    <li key={dropdown.label} className={classes.navLinksDropDown}>
                         <StyledDropdown labelTxt="Resources" />
                     </li>
                 ))}
