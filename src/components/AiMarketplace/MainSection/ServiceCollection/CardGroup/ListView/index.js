@@ -10,9 +10,10 @@ import CardActions from "@material-ui/core/CardActions";
 import Typography from "@material-ui/core/Typography";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import IconButton from "@material-ui/core/IconButton";
+
 import { useStyles } from "./styles";
 
-function ListView(props) {
+const ListView = props => {
     const classes = useStyles();
     return (
         <Card className={classes.card}>
@@ -31,14 +32,7 @@ function ListView(props) {
                     <CardContent className={classes.cardContent}>
                         <div className={classes.ratingSection}>
                             <span className={classes.cardSubheader}>{props.cardSubheader}</span>
-                            <StarRatingComponent
-                                name="rate1"
-                                starCount={5}
-                                value={3}
-                                starColor={"#FFC200"}
-                                emptyStarColor={"rgba(161,163,168,0.35)"}
-                                className={classes.ratingStars}
-                            />
+                            <StarRatingComponent name="rate1" starCount={5} value={3} className={classes.ratingStars} />
                             <span className={classes.ratedCount}>
                                 {props.ratingGiven} {props.totalRating}
                             </span>
@@ -61,6 +55,6 @@ function ListView(props) {
             </Grid>
         </Card>
     );
-}
+};
 
 export default ListView;

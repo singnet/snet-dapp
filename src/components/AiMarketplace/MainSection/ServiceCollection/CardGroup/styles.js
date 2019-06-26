@@ -1,5 +1,7 @@
-export const useStyles = theme => ({
+import { makeStyles } from "@material-ui/styles";
+
+export const useStyles = makeStyles(theme => ({
     cardCollection: {
         marginTop: 20,
     },
-});
+}));

@@ -63,6 +63,16 @@ export const useStyles = makeStyles(theme => ({
         padding: 0,
         margin: 0,
     },
+    ratingStars: {
+        "& .dv-star-rating-empty-star": {
+            "& i": {
+                color: theme.palette.text.disabledBtnBg,
+            },
+        },
+        "& i": {
+            color: theme.palette.text.RatingStarColor,
+        },
+    },
     ratedCount: {
         marginLeft: 10,
         display: "inline-block",
