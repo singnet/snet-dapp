@@ -8,14 +8,14 @@ import Session from "../../../utility/stringConstants/Session";
 import { isValidNumber } from "../../../utility/Validation";
 import { parseError } from "../../../utility/ErrorHandling";
 import { useStyles } from "./styles";
-import { Icon } from "@material-ui/core";
 import ErrorMsgText from "../../common/ErrorMsgText";
+import InlineLoader from "../../common/InlineLoader";
 
 class Authentication extends Component {
     state = {
         verificationCode: "",
         enableResend: false,
-        loading: false,
+        loading: true,
         error: undefined,
     };
 
@@ -69,14 +69,7 @@ class Authentication extends Component {
                     the email from <span>‘otp@singularitynet.io’</span> in your inbox, make sure to check the spam
                     folder. The code will be valid for 5 minutes.{" "}
                 </p>
-                {loading ? (
-                    <div className={classes.pendingSection}>
-                        <Icon className="far fa-hourglass" />
-                        <span>Pending</span>
-                    </div>
-                ) : (
-                    ""
-                )}
+                {loading ? <InlineLoader loading={loading} /> : null}
                 <TextField
                     id="outlined-verification-code"
                     label="Verification Code"

@@ -5,7 +5,7 @@ import { withStyles } from "@material-ui/styles";
 import { useStyles } from "./styles";
 
 const ErrorMsgBox = ({ classes, showErr, errorMsg }) => {
-    return <Fragment>{showErr ? <p className={classes.errorText}>{errorMsg}</p> : null}</Fragment>;
+    return <Fragment> {showErr ? <p className={classes.errorText}>{errorMsg}</p> : null} </Fragment>;
 };
 
 ErrorMsgBox.propTypes = {
