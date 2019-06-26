@@ -6,7 +6,6 @@ import { useStylesHook } from "./styles";
 
 const Filter = () => {
     const classes = useStylesHook();
-    console.log("classes hook", classes);
     return (
         <div className={classes.filterContainer}>
             <div className={classes.filterResetBtnContainer}>

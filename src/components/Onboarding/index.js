@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
 import { Auth } from "aws-amplify";
 
-import Header from "../common/LoginOnboardingHeader";
 import Authentication from "./Authentication";
 import TermsOfUse from "./TermsOfUse";
 import Session from "../../utility/stringConstants/Session";
@@ -94,7 +93,6 @@ class Authorization extends Component {
 
         return (
             <div className={classes.onboardingContainer}>
-                <Header linkText="Log Out" linkClick={this.handleLogout} />
                 {OnboardingDetails.map((item, index) => (
                     <OnboardingContainer
                         key={item.title}

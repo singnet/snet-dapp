@@ -66,8 +66,6 @@ class StyledExpansionPanel extends Component {
         const { classes } = this.props;
         const { expansionData } = this.state;
 
-        console.log("classes", classes);
-
         return (
             <Fragment>
                 {expansionData.map(val => (
