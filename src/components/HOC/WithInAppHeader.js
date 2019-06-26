@@ -4,7 +4,6 @@ import Header from "../common/Header";
 import Footer from "../common/Footer";
 
 const withInAppWrapper = InputComponent => {
-    console.log("withInAppHeader");
     return class extends Component {
         render() {
             return (

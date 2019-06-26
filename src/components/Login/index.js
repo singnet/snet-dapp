@@ -4,12 +4,14 @@ import { withStyles } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import { Auth } from "aws-amplify";
+import { connect } from "react-redux";
 
 import StyledButton from "../common/StyledButton";
 import ErrorMsgBox from "../common/ErrorMsgBox";
 import Routes from "../../utility/stringConstants/Routes";
 import Session from "../../utility/stringConstants/Session";
 import { useStyles } from "./styles";
+import { userActions } from "../../Redux/actionCreators";
 
 class Login extends Component {
     state = {
@@ -34,6 +36,7 @@ class Login extends Component {
         Auth.signIn(username, password)
             .then(user => {
                 sessionStorage.setItem(Session.USERNAME, username);
+                this.props.setUserDetails();
                 this.props.history.push(Routes.ONBOARDING);
             })
             .catch(err => {
@@ -86,4 +89,11 @@ class Login extends Component {
         );
     }
 }
-export default withStyles(useStyles)(Login);
+
+const mapDispatchToProps = dispatch => ({
+    setUserDetails: () => dispatch(userActions.setUser({ isLoggedIn: true })),
+});
+export default connect(
+    null,
+    mapDispatchToProps
+)(withStyles(useStyles)(Login));

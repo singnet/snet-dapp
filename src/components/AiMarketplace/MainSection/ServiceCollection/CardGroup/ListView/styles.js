@@ -1,6 +1,9 @@
 import { makeStyles } from "@material-ui/styles";
 
 export const useStyles = makeStyles(theme => ({
+    cardItemsContainer: {
+        flexWrap: "nowrap",
+    },
     card: {
         padding: "10px 0 15px",
         position: "relative",
@@ -16,6 +19,14 @@ export const useStyles = makeStyles(theme => ({
             borderRadius: 4,
             backgroundColor: theme.palette.text.white,
         },
+    },
+    mediaContainer: {
+        maxWidth: "100% !important",
+        display: "none",
+    },
+    CardMedia: {
+        width: 214,
+        height: 120,
     },
     cardHeader: {
         padding: "0 18px",
@@ -35,7 +46,10 @@ export const useStyles = makeStyles(theme => ({
         letterSpacing: 0.25,
         fontFamily: theme.typography.primary.main,
     },
-    cardContent: { padding: "0 13px" },
+    cardContent: {
+        padding: "0 13px",
+        "&:last-of-type": { paddingBottom: 0 },
+    },
     cardTypograpy: {
         color: theme.palette.text.mediumShadeGray,
         fontFamily: theme.typography.secondary.main,
@@ -51,6 +65,16 @@ export const useStyles = makeStyles(theme => ({
     showMore: {
         padding: 0,
         margin: 0,
+    },
+    ratingStars: {
+        "& .dv-star-rating-empty-star": {
+            "& i": {
+                color: theme.palette.text.disabledBtnBg,
+            },
+        },
+        "& i": {
+            color: theme.palette.text.RatingStarColor,
+        },
     },
     ratedCount: {
         marginLeft: 10,

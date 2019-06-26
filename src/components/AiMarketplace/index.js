@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
-import { API, Auth } from "aws-amplify";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 import { APIEndpoints } from "../../utility/stringConstants/APIEndpoints";
 import StyledButton from "../common/StyledButton";
@@ -10,30 +10,17 @@ import MainSection from "./MainSection";
 
 import { useStyles } from "./styles";
 import Routes from "../../utility/stringConstants/Routes";
+import { serviceActions } from "../../Redux/actionCreators";
 
 class AiMarketplace extends Component {
-    state = {
-        servicesList: [],
-    };
-
     componentDidMount = () => {
-        Auth.currentSession().then(res => {
-            console.log("token", res);
-            let apiName = APIEndpoints.GET_SERVICES_LIST.name;
-            let path = "/org/snet/service";
-            API.get(apiName, path)
-                .then(res => {
-                    this.setState({ servicesList: res.data.result });
-                })
-                .catch(err => {
-                    console.log("service err", err);
-                });
-        });
+        this.props.fetchService();
     };
 
     render() {
-        const { classes } = this.props;
-        const { servicesList } = this.state;
+        const { classes, serviceReducers: servicesList } = this.props;
+        console.log("Login props", this.props);
+
         return (
             <div className={classes.aiMarketPlaceContainer}>
                 <div className={classes.mainWrapper}>
@@ -62,4 +49,13 @@ class AiMarketplace extends Component {
     }
 }
 
-export default withStyles(useStyles)(AiMarketplace);
+const mapStateToProps = state => ({ ...state });
+
+const mapDispatchToProps = dispatch => ({
+    fetchService: () => dispatch(serviceActions.fetchService),
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withStyles(useStyles)(AiMarketplace));

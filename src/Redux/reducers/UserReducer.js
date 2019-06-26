@@ -1,11 +1,13 @@
-const InitialState = {
-    userDetails: { isLoggedIn: false },
+import { userActions } from "../actionCreators";
+
+const userDetails = {
+    isLoggedIn: false,
 };
 
-const userReducer = (state = InitialState, action) => {
+const userReducer = (state = userDetails, action) => {
     switch (action.type) {
-        case "SET_USER_DETAILS": {
-            return state;
+        case userActions.SET_USER_DETAILS: {
+            return { ...state, isLoggedIn: action.payload.isLoggedIn };
         }
 
         default: {

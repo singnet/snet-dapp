@@ -27,6 +27,7 @@ const darkOrange = "#AC5C2C";
 
 const orange = "#F29132";
 const orange1 = "#FFF8E7";
+const RatingStarColor = "#FFC000";
 
 const aqua = "#00C48C";
 
@@ -54,6 +55,7 @@ const theme = createMuiTheme({
             gray,
             gray1,
             errorRed,
+            RatingStarColor,
         },
     },
     typography: {
