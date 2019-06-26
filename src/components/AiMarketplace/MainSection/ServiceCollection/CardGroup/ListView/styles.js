@@ -46,7 +46,10 @@ export const useStyles = makeStyles(theme => ({
         letterSpacing: 0.25,
         fontFamily: theme.typography.primary.main,
     },
-    cardContent: { padding: "0 13px" },
+    cardContent: {
+        padding: "0 13px",
+        "&:last-of-type": { paddingBottom: 0 },
+    },
     cardTypograpy: {
         color: theme.palette.text.mediumShadeGray,
         fontFamily: theme.typography.secondary.main,
