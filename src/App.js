@@ -1,56 +1,70 @@
-import React, { Component } from "react";
+import React, { Component, lazy, Suspense } from "react";
 import Amplify from "aws-amplify";
-import { aws_config } from "./aws_config";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
-// components
-import AiMarketplace from "./components/AiMarketplace/index.js";
-import SignUp from "./components/Login/signup.js";
-import Login from "./components/Login";
-
-//  material ui theme
 import { ThemeProvider } from "@material-ui/styles";
-import theme from "./assets/theme.js";
+import { Provider as ReduxProvider } from "react-redux";
 
-import "./App.css";
-import Routes from "./utility/stringConstants/routes";
-import Verify from "./components/Login/Verify";
-import ForgotPassword from "./components/Login/forgotpassword";
-import ForgotPasswordSubmit from "./components/Login/ForgotPasswordSubmit";
-import Onboarding from "./components/Onboarding";
-import PageNotFound from "./components/PageNotFound";
+import Routes from "./utility/stringConstants/Routes";
+import { aws_config } from "./aws_config";
+import theme from "./assets/Theme";
+import withRegistrationHeader from "./components/HOC/WithRegistrationHeader";
+import { HeaderData } from "./utility/stringConstants/Header";
+import withInAppWrapper from "./components/HOC/WithInAppHeader";
+import configureStore from "./Redux/Store";
+
+const ForgotPassword = lazy(() => import("./components/Login/ForgotPassword"));
+const ForgotPasswordSubmit = lazy(() => import("./components/Login/ForgotPasswordSubmit"));
+const Onboarding = lazy(() => import("./components/Onboarding"));
+const PageNotFound = lazy(() => import("./components/PageNotFound"));
+const AiMarketplace = lazy(() => import("./components/AiMarketplace"));
+const SignUp = lazy(() => import("./components/Login/Signup"));
+const Login = lazy(() => import("./components/Login"));
 
 Amplify.configure(aws_config);
+const store = configureStore();
 
 class App extends Component {
-  render() {
-    return (
-      <ThemeProvider theme={theme}>
-        <Router>
-          <Switch>
-            <Route path={`/${Routes.SIGNUP}`} component={SignUp} />
-            <Route path={`/${Routes.LOGIN}`} component={Login} />
-            <Route path={`/${Routes.VERIFY}`} component={Verify} />
-            <Route
-              path={`/${Routes.FORGOT_PASSWORD}`}
-              component={ForgotPassword}
-            />
-            <Route
-              path={`/${Routes.FORGOT_PASSWORD_SUBMIT}`}
-              component={ForgotPasswordSubmit}
-            />
-            <Route path={`/${Routes.ONBOARDING}`} component={Onboarding} />
-            <Route
-              path={`/${Routes.AI_MARKETPLACE}`}
-              component={AiMarketplace}
-            />
-            <Route path="/" exact component={AiMarketplace} />
-            <Route component={PageNotFound} />
-          </Switch>
-        </Router>
-      </ThemeProvider>
-    );
-  }
+    render() {
+        return (
+            <ReduxProvider store={store}>
+                <ThemeProvider theme={theme}>
+                    <Router>
+                        <Suspense fallback={<div>Loading...</div>}>
+                            <Switch>
+                                <Route
+                                    path={`/${Routes.SIGNUP}`}
+                                    component={withRegistrationHeader(SignUp, { ...HeaderData.SIGNUP })}
+                                />
+                                <Route
+                                    path={`/${Routes.LOGIN}`}
+                                    component={withRegistrationHeader(Login, { ...HeaderData.LOGIN })}
+                                />
+                                <Route
+                                    path={`/${Routes.FORGOT_PASSWORD}`}
+                                    component={withRegistrationHeader(ForgotPassword, {
+                                        ...HeaderData.FORGOT_PASSWORD,
+                                    })}
+                                />
+                                <Route
+                                    path={`/${Routes.FORGOT_PASSWORD_SUBMIT}`}
+                                    component={withRegistrationHeader(ForgotPasswordSubmit, {
+                                        ...HeaderData.FORGOT_PASSWORD_SUBMIT,
+                                    })}
+                                />
+                                <Route
+                                    path={`/${Routes.ONBOARDING}`}
+                                    component={withRegistrationHeader(Onboarding, { ...HeaderData.ONBOARDING })}
+                                />
+                                <Route path={`/${Routes.AI_MARKETPLACE}`} component={withInAppWrapper(AiMarketplace)} />
+                                <Route path="/" exact component={withInAppWrapper(AiMarketplace)} />
+                                <Route component={PageNotFound} />
+                            </Switch>
+                        </Suspense>
+                    </Router>
+                </ThemeProvider>
+            </ReduxProvider>
+        );
+    }
 }
 
 export default App;

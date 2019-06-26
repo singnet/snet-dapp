@@ -1,67 +1,60 @@
 import React from "react";
-
-// Material UI imports
-import { makeStyles } from "@material-ui/styles";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
+import PropTypes from "prop-types";
 
-const useStyles = makeStyles(theme => ({
-  formControl: {
-    "& label": {
-      color: theme.palette.text.primary,
-      fontSize: 18,
-      "& div": {
-        "&::before": {
-          borderBottom: "none"
-        }
-      }
-    },
-    "& svg": {
-      right: "-15px",
-      color: theme.palette.text.primary
-    },
-    "& label + div": {
-      "&::before": {
-        borderBottom: "none"
-      }
-    }
-  }
-}));
+import { useStyles } from "./styles";
 
-function StyledDropdown(props) {
-  const classes = useStyles();
+const StyledDropdown = ({ labelTxt, list }) => {
+    const classes = useStyles();
 
-  const [state, setState] = React.useState({
-    featured: ""
-  });
-
-  const handleChange = name => event => {
-    setState({
-      ...state,
-      [name]: event.target.value
+    const [state, setState] = React.useState({
+        featured: "",
     });
-  };
 
-  return (
-    <FormControl className={classes.formControl}>
-      <InputLabel htmlFor="featured-label">{props.labelTxt}</InputLabel>
-      <Select
-        native
-        value={state.featured}
-        onChange={handleChange("featured")}
-        inputProps={{
-          name: "featured",
-          id: "featured-label"
-        }}
-      >
-        <option value="" />
-        <option value={10}>Ten</option>
-        <option value={20}>Twenty</option>
-        <option value={30}>Thirty</option>
-      </Select>
-    </FormControl>
-  );
-}
+    const handleChange = name => event => {
+        setState({
+            ...state,
+            [name]: event.target.value,
+        });
+    };
+
+    return (
+        <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="featured-label">{labelTxt}</InputLabel>
+            <Select
+                native
+                value={state.featured}
+                onChange={handleChange("featured")}
+                inputProps={{
+                    name: "featured",
+                    id: "featured-label",
+                }}
+            >
+                <option value="" />
+                {list.map(item => (
+                    <option key={item.value} value={item.value}>
+                        {item.label}
+                    </option>
+                ))}
+            </Select>
+        </FormControl>
+    );
+};
+
+StyledDropdown.propTypes = {
+    labelTxt: PropTypes.string,
+    list: PropTypes.arrayOf(
+        PropTypes.shape({
+            value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+            label: PropTypes.string,
+        })
+    ),
+};
+
+StyledDropdown.defaultProps = {
+    list: [{ value: 10, label: "Ten" }, { value: 20, label: "Twenty" }, { value: 30, label: "Thirty" }],
+};
 
 export default StyledDropdown;

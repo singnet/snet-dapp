@@ -1,16 +1,18 @@
 {
-  "extends": ["react-app", "eslint:recommended", "plugin:prettier/recommended"],
-  "parser": "babel-eslint",
-  "plugins": ["react", "prettier"],
-  "rules": {
-    "prettier/prettier": [
-      "error",
-      {
-        "singleQuote": false,
-        "max-len": { "code": 120, "ignoreUrls": true }
-      }
-    ],
-    "max-len": ["error", { "code": 120, "ignoreUrls": true }],
-    "lines-between-class-members": ["error", "always"]
-  }
+    "extends": ["react-app", "eslint:recommended", "plugin:prettier/recommended"],
+    "parser": "babel-eslint",
+    "plugins": ["react", "prettier"],
+    "rules": {
+        "prettier/prettier": [
+            "error",
+            {
+                "singleQuote": false,
+                "semi": true,
+                "max-len": { "code": 120, "ignoreUrls": true }
+            }
+        ],
+        "lines-between-class-members": ["error", "always"],
+        "jsx-a11y/anchor-is-valid": false,
+        "prefer-arrow-callback": ["error", { "allowNamedFunctions": false, "allowUnboundThis": false }]
+    }
 }

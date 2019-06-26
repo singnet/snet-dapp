@@ -1,109 +1,65 @@
 import React, { Component } from "react";
-
-// import components
-import Header from "../common/Header/index.js";
-import Footer from "../common/Footer/index.js";
-import StyledButton from "../common/StyledButton/index.js";
-import MainSection from "./MainSection/index.js";
-
-// Material UI imports
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 import { API, Auth } from "aws-amplify";
-import { APIEndpoints } from "../../utility/stringConstants/APIEndpoints.js";
+import { Link } from "react-router-dom";
 
-const useStyles = theme => ({
-  aiMarketPlaceContainer: {
-    backgroundColor: theme.palette.text.gray8
-  },
-  mainWrapper: {
-    width: "92%",
-    margin: "0 auto"
-  },
-  topSection: {
-    marginBottom: 55
-  },
-  titleContainer: {
-    display: "flex",
-    alignItems: "center"
-  },
-  title: {
-    margin: 0,
-    color: theme.palette.text.black1,
-    fontSize: 42,
-    lineHeight: "57px"
-  },
-  description: {
-    padding: "42px 0 21px",
-    margin: 0,
-    color: theme.palette.text.black1,
-    fontFamily: theme.typography.secondary.main,
-    fontSize: 24,
-    lineHeight: "29px"
-  }
-});
+import { APIEndpoints } from "../../utility/stringConstants/APIEndpoints";
+import StyledButton from "../common/StyledButton";
+import MainSection from "./MainSection";
+
+import { useStyles } from "./styles";
+import Routes from "../../utility/stringConstants/Routes";
 
 class AiMarketplace extends Component {
-  state = {
-    servicesList: []
-  };
+    state = {
+        servicesList: [],
+    };
 
-  componentDidMount = () => {
-    console.log("Auth", Object.keys(Auth.__proto__), Auth.__proto__);
-    Auth.currentSession().then(res => {
-      console.log("current user", res);
-      let apiName = APIEndpoints.GET_SERVICES_LIST.name;
-      let path = "/org/snet/service";
-
-      API.get(apiName, path)
-        .then(res => {
-          console.log("service API", res);
-          this.setState({ servicesList: res.data.result });
-        })
-        .catch(err => {
-          console.log("service err", err);
+    componentDidMount = () => {
+        Auth.currentSession().then(res => {
+            console.log("token", res);
+            let apiName = APIEndpoints.GET_SERVICES_LIST.name;
+            let path = "/org/snet/service";
+            API.get(apiName, path)
+                .then(res => {
+                    this.setState({ servicesList: res.data.result });
+                })
+                .catch(err => {
+                    console.log("service err", err);
+                });
         });
-    });
-  };
+    };
 
-  render() {
-    const { classes } = this.props;
-    const { servicesList } = this.state;
-    return (
-      <div className={classes.aiMarketPlaceContainer}>
-        <Header />
-        <div className={classes.mainWrapper}>
-          <Grid container spacing={24}>
-            <Grid
-              item
-              xs={12}
-              sm={3}
-              md={3}
-              lg={3}
-              className={classes.titleContainer}
-            >
-              <h2 className={classes.title}>AI Marketplace</h2>
-            </Grid>
-            <Grid item xs={12} sm={9} md={9} lg={9}>
-              <p className={classes.description}>
-                Want to find the right AI service for your project? You’ve come
-                to the right place. <br />
-                We’ve got a growing marketplace with hundreds of AI services for
-                you to utilize. <br />
-                They’re powered by a community of amazing developers from all
-                over the globe.
-              </p>
-              <StyledButton type="blue" btnText="Sign up for free credits" />
-            </Grid>
-          </Grid>
-          <div>
-            <MainSection servicesList={servicesList} />
-          </div>
-        </div>
-        <Footer />
-      </div>
-    );
-  }
+    render() {
+        const { classes } = this.props;
+        const { servicesList } = this.state;
+        return (
+            <div className={classes.aiMarketPlaceContainer}>
+                <div className={classes.mainWrapper}>
+                    <Grid container spacing={24}>
+                        <Grid item xs={12} sm={3} md={3} lg={3} className={classes.titleContainer}>
+                            <h2 className={classes.title}>AI Marketplace</h2>
+                        </Grid>
+                        <Grid item xs={12} sm={9} md={9} lg={9}>
+                            <p className={classes.description}>
+                                Want to find the right AI service for your project? You’ve come to the right place.{" "}
+                                <br />
+                                We’ve got a growing marketplace with hundreds of AI services for you to utilize. <br />
+                                They’re powered by a community of amazing developers from all over the globe.
+                            </p>
+                            <Link to={Routes.SIGNUP} className={classes.signupLink}>
+                                <StyledButton type="blue" btnText="Sign up for free credits" />
+                            </Link>
+                        </Grid>
+                    </Grid>
+                    <div>
+                        <MainSection servicesList={servicesList} />
+                    </div>
+                </div>
+            </div>
+        );
+    }
 }
 
 export default withStyles(useStyles)(AiMarketplace);
