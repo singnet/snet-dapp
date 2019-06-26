@@ -43,6 +43,13 @@ export const useStyles = makeStyles(theme => ({
                     color: theme.palette.text.lightShadedGray,
                     fontSize: 30,
                 },
+                "&::after": {
+                    border: "1px solid #fff",
+                    bottom: "-8px",
+                },
+            },
+            "& option": {
+                color: theme.palette.text.white,
             },
         },
     },
