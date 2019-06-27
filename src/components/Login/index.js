@@ -12,6 +12,7 @@ import Routes from "../../utility/stringConstants/Routes";
 import Session from "../../utility/stringConstants/Session";
 import { useStyles } from "./styles";
 import { userActions } from "../../Redux/actionCreators";
+import { parseError } from "../../utility/ErrorHandling";
 
 class Login extends Component {
     state = {
@@ -46,21 +47,12 @@ class Login extends Component {
         event.preventDefault();
         event.stopPropagation();
         let credentials = { username, password };
-        this.props.login(credentials);
-        Auth.signIn(username, password)
-            .then(user => {
-                sessionStorage.setItem(Session.USERNAME, username);
-                this.props.setUserDetails();
-                this.props.history.push(Routes.ONBOARDING);
-            })
-            .catch(err => {
-                if (err.code === "UserNotConfirmedException") {
-                    sessionStorage.setItem(Session.USERNAME, username);
-                    this.props.history.push(Routes.ONBOARDING);
-                    return;
-                }
-                this.setState({ error: err.message });
-            });
+        try {
+            this.props.login(credentials);
+        } catch (err) {
+            const error = parseError(err);
+            this.setState({ error });
+        }
     };
 
     render() {
@@ -109,7 +101,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    setUserDetails: () => dispatch(userActions.setUserDetails()),
+    setUserDetails: () => dispatch(userActions.setUserDetails),
     login: credentials => dispatch(userActions.login(credentials)),
 });
 export default connect(

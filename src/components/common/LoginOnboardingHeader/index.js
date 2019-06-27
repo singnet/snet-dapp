@@ -7,6 +7,7 @@ import Logo from "../../../assets/images/LoginLogo.png";
 import { useStyles } from "./styles";
 
 const LoginOnboardingHeader = ({ classes, title, linkText, linkPath, linkClick }) => {
+    console.log("loginOnboardingHeader", linkPath);
     return (
         <Grid container spacing={24}>
             <Grid container spacing={24} className={classes.loginHeader}>

@@ -1,6 +1,5 @@
 import { Auth } from "aws-amplify";
 import Session from "../../utility/stringConstants/Session";
-import Routes from "../../utility/stringConstants/Routes";
 
 export const SET_USER_DETAILS = "SET_USER_DETAILS";
 export const LOGIN = "LOGIN";
@@ -30,22 +29,20 @@ export const setUserDetails = dispatch => {
 export const login = ({ username, password }) => dispatch => {
     let userDetails = {
         type: SET_USER_DETAILS,
-        payload: { isLoggedIn: true, isInitialized: true },
+        payload: { isLoggedIn: true, isInitialized: true, isEmailVerified: false },
     };
+
     Auth.signIn(username, password)
-        .then(user => {
+        .then(res => {
             sessionStorage.setItem(Session.USERNAME, username);
-            // this.props.setUserDetails();
-            // this.props.history.push(Routes.ONBOARDING);
+            userDetails.payload.isEmailVerified = res.attributes.email_verified;
         })
         .catch(err => {
             if (err.code === "UserNotConfirmedException") {
                 sessionStorage.setItem(Session.USERNAME, username);
-                // this.props.history.push(Routes.ONBOARDING);
                 return;
             }
             userDetails.payload.isLoggedIn = false;
-            // this.setState({ error: err.message });
         })
         .finally(() => dispatch(userDetails));
 };

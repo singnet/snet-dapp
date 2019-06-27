@@ -10,7 +10,7 @@ import WalletKey from "./WalletKey";
 import { useStyles } from "./styles";
 import OnboardingContainer from "./OnboardingContainer";
 
-class Authorization extends Component {
+class Onboarding extends Component {
     state = {
         verificationCode: "",
         activeSection: 1,
@@ -23,7 +23,6 @@ class Authorization extends Component {
     };
 
     componentDidUpdate = () => {
-        console.log("didUpdate");
         if (sessionStorage.getItem(Session.USERNAME) && this.state.activeSection === 1) {
             Auth.currentAuthenticatedUser({ bypassCache: true })
                 .then(res => {
@@ -39,14 +38,6 @@ class Authorization extends Component {
         this.setState(prevState => ({
             activeSection: prevState.activeSection + 1,
         }));
-    };
-
-    handleLogout = () => {
-        Auth.signOut()
-            .then(data => {
-                sessionStorage.removeItem(Session.USERNAME);
-            })
-            .catch(err => console.log(err));
     };
 
     render() {
@@ -108,4 +99,4 @@ const mapStateToProps = state => ({
     isEmailVerified: state.userReducer.isEmailVerified,
 });
 
-export default connect(mapStateToProps)(withStyles(useStyles)(Authorization));
+export default connect(mapStateToProps)(withStyles(useStyles)(Onboarding));
