@@ -12,22 +12,6 @@ import Title from "./Title";
 
 const Header = props => {
     const classes = useStyles();
-    // const [isLoggedIn, toggleLoggedIn] = useState(false);
-
-    // Auth.currentAuthenticatedUser({ bypassCache: true }).then(data => {
-    //     if (data === null || data === undefined) {
-    //         toggleLoggedIn(false);
-    //     }
-    //     toggleLoggedIn(true);
-    // });
-
-    const handleSignOut = () => {
-        Auth.signOut()
-            .then(data => {
-                // toggleLoggedIn(false);
-            })
-            .catch(err => console.log("signout", err));
-    };
 
     return (
         <Grid container spacing={24}>
@@ -39,7 +23,7 @@ const Header = props => {
                     <NavBar data={NavData} />
                 </Grid>
                 <Grid item xs={3} sm={3} md={3} lg={3}>
-                    <HeaderActions isLoggedIn={props.userReducer.isLoggedIn} handleSignOut={handleSignOut} />
+                    <HeaderActions isLoggedIn={props.userReducer.isLoggedIn} />
                 </Grid>
             </header>
         </Grid>

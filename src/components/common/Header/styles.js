@@ -25,23 +25,33 @@ export const useStyles = makeStyles(theme => ({
     navLinks: {
         marginRight: 26,
         listStyle: "none",
-        "& div": {
-            marginTop: 0,
-            "& label": {
-                top: "-17px",
-                color: theme.palette.text.secondary,
-            },
-            "& svg": {
-                right: "-35px",
-                color: theme.palette.text.secondary,
-                fontSize: 30,
-            },
-        },
     },
     navLinksAnchor: {
         textDecoration: "none",
         fontSize: 20,
         color: theme.palette.text.secondary,
+    },
+    navLinksDropDown: {
+        listStyle: "none",
+        "& label": {
+            top: "-17px",
+            color: theme.palette.text.lightShadedGray,
+            "& + div": {
+                margin: 0,
+                "& svg": {
+                    right: "-35px",
+                    color: theme.palette.text.lightShadedGray,
+                    fontSize: 30,
+                },
+                "&::after": {
+                    border: "1px solid #fff",
+                    bottom: "-8px",
+                },
+            },
+            "& option": {
+                color: theme.palette.text.white,
+            },
+        },
     },
     activeTab: {
         paddingBottom: 12,

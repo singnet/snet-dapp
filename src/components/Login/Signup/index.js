@@ -3,6 +3,7 @@ import { Auth } from "aws-amplify";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/styles";
+import { Icon } from "@material-ui/core";
 
 import StyledButton from "../../common/StyledButton";
 import ErrorMsgBox from "../../common/ErrorMsgBox";
@@ -11,7 +12,6 @@ import { isValidEmail } from "../../../utility/Validation";
 import Session from "../../../utility/stringConstants/Session";
 import { parseError } from "../../../utility/ErrorHandling";
 import { useStyles } from "./styles";
-import { Icon } from "@material-ui/core";
 
 class SignUp extends Component {
     state = {

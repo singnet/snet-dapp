@@ -4,10 +4,8 @@ import { withStyles } from "@material-ui/styles";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { APIEndpoints } from "../../utility/stringConstants/APIEndpoints";
 import StyledButton from "../common/StyledButton";
 import MainSection from "./MainSection";
-
 import { useStyles } from "./styles";
 import Routes from "../../utility/stringConstants/Routes";
 import { serviceActions } from "../../Redux/actionCreators";
@@ -18,8 +16,7 @@ class AiMarketplace extends Component {
     };
 
     render() {
-        const { classes, serviceReducers: servicesList } = this.props;
-        console.log("Login props", this.props);
+        const { classes, servicesList } = this.props;
 
         return (
             <div className={classes.aiMarketPlaceContainer}>
@@ -49,7 +46,10 @@ class AiMarketplace extends Component {
     }
 }
 
-const mapStateToProps = state => ({ ...state });
+const mapStateToProps = state => ({
+    servicesList: state.serviceReducer.data,
+    isLoggedIn: state.userReducer.isLoggedIn,
+});
 
 const mapDispatchToProps = dispatch => ({
     fetchService: () => dispatch(serviceActions.fetchService),

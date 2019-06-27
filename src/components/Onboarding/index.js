@@ -22,9 +22,7 @@ class Authorization extends Component {
                     this.setState({ activeSection: 2 });
                 }
             })
-            .catch(err => {
-                console.log("onboarding err", err);
-            });
+            .catch(err => {});
     };
 
     componentDidUpdate = () => {

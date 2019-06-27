@@ -11,6 +11,7 @@ import withRegistrationHeader from "./components/HOC/WithRegistrationHeader";
 import { HeaderData } from "./utility/stringConstants/Header";
 import withInAppWrapper from "./components/HOC/WithInAppHeader";
 import { userActions } from "./Redux/actionCreators";
+import PrivateRoute from "./components/common/PrivateRoute";
 
 const ForgotPassword = lazy(() => import("./components/Login/ForgotPassword"));
 const ForgotPasswordSubmit = lazy(() => import("./components/Login/ForgotPasswordSubmit"));
@@ -28,21 +29,11 @@ class App extends Component {
     };
 
     componentDidMount = () => {
-        let payload = { isLoggedIn: true };
-        Auth.currentAuthenticatedUser({ bypassCache: true }).then(data => {
-            if (data === null || data === undefined) {
-                payload.isLoggedIn = false;
-                this.props.setUserDetails(payload);
-                this.setState({ initialized: true });
-                return;
-            }
-            this.props.setUserDetails(payload);
-            this.setState({ initialized: true });
-        });
+        this.props.setUserDetails();
     };
 
     render() {
-        if (!this.state.initialized) {
+        if (!this.props.isInitialized) {
             return <h2>Loading</h2>;
         }
         return (
@@ -56,26 +47,34 @@ class App extends Component {
                             />
                             <Route
                                 path={`/${Routes.LOGIN}`}
+                                {...this.props}
                                 component={withRegistrationHeader(Login, { ...HeaderData.LOGIN })}
                             />
-                            <Route
+                            <PrivateRoute
                                 path={`/${Routes.FORGOT_PASSWORD}`}
+                                {...this.props}
                                 component={withRegistrationHeader(ForgotPassword, {
                                     ...HeaderData.FORGOT_PASSWORD,
                                 })}
                             />
-                            <Route
+                            <PrivateRoute
                                 path={`/${Routes.FORGOT_PASSWORD_SUBMIT}`}
+                                {...this.props}
                                 component={withRegistrationHeader(ForgotPasswordSubmit, {
                                     ...HeaderData.FORGOT_PASSWORD_SUBMIT,
                                 })}
                             />
-                            <Route
+                            <PrivateRoute
                                 path={`/${Routes.ONBOARDING}`}
+                                {...this.props}
                                 component={withRegistrationHeader(Onboarding, { ...HeaderData.ONBOARDING })}
                             />
-                            <Route path={`/${Routes.AI_MARKETPLACE}`} component={withInAppWrapper(AiMarketplace)} />
-                            <Route path="/" exact component={withInAppWrapper(AiMarketplace)} />
+                            <Route
+                                path={`/${Routes.AI_MARKETPLACE}`}
+                                {...this.props}
+                                component={withInAppWrapper(AiMarketplace)}
+                            />
+                            <Route path="/" exact {...this.props} component={withInAppWrapper(AiMarketplace)} />
                             <Route component={PageNotFound} />
                         </Switch>
                     </Suspense>
@@ -85,10 +84,16 @@ class App extends Component {
     }
 }
 
-const mapDispatchToProps = dispatch => ({
-    setUserDetails: payload => dispatch(userActions.setUser(payload)),
+const mapStateToProps = state => ({
+    isLoggedIn: state.userReducer.isLoggedIn,
+    isInitialized: state.userReducer.isInitialized,
 });
+
+const mapDispatchToProps = dispatch => ({
+    setUserDetails: () => dispatch(userActions.setUserDetails),
+});
+
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 )(App);

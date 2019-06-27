@@ -3,21 +3,14 @@ import { Link } from "react-router-dom";
 
 import { useStyles } from "./styles";
 import Routes from "../../../utility/stringConstants/Routes";
+import SignOut from "./SignOut";
 
-const HeaderActions = ({ isLoggedIn, handleSignOut }) => {
+const HeaderActions = ({ isLoggedIn }) => {
     const classes = useStyles();
     return (
         <ul className={classes.loginBtnsUl}>
             {isLoggedIn ? (
-                <li className={`${classes.signupBtn} ${classes.loginBtnsLi}`}>
-                    <span
-                        className={`${classes.loginBtnsAnchor} ${classes.UppercaseText} ${classes.signupBtnText}`}
-                        onClick={handleSignOut}
-                    >
-                        {" "}
-                        Sign Out
-                    </span>
-                </li>
+                <SignOut />
             ) : (
                 <Fragment>
                     <li className={classes.loginBtnsLi}>

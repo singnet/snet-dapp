@@ -20,6 +20,18 @@ class Login extends Component {
         error: undefined,
     };
 
+    componentDidMount = () => {
+        if (this.props.isLoggedIn) {
+            this.props.history.push(Routes.ONBOARDING);
+        }
+    };
+
+    componentDidUpdate = () => {
+        if (this.props.isLoggedIn) {
+            this.props.history.push(Routes.ONBOARDING);
+        }
+    };
+
     handleUsername = event => {
         this.setState({ username: event.currentTarget.value });
     };
@@ -33,6 +45,8 @@ class Login extends Component {
         const { username, password } = this.state;
         event.preventDefault();
         event.stopPropagation();
+        let credentials = { username, password };
+        this.props.login(credentials);
         Auth.signIn(username, password)
             .then(user => {
                 sessionStorage.setItem(Session.USERNAME, username);
@@ -90,10 +104,15 @@ class Login extends Component {
     }
 }
 
+const mapStateToProps = state => ({
+    isLoggedIn: state.userReducer.isLoggedIn,
+});
+
 const mapDispatchToProps = dispatch => ({
-    setUserDetails: () => dispatch(userActions.setUser({ isLoggedIn: true })),
+    setUserDetails: () => dispatch(userActions.setUserDetails()),
+    login: credentials => dispatch(userActions.login(credentials)),
 });
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 )(withStyles(useStyles)(Login));
