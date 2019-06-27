@@ -6,8 +6,9 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Typography from "@material-ui/core/Typography";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import { useStyles } from "./styles";
 import { withStyles } from "@material-ui/styles";
+
+import { useStyles } from "./styles";
 
 class StyledExpansionPanel extends Component {
     state = {

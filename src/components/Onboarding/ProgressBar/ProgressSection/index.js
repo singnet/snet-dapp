@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Icon } from "@material-ui/core";
 
 import { useStyles } from "./styles";
-import { Icon } from "@material-ui/core";
 
 export const ProgressStatusList = {
     IDLE: "idle",

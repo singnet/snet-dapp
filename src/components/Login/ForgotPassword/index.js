@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/styles";
+import { Auth } from "aws-amplify";
 
 import ErrorMsgBox from "../../common/ErrorMsgBox";
 import StyledButton from "../../common/StyledButton";
 import Routes from "../../../utility/stringConstants/Routes";
-import { Auth } from "aws-amplify";
 import Session from "../../../utility/stringConstants/Session";
 import { useStyles } from "./styles";
 
