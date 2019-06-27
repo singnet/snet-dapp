@@ -1,4 +1,5 @@
 import { userActions } from "../actionCreators";
+import { arrowFunctionExpression } from "@babel/types";
 
 const userDetails = {
     isInitialized: false,
@@ -9,7 +10,12 @@ const userDetails = {
 const userReducer = (state = userDetails, action) => {
     switch (action.type) {
         case userActions.SET_USER_DETAILS: {
-            return { ...state, isLoggedIn: action.payload.isLoggedIn, isInitialized: action.payload.isInitialized };
+            return {
+                ...state,
+                isLoggedIn: action.payload.isLoggedIn,
+                isInitialized: action.payload.isInitialized,
+                isEmailVerified: action.payload.isEmailVerified,
+            };
         }
 
         case userActions.LOGIN: {

@@ -12,11 +12,8 @@ const SignOut = props => {
     };
 
     return (
-        <li className={`${classes.signupBtn} ${classes.loginBtnsLi}`}>
-            <span
-                className={`${classes.loginBtnsAnchor} ${classes.UppercaseText} ${classes.signupBtnText}`}
-                onClick={handleSignOut}
-            >
+        <li className={`${classes.signupBtn} ${classes.loginBtnsLi}`} onClick={handleSignOut}>
+            <span className={`${classes.loginBtnsAnchor} ${classes.UppercaseText} ${classes.signupBtnText}`}>
                 {" "}
                 Sign Out
             </span>

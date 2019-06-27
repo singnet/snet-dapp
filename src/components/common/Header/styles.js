@@ -82,6 +82,7 @@ export const useStyles = makeStyles(theme => ({
         borderColor: theme.palette.text.white,
         borderRadius: 4,
         marginRight: 0,
+        cursor: "pointer",
     },
     loginBtnsAnchor: {
         textDecoration: "none",

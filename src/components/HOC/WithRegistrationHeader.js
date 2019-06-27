@@ -3,6 +3,7 @@ import React, { Fragment, Component } from "react";
 import LoginOnboardingHeader from "../common/LoginOnboardingHeader";
 
 const withRegistrationHeader = (InputComponent, { headerTitle, headerPath, headerText }) => {
+    console.log("withRegistrationHeader", headerPath);
     return class extends Component {
         render() {
             return (

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
 import { Auth } from "aws-amplify";
+import { connect } from "react-redux";
 
 import Authentication from "./Authentication";
 import TermsOfUse from "./TermsOfUse";
@@ -9,20 +10,16 @@ import WalletKey from "./WalletKey";
 import { useStyles } from "./styles";
 import OnboardingContainer from "./OnboardingContainer";
 
-class Authorization extends Component {
+class Onboarding extends Component {
     state = {
         verificationCode: "",
         activeSection: 1,
     };
 
     componentDidMount = () => {
-        Auth.currentAuthenticatedUser({ bypassCache: true })
-            .then(res => {
-                if (res.attributes.email_verified) {
-                    this.setState({ activeSection: 2 });
-                }
-            })
-            .catch(err => {});
+        if (this.props.isEmailVerified) {
+            this.setState({ activeSection: 2 });
+        }
     };
 
     componentDidUpdate = () => {
@@ -43,15 +40,8 @@ class Authorization extends Component {
         }));
     };
 
-    handleLogout = () => {
-        Auth.signOut()
-            .then(data => {
-                sessionStorage.removeItem(Session.USERNAME);
-            })
-            .catch(err => console.log(err));
-    };
-
     render() {
+        console.log("Onboarding", this.props.isEmailVerified);
         const { classes } = this.props;
         const { activeSection } = this.state;
         const username = sessionStorage.getItem(Session.USERNAME);
@@ -105,4 +95,8 @@ class Authorization extends Component {
     }
 }
 
-export default withStyles(useStyles)(Authorization);
+const mapStateToProps = state => ({
+    isEmailVerified: state.userReducer.isEmailVerified,
+});
+
+export default connect(mapStateToProps)(withStyles(useStyles)(Onboarding));
