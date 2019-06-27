@@ -29,17 +29,6 @@ class App extends Component {
     };
 
     componentDidMount = () => {
-        // let payload = { isLoggedIn: true, isInitialized: true };
-        // Auth.currentAuthenticatedUser({ bypassCache: true }).then(data => {
-        //     if (data === null || data === undefined) {
-        //         payload.isLoggedIn = false;
-        //         this.props.setUserDetails(payload);
-        //         // this.setState({ initialized: true });
-        //         return;
-        //     }
-        //     this.props.setUserDetails(payload);
-        //     // this.setState({ initialized: true });
-        // });
         this.props.setUserDetails();
     };
 
@@ -52,36 +41,41 @@ class App extends Component {
                 <Router>
                     <Suspense fallback={<div>Loading...</div>}>
                         <Switch>
-                            <PrivateRoute
+                            <Route
                                 path={`/${Routes.SIGNUP}`}
                                 component={withRegistrationHeader(SignUp, { ...HeaderData.SIGNUP })}
                             />
-                            <PrivateRoute
+                            <Route
                                 path={`/${Routes.LOGIN}`}
+                                {...this.props}
                                 component={withRegistrationHeader(Login, { ...HeaderData.LOGIN })}
                             />
                             <PrivateRoute
                                 path={`/${Routes.FORGOT_PASSWORD}`}
+                                {...this.props}
                                 component={withRegistrationHeader(ForgotPassword, {
                                     ...HeaderData.FORGOT_PASSWORD,
                                 })}
                             />
                             <PrivateRoute
                                 path={`/${Routes.FORGOT_PASSWORD_SUBMIT}`}
+                                {...this.props}
                                 component={withRegistrationHeader(ForgotPasswordSubmit, {
                                     ...HeaderData.FORGOT_PASSWORD_SUBMIT,
                                 })}
                             />
                             <PrivateRoute
                                 path={`/${Routes.ONBOARDING}`}
+                                {...this.props}
                                 component={withRegistrationHeader(Onboarding, { ...HeaderData.ONBOARDING })}
                             />
-                            <PrivateRoute
+                            <Route
                                 path={`/${Routes.AI_MARKETPLACE}`}
+                                {...this.props}
                                 component={withInAppWrapper(AiMarketplace)}
                             />
-                            <PrivateRoute path="/" exact component={withInAppWrapper(AiMarketplace)} />
-                            <PrivateRoute component={PageNotFound} />
+                            <Route path="/" exact {...this.props} component={withInAppWrapper(AiMarketplace)} />
+                            <Route component={PageNotFound} />
                         </Switch>
                     </Suspense>
                 </Router>
@@ -96,7 +90,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    setUserDetails: () => dispatch(userActions.setUserDetails()),
+    setUserDetails: () => dispatch(userActions.setUserDetails),
 });
 
 export default connect(

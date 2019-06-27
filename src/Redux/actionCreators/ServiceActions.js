@@ -9,14 +9,11 @@ export const fetchService = dispatch => {
         let path = "/org/snet/service";
         API.get(apiName, path)
             .then(res => {
-                console.log("fetch service", res.data.result);
                 dispatch({
                     type: FETCH_SERVICE_LIST,
                     payload: res.data.result,
                 });
             })
-            .catch(err => {
-                console.log("fetch service err", err);
-            });
+            .catch(err => {});
     });
 };

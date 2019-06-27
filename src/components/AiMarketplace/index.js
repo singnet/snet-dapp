@@ -18,7 +18,6 @@ class AiMarketplace extends Component {
 
     render() {
         const { classes, servicesList } = this.props;
-        console.log("Login props", this.props);
 
         return (
             <div className={classes.aiMarketPlaceContainer}>
@@ -48,7 +47,10 @@ class AiMarketplace extends Component {
     }
 }
 
-const mapStateToProps = state => ({ servicesList: state.serviceReducers.data });
+const mapStateToProps = state => ({
+    servicesList: state.serviceReducer.data,
+    isLoggedIn: state.userReducer.isLoggedIn,
+});
 
 const mapDispatchToProps = dispatch => ({
     fetchService: () => dispatch(serviceActions.fetchService),
