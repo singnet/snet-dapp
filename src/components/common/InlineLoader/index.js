@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { Icon } from "@material-ui/core";
+
 import { useStyles } from "./styles";
 
 const InlineLoader = ({ loading }) => {

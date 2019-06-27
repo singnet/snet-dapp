@@ -1,7 +1,6 @@
 import React from "react";
 
 import StyledExpansionPanel from "./StyledExpansionPanel.js";
-
 import { useStylesHook } from "./styles";
 
 const Filter = () => {
