@@ -6,8 +6,8 @@ import Grid from "@material-ui/core/Grid";
 import Logo from "../../../assets/images/LoginLogo.png";
 import { useStyles } from "./styles";
 
-const LoginOnboardingHeader = ({ classes, title, linkText, linkPath, linkClick }) => {
-    console.log("loginOnboardingHeader", linkPath);
+const LoginOnboardingHeader = ({ classes, headerData }) => {
+    const { headerTitle, linkPath, headerText } = headerData;
     return (
         <Grid container spacing={24}>
             <Grid container spacing={24} className={classes.loginHeader}>
@@ -20,10 +20,7 @@ const LoginOnboardingHeader = ({ classes, title, linkText, linkPath, linkClick }
                 </Grid>
                 <Grid item xs={12} sm={6} md={6} lg={6} className={classes.loginHeaderLink}>
                     <p>
-                        {title}{" "}
-                        <Link to={linkPath} onClick={linkClick}>
-                            {linkText}
-                        </Link>
+                        {headerTitle} &nbsp; <Link to={linkPath}>{headerText}</Link>
                     </p>
                 </Grid>
             </Grid>
