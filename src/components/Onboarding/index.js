@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
 import { Auth } from "aws-amplify";
+import { connect } from "react-redux";
 
 import Authentication from "./Authentication";
 import TermsOfUse from "./TermsOfUse";
@@ -16,16 +17,13 @@ class Authorization extends Component {
     };
 
     componentDidMount = () => {
-        Auth.currentAuthenticatedUser({ bypassCache: true })
-            .then(res => {
-                if (res.attributes.email_verified) {
-                    this.setState({ activeSection: 2 });
-                }
-            })
-            .catch(err => {});
+        if (this.props.isEmailVerified) {
+            this.setState({ activeSection: 2 });
+        }
     };
 
     componentDidUpdate = () => {
+        console.log("didUpdate");
         if (sessionStorage.getItem(Session.USERNAME) && this.state.activeSection === 1) {
             Auth.currentAuthenticatedUser({ bypassCache: true })
                 .then(res => {
@@ -52,6 +50,7 @@ class Authorization extends Component {
     };
 
     render() {
+        console.log("Onboarding", this.props.isEmailVerified);
         const { classes } = this.props;
         const { activeSection } = this.state;
         const username = sessionStorage.getItem(Session.USERNAME);
@@ -105,4 +104,8 @@ class Authorization extends Component {
     }
 }
 
-export default withStyles(useStyles)(Authorization);
+const mapStateToProps = state => ({
+    isEmailVerified: state.userReducer.isEmailVerified,
+});
+
+export default connect(mapStateToProps)(withStyles(useStyles)(Authorization));

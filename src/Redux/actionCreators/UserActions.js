@@ -13,7 +13,6 @@ export const setUserDetails = dispatch => {
     };
     Auth.currentAuthenticatedUser({ bypassCache: true })
         .then(res => {
-            console.log("currentAuthenticatedUser", res);
             if (res === null || res === undefined) {
                 userDetails.payload = { ...userDetails.payload, isLoggedIn: false };
 
