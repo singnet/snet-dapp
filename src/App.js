@@ -8,7 +8,7 @@ import Routes from "./utility/stringConstants/Routes";
 import { aws_config } from "./aws_config";
 import theme from "./assets/Theme";
 import withRegistrationHeader from "./components/HOC/WithRegistrationHeader";
-import { HeaderData } from "./utility/stringConstants/Header";
+import { headerData } from "./utility/stringConstants/Header";
 import withInAppWrapper from "./components/HOC/WithInAppHeader";
 import { userActions } from "./Redux/actionCreators";
 import PrivateRoute from "./components/common/PrivateRoute";
@@ -43,31 +43,31 @@ class App extends Component {
                         <Switch>
                             <Route
                                 path={`/${Routes.SIGNUP}`}
-                                component={withRegistrationHeader(SignUp, { ...HeaderData.SIGNUP })}
+                                component={withRegistrationHeader(SignUp, headerData.SIGNUP)}
                             />
                             <Route
                                 path={`/${Routes.LOGIN}`}
                                 {...this.props}
-                                component={withRegistrationHeader(Login, { ...HeaderData.LOGIN })}
+                                component={withRegistrationHeader(Login, headerData.LOGIN)}
                             />
                             <PrivateRoute
                                 path={`/${Routes.FORGOT_PASSWORD}`}
                                 {...this.props}
                                 component={withRegistrationHeader(ForgotPassword, {
-                                    ...HeaderData.FORGOT_PASSWORD,
+                                    ...headerData.FORGOT_PASSWORD,
                                 })}
                             />
                             <PrivateRoute
                                 path={`/${Routes.FORGOT_PASSWORD_SUBMIT}`}
                                 {...this.props}
                                 component={withRegistrationHeader(ForgotPasswordSubmit, {
-                                    ...HeaderData.FORGOT_PASSWORD_SUBMIT,
+                                    ...headerData.FORGOT_PASSWORD_SUBMIT,
                                 })}
                             />
                             <PrivateRoute
                                 path={`/${Routes.ONBOARDING}`}
                                 {...this.props}
-                                component={withRegistrationHeader(Onboarding, { ...HeaderData.ONBOARDING })}
+                                component={withRegistrationHeader(Onboarding, headerData.ONBOARDING)}
                             />
                             <Route
                                 path={`/${Routes.AI_MARKETPLACE}`}

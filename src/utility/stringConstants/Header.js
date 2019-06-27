@@ -1,6 +1,6 @@
 import Routes from "./Routes";
 
-export const HeaderData = {
+export const headerData = {
     SIGNUP: {
         headerTitle: "Already have an account?",
         linkPath: Routes.LOGIN,
