@@ -12,14 +12,6 @@ import Title from "./Title";
 
 const Header = props => {
     const classes = useStyles();
-    // const [isLoggedIn, toggleLoggedIn] = useState(false);
-
-    // Auth.currentAuthenticatedUser({ bypassCache: true }).then(data => {
-    //     if (data === null || data === undefined) {
-    //         toggleLoggedIn(false);
-    //     }
-    //     toggleLoggedIn(true);
-    // });
 
     const handleSignOut = () => {
         Auth.signOut()

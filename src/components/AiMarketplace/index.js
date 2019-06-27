@@ -4,7 +4,6 @@ import { withStyles } from "@material-ui/styles";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { APIEndpoints } from "../../utility/stringConstants/APIEndpoints";
 import StyledButton from "../common/StyledButton";
 import MainSection from "./MainSection";
 
@@ -18,7 +17,7 @@ class AiMarketplace extends Component {
     };
 
     render() {
-        const { classes, serviceReducers: servicesList } = this.props;
+        const { classes, servicesList } = this.props;
         console.log("Login props", this.props);
 
         return (
@@ -49,7 +48,7 @@ class AiMarketplace extends Component {
     }
 }
 
-const mapStateToProps = state => ({ ...state });
+const mapStateToProps = state => ({ servicesList: state.serviceReducers.data });
 
 const mapDispatchToProps = dispatch => ({
     fetchService: () => dispatch(serviceActions.fetchService),

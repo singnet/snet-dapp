@@ -91,7 +91,7 @@ class Login extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-    setUserDetails: () => dispatch(userActions.setUser({ isLoggedIn: true })),
+    setUserDetails: () => dispatch(userActions.setUserDetails({ isLoggedIn: true })),
 });
 export default connect(
     null,
