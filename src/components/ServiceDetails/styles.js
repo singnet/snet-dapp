@@ -1,11 +1,60 @@
 export const useStyles = theme => ({
     serviceDetailContainer: {
         width: "auto",
-        margin: "0 60px",
+        margin: "30px 60px 0",
         backgroundColor: theme.palette.text.offWhiteColor,
     },
+    computerVisionContainer: {
+        display: "flex",
+    },
+    computerVisionContent: {
+        marginLeft: 25,
+        "& > span": {
+            color: theme.palette.text.primary,
+            fontSize: 14,
+            textTransform: "uppercase",
+        },
+        "& h2": {
+            color: theme.palette.text.darkShadedGray,
+            fontSize: 38,
+        },
+    },
+    ratingStars: {
+        "& .dv-star-rating-empty-star": {
+            "& i": {
+                color: theme.palette.text.disabledBtnBg,
+            },
+        },
+        "& i": {
+            color: theme.palette.text.RatingStarColor,
+            fontSize: 22,
+            paddingRight: 2,
+        },
+    },
+    ratedCount: {
+        marginLeft: 10,
+        display: "inline-block",
+        color: theme.palette.text.secondary,
+        fontSize: 12,
+        fontWeight: theme.typography.fontweight,
+        letterSpacing: 2,
+        verticalAlign: "super",
+    },
+    apiCall: {
+        padding: "6px 15px",
+        borderWidth: 1,
+        borderStyle: "solid",
+        borderColor: theme.palette.text.lightGray,
+        borderRadius: 4,
+        marginLeft: 20,
+        color: theme.palette.text.lightShadedGray,
+        fontSize: 12,
+        fontWeight: 600,
+        letterSpacing: 2,
+        verticalAlign: "super",
+    },
     creditsContainer: {
-        padding: "15px 0",
+        padding: "12px 0",
         backgroundColor: theme.palette.text.gray2,
         border: "1px solid #E2E2E2",
         borderRadius: 4,
@@ -14,6 +63,8 @@ export const useStyles = theme => ({
         "& p": {
             margin: 0,
             color: theme.palette.text.mediumShadeGray,
+            lineHeight: "14px",
+            paddingTop: 5,
             "& i": {
                 paddingRight: 12,
                 color: theme.palette.text.lightShadedGray,
@@ -38,6 +89,7 @@ export const useStyles = theme => ({
                 "&:last-of-type": {
                     color: theme.palette.text.purple,
                     fontSize: 38,
+                    lineHeight: "34px",
                 },
             },
         },
