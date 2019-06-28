@@ -21,6 +21,8 @@ const AiMarketplace = lazy(() => import("./components/AiMarketplace"));
 const SignUp = lazy(() => import("./components/Login/Signup"));
 const Login = lazy(() => import("./components/Login"));
 
+const ServiceDetails = lazy(() => import("./components/ServiceDetails"));
+
 Amplify.configure(aws_config);
 
 class App extends Component {
@@ -73,6 +75,11 @@ class App extends Component {
                                 path={`/${Routes.AI_MARKETPLACE}`}
                                 {...this.props}
                                 component={withInAppWrapper(AiMarketplace)}
+                            />
+                            <Route
+                                path={`/${Routes.SERVICE_DETAILS}`}
+                                {...this.props}
+                                component={withInAppWrapper(ServiceDetails)}
                             />
                             <Route path="/" exact {...this.props} component={withInAppWrapper(AiMarketplace)} />
                             <Route component={PageNotFound} />
