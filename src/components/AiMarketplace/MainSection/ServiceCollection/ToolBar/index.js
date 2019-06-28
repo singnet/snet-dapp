@@ -22,6 +22,14 @@ const useStyles = makeStyles(theme => ({
         color: theme.palette.text.lightShadedGray,
         fontSize: 18,
     },
+    searchBar: {
+        "& div": {
+            color: theme.palette.text.mediumShadeGray,
+            "&::after": {
+                borderBottomColor: "#9b9b9b !important",
+            },
+        },
+    },
     iconsContainer: {
         display: "flex",
         alignItems: "flex-end",
@@ -40,7 +48,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const ToolBar = ({ listView, total_count }) => {
-    const [showSearchInput, toggleSearchInput] = useState(false);
+    const [showSearchInput, toggleSearchInput] = useState(true);
     const classes = useStyles();
 
     return (
@@ -51,9 +59,9 @@ const ToolBar = ({ listView, total_count }) => {
             </Grid>
             <Grid item xs={12} sm={6} md={6} lg={6} className={classes.iconsContainer}>
                 <span className={classes.servicesCount}>{total_count} services &nbsp;&nbsp;&nbsp; | </span>
-                <button>
+                <button className={classes.searchBar}>
                     {showSearchInput ? (
-                        <Input error onBlur={() => toggleSearchInput(false)} autoFocus />
+                        <Input error onBlur={() => toggleSearchInput(true)} autoFocus />
                     ) : (
                         <Icon className={clsx(classes.icon, "fa fa-search")} onClick={() => toggleSearchInput(true)} />
                     )}
