@@ -14,17 +14,17 @@ class ServiceDetails extends Component {
         const { classes } = this.props;
         return (
             <Grid container spacing={24} className={classes.serviceDetailContainer}>
-                <Grid item xs={12} sm={12} md={8} lg={8} className={classes.computerVision}>
+                <Grid item xs={12} sm={12} md={8} lg={8} className={classes.computerVisionContainer}>
                     <div>
                         <img src="http://placehold.it/229x129" alt="Image" />
                     </div>
-                    <div>
+                    <div className={classes.computerVisionContent}>
                         <span>computer vision</span>
                         <h2>Colorful Image Colorization</h2>
                         <div>
                             <StarRatingComponent name="rate1" starCount={5} value={3} className={classes.ratingStars} />
                             <span className={classes.ratedCount}>3.0 (1500)</span>
-                            <span>API Calls: 5,458,477</span>
+                            <span className={classes.apiCall}>API Calls: 5,458,477</span>
                         </div>
                     </div>
                 </Grid>
