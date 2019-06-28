@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 import Icon from "@material-ui/core/Icon";
 import clsx from "clsx";
 import { connect } from "react-redux";
-import Input from "@material-ui/core/Input";
 
 import StyledDropdown from "../../../../common/StyledDropdown";
 import { serviceActions } from "../../../../../Redux/actionCreators";
