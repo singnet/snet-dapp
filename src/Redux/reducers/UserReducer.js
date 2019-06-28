@@ -1,10 +1,10 @@
 import { userActions } from "../actionCreators";
-import { arrowFunctionExpression } from "@babel/types";
 
 const userDetails = {
     isInitialized: false,
     isLoggedIn: false,
     isEmailVerified: false,
+    isWalletAssigned: false,
 };
 
 const userReducer = (state = userDetails, action) => {
@@ -24,6 +24,11 @@ const userReducer = (state = userDetails, action) => {
 
         case userActions.SIGN_OUT: {
             return { ...state, isLoggedIn: action.payload.isLoggedIn };
+        }
+
+        case userActions.CHECK_WALLET_STATUS: {
+            console.log("check wallet status", action);
+            return { ...state, isWalletAssigned: action.payload.isWalletAssigned };
         }
 
         default: {

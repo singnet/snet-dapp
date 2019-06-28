@@ -9,6 +9,8 @@ import Session from "../../utility/stringConstants/Session";
 import WalletKey from "./WalletKey";
 import { useStyles } from "./styles";
 import OnboardingContainer from "./OnboardingContainer";
+import Routes from "../../utility/stringConstants/Routes";
+import { userActions } from "../../Redux/actionCreators";
 
 class Onboarding extends Component {
     state = {
@@ -17,12 +19,24 @@ class Onboarding extends Component {
     };
 
     componentDidMount = () => {
+        console.log("mount route", this.props.isWalletAssigned);
+        this.props.checkWalletStatus();
+        if (this.props.isWalletAssigned) {
+            console.log("mount route");
+            this.props.history.push(Routes.AI_MARKETPLACE);
+        }
         if (this.props.isEmailVerified) {
             this.setState({ activeSection: 2 });
         }
     };
 
     componentDidUpdate = () => {
+        console.log("mount route", this.props.isWalletAssigned);
+
+        if (this.props.isWalletAssigned) {
+            console.log("update route");
+            this.props.history.push(Routes.AI_MARKETPLACE);
+        }
         if (sessionStorage.getItem(Session.USERNAME) && this.state.activeSection === 1) {
             Auth.currentAuthenticatedUser({ bypassCache: true })
                 .then(res => {
@@ -41,7 +55,7 @@ class Onboarding extends Component {
     };
 
     render() {
-        console.log("Onboarding", this.props.isEmailVerified);
+        console.log("Onboarding", this.props);
         const { classes } = this.props;
         const { activeSection } = this.state;
         const username = sessionStorage.getItem(Session.USERNAME);
@@ -97,6 +111,14 @@ class Onboarding extends Component {
 
 const mapStateToProps = state => ({
     isEmailVerified: state.userReducer.isEmailVerified,
+    isWalletAssigned: state.userReducer.isWalletAssigned,
 });
 
-export default connect(mapStateToProps)(withStyles(useStyles)(Onboarding));
+const mapDispatchToProps = dispatch => ({
+    checkWalletStatus: () => dispatch(userActions.checkWalletStatus),
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withStyles(useStyles)(Onboarding));

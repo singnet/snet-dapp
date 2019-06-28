@@ -177,7 +177,7 @@ class SignUp extends Component {
                             onChange={this.handlePassword}
                         />
 
-                        {error && <ErrorMsgBox errorMsg={error} />}
+                        <ErrorMsgBox errorMsg={error} showErr={error} />
                         <div style={{ marginTop: 20 }}></div>
                         <StyledButton type="blue" btnText="Sign up for free credits" onClick={this.handleSubmit} />
                     </form>
