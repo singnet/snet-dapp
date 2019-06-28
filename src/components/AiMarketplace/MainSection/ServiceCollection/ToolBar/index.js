@@ -1,43 +1,26 @@
-import React from "react";
-import { makeStyles } from "@material-ui/styles";
+import React, { useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import Icon from "@material-ui/core/Icon";
 import clsx from "clsx";
+import { connect } from "react-redux";
 
 import StyledDropdown from "../../../../common/StyledDropdown";
+import { serviceActions } from "../../../../../Redux/actionCreators";
+import { useStyles } from "./styles";
+import SearchInputToggler from "./SearchInputToggler";
 
-const useStyles = makeStyles(theme => ({
-    sortBySection: {
-        display: "flex",
-        alignItems: "flex-end",
-    },
-    sortbyTxt: {
-        padding: "0 10px 5px 0",
-        color: theme.palette.text.lightShadedGray,
-        fontSize: 18,
-    },
-    servicesCount: {
-        color: theme.palette.text.lightShadedGray,
-        fontSize: 18,
-    },
-    iconsContainer: {
-        display: "flex",
-        alignItems: "flex-end",
-        justifyContent: "flex-end",
-        "& button": {
-            border: "none",
-            backgroundColor: "transparent",
-            outline: "none",
-            cursor: "pointer",
-            "& span": {
-                color: theme.palette.text.lightShadedGray,
-                fontSize: 17,
-            },
-        },
-    },
-}));
+const ToolBar = ({ listView, total_count, fetchService }) => {
+    const [showSearchInput, toggleSearchInput] = useState(false);
+    const [searchKeyword, setSearchKeyword] = useState("");
 
-const ToolBar = ({ listView }) => {
+    const handleSearch = event => {
+        setSearchKeyword(event.target.value);
+        const pagination = {
+            q: event.target.value,
+        };
+        fetchService(pagination);
+    };
+
     const classes = useStyles();
 
     return (
@@ -47,9 +30,14 @@ const ToolBar = ({ listView }) => {
                 <StyledDropdown labelTxt="Featured" />
             </Grid>
             <Grid item xs={12} sm={6} md={6} lg={6} className={classes.iconsContainer}>
-                <span className={classes.servicesCount}>33 services &nbsp;&nbsp;&nbsp; | </span>
-                <button>
-                    <Icon className={clsx(classes.icon, "fa fa-search")} />
+                <span className={classes.servicesCount}>{total_count} services &nbsp;&nbsp;&nbsp; | </span>
+                <button className={classes.searchBar}>
+                    <SearchInputToggler
+                        showSearchInput={showSearchInput}
+                        toggleSearchInput={toggleSearchInput}
+                        handleSearch={handleSearch}
+                        searchKeyword={searchKeyword}
+                    />
                 </button>
                 {listView ? (
                     <button>
@@ -65,4 +53,15 @@ const ToolBar = ({ listView }) => {
     );
 };
 
-export default ToolBar;
+const mapStateToProps = state => ({
+    total_count: state.serviceReducer.total_count,
+});
+
+const mapDispatchToProps = dispatch => ({
+    fetchService: pagination => dispatch(serviceActions.fetchService(pagination)),
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ToolBar);

@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import { Auth } from "aws-amplify";
 import { connect } from "react-redux";
 
 import StyledButton from "../common/StyledButton";
@@ -41,15 +40,16 @@ class Login extends Component {
         this.setState({ password: event.currentTarget.value });
     };
 
-    handleSubmit = event => {
+    handleSubmit = async event => {
         this.setState({ error: undefined });
         const { username, password } = this.state;
         event.preventDefault();
         event.stopPropagation();
         let credentials = { username, password };
         try {
-            this.props.login(credentials);
+            await this.props.login(credentials);
         } catch (err) {
+            console.log("handleLogin", err);
             const error = parseError(err);
             this.setState({ error });
         }

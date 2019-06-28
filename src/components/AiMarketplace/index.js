@@ -11,13 +11,17 @@ import Routes from "../../utility/stringConstants/Routes";
 import { serviceActions } from "../../Redux/actionCreators";
 
 class AiMarketplace extends Component {
+    state = {
+        pagination: {},
+    };
+
     componentDidMount = () => {
-        this.props.fetchService();
+        this.props.fetchService(this.state.pagination);
     };
 
     render() {
         const { classes, servicesList } = this.props;
-
+        console.log("serviceList", servicesList);
         return (
             <div className={classes.aiMarketPlaceContainer}>
                 <div className={classes.mainWrapper}>
@@ -47,12 +51,12 @@ class AiMarketplace extends Component {
 }
 
 const mapStateToProps = state => ({
-    servicesList: state.serviceReducer.data,
+    servicesList: state.serviceReducer.result,
     isLoggedIn: state.userReducer.isLoggedIn,
 });
 
 const mapDispatchToProps = dispatch => ({
-    fetchService: () => dispatch(serviceActions.fetchService),
+    fetchService: pagination => dispatch(serviceActions.fetchService(pagination)),
 });
 
 export default connect(
