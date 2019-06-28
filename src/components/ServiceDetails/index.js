@@ -2,16 +2,33 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import Typography from "@material-ui/core/Typography";
 import StarRatingComponent from "react-star-rating-component";
 
 import StyledButton from "../common/StyledButton";
+import StyledTabs from "./StyledTabs";
 import { useStyles } from "./styles";
 
 class ServiceDetails extends Component {
-    state = {};
+    state = {
+        value: 1,
+    };
 
     render() {
         const { classes } = this.props;
+        const { value } = this.state;
+
+        function TabContainer(props) {
+            return (
+                <Typography component="div" style={{ padding: 8 * 3 }}>
+                    {props.children}
+                </Typography>
+            );
+        }
+
         return (
             <Grid container spacing={24} className={classes.serviceDetailContainer}>
                 <Grid item xs={12} sm={12} md={8} lg={8} className={classes.computerVisionContainer}>
@@ -46,6 +63,7 @@ class ServiceDetails extends Component {
                     </p>
                     <StyledButton btnText="demo" />
                 </Grid>
+                <StyledTabs />
             </Grid>
         );
     }

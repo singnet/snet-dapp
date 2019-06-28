@@ -1,7 +1,7 @@
 export const useStyles = theme => ({
     serviceDetailContainer: {
         width: "auto",
-        margin: "30px 60px 0",
+        padding: "30px 60px 0",
         backgroundColor: theme.palette.text.offWhiteColor,
     },
     computerVisionContainer: {
