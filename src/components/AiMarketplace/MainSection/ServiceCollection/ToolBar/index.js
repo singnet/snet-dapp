@@ -7,40 +7,22 @@ import { connect } from "react-redux";
 import Input from "@material-ui/core/Input";
 
 import StyledDropdown from "../../../../common/StyledDropdown";
+import { serviceActions } from "../../../../../Redux/actionCreators";
+import { useStyles } from "./styles";
+import SearchInputToggler from "./SearchInputToggler";
 
-const useStyles = makeStyles(theme => ({
-    sortBySection: {
-        display: "flex",
-        alignItems: "flex-end",
-    },
-    sortbyTxt: {
-        padding: "0 10px 5px 0",
-        color: theme.palette.text.lightShadedGray,
-        fontSize: 18,
-    },
-    servicesCount: {
-        color: theme.palette.text.lightShadedGray,
-        fontSize: 18,
-    },
-    iconsContainer: {
-        display: "flex",
-        alignItems: "flex-end",
-        justifyContent: "flex-end",
-        "& button": {
-            border: "none",
-            backgroundColor: "transparent",
-            outline: "none",
-            cursor: "pointer",
-            "& span": {
-                color: theme.palette.text.lightShadedGray,
-                fontSize: 17,
-            },
-        },
-    },
-}));
-
-const ToolBar = ({ listView, total_count }) => {
+const ToolBar = ({ listView, total_count, fetchService }) => {
     const [showSearchInput, toggleSearchInput] = useState(false);
+    const [searchKeyword, setSearchKeyword] = useState("");
+
+    const handleSearch = event => {
+        setSearchKeyword(event.target.value);
+        const pagination = {
+            q: event.target.value,
+        };
+        fetchService(pagination);
+    };
+
     const classes = useStyles();
 
     return (
@@ -52,11 +34,12 @@ const ToolBar = ({ listView, total_count }) => {
             <Grid item xs={12} sm={6} md={6} lg={6} className={classes.iconsContainer}>
                 <span className={classes.servicesCount}>{total_count} services &nbsp;&nbsp;&nbsp; | </span>
                 <button>
-                    {showSearchInput ? (
-                        <Input error onBlur={() => toggleSearchInput(false)} autoFocus />
-                    ) : (
-                        <Icon className={clsx(classes.icon, "fa fa-search")} onClick={() => toggleSearchInput(true)} />
-                    )}
+                    <SearchInputToggler
+                        showSearchInput={showSearchInput}
+                        toggleSearchInput={toggleSearchInput}
+                        handleSearch={handleSearch}
+                        searchKeyword={searchKeyword}
+                    />
                 </button>
                 {listView ? (
                     <button>
@@ -76,4 +59,11 @@ const mapStateToProps = state => ({
     total_count: state.serviceReducer.total_count,
 });
 
-export default connect(mapStateToProps)(ToolBar);
+const mapDispatchToProps = dispatch => ({
+    fetchService: pagination => dispatch(serviceActions.fetchService(pagination)),
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ToolBar);
