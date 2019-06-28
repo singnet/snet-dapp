@@ -17,6 +17,14 @@ export const useStyles = makeStyles(theme => ({
         color: theme.palette.text.lightShadedGray,
         fontSize: 18,
     },
+    searchBar: {
+        "& div": {
+            color: theme.palette.text.mediumShadeGray,
+            "&::after": {
+                borderBottomColor: "#9b9b9b !important",
+            },
+        },
+    },
     iconsContainer: {
         display: "flex",
         alignItems: "flex-end",
