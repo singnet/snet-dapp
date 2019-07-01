@@ -16,6 +16,7 @@ const ToolBar = ({ listView, total_count, fetchService }) => {
     const handleSearch = event => {
         setSearchKeyword(event.target.value);
         const pagination = {
+            offset: 0,
             q: event.target.value,
         };
         fetchService(pagination);
