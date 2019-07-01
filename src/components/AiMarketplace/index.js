@@ -21,7 +21,6 @@ class AiMarketplace extends Component {
 
   render() {
     const { classes, servicesList } = this.props;
-    console.log("serviceList", servicesList);
     return (
       <div className={classes.aiMarketPlaceContainer}>
         <div className={classes.mainWrapper}>
