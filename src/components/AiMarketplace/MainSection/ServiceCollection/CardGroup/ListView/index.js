@@ -14,47 +14,47 @@ import IconButton from "@material-ui/core/IconButton";
 import { useStyles } from "./styles";
 
 const ListView = props => {
-    const classes = useStyles();
-    return (
-        <Card className={classes.card}>
-            <Grid container spacing={24} className={classes.cardItemsContainer}>
-                <Grid item xs={12} sm={1} md={1} lg={1} className={classes.mediaContainer}>
-                    <CardMedia className={classes.CardMedia} image={props.cardMedia} title={props.title} />
-                </Grid>
-                <Grid item xs={12} sm={10} md={10} lg={10}>
-                    <CardHeader
-                        className={classes.cardHeader}
-                        classes={{
-                            title: classes.cardTitle,
-                        }}
-                        title={props.cardTitle}
-                    />
-                    <CardContent className={classes.cardContent}>
-                        <div className={classes.ratingSection}>
-                            <span className={classes.cardSubheader}>{props.cardSubheader}</span>
-                            <StarRatingComponent name="rate1" starCount={5} value={3} className={classes.ratingStars} />
-                            <span className={classes.ratedCount}>
-                                {props.ratingGiven} {props.totalRating}
-                            </span>
-                        </div>
-                        <Typography className={classes.cardTypograpy} component="p">
-                            {props.cardDescription}
-                        </Typography>
-                    </CardContent>
-                </Grid>
-                <Grid item xs={12} sm={1} md={1} lg={1}>
-                    <CardActions className={classes.cardActions}>
-                        <Button color="primary" className={classes.demoBtn}>
-                            demo
-                        </Button>
-                        <IconButton aria-label="Settings" className={classes.showMore}>
-                            <MoreVertIcon />
-                        </IconButton>
-                    </CardActions>
-                </Grid>
-            </Grid>
-        </Card>
-    );
+  const classes = useStyles();
+  return (
+    <Card className={classes.card}>
+      <Grid container spacing={24} className={classes.cardItemsContainer}>
+        <Grid item xs={12} sm={1} md={1} lg={1} className={classes.mediaContainer}>
+          <CardMedia className={classes.CardMedia} image={props.cardMedia} title={props.title} />
+        </Grid>
+        <Grid item xs={12} sm={10} md={10} lg={10}>
+          <CardHeader
+            className={classes.cardHeader}
+            classes={{
+              title: classes.cardTitle,
+            }}
+            title={props.cardTitle}
+          />
+          <CardContent className={classes.cardContent}>
+            <div className={classes.ratingSection}>
+              <span className={classes.cardSubheader}>{props.cardSubheader}</span>
+              <StarRatingComponent name="rate1" starCount={5} value={3} className={classes.ratingStars} />
+              <span className={classes.ratedCount}>
+                {props.ratingGiven} {props.totalRating}
+              </span>
+            </div>
+            <Typography className={classes.cardTypograpy} component="p">
+              {props.cardDescription}
+            </Typography>
+          </CardContent>
+        </Grid>
+        <Grid item xs={12} sm={1} md={1} lg={1}>
+          <CardActions className={classes.cardActions}>
+            <Button color="primary" className={classes.demoBtn}>
+              demo
+            </Button>
+            <IconButton aria-label="Settings" className={classes.showMore}>
+              <MoreVertIcon />
+            </IconButton>
+          </CardActions>
+        </Grid>
+      </Grid>
+    </Card>
+  );
 };
 
 export default ListView;

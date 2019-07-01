@@ -6,23 +6,17 @@ import clsx from "clsx";
 import { useStyles } from "./styles";
 
 const SearchInputToggler = ({ showSearchInput, toggleSearchInput, handleSearch, searchKeyword }) => {
-    const classes = useStyles();
+  const classes = useStyles();
 
-    return (
-        <Fragment>
-            {showSearchInput ? (
-                <Input
-                    error
-                    onBlur={() => toggleSearchInput(false)}
-                    autoFocus
-                    onChange={handleSearch}
-                    value={searchKeyword}
-                />
-            ) : (
-                <Icon className={clsx(classes.icon, "fa fa-search")} onClick={() => toggleSearchInput(true)} />
-            )}
-        </Fragment>
-    );
+  return (
+    <Fragment>
+      {showSearchInput ? (
+        <Input error onBlur={() => toggleSearchInput(false)} autoFocus onChange={handleSearch} value={searchKeyword} />
+      ) : (
+        <Icon className={clsx(classes.icon, "fa fa-search")} onClick={() => toggleSearchInput(true)} />
+      )}
+    </Fragment>
+  );
 };
 
 export default SearchInputToggler;

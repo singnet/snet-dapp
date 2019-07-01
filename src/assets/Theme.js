@@ -34,48 +34,48 @@ const aqua = "#00C48C";
 const errorRed = "#B00020";
 
 const theme = createMuiTheme({
-    palette: {
-        text: {
-            primary: customBlue,
-            white: whiteColor,
-            disabledBtnBg,
-            black1,
-            darkShadedGray,
-            mediumShadeGray,
-            lightShadedGray,
-            offWhiteColor,
-            offWhite,
-            green,
-            purple,
-            darkOrange,
-            orange,
-            orange1,
-            aqua,
-            lightGray,
-            gray,
-            gray1,
-            errorRed,
-            RatingStarColor,
-        },
+  palette: {
+    text: {
+      primary: customBlue,
+      white: whiteColor,
+      disabledBtnBg,
+      black1,
+      darkShadedGray,
+      mediumShadeGray,
+      lightShadedGray,
+      offWhiteColor,
+      offWhite,
+      green,
+      purple,
+      darkOrange,
+      orange,
+      orange1,
+      aqua,
+      lightGray,
+      gray,
+      gray1,
+      errorRed,
+      RatingStarColor,
     },
-    typography: {
-        primary: {
-            main: ["OpenSans"],
-        },
-        secondary: {
-            main: ["Raleway"],
-        },
-        tertiary: {
-            main: ["Roboto"],
-        },
-        fontweight: 600,
+  },
+  typography: {
+    primary: {
+      main: ["OpenSans"],
     },
-    backgroundColor: {
-        blue: customBlue,
-        red: errorBgColor,
-        white: whiteColor,
-        githubBlack,
+    secondary: {
+      main: ["Raleway"],
     },
+    tertiary: {
+      main: ["Roboto"],
+    },
+    fontweight: 600,
+  },
+  backgroundColor: {
+    blue: customBlue,
+    red: errorBgColor,
+    white: whiteColor,
+    githubBlack,
+  },
 });
 
 export default theme;

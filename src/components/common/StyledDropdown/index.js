@@ -7,54 +7,54 @@ import PropTypes from "prop-types";
 import { useStyles } from "./styles";
 
 const StyledDropdown = ({ labelTxt, list }) => {
-    const classes = useStyles();
+  const classes = useStyles();
 
-    const [state, setState] = React.useState({
-        featured: "",
+  const [state, setState] = React.useState({
+    featured: "",
+  });
+
+  const handleChange = name => event => {
+    setState({
+      ...state,
+      [name]: event.target.value,
     });
+  };
 
-    const handleChange = name => event => {
-        setState({
-            ...state,
-            [name]: event.target.value,
-        });
-    };
-
-    return (
-        <FormControl className={classes.formControl}>
-            <InputLabel htmlFor="featured-label">{labelTxt}</InputLabel>
-            <Select
-                native
-                value={state.featured}
-                onChange={handleChange("featured")}
-                inputProps={{
-                    name: "featured",
-                    id: "featured-label",
-                }}
-            >
-                <option value="" />
-                {list.map(item => (
-                    <option key={item.value} value={item.value}>
-                        {item.label}
-                    </option>
-                ))}
-            </Select>
-        </FormControl>
-    );
+  return (
+    <FormControl className={classes.formControl}>
+      <InputLabel htmlFor="featured-label">{labelTxt}</InputLabel>
+      <Select
+        native
+        value={state.featured}
+        onChange={handleChange("featured")}
+        inputProps={{
+          name: "featured",
+          id: "featured-label",
+        }}
+      >
+        <option value="" />
+        {list.map(item => (
+          <option key={item.value} value={item.value}>
+            {item.label}
+          </option>
+        ))}
+      </Select>
+    </FormControl>
+  );
 };
 
 StyledDropdown.propTypes = {
-    labelTxt: PropTypes.string,
-    list: PropTypes.arrayOf(
-        PropTypes.shape({
-            value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-            label: PropTypes.string,
-        })
-    ),
+  labelTxt: PropTypes.string,
+  list: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      label: PropTypes.string,
+    })
+  ),
 };
 
 StyledDropdown.defaultProps = {
-    list: [{ value: 10, label: "Ten" }, { value: 20, label: "Twenty" }, { value: 30, label: "Thirty" }],
+  list: [{ value: 10, label: "Ten" }, { value: 20, label: "Twenty" }, { value: 30, label: "Thirty" }],
 };
 
 export default StyledDropdown;

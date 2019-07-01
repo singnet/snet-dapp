@@ -1,10 +1,10 @@
 const Routes = {
-    SIGNUP: "signup",
-    LOGIN: "login",
-    FORGOT_PASSWORD: "forgotpassword",
-    FORGOT_PASSWORD_SUBMIT: "forgotpasswordsubmit",
-    ONBOARDING: "onboarding",
-    AI_MARKETPLACE: "aimarketplace",
+  SIGNUP: "signup",
+  LOGIN: "login",
+  FORGOT_PASSWORD: "forgotpassword",
+  FORGOT_PASSWORD_SUBMIT: "forgotpasswordsubmit",
+  ONBOARDING: "onboarding",
+  AI_MARKETPLACE: "aimarketplace",
 };
 
 export default Routes;
