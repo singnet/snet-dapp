@@ -27,8 +27,8 @@
         "test": "react-scripts test",
         "eject": "react-scripts eject",
         "precommit": "pretty-quick --staged",
-        "lint": "eslint .",
-        "lint:fix": "eslint . --fix",
+        "lint": "eslint --ignore-path .gitignore .",
+        "lint:fix": "eslint --ignore-path .gitignore . --fix",
         "deploy": "node scripts/deploy.js enhanced-marketplace us-east-1"
     },
     "eslintConfig": {
