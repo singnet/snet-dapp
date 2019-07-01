@@ -1,5 +1,6 @@
 export const useStyles = theme => ({
     aboutContainer: {
+        paddingBottom: 100,
         marginTop: 15,
         "& h3": {
             padding: "11px 22px",
@@ -139,7 +140,7 @@ export const useStyles = theme => ({
     },
     projectDetailsContainer: {
         boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
-        paddingBottom: 30,
+        padding: "0 25px 30px 0",
         borderRadius: 4,
         marginTop: 30,
         backgroundColor: theme.palette.text.white,

@@ -4,6 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 
 import StyledButton from "../../common/StyledButton";
+import StyledGallery from "./StyledGallery";
 import { useStyles } from "./styles";
 
 class AboutService extends Component {
@@ -120,9 +121,7 @@ class AboutService extends Component {
                         </div>
                     </div>
 
-                    <div className={classes.galleryContainer}>
-                        <h3>Gallery</h3>
-                    </div>
+                    <StyledGallery />
                 </Grid>
             </Grid>
         );
