@@ -54,7 +54,7 @@ StyledDropdown.propTypes = {
 };
 
 StyledDropdown.defaultProps = {
-  list: [{ value: 10, label: "Ten" }, { value: 20, label: "Twenty" }, { value: 30, label: "Thirty" }],
+  list: [{ value: "", label: "" }, { value: "", label: "" }, { value: "", label: "" }],
 };
 
 export default StyledDropdown;

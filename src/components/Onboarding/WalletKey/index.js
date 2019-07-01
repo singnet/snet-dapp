@@ -53,8 +53,7 @@ class TermsOfUse extends Component {
       <div className={classes.walletKeyContainer}>
         <h3>Wallet Key</h3>
         <p>
-          <span>Brief information about wallet and key.</span> Lorem ipsum dolor sit amet, ad vis affert dictas. Has an
-          scripta ponderum accommodare, adhuc dolorum adolescens per
+          <span></span>
         </p>
         {privateKey ? (
           <p className={classes.privateKey}>{privateKey}</p>

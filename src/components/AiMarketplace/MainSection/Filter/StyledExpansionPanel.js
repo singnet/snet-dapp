@@ -14,49 +14,49 @@ class StyledExpansionPanel extends Component {
   state = {
     expansionData: [
       {
-        title: "Categories",
+        title: "",
         items: [
           {
-            title: "Text Analysis",
-            count: "25",
+            title: "",
+            count: "",
           },
           {
-            title: "Computer Vision",
-            count: "21",
+            title: "",
+            count: "",
           },
           {
-            title: "Deep Learning",
-            count: "17",
+            title: "",
+            count: "",
           },
         ],
       },
       {
-        title: "Price",
+        title: "",
         items: [
           {
-            title: "Machine Learning",
-            count: "29",
+            title: "",
+            count: "",
           },
           {
-            title: "Sentiments Analysis",
-            count: "18",
+            title: "",
+            count: "",
           },
           {
-            title: "Microservices",
-            count: "18",
+            title: "",
+            count: "",
           },
         ],
       },
       {
-        title: "Vendors",
+        title: "",
         items: [
           {
-            title: "Time Series",
-            count: "17",
+            title: "",
+            count: "",
           },
           {
-            title: "Utilities",
-            count: "18",
+            title: "",
+            count: "",
           },
         ],
       },

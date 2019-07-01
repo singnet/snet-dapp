@@ -13,8 +13,8 @@ const CardGroup = ({ data }) => {
           cardMedia={CardImg}
           cardTitle={item.org_id}
           cardSubheader={item.display_name}
-          ratingGiven="3.0"
-          totalRating="(1500)"
+          ratingGiven=""
+          totalRating=""
           cardDescription={item.description}
         />
       ))}

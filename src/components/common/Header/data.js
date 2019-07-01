@@ -6,12 +6,12 @@ const tabs = [
   },
   {
     title: "Pricing",
-    active: true,
+    active: false,
     link: "#",
   },
   {
     title: "Get Started",
-    active: true,
+    active: false,
     link: "#",
   },
 ];
@@ -19,14 +19,7 @@ const tabs = [
 const dropdowns = [
   {
     label: "Resources",
-    children: [
-      {
-        label: "one",
-      },
-      {
-        label: "two",
-      },
-    ],
+    list: [{ value: "", label: "" }, { value: "", label: "" }, { value: "", label: "" }],
   },
 ];
 

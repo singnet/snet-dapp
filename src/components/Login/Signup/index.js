@@ -122,16 +122,7 @@ class SignUp extends Component {
             </li>
             <li>
               <Icon className="fas fa-check-circle" />
-              <p>
-                Get 100 free credits to try out any of the AI services available. Easily refill your credits anytime.{" "}
-              </p>
-            </li>
-            <li>
-              <Icon className="fas fa-check-circle" />
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua.
-              </p>
+              <p>Get free credits to try out any of the AI services available. Easily refill your credits anytime. </p>
             </li>
           </ul>
         </Grid>

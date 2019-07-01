@@ -32,7 +32,7 @@ const ListView = props => {
           <CardContent className={classes.cardContent}>
             <div className={classes.ratingSection}>
               <span className={classes.cardSubheader}>{props.cardSubheader}</span>
-              <StarRatingComponent name="rate1" starCount={5} value={3} className={classes.ratingStars} />
+              <StarRatingComponent name="rate1" starCount={0} value={0} className={classes.ratingStars} />
               <span className={classes.ratedCount}>
                 {props.ratingGiven} {props.totalRating}
               </span>
