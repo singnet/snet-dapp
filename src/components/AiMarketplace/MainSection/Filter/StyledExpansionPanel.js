@@ -11,92 +11,88 @@ import { withStyles } from "@material-ui/styles";
 import { useStyles } from "./styles";
 
 class StyledExpansionPanel extends Component {
-    state = {
-        expansionData: [
-            {
-                title: "Categories",
-                items: [
-                    {
-                        title: "Text Analysis",
-                        count: "25",
-                    },
-                    {
-                        title: "Computer Vision",
-                        count: "21",
-                    },
-                    {
-                        title: "Deep Learning",
-                        count: "17",
-                    },
-                ],
-            },
-            {
-                title: "Price",
-                items: [
-                    {
-                        title: "Machine Learning",
-                        count: "29",
-                    },
-                    {
-                        title: "Sentiments Analysis",
-                        count: "18",
-                    },
-                    {
-                        title: "Microservices",
-                        count: "18",
-                    },
-                ],
-            },
-            {
-                title: "Vendors",
-                items: [
-                    {
-                        title: "Time Series",
-                        count: "17",
-                    },
-                    {
-                        title: "Utilities",
-                        count: "18",
-                    },
-                ],
-            },
+  state = {
+    expansionData: [
+      {
+        title: "Categories",
+        items: [
+          {
+            title: "Text Analysis",
+            count: "25",
+          },
+          {
+            title: "Computer Vision",
+            count: "21",
+          },
+          {
+            title: "Deep Learning",
+            count: "17",
+          },
         ],
-    };
+      },
+      {
+        title: "Price",
+        items: [
+          {
+            title: "Machine Learning",
+            count: "29",
+          },
+          {
+            title: "Sentiments Analysis",
+            count: "18",
+          },
+          {
+            title: "Microservices",
+            count: "18",
+          },
+        ],
+      },
+      {
+        title: "Vendors",
+        items: [
+          {
+            title: "Time Series",
+            count: "17",
+          },
+          {
+            title: "Utilities",
+            count: "18",
+          },
+        ],
+      },
+    ],
+  };
 
-    render() {
-        const { classes } = this.props;
-        const { expansionData } = this.state;
+  render() {
+    const { classes } = this.props;
+    const { expansionData } = this.state;
 
-        return (
-            <Fragment>
-                {expansionData.map(val => (
-                    <ExpansionPanel className={classes.filterExpansionPanel}>
-                        <ExpansionPanelSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel1a-content"
-                            id="panel1a-header"
-                        >
-                            <Typography className={classes.filtersHeadingTitle}>{val.title}</Typography>
-                        </ExpansionPanelSummary>
-                        <ExpansionPanelDetails className={classes.filterDetails}>
-                            {val.items.map(item => (
-                                <div className={classes.formCntrlGrup}>
-                                    <FormControlLabel
-                                        control={<Checkbox checked={true} value="textAnalysis" />}
-                                        label={item.title}
-                                        classes={{
-                                            label: classes.checkboxLabel,
-                                        }}
-                                    />
-                                    <span className={classes.count}>{item.count}</span>
-                                </div>
-                            ))}
-                        </ExpansionPanelDetails>
-                    </ExpansionPanel>
-                ))}
-            </Fragment>
-        );
-    }
+    return (
+      <Fragment>
+        {expansionData.map(val => (
+          <ExpansionPanel className={classes.filterExpansionPanel}>
+            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+              <Typography className={classes.filtersHeadingTitle}>{val.title}</Typography>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails className={classes.filterDetails}>
+              {val.items.map(item => (
+                <div className={classes.formCntrlGrup}>
+                  <FormControlLabel
+                    control={<Checkbox checked={true} value="textAnalysis" />}
+                    label={item.title}
+                    classes={{
+                      label: classes.checkboxLabel,
+                    }}
+                  />
+                  <span className={classes.count}>{item.count}</span>
+                </div>
+              ))}
+            </ExpansionPanelDetails>
+          </ExpansionPanel>
+        ))}
+      </Fragment>
+    );
+  }
 }
 
 export default withStyles(useStyles)(StyledExpansionPanel);

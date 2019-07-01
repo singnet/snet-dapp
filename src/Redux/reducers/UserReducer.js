@@ -1,6 +1,6 @@
 import { userActions } from "../actionCreators";
 
-const userDetails = {
+const InitialUserDetails = {
   login: {
     isLoggedIn: false,
     error: undefined,
@@ -11,7 +11,7 @@ const userDetails = {
   isWalletAssigned: false,
 };
 
-const userReducer = (state = userDetails, action) => {
+const userReducer = (state = InitialUserDetails, action) => {
   switch (action.type) {
     case userActions.SET_USER_DETAILS: {
       return {

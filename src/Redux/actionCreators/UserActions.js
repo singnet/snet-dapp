@@ -97,7 +97,6 @@ export const signOut = dispatch => {
         loading: false,
       };
     })
-    .catch(() => {})
     .finally(() => dispatch(userDetails));
 };
 
@@ -114,14 +113,12 @@ export const checkWalletStatus = (dispatch, getState) => {
           username,
         },
       };
-      API.get(apiName, path, myInit)
-        .then(res => {
-          dispatch({
-            type: CHECK_WALLET_STATUS,
-            payload: { isWalletAssigned: res.data.isAssigned },
-          });
-        })
-        .catch(() => {});
+      API.get(apiName, path, myInit).then(res => {
+        dispatch({
+          type: CHECK_WALLET_STATUS,
+          payload: { isWalletAssigned: res.data.isAssigned },
+        });
+      });
     })
     .catch(err => {
       if (err === "No current user") {

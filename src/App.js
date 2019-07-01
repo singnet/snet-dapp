@@ -24,10 +24,6 @@ const Login = lazy(() => import("./components/Login"));
 Amplify.configure(aws_config);
 
 class App extends Component {
-  state = {
-    initialized: false,
-  };
-
   componentDidMount = () => {
     this.props.setUserDetails();
   };

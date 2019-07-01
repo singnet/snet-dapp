@@ -14,6 +14,7 @@
     ],
     "lines-between-class-members": ["error", "always"],
     "jsx-a11y/anchor-is-valid": false,
-    "prefer-arrow-callback": ["error", { "allowNamedFunctions": false, "allowUnboundThis": false }]
+    "prefer-arrow-callback": ["error", { "allowNamedFunctions": false, "allowUnboundThis": false }],
+    "no-empty-function": ["error"]
   }
 }
