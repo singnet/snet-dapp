@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
 import { Auth } from "aws-amplify";
 import { withStyles } from "@material-ui/styles";
+import { withRouter } from "react-router-dom";
 
 import StyledButton from "../../common/StyledButton";
 import Session from "../../../utility/stringConstants/Session";
@@ -10,6 +11,7 @@ import { parseError } from "../../../utility/ErrorHandling";
 import { useStyles } from "./styles";
 import ErrorMsgText from "../../common/ErrorMsgText";
 import InlineLoader from "../../common/InlineLoader";
+import Routes from "../../../utility/stringConstants/Routes";
 
 class Authentication extends Component {
     state = {
@@ -34,7 +36,7 @@ class Authentication extends Component {
         Auth.confirmSignUp(username, verificationCode)
             .then(res => {
                 this.setState({ loading: false });
-                this.props.handleNextSection();
+                this.props.history.push(Routes.LOGIN);
             })
             .catch(err => {
                 let error = parseError(err);
@@ -100,4 +102,4 @@ class Authentication extends Component {
     }
 }
 
-export default withStyles(useStyles)(Authentication);
+export default withRouter(withStyles(useStyles)(Authentication));

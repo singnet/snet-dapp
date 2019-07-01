@@ -11,79 +11,69 @@ import { useStyles } from "./styles";
 import { serviceActions } from "../../../../../Redux/actionCreators";
 
 const StyledPagination = ({ limit, offset, total_count, fetchService }) => {
-    const [itemsPerPage, setItemsPerPage] = useState(10);
-    // const [currentPage, setCurrentPage] = useState(1);
-    const classes = useStyles();
-    console.log("pagination", limit, offset, total_count);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const classes = useStyles();
 
-    const handleItemsPerPage = event => {
-        const pagination = {
-            offset: 0,
-            limit: event.target.value,
-        };
-        fetchService(pagination);
-        setItemsPerPage(event.target.value);
+  const handleItemsPerPage = event => {
+    const pagination = {
+      offset: 0,
+      limit: event.target.value,
     };
+    fetchService(pagination);
+    setItemsPerPage(event.target.value);
+  };
 
-    const handlePageChange = selectedOffset => {
-        console.log(selectedOffset, "same offset", offset);
-        if (selectedOffset === parseFloat(offset)) {
-            return;
-        }
-        const pagination = { offset: selectedOffset };
-        fetchService(pagination);
-    };
+  const handlePageChange = selectedOffset => {
+    if (selectedOffset === parseFloat(offset)) {
+      return;
+    }
+    const pagination = { offset: selectedOffset };
+    fetchService(pagination);
+  };
 
-    return (
-        <Grid container spacing={24} className={classes.paginationContainer}>
-            <Grid item xs={12} sm={6} md={6} lg={6} className={classes.pagination}>
-                <Pagination
-                    limit={limit}
-                    offset={offset}
-                    total={total_count}
-                    reduced={true}
-                    onClick={(e, offset) => handlePageChange(offset)}
-                />
-            </Grid>
-            <Grid item xs={12} sm={6} md={6} lg={6} className={classes.pageCountSection}>
-                <span className={classes.itemPerPageTxt}>Items per page</span>
-                <FormControl variant="outlined" className={classes.pageListformControl}>
-                    <Select
-                        value={itemsPerPage}
-                        input={
-                            <OutlinedInput
-                                labelWidth={75}
-                                name="age"
-                                id="outlined-age-simple"
-                                onChange={handleItemsPerPage}
-                            />
-                        }
-                        className={classes.selectBox}
-                    >
-                        <MenuItem value={10}>Ten</MenuItem>
-                        <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem>
-                    </Select>
-                </FormControl>
-                <span>
-                    {offset}-{parseFloat(limit) + parseFloat(limit) * parseFloat(offset)} of {total_count}
-                </span>
-            </Grid>
-        </Grid>
-    );
+  return (
+    <Grid container spacing={24} className={classes.paginationContainer}>
+      <Grid item xs={12} sm={6} md={6} lg={6} className={classes.pagination}>
+        <Pagination
+          limit={limit}
+          offset={offset}
+          total={total_count}
+          reduced={true}
+          onClick={(e, offset) => handlePageChange(offset)}
+        />
+      </Grid>
+      <Grid item xs={12} sm={6} md={6} lg={6} className={classes.pageCountSection}>
+        <span className={classes.itemPerPageTxt}>Items per page</span>
+        <FormControl variant="outlined" className={classes.pageListformControl}>
+          <Select
+            value={itemsPerPage}
+            input={<OutlinedInput labelWidth={75} name="age" id="outlined-age-simple" onChange={handleItemsPerPage} />}
+            className={classes.selectBox}
+          >
+            <MenuItem value={10}>Ten</MenuItem>
+            <MenuItem value={20}>Twenty</MenuItem>
+            <MenuItem value={30}>Thirty</MenuItem>
+          </Select>
+        </FormControl>
+        <span>
+          {offset}-{parseFloat(limit) + parseFloat(limit) * parseFloat(offset)} of {total_count}
+        </span>
+      </Grid>
+    </Grid>
+  );
 };
 
 const mapStateToProps = state => ({
-    limit: state.serviceReducer.limit,
-    offset: state.serviceReducer.offset,
-    total_count: state.serviceReducer.total_count,
+  limit: state.serviceReducer.limit,
+  offset: state.serviceReducer.offset,
+  total_count: state.serviceReducer.total_count,
 });
 
 const mapDispatchToProps = dispatch => ({
-    fetchService: pagination => dispatch(serviceActions.fetchService(pagination)),
+  fetchService: pagination => dispatch(serviceActions.fetchService(pagination)),
 });
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(StyledPagination);
