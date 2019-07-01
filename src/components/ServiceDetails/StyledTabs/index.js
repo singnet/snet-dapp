@@ -7,11 +7,13 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 
+import AboutService from "../AboutService";
 import { useStyles } from "./styles";
 
 class StyledTabs extends Component {
     state = {
         value: 0,
+        tabsTitle: ["About", "Install and Run", "Reviews", "Tutorial", "Price Estimator", "Discussion"],
     };
 
     handleChange() {
@@ -22,7 +24,7 @@ class StyledTabs extends Component {
 
     render() {
         const { classes } = this.props;
-        const { value } = this.state;
+        const { value, tabsTitle } = this.state;
 
         function TabContainer(props) {
             return (
@@ -36,14 +38,12 @@ class StyledTabs extends Component {
             <Grid item xs={12} sm={12} md={12} lg={12}>
                 <AppBar position="static" className={classes.tabsHeader}>
                     <Tabs value={value} onChange={this.handleChange}>
-                        <Tab label="About" />
-                        <Tab label="Install and Run" />
-                        <Tab label="Reviews" />
+                        {tabsTitle.map((title, key) => (
+                            <Tab key={key} label={title} />
+                        ))}
                     </Tabs>
                 </AppBar>
-                {value === 0 && <TabContainer>Item One</TabContainer>}
-                {value === 1 && <TabContainer>Item Two</TabContainer>}
-                {value === 2 && <TabContainer>Item Three</TabContainer>}
+                {value === 0 && <AboutService />}
             </Grid>
         );
     }
