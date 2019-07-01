@@ -24,76 +24,69 @@ const Login = lazy(() => import("./components/Login"));
 Amplify.configure(aws_config);
 
 class App extends Component {
-    state = {
-        initialized: false,
-    };
+  state = {
+    initialized: false,
+  };
 
-    componentDidMount = () => {
-        this.props.setUserDetails();
-    };
+  componentDidMount = () => {
+    this.props.setUserDetails();
+  };
 
-    render() {
-        if (!this.props.isInitialized) {
-            return <h2>Loading</h2>;
-        }
-        return (
-            <ThemeProvider theme={theme}>
-                <Router>
-                    <Suspense fallback={<div>Loading...</div>}>
-                        <Switch>
-                            <Route
-                                path={`/${Routes.SIGNUP}`}
-                                component={withRegistrationHeader(SignUp, headerData.SIGNUP)}
-                            />
-                            <Route
-                                path={`/${Routes.LOGIN}`}
-                                {...this.props}
-                                component={withRegistrationHeader(Login, headerData.LOGIN)}
-                            />
-                            <PrivateRoute
-                                path={`/${Routes.FORGOT_PASSWORD}`}
-                                {...this.props}
-                                component={withRegistrationHeader(ForgotPassword, {
-                                    ...headerData.FORGOT_PASSWORD,
-                                })}
-                            />
-                            <PrivateRoute
-                                path={`/${Routes.FORGOT_PASSWORD_SUBMIT}`}
-                                {...this.props}
-                                component={withRegistrationHeader(ForgotPasswordSubmit, {
-                                    ...headerData.FORGOT_PASSWORD_SUBMIT,
-                                })}
-                            />
-                            <PrivateRoute
-                                path={`/${Routes.ONBOARDING}`}
-                                {...this.props}
-                                component={withRegistrationHeader(Onboarding, headerData.ONBOARDING)}
-                            />
-                            <Route
-                                path={`/${Routes.AI_MARKETPLACE}`}
-                                {...this.props}
-                                component={withInAppWrapper(AiMarketplace)}
-                            />
-                            <Route path="/" exact {...this.props} component={withInAppWrapper(AiMarketplace)} />
-                            <Route component={PageNotFound} />
-                        </Switch>
-                    </Suspense>
-                </Router>
-            </ThemeProvider>
-        );
+  render() {
+    if (!this.props.isInitialized) {
+      return <h2>Loading</h2>;
     }
+    return (
+      <ThemeProvider theme={theme}>
+        <Router>
+          <Suspense fallback={<div>Loading...</div>}>
+            <Switch>
+              <Route path={`/${Routes.SIGNUP}`} component={withRegistrationHeader(SignUp, headerData.SIGNUP)} />
+              <Route
+                path={`/${Routes.LOGIN}`}
+                {...this.props}
+                component={withRegistrationHeader(Login, headerData.LOGIN)}
+              />
+              <PrivateRoute
+                path={`/${Routes.FORGOT_PASSWORD}`}
+                {...this.props}
+                component={withRegistrationHeader(ForgotPassword, {
+                  ...headerData.FORGOT_PASSWORD,
+                })}
+              />
+              <PrivateRoute
+                path={`/${Routes.FORGOT_PASSWORD_SUBMIT}`}
+                {...this.props}
+                component={withRegistrationHeader(ForgotPasswordSubmit, {
+                  ...headerData.FORGOT_PASSWORD_SUBMIT,
+                })}
+              />
+              <PrivateRoute
+                path={`/${Routes.ONBOARDING}`}
+                {...this.props}
+                component={withRegistrationHeader(Onboarding, headerData.ONBOARDING)}
+              />
+              <Route path={`/${Routes.AI_MARKETPLACE}`} {...this.props} component={withInAppWrapper(AiMarketplace)} />
+              <Route path="/" exact {...this.props} component={withInAppWrapper(AiMarketplace)} />
+              <Route component={PageNotFound} />
+            </Switch>
+          </Suspense>
+        </Router>
+      </ThemeProvider>
+    );
+  }
 }
 
 const mapStateToProps = state => ({
-    isLoggedIn: state.userReducer.isLoggedIn,
-    isInitialized: state.userReducer.isInitialized,
+  isLoggedIn: state.userReducer.login.isLoggedIn,
+  isInitialized: state.userReducer.isInitialized,
 });
 
 const mapDispatchToProps = dispatch => ({
-    setUserDetails: () => dispatch(userActions.setUserDetails),
+  setUserDetails: () => dispatch(userActions.setUserDetails),
 });
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(App);
