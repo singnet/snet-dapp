@@ -3,8 +3,8 @@ import userReducer from "./UserReducer";
 import serviceReducer from "./ServiceReducer";
 
 const rootReducer = combineReducers({
-    userReducer,
-    serviceReducer,
+  userReducer,
+  serviceReducer,
 });
 
 export default rootReducer;
