@@ -1,32 +1,75 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
+import IconButton from "@material-ui/core/IconButton";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
+import Switch from "@material-ui/core/Switch";
 
+import StyledTextField from "../../../common/StyledTextField";
+import StyledButton from "../../../common/StyledButton";
+import ErrorMsgBox from "../../../common/ErrorMsgBox";
 import ProgressBar from "./ProgressBar";
+import ImageUpload from "./ImageUpload";
 import { useStyles } from "./styles";
 
 class DemoExample extends Component {
-    state = {
-        activeSection: 1,
-    };
+  state = {
+    activeSection: 1,
+    error: "error state message",
+  };
 
-    render() {
-        const { classes } = this.props;
-        const { activeSection } = this.state;
+  render() {
+    const { classes } = this.props;
+    const { activeSection, error } = this.state;
 
-        return (
-            <div className={classes.demoExampleContainer}>
-                <h4>Process</h4>
-                <ProgressBar activeSection={activeSection} />
-                <p>
-                    Transfer the style of a “style Image” to a “content image” by choosing them in the boxes below. You
-                    can upload a a file from your computer, URL, or select image from the gallery. You can specify
-                    additional parameters in the panel below. “Mouse over” for tool tips.
-                </p>
+    return (
+      <div className={classes.demoExampleContainer}>
+        <h4>Process</h4>
+        <ProgressBar activeSection={activeSection} />
+        <p>
+          Transfer the style of a “style Image” to a “content image” by choosing them in the boxes below. You can upload
+          a a file from your computer, URL, or select image from the gallery. You can specify additional parameters in
+          the panel below. “Mouse over” for tool tips.
+        </p>
+        <div className={classes.uploadImageContainer}>
+          <ImageUpload imageType="Content Image" />
+          <ImageUpload imageType="Style Image" />
+        </div>
+        <div className={classes.parametersContainer}>
+          <div className={classes.parameterHeader}>
+            <h4>Parameters</h4>
+            <IconButton aria-label="Settings" className={classes.showMore}>
+              <MoreVertIcon />
+            </IconButton>
+          </div>
+          <div className={classes.parameters}>
+            <div className={classes.switchContainer}>
+              <i className="fas fa-info-circle" />
+              <span className={classes.switchLabel}>
+                Start from <br />
+                Random
+              </span>
+              <Switch value={true} className={classes.switch} inputProps={{ "aria-label": "primary checkbox" }} />
             </div>
-        );
-    }
+            <div>
+              <StyledTextField label={"Output Image Size"} />
+            </div>
+            <div className={classes.optimationRounds}>
+              <i className="fas fa-info-circle" />
+              <StyledTextField label={"Optimation Rounds"} />
+            </div>
+            <div>
+              <StyledTextField label={"Optimation Iterations"} />
+            </div>
+          </div>
+          <ErrorMsgBox errorMsg={error} showErr={true} />
+        </div>
+        <div className={classes.demoContainerButtons}>
+          <StyledButton type="transparent" btnText="reset inputs" />
+          <StyledButton btnText="next" />
+        </div>
+      </div>
+    );
+  }
 }
 
 export default withStyles(useStyles)(DemoExample);

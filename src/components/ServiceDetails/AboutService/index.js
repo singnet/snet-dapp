@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 
@@ -11,80 +10,80 @@ import StyledGallery from "./StyledGallery";
 import { useStyles } from "./styles";
 
 class AboutService extends Component {
-    state = { showDemoExample: false };
+  state = { showDemoExample: true };
 
-    handleSubmit = event => {
-        this.setState({ showDemoExample: true });
-    };
+  handleSubmit = event => {
+    this.setState({ showDemoExample: true });
+  };
 
-    render() {
-        const { classes } = this.props;
-        const { showDemoExample } = this.state;
-        return (
-            <Grid container spacing={24} className={classes.aboutContainer}>
-                <Grid item xs={12} sm={12} md={8} lg={8} className={classes.leftSideSection}>
-                    <div className={classes.overViewContainer}>
-                        <h3>Overview</h3>
-                        <p>
-                            Colorizes given black & white images. Input a black & white photo and let the AI comput the
-                            predicted color states of the original photo image.
-                        </p>
-                        <h4>Features</h4>
-                        <p>
-                            Lorem ipsum dolor sit amet, vix ut facer cetero meliore, an nibh veri adhuc duo. Ad mei
-                            facete detraxit, ad error cotidieque sea, pri graeci impetus efficiendi cu. Sea ei feugiat
-                            appareat pertinax, mei alii periculis ad, stet officiis sit cu.
-                        </p>
-                        <ul>
-                            <div>
-                                <li>Fully responsive</li>
-                                <li>Touch enabled</li>
-                                <li>Animated Layers</li>
-                                <li>Per-slide options</li>
-                            </div>
-                            <div>
-                                <li>Mobile optimized</li>
-                                <li>More than 30 options</li>
-                                <li>Literally unlimited transitions</li>
-                                <li>Easy installation</li>
-                            </div>
-                        </ul>
-                        <div className={classes.tagsContainer}>
-                            <h5>Tags</h5>
-                            <span className={classes.tags}>Tag Name</span>
-                            <span className={classes.tags}>Tag Name</span>
-                            <span className={classes.tags}>Tag Name</span>
-                        </div>
-                    </div>
+  render() {
+    const { classes } = this.props;
+    const { showDemoExample } = this.state;
+    return (
+      <Grid container spacing={24} className={classes.aboutContainer}>
+        <Grid item xs={12} sm={12} md={8} lg={8} className={classes.leftSideSection}>
+          <div className={classes.overViewContainer}>
+            <h3>Overview</h3>
+            <p>
+              Colorizes given black & white images. Input a black & white photo and let the AI comput the predicted
+              color states of the original photo image.
+            </p>
+            <h4>Features</h4>
+            <p>
+              Lorem ipsum dolor sit amet, vix ut facer cetero meliore, an nibh veri adhuc duo. Ad mei facete detraxit,
+              ad error cotidieque sea, pri graeci impetus efficiendi cu. Sea ei feugiat appareat pertinax, mei alii
+              periculis ad, stet officiis sit cu.
+            </p>
+            <ul>
+              <div>
+                <li>Fully responsive</li>
+                <li>Touch enabled</li>
+                <li>Animated Layers</li>
+                <li>Per-slide options</li>
+              </div>
+              <div>
+                <li>Mobile optimized</li>
+                <li>More than 30 options</li>
+                <li>Literally unlimited transitions</li>
+                <li>Easy installation</li>
+              </div>
+            </ul>
+            <div className={classes.tagsContainer}>
+              <h5>Tags</h5>
+              <span className={classes.tags}>Tag Name</span>
+              <span className={classes.tags}>Tag Name</span>
+              <span className={classes.tags}>Tag Name</span>
+            </div>
+          </div>
 
-                    <div className={classes.demoContainer}>
-                        <h3>Demo Example</h3>
-                        {showDemoExample ? (
-                            <DemoExample />
-                        ) : (
-                            <div>
-                                <StyledButton btnText="login" type="transparent" onClick={this.handleSubmit} />
-                                <StyledButton btnText="signup and run for free" />
-                            </div>
-                        )}
-                    </div>
+          <div className={classes.demoContainer}>
+            <h3>Demo Example</h3>
+            {showDemoExample ? (
+              <DemoExample />
+            ) : (
+              <div>
+                <StyledButton btnText="login" type="transparent" onClick={this.handleSubmit} />
+                <StyledButton btnText="signup and run for free" />
+              </div>
+            )}
+          </div>
 
-                    <div className={classes.backToLink}>
-                        <i className="fas fa-arrow-left"></i>
-                        <a href="#" title="Back To">
-                            Back to AI Marketplace
-                        </a>
-                    </div>
-                </Grid>
+          <div className={classes.backToLink}>
+            <i className="fas fa-arrow-left"></i>
+            <a href="#" title="Back To">
+              Back to AI Marketplace
+            </a>
+          </div>
+        </Grid>
 
-                <Grid item xs={12} sm={12} md={4} lg={4}>
-                    <CreatorDetails />
-                    <ProjectDetails />
-                    <StyledGallery />
-                </Grid>
-            </Grid>
-        );
-    }
+        <Grid item xs={12} sm={12} md={4} lg={4}>
+          <CreatorDetails />
+          <ProjectDetails />
+          <StyledGallery />
+        </Grid>
+      </Grid>
+    );
+  }
 }
 
 export default withStyles(useStyles)(AboutService);
