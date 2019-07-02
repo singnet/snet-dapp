@@ -36,12 +36,12 @@ class TermsOfUse extends Component {
             });
           })
           .catch(err => {
-            let error = parseError(err);
+            const error = parseError(err);
             this.setState({ error });
           });
       })
       .catch(err => {
-        let error = parseError(err);
+        const error = parseError(err);
         this.setState({ error });
       });
   };
