@@ -71,7 +71,7 @@ class Authentication extends Component {
           from <span>‘otp@singularitynet.io’</span> in your inbox, make sure to check the spam folder. The code will be
           valid for 5 minutes.{" "}
         </p>
-        {loading ? <InlineLoader loading={loading} /> : null}
+        <InlineLoader loading={loading} />
         <TextField
           id="outlined-verification-code"
           label="Verification Code"
