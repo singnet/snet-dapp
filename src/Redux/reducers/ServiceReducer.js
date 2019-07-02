@@ -12,7 +12,10 @@ const InitialServiceList = {
 
 const serviceReducer = (state = InitialServiceList, action) => {
   switch (action.type) {
-    case serviceActions.FETCH_SERVICE_LIST: {
+    case serviceActions.UPDATE_PAGINATION_DETAILS: {
+      return { ...state, ...action.payload };
+    }
+    case serviceActions.UPDATE_SERVICE_LIST: {
       return { ...state, ...action.payload };
     }
     default: {
