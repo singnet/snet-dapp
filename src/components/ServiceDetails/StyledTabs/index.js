@@ -12,19 +12,19 @@ import { useStyles } from "./styles";
 
 class StyledTabs extends Component {
     state = {
-        value: 0,
+        activeTab: 0,
         tabsTitle: ["About", "Install and Run", "Reviews", "Tutorial", "Price Estimator", "Discussion"],
     };
 
     handleChange() {
         // this.setState({
-        //   value: this.state.value + 1
+        //   activeTab: this.state.activeTab + 1
         // })
     }
 
     render() {
         const { classes } = this.props;
-        const { value, tabsTitle } = this.state;
+        const { activeTab, tabsTitle } = this.state;
 
         function TabContainer(props) {
             return (
@@ -37,13 +37,13 @@ class StyledTabs extends Component {
         return (
             <Grid item xs={12} sm={12} md={12} lg={12}>
                 <AppBar position="static" className={classes.tabsHeader}>
-                    <Tabs value={value} onChange={this.handleChange}>
+                    <Tabs value={activeTab} onChange={this.handleChange}>
                         {tabsTitle.map((title, key) => (
                             <Tab key={key} label={title} />
                         ))}
                     </Tabs>
                 </AppBar>
-                {value === 0 && <AboutService />}
+                {activeTab === 0 && <AboutService />}
             </Grid>
         );
     }
