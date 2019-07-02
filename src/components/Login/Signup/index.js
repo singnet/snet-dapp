@@ -122,6 +122,8 @@ class SignUp extends Component {
             handleEmail={this.handleEmail}
             password={password}
             handlePassword={this.handlePassword}
+            error={error}
+            handleSubmit={this.handleSubmit}
           />
         )}
       </Grid>

@@ -7,7 +7,7 @@ import StyledButton from "../../common/StyledButton";
 import ErrorMsgBox from "../../common/ErrorMsgBox";
 import { useStyles } from "./styles";
 
-const RenderOTP = ({ classes, otp, handleOTP, handleResendOTP, handleConfirmSignup }) => {
+const RenderOTP = ({ classes, otp, handleOTP, handleResendOTP, handleConfirmSignup, error }) => {
   return (
     <Grid item xs={12} sm={12} md={6} lg={6} className={`${classes.confirmOtp}`}>
       <form noValidate autoComplete="off" className={`${classes.signupForm}`}>

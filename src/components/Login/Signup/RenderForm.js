@@ -9,7 +9,17 @@ import ErrorMsgBox from "../../common/ErrorMsgBox";
 import { isValidEmail } from "../../../utility/Validation";
 import { useStyles } from "./styles";
 
-const RenderForm = ({ classes, username, handleUsername, email, handleEmail, password, handlePassword }) => {
+const RenderForm = ({
+  classes,
+  username,
+  handleUsername,
+  email,
+  handleEmail,
+  password,
+  handlePassword,
+  error,
+  handleSubmit,
+}) => {
   return (
     <Fragment>
       <Grid item xs={12} sm={12} md={6} lg={6} className={classes.signupInfo}>
