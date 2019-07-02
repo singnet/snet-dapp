@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { Icon } from "@material-ui/core";
 
@@ -6,16 +6,15 @@ import { useStyles } from "./styles";
 
 const InlineLoader = ({ loading }) => {
   const classes = useStyles();
-  return (
-    <Fragment>
-      {
-        <div className={classes.pendingSection}>
-          <Icon className="far fa-hourglass" />
-          <span>Pending</span>
-        </div>
-      }
-    </Fragment>
-  );
+  if (loading) {
+    return (
+      <div className={classes.pendingSection}>
+        <Icon className="far fa-hourglass" />
+        <span>Pending</span>
+      </div>
+    );
+  }
+  return null;
 };
 
 InlineLoader.propTypes = {
