@@ -16,7 +16,11 @@ export const headerData = {
     linkPath: Routes.LOGIN,
     headerText: "Login",
   },
-  FORGOT_PASSWORD_SUBMIT: headerData.FORGOT_PASSWORD,
+  FORGOT_PASSWORD_SUBMIT: {
+    headerTitle: "",
+    linkPath: Routes.SIGNUP,
+    headerText: "",
+  },
   ONBOARDING: {
     headerTitle: "",
     linkPath: Routes.SIGNUP,
