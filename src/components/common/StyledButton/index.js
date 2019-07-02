@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
-import classNames from "classnames";
+import clsx from "clsx";
 import Icon from "@material-ui/core/Icon";
 
 import { useStyles } from "./styles";
@@ -18,7 +18,7 @@ const StyledButton = props => {
 
   return (
     <Button
-      className={classNames(classes.styledButton, classes[buttonColor[props.type]])}
+      className={clsx(classes.styledButton, classes[buttonColor[props.type]])}
       disabled={props.disabled}
       onClick={props.onClick}
     >
