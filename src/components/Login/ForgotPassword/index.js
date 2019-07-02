@@ -11,58 +11,58 @@ import Session from "../../../utility/stringConstants/Session";
 import { useStyles } from "./styles";
 
 class ForgotPassword extends Component {
-    state = {
-        username: "",
-        error: undefined,
-    };
+  state = {
+    username: "",
+    error: undefined,
+  };
 
-    handleUsername = event => {
-        this.setState({ username: event.currentTarget.value });
-    };
+  handleUsername = event => {
+    this.setState({ username: event.currentTarget.value });
+  };
 
-    handleSubmit = event => {
-        this.setState({ error: undefined });
-        const { username } = this.state;
+  handleSubmit = event => {
+    this.setState({ error: undefined });
+    const { username } = this.state;
 
-        event.preventDefault();
-        event.stopPropagation();
-        Auth.forgotPassword(username)
-            .then(res => {
-                sessionStorage.setItem(Session.USERNAME, username);
-                this.props.history.push(Routes.FORGOT_PASSWORD_SUBMIT);
-            })
-            .catch(err => {
-                this.setState({ error: err.message });
-            });
-    };
+    event.preventDefault();
+    event.stopPropagation();
+    Auth.forgotPassword(username)
+      .then(res => {
+        sessionStorage.setItem(Session.USERNAME, username);
+        this.props.history.push(Routes.FORGOT_PASSWORD_SUBMIT);
+      })
+      .catch(err => {
+        this.setState({ error: err.message });
+      });
+  };
 
-    render() {
-        const { classes } = this.props;
-        const { username, error } = this.state;
+  render() {
+    const { classes } = this.props;
+    const { username, error } = this.state;
 
-        return (
-            <Grid container spacing={24}>
-                <Grid item xs={12} sm={12} md={12} lg={12} className={classes.forgotPwdContent}>
-                    <h2>Forgot your pasword?</h2>
-                    <p>We'll email you instructions on how to reset it.</p>
-                    <form noValidate autoComplete="off" className={classes.forgotPwdForm}>
-                        <TextField
-                            id="outlined-username-input"
-                            label="Email"
-                            className={classes.textField}
-                            type="text"
-                            name="username"
-                            margin="normal"
-                            variant="outlined"
-                            value={username}
-                            onChange={this.handleUsername}
-                        />
-                        <ErrorMsgBox errorMsg={error} showErr={error} />
-                        <StyledButton type="blue" btnText="reset password" onClick={this.handleSubmit} />
-                    </form>
-                </Grid>
-            </Grid>
-        );
-    }
+    return (
+      <Grid container spacing={24}>
+        <Grid item xs={12} sm={12} md={12} lg={12} className={classes.forgotPwdContent}>
+          <h2>Forgot your pasword?</h2>
+          <p>We'll email you instructions on how to reset it.</p>
+          <form noValidate autoComplete="off" className={classes.forgotPwdForm}>
+            <TextField
+              id="outlined-username-input"
+              label="Email"
+              className={classes.textField}
+              type="text"
+              name="username"
+              margin="normal"
+              variant="outlined"
+              value={username}
+              onChange={this.handleUsername}
+            />
+            <ErrorMsgBox errorMsg={error} showErr={error} />
+            <StyledButton type="blue" btnText="reset password" onClick={this.handleSubmit} />
+          </form>
+        </Grid>
+      </Grid>
+    );
+  }
 }
 export default withStyles(useStyles)(ForgotPassword);

@@ -9,8 +9,8 @@ import configureStore from "./Redux/Store";
 const store = configureStore();
 
 ReactDOM.render(
-    <ReduxProvider store={store}>
-        <App />
-    </ReduxProvider>,
-    document.getElementById("root")
+  <ReduxProvider store={store}>
+    <App />
+  </ReduxProvider>,
+  document.getElementById("root")
 );
