@@ -7,9 +7,9 @@ import { Icon } from "@material-ui/core";
 
 import StyledButton from "../../common/StyledButton";
 import ErrorMsgBox from "../../common/ErrorMsgBox";
-import Routes from "../../../utility/stringConstants/Routes";
+import Routes from "../../../utility/constants/Routes";
 import { isValidEmail } from "../../../utility/Validation";
-import Session from "../../../utility/stringConstants/Session";
+import Session from "../../../utility/constants/Session";
 import { parseError } from "../../../utility/ErrorHandling";
 import { useStyles } from "./styles";
 

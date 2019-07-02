@@ -5,11 +5,11 @@ import { connect } from "react-redux";
 
 import Authentication from "./Authentication";
 import TermsOfUse from "./TermsOfUse";
-import Session from "../../utility/stringConstants/Session";
+import Session from "../../utility/constants/Session";
 import WalletKey from "./WalletKey";
 import { useStyles } from "./styles";
 import OnboardingContainer from "./OnboardingContainer";
-import Routes from "../../utility/stringConstants/Routes";
+import Routes from "../../utility/constants/Routes";
 import { userActions } from "../../Redux/actionCreators";
 
 class Onboarding extends Component {

@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 
 import { useStyles } from "./styles";
-import Routes from "../../../utility/stringConstants/Routes";
+import Routes from "../../../utility/constants/Routes";
 import SignOut from "./SignOut";
 
 const HeaderActions = ({ isLoggedIn }) => {

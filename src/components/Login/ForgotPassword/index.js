@@ -6,8 +6,8 @@ import { Auth } from "aws-amplify";
 
 import ErrorMsgBox from "../../common/ErrorMsgBox";
 import StyledButton from "../../common/StyledButton";
-import Routes from "../../../utility/stringConstants/Routes";
-import Session from "../../../utility/stringConstants/Session";
+import Routes from "../../../utility/constants/Routes";
+import Session from "../../../utility/constants/Session";
 import { useStyles } from "./styles";
 
 class ForgotPassword extends Component {

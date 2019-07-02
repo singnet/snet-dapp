@@ -7,7 +7,7 @@ import { Icon } from "@material-ui/core";
 import StyledButton from "../../common/StyledButton";
 import ErrorMsgBox from "../../common/ErrorMsgBox";
 import { parseError } from "../../../utility/ErrorHandling";
-import Routes from "../../../utility/stringConstants/Routes";
+import Routes from "../../../utility/constants/Routes";
 import { useStyles } from "./styles";
 
 class TermsOfUse extends Component {

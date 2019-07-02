@@ -5,13 +5,13 @@ import { withStyles } from "@material-ui/styles";
 import { withRouter } from "react-router-dom";
 
 import StyledButton from "../../common/StyledButton";
-import Session from "../../../utility/stringConstants/Session";
+import Session from "../../../utility/constants/Session";
 import { isValidNumber } from "../../../utility/Validation";
 import { parseError } from "../../../utility/ErrorHandling";
 import { useStyles } from "./styles";
 import ErrorMsgText from "../../common/ErrorMsgText";
 import InlineLoader from "../../common/InlineLoader";
-import Routes from "../../../utility/stringConstants/Routes";
+import Routes from "../../../utility/constants/Routes";
 
 class Authentication extends Component {
   state = {
