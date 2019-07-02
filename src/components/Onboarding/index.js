@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
-import { Auth } from "aws-amplify";
 import { connect } from "react-redux";
 
 import Authentication from "./Authentication";
@@ -32,12 +31,8 @@ class Onboarding extends Component {
     if (this.props.isWalletAssigned) {
       this.props.history.push(Routes.AI_MARKETPLACE);
     }
-    if (sessionStorage.getItem(Session.USERNAME) && this.state.activeSection === 1) {
-      Auth.currentAuthenticatedUser({ bypassCache: true }).then(res => {
-        if (res.attributes.email_verified) {
-          this.setState({ activeSection: 2 });
-        }
-      });
+    if (this.props.isEmailVerified && this.state.activeSection === 1) {
+      this.setState({ activeSection: 2 });
     }
   };
 
