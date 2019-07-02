@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import classNames from "classnames";
+import Icon from "@material-ui/core/Icon";
 
 import { useStyles } from "./styles";
 
@@ -21,7 +22,7 @@ const StyledButton = props => {
       disabled={props.disabled}
       onClick={props.onClick}
     >
-      {props.iconClass ? <i className={props.iconClass}></i> : null}
+      <Icon className={props.iconClass} />
       {props.btnText}
     </Button>
   );
