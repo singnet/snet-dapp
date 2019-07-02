@@ -12,18 +12,14 @@ export const headerData = {
     headerText: "SignUp",
   },
   FORGOT_PASSWORD: {
-    headerTitle: "New to singularityNET?",
-    linkPath: Routes.SIGNUP,
-    headerText: "SignUp",
+    headerTitle: "Switch to another account?",
+    linkPath: Routes.LOGIN,
+    headerText: "Login",
   },
-  FORGOT_PASSWORD_SUBMIT: {
-    headerTitle: "New to singularityNET?",
-    linkPath: Routes.SIGNUP,
-    headerText: "SignUp",
-  },
+  FORGOT_PASSWORD_SUBMIT: headerData.FORGOT_PASSWORD,
   ONBOARDING: {
-    headerTitle: "New to singularityNET?",
+    headerTitle: "",
     linkPath: Routes.SIGNUP,
-    headerText: "SignUp",
+    headerText: "Log Out",
   },
 };
