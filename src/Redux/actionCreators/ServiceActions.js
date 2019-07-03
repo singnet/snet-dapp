@@ -3,11 +3,10 @@ import { APIEndpoints } from "../../utility/constants/APIEndpoints";
 
 export const FETCH_SERVICE_LIST = "SET_SERVICE_LIST";
 
-export const fetchService = ({ searchKeyword, limit, offset, sort_by, order_by }) => (dispatch, getState) => {
+export const fetchService = ({ q, limit, offset, sort_by, order_by }) => (dispatch, getState) => {
   let queryStringParameters = {};
 
-  queryStringParameters.searchKeyword =
-    typeof searchKeyword !== "undefined" ? searchKeyword : getState().serviceReducer.q;
+  queryStringParameters.q = typeof q !== "undefined" ? q : getState().serviceReducer.q;
   queryStringParameters.limit = typeof limit !== "undefined" ? limit : getState().serviceReducer.limit;
   queryStringParameters.offset = typeof offset !== "undefined" ? offset : getState().serviceReducer.offset;
   queryStringParameters.sort_by = typeof sort_by !== "undefined" ? sort_by : getState().serviceReducer.sort_by;

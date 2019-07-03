@@ -9,16 +9,23 @@ import { useStyles } from "./styles";
 
 const DemoToggler = ({ classes, showDemo, onClick }) => {
   if (showDemo) {
-    return <DemoExample />;
+    return (
+      <div className={classes.demoContainer}>
+        <h3>Demo Example</h3> <DemoExample />
+      </div>
+    );
   }
   return (
-    <div className={classes.demoToggler}>
-      <Link to={Routes.LOGIN}>
-        <StyledButton btnText="login" type="transparent" onClick={onClick} />
-      </Link>
-      <Link to={Routes.SIGNUP}>
-        <StyledButton btnText="signup and run for free" />
-      </Link>
+    <div className={classes.demoContainer}>
+      <h3>Demo Example</h3>
+      <div className={classes.demoToggler}>
+        <Link to={`/${Routes.LOGIN}`}>
+          <StyledButton btnText="login" type="transparent" onClick={onClick} />
+        </Link>
+        <Link to={`/${Routes.SIGNUP}`}>
+          <StyledButton btnText="signup and run for free" />
+        </Link>
+      </div>
     </div>
   );
 };
