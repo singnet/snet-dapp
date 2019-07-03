@@ -39,11 +39,11 @@ class ServiceDetails extends Component {
 
   componentDidMount = () => {
     const service_row_id = this.props.match.params.service_row_id;
-    if (!this.props.serviceList || this.props.serviceList.length === 0) {
+    if (!this.props.services || this.props.services.length === 0) {
       this.props.fetchService(this.props.pagination);
       return;
     }
-    const service = this.props.serviceList.filter(el => el.service_row_id === Number(service_row_id))[0];
+    const service = this.props.services.filter(el => el.service_row_id === Number(service_row_id))[0];
     this.setState({ service_row_id, service });
   };
 
@@ -61,7 +61,7 @@ class ServiceDetails extends Component {
 }
 
 const mapStateToProps = state => ({
-  serviceList: state.serviceReducer.result,
+  services: state.serviceReducer.result,
   pagination: state.serviceReducer.pagination,
 });
 
