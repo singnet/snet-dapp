@@ -2,23 +2,22 @@ import React, { Component } from "react";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 
-import StyledButton from "../../common/StyledButton";
 import CreatorDetails from "../CreatorDetails";
 import ProjectDetails from "../ProjectDetails";
-import DemoExample from "./DemoExample";
 import StyledGallery from "./StyledGallery";
 import { useStyles } from "./styles";
+import DemoToggler from "./DemoToggler";
 
 class AboutService extends Component {
-  state = { showDemoExample: false };
+  state = { showDemo: false };
 
-  handleSubmit = event => {
-    this.setState({ showDemoExample: true });
+  handleSubmit = () => {
+    this.setState({ showDemo: true });
   };
 
   render() {
     const { classes } = this.props;
-    const { showDemoExample } = this.state;
+    const { showDemo } = this.state;
     return (
       <Grid container spacing={24} className={classes.aboutContainer}>
         <Grid item xs={12} sm={12} md={8} lg={8} className={classes.leftSideSection}>
@@ -58,14 +57,7 @@ class AboutService extends Component {
 
           <div className={classes.demoContainer}>
             <h3>Demo Example</h3>
-            {showDemoExample ? (
-              <DemoExample />
-            ) : (
-              <div>
-                <StyledButton btnText="login" type="transparent" onClick={this.handleSubmit} />
-                <StyledButton btnText="signup and run for free" />
-              </div>
-            )}
+            <DemoToggler showDemo={showDemo} />
           </div>
 
           <div className={classes.backToLink}>
