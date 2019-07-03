@@ -4,7 +4,7 @@ import { withStyles } from "@material-ui/styles";
 import ProgressSection, { ProgressStatusList } from "./ProgressSection";
 import { useStyles } from "./styles";
 
-const ProgressBar = ({ classes, activeSection }) => {
+const ProgressBar = ({ classes, activeSection, progressText }) => {
   const computeProgressStatus = (progressNumber, activeSection) => {
     if (progressNumber < activeSection) {
       return ProgressStatusList.COMPLETED;
@@ -18,21 +18,14 @@ const ProgressBar = ({ classes, activeSection }) => {
   return (
     <div className={classes.tabsContainer}>
       <ul>
-        <ProgressSection
-          progressNumber={1}
-          progressText="Configure"
-          progressStatus={computeProgressStatus(1, activeSection)}
-        />
-        <ProgressSection
-          progressNumber={2}
-          progressText="Purchase"
-          progressStatus={computeProgressStatus(2, activeSection)}
-        />
-        <ProgressSection
-          progressNumber={3}
-          progressText="Results"
-          progressStatus={computeProgressStatus(3, activeSection)}
-        />
+        {progressText.map((text, index) => (
+          <ProgressSection
+            progressNumber={index + 1}
+            progressText={text}
+            progressStatus={computeProgressStatus(index + 1, activeSection)}
+            key={text}
+          />
+        ))}
       </ul>
     </div>
   );
