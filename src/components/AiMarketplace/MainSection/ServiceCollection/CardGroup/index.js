@@ -17,6 +17,7 @@ const CardGroup = ({ data }) => {
           ratingGiven=""
           totalRating=""
           cardDescription={item.description}
+          service_row_id={item.service_row_id}
         />
       ))}
     </div>

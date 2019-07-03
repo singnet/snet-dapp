@@ -27,16 +27,20 @@ const AboutService = ({ classes, isLoggedIn, service }) => {
       </Grid>
 
       <Grid item xs={12} sm={12} md={4} lg={4}>
-        <CreatorDetails />
-        <ProjectDetails />
-        <StyledGallery />
+        {false && (
+          <>
+            <CreatorDetails />
+            <ProjectDetails />
+            <StyledGallery />
+          </>
+        )}
       </Grid>
     </Grid>
   );
 };
 
 const mapStateToProps = state => ({
-  isLoggedIn: state.userReducer.isLoggedIn,
+  isLoggedIn: state.userReducer.login.isLoggedIn,
 });
 
 export default connect(mapStateToProps)(withStyles(useStyles)(AboutService));

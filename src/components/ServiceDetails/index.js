@@ -9,40 +9,31 @@ import StyledTabs from "./StyledTabs";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../Redux/actionCreators";
 
-const sampleServiceData = {
-  service_row_id: 67,
-  org_id: "snet",
-  service_id: "cntk-image-recon",
-  price_model: "fixed_price",
-  price_in_cogs: "1.00000000",
-  pricing: '{"price_model": "fixed_price", "price_in_cogs": 1.00000000}',
-  display_name: "CNTK Image Recognition",
-  description: "This service uses CNTK Image Recognition to perform image recognition on photos of flowers and dogs.",
-  url: "https://singnet.github.io/dnn-model-services/users_guide/cntk-image-recon.html",
-  json: "",
-  model_ipfs_hash: "QmY5xrjYHhmLtGKNXX6NcKjNvHqUjAo672MFTcLNfnEgMs",
-  encoding: "proto",
-  type: "grpc",
-  mpe_address: "0x7E6366Fbe3bdfCE3C906667911FC5237Cc96BD08",
-  payment_expiration_threshold: 40320,
-  up_votes_count: 50,
-  down_votes_count: 19,
-  tags: [],
-  is_available: 1,
-};
-
 class ServiceDetails extends Component {
   state = {
     service_row_id: "",
-    service: sampleServiceData,
+    service: {},
   };
 
-  componentDidMount = () => {
-    const service_row_id = this.props.match.params.service_row_id;
+  componentDidMount = async () => {
     if (!this.props.services || this.props.services.length === 0) {
-      this.props.fetchService(this.props.pagination);
+      this.populateServiceData(this.props.pagination);
+      await this.props.fetchService(this.props.pagination);
       return;
     }
+    this.populateServiceData();
+  };
+
+  componentDidUpdate = async () => {
+    const { service } = this.state;
+    if (!service || (Object.entries(service).length === 0 && service.constructor === Object)) {
+      await this.props.fetchService(this.props.pagination);
+      this.populateServiceData();
+    }
+  };
+
+  populateServiceData = () => {
+    const { service_row_id } = this.props.match.params;
     const service = this.props.services.filter(el => el.service_row_id === Number(service_row_id))[0];
     this.setState({ service_row_id, service });
   };
@@ -50,6 +41,9 @@ class ServiceDetails extends Component {
   render() {
     const { classes } = this.props;
     const { service } = this.state;
+    if (!service) {
+      return null;
+    }
     return (
       <Grid container spacing={24} className={classes.serviceDetailContainer}>
         <TitleCard org_id={service.org_id} display_name={service.display_name} />
@@ -60,8 +54,12 @@ class ServiceDetails extends Component {
   }
 }
 
+ServiceDetails.defaultProps = {
+  services: [],
+};
+
 const mapStateToProps = state => ({
-  services: state.serviceReducer.result,
+  services: state.serviceReducer.services,
   pagination: state.serviceReducer.pagination,
 });
 

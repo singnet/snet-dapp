@@ -46,7 +46,7 @@ const ListView = props => {
         </Grid>
         <Grid item xs={12} sm={1} md={1} lg={1}>
           <CardActions className={classes.cardActions}>
-            <Link to={`/${Routes.SERVICE_DETAILS}/67`}>
+            <Link to={`/${Routes.SERVICE_DETAILS}/${props.service_row_id}`}>
               <Button color="primary" className={classes.demoBtn}>
                 demo
               </Button>

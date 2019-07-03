@@ -14,12 +14,12 @@ const HeaderActions = ({ isLoggedIn }) => {
       ) : (
         <Fragment>
           <li className={classes.loginBtnsLi}>
-            <Link to={Routes.LOGIN}>
+            <Link to={`/${Routes.LOGIN}`}>
               <span className={classes.loginBtnsAnchor}>Login</span>
             </Link>
           </li>
           <li className={`${classes.signupBtn} ${classes.loginBtnsLi}`}>
-            <Link to={Routes.SIGNUP}>
+            <Link to={`/${Routes.SIGNUP}`}>
               <span className={`${classes.loginBtnsAnchor} ${classes.UppercaseText} ${classes.signupBtnText}`}>
                 {" "}
                 Sign Up
