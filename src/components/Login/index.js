@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 
 import StyledButton from "../common/StyledButton";
 import ErrorMsgBox from "../common/ErrorMsgBox";
-import Routes from "../../utility/stringConstants/Routes";
+import Routes from "../../utility/constants/Routes";
 import { useStyles } from "./styles";
 import { userActions } from "../../Redux/actionCreators";
 

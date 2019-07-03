@@ -67,7 +67,7 @@ build/
 scripts/path.js
 
 #endpoints
-src/utility/stringConstants/APIEndpoints.js
+src/utility/constants/APIEndpoints.js
 
 #config
 src/aws_config.js

@@ -5,13 +5,13 @@ import { withStyles } from "@material-ui/styles";
 import { withRouter } from "react-router-dom";
 
 import StyledButton from "../../common/StyledButton";
-import Session from "../../../utility/stringConstants/Session";
+import Session from "../../../utility/constants/Session";
 import { isValidNumber } from "../../../utility/Validation";
 import { parseError } from "../../../utility/ErrorHandling";
 import { useStyles } from "./styles";
 import ErrorMsgText from "../../common/ErrorMsgText";
 import InlineLoader from "../../common/InlineLoader";
-import Routes from "../../../utility/stringConstants/Routes";
+import Routes from "../../../utility/constants/Routes";
 
 class Authentication extends Component {
   state = {
@@ -71,7 +71,7 @@ class Authentication extends Component {
           from <span>‘otp@singularitynet.io’</span> in your inbox, make sure to check the spam folder. The code will be
           valid for 5 minutes.{" "}
         </p>
-        {loading ? <InlineLoader loading={loading} /> : null}
+        <InlineLoader loading={loading} />
         <TextField
           id="outlined-verification-code"
           label="Verification Code"

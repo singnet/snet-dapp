@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import StyledButton from "../common/StyledButton";
 import MainSection from "./MainSection";
 import { useStyles } from "./styles";
-import Routes from "../../utility/stringConstants/Routes";
+import Routes from "../../utility/constants/Routes";
 import { serviceActions } from "../../Redux/actionCreators";
 
 class AiMarketplace extends Component {

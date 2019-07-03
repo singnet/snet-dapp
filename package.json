@@ -1,5 +1,4 @@
 {
-
   "name": "snet-dapp-redesign",
   "version": "0.1.0",
   "private": true,
@@ -8,7 +7,7 @@
     "@material-ui/icons": "^4.1.0",
     "@material-ui/styles": "^4.0.2",
     "aws-amplify": "^1.1.28",
-    "classnames": "^2.2.6",
+    "clsx": "^1.0.4",
     "material-ui": "^1.0.0-beta.47",
     "material-ui-flat-pagination": "^3.2.0",
     "material-ui-rating": "^3.1.1",
