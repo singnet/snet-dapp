@@ -49,7 +49,7 @@ const AboutService = ({ classes, isLoggedIn }) => {
 
         <div className={classes.demoContainer}>
           <h3>Demo Example</h3>
-          <DemoToggler showDemo={isLoggedIn} />
+          <DemoToggler showDemo={isLoggedIn} classes={classes} />
         </div>
 
         <div className={classes.backToLink}>

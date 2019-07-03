@@ -1,16 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { withStyles } from "@material-ui/styles";
 
 import StyledButton from "../../common/StyledButton";
 import DemoExample from "./DemoExample";
 import Routes from "../../../utility/constants/Routes";
+import { useStyles } from "./styles";
 
-const DemoToggler = ({ showDemo, onClick }) => {
+const DemoToggler = ({ classes, showDemo, onClick }) => {
   if (showDemo) {
     return <DemoExample />;
   }
   return (
-    <div>
+    <div className={classes.demoToggler}>
       <Link to={Routes.LOGIN}>
         <StyledButton btnText="login" type="transparent" onClick={onClick} />
       </Link>
@@ -21,4 +23,4 @@ const DemoToggler = ({ showDemo, onClick }) => {
   );
 };
 
-export default DemoToggler;
+export default withStyles(useStyles)(DemoToggler);

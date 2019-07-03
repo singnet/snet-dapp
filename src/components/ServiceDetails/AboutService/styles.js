@@ -180,4 +180,9 @@ export const useStyles = theme => ({
       marginLeft: "30px !important",
     },
   },
+  demoToggler: {
+    "& a": {
+      textDecoration: "none !important",
+    },
+  },
 });
