@@ -11,29 +11,34 @@ import { useStyles } from "./styles";
 class StyledTabs extends Component {
   state = {
     activeTab: 0,
-    tabsTitle: ["About", "Install and Run", "Reviews", "Tutorial", "Price Estimator", "Discussion"],
+    tabs: [
+      { name: "About", activeIndex: 0, component: <AboutService /> },
+      { name: "Install and Run", activeIndex: 1, component: <AboutService /> },
+      { name: "Reviews", activeIndex: 2, component: <AboutService /> },
+      { name: "Tutorial", activeIndex: 3, component: <AboutService /> },
+      { name: "Price Estimator", activeIndex: 4, component: <AboutService /> },
+      { name: "Discussion", activeIndex: 5, component: <AboutService /> },
+    ],
   };
 
-  handleChange() {
-    // this.setState({
-    //   activeTab: this.state.activeTab + 1
-    // })
-  }
+  handleTabChange = activeTab => {
+    this.setState({ activeTab });
+  };
 
   render() {
     const { classes } = this.props;
-    const { activeTab, tabsTitle } = this.state;
-
+    const { activeTab, tabs } = this.state;
+    const activeComponent = tabs.filter(el => el.activeIndex === activeTab)[0].component;
     return (
       <Grid item xs={12} sm={12} md={12} lg={12}>
         <AppBar position="static" className={classes.tabsHeader}>
-          <Tabs value={activeTab} onChange={this.handleChange}>
-            {tabsTitle.map((title, key) => (
-              <Tab key={key} label={title} />
+          <Tabs value={activeTab}>
+            {tabs.map(value => (
+              <Tab key={value.name} label={value.name} onClick={() => this.handleTabChange(value.activeIndex)} />
             ))}
           </Tabs>
         </AppBar>
-        {activeTab === 0 && <AboutService />}
+        {activeComponent}
       </Grid>
     );
   }

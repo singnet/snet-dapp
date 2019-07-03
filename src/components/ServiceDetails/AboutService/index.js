@@ -10,7 +10,7 @@ import StyledGallery from "./StyledGallery";
 import { useStyles } from "./styles";
 
 class AboutService extends Component {
-  state = { showDemoExample: true };
+  state = { showDemoExample: false };
 
   handleSubmit = event => {
     this.setState({ showDemoExample: true });
