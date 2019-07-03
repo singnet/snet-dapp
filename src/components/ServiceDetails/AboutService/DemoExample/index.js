@@ -7,7 +7,7 @@ import Switch from "@material-ui/core/Switch";
 import StyledTextField from "../../../common/StyledTextField";
 import StyledButton from "../../../common/StyledButton";
 import ErrorMsgBox from "../../../common/ErrorMsgBox";
-import ProgressBar from "./ProgressBar";
+import ProgressBar from "../../../common/ProgressBar";
 import ImageUpload from "./ImageUpload";
 import { useStyles } from "./styles";
 
@@ -15,16 +15,17 @@ class DemoExample extends Component {
   state = {
     activeSection: 1,
     error: "error state message",
+    progressText: ["Configure", "Purchase", "Results"],
   };
 
   render() {
     const { classes } = this.props;
-    const { activeSection, error } = this.state;
+    const { activeSection, error, progressText } = this.state;
 
     return (
       <div className={classes.demoExampleContainer}>
         <h4>Process</h4>
-        <ProgressBar activeSection={activeSection} />
+        <ProgressBar activeSection={activeSection} progressText={progressText} />
         <p>
           Transfer the style of a “style Image” to a “content image” by choosing them in the boxes below. You can upload
           a a file from your computer, URL, or select image from the gallery. You can specify additional parameters in
