@@ -59,3 +59,20 @@ typings/
 
 # next.js build output
 .next
+
+#build to be deployed
+build/
+
+#deploy Paths
+scripts/path.js
+
+#endpoints
+src/utility/constants/APIEndpoints.js
+
+#config
+src/aws_config.js
+
+#redux_dev_tools
+src/Redux/Store.js
+
+
