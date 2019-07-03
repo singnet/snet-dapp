@@ -23,4 +23,8 @@ const CardGroup = ({ data }) => {
   );
 };
 
+CardGroup.defaultProps = {
+  data: [],
+};
+
 export default CardGroup;

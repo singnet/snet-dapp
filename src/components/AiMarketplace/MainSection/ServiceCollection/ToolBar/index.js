@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import Grid from "@material-ui/core/Grid";
-import Icon from "@material-ui/core/Icon";
-import clsx from "clsx";
-import { connect } from "react-redux";
 
 import StyledDropdown from "../../../../common/StyledDropdown";
-import { serviceActions } from "../../../../../Redux/actionCreators";
 import { useStyles } from "./styles";
 import SearchInputToggler from "./SearchInputToggler";
+import ViewToggler from "./ViewToggler";
 
-const ToolBar = ({ listView, total_count, fetchService }) => {
+const ToolBar = ({ listView, total_count, handleSearchChange, toggleView }) => {
   const [showSearchInput, toggleSearchInput] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState("");
 
@@ -19,7 +16,7 @@ const ToolBar = ({ listView, total_count, fetchService }) => {
       offset: 0,
       q: event.target.value,
     };
-    fetchService(pagination);
+    handleSearchChange(pagination);
   };
 
   const classes = useStyles();
@@ -40,29 +37,10 @@ const ToolBar = ({ listView, total_count, fetchService }) => {
             searchKeyword={searchKeyword}
           />
         </button>
-        {listView ? (
-          <button>
-            <Icon className={clsx(classes.icon, "fa fa-th")} />
-          </button>
-        ) : (
-          <button>
-            <Icon className={clsx(classes.icon, "fa fa-th-list")} />
-          </button>
-        )}
+        <ViewToggler listView={listView} toggleView={toggleView} />
       </Grid>
     </Grid>
   );
 };
 
-const mapStateToProps = state => ({
-  total_count: state.serviceReducer.total_count,
-});
-
-const mapDispatchToProps = dispatch => ({
-  fetchService: pagination => dispatch(serviceActions.fetchService(pagination)),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ToolBar);
+export default ToolBar;
