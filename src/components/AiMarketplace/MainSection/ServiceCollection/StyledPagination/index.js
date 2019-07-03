@@ -31,6 +31,9 @@ const StyledPagination = ({ limit, offset, total_count, fetchService }) => {
     fetchService(pagination);
   };
 
+  const currentFirstItem = offset;
+  const currentLastItem = parseFloat(limit) + parseFloat(offset);
+
   return (
     <Grid container spacing={24} className={classes.paginationContainer}>
       <Grid item xs={12} sm={6} md={6} lg={6} className={classes.pagination}>
@@ -56,7 +59,7 @@ const StyledPagination = ({ limit, offset, total_count, fetchService }) => {
           </Select>
         </FormControl>
         <span>
-          {offset}-{parseFloat(limit) + parseFloat(limit) * parseFloat(offset)} of {total_count}
+          {currentFirstItem}-{currentLastItem} of {total_count}
         </span>
       </Grid>
     </Grid>

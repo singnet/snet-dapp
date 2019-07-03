@@ -1,5 +1,5 @@
 import { Auth, API } from "aws-amplify";
-import { APIEndpoints } from "../../utility/stringConstants/APIEndpoints";
+import { APIEndpoints } from "../../utility/constants/APIEndpoints";
 
 export const FETCH_SERVICE_LIST = "SET_SERVICE_LIST";
 

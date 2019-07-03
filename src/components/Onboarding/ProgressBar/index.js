@@ -8,11 +8,11 @@ const ProgressBar = ({ classes, activeSection }) => {
   const computeProgressStatus = (progressNumber, activeSection) => {
     if (progressNumber < activeSection) {
       return ProgressStatusList.COMPLETED;
-    } else if (progressNumber === activeSection) {
-      return ProgressStatusList.ACTIVE;
-    } else if (progressNumber > activeSection) {
-      return ProgressStatusList.IDLE;
     }
+    if (progressNumber === activeSection) {
+      return ProgressStatusList.ACTIVE;
+    }
+    return ProgressStatusList.IDLE;
   };
 
   return (

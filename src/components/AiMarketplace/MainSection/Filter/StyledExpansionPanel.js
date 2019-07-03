@@ -70,13 +70,13 @@ class StyledExpansionPanel extends Component {
     return (
       <Fragment>
         {expansionData.map(val => (
-          <ExpansionPanel className={classes.filterExpansionPanel}>
+          <ExpansionPanel className={classes.filterExpansionPanel} key={val.title}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
               <Typography className={classes.filtersHeadingTitle}>{val.title}</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails className={classes.filterDetails}>
               {val.items.map(item => (
-                <div className={classes.formCntrlGrup}>
+                <div className={classes.formCntrlGrup} key={item.title}>
                   <FormControlLabel
                     control={<Checkbox checked={true} value="textAnalysis" />}
                     label={item.title}
