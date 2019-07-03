@@ -1,7 +1,7 @@
 import { serviceActions } from "../actionCreators";
 
 const InitialServiceList = {
-  serviceList: [],
+  services: [],
   pagination: {
     q: "",
     limit: 10,
@@ -18,7 +18,7 @@ const serviceReducer = (state = InitialServiceList, action) => {
       return { ...state, pagination: { ...state.pagination, ...action.payload } };
     }
     case serviceActions.UPDATE_SERVICE_LIST: {
-      return { ...state, serviceList: action.payload };
+      return { ...state, services: action.payload };
     }
     default: {
       return state;
