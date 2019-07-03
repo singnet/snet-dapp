@@ -5,12 +5,11 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 import { useStyles } from "./styles";
 
-const ImageUpload = () => {
-  const { classes } = this.props;
+const ImageUpload = ({ classes, imageType }) => {
   return (
     <div className={classes.imageUploadContainer}>
       <div className={classes.imageUploadFromContainer}>
-        <h4>{this.props.imageType}</h4>
+        <h4>{imageType}</h4>
         <span className={classes.upload}>Upload</span>
         <span>URL</span>
         <span>Gallery</span>
