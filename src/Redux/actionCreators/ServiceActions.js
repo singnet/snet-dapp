@@ -3,7 +3,7 @@ import { APIEndpoints } from "../../utility/constants/APIEndpoints";
 export const UPDATE_SERVICE_LIST = "SET_SERVICE_LIST";
 export const UPDATE_PAGINATION_DETAILS = "SET_PAGINATION_DETAILS";
 
-export const fetchService = pagination => async (dispatch, getState) => {
+export const fetchService = pagination => async dispatch => {
   let url = new URL(`${APIEndpoints.GET_SERVICES_LIST.endpoint}/service`);
   Object.entries(pagination).map(([key, value]) => url.searchParams.append(key, value));
   return fetch(url)
