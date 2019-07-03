@@ -5,12 +5,10 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import MenuItem from "@material-ui/core/MenuItem";
-import { connect } from "react-redux";
 
 import { useStyles } from "./styles";
-import { serviceActions } from "../../../../../Redux/actionCreators";
 
-const StyledPagination = ({ limit, offset, total_count, fetchService }) => {
+const StyledPagination = ({ limit, offset, total_count, handleChange }) => {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const classes = useStyles();
 
@@ -19,8 +17,8 @@ const StyledPagination = ({ limit, offset, total_count, fetchService }) => {
       offset: 0,
       limit: event.target.value,
     };
-    fetchService(pagination);
     setItemsPerPage(event.target.value);
+    handleChange(pagination);
   };
 
   const handlePageChange = selectedOffset => {
@@ -28,7 +26,7 @@ const StyledPagination = ({ limit, offset, total_count, fetchService }) => {
       return;
     }
     const pagination = { offset: selectedOffset };
-    fetchService(pagination);
+    handleChange(pagination);
   };
 
   const currentFirstItem = offset;
@@ -66,17 +64,4 @@ const StyledPagination = ({ limit, offset, total_count, fetchService }) => {
   );
 };
 
-const mapStateToProps = state => ({
-  limit: state.serviceReducer.limit,
-  offset: state.serviceReducer.offset,
-  total_count: state.serviceReducer.total_count,
-});
-
-const mapDispatchToProps = dispatch => ({
-  fetchService: pagination => dispatch(serviceActions.fetchService(pagination)),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(StyledPagination);
+export default StyledPagination;

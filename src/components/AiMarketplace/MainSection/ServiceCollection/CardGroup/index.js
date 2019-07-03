@@ -8,17 +8,18 @@ const CardGroup = ({ data }) => {
   const classes = useStyles();
   return (
     <div className={classes.cardCollection}>
-      {data.map(item => (
-        <ListView
-          key={item.service_id}
-          cardMedia={CardImg}
-          cardTitle={item.org_id}
-          cardSubheader={item.display_name}
-          ratingGiven=""
-          totalRating=""
-          cardDescription={item.description}
-        />
-      ))}
+      {data &&
+        data.map(item => (
+          <ListView
+            key={item.service_id}
+            cardMedia={CardImg}
+            cardTitle={item.org_id}
+            cardSubheader={item.display_name}
+            ratingGiven=""
+            totalRating=""
+            cardDescription={item.description}
+          />
+        ))}
     </div>
   );
 };
