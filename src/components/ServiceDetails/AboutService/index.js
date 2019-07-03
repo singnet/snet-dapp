@@ -1,7 +1,7 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
-import { connect } from "react-router-dom";
+import { connect } from "react-redux";
 
 import CreatorDetails from "../CreatorDetails";
 import ProjectDetails from "../ProjectDetails";
