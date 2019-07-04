@@ -56,8 +56,12 @@ const theme = createMuiTheme({
       lightGray,
       gray,
       gray1,
+<<<<<<< HEAD
       cardBackground,
       iconColor,
+=======
+      gray2,
+>>>>>>> user profile
       errorRed,
       RatingStarColor,
     },

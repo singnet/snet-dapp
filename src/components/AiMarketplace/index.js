@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 
 import StyledButton from "../common/StyledButton";
 import MainSection from "./MainSection";
+import UserProfile from "../UserProfile";
 import { useStyles } from "./styles";
 import Routes from "../../utility/constants/Routes";
 
@@ -31,6 +32,7 @@ const AiMarketplace = ({ classes, isLoggedIn }) => {
         <div>
           <MainSection />
         </div>
+        <UserProfile />
       </div>
     </div>
   );
