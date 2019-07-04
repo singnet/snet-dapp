@@ -16,7 +16,7 @@ const AboutService = ({ classes, isLoggedIn, service }) => {
       <Grid item xs={12} sm={12} md={8} lg={8} className={classes.leftSideSection}>
         <Overview description={service.description} service_url={service.url} tags={service.tags} />
 
-        <DemoToggler showDemo={isLoggedIn} classes={classes} />
+        <DemoToggler showDemo={isLoggedIn} classes={classes} service={service} />
 
         <div className={classes.backToLink}>
           <i className="fas fa-arrow-left"></i>
