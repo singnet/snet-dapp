@@ -2,7 +2,7 @@ import GRPCV3Service from "./GRPCV3Service";
 
 export default class NullGRPCV3Service extends GRPCV3Service {
   constructor() {
-    super("NullService", null);
+    super("NullService", { methods: {} });
   }
 
   get methodNames() {

@@ -3,7 +3,6 @@ import { withStyles } from "@material-ui/styles";
 import IconButton from "@material-ui/core/IconButton";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Switch from "@material-ui/core/Switch";
-import { Root } from "protobufjs";
 
 import StyledTextField from "../../../common/StyledTextField";
 import StyledButton from "../../../common/StyledButton";
@@ -12,7 +11,7 @@ import ProgressBar from "../../../common/ProgressBar";
 import ImageUpload from "./ImageUpload";
 import { useStyles } from "./styles";
 import ExampleService from "../../../common/Example-Service/ExampleService";
-import GRPCProtoV3Spec from "../../../../assets/models/GRPCProtoV3Spec";
+import ServiceProvider from "./ServiceProvider";
 
 class DemoExample extends Component {
   state = {
@@ -24,55 +23,26 @@ class DemoExample extends Component {
     grpcResponse: undefined,
   };
 
-  componentDidMount = () => {
-    const { service } = this.props;
-
-    if (!service.org_id || !service.service_id || this.state.protoSpec) {
-      return;
-    }
-
-    this.fetchServiceSpec();
-  };
-
-  fetchServiceSpec = () => {
-    const { service } = this.props;
-
-    let _urlservicebuf = `https://protojs.singularitynet.io/ropsten/${service.org_id}/${service.service_id}`;
-
-    return fetch(encodeURI(_urlservicebuf))
-      .then(serviceSpecResponse => serviceSpecResponse.json())
-      .then(
-        serviceSpec =>
-          new Promise(resolve => {
-            const serviceSpecJSON = Root.fromJSON(serviceSpec[0]);
-            const protoSpec = new GRPCProtoV3Spec(serviceSpecJSON);
-            this.setState({ protoSpec, serviceSpecJSON });
-            resolve();
-          })
-      );
-  };
-
-  handleJobInvocation = (serviceName, methodName, requestObject) => {
-    console.log("serviceName", serviceName, "methodName", methodName, "requestObject", requestObject);
-  };
-
   render() {
-    const { classes } = this.props;
+    const { classes, service } = this.props;
     const { activeSection, error, progressText, protoSpec, serviceSpecJSON, grpcResponse } = this.state;
-
+    const DemoComponent = (
+      <ServiceProvider
+        service_id={service.service_id}
+        org_id={service.org_id}
+        demoComponentProps={{
+          isComplete: false,
+          response: grpcResponse,
+          sliderWidth: "100%",
+        }}
+      />
+    );
     return (
       <div className={classes.demoExampleContainer}>
         <h4>Process</h4>
         <ProgressBar activeSection={activeSection} progressText={progressText} />
         <p>{this.props.tutorial}</p>
-        <ExampleService
-          protoSpec={protoSpec}
-          isComplete={false}
-          serviceSpec={serviceSpecJSON}
-          callApiCallback={this.handleJobInvocation}
-          response={grpcResponse}
-          sliderWidth={"100%"}
-        />
+        <ExampleService />
         {/* <div className={classes.uploadImageContainer}>
           <ImageUpload imageType="Content Image" />
           <ImageUpload imageType="Style Image" />

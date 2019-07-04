@@ -1,5 +1,4 @@
 import _ from "lodash";
-// import { hasOwnDefinedProperty } from "../util";
 import GRPCV3Service from "./GRPCV3Service";
 import NullGRPCV3Service from "./NullGRPCV3Service";
 
