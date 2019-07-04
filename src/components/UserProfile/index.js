@@ -4,7 +4,6 @@ import { withStyles } from "@material-ui/styles";
 import UserProfileHeader from "./UserProfileHeader";
 import UserMenu from "./UserMenu";
 import { useStyles } from "./styles";
-("@material-ui/core/LinearProgress");
 
 const UserProfile = ({ classes }) => {
   return (
