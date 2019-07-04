@@ -20,14 +20,7 @@ class StyledTabs extends Component {
   render() {
     const { classes } = this.props;
     const { activeTab } = this.state;
-    const tabs = [
-      { name: "About", activeIndex: 0, component: <AboutService service={this.props.service} /> },
-      { name: "Install and Run", activeIndex: 1, component: <AboutService /> },
-      { name: "Reviews", activeIndex: 2, component: <AboutService /> },
-      { name: "Tutorial", activeIndex: 3, component: <AboutService /> },
-      { name: "Price Estimator", activeIndex: 4, component: <AboutService /> },
-      { name: "Discussion", activeIndex: 5, component: <AboutService /> },
-    ];
+    const tabs = [{ name: "About", activeIndex: 0, component: <AboutService service={this.props.service} /> }];
     const activeComponent = tabs.filter(el => el.activeIndex === activeTab)[0].component;
     return (
       <Grid item xs={12} sm={12} md={12} lg={12}>
