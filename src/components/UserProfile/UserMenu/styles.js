@@ -1,9 +1,7 @@
 export const useStyles = theme => ({
-  ProfileTabsContainer: {
-    "& ul": {
-      padding: 0,
-      margin: 0,
-    },
+  userMenuItemList: {
+    padding: 0,
+    margin: 0,
     "& li": {
       listStyle: "none",
       padding: "10px 20px",
@@ -20,9 +18,9 @@ export const useStyles = theme => ({
       "& span": {
         color: theme.palette.text.gray2,
         verticalAlign: "middle",
+        paddingRight: 20,
       },
       "& a": {
-        marginLeft: 20,
         color: theme.palette.text.black1,
         fontSize: 16,
         letterSpacing: 0.5,
