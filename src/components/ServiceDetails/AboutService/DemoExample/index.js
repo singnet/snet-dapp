@@ -26,23 +26,12 @@ class DemoExample extends Component {
   render() {
     const { classes, service } = this.props;
     const { activeSection, error, progressText, protoSpec, serviceSpecJSON, grpcResponse } = this.state;
-    const DemoComponent = (
-      <ServiceProvider
-        service_id={service.service_id}
-        org_id={service.org_id}
-        demoComponentProps={{
-          isComplete: false,
-          response: grpcResponse,
-          sliderWidth: "100%",
-        }}
-      />
-    );
     return (
       <div className={classes.demoExampleContainer}>
         <h4>Process</h4>
         <ProgressBar activeSection={activeSection} progressText={progressText} />
         <p>{this.props.tutorial}</p>
-        <ExampleService />
+        <ServiceProvider service_id={service.service_id} org_id={service.org_id} />
         {/* <div className={classes.uploadImageContainer}>
           <ImageUpload imageType="Content Image" />
           <ImageUpload imageType="Style Image" />
