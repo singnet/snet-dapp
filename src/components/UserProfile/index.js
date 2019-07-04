@@ -7,7 +7,6 @@ import Tab from "@material-ui/core/Tab";
 import UserProfileSettings from "./UserProfileSettings";
 import UserProfileHeader from "./UserProfileHeader";
 import { useStyles } from "./styles";
-("@material-ui/core/LinearProgress");
 
 class UserProfile extends Component {
   state = {
