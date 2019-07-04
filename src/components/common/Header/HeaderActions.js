@@ -1,16 +1,20 @@
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
+import Icon from "@material-ui/core/Icon";
+import clsx from "clsx";
 
 import { useStyles } from "./styles";
 import Routes from "../../../utility/constants/Routes";
-import SignOut from "./SignOut";
 
 const HeaderActions = ({ isLoggedIn }) => {
   const classes = useStyles();
   return (
     <ul className={classes.loginBtnsUl}>
       {isLoggedIn ? (
-        <SignOut />
+        <div className={classes.loggedInActions}>
+          <Icon className={clsx(classes.icon, "fas fa-bell")} />
+          <Icon className={clsx(classes.icon, "fas fa-user-circle")} />
+        </div>
       ) : (
         <Fragment>
           <li className={classes.loginBtnsLi}>
