@@ -24,7 +24,7 @@ class DemoExample extends Component {
     grpcResponse: undefined,
   };
 
-  componentDidUpdate = () => {
+  componentDidMount = () => {
     const { service } = this.props;
 
     if (!service.org_id || !service.service_id || this.state.protoSpec) {
