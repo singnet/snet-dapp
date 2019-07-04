@@ -46,7 +46,7 @@ class DemoExample extends Component {
           new Promise(resolve => {
             const serviceSpecJSON = Root.fromJSON(serviceSpec[0]);
             const protoSpec = new GRPCProtoV3Spec(serviceSpecJSON);
-            this.setState({ protoSpec });
+            this.setState({ protoSpec, serviceSpecJSON });
             resolve();
           })
       );

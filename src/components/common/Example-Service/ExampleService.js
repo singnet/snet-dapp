@@ -49,7 +49,7 @@ export default class ExampleService extends React.Component {
   }
 
   renderForm() {
-    if (!this.props.protoSpec) {
+    if (!this.props.protoSpec || !this.props.serviceSpec) {
       return null;
     }
     const service = this.props.protoSpec.findServiceByName(this.state.serviceName);
