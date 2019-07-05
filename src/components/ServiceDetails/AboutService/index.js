@@ -3,9 +3,6 @@ import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
 
-import CreatorDetails from "../CreatorDetails";
-import ProjectDetails from "../ProjectDetails";
-import StyledGallery from "./StyledGallery";
 import { useStyles } from "./styles";
 import DemoToggler from "./DemoToggler";
 import Overview from "./Overview";
@@ -26,15 +23,7 @@ const AboutService = ({ classes, isLoggedIn, service }) => {
         </div>
       </Grid>
 
-      <Grid item xs={12} sm={12} md={4} lg={4}>
-        {false && (
-          <>
-            <CreatorDetails />
-            <ProjectDetails />
-            <StyledGallery />
-          </>
-        )}
-      </Grid>
+      <Grid item xs={12} sm={12} md={4} lg={4}></Grid>
     </Grid>
   );
 };
