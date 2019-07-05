@@ -10,7 +10,7 @@ const UserMenuItem = ({ classes, icon, title, linkTo }) => {
   return (
     <li>
       <Icon className={clsx(classes.icon, icon)} />
-      <Link>{title}</Link>
+      <Link to={linkTo}>{title}</Link>
     </li>
   );
 };
