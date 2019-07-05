@@ -1,17 +1,15 @@
 import React, { Component } from "react";
-import { Root } from "protobufjs";
+import { connect } from "react-redux";
 
 import SampleServices from "../../../../assets/services";
-import GRPCProtoV3Spec from "../../../../assets/models/GRPCProtoV3Spec";
 import { withStyles } from "@material-ui/styles";
 import { useStyles } from "./styles";
+import { serviceActions } from "../../../../Redux/actionCreators";
 
 class ServiceProvider extends Component {
   state = {
-    serviceSpecJSON: undefined,
-    protoSpec: undefined,
     grpcResponse: undefined,
-    DemoComponent: props => <div></div>,
+    DemoComponent: undefined,
   };
 
   sampleServices = new SampleServices();
@@ -21,32 +19,17 @@ class ServiceProvider extends Component {
     if (!org_id || !service_id || this.state.protoSpec) {
       return;
     }
+    if (org_id && service_id && !this.state.DemoComponent) {
+      const DemoComponent = this.sampleServices.getComponent(org_id, service_id);
+      this.setState({ DemoComponent });
+    }
 
     this.fetchServiceSpec(org_id, service_id);
   };
 
   fetchServiceSpec = (org_id, service_id) => {
-    let _urlservicebuf = `https://protojs.singularitynet.io/ropsten/${org_id}/${service_id}`;
-    return fetch(encodeURI(_urlservicebuf))
-      .then(serviceSpecResponse => serviceSpecResponse.json())
-      .then(
-        serviceSpec =>
-          new Promise(resolve => {
-            const serviceSpecJSON = Root.fromJSON(serviceSpec[0]);
-            const protoSpec = new GRPCProtoV3Spec(serviceSpecJSON);
-            const DemoComponent = this.sampleServices.getComponent(org_id, service_id);
-            this.setState({ serviceSpecJSON, protoSpec, DemoComponent });
-            resolve({ serviceSpecJSON, protoSpec });
-          })
-      );
-  };
-
-  postData = (url, data = {}) => {
-    return fetch(url, {
-      method: "POST",
-      mode: "CORS",
-      body: JSON.stringify(data),
-    }).then(response => response.json());
+    let servicebufURL = `https://protojs.singularitynet.io/ropsten/${org_id}/${service_id}`;
+    this.props.fetchSpecDetails(servicebufURL);
   };
 
   handleJobInvocation = (serviceName, methodName, requestObject) => {
@@ -62,14 +45,15 @@ class ServiceProvider extends Component {
       dapp_user_address: "0x4147BDE67b3b54E210d85CCf7709096756Ff55Bb",
       isBase64Encoded: true,
     };
-
-    this.postData(url, data);
+    this.props.executeService(url, data);
   };
 
   render() {
-    const { classes } = this.props;
-    const { serviceSpecJSON, protoSpec, grpcResponse, DemoComponent } = this.state;
-
+    const { classes, serviceSpecJSON, protoSpec } = this.props;
+    const { grpcResponse, DemoComponent } = this.state;
+    if (!DemoComponent) {
+      return null;
+    }
     return (
       <div className={classes.demoComponent}>
         <DemoComponent
@@ -84,4 +68,18 @@ class ServiceProvider extends Component {
     );
   }
 }
-export default withStyles(useStyles)(ServiceProvider);
+
+const mapStateToProps = state => ({
+  protoSpec: state.serviceReducer.serviceExecution.protoSpec,
+  serviceSpecJSON: state.serviceReducer.serviceExecution.serviceSpecJSON,
+  grpcResponse: state.serviceReducer.serviceExecution.response,
+});
+const mapDispatchToProps = dispatch => ({
+  fetchSpecDetails: servicebufURL => dispatch(serviceActions.fetchSpecDetails(servicebufURL)),
+  executeService: (url, data) => dispatch(serviceActions.executeService(url, data)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(useStyles)(ServiceProvider));

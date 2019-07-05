@@ -10,6 +10,11 @@ const InitialServiceList = {
     order_by: "desc",
     total_count: 0,
   },
+  serviceExecution: {
+    response: {},
+    serviceSpecJSON: undefined,
+    protoSpec: undefined,
+  },
 };
 
 const serviceReducer = (state = InitialServiceList, action) => {
@@ -19,6 +24,19 @@ const serviceReducer = (state = InitialServiceList, action) => {
     }
     case serviceActions.UPDATE_SERVICE_LIST: {
       return { ...state, services: action.payload };
+    }
+    case serviceActions.UPDATE_SERVICE_EXECUTION_RESPONSE: {
+      return { ...state, serviceExecution: { ...state.serviceExecution, response: action.payload } };
+    }
+    case serviceActions.UPDATE_SPEC_DETAILS: {
+      return {
+        ...state,
+        serviceExecution: {
+          ...state.serviceExecution,
+          serviceSpecJSON: action.payload.serviceSpecJSON,
+          protoSpec: action.payload.protoSpec,
+        },
+      };
     }
     default: {
       return state;
