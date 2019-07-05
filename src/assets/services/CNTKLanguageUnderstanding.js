@@ -1,5 +1,5 @@
 import React from "react";
-import { hasOwnDefinedProperty } from "../../util";
+import { hasOwnDefinedProperty } from "../../utility/JSHelper";
 import Button from "@material-ui/core/Button";
 
 export default class CNTKLanguageUnderstanding extends React.Component {
