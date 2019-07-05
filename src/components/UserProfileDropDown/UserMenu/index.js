@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
 
 import UserMenuItem from "./UserMenuItem";
+import Routes from "../../../utility/constants/Routes";
 import { useStyles } from "./styles";
 
 class UserMenu extends Component {
@@ -15,7 +16,7 @@ class UserMenu extends Component {
       {
         menuIcon: "fas fa-cog",
         menuTitle: "Settings",
-        menuLink: "/",
+        menuLink: Routes.USER_PROFILE,
       },
       {
         menuIcon: "fas fa-project-diagram",
