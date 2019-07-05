@@ -6,7 +6,6 @@ import { connect } from "react-redux";
 import TitleCard from "./TitleCard";
 import PricingDetails from "./PricingDetails";
 import StyledTabs from "./StyledTabs";
-import Tutorial from "./Tutorial";
 import AboutService from "./AboutService";
 import InstallAndRunService from "./InstallAndRunService";
 import { useStyles } from "./styles";
@@ -53,7 +52,6 @@ class ServiceDetails extends Component {
     const tabs = [
       { name: "About", activeIndex: 0, component: <AboutService service={service} /> },
       { name: "Install and Run", activeIndex: 1, component: <InstallAndRunService /> },
-      { name: "Tutorial", activeIndex: 2, component: <Tutorial /> },
     ];
 
     if (!service) {
