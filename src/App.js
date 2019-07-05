@@ -30,6 +30,10 @@ class App extends Component {
     this.props.setUserDetails();
   };
 
+  componentDidMount = () => {
+    this.props.setUserDetails();
+  };
+
   render() {
     if (!this.props.isInitialized) {
       return <h2>Loading</h2>;
@@ -39,11 +43,11 @@ class App extends Component {
         <Router>
           <Suspense fallback={<div>Loading...</div>}>
             <Switch>
-              <Route path={`/${Routes.SIGNUP}`} component={withRegistrationHeader(SignUp, headerData.SIGNUP)} />
+              <Route path={`/${Routes.SIGNUP}`} component={withRegistrationHeader(SignUp, { ...headerData.SIGNUP })} />
               <Route
                 path={`/${Routes.LOGIN}`}
                 {...this.props}
-                component={withRegistrationHeader(Login, headerData.LOGIN)}
+                component={withRegistrationHeader(Login, { ...headerData.LOGIN })}
               />
               <PrivateRoute
                 path={`/${Routes.FORGOT_PASSWORD}`}
@@ -62,7 +66,7 @@ class App extends Component {
               <PrivateRoute
                 path={`/${Routes.ONBOARDING}`}
                 {...this.props}
-                component={withRegistrationHeader(Onboarding, headerData.ONBOARDING)}
+                component={withRegistrationHeader(Onboarding, { ...headerData.ONBOARDING })}
               />
               <Route path={`/${Routes.AI_MARKETPLACE}`} {...this.props} component={withInAppWrapper(AiMarketplace)} />
               <Route

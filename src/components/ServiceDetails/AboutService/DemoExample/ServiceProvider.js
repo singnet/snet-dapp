@@ -55,7 +55,7 @@ class ServiceProvider extends Component {
       return null;
     }
     return (
-      <div className={classes.demoComponent}>
+      <div className={classes.serviceDetailsTab}>
         <DemoComponent
           callApiCallback={this.handleJobInvocation}
           protoSpec={protoSpec}
