@@ -42,30 +42,26 @@ class App extends Component {
         <Router>
           <Suspense fallback={<div>Loading...</div>}>
             <Switch>
-              <Route path={`/${Routes.SIGNUP}`} component={withRegistrationHeader(SignUp, { ...headerData.SIGNUP })} />
+              <Route path={`/${Routes.SIGNUP}`} component={withRegistrationHeader(SignUp, headerData.SIGNUP)} />
               <Route
                 path={`/${Routes.LOGIN}`}
                 {...this.props}
-                component={withRegistrationHeader(Login, { ...headerData.LOGIN })}
+                component={withRegistrationHeader(Login, headerData.LOGIN)}
               />
               <PrivateRoute
                 path={`/${Routes.FORGOT_PASSWORD}`}
                 {...this.props}
-                component={withRegistrationHeader(ForgotPassword, {
-                  ...headerData.FORGOT_PASSWORD,
-                })}
+                component={withRegistrationHeader(ForgotPassword, headerData.FORGOT_PASSWORD)}
               />
               <PrivateRoute
                 path={`/${Routes.FORGOT_PASSWORD_SUBMIT}`}
                 {...this.props}
-                component={withRegistrationHeader(ForgotPasswordSubmit, {
-                  ...headerData.FORGOT_PASSWORD_SUBMIT,
-                })}
+                component={withRegistrationHeader(ForgotPasswordSubmit, headerData.FORGOT_PASSWORD_SUBMIT)}
               />
               <PrivateRoute
                 path={`/${Routes.ONBOARDING}`}
                 {...this.props}
-                component={withRegistrationHeader(Onboarding, { ...headerData.ONBOARDING })}
+                component={withRegistrationHeader(Onboarding, headerData.ONBOARDING)}
               />
               <Route path={`/${Routes.AI_MARKETPLACE}`} {...this.props} component={withInAppWrapper(AiMarketplace)} />
               <Route
