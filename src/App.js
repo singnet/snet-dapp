@@ -20,7 +20,6 @@ const PageNotFound = lazy(() => import("./components/PageNotFound"));
 const AiMarketplace = lazy(() => import("./components/AiMarketplace"));
 const SignUp = lazy(() => import("./components/Login/Signup"));
 const Login = lazy(() => import("./components/Login"));
-
 const ServiceDetails = lazy(() => import("./components/ServiceDetails"));
 
 Amplify.configure(aws_config);
