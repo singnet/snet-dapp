@@ -33,7 +33,7 @@ export const useStyles = theme => ({
     borderColor: theme.palette.text.lightGray,
     borderRadius: 4,
     marginTop: 10,
-    backgroundColor: theme.palette.text.gray2,
+    backgroundColor: theme.palette.text.cardBackground,
     color: theme.palette.text.lightShadedGray,
     fontSize: 12,
     lineHeight: "18px",

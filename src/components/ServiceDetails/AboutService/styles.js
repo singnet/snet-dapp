@@ -127,7 +127,7 @@ export const useStyles = theme => ({
     borderTopColor: theme.palette.text.lightGray,
     display: "flex",
     justifyContent: "space-around",
-    backgroundColor: theme.palette.text.gray2,
+    backgroundColor: theme.palette.text.cardBackground,
     "& i": {
       color: theme.palette.text.gray3,
       verticalAlign: "bottom",

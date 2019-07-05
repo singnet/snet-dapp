@@ -42,7 +42,7 @@ class ServiceProvider extends Component {
       service_name: serviceName,
       input: JSON.stringify(requestObject),
       user_address: "",
-      dapp_user_address: "0x4147BDE67b3b54E210d85CCf7709096756Ff55Bb",
+      username: "Vivek205",
       isBase64Encoded: true,
     };
     this.props.executeService(url, data);

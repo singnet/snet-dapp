@@ -1,7 +1,7 @@
 export const useStyles = theme => ({
   creditsContainer: {
     padding: "12px 0",
-    backgroundColor: theme.palette.text.gray2,
+    backgroundColor: theme.palette.text.cardBackground,
     border: "1px solid #E2E2E2",
     borderRadius: 4,
     boxSizing: "border-box",
