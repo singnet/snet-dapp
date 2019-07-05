@@ -9,7 +9,7 @@ const TitleCard = ({ classes, org_id, display_name, star_rating, api_calls }) =>
   return (
     <Grid item xs={12} sm={12} md={8} lg={8} className={classes.computerVisionContainer}>
       <div>
-        <img src="http://placehold.it/229x129" alt="Image" />
+        <img src="http://placehold.it/229x129" alt="service" />
       </div>
       <div className={classes.computerVisionContent}>
         <span>{org_id}</span>

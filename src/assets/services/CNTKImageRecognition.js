@@ -1,5 +1,5 @@
 import React from "react";
-import { hasOwnDefinedProperty } from "../../utility/JSHelper";
+import { hasOwnDefinedProperty } from "../../util";
 import Button from "@material-ui/core/Button";
 import SNETImageUpload from "./standardComponents/SNETImageUpload";
 

@@ -1,19 +1,10 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { Root } from "protobufjs";
-import Typography from "@material-ui/core/Typography";
 
 import SampleServices from "../../../../assets/services";
 import GRPCProtoV3Spec from "../../../../assets/models/GRPCProtoV3Spec";
 import { withStyles } from "@material-ui/styles";
 import { useStyles } from "./styles";
-
-const TabContainer = props => {
-  return (
-    <Typography component="div" style={{ padding: "10px", fontFamily: "Muli" }}>
-      {props.children}
-    </Typography>
-  );
-};
 
 class ServiceProvider extends Component {
   state = {

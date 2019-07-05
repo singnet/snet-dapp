@@ -93,13 +93,3 @@ function traverseServices(current, fn) {
       traverseServices(nested, fn);
     });
 }
-
-function traverseTypes(current, fn) {
-  if (current instanceof protobuf.Type)
-    // and/or protobuf.Enum, protobuf.Service etc.
-    fn(current);
-  if (current.nestedArray)
-    current.nestedArray.forEach(nested => {
-      traverseTypes(nested, fn);
-    });
-}

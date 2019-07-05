@@ -8,7 +8,7 @@ import Routes from "../../../utility/constants/Routes";
 import { useStyles } from "./styles";
 
 const DemoToggler = ({ classes, showDemo, onClick, service }) => {
-  if (showDemo || true) {
+  if (showDemo) {
     return (
       <div className={classes.demoContainer}>
         <h3>Demo Example</h3> <DemoExample service={service} />
