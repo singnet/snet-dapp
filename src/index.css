@@ -24,15 +24,6 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
-.servicedetailstab {
-  border-radius: 5px;
-  border-top: 2px solid #0066ff;
-  background-color: #fff;
-  padding: 10px 0;
-  margin-right: 0;
-  box-shadow: none;
-}
-
 h1,
 h2 {
   margin: 0;
