@@ -4,6 +4,8 @@ import Typography from "@material-ui/core/Typography";
 
 import SampleServices from "../../../../assets/services";
 import GRPCProtoV3Spec from "../../../../assets/models/GRPCProtoV3Spec";
+import { withStyles } from "@material-ui/styles";
+import { useStyles } from "./styles";
 
 const TabContainer = props => {
   return (
@@ -64,32 +66,31 @@ class ServiceProvider extends Component {
       service_id,
       method: methodName,
       service_name: serviceName,
-      input: requestObject,
+      input: JSON.stringify(requestObject),
       user_address: "",
-      dapp_user_address: "0x8977EB7ae3082b3D5DcB32a3Db62073Bf2b4D6F7",
+      dapp_user_address: "0x4147BDE67b3b54E210d85CCf7709096756Ff55Bb",
+      isBase64Encoded: true,
     };
 
     this.postData(url, data);
   };
 
   render() {
-    const { service_id, org_id } = this.props;
+    const { classes } = this.props;
     const { serviceSpecJSON, protoSpec, grpcResponse, DemoComponent } = this.state;
 
     return (
-      <div className="servicedetailstab">
-        <TabContainer>
-          <DemoComponent
-            callApiCallback={this.handleJobInvocation}
-            protoSpec={protoSpec}
-            serviceSpec={serviceSpecJSON}
-            isComplete={false}
-            response={grpcResponse}
-            sliderWidth={"550px"}
-          />
-        </TabContainer>
+      <div className={classes.demoComponent}>
+        <DemoComponent
+          callApiCallback={this.handleJobInvocation}
+          protoSpec={protoSpec}
+          serviceSpec={serviceSpecJSON}
+          isComplete={false}
+          response={grpcResponse}
+          sliderWidth={"550px"}
+        />
       </div>
     );
   }
 }
-export default ServiceProvider;
+export default withStyles(useStyles)(ServiceProvider);
