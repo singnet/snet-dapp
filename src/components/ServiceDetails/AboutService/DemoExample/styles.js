@@ -97,4 +97,37 @@ export const useStyles = theme => ({
       paddingRight: 70,
     },
   },
+  demoComponent: {
+    textAlign: "center",
+    "& div:first-child": {
+      display: "inline-block",
+    },
+    "& .row": {
+      display: "flex !important",
+      "& a": {
+        minWidth: 64,
+        minHeight: 36,
+        boxSizing: "border-box",
+        fontFamily: ["Roboto", "Helvetica", "Arial", "sans-serif"],
+        fontWeight: 500,
+        borderRadius: 4,
+        textTransform: "uppercase",
+      },
+      "& .col-md-6 ": {
+        textAlign: "center !important",
+        "& button": {
+          color: "white",
+          borderColor: "#4086ff",
+          padding: "6px 14px",
+          backgroundColor: "#4086ff",
+          borderRadius: 6,
+          display: "inline-block",
+          position: "relative",
+          left: "50%",
+          marginLeft: 95,
+          marginBottom: 10,
+        },
+      },
+    },
+  },
 });
