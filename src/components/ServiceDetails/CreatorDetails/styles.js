@@ -33,7 +33,7 @@ export const useStyles = theme => ({
     justifyContent: "space-around",
     backgroundColor: theme.palette.text.cardBackground,
     "& i": {
-      color: theme.palette.text.gray3,
+      color: theme.palette.text.iconColor,
       verticalAlign: "bottom",
     },
     "& span": {

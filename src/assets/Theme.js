@@ -14,7 +14,7 @@ const disabledBtnBg = "#ccc";
 const gray = "rgba(0,0,0,0.04)";
 const gray1 = "#F5F7F8";
 const cardBackground = "#f8f8f8";
-const gray3 = "#AAAEB3";
+const iconColor = "#AAAEB3";
 
 const whiteColor = "#fff";
 const offWhiteColor = "#fAFAFA";
@@ -57,7 +57,7 @@ const theme = createMuiTheme({
       gray,
       gray1,
       cardBackground,
-      gray3,
+      iconColor,
       errorRed,
       RatingStarColor,
     },
