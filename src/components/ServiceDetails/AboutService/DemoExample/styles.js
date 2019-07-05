@@ -97,4 +97,56 @@ export const useStyles = theme => ({
       paddingRight: 70,
     },
   },
+  serviceDetailsTab: {
+    borderTopWidth: 1,
+    borderTopStyle: "solid",
+    borderTopColor: theme.palette.text.lightGray,
+    marginTop: 25,
+    "& .row": {
+      marginTop: 25,
+      display: "flex",
+      justifyContent: "center",
+    },
+    "& div": {
+      fontFamily: theme.typography.primary.main,
+    },
+    "& select": {
+      marginBottom: "45px !important",
+    },
+    "& .btn-primary": {
+      marginRight: "0 !important",
+      backgroundColor: theme.backgroundColor.blue,
+      color: theme.palette.text.white,
+      borderWidth: 1,
+      borderStyle: "solid",
+      borderColor: "transparent",
+      padding: "13px 35px 11px",
+      textTransform: "uppercase",
+      fontFamily: theme.typography.primary.main,
+      fontWeight: theme.typography.fontweight,
+      letterSpacing: "1.25px",
+      lineHeight: "16px",
+    },
+    "& button": {
+      "& span": {
+        "& span": {
+          fontFamily: "OpenSans !important",
+        },
+      },
+      "&:disabled": {
+        marginRight: "0 !important",
+        backgroundColor: theme.palette.text.disabledBtnBg,
+        color: theme.palette.text.white,
+        borderWidth: 1,
+        borderStyle: "solid",
+        borderColor: "transparent",
+        padding: "13px 35px 11px",
+        textTransform: "uppercase",
+        fontFamily: theme.typography.primary.main,
+        fontWeight: theme.typography.fontweight,
+        letterSpacing: "1.25px",
+        lineHeight: "16px",
+      },
+    },
+  },
 });

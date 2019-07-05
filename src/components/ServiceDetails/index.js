@@ -6,6 +6,9 @@ import { connect } from "react-redux";
 import TitleCard from "./TitleCard";
 import PricingDetails from "./PricingDetails";
 import StyledTabs from "./StyledTabs";
+import Tutorial from "./Tutorial";
+import AboutService from "./AboutService";
+import InstallAndRunService from "./InstallAndRunService";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../Redux/actionCreators";
 
@@ -13,6 +16,7 @@ class ServiceDetails extends Component {
   state = {
     service_row_id: "",
     service: {},
+    activeTab: 0,
   };
 
   componentDidMount = async () => {
@@ -38,9 +42,20 @@ class ServiceDetails extends Component {
     this.setState({ service_row_id, service });
   };
 
+  handleTabChange = activeTab => {
+    this.setState({ activeTab });
+  };
+
   render() {
     const { classes } = this.props;
-    const { service } = this.state;
+    const { service, activeTab } = this.state;
+
+    const tabs = [
+      { name: "About", activeIndex: 0, component: <AboutService service={service} /> },
+      { name: "Install and Run", activeIndex: 1, component: <InstallAndRunService /> },
+      { name: "Tutorial", activeIndex: 2, component: <Tutorial /> },
+    ];
+
     if (!service) {
       return null;
     }
@@ -48,7 +63,7 @@ class ServiceDetails extends Component {
       <Grid container spacing={24} className={classes.serviceDetailContainer}>
         <TitleCard org_id={service.org_id} display_name={service.display_name} />
         <PricingDetails price_model={service.price_model} />
-        <StyledTabs service={service} />
+        <StyledTabs tabs={tabs} activeTab={activeTab} onTabChange={this.handleTabChange} />
       </Grid>
     );
   }

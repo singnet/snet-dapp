@@ -1,8 +1,10 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { Root } from "protobufjs";
 import Typography from "@material-ui/core/Typography";
+import { withStyles } from "@material-ui/styles";
 
 import SampleServices from "../../../../assets/services";
+import { useStyles } from "./styles";
 import GRPCProtoV3Spec from "../../../../assets/models/GRPCProtoV3Spec";
 
 const TabContainer = props => {
@@ -73,11 +75,11 @@ class ServiceProvider extends Component {
   };
 
   render() {
-    const { service_id, org_id } = this.props;
+    const { classes } = this.props;
     const { serviceSpecJSON, protoSpec, grpcResponse, DemoComponent } = this.state;
 
     return (
-      <div className="servicedetailstab">
+      <div className={classes.serviceDetailsTab}>
         <TabContainer>
           <DemoComponent
             callApiCallback={this.handleJobInvocation}
@@ -92,4 +94,4 @@ class ServiceProvider extends Component {
     );
   }
 }
-export default ServiceProvider;
+export default withStyles(useStyles)(ServiceProvider);
