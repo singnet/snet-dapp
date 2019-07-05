@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Root } from "protobufjs";
 
 import SampleServices from "../../../../assets/services";
+import { useStyles } from "./styles";
 import GRPCProtoV3Spec from "../../../../assets/models/GRPCProtoV3Spec";
 import { withStyles } from "@material-ui/styles";
 import { useStyles } from "./styles";
