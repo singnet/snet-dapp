@@ -42,7 +42,7 @@ export const fetchSpecDetails = servicebufURL => dispatch => {
         new Promise(resolve => {
           const serviceSpecJSON = Root.fromJSON(serviceSpec[0]);
           const protoSpec = new GRPCProtoV3Spec(serviceSpecJSON);
-          this.setState({ serviceSpecJSON, protoSpec });
+          dispatch({ type: UPDATE_SPEC_DETAILS, payload: { serviceSpecJSON, protoSpec } });
           resolve({ serviceSpecJSON, protoSpec });
         })
     );
