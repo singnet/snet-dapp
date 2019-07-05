@@ -14,6 +14,7 @@
     "material-ui-rating": "^3.1.1",
     "protobufjs": "^6.8.8",
     "react": "^16.8.6",
+    "react-bootstrap": "^0.32.1",
     "react-dom": "^16.8.6",
     "react-image-gallery": "^0.8.17",
     "react-redux": "^7.1.0",
@@ -30,8 +31,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "precommit": "pretty-quick --staged",
-    "lint": "eslint --ignore-path .gitignore .",
-    "lint:fix": "eslint --ignore-path .gitignore . --fix",
+    "lint": "eslint  .",
+    "lint:fix": "eslint  . --fix",
     "deploy": "node scripts/deploy.js enhanced-marketplace us-east-1"
   },
   "lint-staged": {

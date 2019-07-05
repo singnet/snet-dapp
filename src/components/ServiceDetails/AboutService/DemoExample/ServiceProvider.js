@@ -1,19 +1,10 @@
 import React, { Component } from "react";
 import { Root } from "protobufjs";
-import Typography from "@material-ui/core/Typography";
-import { withStyles } from "@material-ui/styles";
 
 import SampleServices from "../../../../assets/services";
 import { useStyles } from "./styles";
 import GRPCProtoV3Spec from "../../../../assets/models/GRPCProtoV3Spec";
-
-const TabContainer = props => {
-  return (
-    <Typography component="div" style={{ padding: "10px", fontFamily: "Muli" }}>
-      {props.children}
-    </Typography>
-  );
-};
+import { withStyles } from "@material-ui/styles";
 
 class ServiceProvider extends Component {
   state = {
@@ -66,9 +57,10 @@ class ServiceProvider extends Component {
       service_id,
       method: methodName,
       service_name: serviceName,
-      input: requestObject,
+      input: JSON.stringify(requestObject),
       user_address: "",
-      dapp_user_address: "0x8977EB7ae3082b3D5DcB32a3Db62073Bf2b4D6F7",
+      dapp_user_address: "0x4147BDE67b3b54E210d85CCf7709096756Ff55Bb",
+      isBase64Encoded: true,
     };
 
     this.postData(url, data);
@@ -80,16 +72,14 @@ class ServiceProvider extends Component {
 
     return (
       <div className={classes.serviceDetailsTab}>
-        <TabContainer>
-          <DemoComponent
-            callApiCallback={this.handleJobInvocation}
-            protoSpec={protoSpec}
-            serviceSpec={serviceSpecJSON}
-            isComplete={false}
-            response={grpcResponse}
-            sliderWidth={"550px"}
-          />
-        </TabContainer>
+        <DemoComponent
+          callApiCallback={this.handleJobInvocation}
+          protoSpec={protoSpec}
+          serviceSpec={serviceSpecJSON}
+          isComplete={false}
+          response={grpcResponse}
+          sliderWidth={"550px"}
+        />
       </div>
     );
   }
