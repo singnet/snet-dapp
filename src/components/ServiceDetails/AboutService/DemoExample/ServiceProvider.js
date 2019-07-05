@@ -16,15 +16,15 @@ class ServiceProvider extends Component {
 
   componentDidUpdate = () => {
     const { org_id, service_id } = this.props;
-    if (!org_id || !service_id || this.state.protoSpec) {
-      return;
-    }
     if (org_id && service_id && !this.state.DemoComponent) {
+      this.fetchServiceSpec(org_id, service_id);
       const DemoComponent = this.sampleServices.getComponent(org_id, service_id);
       this.setState({ DemoComponent });
+      return;
     }
-
-    this.fetchServiceSpec(org_id, service_id);
+    if (org_id && service_id && this.state.DemoComponent) {
+      return;
+    }
   };
 
   fetchServiceSpec = (org_id, service_id) => {
@@ -51,7 +51,7 @@ class ServiceProvider extends Component {
   render() {
     const { classes, serviceSpecJSON, protoSpec } = this.props;
     const { grpcResponse, DemoComponent } = this.state;
-    if (!DemoComponent) {
+    if (!DemoComponent || !serviceSpecJSON || !protoSpec) {
       return null;
     }
     return (
