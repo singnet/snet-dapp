@@ -6,9 +6,7 @@ import { connect } from "react-redux";
 import TitleCard from "./TitleCard";
 import PricingDetails from "./PricingDetails";
 import StyledTabs from "./StyledTabs";
-import Tutorial from "./Tutorial";
 import AboutService from "./AboutService";
-import InstallAndRunService from "./InstallAndRunService";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../Redux/actionCreators";
 
@@ -50,11 +48,7 @@ class ServiceDetails extends Component {
     const { classes } = this.props;
     const { service, activeTab } = this.state;
 
-    const tabs = [
-      { name: "About", activeIndex: 0, component: <AboutService service={service} /> },
-      { name: "Install and Run", activeIndex: 1, component: <InstallAndRunService /> },
-      { name: "Tutorial", activeIndex: 2, component: <Tutorial /> },
-    ];
+    const tabs = [{ name: "About", activeIndex: 0, component: <AboutService service={service} /> }];
 
     if (!service) {
       return null;
