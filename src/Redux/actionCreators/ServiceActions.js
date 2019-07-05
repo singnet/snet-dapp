@@ -31,7 +31,9 @@ export const executeService = (url, data) => dispatch => {
     body: JSON.stringify(data),
   })
     .then(response => response.json())
-    .then(data => dispatch({ type: UPDATE_SERVICE_EXECUTION_RESPONSE, payload: data }));
+    .then(data =>
+      dispatch({ type: UPDATE_SERVICE_EXECUTION_RESPONSE, payload: { response: data.data, isComplete: true } })
+    );
 };
 
 export const fetchSpecDetails = servicebufURL => dispatch => {

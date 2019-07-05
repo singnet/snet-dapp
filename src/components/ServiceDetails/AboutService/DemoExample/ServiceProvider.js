@@ -49,8 +49,8 @@ class ServiceProvider extends Component {
   };
 
   render() {
-    const { classes, serviceSpecJSON, protoSpec } = this.props;
-    const { grpcResponse, DemoComponent } = this.state;
+    const { classes, serviceSpecJSON, protoSpec, grpcResponse, isComplete } = this.props;
+    const { DemoComponent } = this.state;
     if (!DemoComponent || !serviceSpecJSON || !protoSpec) {
       return null;
     }
@@ -60,7 +60,7 @@ class ServiceProvider extends Component {
           callApiCallback={this.handleJobInvocation}
           protoSpec={protoSpec}
           serviceSpec={serviceSpecJSON}
-          isComplete={false}
+          isComplete={isComplete}
           response={grpcResponse}
           sliderWidth={"550px"}
         />
@@ -73,6 +73,7 @@ const mapStateToProps = state => ({
   protoSpec: state.serviceReducer.serviceExecution.protoSpec,
   serviceSpecJSON: state.serviceReducer.serviceExecution.serviceSpecJSON,
   grpcResponse: state.serviceReducer.serviceExecution.response,
+  isComplete: state.serviceReducer.serviceExecution.isComplete,
 });
 const mapDispatchToProps = dispatch => ({
   fetchSpecDetails: servicebufURL => dispatch(serviceActions.fetchSpecDetails(servicebufURL)),

@@ -14,6 +14,7 @@ const InitialServiceList = {
     response: {},
     serviceSpecJSON: undefined,
     protoSpec: undefined,
+    isComplete: false,
   },
 };
 
@@ -26,7 +27,7 @@ const serviceReducer = (state = InitialServiceList, action) => {
       return { ...state, services: action.payload };
     }
     case serviceActions.UPDATE_SERVICE_EXECUTION_RESPONSE: {
-      return { ...state, serviceExecution: { ...state.serviceExecution, response: action.payload } };
+      return { ...state, serviceExecution: { ...state.serviceExecution, ...action.payload } };
     }
     case serviceActions.UPDATE_SPEC_DETAILS: {
       return {
