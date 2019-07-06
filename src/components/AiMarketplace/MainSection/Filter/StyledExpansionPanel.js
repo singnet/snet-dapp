@@ -13,27 +13,36 @@ import { useStyles } from "./styles";
 const StyledExpansionPanel = ({ classes, expansionData }) => {
   return (
     <Fragment>
-      {expansionData.map(val => (
-        <ExpansionPanel className={classes.filterExpansionPanel} key={val.title}>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-            <Typography className={classes.filtersHeadingTitle}>{val.title}</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails className={classes.filterDetails}>
-            {val.items.map(item => (
-              <div className={classes.formCntrlGrup} key={item.title}>
-                <FormControlLabel
-                  control={<Checkbox checked={true} value="textAnalysis" />}
-                  label={item.title}
-                  classes={{
-                    label: classes.checkboxLabel,
-                  }}
-                />
-                <span className={classes.count}>{item.count}</span>
-              </div>
-            ))}
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
-      ))}
+      {expansionData.map(val => {
+        if (val.items.length > 0) {
+          return (
+            <ExpansionPanel className={classes.filterExpansionPanel} key={val.title}>
+              <ExpansionPanelSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+              >
+                <Typography className={classes.filtersHeadingTitle}>{val.title}</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails className={classes.filterDetails}>
+                {val.items.map(item => (
+                  <div className={classes.formCntrlGrup} key={item.title}>
+                    <FormControlLabel
+                      control={<Checkbox checked={true} value="textAnalysis" />}
+                      label={item.title}
+                      classes={{
+                        label: classes.checkboxLabel,
+                      }}
+                    />
+                    <span className={classes.count}>{item.count}</span>
+                  </div>
+                ))}
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+          );
+        }
+        return null;
+      })}
     </Fragment>
   );
 };
