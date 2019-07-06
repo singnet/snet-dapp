@@ -105,7 +105,7 @@ export const checkWalletStatus = (dispatch, getState) => {
 
   Auth.currentSession({ bypassCache: true })
     .then(currentSession => {
-      let apiName = APIEndpoints.GET_SERVICES_LIST.name;
+      let apiName = APIEndpoints.GET_SERVICE_LIST.name;
       let path = `/wallet?username=${username}`;
       let myInit = {
         headers: { Authorization: currentSession.idToken.jwtToken },

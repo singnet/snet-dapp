@@ -9,7 +9,7 @@ export const UPDATE_SERVICE_EXECUTION_RESPONSE = "UPDATE_SERVICE_EXECUTION_RESPO
 export const UPDATE_SPEC_DETAILS = "UPDATE_SPEC_DETAILS";
 
 export const fetchService = pagination => async dispatch => {
-  let url = new URL(`${APIEndpoints.GET_SERVICES_LIST.endpoint}/service`);
+  let url = new URL(`${APIEndpoints.GET_SERVICE_LIST.endpoint}/service`);
   Object.entries(pagination).map(([key, value]) => url.searchParams.append(key, value));
   return fetch(url)
     .then(res => res.json())
@@ -32,7 +32,10 @@ export const executeService = (url, data) => dispatch => {
   })
     .then(response => response.json())
     .then(data =>
-      dispatch({ type: UPDATE_SERVICE_EXECUTION_RESPONSE, payload: { response: data.data, isComplete: true } })
+      dispatch({
+        type: UPDATE_SERVICE_EXECUTION_RESPONSE,
+        payload: { response: JSON.parse(data.data), isComplete: true },
+      })
     );
 };
 

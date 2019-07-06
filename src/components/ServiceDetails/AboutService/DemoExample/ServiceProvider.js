@@ -5,6 +5,7 @@ import SampleServices from "../../../../assets/services";
 import { withStyles } from "@material-ui/styles";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../../../Redux/actionCreators";
+import { APIEndpoints } from "../../../../utility/constants/APIEndpoints";
 
 class ServiceProvider extends Component {
   state = {
@@ -28,13 +29,13 @@ class ServiceProvider extends Component {
   };
 
   fetchServiceSpec = (org_id, service_id) => {
-    let servicebufURL = `https://protojs.singularitynet.io/ropsten/${org_id}/${service_id}`;
+    let servicebufURL = `${APIEndpoints.SERVICE_BUF.endpoint}/${org_id}/${service_id}`;
     this.props.fetchSpecDetails(servicebufURL);
   };
 
   handleJobInvocation = (serviceName, methodName, requestObject) => {
     const { org_id, service_id } = this.props;
-    let url = "https://269wz9jke5.execute-api.us-east-1.amazonaws.com/ropsten/call-service";
+    let url = `${APIEndpoints.GET_SERVICE_LIST.endpoint}/call-service`;
     let data = {
       org_id,
       service_id,
