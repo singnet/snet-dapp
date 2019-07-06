@@ -6,11 +6,12 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Typography from "@material-ui/core/Typography";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import Radio from "@material-ui/core/Radio";
 import { withStyles } from "@material-ui/styles";
 
 import { useStyles } from "./styles";
 
-const StyledExpansionPanel = ({ classes, expansionData }) => {
+const StyledExpansionPanel = ({ classes, expansionData, handleChange, activeFilterItem }) => {
   return (
     <Fragment>
       {expansionData.map(val => {
@@ -28,7 +29,14 @@ const StyledExpansionPanel = ({ classes, expansionData }) => {
                 {val.items.map(item => (
                   <div className={classes.formCntrlGrup} key={item.title}>
                     <FormControlLabel
-                      control={<Checkbox checked={true} value="textAnalysis" />}
+                      control={
+                        <Radio
+                          name={val.name}
+                          checked={item.title === activeFilterItem[val.name]}
+                          onChange={handleChange}
+                          value={item.title}
+                        />
+                      }
                       label={item.title}
                       classes={{
                         label: classes.checkboxLabel,

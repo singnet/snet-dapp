@@ -9,6 +9,7 @@ const InitialServiceList = {
     sort_by: "display_name",
     order_by: "desc",
     total_count: 0,
+    s: "all",
   },
   serviceExecution: {
     response: {},
