@@ -9,7 +9,7 @@ export const UPDATE_SERVICE_EXECUTION_RESPONSE = "UPDATE_SERVICE_EXECUTION_RESPO
 export const UPDATE_SPEC_DETAILS = "UPDATE_SPEC_DETAILS";
 
 export const fetchService = pagination => async dispatch => {
-  let url = new URL(`${APIEndpoints.GET_SERVICES_LIST.endpoint}/service`);
+  let url = new URL(`${APIEndpoints.GET_SERVICE_LIST.endpoint}/service`);
   Object.entries(pagination).map(([key, value]) => url.searchParams.append(key, value));
   return fetch(url)
     .then(res => res.json())
