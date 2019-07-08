@@ -62,6 +62,7 @@
     "eslint": "^5.16.0",
     "eslint-config-prettier": "^4.3.0",
     "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-react-hooks": "^1.6.1",
     "html2canvas": "^1.0.0-alpha.12",
     "husky": "^2.4.0",
     "lint-staged": "^8.2.0",
