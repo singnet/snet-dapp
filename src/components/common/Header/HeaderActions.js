@@ -22,7 +22,7 @@ const HeaderActions = ({ isLoggedIn }) => {
             <Link to={`/${Routes.SIGNUP}`}>
               <span className={`${classes.loginBtnsAnchor} ${classes.UppercaseText} ${classes.signupBtnText}`}>
                 {" "}
-                Sign Up
+                Sign Up Free
               </span>
             </Link>
           </li>
