@@ -2,6 +2,7 @@ import { Root } from "protobufjs";
 
 import { APIEndpoints } from "../../config/APIEndpoints";
 import GRPCProtoV3Spec from "../../assets/models/GRPCProtoV3Spec";
+import { Auth, API } from "aws-amplify";
 
 export const UPDATE_SERVICE_LIST = "SET_SERVICE_LIST";
 export const UPDATE_PAGINATION_DETAILS = "SET_PAGINATION_DETAILS";
@@ -24,19 +25,21 @@ export const fetchService = pagination => async dispatch => {
     });
 };
 
-export const invokeServiceMethod = (url, data) => dispatch => {
-  return fetch(url, {
-    method: "POST",
-    mode: "CORS",
-    body: JSON.stringify(data),
-  })
-    .then(response => response.json())
-    .then(data =>
+export const invokeServiceMethod = data => dispatch => {
+  Auth.currentSession({ bypassCache: true }).then(currentSession => {
+    const apiName = APIEndpoints.GET_SERVICE_LIST.name;
+    const path = "/call-service";
+    let myInit = {
+      body: data,
+      headers: { Authorization: currentSession.idToken.jwtToken },
+    };
+    API.post(apiName, path, myInit).then(response => {
       dispatch({
         type: UPDATE_SERVICE_EXECUTION_RESPONSE,
-        payload: { response: JSON.parse(data.data), isComplete: true },
-      })
-    );
+        payload: { response: JSON.parse(response.data), isComplete: true },
+      });
+    });
+  });
 };
 
 export const fetchProtoSpec = servicebufURL => dispatch => {

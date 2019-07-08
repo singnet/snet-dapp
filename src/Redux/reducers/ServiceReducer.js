@@ -12,8 +12,6 @@ const InitialServiceList = {
   },
   serviceExecution: {
     response: {},
-    serviceSpecJSON: undefined,
-    protoSpec: undefined,
     isComplete: false,
   },
 };

@@ -11,6 +11,8 @@ class ServiceProvider extends Component {
   state = {
     grpcResponse: undefined,
     DemoComponent: undefined,
+    serviceSpecJSON: undefined,
+    protoSpec: undefined,
   };
 
   sampleServices = new SampleServices();
@@ -28,14 +30,14 @@ class ServiceProvider extends Component {
     }
   };
 
-  fetchServiceSpec = (org_id, service_id) => {
+  fetchServiceSpec = async (org_id, service_id) => {
     let servicebufURL = `${APIEndpoints.SERVICE_BUF.endpoint}/${org_id}/${service_id}`;
-    this.props.fetchProtoSpec(servicebufURL);
+    const { serviceSpecJSON, protoSpec } = await this.props.fetchProtoSpec(servicebufURL);
+    this.setState({ serviceSpecJSON, protoSpec });
   };
 
   handleJobInvocation = (serviceName, methodName, requestObject) => {
     const { org_id, service_id } = this.props;
-    let url = `${APIEndpoints.GET_SERVICE_LIST.endpoint}/call-service`;
     let data = {
       org_id,
       service_id,
@@ -46,12 +48,12 @@ class ServiceProvider extends Component {
       username: "Vivek205",
       isBase64Encoded: true,
     };
-    this.props.invokeServiceMethod(url, data);
+    this.props.invokeServiceMethod(data);
   };
 
   render() {
-    const { classes, serviceSpecJSON, protoSpec, grpcResponse, isComplete } = this.props;
-    const { DemoComponent } = this.state;
+    const { classes, grpcResponse, isComplete } = this.props;
+    const { DemoComponent, serviceSpecJSON, protoSpec } = this.state;
     if (!DemoComponent || !serviceSpecJSON || !protoSpec) {
       return null;
     }
@@ -71,14 +73,12 @@ class ServiceProvider extends Component {
 }
 
 const mapStateToProps = state => ({
-  protoSpec: state.serviceReducer.serviceExecution.protoSpec,
-  serviceSpecJSON: state.serviceReducer.serviceExecution.serviceSpecJSON,
   grpcResponse: state.serviceReducer.serviceExecution.response,
   isComplete: state.serviceReducer.serviceExecution.isComplete,
 });
 const mapDispatchToProps = dispatch => ({
   fetchProtoSpec: servicebufURL => dispatch(serviceActions.fetchProtoSpec(servicebufURL)),
-  invokeServiceMethod: (url, data) => dispatch(serviceActions.invokeServiceMethod(url, data)),
+  invokeServiceMethod: data => dispatch(serviceActions.invokeServiceMethod(data)),
 });
 
 export default connect(
