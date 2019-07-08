@@ -19,12 +19,6 @@ const Filter = ({ services, pagination, updatePagination, fetchService }) => {
 
   if (services.length > 0) {
     services.map(service => {
-      if (!filterData.display_name.items.find(el => el.title === service.display_name)) {
-        filterData.display_name.items.push({ title: service.display_name });
-      }
-      if (!filterData.org_id.items.find(el => el.title === service.org_id)) {
-        filterData.org_id.items.push({ title: service.org_id });
-      }
       if (service.tags.length > 0) {
         service.tags.map(tag => {
           if (!filterData.tags.items.find(el => el.title === tag)) {
