@@ -2,6 +2,8 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import Icon from "@material-ui/core/Icon";
 
 import { useStyles } from "./styles";
 import DemoToggler from "./DemoToggler";
@@ -16,10 +18,8 @@ const AboutService = ({ classes, isLoggedIn, service }) => {
         <DemoToggler showDemo={isLoggedIn} classes={classes} service={service} />
 
         <div className={classes.backToLink}>
-          <i className="fas fa-arrow-left"></i>
-          <a href="#" title="Back To">
-            Back to AI Marketplace
-          </a>
+          <Icon className="fas fa-arrow-left" />
+          <Link to="">Back to AI Marketplace</Link>
         </div>
       </Grid>
 
