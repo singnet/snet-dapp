@@ -24,7 +24,7 @@ const AiMarketplace = ({ classes, isLoggedIn }) => {
               They’re powered by a community of amazing developers from all over the globe.
             </p>
             <Link to={Routes.SIGNUP} className={classes.signupLink}>
-              {isLoggedIn && <StyledButton type="blue" btnText="Sign up for free credits" />}
+              {!isLoggedIn && <StyledButton type="blue" btnText="Sign up for free credits" />}
             </Link>
           </Grid>
         </Grid>
@@ -37,7 +37,7 @@ const AiMarketplace = ({ classes, isLoggedIn }) => {
 };
 
 const mapStateToProps = state => ({
-  isLoggedIn: state.serviceReducer.login.isLoggedIn,
+  isLoggedIn: state.userReducer.login.isLoggedIn,
 });
 
 export default connect(mapStateToProps)(withStyles(useStyles)(AiMarketplace));
