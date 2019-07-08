@@ -1,6 +1,6 @@
 import { Root } from "protobufjs";
 
-import { APIEndpoints } from "../../utility/constants/APIEndpoints";
+import { APIEndpoints } from "../../config/APIEndpoints";
 import GRPCProtoV3Spec from "../../assets/models/GRPCProtoV3Spec";
 
 export const UPDATE_SERVICE_LIST = "SET_SERVICE_LIST";

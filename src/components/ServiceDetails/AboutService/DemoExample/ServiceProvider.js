@@ -5,7 +5,7 @@ import SampleServices from "../../../../assets/thirdPartyServices";
 import { withStyles } from "@material-ui/styles";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../../../Redux/actionCreators";
-import { APIEndpoints } from "../../../../utility/constants/APIEndpoints";
+import { APIEndpoints } from "../../../../config/APIEndpoints";
 
 class ServiceProvider extends Component {
   state = {
