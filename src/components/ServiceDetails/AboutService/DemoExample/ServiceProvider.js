@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { withStyles } from "@material-ui/styles";
 
 import SampleServices from "../../../../assets/thirdPartyServices";
-import { withStyles } from "@material-ui/styles";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../../../Redux/actionCreators";
 import { APIEndpoints } from "../../../../config/APIEndpoints";
