@@ -5,8 +5,6 @@ export const useStyles = makeStyles(theme => ({
     marginTop: 20,
   },
   routerLink: {
-    "& a,span": {
-      textDecoration: "none !important",
-    },
+    textDecoration: "none !important",
   },
 }));
