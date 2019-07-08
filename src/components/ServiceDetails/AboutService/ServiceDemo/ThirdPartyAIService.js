@@ -28,7 +28,7 @@ class ThirdPartyAIService extends Component {
   };
 
   fetchServiceSpec = async (org_id, service_id) => {
-    let servicebufURL = `${APIEndpoints.SERVICE_BUF.endpoint}/${org_id}/${service_id}`;
+    const servicebufURL = `${APIEndpoints.SERVICE_BUF.endpoint}/${org_id}/${service_id}`;
     const { serviceSpecJSON, protoSpec } = await this.props.fetchProtoSpec(servicebufURL);
     this.setState({ serviceSpecJSON, protoSpec });
   };
