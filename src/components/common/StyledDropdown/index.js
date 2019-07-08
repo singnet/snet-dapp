@@ -32,7 +32,6 @@ const StyledDropdown = ({ labelTxt, list }) => {
           id: "featured-label",
         }}
       >
-        <option value="" />
         {list.map(item => (
           <option key={item.value} value={item.value}>
             {item.label}
@@ -54,7 +53,8 @@ StyledDropdown.propTypes = {
 };
 
 StyledDropdown.defaultProps = {
-  list: [{ value: "", label: "" }, { value: "", label: "" }, { value: "", label: "" }],
+  labelTxt: "select one",
+  list: [{ value: "", label: "" }],
 };
 
 export default StyledDropdown;
