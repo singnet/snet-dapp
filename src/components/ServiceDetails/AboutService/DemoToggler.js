@@ -11,7 +11,7 @@ const DemoToggler = ({ classes, showDemo, onClick, service }) => {
   if (showDemo) {
     return (
       <div className={classes.demoContainer}>
-        <h3>Demo Example</h3> <ServiceDemo service={service} />
+        <h3>Service Demo</h3> <ServiceDemo service={service} />
       </div>
     );
   }
