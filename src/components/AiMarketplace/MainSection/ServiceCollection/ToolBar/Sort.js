@@ -1,17 +1,41 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
+import { connect } from "react-redux";
 
 import StyledDropdown from "../../../../common/StyledDropdown";
 import { useStyles } from "./styles";
-import { sortByCategories } from "../../../../../utility/constants/Pagination";
+import { sortByCategories, defaultPaginationParameters } from "../../../../../utility/constants/Pagination";
+import { serviceActions } from "../../../../../Redux/actionCreators";
 
-const Sort = () => {
+const Sort = ({ pagination, updatePagination, fetchService }) => {
+  const [activeSortItem, setActiveSortItem] = useState(sortByCategories[0].value);
   const classes = useStyles();
+
+  const handleSortChange = async event => {
+    const value = event.currentTarget.value;
+    const latestPagination = { ...pagination, ...defaultPaginationParameters, sort_by: value };
+    updatePagination(latestPagination);
+    await fetchService(latestPagination);
+    setActiveSortItem(value);
+  };
+
   return (
     <Fragment>
       <span className={classes.sortbyTxt}>Sort by:</span>
-      <StyledDropdown list={sortByCategories} labelTxt="select one" />
+      <StyledDropdown list={sortByCategories} value={activeSortItem} onChange={handleSortChange} />
     </Fragment>
   );
 };
 
-export default Sort;
+const mapStateToProps = state => ({
+  pagination: state.serviceReducer.pagination,
+});
+
+const mapDispatchToProps = dispatch => ({
+  fetchService: pagination => dispatch(serviceActions.fetchService(pagination)),
+  updatePagination: pagination => dispatch(serviceActions.updatePagination(pagination)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Sort);
