@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import SampleServices from "../../../../assets/services";
+import SampleServices from "../../../../assets/thirdPartyServices";
 import { withStyles } from "@material-ui/styles";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../../../Redux/actionCreators";
