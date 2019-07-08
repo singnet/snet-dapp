@@ -32,7 +32,7 @@ class ServiceProvider extends Component {
     this.setState({ serviceSpecJSON, protoSpec });
   };
 
-  handleJobInvocation = (serviceName, methodName, requestObject) => {
+  handleServiceInvokation = (serviceName, methodName, requestObject) => {
     const { org_id, service_id } = this.props;
     const data = {
       org_id,
@@ -56,7 +56,7 @@ class ServiceProvider extends Component {
     return (
       <div className={classes.serviceDetailsTab}>
         <DemoComponent
-          callApiCallback={this.handleJobInvocation}
+          callApiCallback={this.handleServiceInvokation}
           protoSpec={protoSpec}
           serviceSpec={serviceSpecJSON}
           isComplete={isComplete}
