@@ -1,3 +1,5 @@
+import React from "react";
+
 import ExampleService from "./ExampleService.js";
 import CNTKImageRecognition from "./CNTKImageRecognition.js";
 import CNTKNextDayTrend from "./CNTKNextDayTrend.js";
@@ -40,7 +42,7 @@ import Places365SceneRecognition from "./Places365SceneRecognition";
 import SuperResolution from "./SuperResolution";
 import SemanticSegmentationAerial from "./SemanticSegmentationAerial";
 import SiggraphColorization from "./SiggraphColorization";
-import DefaultService from "./DefaultService.js";
+import ErrorMsgBox from "../../components/common/ErrorMsgBox";
 
 const defaultChainId = -1;
 
@@ -162,7 +164,7 @@ export default class SampleServices {
     if (typeof component === "undefined") {
       component = this.serviceOrgIDToComponent[this.generateUniqueID(orgId, serviceId, defaultChainId)];
       if (typeof component === "undefined") {
-        component = DefaultService;
+        component = <ErrorMsgBox showErr errorMsg="No Component matched" />;
       }
     }
     return component;
