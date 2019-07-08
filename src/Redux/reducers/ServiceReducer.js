@@ -4,7 +4,7 @@ import { defaultPaginationFilterSortSearch } from "../../utility/constants/Pagin
 const InitialServiceList = {
   services: [],
   pagination: defaultPaginationFilterSortSearch,
-  serviceExecution: {
+  serviceMethodExecution: {
     response: {},
     isComplete: false,
   },
