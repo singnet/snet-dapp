@@ -4,7 +4,7 @@ import { withStyles } from "@material-ui/styles";
 import { useStyles } from "./styles";
 import Tags from "./Tags";
 
-const Overview = ({ classes, description, service_url, tags }) => {
+const ServiceOverview = ({ classes, description, service_url, tags }) => {
   return (
     <div className={classes.overViewContainer}>
       <h3>Overview</h3>
@@ -18,4 +18,4 @@ const Overview = ({ classes, description, service_url, tags }) => {
   );
 };
 
-export default withStyles(useStyles)(Overview);
+export default withStyles(useStyles)(ServiceOverview);

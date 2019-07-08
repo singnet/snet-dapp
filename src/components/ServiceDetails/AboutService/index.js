@@ -5,13 +5,13 @@ import { connect } from "react-redux";
 
 import { useStyles } from "./styles";
 import DemoToggler from "./DemoToggler";
-import Overview from "./Overview";
+import ServiceOverview from "./ServiceOverview";
 
 const AboutService = ({ classes, isLoggedIn, service }) => {
   return (
     <Grid container spacing={24} className={classes.aboutContainer}>
       <Grid item xs={12} sm={12} md={8} lg={8} className={classes.leftSideSection}>
-        <Overview description={service.description} service_url={service.url} tags={service.tags} />
+        <ServiceOverview description={service.description} service_url={service.url} tags={service.tags} />
 
         <DemoToggler showDemo={isLoggedIn} classes={classes} service={service} />
 
