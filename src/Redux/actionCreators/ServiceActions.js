@@ -24,7 +24,7 @@ export const fetchService = pagination => async dispatch => {
     });
 };
 
-export const executeService = (url, data) => dispatch => {
+export const invokeServiceMethod = (url, data) => dispatch => {
   return fetch(url, {
     method: "POST",
     mode: "CORS",

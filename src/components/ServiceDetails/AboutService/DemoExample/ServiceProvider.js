@@ -46,7 +46,7 @@ class ServiceProvider extends Component {
       username: "Vivek205",
       isBase64Encoded: true,
     };
-    this.props.executeService(url, data);
+    this.props.invokeServiceMethod(url, data);
   };
 
   render() {
@@ -78,7 +78,7 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = dispatch => ({
   fetchSpecDetails: servicebufURL => dispatch(serviceActions.fetchSpecDetails(servicebufURL)),
-  executeService: (url, data) => dispatch(serviceActions.executeService(url, data)),
+  invokeServiceMethod: (url, data) => dispatch(serviceActions.invokeServiceMethod(url, data)),
 });
 
 export default connect(
