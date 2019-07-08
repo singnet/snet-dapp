@@ -8,6 +8,7 @@ import {
   defaultFilterData,
   filterParamters,
   defaultActiveFilterItem,
+  defaultPaginationFilterSortSearch,
 } from "../../../../utility/constants/Pagination.js";
 
 let filterData = { ...defaultFilterData };
@@ -37,7 +38,7 @@ const Filter = ({ services, pagination, updatePagination, fetchService }) => {
   const handleActiveFilterItemChange = async event => {
     const name = event.currentTarget.name;
     const value = event.currentTarget.value;
-    const latestPagination = { ...pagination, s: filterParamters[name], q: value };
+    const latestPagination = { ...defaultPaginationFilterSortSearch, s: filterParamters[name], q: value };
     await updatePagination(latestPagination);
     await fetchService(latestPagination);
     setActiveFilterItem({
