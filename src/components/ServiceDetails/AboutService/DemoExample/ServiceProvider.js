@@ -6,6 +6,7 @@ import SampleServices from "../../../../assets/thirdPartyServices";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../../../Redux/actionCreators";
 import { APIEndpoints } from "../../../../config/APIEndpoints";
+import Session from "../../../../utility/constants/Session";
 
 class ServiceProvider extends Component {
   state = {
@@ -41,7 +42,7 @@ class ServiceProvider extends Component {
       service_name: serviceName,
       input: JSON.stringify(requestObject),
       user_address: "",
-      username: "Vivek205",
+      username: sessionStorage.getItem(Session.USERNAME),
       isBase64Encoded: true,
     };
     this.props.invokeServiceMethod(data);
