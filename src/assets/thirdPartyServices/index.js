@@ -48,7 +48,7 @@ const defaultChainId = -1;
 
 export default class SampleServices {
   constructor() {
-    this.serviceOrgIDToComponent = [];
+    this.serviceOrgIDToComponent = {};
     this.serviceOrgIDToComponent[this.generateUniqueID("snet", "example-service", defaultChainId)] = ExampleService;
     this.serviceOrgIDToComponent[
       this.generateUniqueID("snet", "cntk-image-recon", defaultChainId)
