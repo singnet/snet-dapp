@@ -5,7 +5,7 @@ import ProgressBar from "../../../common/ProgressBar";
 import { useStyles } from "./styles";
 import ServiceProvider from "./ThirdPartyAIService";
 
-class DemoExample extends Component {
+class ServiceDemo extends Component {
   state = {
     activeSection: 1,
     error: "error state message",
@@ -29,10 +29,10 @@ class DemoExample extends Component {
   }
 }
 
-DemoExample.defaultProps = {
+ServiceDemo.defaultProps = {
   tutorial: `Transfer the style of a “style Image” to a “content image” by choosing them in the boxes below. You can upload
   a a file from your computer, URL, or select image from the gallery. You can specify additional parameters in
   the panel below. “Mouse over” for tool tips.`,
 };
 
-export default withStyles(useStyles)(DemoExample);
+export default withStyles(useStyles)(ServiceDemo);

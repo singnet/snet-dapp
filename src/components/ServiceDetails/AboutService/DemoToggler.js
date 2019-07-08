@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/styles";
 
 import StyledButton from "../../common/StyledButton";
-import DemoExample from "./DemoExample";
+import ServiceDemo from "./ServiceDemo";
 import Routes from "../../../utility/constants/Routes";
 import { useStyles } from "./styles";
 
@@ -11,13 +11,13 @@ const DemoToggler = ({ classes, showDemo, onClick, service }) => {
   if (showDemo) {
     return (
       <div className={classes.demoContainer}>
-        <h3>Demo Example</h3> <DemoExample service={service} />
+        <h3>Demo Example</h3> <ServiceDemo service={service} />
       </div>
     );
   }
   return (
     <div className={classes.demoContainer}>
-      <h3>Demo Example</h3>
+      <h3>Service Demo</h3>
       <div className={classes.demoToggler}>
         <Link to={`/${Routes.LOGIN}`}>
           <StyledButton btnText="login" type="transparent" onClick={onClick} />
