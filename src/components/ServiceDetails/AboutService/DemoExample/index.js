@@ -3,7 +3,7 @@ import { withStyles } from "@material-ui/styles";
 
 import ProgressBar from "../../../common/ProgressBar";
 import { useStyles } from "./styles";
-import ServiceProvider from "./ServiceProvider";
+import ServiceProvider from "./ThirdPartyAIService";
 
 class DemoExample extends Component {
   state = {
