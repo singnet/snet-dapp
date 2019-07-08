@@ -24,12 +24,26 @@ export const defaultActiveFilterItem = {
   tags: "",
 };
 
-export const defaultPaginationFilterSortSearch = {
+export const sortByCategories = [{ value: "display_name", label: "Display Name" }];
+
+export const defaultPaginationParameters = {
   q: "",
   limit: 10,
   offset: 0,
+  total_count: 0,
+};
+
+export const defaultFilterParameters = {
+  s: "all",
+};
+
+export const defaultSortParameters = {
   sort_by: "display_name",
   order_by: "desc",
-  total_count: 0,
-  s: "all",
+};
+
+export const defaultPaginationFilterSortSearch = {
+  ...defaultPaginationParameters,
+  ...defaultFilterParameters,
+  ...defaultSortParameters,
 };
