@@ -23,6 +23,7 @@ const githubBlack = "#333";
 const black1 = "rgba(0,0,0,.87)";
 const green = "#00C48C";
 
+const footerBgColor = "#211D24";
 const darkOrange = "#AC5C2C";
 
 const orange = "#F29132";
@@ -75,6 +76,7 @@ const theme = createMuiTheme({
     red: errorBgColor,
     white: whiteColor,
     githubBlack,
+    footerBgColor,
   },
 });
 
