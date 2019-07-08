@@ -29,7 +29,7 @@ export const invokeServiceMethod = data => dispatch => {
   Auth.currentSession({ bypassCache: true }).then(currentSession => {
     const apiName = APIEndpoints.GET_SERVICE_LIST.name;
     const path = "/call-service";
-    let myInit = {
+    const myInit = {
       body: data,
       headers: { Authorization: currentSession.idToken.jwtToken },
     };
