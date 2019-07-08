@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import ListViewItem from "./ListViewItem";
 import CardImg from "../../../../../assets/images/dummy-card.png";
@@ -11,7 +11,7 @@ const CardGroup = ({ data }) => {
   return (
     <div className={classes.cardCollection}>
       {data.map(item => (
-        <NavLink to={`/${Routes.SERVICE_DETAILS}/${item.service_row_id}`} className={classes.routerLink}>
+        <Link to={`/${Routes.SERVICE_DETAILS}/${item.service_row_id}`} className={classes.routerLink}>
           <ListViewItem
             key={item.service_id}
             cardMedia={CardImg}
@@ -21,7 +21,7 @@ const CardGroup = ({ data }) => {
             totalRating=""
             cardDescription={item.description}
           />
-        </NavLink>
+        </Link>
       ))}
     </div>
   );
