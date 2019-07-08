@@ -11,7 +11,7 @@ import Session from "../../../../utility/constants/Session";
 class ThirdPartyAIService extends Component {
   state = {
     grpcResponse: undefined,
-    DemoComponent: undefined,
+    AIServiceCustomComponent: undefined,
     serviceSpecJSON: undefined,
     protoSpec: undefined,
   };
@@ -20,10 +20,10 @@ class ThirdPartyAIService extends Component {
 
   componentDidUpdate = () => {
     const { org_id, service_id } = this.props;
-    if (org_id && service_id && !this.state.DemoComponent) {
+    if (org_id && service_id && !this.state.AIServiceCustomComponent) {
       this.fetchServiceSpec(org_id, service_id);
-      const DemoComponent = this.sampleServices.getComponent(org_id, service_id);
-      this.setState({ DemoComponent });
+      const AIServiceCustomComponent = this.sampleServices.getComponent(org_id, service_id);
+      this.setState({ AIServiceCustomComponent });
     }
   };
 
@@ -50,13 +50,13 @@ class ThirdPartyAIService extends Component {
 
   render() {
     const { classes, grpcResponse, isComplete } = this.props;
-    const { DemoComponent, serviceSpecJSON, protoSpec } = this.state;
-    if (!DemoComponent || !serviceSpecJSON || !protoSpec) {
+    const { AIServiceCustomComponent, serviceSpecJSON, protoSpec } = this.state;
+    if (!AIServiceCustomComponent || !serviceSpecJSON || !protoSpec) {
       return null;
     }
     return (
       <div className={classes.serviceDetailsTab}>
-        <DemoComponent
+        <AIServiceCustomComponent
           callApiCallback={this.handleServiceInvokation}
           protoSpec={protoSpec}
           serviceSpec={serviceSpecJSON}
