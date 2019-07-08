@@ -23,10 +23,6 @@ class ServiceProvider extends Component {
       this.fetchServiceSpec(org_id, service_id);
       const DemoComponent = this.sampleServices.getComponent(org_id, service_id);
       this.setState({ DemoComponent });
-      return;
-    }
-    if (org_id && service_id && this.state.DemoComponent) {
-      return;
     }
   };
 
