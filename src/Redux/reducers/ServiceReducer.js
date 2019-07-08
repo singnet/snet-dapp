@@ -10,7 +10,7 @@ const InitialServiceList = {
     order_by: "desc",
     total_count: 0,
   },
-  serviceExecution: {
+  serviceMethodExecution: {
     response: {},
     isComplete: false,
   },
@@ -25,13 +25,13 @@ const serviceReducer = (state = InitialServiceList, action) => {
       return { ...state, services: action.payload };
     }
     case serviceActions.UPDATE_SERVICE_EXECUTION_RESPONSE: {
-      return { ...state, serviceExecution: { ...state.serviceExecution, ...action.payload } };
+      return { ...state, serviceMethodExecution: { ...state.serviceMethodExecution, ...action.payload } };
     }
     case serviceActions.UPDATE_SPEC_DETAILS: {
       return {
         ...state,
-        serviceExecution: {
-          ...state.serviceExecution,
+        serviceMethodExecution: {
+          ...state.serviceMethodExecution,
           serviceSpecJSON: action.payload.serviceSpecJSON,
           protoSpec: action.payload.protoSpec,
         },

@@ -73,8 +73,8 @@ class ServiceProvider extends Component {
 }
 
 const mapStateToProps = state => ({
-  grpcResponse: state.serviceReducer.serviceExecution.response,
-  isComplete: state.serviceReducer.serviceExecution.isComplete,
+  grpcResponse: state.serviceReducer.serviceMethodExecution.response,
+  isComplete: state.serviceReducer.serviceMethodExecution.isComplete,
 });
 const mapDispatchToProps = dispatch => ({
   fetchProtoSpec: servicebufURL => dispatch(serviceActions.fetchProtoSpec(servicebufURL)),
