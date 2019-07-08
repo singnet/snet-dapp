@@ -34,7 +34,7 @@ class ServiceProvider extends Component {
 
   handleJobInvocation = (serviceName, methodName, requestObject) => {
     const { org_id, service_id } = this.props;
-    let data = {
+    const data = {
       org_id,
       service_id,
       method: methodName,
