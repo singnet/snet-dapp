@@ -39,7 +39,7 @@ export const invokeServiceMethod = (url, data) => dispatch => {
     );
 };
 
-export const fetchSpecDetails = servicebufURL => dispatch => {
+export const fetchProtoSpec = servicebufURL => dispatch => {
   return fetch(encodeURI(servicebufURL))
     .then(serviceSpecResponse => serviceSpecResponse.json())
     .then(

@@ -30,7 +30,7 @@ class ServiceProvider extends Component {
 
   fetchServiceSpec = (org_id, service_id) => {
     let servicebufURL = `${APIEndpoints.SERVICE_BUF.endpoint}/${org_id}/${service_id}`;
-    this.props.fetchSpecDetails(servicebufURL);
+    this.props.fetchProtoSpec(servicebufURL);
   };
 
   handleJobInvocation = (serviceName, methodName, requestObject) => {
@@ -77,7 +77,7 @@ const mapStateToProps = state => ({
   isComplete: state.serviceReducer.serviceExecution.isComplete,
 });
 const mapDispatchToProps = dispatch => ({
-  fetchSpecDetails: servicebufURL => dispatch(serviceActions.fetchSpecDetails(servicebufURL)),
+  fetchProtoSpec: servicebufURL => dispatch(serviceActions.fetchProtoSpec(servicebufURL)),
   invokeServiceMethod: (url, data) => dispatch(serviceActions.invokeServiceMethod(url, data)),
 });
 
