@@ -2,13 +2,14 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 import StyledButton from "../common/StyledButton";
 import MainSection from "./MainSection";
 import { useStyles } from "./styles";
 import Routes from "../../utility/constants/Routes";
 
-const AiMarketplace = ({ classes }) => {
+const AiMarketplace = ({ classes, isLoggedIn }) => {
   return (
     <div className={classes.aiMarketPlaceContainer}>
       <div className={classes.mainWrapper}>
@@ -23,7 +24,7 @@ const AiMarketplace = ({ classes }) => {
               They’re powered by a community of amazing developers from all over the globe.
             </p>
             <Link to={Routes.SIGNUP} className={classes.signupLink}>
-              <StyledButton type="blue" btnText="Sign up for free credits" />
+              {isLoggedIn && <StyledButton type="blue" btnText="Sign up for free credits" />}
             </Link>
           </Grid>
         </Grid>
@@ -35,4 +36,8 @@ const AiMarketplace = ({ classes }) => {
   );
 };
 
-export default withStyles(useStyles)(AiMarketplace);
+const mapStateToProps = state => ({
+  isLoggedIn: state.serviceReducer.login.isLoggedIn,
+});
+
+export default connect(mapStateToProps)(withStyles(useStyles)(AiMarketplace));
