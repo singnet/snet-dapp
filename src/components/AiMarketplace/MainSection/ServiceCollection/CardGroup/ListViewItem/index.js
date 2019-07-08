@@ -8,8 +8,6 @@ import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import Typography from "@material-ui/core/Typography";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import IconButton from "@material-ui/core/IconButton";
 
 import { useStyles } from "./styles";
 
@@ -47,9 +45,6 @@ const ListViewItem = props => {
             <Button color="primary" className={classes.demoBtn}>
               demo
             </Button>
-            <IconButton aria-label="Settings" className={classes.showMore}>
-              <MoreVertIcon />
-            </IconButton>
           </CardActions>
         </Grid>
       </Grid>
