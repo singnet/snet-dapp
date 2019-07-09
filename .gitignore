@@ -70,7 +70,7 @@ scripts/path.js
 src/utility/constants/APIEndpoints.js
 
 #config
-src/aws_config.js
+src/config
 
 #redux_dev_tools
 src/Redux/Store.js
