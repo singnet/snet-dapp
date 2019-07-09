@@ -12,7 +12,7 @@ const CardGroup = ({ data, listView }) => {
 
   if (listView) {
     return (
-      <div className={classes.cardCollection}>
+      <div className={classes.lisViewCardCollection}>
         {data.map(item => (
           <Link to={`/${Routes.SERVICE_DETAILS}/${item.service_row_id}`} className={classes.routerLink}>
             <ListViewItem
@@ -30,7 +30,7 @@ const CardGroup = ({ data, listView }) => {
     );
   }
   return (
-    <div className={classes.cardCollection}>
+    <div className={classes.gridViewCardCollection}>
       {data.map(item => (
         <Link to={`/${Routes.SERVICE_DETAILS}/${item.service_row_id}`} className={classes.routerLink}>
           <GridViewItem

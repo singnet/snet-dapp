@@ -10,13 +10,13 @@ const ViewToggler = ({ listView, toggleView }) => {
   if (listView) {
     return (
       <button onClick={toggleView}>
-        <Icon className={clsx(classes.icon, "fa fa-th-list")} />
+        <Icon className={clsx(classes.icon, "fa fa-th")} />
       </button>
     );
   }
   return (
     <button onClick={toggleView}>
-      <Icon className={clsx(classes.icon, "fa fa-th")} />
+      <Icon className={clsx(classes.icon, "fa fa-th-list")} />
     </button>
   );
 };

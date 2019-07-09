@@ -42,9 +42,7 @@ const ListViewItem = props => {
         </Grid>
         <Grid item xs={12} sm={1} md={1} lg={1}>
           <CardActions className={classes.cardActions}>
-            <Button color="primary" className={classes.demoBtn}>
-              demo
-            </Button>
+            <Button className={classes.demoBtn}>demo</Button>
           </CardActions>
         </Grid>
       </Grid>

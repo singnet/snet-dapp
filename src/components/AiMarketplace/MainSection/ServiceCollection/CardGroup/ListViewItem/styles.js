@@ -5,21 +5,16 @@ export const useStyles = makeStyles(theme => ({
     flexWrap: "nowrap",
   },
   card: {
-    padding: "10px 0 15px",
+    padding: "13px 0",
     position: "relative",
     boxShadow: "none",
     borderTop: 1,
     borderBottom: 1,
     borderTopStyle: "solid",
     borderBottomStyle: "solid",
-    borderTopColor: theme.palette.text.lightShadedGray,
-    borderBottomColor: theme.palette.text.lightShadedGray,
+    borderTopColor: "#e5e5e5",
+    borderBottomColor: "#e5e5e5",
     borderRadius: 4,
-    backgroundColor: theme.palette.text.white,
-    "&:nth-child(2n)": {
-      backgroundColor: theme.palette.text.offWhiteColor,
-      border: "none",
-    },
   },
   mediaContainer: {
     maxWidth: "100% !important",
@@ -30,6 +25,7 @@ export const useStyles = makeStyles(theme => ({
   },
   cardHeader: {
     padding: "0 18px",
+    marginBottom: 4,
   },
   cardTitle: {
     fontWeight: theme.typography.fontweight,
@@ -51,6 +47,8 @@ export const useStyles = makeStyles(theme => ({
     "&:last-of-type": { paddingBottom: 0 },
   },
   cardTypograpy: {
+    paddingRight: 15,
+    marginTop: 8,
     color: theme.palette.text.mediumShadeGray,
     fontFamily: theme.typography.secondary.main,
     fontSize: 14,
@@ -61,6 +59,11 @@ export const useStyles = makeStyles(theme => ({
     right: 27,
     top: "50%",
     transform: "translateY(-50%)",
+  },
+  demoBtn: {
+    fontFamily: "theme.typography.primary.main",
+    fontSize: 14,
+    fontWeight: 600,
   },
   showMore: {
     padding: 0,
