@@ -1,8 +1,8 @@
 import { Root } from "protobufjs";
+import { Auth, API } from "aws-amplify";
 
 import { APIEndpoints } from "../../config/APIEndpoints";
 import GRPCProtoV3Spec from "../../assets/models/GRPCProtoV3Spec";
-import { Auth, API } from "aws-amplify";
 
 export const UPDATE_SERVICE_LIST = "SET_SERVICE_LIST";
 export const UPDATE_PAGINATION_DETAILS = "SET_PAGINATION_DETAILS";
