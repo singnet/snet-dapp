@@ -40,18 +40,21 @@ class MainSection extends Component {
         </Grid>
         <Grid item xs={12} sm={9} md={9} lg={9}>
           <ServiceCollection
-            data={services}
-            paginationProps={{
-              limit: pagination.limit,
-              offset: pagination.offset,
-              total_count: pagination.total_count,
-              handleChange: this.handlePaginationChange,
-            }}
             toolbarProps={{
               listView: listView,
               total_count: pagination.total_count,
               handleSearchChange: this.handlePaginationChange,
               toggleView: this.toggleView,
+            }}
+            cardGroupProps={{
+              data: services,
+              listView: listView,
+            }}
+            paginationProps={{
+              limit: pagination.limit,
+              offset: pagination.offset,
+              total_count: pagination.total_count,
+              handleChange: this.handlePaginationChange,
             }}
           />
         </Grid>
