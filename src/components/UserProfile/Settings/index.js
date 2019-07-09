@@ -13,7 +13,7 @@ import StyledButton from "../../common/StyledButton";
 
 import { useStyles } from "./styles";
 
-class Setting extends Component {
+class Settings extends Component {
   render() {
     const { classes } = this.props;
 
@@ -152,4 +152,4 @@ class Setting extends Component {
   }
 }
 
-export default withStyles(useStyles)(Setting);
+export default withStyles(useStyles)(Settings);
