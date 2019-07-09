@@ -1,5 +1,5 @@
 import { Auth, API } from "aws-amplify";
-import { APIEndpoints } from "../../utility/constants/APIEndpoints";
+import { APIEndpoints } from "../../config/APIEndpoints";
 
 export const FETCH_SERVICE_LIST = "SET_SERVICE_LIST";
 
@@ -14,7 +14,7 @@ export const fetchService = ({ searchKeyword, limit, offset, sort_by, order_by }
   queryStringParameters.order_by = typeof order_by !== "undefined" ? order_by : getState().serviceReducer.order_by;
 
   Auth.currentSession({ bypassCache: true }).then(currentSession => {
-    let apiName = APIEndpoints.GET_SERVICES_LIST.name;
+    let apiName = APIEndpoints.GET_SERVICE_LIST.name;
     let path = "/service";
     let myInit = {
       headers: { Authorization: currentSession.idToken.jwtToken },
