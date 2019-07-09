@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import StarRatingComponent from "react-star-rating-component";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -12,6 +13,7 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import IconButton from "@material-ui/core/IconButton";
 
 import { useStyles } from "./styles";
+import Routes from "../../../../../../utility/constants/Routes";
 
 const ListView = props => {
   const classes = useStyles();
@@ -44,9 +46,12 @@ const ListView = props => {
         </Grid>
         <Grid item xs={12} sm={1} md={1} lg={1}>
           <CardActions className={classes.cardActions}>
-            <Button color="primary" className={classes.demoBtn}>
-              demo
-            </Button>
+            <Link to={`/${Routes.SERVICE_DETAILS}/${props.service_row_id}`}>
+              <Button color="primary" className={classes.demoBtn}>
+                demo
+              </Button>
+            </Link>
+
             <IconButton aria-label="Settings" className={classes.showMore}>
               <MoreVertIcon />
             </IconButton>

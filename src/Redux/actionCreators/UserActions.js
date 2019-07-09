@@ -1,7 +1,7 @@
 import { Auth, API } from "aws-amplify";
 
 import Session from "../../utility/constants/Session";
-import { APIEndpoints } from "../../utility/constants/APIEndpoints";
+import { APIEndpoints } from "../../config/APIEndpoints";
 import { parseError } from "../../utility/ErrorHandling";
 import { userActions } from ".";
 
@@ -105,7 +105,7 @@ export const checkWalletStatus = (dispatch, getState) => {
 
   Auth.currentSession({ bypassCache: true })
     .then(currentSession => {
-      let apiName = APIEndpoints.GET_SERVICES_LIST.name;
+      let apiName = APIEndpoints.GET_SERVICE_LIST.name;
       let path = `/wallet?username=${username}`;
       let myInit = {
         headers: { Authorization: currentSession.idToken.jwtToken },

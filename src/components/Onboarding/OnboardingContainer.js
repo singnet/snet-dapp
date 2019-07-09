@@ -1,8 +1,8 @@
 import React, { Fragment } from "react";
 
-import ProgressBar from "./ProgressBar";
+import ProgressBar from "../common/ProgressBar";
 
-const OnboardingContainer = ({ item, classes, active, activeSection }) => {
+const OnboardingContainer = ({ item, classes, active, activeSection, progressText }) => {
   if (!active) {
     return null;
   }
@@ -12,7 +12,7 @@ const OnboardingContainer = ({ item, classes, active, activeSection }) => {
         <h2>{item.title}</h2>
         <span> {item.description}</span>
       </div>
-      <ProgressBar activeSection={activeSection} />
+      <ProgressBar activeSection={activeSection} progressText={progressText} />
       {item.component}
     </Fragment>
   );
