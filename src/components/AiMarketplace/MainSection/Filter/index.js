@@ -70,7 +70,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  updatePagination: pagination => dispatch(serviceActions.updatePagination),
+  updatePagination: pagination => dispatch(serviceActions.updatePagination(pagination)),
   fetchService: pagination => dispatch(serviceActions.fetchService(pagination)),
 });
 
