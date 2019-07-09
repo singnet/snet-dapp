@@ -15,6 +15,7 @@ class Onboarding extends Component {
   state = {
     verificationCode: "",
     activeSection: 1,
+    progressText: ["Authentication", "Terms of use", "Wallet key"],
   };
 
   componentDidMount = () => {
@@ -44,7 +45,7 @@ class Onboarding extends Component {
 
   render() {
     const { classes } = this.props;
-    const { activeSection } = this.state;
+    const { activeSection, progressText } = this.state;
     const username = sessionStorage.getItem(Session.USERNAME);
 
     const OnboardingDetails = [
@@ -89,6 +90,7 @@ class Onboarding extends Component {
             item={item}
             active={activeSection === index + 1}
             activeSection={activeSection}
+            progressText={progressText}
           />
         ))}
       </div>

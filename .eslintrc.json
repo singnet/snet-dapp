@@ -1,7 +1,7 @@
 {
   "extends": ["react-app", "eslint:recommended"],
   "parser": "babel-eslint",
-  "plugins": ["react", "prettier"],
+  "plugins": ["react", "prettier", "react-hooks"],
   "rules": {
     "prettier/prettier": [
       "error",
@@ -15,6 +15,8 @@
     "lines-between-class-members": ["error", "always"],
     "jsx-a11y/anchor-is-valid": false,
     "prefer-arrow-callback": ["error", { "allowNamedFunctions": false, "allowUnboundThis": false }],
-    "no-empty-function": ["error"]
+    "no-empty-function": ["error"],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   }
 }

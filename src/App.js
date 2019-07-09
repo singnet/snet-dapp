@@ -5,7 +5,7 @@ import { ThemeProvider } from "@material-ui/styles";
 import { connect } from "react-redux";
 
 import Routes from "./utility/constants/Routes";
-import { aws_config } from "./aws_config";
+import { aws_config } from "./config/aws_config";
 import theme from "./assets/Theme";
 import withRegistrationHeader from "./components/HOC/WithRegistrationHeader";
 import { headerData } from "./utility/constants/Header";
@@ -20,10 +20,15 @@ const PageNotFound = lazy(() => import("./components/PageNotFound"));
 const AiMarketplace = lazy(() => import("./components/AiMarketplace"));
 const SignUp = lazy(() => import("./components/Login/Signup"));
 const Login = lazy(() => import("./components/Login"));
+const ServiceDetails = lazy(() => import("./components/ServiceDetails"));
 
 Amplify.configure(aws_config);
 
 class App extends Component {
+  componentDidMount = () => {
+    this.props.setUserDetails();
+  };
+
   componentDidMount = () => {
     this.props.setUserDetails();
   };
@@ -46,16 +51,12 @@ class App extends Component {
               <PrivateRoute
                 path={`/${Routes.FORGOT_PASSWORD}`}
                 {...this.props}
-                component={withRegistrationHeader(ForgotPassword, {
-                  ...headerData.FORGOT_PASSWORD,
-                })}
+                component={withRegistrationHeader(ForgotPassword, headerData.FORGOT_PASSWORD)}
               />
               <PrivateRoute
                 path={`/${Routes.FORGOT_PASSWORD_SUBMIT}`}
                 {...this.props}
-                component={withRegistrationHeader(ForgotPasswordSubmit, {
-                  ...headerData.FORGOT_PASSWORD_SUBMIT,
-                })}
+                component={withRegistrationHeader(ForgotPasswordSubmit, headerData.FORGOT_PASSWORD_SUBMIT)}
               />
               <PrivateRoute
                 path={`/${Routes.ONBOARDING}`}
@@ -63,6 +64,11 @@ class App extends Component {
                 component={withRegistrationHeader(Onboarding, headerData.ONBOARDING)}
               />
               <Route path={`/${Routes.AI_MARKETPLACE}`} {...this.props} component={withInAppWrapper(AiMarketplace)} />
+              <Route
+                path={`/${Routes.SERVICE_DETAILS}/:service_row_id`}
+                {...this.props}
+                component={withInAppWrapper(ServiceDetails)}
+              />
               <Route path="/" exact {...this.props} component={withInAppWrapper(AiMarketplace)} />
               <Route component={PageNotFound} />
             </Switch>
