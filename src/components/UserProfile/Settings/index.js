@@ -26,7 +26,7 @@ class Settings extends Component {
     return (
       <Grid container spacing={24} className={classes.settingMainContainer}>
         <Grid item xs={12} sm={12} md={8} lg={8} className={classes.settingsContainer}>
-          <h3>Setting</h3>
+          <h3>Settings</h3>
           <div className={classes.settingsContent}>
             <div>
               <TextField
@@ -52,6 +52,7 @@ class Settings extends Component {
                 onChange={handleChange("name")}
                 margin="normal"
                 variant="outlined"
+                disabled
               />
               <p>Your username will be visible to other users when you post comments.</p>
             </div>
