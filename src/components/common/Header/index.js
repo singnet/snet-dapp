@@ -1,5 +1,4 @@
 import React from "react";
-import Grid from "@material-ui/core/Grid";
 import { connect } from "react-redux";
 
 import Logo from "../../../assets/images/Logo.png";
@@ -13,19 +12,24 @@ const Header = ({ isLoggedIn }) => {
   const classes = useStyles();
 
   return (
-    <Grid container spacing={24}>
+    <div>
       <header className={classes.header}>
-        <Grid item xs={3} sm={3} md={3} lg={3}>
+        <div className={classes.logoSection}>
+          <div className={classes.hamburger}>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
           <Title Logo={Logo} title="SingularityNET" />
-        </Grid>
-        <Grid item xs={6} sm={6} md={6} lg={6}>
+        </div>
+        <div className={classes.navigationSection}>
           <NavBar data={NavData} />
-        </Grid>
-        <Grid item xs={3} sm={3} md={3} lg={3}>
+        </div>
+        <div className={classes.loginBtnsSection}>
           <HeaderActions isLoggedIn={isLoggedIn} />
-        </Grid>
+        </div>
       </header>
-    </Grid>
+    </div>
   );
 };
 
