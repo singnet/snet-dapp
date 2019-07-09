@@ -4,7 +4,7 @@ export const useStyles = makeStyles(theme => ({
     card: {
         width: 302,
         padding: "13px 0",
-        margin: "0 20px 20px 0",
+        margin: "0 25px 25px 0",
         display: "inline-block",
     },
     cardHeader: {
@@ -12,7 +12,7 @@ export const useStyles = makeStyles(theme => ({
     },
     cardTitle: {
         fontWeight: theme.typography.fontweight,
-        fontSize: 12,
+        fontSize: 10,
         color: theme.palette.text.lightShadedGray,
         textTransform: "uppercase",
         letterSpacing: 2,
@@ -21,7 +21,7 @@ export const useStyles = makeStyles(theme => ({
     cardSubheader: {
         color: theme.palette.text.darkShadedGray,
         fontWeight: theme.typography.fontweight,
-        fontSize: 20,
+        fontSize: 18,
         letterSpacing: 0.25,
         fontFamily: theme.typography.primary.main,
     },

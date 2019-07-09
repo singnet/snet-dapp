@@ -14,17 +14,18 @@ const useStyles = makeStyles(theme => ({
     sortbyTxt: {
         padding: "0 10px 5px 0",
         color: theme.palette.text.lightShadedGray,
-        fontSize: 18,
+        fontSize: 14,
     },
     servicesCount: {
         color: theme.palette.text.lightShadedGray,
-        fontSize: 18,
+        fontSize: 16,
     },
     iconsContainer: {
         display: "flex",
         alignItems: "flex-end",
         justifyContent: "flex-end",
         "& button": {
+            paddingLeft: 18,
             border: "none",
             backgroundColor: "transparent",
             outline: "none",
