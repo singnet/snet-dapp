@@ -20,7 +20,7 @@ const CardGroup = ({ data, listView }) => {
               cardMedia={CardImg}
               cardTitle={item.org_id}
               cardSubheader={item.display_name}
-              ratingGiven=""
+              ratingGiven={item.service_rating}
               totalRating=""
               cardDescription={item.description}
             />
@@ -38,7 +38,7 @@ const CardGroup = ({ data, listView }) => {
             cardMedia={CardImg}
             cardTitle={item.org_id}
             cardSubheader={item.display_name}
-            ratingGiven=""
+            ratingGiven={item.service_rating}
             totalRating=""
             cardDescription={item.description}
           />

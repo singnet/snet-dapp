@@ -7,7 +7,7 @@ import { useStyles } from "./styles";
 const ViewToggler = ({ listView, toggleView }) => {
   const classes = useStyles();
 
-  if (listView) {
+  if (!listView) {
     return (
       <button onClick={toggleView}>
         <Icon className={clsx(classes.icon, "fa fa-th-list")} />
