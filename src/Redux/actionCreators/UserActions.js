@@ -1,7 +1,7 @@
 import { Auth, API } from "aws-amplify";
 
 import Session from "../../utility/constants/Session";
-import { APIEndpoints } from "../../config/APIEndpoints";
+import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { parseError } from "../../utility/ErrorHandling";
 import { userActions } from ".";
 
