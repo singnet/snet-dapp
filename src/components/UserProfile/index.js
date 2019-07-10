@@ -4,7 +4,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
-import Settings from "./Settings";
+import UserProfileSettings from "./UserProfileSettings";
 import UserProfileHeader from "./UserProfileHeader";
 import { useStyles } from "./styles";
 
@@ -21,7 +21,7 @@ class UserProfile extends Component {
     const { classes } = this.props;
     const { activeTab } = this.state;
 
-    const tabs = [{ name: "Settings", activeIndex: 0, component: <Settings /> }];
+    const tabs = [{ name: "Settings", activeIndex: 0, component: <UserProfileSettings /> }];
     const activeComponent = tabs.filter(el => el.activeIndex === activeTab)[0].component;
     return (
       <div className={classes.UserProfileContainer}>
