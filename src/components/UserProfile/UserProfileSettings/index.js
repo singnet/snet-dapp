@@ -6,6 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import { connect } from "react-redux";
+import validator from "validator";
 
 import ErrorMsgBox from "../../common/ErrorMsgBox";
 import StyledButton from "../../common/StyledButton";
@@ -16,6 +17,8 @@ import Routes from "../../../utility/constants/Routes";
 
 class UserProfileSettings extends Component {
   state = {
+    email: "",
+    acceptNotification: false,
     error: undefined,
   };
 
@@ -25,23 +28,39 @@ class UserProfileSettings extends Component {
     });
   };
 
-  handleEmailAlerts = () => {
-    this.setState(prevState => ({ emailAlerts: !prevState.emailAlerts }));
+  handleAcceptNotification = () => {
+    this.setState(prevState => ({ acceptNotification: !prevState.acceptNotification }));
   };
 
   handleDelete = async () => {
-    try {
-      await this.props.deleteUserAccount();
-      alert("user profile delted successfully");
+    const deleteUserResponse = await this.props.deleteUserAccount();
+    if (deleteUserResponse == "user deleted") {
       this.props.history.push(`/${Routes.AI_MARKETPLACE}`);
-    } catch (err) {
-      this.setState({ error: String(err) });
     }
   };
 
+  handleSubmit = () => {
+    const { name, email } = this.state;
+    if (!validator.isEmail(email)) {
+      this.handleErrorMessage("Email provided is not valid");
+    }
+    if (!validator.isAlpha(name)) {
+      this.handleErrorMessage("");
+    }
+  };
+
+  handleErrorMessage = error => {
+    this.setState({ error });
+    setTimeout(() => this.setState({ error: undefined }), 2000);
+  };
+
+  shouldSaveButtonBeEnabled = () => {
+    return false;
+  };
+
   render() {
-    const { classes, email } = this.props;
-    const { error } = this.state;
+    const { classes } = this.props;
+    const { email, acceptNotification } = this.state;
     const userName = sessionStorage.getItem(Session.USERNAME);
     return (
       <Grid container spacing={24} className={classes.settingMainContainer}>
@@ -66,6 +85,7 @@ class UserProfileSettings extends Component {
                 label="Email"
                 className={classes.styledTextField}
                 value={email}
+                onChange={this.handleEmailChange}
                 margin="normal"
                 variant="outlined"
               />
@@ -77,7 +97,15 @@ class UserProfileSettings extends Component {
             <div className={classes.notification}>
               <h4>Notifications</h4>
               <FormControlLabel
-                control={<Checkbox className={classes.checkkBox} value="" color="primary" />}
+                control={
+                  <Checkbox
+                    className={classes.checkkBox}
+                    checked={acceptNotification}
+                    onChange={this.handleAcceptNotification}
+                    value=""
+                    color="primary"
+                  />
+                }
                 label="Receive notifications via email"
               />
               <p>
@@ -86,10 +114,10 @@ class UserProfileSettings extends Component {
               </p>
             </div>
 
-            <ErrorMsgBox showErr={error} errorMsg={error} />
+            <ErrorMsgBox showErr={true} errorMsg="undefined" />
 
             <div className={classes.btnContainer}>
-              <StyledButton btnText="save changes" disabled />
+              <StyledButton btnText="save changes" disabled={!this.shouldSaveButtonBeEnabled()} />
               <StyledButton btnText="delete account" type="red" onClick={this.handleDelete} />
             </div>
           </div>
@@ -99,16 +127,11 @@ class UserProfileSettings extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  userEmail: state.userReducer.email,
-});
-
 const mapDispatchToProps = dispatch => ({
   deleteUserAccount: () => dispatch(userActions.deleteUserAccount()),
-  fetchUserProfile: () => dispatch(userActions.fetchUserProfile()),
 });
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(withStyles(useStyles)(UserProfileSettings));
