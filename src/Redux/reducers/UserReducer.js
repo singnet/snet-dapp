@@ -9,6 +9,7 @@ const InitialUserDetails = {
   isInitialized: false,
   isEmailVerified: false,
   isWalletAssigned: false,
+  email: "",
 };
 
 const userReducer = (state = InitialUserDetails, action) => {
@@ -16,8 +17,10 @@ const userReducer = (state = InitialUserDetails, action) => {
     case userActions.SET_USER_DETAILS: {
       return {
         ...state,
-        isInitialized: action.payload.isInitialized,
-        isEmailVerified: action.payload.isEmailVerified,
+        login: {
+          ...action.payload.login,
+        },
+        ...action.payload,
       };
     }
     case userActions.LOGIN_SUCCESS: {
