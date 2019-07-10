@@ -7,22 +7,50 @@ import TextField from "@material-ui/core/TextField";
 import Icon from "@material-ui/core/Icon";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import { connect } from "react-redux";
 
 import ErrorMsgBox from "../../common/ErrorMsgBox";
 import StyledButton from "../../common/StyledButton";
-
 import { useStyles } from "./styles";
+import Session from "../../../utility/constants/Session";
+import { userActions } from "../../../Redux/actionCreators";
+import Routes from "../../../utility/constants/Routes";
 
 class Settings extends Component {
+  state = {
+    name: "",
+    email: "",
+    acceptNotification: false,
+  };
+
+  handleNameChange = event => {
+    this.setState({
+      fullName: event.target.value,
+    });
+  };
+
+  handleEmailChange = event => {
+    this.setState({
+      email: event.target.value,
+    });
+  };
+
+  handleAcceptNotification = () => {
+    this.setState(prevState => ({ acceptNotification: !prevState.acceptNotification }));
+  };
+
+  handleDelete = async () => {
+    const deleteUserResponse = await this.props.deleteUserAccount();
+    console.log("delete user", deleteUserResponse);
+    if (deleteUserResponse == "user deleted") {
+      this.props.history.push(`/${Routes.AI_MARKETPLACE}`);
+    }
+  };
+
   render() {
     const { classes } = this.props;
-
-    const handleChange = name => event => {
-      this.setState({
-        name: event.target.value,
-      });
-    };
-
+    const { fullName, email, acceptNotification } = this.state;
+    const userName = sessionStorage.getItem(Session.USERNAME);
     return (
       <Grid container spacing={24} className={classes.settingMainContainer}>
         <Grid item xs={12} sm={12} md={8} lg={8} className={classes.settingsContainer}>
@@ -33,8 +61,8 @@ class Settings extends Component {
                 id="outlined-name"
                 label="Full Name"
                 className={classes.styledTextField}
-                value="Greg Kuebler"
-                onChange={handleChange("name")}
+                value={fullName}
+                onChange={this.handleNameChange}
                 margin="normal"
                 variant="outlined"
               />
@@ -48,8 +76,7 @@ class Settings extends Component {
                 id="outlined-name"
                 label="User Name (20 char max)"
                 className={classes.styledTextField}
-                value="waythingswork"
-                onChange={handleChange("name")}
+                value={userName}
                 margin="normal"
                 variant="outlined"
                 disabled
@@ -62,8 +89,8 @@ class Settings extends Component {
                 id="outlined-name"
                 label="Email"
                 className={classes.styledTextField}
-                value="greg.kuebler@singularitynet.io"
-                onChange={handleChange("name")}
+                value={email}
+                onChange={this.handleEmailChange}
                 margin="normal"
                 variant="outlined"
               />
@@ -90,7 +117,7 @@ class Settings extends Component {
                   <Checkbox
                     className={classes.checkkBox}
                     checked={false}
-                    onChange={handleChange("")}
+                    onChange={this.handleChange}
                     value=""
                     color="primary"
                     disabled={true}
@@ -104,7 +131,7 @@ class Settings extends Component {
                 label="Amount"
                 className={classes.selectBox}
                 value={" "}
-                // onChange={handleChange()}
+                onChange={this.handleChange}
                 SelectProps={{
                   native: true,
                   MenuProps: {
@@ -126,8 +153,8 @@ class Settings extends Component {
                 control={
                   <Checkbox
                     className={classes.checkkBox}
-                    checked={true}
-                    onChange={handleChange("")}
+                    checked={acceptNotification}
+                    onChange={this.handleAcceptNotification}
                     value=""
                     color="primary"
                   />
@@ -144,7 +171,7 @@ class Settings extends Component {
 
             <div className={classes.btnContainer}>
               <StyledButton btnText="save changes" disabled />
-              <StyledButton btnText="delete account" type="red" />
+              <StyledButton btnText="delete account" type="red" onClick={this.handleDelete} />
             </div>
           </div>
         </Grid>
@@ -153,4 +180,11 @@ class Settings extends Component {
   }
 }
 
-export default withStyles(useStyles)(Settings);
+const mapDispatchToProps = dispatch => ({
+  deleteUserAccount: () => dispatch(userActions.deleteUserAccount()),
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(withStyles(useStyles)(Settings));
