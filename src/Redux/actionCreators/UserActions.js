@@ -160,3 +160,18 @@ export const deleteUserAccount = () => async dispatch => {
       throw err;
     });
 };
+
+export const fetchUserProfile = () => () => {
+  Auth.currentSession({ bypassCache: true }).then(currentSession => {
+    const apiName = APIEndpoints.GET_SERVICE_LIST.endpoint;
+    const path = `${APIPaths.GET_USER_PROFILE}/username=${sessionStorage.getItem(Session.USERNAME)}`;
+    const myInit = { headers: { Authorization: currentSession.idToken.jwtToken } };
+    API.get(apiName, path, myInit)
+      .then(response => {
+        console.log("res", response);
+      })
+      .catch(err => {
+        console.log("fetchUserProfileFromMarketplace err", err);
+      });
+  });
+};
