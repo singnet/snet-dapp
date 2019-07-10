@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import ListViewItem from "./ListViewItem";
+import ServiceListItem from "./ServiceListItem";
 import CardImg from "../../../../../assets/images/dummy-card.png";
 import { useStyles } from "./styles";
 import Routes from "../../../../../utility/constants/Routes";
@@ -12,7 +12,7 @@ const CardGroup = ({ data }) => {
     <div className={classes.cardCollection}>
       {data.map(item => (
         <Link to={`/${Routes.SERVICE_DETAILS}/${item.service_row_id}`} className={classes.routerLink}>
-          <ListViewItem
+          <ServiceListItem
             key={item.service_id}
             cardMedia={CardImg}
             cardTitle={item.org_id}

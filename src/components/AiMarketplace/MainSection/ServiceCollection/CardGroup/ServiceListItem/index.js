@@ -11,7 +11,7 @@ import Typography from "@material-ui/core/Typography";
 
 import { useStyles } from "./styles";
 
-const ListViewItem = props => {
+const ServiceListItem = props => {
   const classes = useStyles();
   return (
     <Card className={classes.card}>
@@ -52,4 +52,4 @@ const ListViewItem = props => {
   );
 };
 
-export default ListViewItem;
+export default ServiceListItem;
