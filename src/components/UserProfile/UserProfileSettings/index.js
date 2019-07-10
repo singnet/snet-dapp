@@ -18,8 +18,13 @@ import Routes from "../../../utility/constants/Routes";
 class UserProfileSettings extends Component {
   state = {
     email: "",
-    acceptNotification: false,
+    emailAlerts: false,
     error: undefined,
+  };
+
+  componentDidMount = async () => {
+    const userProfile = await this.props.fetchUserProfile();
+    this.setState({ email: this.props.userEmail });
   };
 
   handleEmailChange = event => {
@@ -28,8 +33,8 @@ class UserProfileSettings extends Component {
     });
   };
 
-  handleAcceptNotification = () => {
-    this.setState(prevState => ({ acceptNotification: !prevState.acceptNotification }));
+  handleEmailAlerts = () => {
+    this.setState(prevState => ({ emailAlerts: !prevState.emailAlerts }));
   };
 
   handleDelete = async () => {
@@ -40,27 +45,20 @@ class UserProfileSettings extends Component {
   };
 
   handleSubmit = () => {
-    const { name, email } = this.state;
+    this.setState({ error: undefined });
+    const { email } = this.state;
     if (!validator.isEmail(email)) {
-      this.handleErrorMessage("Email provided is not valid");
+      this.setState({ error: "Email provided is not valid" });
     }
-    if (!validator.isAlpha(name)) {
-      this.handleErrorMessage("");
-    }
-  };
-
-  handleErrorMessage = error => {
-    this.setState({ error });
-    setTimeout(() => this.setState({ error: undefined }), 2000);
   };
 
   shouldSaveButtonBeEnabled = () => {
-    return false;
+    return true;
   };
 
   render() {
     const { classes } = this.props;
-    const { email, acceptNotification } = this.state;
+    const { email, emailAlerts, error } = this.state;
     const userName = sessionStorage.getItem(Session.USERNAME);
     return (
       <Grid container spacing={24} className={classes.settingMainContainer}>
@@ -100,8 +98,8 @@ class UserProfileSettings extends Component {
                 control={
                   <Checkbox
                     className={classes.checkkBox}
-                    checked={acceptNotification}
-                    onChange={this.handleAcceptNotification}
+                    checked={emailAlerts}
+                    onChange={this.handleEmailAlerts}
                     value=""
                     color="primary"
                   />
@@ -114,10 +112,14 @@ class UserProfileSettings extends Component {
               </p>
             </div>
 
-            <ErrorMsgBox showErr={true} errorMsg="undefined" />
+            <ErrorMsgBox showErr={error} errorMsg={error} />
 
             <div className={classes.btnContainer}>
-              <StyledButton btnText="save changes" disabled={!this.shouldSaveButtonBeEnabled()} />
+              <StyledButton
+                btnText="save changes"
+                disabled={!this.shouldSaveButtonBeEnabled()}
+                onClick={this.handleSubmit}
+              />
               <StyledButton btnText="delete account" type="red" onClick={this.handleDelete} />
             </div>
           </div>
@@ -127,11 +129,16 @@ class UserProfileSettings extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  userEmail: state.userReducer.email,
+});
+
 const mapDispatchToProps = dispatch => ({
   deleteUserAccount: () => dispatch(userActions.deleteUserAccount()),
+  fetchUserProfile: () => dispatch(userActions.fetchUserProfile()),
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(withStyles(useStyles)(UserProfileSettings));
