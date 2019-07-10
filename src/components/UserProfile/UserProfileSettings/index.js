@@ -15,7 +15,7 @@ import Session from "../../../utility/constants/Session";
 import { userActions } from "../../../Redux/actionCreators";
 import Routes from "../../../utility/constants/Routes";
 
-class Settings extends Component {
+class UserProfileSettings extends Component {
   state = {
     email: "",
     acceptNotification: false,
@@ -134,4 +134,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   null,
   mapDispatchToProps
-)(withStyles(useStyles)(Settings));
+)(withStyles(useStyles)(UserProfileSettings));
