@@ -18,7 +18,8 @@
     "react-scripts": "3.0.1",
     "react-star-rating-component": "^1.4.1",
     "redux": "^4.0.1",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "validator": "^11.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
