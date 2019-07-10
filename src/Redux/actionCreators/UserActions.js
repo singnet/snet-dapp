@@ -1,7 +1,7 @@
 import { Auth, API } from "aws-amplify";
 
 import Session from "../../utility/constants/Session";
-import { APIEndpoints } from "../../config/APIEndpoints";
+import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { parseError } from "../../utility/ErrorHandling";
 import { userActions } from ".";
 
@@ -18,9 +18,9 @@ export const setUserDetails = dispatch => {
     type: SET_USER_DETAILS,
     payload: {
       login: { isLoggedIn: false, error: undefined, loading: true },
-      isLoggedIn: false,
       isInitialized: true,
       isEmailVerified: false,
+      email: "",
     },
   };
   Auth.currentAuthenticatedUser({ bypassCache: true })
@@ -41,10 +41,13 @@ export const setUserDetails = dispatch => {
         userDetails.payload = {
           ...userDetails.payload,
           isEmailVerified: res.attributes.email_verified,
+          email: res.attributes.email,
         };
       }
     })
-    .finally(() => dispatch(userDetails));
+    .finally(() => {
+      dispatch(userDetails);
+    });
 };
 
 export const login = ({ username, password }) => dispatch => {
