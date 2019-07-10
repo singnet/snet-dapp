@@ -56,7 +56,7 @@ const Filter = ({ services, pagination, updatePagination, fetchService }) => {
         </button>
       </div>
       <StyledExpansionPanel
-        expansionData={Object.values(filterData)}
+        expansionItems={Object.values(filterData)}
         handleChange={handleActiveFilterItemChange}
         activeFilterItem={activeFilterItem}
       />
