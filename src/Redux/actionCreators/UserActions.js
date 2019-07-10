@@ -11,6 +11,7 @@ export const LOGIN_LOADING = "LOGIN_LOADING";
 export const LOGIN_ERROR = "LOGIN_ERROR";
 export const SIGN_OUT = "SIGN_OUT";
 export const CHECK_WALLET_STATUS = "CHECK_WALLET_STATUS";
+export const DELETE_ACCOUNT = "DELETE_ACCOUNT";
 
 export const setUserDetails = dispatch => {
   let userDetails = {
@@ -127,5 +128,23 @@ export const checkWalletStatus = (dispatch, getState) => {
           payload: { login: { ...getState().userReducer.login, isLoggedIn: false } },
         });
       }
+    });
+};
+
+export const deleteUserAccount = dispatch => () => {
+  Auth.currentAuthenticatedUser({ bypassCache: true })
+    .then(user => {
+      new Promise(resolve => {
+        user.deleteUser(error => {
+          if (error) {
+            resolve("failed", error);
+          }
+          resolve("user deleted");
+        });
+      });
+    })
+    .catch(err => {
+      console.log("Auth err", err);
+      return () => err;
     });
 };
