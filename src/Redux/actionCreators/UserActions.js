@@ -1,7 +1,7 @@
 import { Auth, API } from "aws-amplify";
 
 import Session from "../../utility/constants/Session";
-import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
+import { APIEndpoints } from "../../config/APIEndpoints";
 import { parseError } from "../../utility/ErrorHandling";
 import { userActions } from ".";
 
@@ -134,35 +134,30 @@ export const checkWalletStatus = (dispatch, getState) => {
     });
 };
 
-export const deleteUserAccount = () => () => {
+export const deleteUserAccount = () => dispatch => {
   Auth.currentAuthenticatedUser({ bypassCache: true })
     .then(user => {
       new Promise(resolve => {
         user.deleteUser(error => {
           if (error) {
-            resolve("failed", error);
+            resolve(error);
           }
+          dispatch({
+            type: SET_USER_DETAILS,
+            payload: {
+              login: {
+                isLoggedIn: false,
+              },
+              isEmailVerified: false,
+              isWalletAssigned: false,
+              email: "",
+            },
+          });
           resolve("user deleted");
         });
       });
     })
     .catch(err => {
-      console.log("Auth err", err);
       return () => err;
     });
-};
-
-export const fetchUserProfile = () => () => {
-  Auth.currentSession({ bypassCache: true }).then(currentSession => {
-    const apiName = APIEndpoints.GET_SERVICE_LIST.endpoint;
-    const path = `${APIPaths.GET_USER_PROFILE}/username=${sessionStorage.getItem(Session.USERNAME)}`;
-    const myInit = { headers: { Authorization: currentSession.idToken.jwtToken } };
-    API.get(apiName, path, myInit)
-      .then(response => {
-        console.log("res", response);
-      })
-      .catch(err => {
-        console.log("fetchUserProfileFromMarketplace err", err);
-      });
-  });
 };
