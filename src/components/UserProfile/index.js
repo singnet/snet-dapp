@@ -18,10 +18,10 @@ class UserProfile extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, history } = this.props;
     const { activeTab } = this.state;
 
-    const tabs = [{ name: "Settings", activeIndex: 0, component: <UserProfileSettings /> }];
+    const tabs = [{ name: "Settings", activeIndex: 0, component: <UserProfileSettings history={history} /> }];
     const activeComponent = tabs.filter(el => el.activeIndex === activeTab)[0].component;
     return (
       <div className={classes.UserProfileContainer}>
