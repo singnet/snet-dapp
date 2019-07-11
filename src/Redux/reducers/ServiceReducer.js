@@ -1,9 +1,9 @@
 import { serviceActions } from "../actionCreators";
-import { defaultPaginationFilterSortSearch } from "../../utility/constants/Pagination";
+import { defaultListingConfig } from "../../utility/constants/Pagination";
 
 const InitialServiceList = {
   services: [],
-  pagination: { ...defaultPaginationFilterSortSearch },
+  pagination: { ...defaultListingConfig },
   serviceMethodExecution: {
     response: {},
     isComplete: false,

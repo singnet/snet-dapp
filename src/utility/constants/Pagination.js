@@ -32,7 +32,7 @@ export const defaultSortParameters = {
   order_by: "desc",
 };
 
-export const defaultPaginationFilterSortSearch = {
+export const defaultListingConfig = {
   ...defaultPaginationParameters,
   ...defaultFilterParameters,
   ...defaultSortParameters,
