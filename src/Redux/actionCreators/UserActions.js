@@ -134,8 +134,8 @@ export const checkWalletStatus = (dispatch, getState) => {
     });
 };
 
-export const deleteUserAccount = () => dispatch => {
-  Auth.currentAuthenticatedUser({ bypassCache: true })
+export const deleteUserAccount = () => async dispatch => {
+  await Auth.currentAuthenticatedUser({ bypassCache: true })
     .then(user => {
       new Promise(resolve => {
         user.deleteUser(error => {
@@ -153,11 +153,10 @@ export const deleteUserAccount = () => dispatch => {
               email: "",
             },
           });
-          resolve("user deleted");
         });
       });
     })
     .catch(err => {
-      return () => err;
+      throw err;
     });
 };

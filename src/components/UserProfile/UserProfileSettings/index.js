@@ -30,14 +30,10 @@ class UserProfileSettings extends Component {
   };
 
   handleDelete = async () => {
-    this.setState({ error: undefined });
     try {
-      const deleteUserResponse = await this.props.deleteUserAccount();
-      if (deleteUserResponse == "user deleted") {
-        this.props.history.push(`/${Routes.AI_MARKETPLACE}`);
-        return;
-      }
-      this.setState({ error: String(deleteUserResponse) });
+      await this.props.deleteUserAccount();
+      alert("user profile delted successfully");
+      this.props.history.push(`/${Routes.AI_MARKETPLACE}`);
     } catch (err) {
       this.setState({ error: String(err) });
     }
