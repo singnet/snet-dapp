@@ -70,7 +70,11 @@ class App extends Component {
                 {...this.props}
                 component={withInAppWrapper(ServiceDetails)}
               />
-              <Route path={`/${Routes.USER_PROFILE}`} {...this.props} component={withInAppWrapper(UserProfile)} />
+              <PrivateRoute
+                path={`/${Routes.USER_PROFILE}`}
+                {...this.props}
+                component={withInAppWrapper(UserProfile)}
+              />
               <Route path="/" exact {...this.props} component={withInAppWrapper(AiMarketplace)} />
               <Route component={PageNotFound} />
             </Switch>
