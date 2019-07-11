@@ -6,7 +6,7 @@ import { useStyles } from "./styles";
 import { sortByCategories, defaultPaginationParameters } from "../../../../../utility/constants/Pagination";
 import { serviceActions } from "../../../../../Redux/actionCreators";
 
-const Sort = ({ pagination, updatePagination, fetchService }) => {
+const ServiceSortOptions = ({ pagination, updatePagination, fetchService }) => {
   const [activeSortItem, setActiveSortItem] = useState(sortByCategories[0].value);
   const classes = useStyles();
 
@@ -38,4 +38,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Sort);
+)(ServiceSortOptions);
