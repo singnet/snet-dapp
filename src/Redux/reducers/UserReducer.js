@@ -18,6 +18,7 @@ const userReducer = (state = InitialUserDetails, action) => {
       return {
         ...state,
         login: {
+          ...state.login,
           ...action.payload.login,
         },
         ...action.payload,
