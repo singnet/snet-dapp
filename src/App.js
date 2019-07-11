@@ -5,7 +5,7 @@ import { ThemeProvider } from "@material-ui/styles";
 import { connect } from "react-redux";
 
 import Routes from "./utility/constants/Routes";
-import { aws_config } from "./aws_config";
+import { aws_config } from "./config/aws_config";
 import theme from "./assets/Theme";
 import withRegistrationHeader from "./components/HOC/WithRegistrationHeader";
 import { headerData } from "./utility/constants/Header";
