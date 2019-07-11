@@ -2,7 +2,7 @@ import React from "react";
 
 import { useStyles } from "./styles";
 
-const NavItem = ({ active, title, link }) => {
+const NavItem = ({ active, title, link, subHeader, subListItem }) => {
   const classes = useStyles();
   return (
     <li className={classes.navLinks}>
@@ -11,6 +11,10 @@ const NavItem = ({ active, title, link }) => {
       </a>
     </li>
   );
+};
+
+NavItem.defaultProps = {
+  link: "#",
 };
 
 export default NavItem;

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { withStyles } from "@material-ui/styles";
 import Icon from "@material-ui/core/Icon";
 import clsx from "clsx";
@@ -33,7 +33,12 @@ class MobileHeader extends Component {
                   <NavItem key={tab.title} title={tab.title} link={tab.link} active={tab.active} />
                 ))}
                 {data.dropdowns.map(dropdown => (
-                  <NavItem key={dropdown.title} title={dropdown.title} link={dropdown.link} active={dropdown.active} />
+                  <Fragment key={dropdown.label}>
+                    <NavItem title={dropdown.label} subHeader />
+                    {dropdown.list.map(item => (
+                      <NavItem key={item.label} title={item.label} link={dropdown.link} subListItem />
+                    ))}
+                  </Fragment>
                 ))}
               </ul>
             </nav>
