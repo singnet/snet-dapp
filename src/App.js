@@ -64,7 +64,11 @@ class App extends Component {
                 component={withRegistrationHeader(Onboarding, headerData.ONBOARDING)}
               />
               <Route path={`/${Routes.AI_MARKETPLACE}`} {...this.props} component={withInAppWrapper(AiMarketplace)} />
-              <Route path={`/${Routes.USER_PROFILE}`} {...this.props} component={withInAppWrapper(UserProfile)} />
+              <PrivateRoute
+                path={`/${Routes.USER_PROFILE}`}
+                {...this.props}
+                component={withInAppWrapper(UserProfile)}
+              />
               <Route path="/" exact {...this.props} component={withInAppWrapper(AiMarketplace)} />
               <Route component={PageNotFound} />
             </Switch>
