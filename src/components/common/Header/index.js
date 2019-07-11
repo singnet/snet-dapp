@@ -15,7 +15,7 @@ const Header = ({ isLoggedIn }) => {
     <div>
       <header className={classes.header}>
         <div className={classes.logoSection}>
-          <MobileHeader data={NavData} />
+          <MobileHeader data={NavData} isLoggedIn={isLoggedIn} />
           <Title Logo={Logo} title="SingularityNET" />
         </div>
         <div className={classes.navigationSection}>

@@ -24,14 +24,14 @@ export const useStyles = theme => ({
     left: 0,
     zIndex: 1,
     backgroundColor: theme.palette.text.purple,
-    "& span": {
-      color: theme.palette.text.white,
-      position: "absolute",
-      top: 30,
-      left: 40,
-      cursor: "pointer",
-    },
     "@media (min-width:1024px)": { display: "none" },
+  },
+  closeMenuIcon: {
+    color: theme.palette.text.white,
+    position: "absolute",
+    top: 30,
+    left: 40,
+    cursor: "pointer",
   },
   mobileNavigation: {
     width: "100%",
@@ -45,6 +45,10 @@ export const useStyles = theme => ({
         borderBottomStyle: "solid",
         borderBottomColor: "rgba(151, 151, 151, 0.1)",
         margin: "0 0 52px 0",
+        "&:last-of-type": {
+          borderBottom: "none",
+          margin: 0,
+        },
       },
       "& a": {
         paddingBottom: 25,
@@ -56,5 +60,33 @@ export const useStyles = theme => ({
       },
     },
     "@media(min-width: 1024px)": { display: "none" },
+  },
+  mobileActionBtns: {
+    borderTopWidth: 1,
+    borderTopStyle: "solid",
+    borderTopColor: theme.palette.text.white,
+    paddingTop: 30,
+    "& ul": {
+      justifyContent: "space-evenly",
+      "& li": {
+        margin: 0,
+        padding: 0,
+        border: "none",
+        "&:last-of-type a": {
+          padding: "10px 28px",
+          borderWidth: 1,
+          borderStyle: "solid",
+          borderColor: theme.palette.text.white,
+          borderRadius: 4,
+        },
+      },
+      "& span": {
+        fontSize: 24,
+        textTransform: "capitalize",
+      },
+      "& a": {
+        paddingBottom: 0,
+      },
+    },
   },
 });
