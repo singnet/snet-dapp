@@ -11,7 +11,6 @@ export const LOGIN_LOADING = "LOGIN_LOADING";
 export const LOGIN_ERROR = "LOGIN_ERROR";
 export const SIGN_OUT = "SIGN_OUT";
 export const CHECK_WALLET_STATUS = "CHECK_WALLET_STATUS";
-export const DELETE_ACCOUNT = "DELETE_ACCOUNT";
 
 export const setUserDetails = dispatch => {
   let userDetails = {
