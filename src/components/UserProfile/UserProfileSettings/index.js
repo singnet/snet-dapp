@@ -6,7 +6,6 @@ import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import { connect } from "react-redux";
-import validator from "validator";
 
 import ErrorMsgBox from "../../common/ErrorMsgBox";
 import StyledButton from "../../common/StyledButton";
@@ -17,14 +16,7 @@ import Routes from "../../../utility/constants/Routes";
 
 class UserProfileSettings extends Component {
   state = {
-    email: "",
-    emailAlerts: false,
     error: undefined,
-  };
-
-  componentDidMount = async () => {
-    const userProfile = await this.props.fetchUserProfile();
-    this.setState({ email: this.props.userEmail });
   };
 
   handleEmailChange = event => {
@@ -38,27 +30,22 @@ class UserProfileSettings extends Component {
   };
 
   handleDelete = async () => {
-    const deleteUserResponse = await this.props.deleteUserAccount();
-    if (deleteUserResponse == "user deleted") {
-      this.props.history.push(`/${Routes.AI_MARKETPLACE}`);
-    }
-  };
-
-  handleSubmit = () => {
     this.setState({ error: undefined });
-    const { email } = this.state;
-    if (!validator.isEmail(email)) {
-      this.setState({ error: "Email provided is not valid" });
+    try {
+      const deleteUserResponse = await this.props.deleteUserAccount();
+      if (deleteUserResponse == "user deleted") {
+        this.props.history.push(`/${Routes.AI_MARKETPLACE}`);
+        return;
+      }
+      this.setState({ error: String(deleteUserResponse) });
+    } catch (err) {
+      this.setState({ error: String(err) });
     }
-  };
-
-  shouldSaveButtonBeEnabled = () => {
-    return true;
   };
 
   render() {
-    const { classes } = this.props;
-    const { email, emailAlerts, error } = this.state;
+    const { classes, email } = this.props;
+    const { error } = this.state;
     const userName = sessionStorage.getItem(Session.USERNAME);
     return (
       <Grid container spacing={24} className={classes.settingMainContainer}>
@@ -83,7 +70,6 @@ class UserProfileSettings extends Component {
                 label="Email"
                 className={classes.styledTextField}
                 value={email}
-                onChange={this.handleEmailChange}
                 margin="normal"
                 variant="outlined"
               />
@@ -95,15 +81,7 @@ class UserProfileSettings extends Component {
             <div className={classes.notification}>
               <h4>Notifications</h4>
               <FormControlLabel
-                control={
-                  <Checkbox
-                    className={classes.checkkBox}
-                    checked={emailAlerts}
-                    onChange={this.handleEmailAlerts}
-                    value=""
-                    color="primary"
-                  />
-                }
+                control={<Checkbox className={classes.checkkBox} value="" color="primary" />}
                 label="Receive notifications via email"
               />
               <p>
@@ -115,11 +93,7 @@ class UserProfileSettings extends Component {
             <ErrorMsgBox showErr={error} errorMsg={error} />
 
             <div className={classes.btnContainer}>
-              <StyledButton
-                btnText="save changes"
-                disabled={!this.shouldSaveButtonBeEnabled()}
-                onClick={this.handleSubmit}
-              />
+              <StyledButton btnText="save changes" disabled />
               <StyledButton btnText="delete account" type="red" onClick={this.handleDelete} />
             </div>
           </div>
