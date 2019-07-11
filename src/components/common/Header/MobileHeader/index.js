@@ -2,21 +2,24 @@ import React, { Component, Fragment } from "react";
 import { withStyles } from "@material-ui/styles";
 import Icon from "@material-ui/core/Icon";
 import clsx from "clsx";
+import { connect } from "react-redux";
+import { stylesActions } from "../../../../Redux/actionCreators";
 
 import HeaderActions from "../HeaderActions";
 import NavItem from "../NavItem";
 import { useStyles } from "./styles";
 
 class MobileHeader extends Component {
-  state = { showMenu: false };
+  // state = { showMenu: false };
 
   toggleMobileMenu = () => {
-    this.setState({ showMenu: !this.state.showMenu });
+    // this.setState({ showMenu: !this.state.showMenu });
+    this.props.updateHamburgerState(!this.props.hamburgerMenu);
   };
 
   render() {
-    const { classes, data, isLoggedIn } = this.props;
-    const { showMenu } = this.state;
+    const { classes, data, isLoggedIn, hamburgerMenu } = this.props;
+    // const { showMenu } = this.state;
 
     return (
       <div>
@@ -25,7 +28,7 @@ class MobileHeader extends Component {
           <span></span>
           <span></span>
         </div>
-        {showMenu ? (
+        {hamburgerMenu ? (
           <div className={classes.mobileNavContainer}>
             <div className={classes.closeMenuIcon}>
               <Icon className={clsx(classes.icon, "fas fa-times")} onClick={this.toggleMobileMenu} />
@@ -57,4 +60,15 @@ class MobileHeader extends Component {
   }
 }
 
-export default withStyles(useStyles)(MobileHeader);
+const mapStateToProps = state => ({
+  hamburgerMenu: state.stylesReducer.hamburgerMenu,
+});
+
+const mapDispatchToProps = dispatch => ({
+  updateHamburgerState: hamburgerState => dispatch(stylesActions.updateHamburgerState(hamburgerState)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(useStyles)(MobileHeader));
