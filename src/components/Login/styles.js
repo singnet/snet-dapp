@@ -14,7 +14,7 @@ export const useStyles = theme => ({
     width: 410,
     padding: "40px 20px 30px",
     margin: "45px auto 0",
-    boxShadow: "0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.14), 0 1px 3px 0 rgba(0,0,0,0.2)",
+    boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
     "& h3": {
       margin: "0 0 11px",
       color: theme.palette.text.darkShadedGray,
