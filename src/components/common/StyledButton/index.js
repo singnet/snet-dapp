@@ -22,7 +22,7 @@ const StyledButton = props => {
       disabled={props.disabled}
       onClick={props.onClick}
     >
-      <Icon className={props.iconClass} />
+      {props.iconClass ? <Icon className={props.iconClass} /> : null}
       {props.btnText}
     </Button>
   );
