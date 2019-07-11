@@ -36,12 +36,14 @@ class MobileHeader extends Component {
                   <NavItem key={tab.title} title={tab.title} link={tab.link} active={tab.active} />
                 ))}
                 {data.dropdowns.map(dropdown => (
-                  <Fragment key={dropdown.label}>
-                    <NavItem title={dropdown.label} subHeader />
-                    {dropdown.list.map(item => (
-                      <NavItem key={item.label} title={item.label} link={dropdown.link} subListItem />
-                    ))}
-                  </Fragment>
+                  <div className={classes.subMenues}>
+                    <Fragment key={dropdown.label}>
+                      <NavItem title={dropdown.label} subHeader />
+                      {dropdown.list.map(item => (
+                        <NavItem key={item.label} title={item.label} link={dropdown.link} subListItem />
+                      ))}
+                    </Fragment>
+                  </div>
                 ))}
               </ul>
               <div className={classes.mobileActionBtns}>

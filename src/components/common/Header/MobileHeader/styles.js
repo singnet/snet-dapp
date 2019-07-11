@@ -34,7 +34,11 @@ export const useStyles = theme => ({
     cursor: "pointer",
   },
   mobileNavigation: {
+    boxSizing: "border-box",
     width: "100%",
+    height: "100%",
+    padding: "90px 0 50px",
+    overflow: "auto",
     textAlign: "left",
     "& ul": {
       padding: 0,
@@ -44,11 +48,7 @@ export const useStyles = theme => ({
         borderBottom: 2,
         borderBottomStyle: "solid",
         borderBottomColor: "rgba(151, 151, 151, 0.1)",
-        margin: "0 0 52px 0",
-        "&:last-of-type": {
-          borderBottom: "none",
-          margin: 0,
-        },
+        margin: "0 0 23px 0",
       },
       "& a": {
         paddingBottom: 25,
@@ -87,6 +87,25 @@ export const useStyles = theme => ({
       "& a": {
         paddingBottom: 0,
       },
+    },
+  },
+  subMenues: {
+    "& li": {
+      paddingLeft: "0 !important",
+      margin: "0 0 0 29% !important",
+      "&:first-of-type": { border: "none" },
+      "&:last-of-type": {
+        paddingBottom: 9,
+      },
+      "& a": {
+        padding: "13px 0 13px 33px",
+        fontSize: 22,
+      },
+      "&:first-of-type a": {
+        paddingLeft: 0,
+        color: theme.palette.text.lightShadedGray,
+      },
+      "&:nth-child(2) a": { paddingTop: 0 },
     },
   },
 });
