@@ -3,8 +3,10 @@ export const useStyles = theme => ({
     textAlign: "center",
     "& h2": {
       margin: 0,
-      fontSize: "36px",
+      fontSize: 32,
+      fontWeight: 600,
       color: theme.palette.text.darkShadedGray,
+      letterSpacing: "-0.5",
     },
   },
   loginForm: {
