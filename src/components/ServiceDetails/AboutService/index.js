@@ -8,6 +8,7 @@ import Icon from "@material-ui/core/Icon";
 import { useStyles } from "./styles";
 import DemoToggler from "./DemoToggler";
 import ServiceOverview from "./ServiceOverview";
+import Routes from "../../../utility/constants/Routes";
 
 const AboutService = ({ classes, isLoggedIn, service }) => {
   return (
@@ -19,7 +20,7 @@ const AboutService = ({ classes, isLoggedIn, service }) => {
 
         <div className={classes.backToLink}>
           <Icon className="fas fa-arrow-left" />
-          <Link to="">Back to AI Marketplace</Link>
+          <Link to={`/${Routes.AI_MARKETPLACE}`}>Back to AI Marketplace</Link>
         </div>
       </Grid>
 

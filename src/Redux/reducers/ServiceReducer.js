@@ -1,15 +1,9 @@
 import { serviceActions } from "../actionCreators";
+import { defaultListingConfig } from "../../utility/constants/Pagination";
 
 const InitialServiceList = {
   services: [],
-  pagination: {
-    q: "",
-    limit: 10,
-    offset: 0,
-    sort_by: "display_name",
-    order_by: "desc",
-    total_count: 0,
-  },
+  pagination: { ...defaultListingConfig },
   serviceMethodExecution: {
     response: {},
     isComplete: false,

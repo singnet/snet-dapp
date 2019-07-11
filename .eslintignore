@@ -82,4 +82,4 @@ src/utility/constants/APIEndpoints.js
 src/aws_config.js
 
 #Third-party-services
-src/assets/services
+src/assets/thirdPartyServices
