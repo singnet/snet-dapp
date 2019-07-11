@@ -6,20 +6,20 @@ import CardImg from "../../../../../assets/images/dummy-card.png";
 import { useStyles } from "./styles";
 import Routes from "../../../../../utility/constants/Routes";
 
-const CardGroup = ({ data }) => {
+const CardGroup = ({ cards }) => {
   const classes = useStyles();
   return (
     <div className={classes.cardCollection}>
-      {data.map(item => (
-        <Link to={`/${Routes.SERVICE_DETAILS}/${item.service_row_id}`} className={classes.routerLink}>
+      {cards.map(card => (
+        <Link to={`/${Routes.SERVICE_DETAILS}/${card.service_row_id}`} className={classes.routerLink}>
           <ServiceListItem
-            key={item.service_id}
+            key={card.service_id}
             cardMedia={CardImg}
-            cardTitle={item.org_id}
-            cardSubheader={item.display_name}
+            cardTitle={card.org_id}
+            cardSubheader={card.display_name}
             ratingGiven=""
             totalRating=""
-            cardDescription={item.description}
+            cardDescription={card.description}
           />
         </Link>
       ))}
@@ -28,7 +28,7 @@ const CardGroup = ({ data }) => {
 };
 
 CardGroup.defaultProps = {
-  data: [],
+  cards: [],
 };
 
 export default CardGroup;
