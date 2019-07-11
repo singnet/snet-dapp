@@ -7,19 +7,15 @@ import { NavData } from "./data";
 import NavBar from "./NavBar";
 import HeaderActions from "./HeaderActions";
 import Title from "./Title";
+import MobileHeader from "./MobileHeader";
 
 const Header = ({ isLoggedIn }) => {
   const classes = useStyles();
-
   return (
     <div>
       <header className={classes.header}>
         <div className={classes.logoSection}>
-          <div className={classes.hamburger}>
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
+          <MobileHeader data={NavData} />
           <Title Logo={Logo} title="SingularityNET" />
         </div>
         <div className={classes.navigationSection}>

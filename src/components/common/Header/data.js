@@ -19,7 +19,14 @@ const tabs = [
 const dropdowns = [
   {
     label: "Resources",
-    list: [{ value: "", label: "" }, { value: "", label: "" }, { value: "", label: "" }],
+    list: [
+      { value: "", label: "Documentation" },
+      { value: "", label: "Dataset Download" },
+      { value: "", label: "API Library" },
+      { value: "", label: "Telegram" },
+      { value: "", label: "Forum" },
+      { value: "", label: "Blog" },
+    ],
   },
 ];
 

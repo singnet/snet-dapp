@@ -13,20 +13,6 @@ export const useStyles = makeStyles(theme => ({
       alignItems: "flex-start",
     },
   },
-  hamburger: {
-    margin: "0 44px 0 28px",
-    display: "none",
-    cursor: "pointer",
-    "& span": {
-      width: 18,
-      height: 2,
-      display: "block",
-      backgroundColor: theme.palette.text.white,
-      marginBottom: 3,
-    },
-    "@media (max-width:1024px)": { display: "block" },
-    "@media (max-width:768px)": { margin: "0 25px 0 0" },
-  },
   logoSection: {
     width: "30%",
     display: "flex",
