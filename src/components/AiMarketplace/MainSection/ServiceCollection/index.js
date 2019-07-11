@@ -10,7 +10,7 @@ const ServiceCollection = ({ data, toolbarProps, paginationProps }) => {
   return (
     <div className={classes.serviceCollection}>
       <ToolBar {...toolbarProps} />
-      <CardGroup data={data} />
+      <CardGroup cards={data} />
       <StyledPagination {...paginationProps} />
     </div>
   );

@@ -23,7 +23,6 @@ export const useStyles = makeStyles(theme => ({
   },
   mediaContainer: {
     maxWidth: "100% !important",
-    display: "none",
   },
   CardMedia: {
     width: 214,
