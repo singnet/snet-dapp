@@ -18,5 +18,6 @@ export const useStyles = theme => ({
         textDecoration: "none",
       },
     },
+    "& hr": { margin: "22px 0 10px" },
   },
 });
