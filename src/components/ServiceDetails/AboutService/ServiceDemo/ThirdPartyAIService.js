@@ -10,7 +10,6 @@ import Session from "../../../../utility/constants/Session";
 
 class ThirdPartyAIService extends Component {
   state = {
-    grpcResponse: undefined,
     AIServiceCustomComponent: undefined,
     serviceSpecJSON: undefined,
     protoSpec: undefined,

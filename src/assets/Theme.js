@@ -8,6 +8,7 @@ const purple = "#220D3A";
 const darkShadedGray = "#212121";
 const mediumShadeGray = "#666";
 const lightShadedGray = "#9b9b9b";
+const grayTitleText = "#4a4a4a";
 
 const lightGray = "#D6D6D6";
 const disabledBtnBg = "#ccc";
@@ -35,6 +36,7 @@ const RatingStarColor = "#FFC000";
 const aqua = "#00C48C";
 
 const errorRed = "#B00020";
+const redBtnText = "#D0021B";
 
 const theme = createMuiTheme({
   palette: {
@@ -62,6 +64,8 @@ const theme = createMuiTheme({
       iconColor,
       errorRed,
       RatingStarColor,
+      grayTitleText,
+      redBtnText,
     },
   },
   typography: {

@@ -17,9 +17,9 @@ export const setUserDetails = dispatch => {
     type: SET_USER_DETAILS,
     payload: {
       login: { isLoggedIn: false, error: undefined, loading: true },
-      isLoggedIn: false,
       isInitialized: true,
       isEmailVerified: false,
+      email: "",
     },
   };
   Auth.currentAuthenticatedUser({ bypassCache: true })
@@ -40,10 +40,13 @@ export const setUserDetails = dispatch => {
         userDetails.payload = {
           ...userDetails.payload,
           isEmailVerified: res.attributes.email_verified,
+          email: res.attributes.email,
         };
       }
     })
-    .finally(() => dispatch(userDetails));
+    .finally(() => {
+      dispatch(userDetails);
+    });
 };
 
 export const login = ({ username, password }) => dispatch => {
@@ -128,4 +131,44 @@ export const checkWalletStatus = (dispatch, getState) => {
         });
       }
     });
+};
+
+const userDeleted = ({ history, route }) => dispatch => {
+  history.push(route);
+  dispatch({
+    type: SET_USER_DETAILS,
+    payload: {
+      login: {
+        isLoggedIn: false,
+      },
+      isEmailVerified: false,
+      isWalletAssigned: false,
+      email: "",
+    },
+  });
+};
+const deleteUser = user =>
+  new Promise((resolve, reject) => {
+    user.deleteUser(error => {
+      if (error) {
+        reject(error);
+      }
+      resolve();
+    });
+  });
+
+const fetchCurrentUser = () => {
+  return Auth.currentAuthenticatedUser({ bypassCache: true });
+};
+
+export const deleteUserAccount = ({ history, route }) => dispatch => {
+  dispatch(() =>
+    fetchCurrentUser().then(user => {
+      dispatch(() =>
+        deleteUser(user).then(() => {
+          dispatch(userDeleted({ history, route }));
+        })
+      );
+    })
+  );
 };

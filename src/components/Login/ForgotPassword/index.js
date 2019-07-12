@@ -57,7 +57,7 @@ class ForgotPassword extends Component {
               value={username}
               onChange={this.handleUsername}
             />
-            <ErrorMsgBox errorMsg={error} showErr={error} />
+            <ErrorMsgBox errorMsg={error} />
             <StyledButton type="blue" btnText="reset password" onClick={this.handleSubmit} />
           </form>
         </Grid>

@@ -17,7 +17,6 @@ const TitleCard = ({ classes, org_id, display_name, star_rating, api_calls }) =>
         <div>
           <StarRatingComponent name="rate1" starCount={0} value={star_rating} className={classes.ratingStars} />
           <span className={classes.ratedCount}>{star_rating}</span>
-          <span className={classes.apiCall}>API Calls:{api_calls}</span>
         </div>
       </div>
     </Grid>

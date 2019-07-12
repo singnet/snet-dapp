@@ -11,25 +11,22 @@ const buttonColor = {
   gradient: "gradientBg",
   black: "blackBg",
   transparent: "transparentBg",
+  red: "red",
 };
 
-const StyledButton = props => {
+const StyledButton = ({ disabled, onClick, type, iconClass, btnText, hasIcon }) => {
   const classes = useStyles();
 
   return (
-    <Button
-      className={clsx(classes.styledButton, classes[buttonColor[props.type]])}
-      disabled={props.disabled}
-      onClick={props.onClick}
-    >
-      {props.iconClass ? <Icon className={props.iconClass} /> : null}
-      {props.btnText}
+    <Button className={clsx(classes.styledButton, classes[buttonColor[type]])} disabled={disabled} onClick={onClick}>
+      {iconClass ? <Icon className={iconClass} /> : null}
+      {btnText}
     </Button>
   );
 };
 
 StyledButton.propTypes = {
-  type: PropTypes.oneOf(["blue", "gradient", "black", "transparent"]),
+  type: PropTypes.oneOf(["blue", "gradient", "black", "transparent", "red"]),
 };
 
 StyledButton.defaultProps = {

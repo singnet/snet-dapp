@@ -81,7 +81,7 @@ const RenderForm = ({
             onChange={handlePassword}
           />
 
-          <ErrorMsgBox errorMsg={error} showErr={error} />
+          <ErrorMsgBox errorMsg={error} />
           <div style={{ marginTop: 20 }}></div>
           <StyledButton type="blue" btnText="Sign up for free credits" onClick={handleSubmit} />
         </form>
