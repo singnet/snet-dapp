@@ -6,7 +6,7 @@ import UserMenu from "./UserMenu";
 import { useStyles } from "./styles";
 import useOutsideClick from "../Hooks/useOutsideClick";
 
-const UserProfileDropDown = ({ classes, handleClick }) => {
+const UserProfilePopUp = ({ classes, handleClick }) => {
   const wrapperRef = useRef(null);
   useOutsideClick(wrapperRef, handleClick);
 
@@ -20,4 +20,4 @@ const UserProfileDropDown = ({ classes, handleClick }) => {
   );
 };
 
-export default withStyles(useStyles)(UserProfileDropDown);
+export default withStyles(useStyles)(UserProfilePopUp);

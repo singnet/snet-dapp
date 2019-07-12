@@ -4,7 +4,7 @@ import { withStyles } from "@material-ui/styles";
 import clsx from "clsx";
 
 import { useStyles } from "./styles";
-import UserProfileDropDown from ".";
+import UserProfilePopUp from "./";
 
 const UserProfileToggler = ({ classes }) => {
   const [showProfilePopup, setShowProfilePopup] = useState(false);
@@ -21,7 +21,7 @@ const UserProfileToggler = ({ classes }) => {
       </div>
     );
   }
-  return <UserProfileDropDown handleClick={handleClick} />;
+  return <UserProfilePopUp handleClick={handleClick} />;
 };
 
 export default withStyles(useStyles)(UserProfileToggler);
