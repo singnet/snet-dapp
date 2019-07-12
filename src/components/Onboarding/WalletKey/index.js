@@ -66,7 +66,7 @@ class TermsOfUse extends Component {
             </div>
           </Fragment>
         )}
-        <ErrorMsgBox showErr={error} errorMsg={error} />
+        <ErrorMsgBox errorMsg={error} />
         <div className={classes.continueBtnContainer}>
           <StyledButton
             type="blue"

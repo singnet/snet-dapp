@@ -86,7 +86,7 @@ class UserProfileSettings extends Component {
               </p>
             </div>
 
-            <ErrorMsgBox showErr={error} errorMsg={error} />
+            <ErrorMsgBox errorMsg={error} />
 
             <div className={classes.btnContainer}>
               <StyledButton btnText="save changes" disabled />
