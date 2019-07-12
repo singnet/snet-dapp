@@ -133,29 +133,42 @@ export const checkWalletStatus = (dispatch, getState) => {
     });
 };
 
-export const deleteUserAccount = () => async dispatch => {
-  await Auth.currentAuthenticatedUser({ bypassCache: true })
-    .then(user => {
-      new Promise(resolve => {
-        user.deleteUser(error => {
-          if (error) {
-            resolve(error);
-          }
-          dispatch({
-            type: SET_USER_DETAILS,
-            payload: {
-              login: {
-                isLoggedIn: false,
-              },
-              isEmailVerified: false,
-              isWalletAssigned: false,
-              email: "",
-            },
-          });
-        });
-      });
-    })
-    .catch(err => {
-      throw err;
+const userDeleted = ({ history, route }) => dispatch => {
+  history.push(route);
+  dispatch({
+    type: SET_USER_DETAILS,
+    payload: {
+      login: {
+        isLoggedIn: false,
+      },
+      isEmailVerified: false,
+      isWalletAssigned: false,
+      email: "",
+    },
+  });
+};
+const deleteUser = user =>
+  new Promise((resolve, reject) => {
+    user.deleteUser(error => {
+      if (error) {
+        reject(error);
+      }
+      resolve();
     });
+  });
+
+const fetchCurrentUser = () => {
+  return Auth.currentAuthenticatedUser({ bypassCache: true });
+};
+
+export const deleteUserAccount = ({ history, route }) => dispatch => {
+  dispatch(() =>
+    fetchCurrentUser().then(user => {
+      dispatch(() =>
+        deleteUser(user).then(() => {
+          dispatch(userDeleted({ history, route }));
+        })
+      );
+    })
+  );
 };
