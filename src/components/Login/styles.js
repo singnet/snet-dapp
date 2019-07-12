@@ -57,9 +57,9 @@ export const useStyles = theme => ({
   },
   textField: {
     width: "100%",
-    "& label": {
-      fontFamily: theme.typography.primary.main,
-    },
+    "& label": { fontFamily: theme.typography.primary.main },
+    "& fieldset": { borderColor: "#828282 !important" },
+    "& div": { color: "#212121 !important" },
   },
   checkboxSection: {
     margin: "10px 0 17px",
