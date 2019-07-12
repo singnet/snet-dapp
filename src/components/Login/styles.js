@@ -62,7 +62,7 @@ export const useStyles = theme => ({
     },
   },
   checkboxSection: {
-    margin: "10px 0",
+    margin: "10px 0 17px",
     display: "flex",
     alignItems: "baseline",
     justifyContent: "space-between",
@@ -76,6 +76,9 @@ export const useStyles = theme => ({
       fontSize: 14,
       letterSpacing: "0.25px",
       textDecoration: "none",
+      "&:hover": {
+        textDecoration: "underline",
+      },
     },
     "@media (max-width:400px)": {
       flexDirection: "column",
