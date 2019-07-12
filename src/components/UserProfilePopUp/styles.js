@@ -65,6 +65,7 @@ export const useStyles = theme => ({
     display: "flex",
     alignItems: "center",
     "& span": {
+      cursor: "pointer",
       "&:first-of-type": {
         marginRight: 18,
         color: theme.palette.text.lightShadedGray,
