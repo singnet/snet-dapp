@@ -1,6 +1,7 @@
 import { createMuiTheme } from "@material-ui/core/styles";
 
 const customBlue = "#4086ff";
+const customHoverBlue = "#005ACB";
 
 const purple = "#220D3A";
 
@@ -40,6 +41,7 @@ const theme = createMuiTheme({
     text: {
       primary: customBlue,
       white: whiteColor,
+      customHoverBlue,
       disabledBtnBg,
       black1,
       darkShadedGray,

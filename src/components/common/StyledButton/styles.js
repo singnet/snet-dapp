@@ -13,17 +13,13 @@ export const useStyles = makeStyles(theme => ({
     letterSpacing: "1.25px",
     lineHeight: "16px",
     "&:disabled": {
-      backgroundColor: theme.palette.text.disabledBtnBg,
+      backgroundColor: theme.palette.text.lightGray,
       color: theme.palette.text.white,
     },
   },
   blueBg: {
     backgroundColor: theme.backgroundColor.blue,
-    "&:hover": {
-      backgroundColor: theme.backgroundColor.white,
-      borderColor: theme.palette.text.primary,
-      color: theme.palette.text.primary,
-    },
+    "&:hover": { backgroundColor: theme.palette.text.customHoverBlue },
   },
   blackBg: {
     backgroundColor: theme.backgroundColor.githubBlack,
