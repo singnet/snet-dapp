@@ -42,7 +42,7 @@ import Places365SceneRecognition from "./Places365SceneRecognition";
 import SuperResolution from "./SuperResolution";
 import SemanticSegmentationAerial from "./SemanticSegmentationAerial";
 import SiggraphColorization from "./SiggraphColorization";
-import ErrorMsgBox from "../../components/common/ErrorMsgBox";
+import MessageBox from "../../components/common/MessageBox";
 
 const defaultChainId = -1;
 
@@ -164,7 +164,7 @@ export default class SampleServices {
     if (typeof component === "undefined") {
       component = this.serviceOrgIDToComponent[this.generateUniqueID(orgId, serviceId, defaultChainId)];
       if (typeof component === "undefined") {
-        component = <ErrorMsgBox showErr errorMsg="No Component matched" />;
+        component = <MessageBox type="error" errorMsg="No Component matched" />;
       }
     }
     return component;

@@ -5,7 +5,7 @@ import { withStyles } from "@material-ui/styles";
 import { Icon } from "@material-ui/core";
 
 import StyledButton from "../../common/StyledButton";
-import ErrorMsgBox from "../../common/ErrorMsgBox";
+import MessageBox from "../../common/MessageBox";
 import { isValidEmail } from "../../../utility/Validation";
 import { useStyles } from "./styles";
 
@@ -81,7 +81,7 @@ const RenderForm = ({
             onChange={handlePassword}
           />
 
-          <ErrorMsgBox errorMsg={error} showErr={error} />
+          <MessageBox type="error" errorMsg={error} />
           <div style={{ marginTop: 20 }}></div>
           <StyledButton type="blue" btnText="Sign up for free credits" onClick={handleSubmit} />
         </form>

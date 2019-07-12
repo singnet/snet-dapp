@@ -4,7 +4,7 @@ import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/styles";
 import { Auth } from "aws-amplify";
 
-import ErrorMsgBox from "../../common/ErrorMsgBox";
+import MessageBox from "../../common/MessageBox";
 import StyledButton from "../../common/StyledButton";
 import Routes from "../../../utility/constants/Routes";
 import Session from "../../../utility/constants/Session";
@@ -57,7 +57,7 @@ class ForgotPassword extends Component {
               value={username}
               onChange={this.handleUsername}
             />
-            <ErrorMsgBox errorMsg={error} showErr={error} />
+            <MessageBox type="error" errorMsg={error} />
             <StyledButton type="blue" btnText="reset password" onClick={this.handleSubmit} />
           </form>
         </Grid>
