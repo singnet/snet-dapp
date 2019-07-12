@@ -47,4 +47,14 @@ export const useStyles = makeStyles(theme => ({
       color: theme.palette.text.white,
     },
   },
+  transparentBlueBorder: {
+    borderColor: theme.palette.text.primary,
+    backgroundColor: "transparent !important",
+    color: theme.palette.text.primary,
+    "&:hover": {
+      borderColor: theme.palette.text.transBlueBorderTextHover,
+      backgroundColor: "rgba(0,90,203,0.05) !important",
+      color: theme.palette.text.transBlueBorderTextHover,
+    },
+  },
 }));

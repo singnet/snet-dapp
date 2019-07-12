@@ -3,6 +3,9 @@ import { createMuiTheme } from "@material-ui/core/styles";
 const customBlue = "#4086ff";
 const customHoverBlue = "#005ACB";
 
+const transBlueBorderTextHover = "#005ACB";
+const transBlueBorderBgHover = "rgba(0,90,203,0.05)";
+
 const purple = "#220D3A";
 
 const darkShadedGray = "#212121";
@@ -66,6 +69,8 @@ const theme = createMuiTheme({
       RatingStarColor,
       grayTitleText,
       redBtnText,
+      transBlueBorderTextHover,
+      transBlueBorderBgHover,
     },
   },
   typography: {

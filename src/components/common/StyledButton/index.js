@@ -11,6 +11,7 @@ const buttonColor = {
   gradient: "gradientBg",
   black: "blackBg",
   transparent: "transparentBg",
+  transparentBlueBorder: "transparentBlueBorder",
   red: "red",
 };
 
@@ -26,7 +27,7 @@ const StyledButton = ({ disabled, onClick, type, iconClass, btnText, hasIcon }) 
 };
 
 StyledButton.propTypes = {
-  type: PropTypes.oneOf(["blue", "gradient", "black", "transparent", "red"]),
+  type: PropTypes.oneOf(["blue", "gradient", "black", "transparent", "red", "transparentBlueBorder"]),
 };
 
 StyledButton.defaultProps = {
