@@ -61,6 +61,7 @@ class Login extends Component {
               margin="normal"
               variant="outlined"
               value={username}
+              autoFocus={true}
               onChange={this.handleUsername}
             />
             <TextField
