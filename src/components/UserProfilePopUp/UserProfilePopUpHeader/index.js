@@ -5,7 +5,7 @@ import { withStyles } from "@material-ui/styles";
 import UserProfileCard from "../../common/UserProfileCard";
 import { useStyles } from "./styles";
 
-const UserProfileHeader = ({ classes, userName, remainingCredits, usedCredits }) => {
+const UserProfilePopUpHeader = ({ classes, userName, remainingCredits, usedCredits }) => {
   return (
     <div className={classes.UserProfilePopUpHeader}>
       <UserProfileCard userName={userName} />
@@ -18,4 +18,4 @@ const UserProfileHeader = ({ classes, userName, remainingCredits, usedCredits })
   );
 };
 
-export default withStyles(useStyles)(UserProfileHeader);
+export default withStyles(useStyles)(UserProfilePopUpHeader);
