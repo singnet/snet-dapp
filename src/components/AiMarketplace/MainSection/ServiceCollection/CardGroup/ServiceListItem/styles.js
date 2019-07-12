@@ -16,10 +16,7 @@ export const useStyles = makeStyles(theme => ({
     borderBottomColor: theme.palette.text.lightShadedGray,
     borderRadius: 4,
     backgroundColor: theme.palette.text.white,
-    "&:nth-child(2n)": {
-      backgroundColor: theme.palette.text.offWhiteColor,
-      border: "none",
-    },
+    "&:hover": { backgroundColor: theme.palette.text.offWhiteColor },
   },
   mediaContainer: {
     maxWidth: "100% !important",
