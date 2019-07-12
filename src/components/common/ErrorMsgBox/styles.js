@@ -3,6 +3,7 @@ export const useStyles = theme => ({
     borderWidth: 1,
     borderStyle: "solid",
     borderColor: theme.backgroundColor.red,
+    borderRadius: 2,
     padding: "13px 20px",
     backgroundColor: theme.backgroundColor.red,
     color: theme.palette.text.black1,
