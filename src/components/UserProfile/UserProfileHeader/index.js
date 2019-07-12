@@ -1,15 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/styles";
 
 import UserProfileCard from "../../common/UserProfileCard";
 import { useStyles } from "./styles";
+import StyledButton from "../../common/StyledButton";
 
 const UserProfileHeader = ({ classes, userName }) => {
   return (
     <div className={classes.userProfileHeader}>
       <UserProfileCard userName={userName} />
-      <Link className={classes.requestText}>request developer's account</Link>
+      <StyledButton btnText="request developer's account" />
     </div>
   );
 };
