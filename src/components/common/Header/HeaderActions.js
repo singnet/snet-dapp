@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import { useStyles } from "./styles";
 import Routes from "../../../utility/constants/Routes";
-import UserProfileToggler from "../../UserProfileDropDown/UserProfileToggler";
+import UserProfileToggler from "../../UserProfilePop/UserProfileToggler";
 
 const HeaderActions = ({ isLoggedIn }) => {
   const classes = useStyles();
