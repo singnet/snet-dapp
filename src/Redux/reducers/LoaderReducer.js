@@ -1,7 +1,7 @@
 import { loaderActions } from "../actionCreators";
 
 const InitialLoaderState = {
-  app: false,
+  app: { loading: false, loaderHeader: "", loaderText: "" },
 };
 
 const loaderReducer = (state = InitialLoaderState, action) => {
