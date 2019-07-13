@@ -6,7 +6,6 @@ import SampleServices from "../../../../assets/thirdPartyServices";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../../../Redux/actionCreators";
 import { APIEndpoints } from "../../../../config/APIEndpoints";
-import Session from "../../../../utility/constants/Session";
 
 class ThirdPartyAIService extends Component {
   state = {
@@ -33,7 +32,7 @@ class ThirdPartyAIService extends Component {
   };
 
   handleServiceInvokation = (serviceName, methodName, requestObject) => {
-    const { org_id, service_id } = this.props;
+    const { org_id, service_id, username } = this.props;
     const data = {
       org_id,
       service_id,
@@ -41,7 +40,7 @@ class ThirdPartyAIService extends Component {
       service_name: serviceName,
       input: JSON.stringify(requestObject),
       user_address: "",
-      username: sessionStorage.getItem(Session.USERNAME),
+      username,
       isBase64Encoded: true,
     };
     this.props.invokeServiceMethod(data);
@@ -71,6 +70,7 @@ class ThirdPartyAIService extends Component {
 const mapStateToProps = state => ({
   grpcResponse: state.serviceReducer.serviceMethodExecution.response,
   isComplete: state.serviceReducer.serviceMethodExecution.isComplete,
+  username: state.userReducer.username,
 });
 const mapDispatchToProps = dispatch => ({
   fetchProtoSpec: servicebufURL => dispatch(serviceActions.fetchProtoSpec(servicebufURL)),
