@@ -10,7 +10,6 @@ import { connect } from "react-redux";
 import ErrorMsgBox from "../../common/ErrorMsgBox";
 import StyledButton from "../../common/StyledButton";
 import { useStyles } from "./styles";
-import Session from "../../../utility/constants/Session";
 import { userActions } from "../../../Redux/actionCreators";
 import Routes from "../../../utility/constants/Routes";
 
