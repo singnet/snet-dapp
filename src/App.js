@@ -12,6 +12,7 @@ import { headerData } from "./utility/constants/Header";
 import withInAppWrapper from "./components/HOC/WithInAppHeader";
 import { userActions } from "./Redux/actionCreators";
 import PrivateRoute from "./components/common/PrivateRoute";
+import AppLoader from "./components/common/AppLoader";
 
 const ForgotPassword = lazy(() => import("./components/Login/ForgotPassword"));
 const ForgotPasswordSubmit = lazy(() => import("./components/Login/ForgotPasswordSubmit"));
@@ -80,6 +81,7 @@ class App extends Component {
             </Switch>
           </Suspense>
         </Router>
+        <AppLoader />
       </ThemeProvider>
     );
   }

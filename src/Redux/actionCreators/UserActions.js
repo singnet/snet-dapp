@@ -3,7 +3,7 @@ import { Auth, API } from "aws-amplify";
 import Session from "../../utility/constants/Session";
 import { APIEndpoints } from "../../config/APIEndpoints";
 import { parseError } from "../../utility/ErrorHandling";
-import { userActions } from ".";
+import { userActions, errorActions, loaderActions } from ".";
 
 export const SET_USER_DETAILS = "SET_USER_DETAILS";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
@@ -11,6 +11,11 @@ export const LOGIN_LOADING = "LOGIN_LOADING";
 export const LOGIN_ERROR = "LOGIN_ERROR";
 export const SIGN_OUT = "SIGN_OUT";
 export const CHECK_WALLET_STATUS = "CHECK_WALLET_STATUS";
+export const UPDATE_USERNAME = "UPDATE_USERNAME";
+
+export const updateUsername = username => dispatch => {
+  dispatch({ type: UPDATE_USERNAME, payload: { username } });
+};
 
 export const setUserDetails = dispatch => {
   let userDetails = {
@@ -18,8 +23,6 @@ export const setUserDetails = dispatch => {
     payload: {
       login: { isLoggedIn: false, error: undefined, loading: true },
       isInitialized: true,
-      isEmailVerified: false,
-      email: "",
     },
   };
   Auth.currentAuthenticatedUser({ bypassCache: true })
@@ -41,6 +44,7 @@ export const setUserDetails = dispatch => {
           ...userDetails.payload,
           isEmailVerified: res.attributes.email_verified,
           email: res.attributes.email,
+          username: res.username,
         };
       }
     })
@@ -54,7 +58,7 @@ export const login = ({ username, password }) => dispatch => {
   let userDetails = {};
   return Auth.signIn(username, password)
     .then(res => {
-      sessionStorage.setItem(Session.USERNAME, username);
+      dispatch(() => updateUsername(username));
       userDetails = {
         type: userActions.LOGIN_SUCCESS,
         payload: { login: { isLoggedIn: true } },
@@ -63,7 +67,7 @@ export const login = ({ username, password }) => dispatch => {
     })
     .catch(err => {
       if (err.code === "UserNotConfirmedException") {
-        sessionStorage.setItem(Session.USERNAME, username);
+        dispatch(() => updateUsername(username));
         userDetails = {
           type: userActions.LOGIN_SUCCESS,
           payload: { login: { isLoggedIn: true } },
@@ -103,9 +107,7 @@ export const signOut = dispatch => {
     .finally(() => dispatch(userDetails));
 };
 
-export const checkWalletStatus = (dispatch, getState) => {
-  const username = sessionStorage.getItem(Session.USERNAME);
-
+export const checkWalletStatus = username => (dispatch, getState) => {
   Auth.currentSession({ bypassCache: true })
     .then(currentSession => {
       let apiName = APIEndpoints.GET_SERVICE_LIST.name;
@@ -171,4 +173,58 @@ export const deleteUserAccount = ({ history, route }) => dispatch => {
       );
     })
   );
+};
+
+const forgotPasswordInit = dispatch => {
+  dispatch(loaderActions.startAppLoader);
+  dispatch(errorActions.resetForgotPasswordError);
+};
+
+const forgotPasswordSuccessfull = ({ username, history, route }) => dispatch => {
+  dispatch(updateUsername(username));
+  dispatch(loaderActions.stopAppLoader);
+  history.push(route);
+};
+
+const forgotPasswordFailure = error => dispatch => {
+  dispatch(loaderActions.stopAppLoader);
+  dispatch(errorActions.updateForgotPasswordError(error));
+};
+
+export const forgotPassword = ({ username, history, route }) => dispatch => {
+  dispatch(forgotPasswordInit);
+  Auth.forgotPassword(username)
+    .then(() => {
+      dispatch(forgotPasswordSuccessfull({ history, route }));
+    })
+    .catch(err => {
+      dispatch(forgotPasswordFailure(err.message));
+    });
+};
+
+const forgotPasswordSubmitInit = dispatch => {
+  dispatch(loaderActions.startAppLoader);
+  dispatch(errorActions.resetForgotPasswordSubmitError);
+};
+
+const forgotPasswordSubmitSuccessfull = ({ username, history, route }) => dispatch => {
+  dispatch(updateUsername(username));
+  dispatch(loaderActions.stopAppLoader);
+  history.push(route);
+};
+
+const forgotPasswordSubmitFailure = error => dispatch => {
+  dispatch(loaderActions.stopAppLoader);
+  dispatch(errorActions.updateForgotPasswordSubmitError(error));
+};
+
+export const forgotPasswordSubmit = ({ username, code, password, history, route }) => dispatch => {
+  dispatch(forgotPasswordSubmitInit);
+  Auth.forgotPasswordSubmit(username, code, password)
+    .then(() => {
+      dispatch(forgotPasswordSubmitSuccessfull({ username, history, route }));
+    })
+    .catch(err => {
+      dispatch(forgotPasswordSubmitFailure(err.message));
+    });
 };

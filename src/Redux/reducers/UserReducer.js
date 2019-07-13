@@ -10,6 +10,7 @@ const InitialUserDetails = {
   isEmailVerified: false,
   isWalletAssigned: false,
   email: "",
+  username: "",
 };
 
 const userReducer = (state = InitialUserDetails, action) => {
@@ -68,6 +69,10 @@ const userReducer = (state = InitialUserDetails, action) => {
 
     case userActions.CHECK_WALLET_STATUS: {
       return { ...state, isWalletAssigned: action.payload.isWalletAssigned };
+    }
+
+    case userActions.UPDATE_USERNAME: {
+      return { ...state, ...action.payload };
     }
 
     default: {

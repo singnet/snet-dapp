@@ -40,9 +40,8 @@ class UserProfileSettings extends Component {
   };
 
   render() {
-    const { classes, email } = this.props;
+    const { classes, email, username } = this.props;
     const { error } = this.state;
-    const userName = sessionStorage.getItem(Session.USERNAME);
     return (
       <Grid container spacing={24} className={classes.settingMainContainer}>
         <Grid item xs={12} sm={12} md={8} lg={8} className={classes.settingsContainer}>
@@ -53,7 +52,7 @@ class UserProfileSettings extends Component {
                 id="outlined-name"
                 label="User Name (20 char max)"
                 className={classes.styledTextField}
-                value={userName}
+                value={username}
                 margin="normal"
                 variant="outlined"
                 disabled
@@ -101,6 +100,7 @@ class UserProfileSettings extends Component {
 
 const mapStateToProps = state => ({
   userEmail: state.userReducer.email,
+  username: state.userReducer.username,
 });
 
 const mapDispatchToProps = dispatch => ({
