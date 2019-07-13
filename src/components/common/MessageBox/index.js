@@ -23,4 +23,8 @@ MessageBox.propTypes = {
   errorMsg: PropTypes.string,
 };
 
+MessageBox.defaultProps = {
+  type: "error",
+};
+
 export default withStyles(useStyles)(MessageBox);
