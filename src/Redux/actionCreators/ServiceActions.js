@@ -1,7 +1,7 @@
 import { Root } from "protobufjs";
 import { Auth, API } from "aws-amplify";
 
-import { APIEndpoints } from "../../config/APIEndpoints";
+import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import GRPCProtoV3Spec from "../../assets/models/GRPCProtoV3Spec";
 
 export const UPDATE_SERVICE_LIST = "SET_SERVICE_LIST";
@@ -27,9 +27,9 @@ export const fetchService = pagination => async dispatch => {
 
 export const invokeServiceMethod = data => dispatch => {
   Auth.currentSession({ bypassCache: true }).then(currentSession => {
-    const apiName = APIEndpoints.GET_SERVICE_LIST.name;
-    const path = "/call-service";
-    const myInit = {
+    const apiName = APIEndpoints.INVOKE_SERVICE.name;
+    const path = `${APIPaths.INVOKE_SERVICE}-${data.service_id}`;
+    let myInit = {
       body: data,
       headers: { Authorization: currentSession.idToken.jwtToken },
     };
