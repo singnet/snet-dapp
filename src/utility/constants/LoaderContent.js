@@ -11,4 +11,8 @@ export const LoaderContent = {
     loaderHeader: "Forgot Password Submit",
     loaderText: "User profile will be deleted completely and all the records will be removed",
   },
+  SERVICE_INVOKATION: {
+    loaderHeader: "Invoking Third Party Service",
+    loaderText: "User profile will be deleted completely and all the records will be removed",
+  },
 };
