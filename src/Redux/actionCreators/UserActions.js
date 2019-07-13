@@ -39,7 +39,6 @@ export const setUserDetails = dispatch => {
         ...userDetails.payload,
         login: { isLoggedIn: true, error: undefined, loading: false },
       };
-      sessionStorage.setItem(Session.USERNAME, res.username);
       if (res.attributes && res.attributes.email_verified) {
         userDetails.payload = {
           ...userDetails.payload,
