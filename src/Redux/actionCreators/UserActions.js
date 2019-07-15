@@ -213,8 +213,8 @@ const forgotPasswordSubmitSuccessfull = ({ username, history, route }) => dispat
 };
 
 const forgotPasswordSubmitFailure = error => dispatch => {
-  dispatch(loaderActions.stopAppLoader);
   dispatch(errorActions.updateForgotPasswordSubmitError(error));
+  dispatch(loaderActions.stopAppLoader);
 };
 
 export const forgotPasswordSubmit = ({ username, code, password, history, route }) => dispatch => {
