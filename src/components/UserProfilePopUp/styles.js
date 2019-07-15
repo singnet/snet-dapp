@@ -61,4 +61,19 @@ export const useStyles = theme => ({
     letterSpacing: 1.75,
     lineHeight: "16px",
   },
+  loggedInActions: {
+    display: "flex",
+    alignItems: "center",
+    "& span": {
+      "&:first-of-type": {
+        marginRight: 18,
+        color: theme.palette.text.lightShadedGray,
+        fontSize: 19,
+      },
+      "&:last-of-type": {
+        color: theme.palette.text.lightShadedGray,
+        fontSize: 35,
+      },
+    },
+  },
 });
