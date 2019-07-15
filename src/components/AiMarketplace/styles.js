@@ -17,7 +17,7 @@ export const useStyles = theme => ({
         "@media(max-width: 1023px)": { maxWidth: "100%" },
     },
     title: {
-        margin: "25px 0 0 0",
+        margin: "33px 0 0 0",
         color: theme.palette.text.darkShadedGray,
         fontSize: 32,
         lineHeight: "57px",
@@ -25,6 +25,7 @@ export const useStyles = theme => ({
             fontSize: 28,
             marginTop: 15,
         },
+        "@media(max-width: 768px)": { marginTop: 0 },
     },
     descriptionContainer: {
         "@media(max-width: 1023px)": {
