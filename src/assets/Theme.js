@@ -36,6 +36,7 @@ const aqua = "#00C48C";
 const errorRed = "#B00020";
 
 const offlineRed = "#EF5265";
+const offlineRedBg = "rgba(239,82,101,0.15)";
 
 const theme = createMuiTheme({
   palette: {
@@ -82,6 +83,7 @@ const theme = createMuiTheme({
     red: errorBgColor,
     white: whiteColor,
     githubBlack,
+    offlineRedBg,
   },
 });
 

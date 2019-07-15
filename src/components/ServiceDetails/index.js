@@ -9,6 +9,7 @@ import StyledTabs from "./StyledTabs";
 import AboutService from "./AboutService";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../Redux/actionCreators";
+import OfflineNotification from "../common/OfflineNotification";
 
 class ServiceDetails extends Component {
   state = {
@@ -54,11 +55,14 @@ class ServiceDetails extends Component {
       return null;
     }
     return (
-      <Grid container spacing={24} className={classes.serviceDetailContainer}>
-        <TitleCard org_id={service.org_id} display_name={service.display_name} />
-        <PricingDetails price_model={service.price_model} />
-        <StyledTabs tabs={tabs} activeTab={activeTab} onTabChange={this.handleTabChange} />
-      </Grid>
+      <div>
+        <OfflineNotification />
+        <Grid container spacing={24} className={classes.serviceDetailContainer}>
+          <TitleCard org_id={service.org_id} display_name={service.display_name} />
+          <PricingDetails price_model={service.price_model} />
+          <StyledTabs tabs={tabs} activeTab={activeTab} onTabChange={this.handleTabChange} />
+        </Grid>
+      </div>
     );
   }
 }
