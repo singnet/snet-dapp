@@ -4,7 +4,7 @@ import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/styles";
 
 import StyledButton from "../../common/StyledButton";
-import ErrorMsgBox from "../../common/ErrorMsgBox";
+import AlertBox from "../../common/AlertBox";
 import { useStyles } from "./styles";
 
 const RenderOTP = ({ classes, otp, handleOTP, handleResendOTP, handleConfirmSignup, error }) => {
@@ -32,7 +32,7 @@ const RenderOTP = ({ classes, otp, handleOTP, handleResendOTP, handleConfirmSign
           value={otp}
           onChange={handleOTP}
         />
-        <ErrorMsgBox errorMsg={error} />
+        <AlertBox type="error" message={error} />
         <div className={classes.buttonsContainer}>
           <StyledButton type="blue" btnText="Resend" onClick={handleResendOTP} />
           <StyledButton type="blue" btnText="Conitnue" onClick={handleConfirmSignup} />

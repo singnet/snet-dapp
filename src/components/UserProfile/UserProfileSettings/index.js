@@ -7,11 +7,11 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import { connect } from "react-redux";
 
-import ErrorMsgBox from "../../common/ErrorMsgBox";
 import StyledButton from "../../common/StyledButton";
 import { useStyles } from "./styles";
 import { userActions } from "../../../Redux/actionCreators";
 import Routes from "../../../utility/constants/Routes";
+import AlertBox from "../../common/AlertBox";
 
 class UserProfileSettings extends Component {
   state = {
@@ -83,9 +83,7 @@ class UserProfileSettings extends Component {
                 sent to your email.
               </p>
             </div>
-
-            <ErrorMsgBox errorMsg={error} />
-
+            <AlertBox message={error} />
             <div className={classes.btnContainer}>
               <StyledButton btnText="save changes" disabled />
               <StyledButton btnText="delete account" type="red" onClick={this.handleDelete} />
