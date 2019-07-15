@@ -19,7 +19,6 @@ const MessageBox = ({ classes, errorMsg, type }) => {
 
 MessageBox.propTypes = {
   type: PropTypes.oneOf(["error", "success"]),
-  showErr: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   errorMsg: PropTypes.string,
 };
 
