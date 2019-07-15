@@ -59,7 +59,7 @@ export const useStyles = makeStyles(theme => ({
   cardActions: {
     position: "absolute",
     right: 27,
-    top: "50%",
+    top: 41,
     transform: "translateY(-50%)",
   },
   showMore: {

@@ -9,6 +9,8 @@ import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import Typography from "@material-ui/core/Typography";
 
+import OfflineIndicator from "../../../../../common/OfflineIndicator";
+
 import { useStyles } from "./styles";
 
 const ServiceListItem = props => {
@@ -42,7 +44,6 @@ const ServiceListItem = props => {
         </Grid>
         <Grid item xs={12} sm={1} md={1} lg={1}>
           <CardActions className={classes.cardActions}>
-            <offlineIndicator />
             {/*<Button color="primary" className={classes.demoBtn}>
               demo
             </Button>*/}

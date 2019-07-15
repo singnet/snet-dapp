@@ -10,6 +10,7 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 
+import OfflineIndicator from "../../../../../common/OfflineIndicator";
 import { useStyles } from "./styles";
 
 const StyledCard = props => {
@@ -45,9 +46,10 @@ const StyledCard = props => {
         </Typography>
       </CardContent>
       <CardActions className={classes.cardActions}>
-        <Button color="primary" className={classes.detailsBtn}>
+        <OfflineIndicator />
+        {/*<Button color="primary" className={classes.detailsBtn}>
           deatils
-        </Button>
+        </Button> */}
         <IconButton aria-label="Settings" className={classes.showMore}>
           <MoreVertIcon />
         </IconButton>
