@@ -186,8 +186,8 @@ const forgotPasswordSuccessfull = ({ username, history, route }) => dispatch => 
 };
 
 const forgotPasswordFailure = error => dispatch => {
-  dispatch(loaderActions.stopAppLoader);
   dispatch(errorActions.updateForgotPasswordError(error));
+  dispatch(loaderActions.stopAppLoader);
 };
 
 export const forgotPassword = ({ username, history, route }) => dispatch => {
