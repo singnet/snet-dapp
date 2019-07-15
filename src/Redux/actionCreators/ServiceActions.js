@@ -1,8 +1,10 @@
 import { Root } from "protobufjs";
 import { Auth, API } from "aws-amplify";
 
-import { APIEndpoints } from "../../config/APIEndpoints";
+import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import GRPCProtoV3Spec from "../../assets/models/GRPCProtoV3Spec";
+import { loaderActions } from ".";
+import { LoaderContent } from "../../utility/constants/LoaderContent";
 
 export const UPDATE_SERVICE_LIST = "SET_SERVICE_LIST";
 export const UPDATE_PAGINATION_DETAILS = "SET_PAGINATION_DETAILS";
@@ -26,14 +28,16 @@ export const fetchService = pagination => async dispatch => {
 };
 
 export const invokeServiceMethod = data => dispatch => {
+  dispatch(loaderActions.startAppLoader(LoaderContent.SERVICE_INVOKATION));
   Auth.currentSession({ bypassCache: true }).then(currentSession => {
-    const apiName = APIEndpoints.GET_SERVICE_LIST.name;
-    const path = "/call-service";
-    const myInit = {
+    const apiName = APIEndpoints.INVOKE_SERVICE.name;
+    const path = `${APIPaths.INVOKE_SERVICE}-${data.service_id}`;
+    let myInit = {
       body: data,
       headers: { Authorization: currentSession.idToken.jwtToken },
     };
     API.post(apiName, path, myInit).then(response => {
+      dispatch(loaderActions.stopAppLoader);
       dispatch({
         type: UPDATE_SERVICE_EXECUTION_RESPONSE,
         payload: { response: JSON.parse(response.data), isComplete: true },
@@ -50,7 +54,6 @@ export const fetchProtoSpec = servicebufURL => dispatch => {
         new Promise(resolve => {
           const serviceSpecJSON = Root.fromJSON(serviceSpec[0]);
           const protoSpec = new GRPCProtoV3Spec(serviceSpecJSON);
-          dispatch({ type: UPDATE_SPEC_DETAILS, payload: { serviceSpecJSON, protoSpec } });
           resolve({ serviceSpecJSON, protoSpec });
         })
     );

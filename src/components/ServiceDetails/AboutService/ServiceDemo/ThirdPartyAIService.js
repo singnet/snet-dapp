@@ -16,7 +16,15 @@ class ThirdPartyAIService extends Component {
 
   sampleServices = new SampleServices();
 
+  componentDidMount = () => {
+    this.fetchAIServiceComponent();
+  };
+
   componentDidUpdate = () => {
+    this.fetchAIServiceComponent();
+  };
+
+  fetchAIServiceComponent = () => {
     const { org_id, service_id } = this.props;
     if (org_id && service_id && !this.state.AIServiceCustomComponent) {
       this.fetchServiceSpec(org_id, service_id);

@@ -66,6 +66,7 @@ class UserProfileSettings extends Component {
                 value={email}
                 margin="normal"
                 variant="outlined"
+                disabled
               />
             </div>
             <div>
