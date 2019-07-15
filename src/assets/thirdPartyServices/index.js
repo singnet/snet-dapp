@@ -164,7 +164,7 @@ export default class SampleServices {
     if (typeof component === "undefined") {
       component = this.serviceOrgIDToComponent[this.generateUniqueID(orgId, serviceId, defaultChainId)];
       if (typeof component === "undefined") {
-        component = <MessageBox type="error" errorMsg="No Component matched" />;
+        component = <MessageBox type="error" message="No Component matched" />;
       }
     }
     return component;

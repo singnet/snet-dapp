@@ -83,7 +83,7 @@ class UserProfileSettings extends Component {
                 sent to your email.
               </p>
             </div>
-            <MessageBox errorMsg={error} />
+            <MessageBox message={error} />
             <div className={classes.btnContainer}>
               <StyledButton btnText="save changes" disabled />
               <StyledButton btnText="delete account" type="red" onClick={this.handleDelete} />

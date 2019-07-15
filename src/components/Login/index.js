@@ -78,7 +78,7 @@ class Login extends Component {
               <div className={classes.checkbox} />
               <Link to={Routes.FORGOT_PASSWORD}>Forgot password?</Link>
             </div>
-            <MessageBox type="error" errorMsg={loginError} />
+            <MessageBox type="error" message={loginError} />
             <StyledButton type="blue" btnText="login" onClick={this.handleSubmit} />
           </form>
         </Grid>

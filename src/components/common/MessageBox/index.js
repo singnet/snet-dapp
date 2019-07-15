@@ -10,16 +10,16 @@ const backgroundColor = {
   success: "success",
 };
 
-const MessageBox = ({ classes, errorMsg, type }) => {
-  if (errorMsg) {
-    return <p className={clsx(classes.messageBox, classes[backgroundColor[type]])}>{errorMsg}</p>;
+const MessageBox = ({ classes, message, type }) => {
+  if (message) {
+    return <p className={clsx(classes.messageBox, classes[backgroundColor[type]])}>{message}</p>;
   }
   return null;
 };
 
 MessageBox.propTypes = {
   type: PropTypes.oneOf(["error", "success"]),
-  errorMsg: PropTypes.string,
+  message: PropTypes.string,
 };
 
 MessageBox.defaultProps = {

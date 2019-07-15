@@ -32,7 +32,7 @@ const RenderOTP = ({ classes, otp, handleOTP, handleResendOTP, handleConfirmSign
           value={otp}
           onChange={handleOTP}
         />
-        <MessageBox type="error" errorMsg={error} />
+        <MessageBox type="error" message={error} />
         <div className={classes.buttonsContainer}>
           <StyledButton type="blue" btnText="Resend" onClick={handleResendOTP} />
           <StyledButton type="blue" btnText="Conitnue" onClick={handleConfirmSignup} />

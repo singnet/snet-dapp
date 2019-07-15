@@ -41,7 +41,7 @@ const ForgotPassword = ({ classes, username, error, handleForgotPassword, histor
             value={localUsername}
             onChange={handleUsername}
           />
-          <MessageBox type="error" errorMsg={error} />
+          <MessageBox type="error" message={error} />
           <StyledButton type="blue" btnText="reset password" onClick={handleSubmit} />
         </form>
       </Grid>
