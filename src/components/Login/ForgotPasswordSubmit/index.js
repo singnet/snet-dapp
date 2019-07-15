@@ -1,13 +1,24 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import TextField from "@material-ui/core/TextField";
+import { withStyles } from "@material-ui/styles";
+import Grid from "@material-ui/core/Grid";
 
 import Routes from "../../../utility/constants/Routes";
-import { userActions } from "../../../Redux/actionCreators";
-import AlertBox from "../../common/AlertBox";
+import { userActions, errorActions } from "../../../Redux/actionCreators";
+import MessageBox from "../../common/MessageBox";
+import { useStyles } from "./styles";
+import StyledButton from "../../common/StyledButton";
 
-const ForgotPasswordSubmit = ({ history, error, username, forgotPasswordSubmit }) => {
-  const [code, setCode] = useState();
-  const [password, setPassword] = useState();
+const ForgotPasswordSubmit = ({ classes, history, error, username, forgotPasswordSubmit, updateError }) => {
+  const [showEmailSentAlert, setShowEmailSentAlert] = useState(true);
+  const [code, setCode] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const handleShowEmailSentAlert = () => {
+    setShowEmailSentAlert(false);
+  };
 
   const handleCode = event => {
     setCode(event.currentTarget.value);
@@ -17,32 +28,76 @@ const ForgotPasswordSubmit = ({ history, error, username, forgotPasswordSubmit }
     setPassword(event.currentTarget.value);
   };
 
+  const handleConfirmPassword = event => {
+    setConfirmPassword(event.target.value);
+  };
+
   const handleSubmit = event => {
     event.preventDefault();
+    if (password !== confirmPassword) {
+      updateError("password and confirm password do not match");
+      return;
+    }
     const route = `/${Routes.AI_MARKETPLACE}`;
     forgotPasswordSubmit({ username, code, password, history, error, route });
   };
 
+  if (showEmailSentAlert) {
+    return (
+      <section>
+        <p>Reset Password Email Sent.</p>
+        <p>Check your email for instructions. </p>
+        <p>
+          Click <span onClick={handleShowEmailSentAlert}>here</span> to enter the validation code
+        </p>
+      </section>
+    );
+  }
+
   return (
-    <div>
-      <form>
-        <div>
-          <label htmlFor="code">Enter Code to Reset Password</label>
-          <input id="code" type="password" value={code} onChange={handleCode} />
-        </div>
-        <div>
-          <label htmlFor="password">Enter the New Password</label>
-          <input id="password" type="password" value={password} onChange={handlePassword} />
-        </div>
-        <div>
-          <button type="submit" onClick={handleSubmit}>
-            Validate
-          </button>
-        </div>
-        <p>fghjk{error}</p>
-        <AlertBox error={error} />
-      </form>
-    </div>
+    <Grid container spacing={24}>
+      <Grid item xs={12} sm={12} md={12} lg={12} className={classes.forgotPwdContent}>
+        <h2>Verification Code</h2>
+        <p>Enter the verification code and new password.</p>
+        <form className={classes.forgotPwdForm}>
+          <TextField
+            id="outlined-code-input"
+            label="Code"
+            className={classes.textField}
+            type="text"
+            name="username"
+            margin="normal"
+            variant="outlined"
+            value={code}
+            onChange={handleCode}
+          />
+          <TextField
+            id="outlined-new-password-input"
+            label="New Password"
+            className={classes.textField}
+            type="password"
+            name="username"
+            margin="normal"
+            variant="outlined"
+            value={password}
+            onChange={handlePassword}
+          />
+          <TextField
+            id="outlined-confirm-password-input"
+            label="Confirm Password"
+            className={classes.textField}
+            type="password"
+            name="username"
+            margin="normal"
+            variant="outlined"
+            value={confirmPassword}
+            onChange={handleConfirmPassword}
+          />
+          <MessageBox errorMsg={error} />
+          <StyledButton type="blue" btnText="Reset Password" onClick={handleSubmit} />
+        </form>
+      </Grid>
+    </Grid>
   );
 };
 
@@ -53,9 +108,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   forgotPasswordSubmit: args => dispatch(userActions.forgotPasswordSubmit({ ...args })),
+  updateError: error => dispatch(errorActions.updateForgotPasswordSubmitError(error)),
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ForgotPasswordSubmit);
+)(withStyles(useStyles)(ForgotPasswordSubmit));
