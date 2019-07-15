@@ -56,7 +56,7 @@ class ServiceDetails extends Component {
     }
     return (
       <div>
-        <OfflineNotification />
+        <OfflineNotification showNotification={!service.is_available} />
         <Grid container spacing={24} className={classes.serviceDetailContainer}>
           <TitleCard org_id={service.org_id} display_name={service.display_name} />
           <PricingDetails price_model={service.price_model} />

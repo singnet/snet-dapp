@@ -7,7 +7,8 @@ import Grid from "@material-ui/core/Grid";
 import StyledButton from "../StyledButton";
 import { useStyles } from "./styles";
 
-const OfflineNotification = ({ classes }) => {
+const OfflineNotification = ({ classes, showNotification }) => {
+  if (!showNotification) return null;
   return (
     <Grid container className={classes.offlineNotification}>
       <Grid item xs={12} sm={12} md={6} lg={6} className={classes.notificationText}>
