@@ -22,7 +22,7 @@ class TermsOfUse extends Component {
       <div className={classes.onboardingContainer}>
         <div className={classes.termsOfUseContainer}>
           <h3>Review and Accept Terms of Service</h3>
-          <div className={classes.termsAndConditions}></div>
+          <div className={classes.termsAndConditions} />
           <div className={classes.checkboxAndButton}>
             <FormControlLabel
               control={<Checkbox checked={hasAcceptedTerms} onChange={this.handleAcceptTerms} color="primary" />}
