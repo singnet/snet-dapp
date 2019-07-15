@@ -5,6 +5,7 @@ import Divider from "@material-ui/core/Divider";
 import UserMenuItem from "./UserMenuItem";
 import { useStyles } from "./styles";
 import { UserMenuList, UserMenuActionList } from "../../../utility/constants/UserPopupMenu";
+import UserMenuAction from "./UserMenuAction";
 
 const UserMenu = ({ classes }) => {
   return (
@@ -14,7 +15,7 @@ const UserMenu = ({ classes }) => {
       ))}
       <Divider />
       {UserMenuActionList.map(action => (
-        <UserMenuItem key={action.Title} icon={action.menuIcon} title={action.menuTitle} linkTo={action.menuLink} />
+        <UserMenuAction key={action.Title} icon={action.menuIcon} title={action.menuTitle} action={action.action} />
       ))}
     </ul>
   );

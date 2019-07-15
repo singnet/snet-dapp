@@ -20,4 +20,7 @@ export const useStyles = theme => ({
     },
     "& hr": { margin: "22px 0 10px" },
   },
+  UserMenuAction: {
+    cursor: "pointer",
+  },
 });
