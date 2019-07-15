@@ -11,7 +11,7 @@ import StyledButton from "../../common/StyledButton";
 import { useStyles } from "./styles";
 import { userActions } from "../../../Redux/actionCreators";
 import Routes from "../../../utility/constants/Routes";
-import MessageBox from "../../common/MessageBox";
+import AlertBox from "../../common/AlertBox";
 
 class UserProfileSettings extends Component {
   state = {
@@ -83,7 +83,7 @@ class UserProfileSettings extends Component {
                 sent to your email.
               </p>
             </div>
-            <MessageBox errorMsg={error} />
+            <AlertBox message={error} />
             <div className={classes.btnContainer}>
               <StyledButton btnText="save changes" disabled />
               <StyledButton btnText="delete account" type="red" onClick={this.handleDelete} />

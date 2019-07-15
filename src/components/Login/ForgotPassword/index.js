@@ -4,7 +4,7 @@ import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
 
-import MessageBox from "../../common/MessageBox";
+import AlertBox from "../../common/AlertBox";
 import StyledButton from "../../common/StyledButton";
 import Routes from "../../../utility/constants/Routes";
 import { useStyles } from "./styles";
@@ -41,7 +41,7 @@ const ForgotPassword = ({ classes, username, error, handleForgotPassword, histor
             value={localUsername}
             onChange={handleUsername}
           />
-          <MessageBox type="error" errorMsg={error} />
+          <AlertBox type="error" message={error} />
           <StyledButton type="blue" btnText="reset password" onClick={handleSubmit} />
         </form>
       </Grid>
