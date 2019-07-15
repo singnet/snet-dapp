@@ -10,7 +10,13 @@ const NavBar = ({ data }) => {
     <nav>
       <ul className={classes.navUl}>
         {data.tabs.map(tab => (
-          <NavItem key={tab.title} title={tab.title} link={tab.link} active={tab.active} />
+          <NavItem
+            key={tab.title}
+            title={tab.title}
+            link={tab.link}
+            active={tab.active}
+            openInNewTab={tab.openInNewTab}
+          />
         ))}
         {data.dropdowns.map(dropdown => (
           <li key={dropdown.label} className={classes.navLinksDropDown}>

@@ -12,6 +12,7 @@ import { headerData } from "./utility/constants/Header";
 import withInAppWrapper from "./components/HOC/WithInAppHeader";
 import { userActions } from "./Redux/actionCreators";
 import PrivateRoute from "./components/common/PrivateRoute";
+import AppLoader from "./components/common/AppLoader";
 
 const ForgotPassword = lazy(() => import("./components/Login/ForgotPassword"));
 const ForgotPasswordSubmit = lazy(() => import("./components/Login/ForgotPasswordSubmit"));
@@ -20,10 +21,16 @@ const PageNotFound = lazy(() => import("./components/PageNotFound"));
 const AiMarketplace = lazy(() => import("./components/AiMarketplace"));
 const SignUp = lazy(() => import("./components/Login/Signup"));
 const Login = lazy(() => import("./components/Login"));
+const ServiceDetails = lazy(() => import("./components/ServiceDetails"));
+const UserProfile = lazy(() => import("./components/UserProfile"));
 
 Amplify.configure(aws_config);
 
 class App extends Component {
+  componentDidMount = () => {
+    this.props.setUserDetails();
+  };
+
   componentDidMount = () => {
     this.props.setUserDetails();
   };
@@ -48,16 +55,12 @@ class App extends Component {
                 <PrivateRoute
                   path={`/${Routes.FORGOT_PASSWORD}`}
                   {...this.props}
-                  component={withRegistrationHeader(ForgotPassword, {
-                    ...headerData.FORGOT_PASSWORD,
-                  })}
+                  component={withRegistrationHeader(ForgotPassword, headerData.FORGOT_PASSWORD)}
                 />
                 <PrivateRoute
                   path={`/${Routes.FORGOT_PASSWORD_SUBMIT}`}
                   {...this.props}
-                  component={withRegistrationHeader(ForgotPasswordSubmit, {
-                    ...headerData.FORGOT_PASSWORD_SUBMIT,
-                  })}
+                  component={withRegistrationHeader(ForgotPasswordSubmit, headerData.FORGOT_PASSWORD_SUBMIT)}
                 />
                 <PrivateRoute
                   path={`/${Routes.ONBOARDING}`}
@@ -65,12 +68,23 @@ class App extends Component {
                   component={withRegistrationHeader(Onboarding, headerData.ONBOARDING)}
                 />
                 <Route path={`/${Routes.AI_MARKETPLACE}`} {...this.props} component={withInAppWrapper(AiMarketplace)} />
+                <Route
+                  path={`/${Routes.SERVICE_DETAILS}/:service_row_id`}
+                  {...this.props}
+                  component={withInAppWrapper(ServiceDetails)}
+                />
+                <PrivateRoute
+                  path={`/${Routes.USER_PROFILE}`}
+                  {...this.props}
+                  component={withInAppWrapper(UserProfile)}
+                />
                 <Route path="/" exact {...this.props} component={withInAppWrapper(AiMarketplace)} />
                 <Route component={PageNotFound} />
               </Switch>
             </Suspense>
           </Router>
         </div>
+        <AppLoader />
       </ThemeProvider>
     );
   }

@@ -138,4 +138,16 @@ export const useStyles = makeStyles(theme => ({
     lineHeight: "16px",
   },
   UppercaseText: { textTransform: "uppercase" },
+  loggedInActions: {
+    "& span": {
+      color: theme.palette.text.lightShadedGray,
+      fontSize: 19,
+      verticalAlign: "-webkit-baseline-middle",
+      "&:last-of-type": {
+        paddingLeft: 18,
+        cursor: "pointer",
+        fontSize: 35,
+      },
+    },
+  },
 }));

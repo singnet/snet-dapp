@@ -3,11 +3,11 @@ import { connect } from "react-redux";
 
 import Logo from "../../../assets/images/Logo.png";
 import { useStyles } from "./styles";
-import { NavData } from "./data";
 import NavBar from "./NavBar";
 import HeaderActions from "./HeaderActions";
 import Title from "./Title";
 import MobileHeader from "./MobileHeader";
+import { NavData } from "../../../utility/constants/Header";
 
 const Header = ({ isLoggedIn }) => {
   const classes = useStyles();

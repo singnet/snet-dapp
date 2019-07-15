@@ -6,7 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import { connect } from "react-redux";
 
 import StyledButton from "../common/StyledButton";
-import ErrorMsgBox from "../common/ErrorMsgBox";
+import MessageBox from "../common/MessageBox";
 import Routes from "../../utility/constants/Routes";
 import { useStyles } from "./styles";
 import { userActions } from "../../Redux/actionCreators";
@@ -78,7 +78,7 @@ class Login extends Component {
               <div className={classes.checkbox} />
               <Link to={Routes.FORGOT_PASSWORD}>Forgot password?</Link>
             </div>
-            <ErrorMsgBox errorMsg={loginError} showErr={loginError} />
+            <MessageBox type="error" errorMsg={loginError} />
             <StyledButton type="blue" btnText="login" onClick={this.handleSubmit} />
           </form>
         </Grid>

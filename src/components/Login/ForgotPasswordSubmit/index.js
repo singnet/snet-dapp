@@ -1,58 +1,61 @@
-import React, { Component } from "react";
-import { Auth } from "aws-amplify";
+import React, { useState } from "react";
+import { connect } from "react-redux";
 
-import Session from "../../../utility/constants/Session";
 import Routes from "../../../utility/constants/Routes";
+import { userActions } from "../../../Redux/actionCreators";
+import MessageBox from "../../common/MessageBox";
 
-class ForgotPasswordSubmit extends Component {
-  state = {
-    code: "",
-    password: "",
+const ForgotPasswordSubmit = ({ history, error, username, forgotPasswordSubmit }) => {
+  const [code, setCode] = useState();
+  const [password, setPassword] = useState();
+
+  const handleCode = event => {
+    setCode(event.currentTarget.value);
   };
 
-  handleCode = event => {
-    this.setState({ code: event.currentTarget.value });
+  const handlePassword = event => {
+    setPassword(event.currentTarget.value);
   };
 
-  handlePassword = event => {
-    this.setState({ password: event.currentTarget.value });
-  };
-
-  handleSubmit = event => {
+  const handleSubmit = event => {
     event.preventDefault();
-    let username;
-    if (sessionStorage.getItem(Session.USERNAME)) {
-      username = sessionStorage.getItem(Session.USERNAME);
-    }
-    const { code, password } = this.state;
-    event.preventDefault();
-    Auth.forgotPasswordSubmit(username, code, password).then(res => {
-      this.props.history.push(Routes.AI_MARKETPLACE);
-    });
+    const route = `/${Routes.AI_MARKETPLACE}`;
+    forgotPasswordSubmit({ username, code, password, history, error, route });
   };
 
-  render() {
-    const { code, password } = this.state;
-    return (
-      <div>
-        <form>
-          <div>
-            <label htmlFor="code">Enter Code to Reset Password</label>
-            <input id="code" type="password" value={code} onChange={this.handleCode} />
-          </div>
-          <div>
-            <label htmlFor="password">Enter the New Password</label>
-            <input id="password" type="password" value={password} onChange={this.handlePassword} />
-          </div>
-          <div>
-            <button type="submit" onClick={this.handleSubmit}>
-              Validate
-            </button>
-          </div>
-        </form>
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <form>
+        <div>
+          <label htmlFor="code">Enter Code to Reset Password</label>
+          <input id="code" type="password" value={code} onChange={handleCode} />
+        </div>
+        <div>
+          <label htmlFor="password">Enter the New Password</label>
+          <input id="password" type="password" value={password} onChange={handlePassword} />
+        </div>
+        <div>
+          <button type="submit" onClick={handleSubmit}>
+            Validate
+          </button>
+        </div>
+        <p>fghjk{error}</p>
+        <MessageBox error={error} />
+      </form>
+    </div>
+  );
+};
 
-export default ForgotPasswordSubmit;
+const mapStateToProps = state => ({
+  username: state.userReducer.username,
+  error: state.errorReducer.forgotPasswordSubmit,
+});
+
+const mapDispatchToProps = dispatch => ({
+  forgotPasswordSubmit: args => dispatch(userActions.forgotPasswordSubmit({ ...args })),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ForgotPasswordSubmit);
