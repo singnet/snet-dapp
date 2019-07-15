@@ -3,6 +3,7 @@ import { Auth, API } from "aws-amplify";
 import { APIEndpoints } from "../../config/APIEndpoints";
 import { parseError } from "../../utility/ErrorHandling";
 import { userActions, errorActions, loaderActions } from ".";
+import { LoaderContent } from "../../utility/constants/LoaderContent";
 
 export const SET_USER_DETAILS = "SET_USER_DETAILS";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
@@ -66,7 +67,7 @@ export const login = ({ username, password }) => dispatch => {
     })
     .catch(err => {
       if (err.code === "UserNotConfirmedException") {
-        dispatch(() => updateUsername(username));
+        dispatch(updateUsername(username));
         userDetails = {
           type: userActions.LOGIN_SUCCESS,
           payload: { login: { isLoggedIn: true } },
@@ -148,34 +149,35 @@ const userDeleted = ({ history, route }) => dispatch => {
   });
   history.push(route);
 };
-const deleteUser = user =>
+const deleteUser = (user, { history, route }) => dispatch => {
   new Promise((resolve, reject) => {
     user.deleteUser(error => {
       if (error) {
         reject(error);
+        dispatch(loaderActions.stopAppLoader);
       }
       resolve();
     });
+  }).then(() => {
+    dispatch(loaderActions.stopAppLoader);
+    dispatch(userDeleted({ history, route }));
   });
-
+};
 const fetchCurrentUser = () => {
   return Auth.currentAuthenticatedUser({ bypassCache: true });
 };
 
 export const deleteUserAccount = ({ history, route }) => dispatch => {
+  dispatch(loaderActions.startAppLoader(LoaderContent.DELETE_USER));
   dispatch(() =>
     fetchCurrentUser().then(user => {
-      dispatch(() =>
-        deleteUser(user).then(() => {
-          dispatch(userDeleted({ history, route }));
-        })
-      );
+      dispatch(deleteUser(user, { history, route }));
     })
   );
 };
 
 const forgotPasswordInit = dispatch => {
-  dispatch(loaderActions.startAppLoader);
+  dispatch(loaderActions.startAppLoader(LoaderContent.FORGOT_PASSWORD));
   dispatch(errorActions.resetForgotPasswordError);
 };
 
@@ -202,7 +204,7 @@ export const forgotPassword = ({ username, history, route }) => dispatch => {
 };
 
 const forgotPasswordSubmitInit = dispatch => {
-  dispatch(loaderActions.startAppLoader);
+  dispatch(loaderActions.startAppLoader(LoaderContent.FORGOT_PASSWORD_SUBMIT));
   dispatch(errorActions.resetForgotPasswordSubmitError);
 };
 
