@@ -29,6 +29,7 @@ export const useStyles = theme => ({
       },
     },
   },
+  creditsCount: { display: "none" },
   creditsRemaining: {
     lineHeight: "16px",
     fontSize: 16,
