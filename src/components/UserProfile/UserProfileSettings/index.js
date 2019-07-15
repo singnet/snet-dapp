@@ -10,7 +10,6 @@ import { connect } from "react-redux";
 import ErrorMsgBox from "../../common/ErrorMsgBox";
 import StyledButton from "../../common/StyledButton";
 import { useStyles } from "./styles";
-import Session from "../../../utility/constants/Session";
 import { userActions } from "../../../Redux/actionCreators";
 import Routes from "../../../utility/constants/Routes";
 
@@ -40,9 +39,8 @@ class UserProfileSettings extends Component {
   };
 
   render() {
-    const { classes, email } = this.props;
+    const { classes, email, userName } = this.props;
     const { error } = this.state;
-    const userName = sessionStorage.getItem(Session.USERNAME);
     return (
       <Grid container spacing={24} className={classes.settingMainContainer}>
         <Grid item xs={12} sm={12} md={8} lg={8} className={classes.settingsContainer}>

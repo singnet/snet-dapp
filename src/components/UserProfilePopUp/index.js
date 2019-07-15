@@ -5,6 +5,9 @@ import UserProfilePopUpHeader from "./UserProfilePopUpHeader";
 import UserMenu from "./UserMenu";
 import { useStyles } from "./styles";
 import useOutsideClick from "../Hooks/useOutsideClick";
+import Session from "../../utility/constants/Session";
+
+const userName = sessionStorage.getItem(Session.USERNAME);
 
 const UserProfilePopUp = ({ classes, handleClick }) => {
   const wrapperRef = useRef(null);
@@ -13,7 +16,7 @@ const UserProfilePopUp = ({ classes, handleClick }) => {
   return (
     <div ref={wrapperRef}>
       <div className={classes.UserProfilePopUpContainer}>
-        <UserProfilePopUpHeader userName="waythingswork" remainingCredits="120" usedCredits="30" />
+        <UserProfilePopUpHeader userName={userName} remainingCredits="120" usedCredits="30" />
         <UserMenu />
       </div>
     </div>
