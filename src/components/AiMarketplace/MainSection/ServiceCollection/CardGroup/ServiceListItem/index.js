@@ -9,6 +9,7 @@ import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import Typography from "@material-ui/core/Typography";
 
+import OfflineIndicator from "../../../../../common/OfflineIndicator";
 import { useStyles } from "./styles";
 
 const ServiceListItem = props => {

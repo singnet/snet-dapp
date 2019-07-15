@@ -35,6 +35,8 @@ const aqua = "#00C48C";
 
 const errorRed = "#B00020";
 
+const offlineRed = "#EF5265";
+
 const theme = createMuiTheme({
   palette: {
     text: {
@@ -60,6 +62,7 @@ const theme = createMuiTheme({
       iconColor,
       errorRed,
       RatingStarColor,
+      offlineRed,
     },
   },
   typography: {

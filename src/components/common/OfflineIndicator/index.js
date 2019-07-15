@@ -6,16 +6,13 @@ import Icon from "@material-ui/core/Icon";
 
 import { useStyles } from "./styles";
 
-const OfflineIndicator = ({ isOffline }) => {
-  if (isOffline) {
-    return (
-      <div>
-        <Icon className={clsx(classes.icon, "fa fa-search")} />
-        <span>Currently Offline</span>
-      </div>
-    );
-  }
-  return null;
+const OfflineIndicator = ({ classes }) => {
+  return (
+    <div className={classes.offlineIndicator}>
+      <Icon className={clsx(classes.icon, "fas fa-exclamation")} />
+      <span>Currently Offline</span>
+    </div>
+  );
 };
 
 export default withStyles(useStyles)(OfflineIndicator);
