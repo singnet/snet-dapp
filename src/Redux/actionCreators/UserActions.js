@@ -135,7 +135,6 @@ export const checkWalletStatus = username => (dispatch, getState) => {
 };
 
 const userDeleted = ({ history, route }) => dispatch => {
-  history.push(route);
   dispatch({
     type: SET_USER_DETAILS,
     payload: {
@@ -147,6 +146,7 @@ const userDeleted = ({ history, route }) => dispatch => {
       email: "",
     },
   });
+  history.push(route);
 };
 const deleteUser = user =>
   new Promise((resolve, reject) => {
