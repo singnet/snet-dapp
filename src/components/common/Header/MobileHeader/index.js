@@ -17,9 +17,9 @@ const MobileHeader = ({ classes, data, isLoggedIn, hamburgerMenu, updateHamburge
   if (!hamburgerMenu) {
     return (
       <div className={classes.hamburger} onClick={toggleMobileMenu}>
-        <span></span>
-        <span></span>
-        <span></span>
+        <span />
+        <span />
+        <span />
       </div>
     );
   }

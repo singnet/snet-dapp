@@ -81,7 +81,7 @@ const RenderForm = ({
             onChange={handlePassword}
           />
           <MessageBox type="error" errorMsg={error} />
-          <div style={{ marginTop: 20 }}></div>
+          <div style={{ marginTop: 20 }} />
           <StyledButton type="blue" btnText="Sign up for free credits" onClick={handleSubmit} />
         </form>
       </Grid>

@@ -15,7 +15,7 @@ const PricingDetails = ({ classes, price_model }) => {
         <Price unit="agi tokens" value="0.000001" />
       </div>
       <p>
-        <i className="fas fa-info-circle"></i>
+        <i className="fas fa-info-circle" />
         <span>{price_model}</span>
       </p>
       <StyledButton btnText="demo" />
