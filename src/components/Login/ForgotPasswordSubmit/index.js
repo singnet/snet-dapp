@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import TextField from "@material-ui/core/TextField";
+import { withStyles } from "@material-ui/styles";
+import Grid from "@material-ui/core/Grid";
 
 import Routes from "../../../utility/constants/Routes";
 import { userActions } from "../../../Redux/actionCreators";
 import MessageBox from "../../common/MessageBox";
+import { useStyles } from "./styles";
+import StyledButton from "../../common/StyledButton";
 
-const ForgotPasswordSubmit = ({ history, error, username, forgotPasswordSubmit }) => {
+const ForgotPasswordSubmit = ({ classes, history, error, username, forgotPasswordSubmit }) => {
   const [code, setCode] = useState();
   const [password, setPassword] = useState();
 
@@ -24,25 +29,38 @@ const ForgotPasswordSubmit = ({ history, error, username, forgotPasswordSubmit }
   };
 
   return (
-    <div>
-      <form>
-        <div>
-          <label htmlFor="code">Enter Code to Reset Password</label>
-          <input id="code" type="password" value={code} onChange={handleCode} />
-        </div>
-        <div>
-          <label htmlFor="password">Enter the New Password</label>
-          <input id="password" type="password" value={password} onChange={handlePassword} />
-        </div>
-        <div>
-          <button type="submit" onClick={handleSubmit}>
-            Validate
-          </button>
-        </div>
-        <p>fghjk{error}</p>
-        <MessageBox error={error} />
-      </form>
-    </div>
+    <Grid container spacing={24}>
+      <Grid item xs={12} sm={12} md={12} lg={12} className={classes.forgotPwdContent}>
+        <h2>Verification Code</h2>
+        <p>Enter the verification code and new passoword.</p>
+        <form className={classes.forgotPwdForm}>
+          <TextField
+            id="outlined-code-input"
+            label="Code"
+            className={classes.textField}
+            type="text"
+            name="username"
+            margin="normal"
+            variant="outlined"
+            value={code}
+            onChange={handleCode}
+          />
+          <TextField
+            id="outlined-new-password-input"
+            label="New Password"
+            className={classes.textField}
+            type="password"
+            name="username"
+            margin="normal"
+            variant="outlined"
+            value={password}
+            onChange={handlePassword}
+          />
+          <StyledButton type="blue" btnText="Reset Password" onClick={handleSubmit} />
+          <MessageBox errorMsg={error} />
+        </form>
+      </Grid>
+    </Grid>
   );
 };
 
@@ -58,4 +76,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ForgotPasswordSubmit);
+)(withStyles(useStyles)(ForgotPasswordSubmit));
