@@ -53,7 +53,7 @@ class TermsOfUse extends Component {
       <div className={classes.walletKeyContainer}>
         <h3>Wallet Key</h3>
         <p>
-          <span></span>
+          <span />
         </p>
         {privateKey ? (
           <p className={classes.privateKey}>{privateKey}</p>

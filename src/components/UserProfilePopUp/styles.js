@@ -65,13 +65,14 @@ export const useStyles = theme => ({
     display: "flex",
     alignItems: "center",
     "& span": {
+      cursor: "pointer",
       "&:first-of-type": {
         marginRight: 18,
         color: theme.palette.text.lightShadedGray,
         fontSize: 19,
       },
       "&:last-of-type": {
-        color: theme.palette.text.lightShadedGray,
+        color: theme.palette.text.white,
         fontSize: 35,
       },
     },

@@ -3,7 +3,7 @@ import { Auth, API } from "aws-amplify";
 
 import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import GRPCProtoV3Spec from "../../assets/models/GRPCProtoV3Spec";
-import { loaderActions } from ".";
+import { loaderActions } from "./";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
 
 export const UPDATE_SERVICE_LIST = "SET_SERVICE_LIST";
