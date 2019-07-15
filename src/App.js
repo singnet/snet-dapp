@@ -12,6 +12,7 @@ import { headerData } from "./utility/constants/Header";
 import withInAppWrapper from "./components/HOC/WithInAppHeader";
 import { userActions } from "./Redux/actionCreators";
 import PrivateRoute from "./components/common/PrivateRoute";
+import AppLoader from "./components/common/AppLoader";
 
 const ForgotPassword = lazy(() => import("./components/Login/ForgotPassword"));
 const ForgotPasswordSubmit = lazy(() => import("./components/Login/ForgotPasswordSubmit"));
@@ -21,6 +22,7 @@ const AiMarketplace = lazy(() => import("./components/AiMarketplace"));
 const SignUp = lazy(() => import("./components/Login/Signup"));
 const Login = lazy(() => import("./components/Login"));
 const ServiceDetails = lazy(() => import("./components/ServiceDetails"));
+const UserProfile = lazy(() => import("./components/UserProfile"));
 
 Amplify.configure(aws_config);
 
@@ -69,11 +71,17 @@ class App extends Component {
                 {...this.props}
                 component={withInAppWrapper(ServiceDetails)}
               />
+              <PrivateRoute
+                path={`/${Routes.USER_PROFILE}`}
+                {...this.props}
+                component={withInAppWrapper(UserProfile)}
+              />
               <Route path="/" exact {...this.props} component={withInAppWrapper(AiMarketplace)} />
               <Route component={PageNotFound} />
             </Switch>
           </Suspense>
         </Router>
+        <AppLoader />
       </ThemeProvider>
     );
   }

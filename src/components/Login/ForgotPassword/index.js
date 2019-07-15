@@ -1,68 +1,65 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/styles";
-import { Auth } from "aws-amplify";
+import { connect } from "react-redux";
 
 import ErrorMsgBox from "../../common/ErrorMsgBox";
 import StyledButton from "../../common/StyledButton";
 import Routes from "../../../utility/constants/Routes";
-import Session from "../../../utility/constants/Session";
 import { useStyles } from "./styles";
+import { userActions } from "../../../Redux/actionCreators";
 
-class ForgotPassword extends Component {
-  state = {
-    username: "",
-    error: undefined,
+const ForgotPassword = ({ classes, username, error, handleForgotPassword, history }) => {
+  const [localUsername, setUsername] = useState(username);
+
+  const handleUsername = event => {
+    setUsername(event.target.value);
   };
 
-  handleUsername = event => {
-    this.setState({ username: event.currentTarget.value });
-  };
-
-  handleSubmit = event => {
-    this.setState({ error: undefined });
-    const { username } = this.state;
-
+  const handleSubmit = event => {
     event.preventDefault();
     event.stopPropagation();
-    Auth.forgotPassword(username)
-      .then(res => {
-        sessionStorage.setItem(Session.USERNAME, username);
-        this.props.history.push(Routes.FORGOT_PASSWORD_SUBMIT);
-      })
-      .catch(err => {
-        this.setState({ error: err.message });
-      });
+    const route = `/${Routes.FORGOT_PASSWORD_SUBMIT}`;
+    handleForgotPassword({ username: localUsername, history, route });
   };
 
-  render() {
-    const { classes } = this.props;
-    const { username, error } = this.state;
-
-    return (
-      <Grid container spacing={24}>
-        <Grid item xs={12} sm={12} md={12} lg={12} className={classes.forgotPwdContent}>
-          <h2>Forgot your pasword?</h2>
-          <p>We'll email you instructions on how to reset it.</p>
-          <form noValidate autoComplete="off" className={classes.forgotPwdForm}>
-            <TextField
-              id="outlined-username-input"
-              label="Email"
-              className={classes.textField}
-              type="text"
-              name="username"
-              margin="normal"
-              variant="outlined"
-              value={username}
-              onChange={this.handleUsername}
-            />
-            <ErrorMsgBox errorMsg={error} showErr={error} />
-            <StyledButton type="blue" btnText="reset password" onClick={this.handleSubmit} />
-          </form>
-        </Grid>
+  return (
+    <Grid container spacing={24}>
+      <Grid item xs={12} sm={12} md={12} lg={12} className={classes.forgotPwdContent}>
+        <h2>Forgot your pasword?</h2>
+        <p>We'll email you instructions on how to reset it.</p>
+        <form noValidate autoComplete="off" className={classes.forgotPwdForm}>
+          <TextField
+            id="outlined-username-input"
+            label="Username"
+            className={classes.textField}
+            type="text"
+            name="username"
+            margin="normal"
+            variant="outlined"
+            value={localUsername}
+            onChange={handleUsername}
+          />
+          <ErrorMsgBox errorMsg={error} />
+          <StyledButton type="blue" btnText="reset password" onClick={handleSubmit} />
+        </form>
       </Grid>
-    );
-  }
-}
-export default withStyles(useStyles)(ForgotPassword);
+    </Grid>
+  );
+};
+
+const mapStateToProps = state => ({
+  username: state.userReducer.username,
+  error: state.errorReducer.forgotPassword,
+});
+
+const mapDispatchToProps = dispatch => ({
+  updateUsername: username => dispatch(userActions.updateUsername(username)),
+  handleForgotPassword: args => dispatch(userActions.forgotPassword({ ...args })),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(useStyles)(ForgotPassword));
