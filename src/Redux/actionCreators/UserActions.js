@@ -86,6 +86,7 @@ export const login = ({ username, password }) => dispatch => {
 };
 
 export const signOut = dispatch => {
+  dispatch(loaderActions.startAppLoader(LoaderContent.SIGN_OUT));
   let userDetails = {
     type: SIGN_OUT,
     payload: {
@@ -104,7 +105,10 @@ export const signOut = dispatch => {
         loading: false,
       };
     })
-    .finally(() => dispatch(userDetails));
+    .finally(() => {
+      dispatch(userDetails);
+      dispatch(loaderActions.stopAppLoader);
+    });
 };
 
 export const checkWalletStatus = username => (dispatch, getState) => {

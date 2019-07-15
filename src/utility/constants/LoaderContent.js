@@ -15,4 +15,8 @@ export const LoaderContent = {
     loaderHeader: "Invoking Third Party Service",
     loaderText: "User profile will be deleted completely and all the records will be removed",
   },
+  SIGN_OUT: {
+    loaderHeader: "Signing Out",
+    loaderText: "You will be signed out of the portal",
+  },
 };
