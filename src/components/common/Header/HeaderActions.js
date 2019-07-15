@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 
 import { useStyles } from "./styles";
 import Routes from "../../../utility/constants/Routes";
-import SignOut from "./SignOut";
+import UserProfileToggler from "../../UserProfilePopUp/UserProfileToggler";
 
 const HeaderActions = ({ isLoggedIn }) => {
   const classes = useStyles();
   return (
     <ul className={classes.loginBtnsUl}>
       {isLoggedIn ? (
-        <SignOut />
+        <UserProfileToggler />
       ) : (
         <Fragment>
           <li className={classes.loginBtnsLi}>

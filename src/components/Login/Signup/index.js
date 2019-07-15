@@ -2,14 +2,15 @@ import React, { Component } from "react";
 import { Auth } from "aws-amplify";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
+import { connect } from "react-redux";
 
 import Routes from "../../../utility/constants/Routes";
 import { isValidEmail } from "../../../utility/Validation";
-import Session from "../../../utility/constants/Session";
 import { parseError } from "../../../utility/ErrorHandling";
 import { useStyles } from "./styles";
 import RenderForm from "./RenderForm";
 import RenderOTP from "./RenderOTP";
+import { userActions } from "../../../Redux/actionCreators";
 
 class SignUp extends Component {
   state = {
@@ -67,7 +68,7 @@ class SignUp extends Component {
       },
     })
       .then(user => {
-        sessionStorage.setItem(Session.USERNAME, username);
+        this.props.updateUsername(username);
         this.setState({ toBeConfirmed: true });
       })
       .catch(err => this.setState({ error: err.message }));
@@ -79,7 +80,7 @@ class SignUp extends Component {
     event.stopPropagation();
     Auth.confirmSignUp(username, otp)
       .then(res => {
-        sessionStorage.setItem(Session.USERNAME, username);
+        this.props.updateUsername(username);
         this.props.history.push(Routes.LOGIN);
       })
       .catch(err => {
@@ -131,4 +132,11 @@ class SignUp extends Component {
   }
 }
 
-export default withStyles(useStyles)(SignUp);
+const mapDispatchToProps = dispatch => ({
+  updateUsername: username => dispatch(userActions.updateUsername(username)),
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(withStyles(useStyles)(SignUp));
