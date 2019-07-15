@@ -5,14 +5,15 @@ import { withStyles } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 
 import Routes from "../../../utility/constants/Routes";
-import { userActions } from "../../../Redux/actionCreators";
+import { userActions, errorActions } from "../../../Redux/actionCreators";
 import MessageBox from "../../common/MessageBox";
 import { useStyles } from "./styles";
 import StyledButton from "../../common/StyledButton";
 
-const ForgotPasswordSubmit = ({ classes, history, error, username, forgotPasswordSubmit }) => {
-  const [code, setCode] = useState();
-  const [password, setPassword] = useState();
+const ForgotPasswordSubmit = ({ classes, history, error, username, forgotPasswordSubmit, updateError }) => {
+  const [code, setCode] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleCode = event => {
     setCode(event.currentTarget.value);
@@ -22,8 +23,16 @@ const ForgotPasswordSubmit = ({ classes, history, error, username, forgotPasswor
     setPassword(event.currentTarget.value);
   };
 
+  const handleConfirmPassword = event => {
+    setConfirmPassword(event.target.value);
+  };
+
   const handleSubmit = event => {
     event.preventDefault();
+    if (password !== confirmPassword) {
+      updateError("password and confirm password do not match");
+      return;
+    }
     const route = `/${Routes.AI_MARKETPLACE}`;
     forgotPasswordSubmit({ username, code, password, history, error, route });
   };
@@ -32,7 +41,7 @@ const ForgotPasswordSubmit = ({ classes, history, error, username, forgotPasswor
     <Grid container spacing={24}>
       <Grid item xs={12} sm={12} md={12} lg={12} className={classes.forgotPwdContent}>
         <h2>Verification Code</h2>
-        <p>Enter the verification code and new passoword.</p>
+        <p>Enter the verification code and new password.</p>
         <form className={classes.forgotPwdForm}>
           <TextField
             id="outlined-code-input"
@@ -56,8 +65,19 @@ const ForgotPasswordSubmit = ({ classes, history, error, username, forgotPasswor
             value={password}
             onChange={handlePassword}
           />
-          <StyledButton type="blue" btnText="Reset Password" onClick={handleSubmit} />
+          <TextField
+            id="outlined-confirm-password-input"
+            label="Confirm Password"
+            className={classes.textField}
+            type="password"
+            name="username"
+            margin="normal"
+            variant="outlined"
+            value={confirmPassword}
+            onChange={handleConfirmPassword}
+          />
           <MessageBox errorMsg={error} />
+          <StyledButton type="blue" btnText="Reset Password" onClick={handleSubmit} />
         </form>
       </Grid>
     </Grid>
@@ -71,6 +91,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   forgotPasswordSubmit: args => dispatch(userActions.forgotPasswordSubmit({ ...args })),
+  updateError: error => dispatch(errorActions.updateForgotPasswordSubmitError(error)),
 });
 
 export default connect(
