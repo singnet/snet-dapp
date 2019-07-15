@@ -5,8 +5,8 @@ export const useStyles = makeStyles(theme => ({
     alignItems: "center",
     display: "flex",
     backgroundColor: theme.palette.text.purple,
-    padding: "15px 65px 15px 60px",
-    "@media (max-width:1280px)": { padding: "15px 10px" },
+    padding: "12px 65px 4px 60px",
+    "@media (max-width:1280px)": { padding: "13px 10px 3px 10px" },
     "@media (max-width:768px)": { padding: "15px 22" },
     "@media (max-width:480px)": {
       flexDirection: "column",
@@ -59,12 +59,12 @@ export const useStyles = makeStyles(theme => ({
     },
     "& label": {
       fontSize: 16,
-      top: "-17px",
+      top: "-20px",
       color: theme.palette.text.lightShadedGray,
       "& + div": {
         margin: 0,
         "& svg": {
-          top: "calc(50% - 15px)",
+          top: "calc(50% - 19px)",
           right: "-35px",
           color: theme.palette.text.lightShadedGray,
           fontSize: 30,
@@ -89,6 +89,7 @@ export const useStyles = makeStyles(theme => ({
   },
   loginBtnsSection: {
     width: "30%",
+    marginBottom: 6,
     "@media (max-width:1024px)": { width: "35%" },
     "@media (max-width: 587px)": { width: "50%" },
     "@media (max-width:480px)": {
