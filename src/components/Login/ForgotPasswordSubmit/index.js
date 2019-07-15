@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 import Routes from "../../../utility/constants/Routes";
 import { userActions } from "../../../Redux/actionCreators";
-import ErrorMsgBox from "../../common/ErrorMsgBox";
+import AlertBox from "../../common/AlertBox";
 
 const ForgotPasswordSubmit = ({ history, error, username, forgotPasswordSubmit }) => {
   const [code, setCode] = useState();
@@ -40,7 +40,7 @@ const ForgotPasswordSubmit = ({ history, error, username, forgotPasswordSubmit }
           </button>
         </div>
         <p>fghjk{error}</p>
-        <ErrorMsgBox error={error} />
+        <AlertBox error={error} />
       </form>
     </div>
   );

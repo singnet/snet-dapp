@@ -9,6 +9,9 @@ const mediumShadeGray = "#666";
 const lightShadedGray = "#9b9b9b";
 const grayTitleText = "#4a4a4a";
 
+const succesBoxBg = "#E7FFF8";
+const successBoxBorder = "#00C48C";
+
 const lightGray = "#D6D6D6";
 const disabledBtnBg = "#ccc";
 
@@ -62,6 +65,7 @@ const theme = createMuiTheme({
       iconColor,
       errorRed,
       RatingStarColor,
+      successBoxBorder,
       grayTitleText,
       redBtnText,
     },
@@ -83,6 +87,7 @@ const theme = createMuiTheme({
     red: errorBgColor,
     white: whiteColor,
     githubBlack,
+    succesBoxBg,
   },
 });
 
