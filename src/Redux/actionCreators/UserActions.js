@@ -136,7 +136,6 @@ export const checkWalletStatus = username => (dispatch, getState) => {
 };
 
 const userDeleted = ({ history, route }) => dispatch => {
-  history.push(route);
   dispatch({
     type: SET_USER_DETAILS,
     payload: {
@@ -148,6 +147,7 @@ const userDeleted = ({ history, route }) => dispatch => {
       email: "",
     },
   });
+  history.push(route);
 };
 const deleteUser = (user, { history, route }) => dispatch => {
   new Promise((resolve, reject) => {
@@ -188,8 +188,8 @@ const forgotPasswordSuccessfull = ({ username, history, route }) => dispatch => 
 };
 
 const forgotPasswordFailure = error => dispatch => {
-  dispatch(loaderActions.stopAppLoader);
   dispatch(errorActions.updateForgotPasswordError(error));
+  dispatch(loaderActions.stopAppLoader);
 };
 
 export const forgotPassword = ({ username, history, route }) => dispatch => {
@@ -215,8 +215,8 @@ const forgotPasswordSubmitSuccessfull = ({ username, history, route }) => dispat
 };
 
 const forgotPasswordSubmitFailure = error => dispatch => {
-  dispatch(loaderActions.stopAppLoader);
   dispatch(errorActions.updateForgotPasswordSubmitError(error));
+  dispatch(loaderActions.stopAppLoader);
 };
 
 export const forgotPasswordSubmit = ({ username, code, password, history, route }) => dispatch => {
