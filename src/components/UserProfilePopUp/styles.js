@@ -70,10 +70,12 @@ export const useStyles = theme => ({
         marginRight: 18,
         color: theme.palette.text.lightShadedGray,
         fontSize: 19,
+        display: "none",
       },
       "&:last-of-type": {
-        color: theme.palette.text.white,
+        color: theme.palette.text.lightShadedGray,
         fontSize: 35,
+        "&:hover": { color: theme.palette.text.white },
       },
     },
   },
