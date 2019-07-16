@@ -31,6 +31,7 @@ export const useStyles = makeStyles(theme => ({
   logoIcon: { width: "100%" },
   navigationSection: {
     width: "58%",
+    marginBottom: 10,
     "@media (max-width:1024px)": { display: "none" },
   },
   navUl: {
@@ -53,34 +54,11 @@ export const useStyles = makeStyles(theme => ({
   },
   navLinksDropDown: {
     listStyle: "none",
-    "& > div": { width: 70 },
-    "& .MuiFormLabel-root.Mui-focused": {
-      color: theme.palette.text.lightShadedGray,
-    },
-    "& label": {
-      fontSize: 16,
-      top: "-20px",
-      color: theme.palette.text.lightShadedGray,
-      "& + div": {
-        margin: 0,
-        "& svg": {
-          top: "calc(50% - 19px)",
-          right: "-35px",
-          color: theme.palette.text.lightShadedGray,
-          fontSize: 30,
-        },
-        "&::after": {
-          border: "1px solid #fff",
-          bottom: "-8px",
-        },
-      },
-      "& option": {
-        color: theme.palette.text.white,
-      },
-    },
+    "& select": { color: theme.palette.text.lightShadedGray },
+    "& svg": { color: theme.palette.text.lightShadedGray },
   },
   activeTab: {
-    paddingBottom: 12,
+    paddingBottom: 4,
     fontWeight: theme.typography.fontweight,
     borderBottomWidth: "2px",
     borderBottomStyle: "solid",

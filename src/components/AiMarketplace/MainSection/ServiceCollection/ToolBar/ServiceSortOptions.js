@@ -21,7 +21,7 @@ const ServiceSortOptions = ({ pagination, updatePagination, fetchService }) => {
   return (
     <Fragment>
       <span className={classes.sortbyTxt}>Sort by:</span>
-      <StyledDropdown list={sortByCategories} value={activeSortItem} onChange={handleSortChange} />
+      <StyledDropdown list={sortByCategories} labelTxt={activeSortItem} onChange={handleSortChange} />
     </Fragment>
   );
 };

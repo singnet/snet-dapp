@@ -7,6 +7,7 @@ export const useStyles = makeStyles(theme => ({
   sortBySection: {
     display: "flex",
     alignItems: "flex-end",
+    "& svg": { color: theme.palette.text.primary },
   },
   sortbyTxt: {
     padding: "0 17px 5px 0",
