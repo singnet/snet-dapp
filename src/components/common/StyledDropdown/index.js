@@ -22,7 +22,7 @@ const StyledDropdown = ({ labelTxt, list, value, onChange }) => {
           placeholder: "labelTxt",
         }}
       >
-        <option></option>
+        <option />
         {list.map(item => (
           <option key={item.value} value={item.value}>
             {item.label}

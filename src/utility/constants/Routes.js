@@ -6,6 +6,7 @@ const Routes = {
   ONBOARDING: "onboarding",
   AI_MARKETPLACE: "aimarketplace",
   SERVICE_DETAILS: "servicedetails",
+  USER_PROFILE: "userprofile",
 };
 
 export default Routes;

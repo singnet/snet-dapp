@@ -19,4 +19,8 @@ const NavItem = ({ active, title, link, openInNewTab }) => {
   );
 };
 
+NavItem.defaultProps = {
+  link: "#",
+};
+
 export default NavItem;

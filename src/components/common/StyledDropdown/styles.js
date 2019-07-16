@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/styles";
 export const useStyles = makeStyles(theme => ({
   formControl: {
     "& label": {
-      fontSize: 18,
+      fontFamily: theme.typography.primary.main,
       "& div": {
         "&::before": {
           borderBottom: "none",
