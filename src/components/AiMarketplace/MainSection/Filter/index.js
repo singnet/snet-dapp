@@ -1,19 +1,18 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 
-import StyledExpansionPanel from "./StyledExpansionPanel.js";
+import StyledExpansionPanel from "./StyledExpansionPanel";
 import { useStylesHook } from "./styles";
-import { serviceActions } from "../../../../Redux/actionCreators/index.js";
+import { serviceActions, loaderActions } from "../../../../Redux/actionCreators";
 import {
   filterParamters,
   defaultActiveFilterItem,
   defaultPaginationParameters,
   generateFilterObject,
-} from "../../../../utility/constants/Pagination.js";
+} from "../../../../utility/constants/Pagination";
+import { LoaderContent } from "../../../../utility/constants/LoaderContent";
 
-// let filterData = { ...defaultFilterData };
-
-const Filter = ({ services, pagination, updatePagination, fetchService, filterDataProps }) => {
+const Filter = ({ services, pagination, updatePagination, fetchService, filterDataProps, startLoader, stopLoader }) => {
   const [activeFilterItem, setActiveFilterItem] = useState(defaultActiveFilterItem);
   const classes = useStylesHook();
   const filterData = {};
@@ -21,26 +20,15 @@ const Filter = ({ services, pagination, updatePagination, fetchService, filterDa
     filterData[key] = { title: key, name: key, items };
   });
 
-  // if (services.length > 0) {
-  //   services.map(service => {
-  //     if (service.tags.length > 0) {
-  //       service.tags.map(tag => {
-  //         if (!filterData.tags.items.find(el => el.title === tag)) {
-  //           filterData.tags.items.push({ title: tag });
-  //         }
-  //       });
-  //     }
-  //   });
-  // }
-
   const handleActiveFilterItemChange = async event => {
+    startLoader();
     const name = event.currentTarget.name;
     const value = event.currentTarget.value;
     const currentFilterItem = [...activeFilterItem[name]];
     if (!currentFilterItem.includes(value)) {
       currentFilterItem.push(value);
     } else {
-      currentFilterItem.splice(currentFilterItem.findIndex(value), 1);
+      currentFilterItem.splice(currentFilterItem.findIndex(el => el === value), 1);
     }
     const currentActiveFilterData = { ...activeFilterItem, [name]: currentFilterItem };
     const filterObj = generateFilterObject(currentActiveFilterData);
@@ -48,6 +36,7 @@ const Filter = ({ services, pagination, updatePagination, fetchService, filterDa
     await updatePagination(latestPagination);
     await fetchService(latestPagination, filterObj);
     setActiveFilterItem(currentActiveFilterData);
+    stopLoader();
   };
 
   const handleFilterReset = async () => {
@@ -80,6 +69,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  startLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.FILTER)),
+  stopLoader: () => dispatch(loaderActions.stopAppLoader),
   updatePagination: pagination => dispatch(serviceActions.updatePagination(pagination)),
   fetchService: (pagination, filterObj) => dispatch(serviceActions.fetchService(pagination, filterObj)),
 });
