@@ -1,7 +1,6 @@
 import React from "react";
 import StarRatingComponent from "react-star-rating-component";
 import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -43,10 +42,7 @@ const ServiceListItem = props => {
         </Grid>
         <Grid item xs={12} sm={1} md={1} lg={1}>
           <CardActions className={classes.cardActions}>
-            {/*<Button color="primary" className={classes.demoBtn}>
-              demo
-            </Button>*/}
-            <OfflineIndicator />
+            <OfflineIndicator show={!props.isAvailable} />
           </CardActions>
         </Grid>
       </Grid>

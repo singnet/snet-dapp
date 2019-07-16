@@ -20,6 +20,7 @@ const CardGroup = ({ cards }) => {
             ratingGiven=""
             totalRating=""
             cardDescription={card.description}
+            isAvailable={card.is_available}
           />
         </Link>
       ))}

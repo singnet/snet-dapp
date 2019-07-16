@@ -8,7 +8,6 @@ import CardActions from "@material-ui/core/CardActions";
 import Typography from "@material-ui/core/Typography";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import IconButton from "@material-ui/core/IconButton";
-import Button from "@material-ui/core/Button";
 
 import OfflineIndicator from "../../../../../common/OfflineIndicator";
 import { useStyles } from "./styles";
@@ -46,10 +45,7 @@ const StyledCard = props => {
         </Typography>
       </CardContent>
       <CardActions className={classes.cardActions}>
-        <OfflineIndicator />
-        {/*<Button color="primary" className={classes.detailsBtn}>
-          deatils
-        </Button> */}
+        <OfflineIndicator show={!props.isAvailable} />
         <IconButton aria-label="Settings" className={classes.showMore}>
           <MoreVertIcon />
         </IconButton>
