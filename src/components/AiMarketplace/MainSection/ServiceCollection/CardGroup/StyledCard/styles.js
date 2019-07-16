@@ -6,6 +6,10 @@ export const useStyles = makeStyles(theme => ({
     padding: "13px 0",
     margin: "0 25px 25px 0",
     display: "inline-block",
+    "&:hover": {
+      backgroundColor: theme.palette.text.offWhiteColor,
+      "& h4": { color: theme.palette.text.primary },
+    },
   },
   cardHeader: {
     padding: "0 18px",
@@ -22,8 +26,10 @@ export const useStyles = makeStyles(theme => ({
     color: theme.palette.text.darkShadedGray,
     fontWeight: theme.typography.fontweight,
     fontSize: 18,
-    letterSpacing: 0.25,
+    letterSpacing: 0.23,
     fontFamily: theme.typography.primary.main,
+    lineHeight: "23px",
+    "& h4": { margin: "7px 0" },
   },
   CardMedia: {
     height: 175,
@@ -39,14 +45,7 @@ export const useStyles = makeStyles(theme => ({
   cardActions: {
     padding: "16px 13px 0",
     justifyContent: "space-between",
-  },
-  detailsBtn: {
-    padding: 0,
-    fontFamily: theme.typography.primary.main,
-    fontSize: 14,
-    fontWeight: theme.typography.fontweight,
-    letterSpacing: "1.25px",
-    color: theme.palette.text.primary,
+    "& button": { padding: 0 },
   },
   showMore: {
     padding: 0,

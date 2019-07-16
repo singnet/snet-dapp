@@ -7,5 +7,7 @@ export const useStyles = makeStyles(theme => ({
   },
   routerLink: {
     textDecoration: "none ",
+    display: "inline-block",
+    verticalAlign: "top",
   },
 }));

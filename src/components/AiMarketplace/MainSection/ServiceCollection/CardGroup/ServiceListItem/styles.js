@@ -12,10 +12,14 @@ export const useStyles = makeStyles(theme => ({
     borderBottom: 1,
     borderTopStyle: "solid",
     borderBottomStyle: "solid",
-    borderTopColor: theme.palette.text.lightShadedGray,
-    borderBottomColor: theme.palette.text.lightShadedGray,
+    borderTopColor: theme.palette.text.cardSeparator,
+    borderBottomColor: theme.palette.text.cardSeparator,
     borderRadius: 4,
     backgroundColor: theme.palette.text.white,
+    "&:hover": {
+      backgroundColor: theme.palette.text.offWhiteColor,
+      "& h4": { color: theme.palette.text.primary },
+    },
   },
   mediaContainer: {
     maxWidth: "100% !important",
@@ -36,6 +40,8 @@ export const useStyles = makeStyles(theme => ({
     fontFamily: theme.typography.primary.main,
   },
   cardSubheader: {
+    margin: "8px 0",
+    display: "inline-block",
     color: theme.palette.text.darkShadedGray,
     fontWeight: theme.typography.fontweight,
     fontSize: 20,
@@ -57,6 +63,12 @@ export const useStyles = makeStyles(theme => ({
     right: 27,
     top: "50%",
     transform: "translateY(-50%)",
+    "& button": {
+      color: theme.palette.text.primary,
+      fontSize: 14,
+      fontWeight: 600,
+      letterSpacing: 1.25,
+    },
   },
   showMore: {
     padding: 0,

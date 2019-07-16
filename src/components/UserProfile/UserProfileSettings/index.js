@@ -71,7 +71,9 @@ class UserProfileSettings extends Component {
             </div>
             <div>
               <h4>Password</h4>
-              <Link>Change Password</Link>
+              <Link>
+                <StyledButton type="transparentBlueBorder" btnText="Change Password" />
+              </Link>
             </div>
             <div className={classes.notification}>
               <h4>Notifications</h4>
