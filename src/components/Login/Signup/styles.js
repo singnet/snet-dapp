@@ -56,14 +56,7 @@ export const useStyles = theme => ({
     padding: "20px 20px 30px",
     margin: "0 auto",
     boxShadow: "0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.14), 0 1px 3px 0 rgba(0,0,0,0.2)",
-    "& h3": {
-      margin: "0 0 11px",
-      color: theme.palette.text.darkShadedGray,
-      fontSize: 16,
-      letterSpacing: "0.29px",
-      textAlign: "center",
-      textTransform: "uppercase",
-    },
+
     "& button": { width: "100%" },
     "@media (max-width:960px)": {
       width: "95%",
@@ -135,5 +128,13 @@ export const useStyles = theme => ({
   confirmOtp: {
     width: 410,
     margin: "0 auto",
+    "& h3": {
+      margin: "0 0 11px",
+      color: theme.palette.text.darkShadedGray,
+      fontSize: 16,
+      letterSpacing: "0.29px",
+      textAlign: "center",
+      textTransform: "uppercase",
+    },
   },
 });
