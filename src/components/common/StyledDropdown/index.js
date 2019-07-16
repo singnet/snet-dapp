@@ -6,33 +6,23 @@ import PropTypes from "prop-types";
 
 import { useStyles } from "./styles";
 
-const StyledDropdown = ({ labelTxt, list }) => {
+const StyledDropdown = ({ labelTxt, list, value, onChange }) => {
   const classes = useStyles();
-
-  const [state, setState] = React.useState({
-    featured: "",
-  });
-
-  const handleChange = name => event => {
-    setState({
-      ...state,
-      [name]: event.target.value,
-    });
-  };
 
   return (
     <FormControl className={classes.formControl}>
       <InputLabel htmlFor="featured-label">{labelTxt}</InputLabel>
       <Select
         native
-        value={state.featured}
-        onChange={handleChange("featured")}
+        value={value}
+        onChange={onChange}
         inputProps={{
           name: "featured",
           id: "featured-label",
+          placeholder: "labelTxt",
         }}
       >
-        <option value="" />
+        <option />
         {list.map(item => (
           <option key={item.value} value={item.value}>
             {item.label}
@@ -54,7 +44,8 @@ StyledDropdown.propTypes = {
 };
 
 StyledDropdown.defaultProps = {
-  list: [{ value: "", label: "" }, { value: "", label: "" }, { value: "", label: "" }],
+  labelTxt: "",
+  list: [{ value: "", label: "" }],
 };
 
 export default StyledDropdown;

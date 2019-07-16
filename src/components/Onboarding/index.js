@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 
 import Authentication from "./Authentication";
 import TermsOfUse from "./TermsOfUse";
-import Session from "../../utility/constants/Session";
 import WalletKey from "./WalletKey";
 import { useStyles } from "./styles";
 import OnboardingContainer from "./OnboardingContainer";
@@ -15,14 +14,16 @@ class Onboarding extends Component {
   state = {
     verificationCode: "",
     activeSection: 1,
+    progressText: ["Authentication", "Terms of use", "Wallet key"],
   };
 
   componentDidMount = () => {
-    this.props.checkWalletStatus();
-    if (this.props.isWalletAssigned) {
-      this.props.history.push(Routes.AI_MARKETPLACE);
+    const { checkWalletStatus, username, isWalletAssigned, isEmailVerified, history } = this.props;
+    checkWalletStatus(username);
+    if (isWalletAssigned) {
+      history.push(`/${Routes.AI_MARKETPLACE}`);
     }
-    if (this.props.isEmailVerified) {
+    if (isEmailVerified) {
       this.setState({ activeSection: 2 });
     }
   };
@@ -43,9 +44,8 @@ class Onboarding extends Component {
   };
 
   render() {
-    const { classes } = this.props;
-    const { activeSection } = this.state;
-    const username = sessionStorage.getItem(Session.USERNAME);
+    const { classes, username } = this.props;
+    const { activeSection, progressText } = this.state;
 
     const OnboardingDetails = [
       {
@@ -89,6 +89,7 @@ class Onboarding extends Component {
             item={item}
             active={activeSection === index + 1}
             activeSection={activeSection}
+            progressText={progressText}
           />
         ))}
       </div>
@@ -99,10 +100,11 @@ class Onboarding extends Component {
 const mapStateToProps = state => ({
   isEmailVerified: state.userReducer.isEmailVerified,
   isWalletAssigned: state.userReducer.isWalletAssigned,
+  username: state.userReducer.username,
 });
 
 const mapDispatchToProps = dispatch => ({
-  checkWalletStatus: () => dispatch(userActions.checkWalletStatus),
+  checkWalletStatus: username => dispatch(userActions.checkWalletStatus(username)),
 });
 
 export default connect(

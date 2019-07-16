@@ -44,4 +44,11 @@ export const useStyles = makeStyles(theme => ({
       color: "#ccc !important",
     },
   },
+  red: {
+    color: theme.palette.text.redBtnText,
+    "&:hover": {
+      backgroundColor: theme.palette.text.redBtnText,
+      color: theme.palette.text.white,
+    },
+  },
 }));

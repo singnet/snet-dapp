@@ -24,8 +24,8 @@ const StyledCard = props => {
         }}
         title={props.cardTitle}
         subheader={props.cardSubheader}
-      ></CardHeader>
-      <CardMedia className={classes.CardMedia} image={props.cardMedia} title={props.title}></CardMedia>
+      />
+      <CardMedia className={classes.CardMedia} image={props.cardMedia} title={props.title} />
       <CardContent className={classes.cardContent}>
         <div className={classes.ratingSection}>
           <StarRatingComponent
