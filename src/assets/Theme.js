@@ -23,6 +23,7 @@ const gray = "rgba(0,0,0,0.04)";
 const gray1 = "#F5F7F8";
 const cardBackground = "#f8f8f8";
 const iconColor = "#AAAEB3";
+const cardSeparator = "#e5e5e5";
 
 const whiteColor = "#fff";
 const offWhiteColor = "#fAFAFA";
@@ -75,6 +76,7 @@ const theme = createMuiTheme({
       redBtnText,
       transBlueBorderTextHover,
       transBlueBorderBgHover,
+      cardSeparator,
     },
   },
   typography: {

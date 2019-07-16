@@ -20,7 +20,7 @@ const StyledButton = ({ disabled, onClick, type, iconClass, btnText }) => {
 
   return (
     <Button className={clsx(classes.styledButton, classes[buttonColor[type]])} disabled={disabled} onClick={onClick}>
-      <Icon className={iconClass} />
+      {iconClass ? <Icon className={iconClass} /> : null}
       {btnText}
     </Button>
   );
