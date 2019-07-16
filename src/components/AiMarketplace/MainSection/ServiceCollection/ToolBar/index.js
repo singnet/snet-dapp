@@ -1,69 +1,45 @@
-import React from "react";
-import { makeStyles } from "@material-ui/styles";
+import React, { useState } from "react";
 import Grid from "@material-ui/core/Grid";
-import Icon from "@material-ui/core/Icon";
-import clsx from "clsx";
 
-import StyledDropdown from "../../../../common/StyledDropdown";
+import { useStyles } from "./styles";
+import SearchInputToggler from "./SearchInputToggler";
+import ViewToggler from "./ViewToggler";
+import ServiceSortOptions from "./ServiceSortOptions";
 
-const useStyles = makeStyles(theme => ({
-    sortBySection: {
-        display: "flex",
-        alignItems: "flex-end",
-    },
-    sortbyTxt: {
-        padding: "0 10px 5px 0",
-        color: theme.palette.text.lightShadedGray,
-        fontSize: 14,
-    },
-    servicesCount: {
-        color: theme.palette.text.lightShadedGray,
-        fontSize: 16,
-    },
-    iconsContainer: {
-        display: "flex",
-        alignItems: "flex-end",
-        justifyContent: "flex-end",
-        "& button": {
-            paddingLeft: 18,
-            border: "none",
-            backgroundColor: "transparent",
-            outline: "none",
-            cursor: "pointer",
-            "& span": {
-                color: theme.palette.text.lightShadedGray,
-                fontSize: 17,
-            },
-        },
-    },
-}));
+const ToolBar = ({ listView, total_count, handleSearchChange, toggleView }) => {
+  const [showSearchInput, toggleSearchInput] = useState(false);
+  const [searchKeyword, setSearchKeyword] = useState("");
 
-const ToolBar = ({ listView }) => {
-    const classes = useStyles();
+  const handleSearch = event => {
+    setSearchKeyword(event.target.value);
+    const pagination = {
+      offset: 0,
+      q: event.target.value,
+    };
+    handleSearchChange(pagination);
+  };
 
-    return (
-        <Grid container spacing={24} className={classes.toolBar}>
-            <Grid item xs={12} sm={6} md={6} lg={6} className={classes.sortBySection}>
-                <span className={classes.sortbyTxt}>Sort by:</span>
-                <StyledDropdown labelTxt="Featured" />
-            </Grid>
-            <Grid item xs={12} sm={6} md={6} lg={6} className={classes.iconsContainer}>
-                <span className={classes.servicesCount}>33 services &nbsp;&nbsp;&nbsp; | </span>
-                <button>
-                    <Icon className={clsx(classes.icon, "fa fa-search")} />
-                </button>
-                {listView ? (
-                    <button>
-                        <Icon className={clsx(classes.icon, "fa fa-th")} />
-                    </button>
-                ) : (
-                    <button>
-                        <Icon className={clsx(classes.icon, "fa fa-th-list")} />
-                    </button>
-                )}
-            </Grid>
-        </Grid>
-    );
+  const classes = useStyles();
+
+  return (
+    <Grid container spacing={24} className={classes.toolBar}>
+      <Grid item xs={12} sm={6} md={6} lg={6} className={classes.sortBySection}>
+        <ServiceSortOptions />
+      </Grid>
+      <Grid item xs={12} sm={6} md={6} lg={6} className={classes.iconsContainer}>
+        <span className={classes.servicesCount}>{total_count} services &nbsp;&nbsp;&nbsp; | </span>
+        <button className={classes.searchBar}>
+          <SearchInputToggler
+            showSearchInput={showSearchInput}
+            toggleSearchInput={toggleSearchInput}
+            handleSearch={handleSearch}
+            searchKeyword={searchKeyword}
+          />
+        </button>
+        <ViewToggler listView={listView} toggleView={toggleView} />
+      </Grid>
+    </Grid>
+  );
 };
 
 export default ToolBar;

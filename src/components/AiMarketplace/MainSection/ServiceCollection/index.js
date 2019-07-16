@@ -5,15 +5,15 @@ import CardGroup from "./CardGroup";
 import StyledPagination from "./StyledPagination";
 import { useStyles } from "./styles";
 
-const ServiceCollection = ({ data }) => {
-    const classes = useStyles();
-    return (
-        <div className={classes.serviceCollection}>
-            <ToolBar />
-            <CardGroup data={data} />
-            <StyledPagination />
-        </div>
-    );
+const ServiceCollection = ({ data, toolbarProps, paginationProps }) => {
+  const classes = useStyles();
+  return (
+    <div className={classes.serviceCollection}>
+      <ToolBar {...toolbarProps} />
+      <CardGroup cards={data} />
+      <StyledPagination {...paginationProps} />
+    </div>
+  );
 };
 
 export default ServiceCollection;

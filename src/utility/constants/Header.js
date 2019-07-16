@@ -1,0 +1,63 @@
+import Routes from "./Routes";
+
+export const headerData = {
+  SIGNUP: {
+    headerTitle: "Already have an account?",
+    linkPath: Routes.LOGIN,
+    headerText: "Login",
+  },
+  LOGIN: {
+    headerTitle: "New to singularityNET?",
+    linkPath: Routes.SIGNUP,
+    headerText: "SignUp",
+  },
+  FORGOT_PASSWORD: {
+    headerTitle: "Switch to another account?",
+    linkPath: Routes.LOGIN,
+    headerText: "Login",
+  },
+  FORGOT_PASSWORD_SUBMIT: {
+    headerTitle: "",
+    linkPath: Routes.SIGNUP,
+    headerText: "",
+  },
+  ONBOARDING: {
+    headerTitle: "",
+    linkPath: Routes.SIGNUP,
+    headerText: "Log Out",
+  },
+};
+
+const tabs = [
+  {
+    title: "AI Marketplace",
+    active: true,
+    link: "#",
+    openInNewTab: false,
+  },
+  {
+    title: "Get Started",
+    active: false,
+    link: "https://blog.singularitynet.io/a-beginners-guide-to-the-singularitynet-beta-74d523902958",
+    openInNewTab: true,
+  },
+];
+
+const dropdowns = [
+  {
+    label: "Resources",
+    list: [
+      { value: "", label: "Documentation" },
+      { value: "", label: "Dataset Download" },
+      { value: "", label: "API Library" },
+      { value: "", label: "Telegram" },
+      { value: "", label: "Forum" },
+      { value: "", label: "Blog" },
+    ],
+  },
+];
+
+export const NavData = {
+  tabs,
+  dropdowns,
+};

@@ -1,53 +1,34 @@
-import React, { useState } from "react";
-import Grid from "@material-ui/core/Grid";
-import { Auth } from "aws-amplify";
+import React from "react";
 import { connect } from "react-redux";
 
 import Logo from "../../../assets/images/Logo.png";
 import { useStyles } from "./styles";
-import { NavData } from "./data";
 import NavBar from "./NavBar";
 import HeaderActions from "./HeaderActions";
 import Title from "./Title";
+import MobileHeader from "./MobileHeader";
+import { NavData } from "../../../utility/constants/Header";
 
-const Header = props => {
-    const classes = useStyles();
-    const [isLoggedIn, toggleLoggedIn] = useState(false);
-
-    Auth.currentAuthenticatedUser({ bypassCache: true }).then(data => {
-        if (data === null || data === undefined) {
-            toggleLoggedIn(false);
-        }
-        toggleLoggedIn(true);
-    });
-
-    const handleSignOut = () => {
-        Auth.signOut()
-            .then(data => {
-                toggleLoggedIn(false);
-            })
-            .catch(err => console.log("signout", err));
-    };
-
-    console.log("redux props", props);
-
-    return (
-        <Grid container spacing={24}>
-            <header className={classes.header}>
-                <Grid item xs={3} sm={3} md={3} lg={3}>
-                    <Title Logo={Logo} title="SingularityNET" />
-                </Grid>
-                <Grid item xs={6} sm={6} md={6} lg={6}>
-                    <NavBar data={NavData} />
-                </Grid>
-                <Grid item xs={3} sm={3} md={3} lg={3}>
-                    <HeaderActions isLoggedIn={isLoggedIn} handleSignOut={handleSignOut} />
-                </Grid>
-            </header>
-        </Grid>
-    );
+const Header = ({ isLoggedIn }) => {
+  const classes = useStyles();
+  return (
+    <div>
+      <header className={classes.header}>
+        <div className={classes.logoSection}>
+          <MobileHeader data={NavData} isLoggedIn={isLoggedIn} />
+          <Title Logo={Logo} title="SingularityNET" />
+        </div>
+        <div className={classes.navigationSection}>
+          <NavBar data={NavData} />
+        </div>
+        <div className={classes.loginBtnsSection}>
+          <HeaderActions isLoggedIn={isLoggedIn} />
+        </div>
+      </header>
+    </div>
+  );
 };
 
-const mapStateToProps = state => ({ ...state });
+const mapStateToProps = state => ({ isLoggedIn: state.userReducer.login.isLoggedIn });
 
 export default connect(mapStateToProps)(Header);

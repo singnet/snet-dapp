@@ -2,9 +2,9 @@ import React from "react";
 import { useStyles } from "./styles";
 
 const FooterLinkTitle = ({ title }) => {
-    const classes = useStyles();
+  const classes = useStyles();
 
-    return <span className={classes.footerLinksTitle}>{title}</span>;
+  return <span className={classes.footerLinksTitle}>{title}</span>;
 };
 
 export default FooterLinkTitle;

@@ -1,7 +1,7 @@
 import { makeStyles } from "@material-ui/styles";
 
 export const useStyles = makeStyles(theme => ({
-    serviceCollection: {
-        paddingLeft: 25,
-    },
+  serviceCollection: {
+    paddingLeft: 25,
+  },
 }));

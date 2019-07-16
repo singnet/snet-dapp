@@ -67,5 +67,14 @@ build/
 scripts/path.js
 
 #endpoints
-src/utility/stringConstants/APIEndpoints.js
+src/utility/constants/APIEndpoints.js
+
+#redux_dev_tools
+src/Redux/Store.js
+
+#endpoints
+src/utility/constants/APIEndpoints.js
+
+#config
+src/config
 

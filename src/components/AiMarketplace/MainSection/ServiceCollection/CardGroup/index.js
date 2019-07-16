@@ -1,57 +1,34 @@
-import React, { Component } from "react";
-import { withStyles } from "@material-ui/styles";
+import React from "react";
+import { Link } from "react-router-dom";
 
-import ListView from "./ListView";
-import StyledCard from "./StyledCard";
+import ServiceListItem from "./ServiceListItem";
 import CardImg from "../../../../../assets/images/dummy-card.png";
 import { useStyles } from "./styles";
+import Routes from "../../../../../utility/constants/Routes";
 
-const CardGroup = props => {
-    const classes = useStyles();
-    return (
-        <div className={classes.cardCollection}>
-            <StyledCard
-                cardMedia={CardImg}
-                cardTitle="Text Analysis"
-                cardSubheader="Summarize URL"
-                ratingGiven="3.0"
-                totalRating="(1500)"
-                cardDescription="This is an AI algorithm for summarizing content in webpages.  Input a URL and you will get the text summary"
-            />
-            <StyledCard
-                cardMedia={CardImg}
-                cardTitle="Text Analysis"
-                cardSubheader="Summarize URL"
-                ratingGiven="3.0"
-                totalRating="(1500)"
-                cardDescription="This is an AI algorithm for summarizing content in webpages.  Input a URL and you will get the text summary"
-            />
-            <StyledCard
-                cardMedia={CardImg}
-                cardTitle="Text Analysis"
-                cardSubheader="Summarize URL"
-                ratingGiven="3.0"
-                totalRating="(1500)"
-                cardDescription="This is an AI algorithm for summarizing content in webpages.  Input a URL and you will get the text summary"
-            />
-            <StyledCard
-                cardMedia={CardImg}
-                cardTitle="Text Analysis"
-                cardSubheader="Summarize URL"
-                ratingGiven="3.0"
-                totalRating="(1500)"
-                cardDescription="This is an AI algorithm for summarizing content in webpages.  Input a URL and you will get the text summary"
-            />
-            <StyledCard
-                cardMedia={CardImg}
-                cardTitle="Text Analysis"
-                cardSubheader="Summarize URL"
-                ratingGiven="3.0"
-                totalRating="(1500)"
-                cardDescription="This is an AI algorithm for summarizing content in webpages.  Input a URL and you will get the text summary"
-            />
-        </div>
-    );
+const CardGroup = ({ cards }) => {
+  const classes = useStyles();
+  return (
+    <div className={classes.cardCollection}>
+      {cards.map(card => (
+        <Link to={`/${Routes.SERVICE_DETAILS}/${card.service_row_id}`} className={classes.routerLink}>
+          <ServiceListItem
+            key={card.service_id}
+            cardMedia={CardImg}
+            cardTitle={card.org_id}
+            cardSubheader={card.display_name}
+            ratingGiven=""
+            totalRating=""
+            cardDescription={card.description}
+          />
+        </Link>
+      ))}
+    </div>
+  );
 };
 
-export default withStyles(useStyles)(CardGroup);
+CardGroup.defaultProps = {
+  cards: [],
+};
+
+export default CardGroup;

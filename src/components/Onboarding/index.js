@@ -1,112 +1,113 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
-import { Auth } from "aws-amplify";
+import { connect } from "react-redux";
 
-import Header from "../common/LoginOnboardingHeader";
 import Authentication from "./Authentication";
 import TermsOfUse from "./TermsOfUse";
-import Session from "../../utility/stringConstants/Session";
 import WalletKey from "./WalletKey";
 import { useStyles } from "./styles";
 import OnboardingContainer from "./OnboardingContainer";
+import Routes from "../../utility/constants/Routes";
+import { userActions } from "../../Redux/actionCreators";
 
-class Authorization extends Component {
-    state = {
-        verificationCode: "",
-        activeSection: 1,
-    };
+class Onboarding extends Component {
+  state = {
+    verificationCode: "",
+    activeSection: 1,
+    progressText: ["Authentication", "Terms of use", "Wallet key"],
+  };
 
-    componentDidMount = () => {
-        Auth.currentAuthenticatedUser({ bypassCache: true })
-            .then(res => {
-                if (res.attributes.email_verified) {
-                    this.setState({ activeSection: 2 });
-                }
-            })
-            .catch(err => {
-                console.log("onboarding err", err);
-            });
-    };
-
-    componentDidUpdate = () => {
-        if (sessionStorage.getItem(Session.USERNAME) && this.state.activeSection === 1) {
-            Auth.currentAuthenticatedUser({ bypassCache: true })
-                .then(res => {
-                    if (res.attributes.email_verified) {
-                        this.setState({ activeSection: 2 });
-                    }
-                })
-                .catch(err => {});
-        }
-    };
-
-    handleNextSection = () => {
-        this.setState(prevState => ({
-            activeSection: prevState.activeSection + 1,
-        }));
-    };
-
-    handleLogout = () => {
-        Auth.signOut()
-            .then(data => {
-                sessionStorage.removeItem(Session.USERNAME);
-            })
-            .catch(err => console.log(err));
-    };
-
-    render() {
-        const { classes } = this.props;
-        const { activeSection } = this.state;
-        const username = sessionStorage.getItem(Session.USERNAME);
-
-        const OnboardingDetails = [
-            {
-                title: `Welcome ${username}`,
-                description: (
-                    <p>
-                        You have successfully logged into your singularitynet account. <br />
-                        You are just steps away from completing your activation.
-                    </p>
-                ),
-                component: <Authentication handleNextSection={this.handleNextSection} />,
-            },
-            {
-                title: `Step 2`,
-                description: (
-                    <p>
-                        You have successfully logged into your singularitynet account. <br />
-                        You are just steps away from completing your activation.
-                    </p>
-                ),
-                component: <TermsOfUse handleNextSection={this.handleNextSection} />,
-            },
-            {
-                title: `Step 3`,
-                description: (
-                    <p>
-                        You have successfully logged into your singularitynet account. <br />
-                        You are just steps away from completing your activation.
-                    </p>
-                ),
-                component: <WalletKey />,
-            },
-        ];
-
-        return (
-            <div className={classes.onboardingContainer}>
-                <Header linkText="Log Out" linkClick={this.handleLogout} />
-                {OnboardingDetails.map((item, index) => (
-                    <OnboardingContainer
-                        key={item.title}
-                        classes={classes}
-                        item={item}
-                        active={activeSection === index + 1}
-                        activeSection={activeSection}
-                    />
-                ))}
-            </div>
-        );
+  componentDidMount = () => {
+    const { checkWalletStatus, username, isWalletAssigned, isEmailVerified, history } = this.props;
+    checkWalletStatus(username);
+    if (isWalletAssigned) {
+      history.push(`/${Routes.AI_MARKETPLACE}`);
     }
+    if (isEmailVerified) {
+      this.setState({ activeSection: 2 });
+    }
+  };
+
+  componentDidUpdate = () => {
+    if (this.props.isWalletAssigned) {
+      this.props.history.push(Routes.AI_MARKETPLACE);
+    }
+    if (this.props.isEmailVerified && this.state.activeSection === 1) {
+      this.setState({ activeSection: 2 });
+    }
+  };
+
+  handleNextSection = () => {
+    this.setState(prevState => ({
+      activeSection: prevState.activeSection + 1,
+    }));
+  };
+
+  render() {
+    const { classes, username } = this.props;
+    const { activeSection, progressText } = this.state;
+
+    const OnboardingDetails = [
+      {
+        title: `Welcome ${username}`,
+        description: (
+          <p>
+            You have successfully logged into your singularitynet account. <br />
+            You are just steps away from completing your activation.
+          </p>
+        ),
+        component: <Authentication handleNextSection={this.handleNextSection} />,
+      },
+      {
+        title: `Step 2`,
+        description: (
+          <p>
+            You have successfully logged into your singularitynet account. <br />
+            You are just steps away from completing your activation.
+          </p>
+        ),
+        component: <TermsOfUse handleNextSection={this.handleNextSection} />,
+      },
+      {
+        title: `Step 3`,
+        description: (
+          <p>
+            You have successfully logged into your singularitynet account. <br />
+            You are just steps away from completing your activation.
+          </p>
+        ),
+        component: <WalletKey />,
+      },
+    ];
+
+    return (
+      <div className={classes.onboardingContainer}>
+        {OnboardingDetails.map((item, index) => (
+          <OnboardingContainer
+            key={item.title}
+            classes={classes}
+            item={item}
+            active={activeSection === index + 1}
+            activeSection={activeSection}
+            progressText={progressText}
+          />
+        ))}
+      </div>
+    );
+  }
 }
 
-export default withStyles(useStyles)(Authorization);
+const mapStateToProps = state => ({
+  isEmailVerified: state.userReducer.isEmailVerified,
+  isWalletAssigned: state.userReducer.isWalletAssigned,
+  username: state.userReducer.username,
+});
+
+const mapDispatchToProps = dispatch => ({
+  checkWalletStatus: username => dispatch(userActions.checkWalletStatus(username)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(useStyles)(Onboarding));
