@@ -93,7 +93,7 @@ const ForgotPasswordSubmit = ({ classes, history, error, username, forgotPasswor
             value={confirmPassword}
             onChange={handleConfirmPassword}
           />
-          <AlertBox errorMsg={error} />
+          <AlertBox message={error} />
           <StyledButton type="blue" btnText="Reset Password" onClick={handleSubmit} />
         </form>
       </Grid>
