@@ -7,11 +7,11 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import { connect } from "react-redux";
 
-import ErrorMsgBox from "../../common/ErrorMsgBox";
 import StyledButton from "../../common/StyledButton";
 import { useStyles } from "./styles";
 import { userActions } from "../../../Redux/actionCreators";
 import Routes from "../../../utility/constants/Routes";
+import AlertBox from "../../common/AlertBox";
 
 class UserProfileSettings extends Component {
   state = {
@@ -39,7 +39,7 @@ class UserProfileSettings extends Component {
   };
 
   render() {
-    const { classes, email, userName } = this.props;
+    const { classes, email, username } = this.props;
     const { error } = this.state;
     return (
       <Grid container spacing={24} className={classes.settingMainContainer}>
@@ -51,7 +51,7 @@ class UserProfileSettings extends Component {
                 id="outlined-name"
                 label="User Name (20 char max)"
                 className={classes.styledTextField}
-                value={userName}
+                value={username}
                 margin="normal"
                 variant="outlined"
                 disabled
@@ -66,6 +66,7 @@ class UserProfileSettings extends Component {
                 value={email}
                 margin="normal"
                 variant="outlined"
+                disabled
               />
             </div>
             <div>
@@ -85,9 +86,7 @@ class UserProfileSettings extends Component {
                 sent to your email.
               </p>
             </div>
-
-            <ErrorMsgBox errorMsg={error} />
-
+            <AlertBox message={error} />
             <div className={classes.btnContainer}>
               <StyledButton btnText="save changes" disabled />
               <StyledButton btnText="delete account" type="red" onClick={this.handleDelete} />
@@ -101,6 +100,7 @@ class UserProfileSettings extends Component {
 
 const mapStateToProps = state => ({
   userEmail: state.userReducer.email,
+  username: state.userReducer.username,
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -128,6 +128,7 @@ export const useStyles = theme => ({
       lineHeight: "16px",
     },
     "& button": {
+      marginBottom: 25,
       "& span": {
         "& span": {
           fontFamily: "OpenSans !important",

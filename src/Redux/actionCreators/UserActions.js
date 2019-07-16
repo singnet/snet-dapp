@@ -1,9 +1,9 @@
 import { Auth, API } from "aws-amplify";
 
-import Session from "../../utility/constants/Session";
 import { APIEndpoints } from "../../config/APIEndpoints";
 import { parseError } from "../../utility/ErrorHandling";
-import { userActions } from ".";
+import { userActions, errorActions, loaderActions } from ".";
+import { LoaderContent } from "../../utility/constants/LoaderContent";
 
 export const SET_USER_DETAILS = "SET_USER_DETAILS";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
@@ -11,6 +11,11 @@ export const LOGIN_LOADING = "LOGIN_LOADING";
 export const LOGIN_ERROR = "LOGIN_ERROR";
 export const SIGN_OUT = "SIGN_OUT";
 export const CHECK_WALLET_STATUS = "CHECK_WALLET_STATUS";
+export const UPDATE_USERNAME = "UPDATE_USERNAME";
+
+export const updateUsername = username => dispatch => {
+  dispatch({ type: UPDATE_USERNAME, payload: { username } });
+};
 
 export const setUserDetails = dispatch => {
   let userDetails = {
@@ -18,8 +23,6 @@ export const setUserDetails = dispatch => {
     payload: {
       login: { isLoggedIn: false, error: undefined, loading: true },
       isInitialized: true,
-      isEmailVerified: false,
-      email: "",
     },
   };
   Auth.currentAuthenticatedUser({ bypassCache: true })
@@ -41,6 +44,7 @@ export const setUserDetails = dispatch => {
           ...userDetails.payload,
           isEmailVerified: res.attributes.email_verified,
           email: res.attributes.email,
+          username: res.username,
         };
       }
     })
@@ -54,7 +58,7 @@ export const login = ({ username, password }) => dispatch => {
   let userDetails = {};
   return Auth.signIn(username, password)
     .then(res => {
-      sessionStorage.setItem(Session.USERNAME, username);
+      dispatch(() => updateUsername(username));
       userDetails = {
         type: userActions.LOGIN_SUCCESS,
         payload: { login: { isLoggedIn: true } },
@@ -63,7 +67,7 @@ export const login = ({ username, password }) => dispatch => {
     })
     .catch(err => {
       if (err.code === "UserNotConfirmedException") {
-        sessionStorage.setItem(Session.USERNAME, username);
+        dispatch(updateUsername(username));
         userDetails = {
           type: userActions.LOGIN_SUCCESS,
           payload: { login: { isLoggedIn: true } },
@@ -82,6 +86,7 @@ export const login = ({ username, password }) => dispatch => {
 };
 
 export const signOut = dispatch => {
+  dispatch(loaderActions.startAppLoader(LoaderContent.SIGN_OUT));
   let userDetails = {
     type: SIGN_OUT,
     payload: {
@@ -100,12 +105,13 @@ export const signOut = dispatch => {
         loading: false,
       };
     })
-    .finally(() => dispatch(userDetails));
+    .finally(() => {
+      dispatch(userDetails);
+      dispatch(loaderActions.stopAppLoader);
+    });
 };
 
-export const checkWalletStatus = (dispatch, getState) => {
-  const username = sessionStorage.getItem(Session.USERNAME);
-
+export const checkWalletStatus = username => (dispatch, getState) => {
   Auth.currentSession({ bypassCache: true })
     .then(currentSession => {
       let apiName = APIEndpoints.GET_SERVICE_LIST.name;
@@ -134,7 +140,6 @@ export const checkWalletStatus = (dispatch, getState) => {
 };
 
 const userDeleted = ({ history, route }) => dispatch => {
-  history.push(route);
   dispatch({
     type: SET_USER_DETAILS,
     payload: {
@@ -146,29 +151,85 @@ const userDeleted = ({ history, route }) => dispatch => {
       email: "",
     },
   });
+  history.push(route);
 };
-const deleteUser = user =>
+const deleteUser = (user, { history, route }) => dispatch => {
   new Promise((resolve, reject) => {
     user.deleteUser(error => {
       if (error) {
         reject(error);
+        dispatch(loaderActions.stopAppLoader);
       }
       resolve();
     });
+  }).then(() => {
+    dispatch(loaderActions.stopAppLoader);
+    dispatch(userDeleted({ history, route }));
   });
-
+};
 const fetchCurrentUser = () => {
   return Auth.currentAuthenticatedUser({ bypassCache: true });
 };
 
 export const deleteUserAccount = ({ history, route }) => dispatch => {
+  dispatch(loaderActions.startAppLoader(LoaderContent.DELETE_USER));
   dispatch(() =>
     fetchCurrentUser().then(user => {
-      dispatch(() =>
-        deleteUser(user).then(() => {
-          dispatch(userDeleted({ history, route }));
-        })
-      );
+      dispatch(deleteUser(user, { history, route }));
     })
   );
+};
+
+const forgotPasswordInit = dispatch => {
+  dispatch(loaderActions.startAppLoader(LoaderContent.FORGOT_PASSWORD));
+  dispatch(errorActions.resetForgotPasswordError);
+};
+
+const forgotPasswordSuccessfull = ({ username, history, route }) => dispatch => {
+  dispatch(updateUsername(username));
+  dispatch(loaderActions.stopAppLoader);
+  history.push(route);
+};
+
+const forgotPasswordFailure = error => dispatch => {
+  dispatch(errorActions.updateForgotPasswordError(error));
+  dispatch(loaderActions.stopAppLoader);
+};
+
+export const forgotPassword = ({ username, history, route }) => dispatch => {
+  dispatch(forgotPasswordInit);
+  Auth.forgotPassword(username)
+    .then(() => {
+      dispatch(forgotPasswordSuccessfull({ history, route }));
+    })
+    .catch(err => {
+      dispatch(forgotPasswordFailure(err.message));
+    });
+};
+
+const forgotPasswordSubmitInit = dispatch => {
+  dispatch(loaderActions.startAppLoader(LoaderContent.FORGOT_PASSWORD_SUBMIT));
+  dispatch(errorActions.resetForgotPasswordSubmitError);
+};
+
+const forgotPasswordSubmitSuccessfull = ({ username, history, route }) => dispatch => {
+  dispatch(updateUsername(username));
+  dispatch(loaderActions.stopAppLoader);
+  history.push(route);
+};
+
+const forgotPasswordSubmitFailure = error => dispatch => {
+  dispatch(errorActions.updateForgotPasswordSubmitError(error));
+  dispatch(loaderActions.stopAppLoader);
+};
+
+export const forgotPasswordSubmit = ({ username, code, password, history, route }) => dispatch => {
+  dispatch(forgotPasswordSubmitInit);
+  Auth.forgotPasswordSubmit(username, code, password)
+    .then(() => {
+      dispatch(forgotPasswordSubmitSuccessfull({ username, history, route }));
+    })
+    .catch(err => {
+      dispatch(forgotPasswordSubmitFailure(err.message));
+    });
 };

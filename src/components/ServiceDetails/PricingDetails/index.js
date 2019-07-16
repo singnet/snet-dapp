@@ -1,6 +1,7 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
+import Icon from "@material-ui/core/Icon";
 
 import StyledButton from "../../common/StyledButton";
 import { useStyles } from "./styles";
@@ -15,7 +16,7 @@ const PricingDetails = ({ classes, price_model }) => {
         <Price unit="agi tokens" value="0.000001" />
       </div>
       <p>
-        <i className="fas fa-info-circle"></i>
+        <Icon className="fas fa-info-circle" />
         <span>{price_model}</span>
       </p>
       <StyledButton btnText="demo" />

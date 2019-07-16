@@ -5,7 +5,7 @@ import { Auth, API } from "aws-amplify";
 import { Icon } from "@material-ui/core";
 
 import StyledButton from "../../common/StyledButton";
-import ErrorMsgBox from "../../common/ErrorMsgBox";
+import AlertBox from "../../common/AlertBox";
 import { parseError } from "../../../utility/ErrorHandling";
 import Routes from "../../../utility/constants/Routes";
 import { useStyles } from "./styles";
@@ -53,7 +53,7 @@ class TermsOfUse extends Component {
       <div className={classes.walletKeyContainer}>
         <h3>Wallet Key</h3>
         <p>
-          <span></span>
+          <span />
         </p>
         {privateKey ? (
           <p className={classes.privateKey}>{privateKey}</p>
@@ -66,7 +66,7 @@ class TermsOfUse extends Component {
             </div>
           </Fragment>
         )}
-        <ErrorMsgBox errorMsg={error} />
+        <AlertBox type="error" message={error} />
         <div className={classes.continueBtnContainer}>
           <StyledButton
             type="blue"

@@ -6,7 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import { connect } from "react-redux";
 
 import StyledButton from "../common/StyledButton";
-import ErrorMsgBox from "../common/ErrorMsgBox";
+import AlertBox from "../common/AlertBox";
 import Routes from "../../utility/constants/Routes";
 import { useStyles } from "./styles";
 import { userActions } from "../../Redux/actionCreators";
@@ -61,7 +61,7 @@ class Login extends Component {
               margin="normal"
               variant="outlined"
               value={username}
-              autoFocus={true}
+              autoFocus
               onChange={this.handleUsername}
             />
             <TextField
@@ -79,7 +79,7 @@ class Login extends Component {
               <div className={classes.checkbox} />
               <Link to={Routes.FORGOT_PASSWORD}>Forgot password?</Link>
             </div>
-            <ErrorMsgBox errorMsg={loginError} />
+            <AlertBox type="error" message={loginError} />
             <StyledButton type="blue" btnText="login" onClick={this.handleSubmit} />
           </form>
         </Grid>
