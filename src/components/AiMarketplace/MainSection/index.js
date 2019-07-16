@@ -7,6 +7,7 @@ import Filter from "./Filter";
 import ServiceCollection from "./ServiceCollection";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../../Redux/actionCreators";
+import { filterAttributes } from "../../../utility/constants/Pagination";
 
 class MainSection extends Component {
   state = {
@@ -14,7 +15,11 @@ class MainSection extends Component {
   };
 
   componentDidMount = () => {
+    const { fetchFilterData } = this.props;
     this.handleFetchService(this.props.pagination);
+    filterAttributes.map(attribute => {
+      fetchFilterData(attribute);
+    });
   };
 
   handlePaginationChange = async pagination => {
@@ -69,6 +74,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   updatePagination: pagination => dispatch(serviceActions.updatePagination(pagination)),
   fetchService: pagination => dispatch(serviceActions.fetchService(pagination)),
+  fetchFilterData: attribute => dispatch(serviceActions.fetchFilterData(attribute)),
 });
 
 export default connect(

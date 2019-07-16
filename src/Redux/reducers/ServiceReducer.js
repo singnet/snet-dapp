@@ -8,6 +8,11 @@ const InitialServiceList = {
     response: {},
     isComplete: false,
   },
+  filterData: {
+    tags: [],
+    display_name: [],
+    organization: [],
+  },
 };
 
 const serviceReducer = (state = InitialServiceList, action) => {
@@ -28,6 +33,15 @@ const serviceReducer = (state = InitialServiceList, action) => {
           ...state.serviceMethodExecution,
           serviceSpecJSON: action.payload.serviceSpecJSON,
           protoSpec: action.payload.protoSpec,
+        },
+      };
+    }
+    case serviceActions.UPDATE_FILTER_DATA: {
+      return {
+        ...state,
+        filterData: {
+          ...state.filterData,
+          ...action.payload,
         },
       };
     }
