@@ -6,7 +6,7 @@ import Grid from "@material-ui/core/Grid";
 
 import Routes from "../../../utility/constants/Routes";
 import { userActions, errorActions } from "../../../Redux/actionCreators";
-import MessageBox from "../../common/MessageBox";
+import AlertBox from "../../common/AlertBox";
 import { useStyles } from "./styles";
 import StyledButton from "../../common/StyledButton";
 
@@ -93,7 +93,7 @@ const ForgotPasswordSubmit = ({ classes, history, error, username, forgotPasswor
             value={confirmPassword}
             onChange={handleConfirmPassword}
           />
-          <MessageBox errorMsg={error} />
+          <AlertBox message={error} />
           <StyledButton type="blue" btnText="Reset Password" onClick={handleSubmit} />
         </form>
       </Grid>
