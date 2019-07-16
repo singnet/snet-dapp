@@ -9,13 +9,13 @@ export const useStyles = makeStyles(theme => ({
     alignItems: "flex-end",
   },
   sortbyTxt: {
-    padding: "0 10px 5px 0",
+    padding: "0 17px 5px 0",
     color: theme.palette.text.lightShadedGray,
-    fontSize: 18,
+    fontSize: 16,
   },
   servicesCount: {
     color: theme.palette.text.lightShadedGray,
-    fontSize: 18,
+    fontSize: 16,
   },
   searchBar: {
     "& div": {
@@ -31,6 +31,7 @@ export const useStyles = makeStyles(theme => ({
     justifyContent: "flex-end",
     "& button": {
       border: "none",
+      paddingLeft: 12,
       backgroundColor: "transparent",
       outline: "none",
       cursor: "pointer",

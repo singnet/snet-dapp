@@ -27,7 +27,7 @@ const ToolBar = ({ listView, total_count, handleSearchChange, toggleView }) => {
         <ServiceSortOptions />
       </Grid>
       <Grid item xs={12} sm={6} md={6} lg={6} className={classes.iconsContainer}>
-        <span className={classes.servicesCount}>{total_count} services &nbsp;&nbsp;&nbsp; | </span>
+        <span className={classes.servicesCount}>{total_count} services &nbsp; | </span>
         <button className={classes.searchBar}>
           <SearchInputToggler
             showSearchInput={showSearchInput}
