@@ -1,7 +1,6 @@
 export const useStyles = theme => ({
   UserProfilePopUpContainer: {
     width: 400,
-    height: 500,
     borderRadius: 4,
     position: "absolute",
     top: 10,
