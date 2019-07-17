@@ -30,6 +30,7 @@ const RenderOTP = ({ classes, otp, handleOTP, handleResendOTP, handleConfirmSign
           variant="outlined"
           value={otp}
           onChange={handleOTP}
+          autoFocus
         />
         <AlertBox type="error" message={error} />
         <div className={classes.buttonsContainer}>

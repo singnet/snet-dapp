@@ -56,6 +56,7 @@ const RenderForm = ({
             onChange={handleUsername}
             margin="normal"
             variant="outlined"
+            autoFocus
           />
           <div>
             <TextField

@@ -15,8 +15,8 @@ export const useStyles = theme => ({
     },
     "& h2": {
       margin: 0,
-      color: theme.palette.text.darkShadedGray,
-      fontSize: 36,
+      color: theme.font.h2.color,
+      fontSize: theme.font.h2.size,
     },
     "& p": {
       margin: "40px 0 40px",
