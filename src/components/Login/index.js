@@ -56,11 +56,12 @@ class Login extends Component {
           <form noValidate autoComplete="off" className={classes.loginForm}>
             <TextField
               id="outlined-user-name"
-              label="UserName or Email"
+              label="Username or Email"
               className={classes.textField}
               margin="normal"
               variant="outlined"
               value={username}
+              autoFocus
               onChange={this.handleUsername}
             />
             <TextField

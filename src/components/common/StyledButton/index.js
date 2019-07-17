@@ -11,6 +11,7 @@ const buttonColor = {
   gradient: "gradientBg",
   black: "blackBg",
   transparent: "transparentBg",
+  transparentBlueBorder: "transparentBlueBorder",
   red: "red",
 };
 
@@ -19,14 +20,14 @@ const StyledButton = ({ disabled, onClick, type, iconClass, btnText }) => {
 
   return (
     <Button className={clsx(classes.styledButton, classes[buttonColor[type]])} disabled={disabled} onClick={onClick}>
-      <Icon className={iconClass} />
+      {iconClass ? <Icon className={iconClass} /> : null}
       {btnText}
     </Button>
   );
 };
 
 StyledButton.propTypes = {
-  type: PropTypes.oneOf(["blue", "gradient", "black", "transparent", "red"]),
+  type: PropTypes.oneOf(["blue", "gradient", "black", "transparent", "red", "transparentBlueBorder"]),
 };
 
 StyledButton.defaultProps = {

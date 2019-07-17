@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 
+import Routes from "../../../utility/constants/Routes";
 import Logo from "../../../assets/images/LoginLogo.png";
 import { useStyles } from "./styles";
 
@@ -13,9 +14,9 @@ const LoginOnboardingHeader = ({ classes, headerData }) => {
       <Grid container spacing={24} className={classes.loginHeader}>
         <Grid item xs={12} sm={6} md={6} lg={6}>
           <h1>
-            <a href="#" title="SingularityNET">
+            <Link to={Routes.AI_MARKETPLACE}>
               <img src={Logo} alt="SingularityNET" />
-            </a>
+            </Link>
           </h1>
         </Grid>
         <Grid item xs={12} sm={6} md={6} lg={6} className={classes.loginHeaderLink}>
