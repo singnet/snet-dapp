@@ -31,21 +31,24 @@ export const fetchService = pagination => async dispatch => {
 
 export const invokeServiceMethod = data => dispatch => {
   dispatch(loaderActions.startAppLoader(LoaderContent.SERVICE_INVOKATION));
-  Auth.currentSession({ bypassCache: true }).then(currentSession => {
-    const apiName = APIEndpoints.INVOKE_SERVICE.name;
-    const path = `${APIPaths.INVOKE_SERVICE}-${data.service_id}`;
-    let myInit = {
-      body: data,
-      headers: { Authorization: currentSession.idToken.jwtToken },
-    };
-    API.post(apiName, path, myInit).then(response => {
+  Auth.currentSession({ bypassCache: true })
+    .then(currentSession => {
+      const apiName = APIEndpoints.INVOKE_SERVICE.name;
+      const path = APIPaths.INVOKE_SERVICE;
+      let myInit = {
+        body: data,
+        headers: { Authorization: currentSession.idToken.jwtToken },
+      };
+      return API.post(apiName, path, myInit);
+    })
+    .then(response => {
       dispatch(loaderActions.stopAppLoader);
       dispatch({
         type: UPDATE_SERVICE_EXECUTION_RESPONSE,
         payload: { response: JSON.parse(response.data), isComplete: true },
       });
-    });
-  });
+    })
+    .catch(() => dispatch(loaderActions.stopAppLoader));
 };
 
 export const fetchProtoSpec = servicebufURL => dispatch => {
