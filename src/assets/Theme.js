@@ -46,6 +46,8 @@ const aqua = "#00C48C";
 const errorRed = "#B00020";
 const redBtnText = "#D0021B";
 
+const h2 = { size: 32, color: darkShadedGray };
+
 const theme = createMuiTheme({
   palette: {
     text: {
@@ -99,6 +101,9 @@ const theme = createMuiTheme({
     githubBlack,
     footerBgColor,
     succesBoxBg,
+  },
+  font: {
+    h2,
   },
 });
 

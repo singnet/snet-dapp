@@ -19,9 +19,9 @@ const AiMarketplace = ({ classes, isLoggedIn }) => {
           </Grid>
           <Grid item xs={12} sm={9} md={9} lg={9}>
             <p className={classes.description}>
-              Want to find the right AI service for your project? You’ve come to the right place. <br />
-              We’ve got a growing marketplace with hundreds of AI services for you to utilize. <br />
-              They’re powered by a community of amazing developers from all over the globe.
+              Why rely only on a small and overstretched team of developers when you could be working with thousands?
+              Never be limited by in-house machine learning and AI capabilities again. Explore and connect to the
+              largest open AI marketplace in the world.
             </p>
             <Link to={Routes.SIGNUP} className={classes.signupLink}>
               {!isLoggedIn && <StyledButton type="blue" btnText="Sign up for free credits" />}
