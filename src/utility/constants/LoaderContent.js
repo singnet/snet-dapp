@@ -19,4 +19,8 @@ export const LoaderContent = {
     loaderHeader: "Signing Out",
     loaderText: "You will be signed out of the portal",
   },
+  FILTER: {
+    loaderHeader: "Filter",
+    loaderText: "Filtering the services",
+  },
 };
