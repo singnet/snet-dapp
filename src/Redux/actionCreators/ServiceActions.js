@@ -16,7 +16,7 @@ export const fetchService = (pagination, filters = []) => async dispatch => {
   let url = new URL(`${APIEndpoints.GET_SERVICE_LIST.endpoint}/service`);
   return fetch(url, {
     method: "POST",
-    body: JSON.stringify({ ...pagination, ...filters }),
+    body: JSON.stringify({ ...pagination, filters }),
   })
     .then(res => res.json())
     .then(res => {
