@@ -32,7 +32,7 @@ const tabs = [
   {
     title: "AI Marketplace",
     active: true,
-    link: Routes.AI_MARKETPLACE,
+    link: `/${Routes.AI_MARKETPLACE}`,
     openInNewTab: false,
   },
   {
