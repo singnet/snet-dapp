@@ -12,9 +12,11 @@ const StyledDropdown = ({ labelTxt, list, value, onChange }) => {
     <FormControl className={classes.formControl}>
       <NativeSelect value={value} onChange={onChange} name={labelTxt} className={classes.selectEmpty}>
         <option value="">{labelTxt}</option>
-        <option value={10}>Ten</option>
-        <option value={20}>Twenty</option>
-        <option value={30}>Thirty</option>
+        {list.map(item => (
+          <option key={item.value} value={item.value}>
+            {item.label}
+          </option>
+        ))}
       </NativeSelect>
     </FormControl>
   );
