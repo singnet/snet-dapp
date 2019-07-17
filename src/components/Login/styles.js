@@ -3,8 +3,10 @@ export const useStyles = theme => ({
     textAlign: "center",
     "& h2": {
       margin: 0,
-      fontSize: "36px",
+      fontSize: 32,
+      fontWeight: 600,
       color: theme.palette.text.darkShadedGray,
+      letterSpacing: "-0.5",
     },
   },
   loginForm: {
@@ -12,7 +14,7 @@ export const useStyles = theme => ({
     width: 410,
     padding: "40px 20px 30px",
     margin: "45px auto 0",
-    boxShadow: "0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.14), 0 1px 3px 0 rgba(0,0,0,0.2)",
+    boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
     "& h3": {
       margin: "0 0 11px",
       color: theme.palette.text.darkShadedGray,
@@ -55,12 +57,12 @@ export const useStyles = theme => ({
   },
   textField: {
     width: "100%",
-    "& label": {
-      fontFamily: theme.typography.primary.main,
-    },
+    "& label": { fontFamily: theme.typography.primary.main },
+    "& fieldset": { borderColor: "#828282 !important" },
+    "& div": { color: "#212121 !important" },
   },
   checkboxSection: {
-    margin: "10px 0",
+    margin: "10px 0 17px",
     display: "flex",
     alignItems: "baseline",
     justifyContent: "space-between",
@@ -74,6 +76,9 @@ export const useStyles = theme => ({
       fontSize: 14,
       letterSpacing: "0.25px",
       textDecoration: "none",
+      "&:hover": {
+        textDecoration: "underline",
+      },
     },
     "@media (max-width:400px)": {
       flexDirection: "column",
