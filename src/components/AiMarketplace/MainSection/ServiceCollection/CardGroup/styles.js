@@ -6,6 +6,7 @@ export const useStyles = makeStyles(theme => ({
     "@media(max-width: 1023px) and (min-width: 768px)": { textAlign: "center" },
   },
   routerLink: {
+    width: "100%",
     textDecoration: "none ",
     display: "inline-block",
     verticalAlign: "top",
