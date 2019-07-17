@@ -1,5 +1,5 @@
 import { serviceActions } from "../actionCreators";
-import { defaultListingConfig } from "../../utility/constants/Pagination";
+import { defaultListingConfig, defaultActiveFilterItem } from "../../utility/constants/Pagination";
 
 const InitialServiceList = {
   services: [],
@@ -13,6 +13,7 @@ const InitialServiceList = {
     display_name: [],
     organization: [],
   },
+  activeFilterItem: { ...defaultActiveFilterItem },
 };
 
 const serviceReducer = (state = InitialServiceList, action) => {
@@ -43,6 +44,18 @@ const serviceReducer = (state = InitialServiceList, action) => {
           ...state.filterData,
           ...action.payload,
         },
+      };
+    }
+    case serviceActions.UPDATE_ACTIVE_FILTER_ITEM: {
+      return {
+        ...state,
+        activeFilterItem: { ...action.payload },
+      };
+    }
+    case serviceActions.RESET_FILTER_ITEM: {
+      return {
+        ...state,
+        activeFilterItem: { ...defaultActiveFilterItem },
       };
     }
     default: {

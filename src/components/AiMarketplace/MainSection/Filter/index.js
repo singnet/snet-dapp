@@ -1,19 +1,25 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
 
 import StyledExpansionPanel from "./StyledExpansionPanel";
 import { useStylesHook } from "./styles";
-import { serviceActions, loaderActions } from "../../../../Redux/actionCreators";
+import { serviceActions } from "../../../../Redux/actionCreators";
 import {
   filterParamters,
   defaultActiveFilterItem,
   defaultPaginationParameters,
   generateFilterObject,
 } from "../../../../utility/constants/Pagination";
-import { LoaderContent } from "../../../../utility/constants/LoaderContent";
 
-const Filter = ({ services, pagination, updatePagination, fetchService, filterDataProps, startLoader, stopLoader }) => {
-  const [activeFilterItem, setActiveFilterItem] = useState(defaultActiveFilterItem);
+const Filter = ({
+  activeFilterItem,
+  pagination,
+  updatePagination,
+  fetchService,
+  filterDataProps,
+  handleFilterChange,
+  resetFilter,
+}) => {
   const classes = useStylesHook();
   const filterData = {};
   Object.entries(filterDataProps).map(([key, items]) => {
@@ -21,7 +27,6 @@ const Filter = ({ services, pagination, updatePagination, fetchService, filterDa
   });
 
   const handleActiveFilterItemChange = async event => {
-    startLoader();
     const name = event.currentTarget.name;
     const value = event.currentTarget.value;
     const currentFilterItem = [...activeFilterItem[name]];
@@ -33,18 +38,12 @@ const Filter = ({ services, pagination, updatePagination, fetchService, filterDa
     const currentActiveFilterData = { ...activeFilterItem, [name]: currentFilterItem };
     const filterObj = generateFilterObject(currentActiveFilterData);
     const latestPagination = { ...pagination, ...defaultPaginationParameters, s: filterParamters[name], q: value };
-    await updatePagination(latestPagination);
-    await fetchService(latestPagination, filterObj);
-    setActiveFilterItem(currentActiveFilterData);
-    stopLoader();
+    handleFilterChange({ pagination: latestPagination, filterObj, currentActiveFilterData });
   };
 
   const handleFilterReset = async () => {
-    startLoader();
     const latestPagination = { ...pagination, ...defaultPaginationParameters, s: filterParamters.all, q: "" };
-    await fetchService(latestPagination);
-    setActiveFilterItem(defaultActiveFilterItem);
-    stopLoader();
+    resetFilter({ pagination: latestPagination });
   };
 
   return (
@@ -65,16 +64,16 @@ const Filter = ({ services, pagination, updatePagination, fetchService, filterDa
 };
 
 const mapStateToProps = state => ({
-  services: state.serviceReducer.services,
+  activeFilterItem: state.serviceReducer.activeFilterItem,
   pagination: state.serviceReducer.pagination,
   filterDataProps: state.serviceReducer.filterData,
 });
 
 const mapDispatchToProps = dispatch => ({
-  startLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.FILTER)),
-  stopLoader: () => dispatch(loaderActions.stopAppLoader),
   updatePagination: pagination => dispatch(serviceActions.updatePagination(pagination)),
   fetchService: (pagination, filterObj) => dispatch(serviceActions.fetchService(pagination, filterObj)),
+  handleFilterChange: args => dispatch(serviceActions.handleFilterChange({ ...args })),
+  resetFilter: args => dispatch(serviceActions.resetFilter({ ...args })),
 });
 
 export default connect(
