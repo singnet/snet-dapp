@@ -8,5 +8,6 @@ export const useStyles = theme => ({
       marginBottom: 0,
       alignItems: "center",
     },
+    "& button": { display: "none" },
   },
 });

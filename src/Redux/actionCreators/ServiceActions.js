@@ -40,15 +40,14 @@ export const invokeServiceMethod = data => dispatch => {
         body: data,
         headers: { Authorization: currentSession.idToken.jwtToken },
       };
-      API.post(apiName, path, myInit)
-        .then(response => {
-          dispatch(loaderActions.stopAppLoader);
-          dispatch({
-            type: UPDATE_SERVICE_EXECUTION_RESPONSE,
-            payload: { response: JSON.parse(response.data), isComplete: true },
-          });
-        })
-        .catch(() => dispatch(loaderActions.stopAppLoader));
+      return API.post(apiName, path, myInit);
+    })
+    .then(response => {
+      dispatch(loaderActions.stopAppLoader);
+      dispatch({
+        type: UPDATE_SERVICE_EXECUTION_RESPONSE,
+        payload: { response: JSON.parse(response.data), isComplete: true },
+      });
     })
     .catch(() => dispatch(loaderActions.stopAppLoader));
 };

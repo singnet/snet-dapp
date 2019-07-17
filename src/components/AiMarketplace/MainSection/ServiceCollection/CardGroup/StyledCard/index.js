@@ -8,8 +8,8 @@ import CardActions from "@material-ui/core/CardActions";
 import Typography from "@material-ui/core/Typography";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import IconButton from "@material-ui/core/IconButton";
-import Button from "@material-ui/core/Button";
 
+import StyledButton from "../../../../../common/StyledButton";
 import { useStyles } from "./styles";
 
 const StyledCard = props => {
@@ -23,7 +23,7 @@ const StyledCard = props => {
           subheader: classes.cardSubheader,
         }}
         title={props.cardTitle}
-        subheader={props.cardSubheader}
+        subheader={<h4>{props.cardSubheader}</h4>}
       />
       <CardMedia className={classes.CardMedia} image={props.cardMedia} title={props.title} />
       <CardContent className={classes.cardContent}>
@@ -45,9 +45,7 @@ const StyledCard = props => {
         </Typography>
       </CardContent>
       <CardActions className={classes.cardActions}>
-        <Button color="primary" className={classes.detailsBtn}>
-          deatils
-        </Button>
+        <StyledButton type="transparent" btnText="demo" />
         <IconButton aria-label="Settings" className={classes.showMore}>
           <MoreVertIcon />
         </IconButton>
