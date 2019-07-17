@@ -40,9 +40,11 @@ const Filter = ({ services, pagination, updatePagination, fetchService, filterDa
   };
 
   const handleFilterReset = async () => {
+    startLoader();
     const latestPagination = { ...pagination, ...defaultPaginationParameters, s: filterParamters.all, q: "" };
     await fetchService(latestPagination);
     setActiveFilterItem(defaultActiveFilterItem);
+    stopLoader();
   };
 
   return (
