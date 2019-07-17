@@ -37,6 +37,10 @@ class UserProfileSettings extends Component {
     }
   };
 
+  handleChangePassword = () => {
+    this.props.history.push(`/${Routes.FORGOT_PASSWORD}`);
+  };
+
   render() {
     const { classes, email, username } = this.props;
     const { error } = this.state;
@@ -70,7 +74,11 @@ class UserProfileSettings extends Component {
             </div>
             <div>
               <h4>Password</h4>
-              <StyledButton type="transparentBlueBorder" btnText="Change Password" />
+              <StyledButton
+                type="transparentBlueBorder"
+                btnText="Change Password"
+                onClick={this.handleChangePassword}
+              />
             </div>
             <div className={classes.notification}>
               <h4>Notifications</h4>
