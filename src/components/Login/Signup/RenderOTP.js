@@ -10,16 +10,15 @@ import { useStyles } from "./styles";
 const RenderOTP = ({ classes, otp, handleOTP, handleResendOTP, handleConfirmSignup, error }) => {
   return (
     <Grid item xs={12} sm={12} md={6} lg={6} className={`${classes.confirmOtp}`}>
+      <h3>Validate your email </h3>
       <form noValidate autoComplete="off" className={`${classes.signupForm}`}>
-        <h3>Confirm Sign up </h3>
         <p>
-          <strong>A verfiication code has been sent to your email address</strong>
+          <strong>A verification code has been sent to your registered email address.</strong>
         </p>
         <p>
-          Please enter the verification code below to confirm your email address. If you are unable to find the email
-          from
-          <strong> 'otp@singularitynet.io'</strong> in your inbox, make sure to check the spam folder. The code will be
-          valid only for 5 minutes.
+          Please enter the verification code below to confirm your email address. Check your spam, or junk folders if
+          you encounter any delays. The email should be from otp@singularitynet.io. The code will be valid for 5
+          minutes.
         </p>
         <TextField
           id="outlined-confirm-otp"
@@ -31,6 +30,7 @@ const RenderOTP = ({ classes, otp, handleOTP, handleResendOTP, handleConfirmSign
           variant="outlined"
           value={otp}
           onChange={handleOTP}
+          autoFocus
         />
         <AlertBox type="error" message={error} />
         <div className={classes.buttonsContainer}>
