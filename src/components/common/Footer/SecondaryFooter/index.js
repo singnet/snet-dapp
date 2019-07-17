@@ -8,13 +8,13 @@ const SecondaryFooter = ({ data }) => {
   const classes = useStyles();
   return (
     <Grid container spacing={24} className={classes.secondaryFooter}>
-      <Grid item xs={12} sm={12} md={4} lg={4}>
+      <Grid item xs={12} sm={12} md={6} lg={6}>
         <p className={classes.copyrightText}>Copyright © 2019 SingularityNET All rights reserved.</p>
         <p className={classes.copyrightText}>
           Stichting SingularityNET Barbara Strozzilaan 362 1083 HN Amsterdam The Netherlands
         </p>
       </Grid>
-      <Grid item xs={12} sm={12} md={8} lg={8}>
+      <Grid item xs={12} sm={12} md={6} lg={6}>
         <ul className={classes.socialIconsList}>
           {data.map(item => (
             <SocialIcon key={item.title} item={item} />

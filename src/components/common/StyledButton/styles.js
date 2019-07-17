@@ -34,10 +34,14 @@ export const useStyles = makeStyles(theme => ({
     },
   },
   transparentBg: {
-    backgroundColor: "transparent !important",
+    backgroundColor: "transparent",
     color: theme.palette.text.primary,
     "&:disabled": {
       color: "#ccc !important",
+    },
+    "&:hover": {
+      backgroundColor: "rgba(64,134,255,0.1)",
+      color: theme.palette.text.customHoverBlue,
     },
   },
   red: {
