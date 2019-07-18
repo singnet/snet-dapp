@@ -7,13 +7,14 @@ import StyledButton from "../../common/StyledButton";
 import { useStyles } from "./styles";
 import Price from "./Price";
 
-const PricingDetails = ({ classes, price_model }) => {
+const PricingDetails = ({ classes, price_model, price_strategy }) => {
+  const priceInAGI = typeof price_strategy === "undefined" ? undefined : price_strategy.getMaxPriceInAGI();
   return (
     <Grid item xs={12} sm={12} md={4} lg={4} className={classes.creditsContainer}>
       <div className={classes.creditsAndToken}>
-        <Price unit="credits" value="12" />
+        <Price unit="credits" value="1" />
         <span>=</span>
-        <Price unit="agi tokens" value="0.000001" />
+        <Price unit="agi tokens" value={priceInAGI} />
       </div>
       <p>
         <Icon className="fas fa-info-circle" />

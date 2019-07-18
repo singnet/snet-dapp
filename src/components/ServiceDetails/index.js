@@ -9,6 +9,7 @@ import StyledTabs from "./StyledTabs";
 import AboutService from "./AboutService";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../Redux/actionCreators";
+import { PricingStrategy } from "../../utility/PricingStrategy.js";
 
 class ServiceDetails extends Component {
   state = {
@@ -36,7 +37,14 @@ class ServiceDetails extends Component {
 
   populateServiceData = () => {
     const { service_row_id } = this.props.match.params;
-    const service = this.props.services.filter(el => el.service_row_id === Number(service_row_id))[0];
+    let service = this.props.services.filter(el => el.service_row_id === Number(service_row_id))[0];
+
+    if (typeof service !== "undefined") {
+      const pricing = service["pricing"];
+      let pricingJSON = typeof pricing === "undefined" || pricing === null ? JSON.stringify(service) : pricing;
+      service.pricing_strategy = new PricingStrategy(pricingJSON);
+    }
+
     this.setState({ service_row_id, service });
   };
 
@@ -53,10 +61,11 @@ class ServiceDetails extends Component {
     if (!service) {
       return null;
     }
+
     return (
       <Grid container spacing={24} className={classes.serviceDetailContainer}>
         <TitleCard org_id={service.org_id} display_name={service.display_name} img_url={service.display_image_url} />
-        <PricingDetails price_model={service.price_model} />
+        <PricingDetails price_model={service.price_model} price_strategy={service.pricing_strategy} />
         <StyledTabs tabs={tabs} activeTab={activeTab} onTabChange={this.handleTabChange} />
       </Grid>
     );
