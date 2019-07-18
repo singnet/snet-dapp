@@ -13,7 +13,7 @@ import { userActions } from "../../Redux/actionCreators";
 class Onboarding extends Component {
   state = {
     verificationCode: "",
-    activeSection: 2,
+    activeSection: 1,
     progressText: ["Authentication", "Terms of use", "Wallet key"],
   };
 
