@@ -14,7 +14,7 @@ const CardGroup = ({ cards }) => {
         <Link to={`/${Routes.SERVICE_DETAILS}/${card.service_row_id}`} className={classes.routerLink}>
           <ServiceListItem
             key={card.service_id}
-            cardMedia={card.display_image_url ? card.display_image_url : CardImg}
+            cardMedia={card.hero_image ? card.hero_image : CardImg}
             cardTitle={card.org_id}
             cardSubheader={card.display_name}
             ratingGiven={card.service_rating}
