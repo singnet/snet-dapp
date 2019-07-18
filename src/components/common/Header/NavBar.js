@@ -1,6 +1,6 @@
 import React from "react";
 
-import StyledDropdown from "../StyledDropdown/";
+//import StyledDropdown from "../StyledDropdown/";
 import { useStyles } from "./styles";
 import NavItem from "./NavItem";
 
@@ -18,11 +18,11 @@ const NavBar = ({ data }) => {
             openInNewTab={tab.openInNewTab}
           />
         ))}
-        {data.dropdowns.map(dropdown => (
+        {/*data.dropdowns.map(dropdown => (
           <li key={dropdown.label} className={classes.navLinksDropDown}>
             <StyledDropdown labelTxt={dropdown.label} list={dropdown.list} />
           </li>
-        ))}
+        ))*/}
       </ul>
     </nav>
   );

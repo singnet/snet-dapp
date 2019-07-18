@@ -64,15 +64,17 @@ const userReducer = (state = InitialUserDetails, action) => {
           ...state.login,
           ...action.payload.login,
         },
+        isWalletAssigned: false,
       };
     }
-
     case userActions.CHECK_WALLET_STATUS: {
       return { ...state, isWalletAssigned: action.payload.isWalletAssigned };
     }
-
     case userActions.UPDATE_USERNAME: {
       return { ...state, ...action.payload };
+    }
+    case userActions.UPDATE_EMAIL_VERIFIED: {
+      return { ...state, isEmailVerified: action.payload.isEmailVerified };
     }
 
     default: {

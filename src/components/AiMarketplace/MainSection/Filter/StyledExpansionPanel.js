@@ -5,7 +5,7 @@ import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Typography from "@material-ui/core/Typography";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Radio from "@material-ui/core/Radio";
+import Checkbox from "@material-ui/core/Checkbox";
 import { withStyles } from "@material-ui/styles";
 
 import { useStyles } from "./styles";
@@ -29,14 +29,14 @@ const StyledExpansionPanel = ({ classes, expansionItems, handleChange, activeFil
                   <div className={classes.formCntrlGrup} key={item.title}>
                     <FormControlLabel
                       control={
-                        <Radio
+                        <Checkbox
                           name={expansionItem.name}
-                          checked={item.title === activeFilterItem[expansionItem.name]}
+                          checked={activeFilterItem[expansionItem.name].includes(item)}
                           onChange={handleChange}
-                          value={item.title}
+                          value={item}
                         />
                       }
-                      label={item.title}
+                      label={item}
                       classes={{
                         label: classes.checkboxLabel,
                       }}

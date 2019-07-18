@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
@@ -38,6 +37,10 @@ class UserProfileSettings extends Component {
     }
   };
 
+  handleChangePassword = () => {
+    this.props.history.push(`/${Routes.FORGOT_PASSWORD}`);
+  };
+
   render() {
     const { classes, email, username } = this.props;
     const { error } = this.state;
@@ -71,9 +74,11 @@ class UserProfileSettings extends Component {
             </div>
             <div>
               <h4>Password</h4>
-              <Link>
-                <StyledButton type="transparentBlueBorder" btnText="Change Password" />
-              </Link>
+              <StyledButton
+                type="transparentBlueBorder"
+                btnText="Change Password"
+                onClick={this.handleChangePassword}
+              />
             </div>
             <div className={classes.notification}>
               <h4>Notifications</h4>

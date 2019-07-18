@@ -34,6 +34,7 @@ const githubBlack = "#333";
 const black1 = "rgba(0,0,0,.87)";
 const green = "#00C48C";
 
+const footerBgColor = "#211D24";
 const darkOrange = "#AC5C2C";
 
 const orange = "#F29132";
@@ -44,6 +45,8 @@ const aqua = "#00C48C";
 
 const errorRed = "#B00020";
 const redBtnText = "#D0021B";
+
+const h2 = { size: 32, color: darkShadedGray };
 
 const theme = createMuiTheme({
   palette: {
@@ -96,7 +99,11 @@ const theme = createMuiTheme({
     red: errorBgColor,
     white: whiteColor,
     githubBlack,
+    footerBgColor,
     succesBoxBg,
+  },
+  font: {
+    h2,
   },
 });
 
