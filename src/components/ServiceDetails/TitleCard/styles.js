@@ -26,15 +26,6 @@ export const useStyles = theme => ({
       paddingRight: 2,
     },
   },
-  ratedCount: {
-    marginLeft: 10,
-    display: "inline-block",
-    color: theme.palette.text.secondary,
-    fontSize: 12,
-    fontWeight: theme.typography.fontweight,
-    letterSpacing: 2,
-    verticalAlign: "super",
-  },
   apiCall: {
     padding: "6px 15px",
     borderWidth: 1,
