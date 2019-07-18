@@ -4,9 +4,7 @@ const PrivacyTerms = () => {
   return (
     <html>
       <body>
-        <p>
-          <span />
-        </p>
+        <h2>Terms of service</h2>
         <p>
           <span>The following terms and conditions govern all use of the </span>
           <span>
@@ -58,12 +56,10 @@ const PrivacyTerms = () => {
             these terms. The Website is available only to individuals who are at least 13 years old.
           </span>
         </p>
-        <h2 id="h.ff8gyjsw63t7">
-          <span>
-            <a href="https://community.singularitynet.io/tos%231&amp;sa=D&amp;ust=1563446694794000">
-              1. Your SingularityNET.io Account
-            </a>
-          </span>
+        <h2>
+          <a href="https://community.singularitynet.io/tos%231&amp;sa=D&amp;ust=1563446694794000">
+            1. Your SingularityNET.io Account
+          </a>
         </h2>
         <p>
           <span>
@@ -74,12 +70,10 @@ const PrivacyTerms = () => {
             of such acts or omissions.
           </span>
         </p>
-        <h2 id="h.buj0dld39kgy">
-          <span>
-            <a href="https://community.singularitynet.io/tos%232&amp;sa=D&amp;ust=1563446694795000">
-              2. Responsibility of Contributors
-            </a>
-          </span>
+        <h2>
+          <a href="https://community.singularitynet.io/tos%232&amp;sa=D&amp;ust=1563446694795000">
+            2. Responsibility of Contributors
+          </a>
         </h2>
         <p>
           <span>
@@ -150,12 +144,10 @@ const PrivacyTerms = () => {
             </span>
           </li>
         </ul>
-        <h2 id="h.sw6drwqhp0c7">
-          <span>
-            <a href="https://community.singularitynet.io/tos%233&amp;sa=D&amp;ust=1563446694797000">
-              3. User Content License
-            </a>
-          </span>
+        <h2>
+          <a href="https://community.singularitynet.io/tos%233&amp;sa=D&amp;ust=1563446694797000">
+            3. User Content License
+          </a>
         </h2>
         <p>
           <span>User contributions are licensed under a </span>
@@ -173,16 +165,12 @@ const PrivacyTerms = () => {
             refund of any amounts previously paid.
           </span>
         </p>
-        <h2 id="h.ulp1ip4l8ara">
-          <span>
-            <a href="https://community.singularitynet.io/tos%234&amp;sa=D&amp;ust=1563446694798000">
-              4. Payment and Renewal
-            </a>
-          </span>
+        <h2>
+          <a href="https://community.singularitynet.io/tos%234&amp;sa=D&amp;ust=1563446694798000">
+            4. Payment and Renewal
+          </a>
         </h2>
-        <h3 id="h.9yqeplabof89">
-          <span>General Terms</span>
-        </h3>
+        <h3>General Terms</h3>
         <p>
           <span>
             Optional paid services or upgrades may be available on the Website. When utilizing an optional paid service
@@ -192,9 +180,7 @@ const PrivacyTerms = () => {
             refundable.
           </span>
         </p>
-        <h3 id="h.yvtlf9552wtk">
-          <span>Automatic Renewal</span>
-        </h3>
+        <h3>Automatic Renewal</h3>
         <p>
           <span>
             Unless you notify SingularityNET before the end of the applicable subscription period that you want to
@@ -203,14 +189,10 @@ const PrivacyTerms = () => {
             payment mechanisms we have on record for you. Subscriptions can be canceled at any time.
           </span>
         </p>
-        <h2 id="h.zdtk6alwvc6t">
-          <span>
-            <a href="https://community.singularitynet.io/tos%235&amp;sa=D&amp;ust=1563446694800000">5. Services</a>
-          </span>
+        <h2>
+          <a href="https://community.singularitynet.io/tos%235&amp;sa=D&amp;ust=1563446694800000">5. Services</a>
         </h2>
-        <h3 id="h.78shzpvk2jy1">
-          <span>Hosting, Support Services</span>
-        </h3>
+        <h3>Hosting, Support Services</h3>
         <p>
           <span>
             Optional Hosting and Support services may be provided by SingularityNET under the terms and conditions for
@@ -218,9 +200,7 @@ const PrivacyTerms = () => {
             such terms and conditions.
           </span>
         </p>
-        <h3 id="h.j2b9r16xaf6y">
-          <span>HTTPS</span>
-        </h3>
+        <h3>HTTPS</h3>
         <p>
           <span>We offer HTTPS as a paid add-on. By signing up and using a custom domain on </span>
           <span>
@@ -231,9 +211,7 @@ const PrivacyTerms = () => {
             certificates, for example) for the sole purpose of providing HTTPS on your site.
           </span>
         </p>
-        <h3 id="h.bdcmne9e179v">
-          <span>Enterprise</span>
-        </h3>
+        <h3>Enterprise</h3>
         <p>
           <span>
             Enterprise Hosting services are provided by SingularityNET.Preformatted text under the terms and conditions
@@ -241,12 +219,10 @@ const PrivacyTerms = () => {
             Hosting account you agree to abide by such terms and conditions.
           </span>
         </p>
-        <h2 id="h.gg2sknraesaq">
-          <span>
-            <a href="https://community.singularitynet.io/tos%236&amp;sa=D&amp;ust=1563446694802000">
-              6. Responsibility of Website Visitors
-            </a>
-          </span>
+        <h2>
+          <a href="https://community.singularitynet.io/tos%236&amp;sa=D&amp;ust=1563446694802000">
+            6. Responsibility of Website Visitors
+          </a>
         </h2>
         <p>
           <span>
@@ -264,12 +240,10 @@ const PrivacyTerms = () => {
             or from any downloading by those visitors of content there posted.
           </span>
         </p>
-        <h2 id="h.xdjpc1tckamh">
-          <span>
-            <a href="https://community.singularitynet.io/tos%237&amp;sa=D&amp;ust=1563446694803000">
-              7. Content Posted on Other Websites
-            </a>
-          </span>
+        <h2>
+          <a href="https://community.singularitynet.io/tos%237&amp;sa=D&amp;ust=1563446694803000">
+            7. Content Posted on Other Websites
+          </a>
         </h2>
         <p>
           <span>
@@ -304,12 +278,10 @@ const PrivacyTerms = () => {
           </span>
           <span>&nbsp;websites and webpages.</span>
         </p>
-        <h2 id="h.msuk78527ddq">
-          <span>
-            <a href="https://community.singularitynet.io/tos%238&amp;sa=D&amp;ust=1563446694805000">
-              8. Copyright Infringement and DMCA Policy
-            </a>
-          </span>
+        <h2>
+          <a href="https://community.singularitynet.io/tos%238&amp;sa=D&amp;ust=1563446694805000">
+            8. Copyright Infringement and DMCA Policy
+          </a>
         </h2>
         <p>
           <span>
@@ -337,12 +309,10 @@ const PrivacyTerms = () => {
             obligation to provide a refund of any amounts previously paid to SingularityNET.
           </span>
         </p>
-        <h2 id="h.8qstfgio8g4y">
-          <span>
-            <a href="https://community.singularitynet.io/tos%239&amp;sa=D&amp;ust=1563446694807000">
-              9. Intellectual Property
-            </a>
-          </span>
+        <h2>
+          <a href="https://community.singularitynet.io/tos%239&amp;sa=D&amp;ust=1563446694807000">
+            9. Intellectual Property
+          </a>
         </h2>
         <p>
           <span>
@@ -368,10 +338,8 @@ const PrivacyTerms = () => {
             or otherwise use any SingularityNET or third-party trademarks.
           </span>
         </p>
-        <h2 id="h.utsco4lu212n">
-          <span>
-            <a href="https://community.singularitynet.io/tos%2310&amp;sa=D&amp;ust=1563446694808000">10. Attribution</a>
-          </span>
+        <h2>
+          <a href="https://community.singularitynet.io/tos%2310&amp;sa=D&amp;ust=1563446694808000">10. Attribution</a>
         </h2>
         <p>
           <span>SingularityNET reserves the right to display attribution links such as &lsquo;Powered by </span>
@@ -380,10 +348,8 @@ const PrivacyTerms = () => {
           </span>
           <span>,&rsquo; theme author, and font attribution in your content footer.</span>
         </p>
-        <h2 id="h.lj9wuz1admp2">
-          <span>
-            <a href="https://community.singularitynet.io/tos%2311&amp;sa=D&amp;ust=1563446694809000">11. Changes</a>
-          </span>
+        <h2>
+          <a href="https://community.singularitynet.io/tos%2311&amp;sa=D&amp;ust=1563446694809000">11. Changes</a>
         </h2>
         <p>
           <span>
@@ -395,10 +361,8 @@ const PrivacyTerms = () => {
             the terms and conditions of this Agreement.
           </span>
         </p>
-        <h2 id="h.z1mfxpl5v58c">
-          <span>
-            <a href="https://community.singularitynet.io/tos%2312&amp;sa=D&amp;ust=1563446694810000">12. Termination</a>
-          </span>
+        <h2>
+          <a href="https://community.singularitynet.io/tos%2312&amp;sa=D&amp;ust=1563446694810000">12. Termination</a>
         </h2>
         <p>
           <span>
@@ -414,12 +378,10 @@ const PrivacyTerms = () => {
             limitation, ownership provisions, warranty disclaimers, indemnity and limitations of liability.
           </span>
         </p>
-        <h2 id="h.qgwgphn7w14a">
-          <span>
-            <a href="https://community.singularitynet.io/tos%2313&amp;sa=D&amp;ust=1563446694811000">
-              13. Disclaimer of Warranties
-            </a>
-          </span>
+        <h2>
+          <a href="https://community.singularitynet.io/tos%2313&amp;sa=D&amp;ust=1563446694811000">
+            13. Disclaimer of Warranties
+          </a>
         </h2>
         <p>
           <span>
@@ -439,12 +401,10 @@ const PrivacyTerms = () => {
             your own discretion and risk.
           </span>
         </p>
-        <h2 id="h.i50iqgn3vgkl">
-          <span>
-            <a href="https://community.singularitynet.io/tos%2314&amp;sa=D&amp;ust=1563446694812000">
-              14. Limitation of Liability
-            </a>
-          </span>
+        <h2>
+          <a href="https://community.singularitynet.io/tos%2314&amp;sa=D&amp;ust=1563446694812000">
+            14. Limitation of Liability
+          </a>
         </h2>
         <p>
           <span>
@@ -457,12 +417,10 @@ const PrivacyTerms = () => {
             beyond their reasonable control. The foregoing shall not apply to the extent prohibited by applicable law.
           </span>
         </p>
-        <h2 id="h.7stv1b1f9vas">
-          <span>
-            <a href="https://community.singularitynet.io/tos%2315&amp;sa=D&amp;ust=1563446694813000">
-              15. General Representation and Warranty
-            </a>
-          </span>
+        <h2>
+          <a href="https://community.singularitynet.io/tos%2315&amp;sa=D&amp;ust=1563446694813000">
+            15. General Representation and Warranty
+          </a>
         </h2>
         <p>
           <span>
@@ -486,12 +444,10 @@ const PrivacyTerms = () => {
             Website will not infringe or misappropriate the intellectual property rights of any third party.
           </span>
         </p>
-        <h2 id="h.s8xuiiksthf6">
-          <span>
-            <a href="https://community.singularitynet.io/tos%2316&amp;sa=D&amp;ust=1563446694815000">
-              16. Indemnification
-            </a>
-          </span>
+        <h2>
+          <a href="https://community.singularitynet.io/tos%2316&amp;sa=D&amp;ust=1563446694815000">
+            16. Indemnification
+          </a>
         </h2>
         <p>
           <span>
@@ -501,12 +457,8 @@ const PrivacyTerms = () => {
             violation of this Agreement.
           </span>
         </p>
-        <h2 id="h.ukiwn5p3uwux">
-          <span>
-            <a href="https://community.singularitynet.io/tos%2317&amp;sa=D&amp;ust=1563446694815000">
-              17. Miscellaneous
-            </a>
-          </span>
+        <h2>
+          <a href="https://community.singularitynet.io/tos%2317&amp;sa=D&amp;ust=1563446694815000">17. Miscellaneous</a>
         </h2>
         <p>
           <span>
