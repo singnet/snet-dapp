@@ -84,13 +84,4 @@ export const useStyles = makeStyles(theme => ({
       color: theme.palette.text.RatingStarColor,
     },
   },
-  ratedCount: {
-    marginLeft: 10,
-    display: "inline-block",
-    color: theme.palette.text.secondary,
-    fontSize: 12,
-    fontWeight: theme.typography.fontweight,
-    letterSpacing: 2,
-    verticalAlign: "super",
-  },
 }));

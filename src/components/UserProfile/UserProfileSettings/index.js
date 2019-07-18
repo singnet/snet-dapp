@@ -42,7 +42,7 @@ class UserProfileSettings extends Component {
   };
 
   render() {
-    const { classes, email, username } = this.props;
+    const { classes, userEmail, username } = this.props;
     const { error } = this.state;
     return (
       <Grid container spacing={24} className={classes.settingMainContainer}>
@@ -66,7 +66,7 @@ class UserProfileSettings extends Component {
                 id="outlined-name"
                 label="Email"
                 className={classes.styledTextField}
-                value={email}
+                value={userEmail}
                 margin="normal"
                 variant="outlined"
                 disabled
