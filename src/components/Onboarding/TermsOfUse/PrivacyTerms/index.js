@@ -1,14 +1,11 @@
 import React from "react";
 
-import "./styles.css";
+// import "./styles.css";
 
 const PrivacyTerms = () => {
   return (
     <html>
       <body className="c13">
-        <p className="c10">
-          <span className="c11">Terms of service </span>
-        </p>
         <p className="c10 c14">
           <span className="c6 c12" />
         </p>
