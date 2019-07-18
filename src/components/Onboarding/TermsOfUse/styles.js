@@ -41,7 +41,10 @@ export const useStyles = theme => ({
       color: theme.palette.text.lightShadedGray,
       lineHeight: "21px",
     },
-    "& span": { fontFamily: theme.typography.secondary.main },
+    "& span": {
+      fontFamily: theme.typography.secondary.main,
+      color: theme.palette.text.lightShadedGray,
+    },
     "& a": {
       color: theme.palette.text.primary,
       fontWeight: 600,

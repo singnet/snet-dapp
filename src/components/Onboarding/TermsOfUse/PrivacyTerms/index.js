@@ -3,89 +3,68 @@ import React from "react";
 const PrivacyTerms = () => {
   return (
     <html>
-      <body className="c13">
-        <p className="c10 c14">
-          <span className="c6 c12" />
+      <body>
+        <p>
+          <span />
         </p>
-        <p className="c7">
-          <span className="c4">The following terms and conditions govern all use of the </span>
-          <span className="c0">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694791000"
-            >
+        <p>
+          <span>The following terms and conditions govern all use of the </span>
+          <span>
+            <a href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694791000">
               SingularityNET.io
             </a>
           </span>
-          <span className="c4">
+          <span>
             &nbsp;website and all content, services and products available at or through the website, including, but not
             limited to,{" "}
           </span>
-          <span className="c0">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694791000"
-            >
+          <span>
+            <a href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694791000">
               SingularityNET.io
             </a>
           </span>
-          <span className="c4">&nbsp;Forum Software, </span>
-          <span className="c0">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694792000"
-            >
+          <span>&nbsp;Forum Software, </span>
+          <span>
+            <a href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694792000">
               SingularityNET.io
             </a>
           </span>
-          <span className="c4">&nbsp;Support Forums and the </span>
-          <span className="c0">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694792000"
-            >
+          <span>&nbsp;Support Forums and the </span>
+          <span>
+            <a href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694792000">
               SingularityNET.io
             </a>
           </span>
-          <span className="c4">
+          <span>
             &nbsp;Hosting service (&ldquo;Hosting&rdquo;), (taken together, the Website). The Website is owned and
             operated by Stichting SingularityNET (&ldquo;SingularityNET&rdquo;). The Website is offered subject to your
             acceptance without modification of all of the terms and conditions contained herein and all other operating
             rules, policies (including, without limitation,{" "}
           </span>
-          <span className="c0">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694793000"
-            >
+          <span>
+            <a href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694793000">
               SingularityNET.io
             </a>
           </span>
-          <span className="c4">&rsquo;s </span>
-          <span className="c0">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=https://community.singularitynet.io/privacy&amp;sa=D&amp;ust=1563446694793000"
-            >
+          <span>&rsquo;s </span>
+          <span>
+            <a href="https://www.google.com/url?q=https://community.singularitynet.io/privacy&amp;sa=D&amp;ust=1563446694793000">
               Privacy Policy
             </a>
           </span>
-          <span className="c4">and </span>
-          <span className="c0">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=https://community.singularitynet.io/faq&amp;sa=D&amp;ust=1563446694793000"
-            >
+          <span>and </span>
+          <span>
+            <a href="https://www.google.com/url?q=https://community.singularitynet.io/faq&amp;sa=D&amp;ust=1563446694793000">
               Community Guidelines
             </a>
           </span>
-          <span className="c4 c6">
+          <span>
             ) and procedures that may be published from time to time on this Site by SingularityNET (collectively, the
             &ldquo;Agreement&rdquo;).
           </span>
         </p>
-        <p className="c7">
-          <span className="c6 c4">
+        <p>
+          <span>
             Please read this Agreement carefully before accessing or using the Website. By accessing or using any part
             of the website, you agree to become bound by the terms and conditions of this agreement. If you do not agree
             to all the terms and conditions of this agreement, then you may not access the Website or use any services.
@@ -93,18 +72,15 @@ const PrivacyTerms = () => {
             these terms. The Website is available only to individuals who are at least 13 years old.
           </span>
         </p>
-        <h2 className="c2" id="h.ff8gyjsw63t7">
-          <span className="c1">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=https://community.singularitynet.io/tos%231&amp;sa=D&amp;ust=1563446694794000"
-            >
+        <h2 id="h.ff8gyjsw63t7">
+          <span>
+            <a href="https://www.google.com/url?q=https://community.singularitynet.io/tos%231&amp;sa=D&amp;ust=1563446694794000">
               1. Your SingularityNET.io Account
             </a>
           </span>
         </h2>
-        <p className="c7">
-          <span className="c6 c4">
+        <p>
+          <span>
             If you create an account on the Website, you are responsible for maintaining the security of your account
             and you are fully responsible for all activities that occur under the account. You must immediately notify
             SingularityNET of any unauthorized uses of your account or any other breaches of security. SingularityNET
@@ -112,18 +88,15 @@ const PrivacyTerms = () => {
             of such acts or omissions.
           </span>
         </p>
-        <h2 className="c2" id="h.buj0dld39kgy">
-          <span className="c1">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=https://community.singularitynet.io/tos%232&amp;sa=D&amp;ust=1563446694795000"
-            >
+        <h2 id="h.buj0dld39kgy">
+          <span>
+            <a href="https://www.google.com/url?q=https://community.singularitynet.io/tos%232&amp;sa=D&amp;ust=1563446694795000">
               2. Responsibility of Contributors
             </a>
           </span>
         </h2>
-        <p className="c7">
-          <span className="c6 c4">
+        <p>
+          <span>
             If you post material to the Website, post links on the Website, or otherwise make (or allow any third party
             to make) material available by means of the Website (any such material, &ldquo;Content&rdquo;), You are
             entirely responsible for the content of, and any harm resulting from, that Content. That is the case
@@ -131,87 +104,81 @@ const PrivacyTerms = () => {
             software. By making Content available, you represent and warrant that:
           </span>
         </p>
-        <ul className="c5 lst-kix_vdup2d8j3ppw-0 start">
-          <li className="c8">
-            <span className="c6 c4">
+        <ul>
+          <li>
+            <span>
               the downloading, copying and use of the Content will not infringe the proprietary rights, including but
               not limited to the copyright, patent, trademark or trade secret rights, of any third party;
             </span>
           </li>
-          <li className="c8">
-            <span className="c6 c4">
+          <li>
+            <span>
               if your employer has rights to intellectual property you create, you have either (i) received permission
               from your employer to post or make available the Content, including but not limited to any software, or
               (ii) secured from your employer a waiver as to all rights in or to the Content;
             </span>
           </li>
-          <li className="c8">
-            <span className="c6 c4">
+          <li>
+            <span>
               you have fully complied with any third-party licenses relating to the Content, and have done all things
               necessary to successfully pass through to end users any required terms;
             </span>
           </li>
-          <li className="c8">
-            <span className="c6 c4">
+          <li>
+            <span>
               the Content does not contain or install any viruses, worms, malware, Trojan horses or other harmful or
               destructive content;
             </span>
           </li>
-          <li className="c8">
-            <span className="c6 c4">
+          <li>
+            <span>
               the Content is not spam, is not machine- or randomly-generated, and does not contain unethical or unwanted
               commercial content designed to drive traffic to third party sites or boost the search engine rankings of
               third party sites, or to further unlawful acts (such as phishing) or mislead recipients as to the source
               of the material (such as spoofing);
             </span>
           </li>
-          <li className="c8">
-            <span className="c6 c4">
+          <li>
+            <span>
               the Content is not pornographic, does not contain threats or incite violence, and does not violate the
               privacy or publicity rights of any third party;
             </span>
           </li>
-          <li className="c8">
-            <span className="c6 c4">
+          <li>
+            <span>
               your content is not getting advertised via unwanted electronic messages such as spam links on newsgroups,
               email lists, blogs and websites, and similar unsolicited promotional methods;
             </span>
           </li>
-          <li className="c8">
-            <span className="c6 c4">
+          <li>
+            <span>
               your content is not named in a manner that misleads your readers into thinking that you are another person
               or company; and
             </span>
           </li>
-          <li className="c8">
-            <span className="c6 c4">
+          <li>
+            <span>
               you have, in the case of Content that includes computer code, accurately categorized and/or described the
               type, nature, uses, and effects of the materials, whether requested to do so by SingularityNET or
               otherwise.
             </span>
           </li>
         </ul>
-        <h2 className="c2" id="h.sw6drwqhp0c7">
-          <span className="c1">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=https://community.singularitynet.io/tos%233&amp;sa=D&amp;ust=1563446694797000"
-            >
+        <h2 id="h.sw6drwqhp0c7">
+          <span>
+            <a href="https://www.google.com/url?q=https://community.singularitynet.io/tos%233&amp;sa=D&amp;ust=1563446694797000">
               3. User Content License
             </a>
           </span>
         </h2>
-        <p className="c7">
-          <span className="c4">User contributions are licensed under a </span>
-          <span className="c0">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US&amp;sa=D&amp;ust=1563446694798000"
-            >
+        <p>
+          <span>User contributions are licensed under a </span>
+          <span>
+            <a href="https://www.google.com/url?q=http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US&amp;sa=D&amp;ust=1563446694798000">
               Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License
             </a>
           </span>
-          <span className="c6 c4">
+          <span>
             . Without limiting any of those representations or warranties, SingularityNET has the right (though not the
             obligation) to, in SingularityNET&rsquo;s sole discretion (i) refuse or remove any content that, in
             SingularityNET&rsquo;s reasonable opinion, violates any SingularityNET policy or is in any way harmful or
@@ -220,21 +187,18 @@ const PrivacyTerms = () => {
             refund of any amounts previously paid.
           </span>
         </p>
-        <h2 className="c2" id="h.ulp1ip4l8ara">
-          <span className="c1">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=https://community.singularitynet.io/tos%234&amp;sa=D&amp;ust=1563446694798000"
-            >
+        <h2 id="h.ulp1ip4l8ara">
+          <span>
+            <a href="https://www.google.com/url?q=https://community.singularitynet.io/tos%234&amp;sa=D&amp;ust=1563446694798000">
               4. Payment and Renewal
             </a>
           </span>
         </h2>
-        <h3 className="c2" id="h.9yqeplabof89">
-          <span className="c6 c9">General Terms</span>
+        <h3 id="h.9yqeplabof89">
+          <span>General Terms</span>
         </h3>
-        <p className="c7">
-          <span className="c6 c4">
+        <p>
+          <span>
             Optional paid services or upgrades may be available on the Website. When utilizing an optional paid service
             or upgrade, you agree to pay SingularityNET the monthly or annual subscription fees indicated. Payments will
             be charged on a pre-pay basis on the day you begin utilizing the service or upgrade and will cover the use
@@ -242,77 +206,68 @@ const PrivacyTerms = () => {
             refundable.
           </span>
         </p>
-        <h3 className="c2" id="h.yvtlf9552wtk">
-          <span className="c6 c9">Automatic Renewal</span>
+        <h3 id="h.yvtlf9552wtk">
+          <span>Automatic Renewal</span>
         </h3>
-        <p className="c7">
-          <span className="c6 c4">
+        <p>
+          <span>
             Unless you notify SingularityNET before the end of the applicable subscription period that you want to
             cancel a service or upgrade, your subscription will automatically renew and you authorize us to collect the
             then-applicable annual or monthly subscription fee (as well as any taxes) using any credit card or other
             payment mechanisms we have on record for you. Subscriptions can be canceled at any time.
           </span>
         </p>
-        <h2 className="c2" id="h.zdtk6alwvc6t">
-          <span className="c1">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=https://community.singularitynet.io/tos%235&amp;sa=D&amp;ust=1563446694800000"
-            >
+        <h2 id="h.zdtk6alwvc6t">
+          <span>
+            <a href="https://www.google.com/url?q=https://community.singularitynet.io/tos%235&amp;sa=D&amp;ust=1563446694800000">
               5. Services
             </a>
           </span>
         </h2>
-        <h3 className="c2" id="h.78shzpvk2jy1">
-          <span className="c6 c9">Hosting, Support Services</span>
+        <h3 id="h.78shzpvk2jy1">
+          <span>Hosting, Support Services</span>
         </h3>
-        <p className="c7">
-          <span className="c6 c4">
+        <p>
+          <span>
             Optional Hosting and Support services may be provided by SingularityNET under the terms and conditions for
             each such service. By signing up for a Hosting/Support or Support services account, you agree to abide by
             such terms and conditions.
           </span>
         </p>
-        <h3 className="c2" id="h.j2b9r16xaf6y">
-          <span className="c6 c9">HTTPS</span>
+        <h3 id="h.j2b9r16xaf6y">
+          <span>HTTPS</span>
         </h3>
-        <p className="c7">
-          <span className="c4">We offer HTTPS as a paid add-on. By signing up and using a custom domain on </span>
-          <span className="c0">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694801000"
-            >
+        <p>
+          <span>We offer HTTPS as a paid add-on. By signing up and using a custom domain on </span>
+          <span>
+            <a href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694801000">
               SingularityNET.io
             </a>
           </span>
-          <span className="c6 c4">
+          <span>
             , you authorize us to act on the domain name registrant&rsquo;s behalf (by requesting the necessary
             certificates, for example) for the sole purpose of providing HTTPS on your site.
           </span>
         </p>
-        <h3 className="c2" id="h.bdcmne9e179v">
-          <span className="c6 c9">Enterprise</span>
+        <h3 id="h.bdcmne9e179v">
+          <span>Enterprise</span>
         </h3>
-        <p className="c7">
-          <span className="c6 c4">
+        <p>
+          <span>
             Enterprise Hosting services are provided by SingularityNET.Preformatted text under the terms and conditions
             for each such service, which is determined by a customer-specific contract. By signing up for an Enterprise
             Hosting account you agree to abide by such terms and conditions.
           </span>
         </p>
-        <h2 className="c2" id="h.gg2sknraesaq">
-          <span className="c1">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=https://community.singularitynet.io/tos%236&amp;sa=D&amp;ust=1563446694802000"
-            >
+        <h2 id="h.gg2sknraesaq">
+          <span>
+            <a href="https://www.google.com/url?q=https://community.singularitynet.io/tos%236&amp;sa=D&amp;ust=1563446694802000">
               6. Responsibility of Website Visitors
             </a>
           </span>
         </h2>
-        <p className="c7">
-          <span className="c6 c4">
+        <p>
+          <span>
             SingularityNET has not reviewed, and cannot review, all of the material, including computer software, posted
             to the Website, and cannot therefore be responsible for that material&rsquo;s content, use or effects. By
             operating the Website, SingularityNET does not represent or imply that it endorses the material there
@@ -327,110 +282,83 @@ const PrivacyTerms = () => {
             or from any downloading by those visitors of content there posted.
           </span>
         </p>
-        <h2 className="c2" id="h.xdjpc1tckamh">
-          <span className="c1">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=https://community.singularitynet.io/tos%237&amp;sa=D&amp;ust=1563446694803000"
-            >
+        <h2 id="h.xdjpc1tckamh">
+          <span>
+            <a href="https://www.google.com/url?q=https://community.singularitynet.io/tos%237&amp;sa=D&amp;ust=1563446694803000">
               7. Content Posted on Other Websites
             </a>
           </span>
         </h2>
-        <p className="c7">
-          <span className="c4">
+        <p>
+          <span>
             We have not reviewed, and cannot review, all of the material, including computer software, made available
             through the websites and webpages to which{" "}
           </span>
-          <span className="c0">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694803000"
-            >
+          <span>
+            <a href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694803000">
               SingularityNET.io
             </a>
           </span>
-          <span className="c4">&nbsp;links, and that link to </span>
-          <span className="c0">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694804000"
-            >
+          <span>&nbsp;links, and that link to </span>
+          <span>
+            <a href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694804000">
               SingularityNET.io
             </a>
           </span>
-          <span className="c4">. SingularityNET does not have any control over those non - </span>
-          <span className="c0">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694804000"
-            >
+          <span>. SingularityNET does not have any control over those non - </span>
+          <span>
+            <a href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694804000">
               SingularityNET.io
             </a>
           </span>
-          <span className="c4">
+          <span>
             websites and webpages, and is not responsible for their contents or their use. By linking to a non -{" "}
           </span>
-          <span className="c0">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694804000"
-            >
+          <span>
+            <a href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694804000">
               SingularityNET.io
             </a>
           </span>
-          <span className="c4">
+          <span>
             &nbsp;website or webpage, SingularityNET does not represent or imply that it endorses such website or
             webpage. You are responsible for taking precautions as necessary to protect yourself and your computer
             systems from viruses, worms, Trojan horses, and other harmful or destructive content. SingularityNET
             disclaims any responsibility for any harm resulting from your use of{" "}
           </span>
-          <span className="c0">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=http://non-singularitynet.io/&amp;sa=D&amp;ust=1563446694805000"
-            >
+          <span>
+            <a href="https://www.google.com/url?q=http://non-singularitynet.io/&amp;sa=D&amp;ust=1563446694805000">
               non-SingularityNET.io
             </a>
           </span>
-          <span className="c6 c4">&nbsp;websites and webpages.</span>
+          <span>&nbsp;websites and webpages.</span>
         </p>
-        <h2 className="c2" id="h.msuk78527ddq">
-          <span className="c1">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=https://community.singularitynet.io/tos%238&amp;sa=D&amp;ust=1563446694805000"
-            >
+        <h2 id="h.msuk78527ddq">
+          <span>
+            <a href="https://www.google.com/url?q=https://community.singularitynet.io/tos%238&amp;sa=D&amp;ust=1563446694805000">
               8. Copyright Infringement and DMCA Policy
             </a>
           </span>
         </h2>
-        <p className="c7">
-          <span className="c4">
+        <p>
+          <span>
             As SingularityNET asks others to respect its intellectual property rights, it respects the intellectual
             property rights of others. If you believe that material located on or linked to by{" "}
           </span>
-          <span className="c0">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694806000"
-            >
+          <span>
+            <a href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694806000">
               SingularityNET.io
             </a>
           </span>
-          <span className="c4">
+          <span>
             violates your copyright, and if this website resides in the USA, you are encouraged to notify SingularityNET
             in accordance with SingularityNET&rsquo;s{" "}
           </span>
-          <span className="c0">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=http://en.wikipedia.org/wiki/Digital_Millennium_Copyright_Act&amp;sa=D&amp;ust=1563446694806000"
-            >
+          <span>
+            <a href="https://www.google.com/url?q=http://en.wikipedia.org/wiki/Digital_Millennium_Copyright_Act&amp;sa=D&amp;ust=1563446694806000">
               Digital Millennium Copyright Act
             </a>
           </span>
-          <span className="c6 c4">
+          <span>
             &nbsp;(&ldquo;DMCA&rdquo;) Policy. SingularityNET will respond to all such notices, including as required or
             appropriate by removing the infringing material or disabling all links to the infringing material.
             SingularityNET will terminate a visitor&rsquo;s access to and use of the Website if, under appropriate
@@ -439,93 +367,68 @@ const PrivacyTerms = () => {
             obligation to provide a refund of any amounts previously paid to SingularityNET.
           </span>
         </p>
-        <h2 className="c2" id="h.8qstfgio8g4y">
-          <span className="c1">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=https://community.singularitynet.io/tos%239&amp;sa=D&amp;ust=1563446694807000"
-            >
+        <h2 id="h.8qstfgio8g4y">
+          <span>
+            <a href="https://www.google.com/url?q=https://community.singularitynet.io/tos%239&amp;sa=D&amp;ust=1563446694807000">
               9. Intellectual Property
             </a>
           </span>
         </h2>
-        <p className="c7">
-          <span className="c4">
+        <p>
+          <span>
             This Agreement does not transfer from SingularityNET to you any SingularityNET or third party intellectual
             property, and all right, title and interest in and to such property will remain (as between the parties)
             solely with SingularityNET. SingularityNET,{" "}
           </span>
-          <span className="c0">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694807000"
-            >
+          <span>
+            <a href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694807000">
               SingularityNET.io
             </a>
           </span>
-          <span className="c4">, the </span>
-          <span className="c0">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694807000"
-            >
+          <span>, the </span>
+          <span>
+            <a href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694807000">
               SingularityNET.io
             </a>
           </span>
-          <span className="c4">
-            logo, and all other trademarks, service marks, graphics and logos used in connection with{" "}
-          </span>
-          <span className="c0">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694808000"
-            >
+          <span>logo, and all other trademarks, service marks, graphics and logos used in connection with </span>
+          <span>
+            <a href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694808000">
               SingularityNET.io
             </a>
           </span>
-          <span className="c6 c4">
+          <span>
             , or the Website are trademarks or registered trademarks of SingularityNET or SingularityNET&rsquo;s
             licensors. Other trademarks, service marks, graphics and logos used in connection with the Website may be
             the trademarks of other third parties. Your use of the Website grants you no right or license to reproduce
             or otherwise use any SingularityNET or third-party trademarks.
           </span>
         </p>
-        <h2 className="c2" id="h.utsco4lu212n">
-          <span className="c1">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=https://community.singularitynet.io/tos%2310&amp;sa=D&amp;ust=1563446694808000"
-            >
+        <h2 id="h.utsco4lu212n">
+          <span>
+            <a href="https://www.google.com/url?q=https://community.singularitynet.io/tos%2310&amp;sa=D&amp;ust=1563446694808000">
               10. Attribution
             </a>
           </span>
         </h2>
-        <p className="c7">
-          <span className="c4">
-            SingularityNET reserves the right to display attribution links such as &lsquo;Powered by{" "}
-          </span>
-          <span className="c0">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694809000"
-            >
+        <p>
+          <span>SingularityNET reserves the right to display attribution links such as &lsquo;Powered by </span>
+          <span>
+            <a href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694809000">
               SingularityNET.io
             </a>
           </span>
-          <span className="c6 c4">,&rsquo; theme author, and font attribution in your content footer.</span>
+          <span>,&rsquo; theme author, and font attribution in your content footer.</span>
         </p>
-        <h2 className="c2" id="h.lj9wuz1admp2">
-          <span className="c1">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=https://community.singularitynet.io/tos%2311&amp;sa=D&amp;ust=1563446694809000"
-            >
+        <h2 id="h.lj9wuz1admp2">
+          <span>
+            <a href="https://www.google.com/url?q=https://community.singularitynet.io/tos%2311&amp;sa=D&amp;ust=1563446694809000">
               11. Changes
             </a>
           </span>
         </h2>
-        <p className="c7">
-          <span className="c6 c4">
+        <p>
+          <span>
             SingularityNET reserves the right, at its sole discretion, to modify or replace any part of this Agreement.
             It is your responsibility to check this Agreement periodically for changes. Your continued use of or access
             to the Website following the posting of any changes to this Agreement constitutes acceptance of those
@@ -534,78 +437,63 @@ const PrivacyTerms = () => {
             the terms and conditions of this Agreement.
           </span>
         </p>
-        <h2 className="c2" id="h.z1mfxpl5v58c">
-          <span className="c1">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=https://community.singularitynet.io/tos%2312&amp;sa=D&amp;ust=1563446694810000"
-            >
+        <h2 id="h.z1mfxpl5v58c">
+          <span>
+            <a href="https://www.google.com/url?q=https://community.singularitynet.io/tos%2312&amp;sa=D&amp;ust=1563446694810000">
               12. Termination
             </a>
           </span>
         </h2>
-        <p className="c7">
-          <span className="c4">
+        <p>
+          <span>
             SingularityNET may terminate your access to all or any part of the Website at any time, with or without
             cause, with or without notice, effective immediately. If you wish to terminate this Agreement or your{" "}
           </span>
-          <span className="c0">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694811000"
-            >
+          <span>
+            <a href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694811000">
               SingularityNET.io
             </a>
           </span>
-          <span className="c6 c4">
+          <span>
             &nbsp;account (if you have one), you may simply discontinue using the Website. All provisions of this
             Agreement which by their nature should survive termination shall survive termination, including, without
             limitation, ownership provisions, warranty disclaimers, indemnity and limitations of liability.
           </span>
         </p>
-        <h2 className="c2" id="h.qgwgphn7w14a">
-          <span className="c1">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=https://community.singularitynet.io/tos%2313&amp;sa=D&amp;ust=1563446694811000"
-            >
+        <h2 id="h.qgwgphn7w14a">
+          <span>
+            <a href="https://www.google.com/url?q=https://community.singularitynet.io/tos%2313&amp;sa=D&amp;ust=1563446694811000">
               13. Disclaimer of Warranties
             </a>
           </span>
         </h2>
-        <p className="c7">
-          <span className="c4">
+        <p>
+          <span>
             The Website is provided &ldquo;as is&rdquo;. SingularityNET and its suppliers and licensors hereby disclaim
             all warranties of any kind, express or implied, including, without limitation, the warranties of
             merchantability, fitness for a particular purpose and non-infringement. Neither SingularityNET nor its
             suppliers and licensors, makes any warranty that the Website will be error free or that access thereto will
             be continuous or uninterrupted. If you&rsquo;re actually reading this, here&rsquo;s{" "}
           </span>
-          <span className="c0">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=http://www.newyorker.com/online/blogs/shouts/2012/12/the-hundred-best-lists-of-all-time.html&amp;sa=D&amp;ust=1563446694812000"
-            >
+          <span>
+            <a href="https://www.google.com/url?q=http://www.newyorker.com/online/blogs/shouts/2012/12/the-hundred-best-lists-of-all-time.html&amp;sa=D&amp;ust=1563446694812000">
               a treat
             </a>
           </span>
-          <span className="c6 c4">
+          <span>
             . You understand that you download from, or otherwise obtain content or services through, the Website at
             your own discretion and risk.
           </span>
         </p>
-        <h2 className="c2" id="h.i50iqgn3vgkl">
-          <span className="c1">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=https://community.singularitynet.io/tos%2314&amp;sa=D&amp;ust=1563446694812000"
-            >
+        <h2 id="h.i50iqgn3vgkl">
+          <span>
+            <a href="https://www.google.com/url?q=https://community.singularitynet.io/tos%2314&amp;sa=D&amp;ust=1563446694812000">
               14. Limitation of Liability
             </a>
           </span>
         </h2>
-        <p className="c7">
-          <span className="c6 c4">
+        <p>
+          <span>
             In no event will SingularityNET, or its suppliers or licensors, be liable with respect to any subject matter
             of this agreement under any contract, negligence, strict liability or other legal or equitable theory for:
             (i) any special, incidental or consequential damages; (ii) the cost of procurement for substitute products
@@ -615,39 +503,30 @@ const PrivacyTerms = () => {
             beyond their reasonable control. The foregoing shall not apply to the extent prohibited by applicable law.
           </span>
         </p>
-        <h2 className="c2" id="h.7stv1b1f9vas">
-          <span className="c1">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=https://community.singularitynet.io/tos%2315&amp;sa=D&amp;ust=1563446694813000"
-            >
+        <h2 id="h.7stv1b1f9vas">
+          <span>
+            <a href="https://www.google.com/url?q=https://community.singularitynet.io/tos%2315&amp;sa=D&amp;ust=1563446694813000">
               15. General Representation and Warranty
             </a>
           </span>
         </h2>
-        <p className="c7">
-          <span className="c4">
+        <p>
+          <span>
             You represent and warrant that (i) your use of the Website will be in strict accordance with the
             SingularityNET{" "}
           </span>
-          <span className="c0">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=https://community.singularitynet.io/privacy&amp;sa=D&amp;ust=1563446694814000"
-            >
+          <span>
+            <a href="https://www.google.com/url?q=https://community.singularitynet.io/privacy&amp;sa=D&amp;ust=1563446694814000">
               Privacy Policy
             </a>
           </span>
-          <span className="c4">, </span>
-          <span className="c0">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=https://community.singularitynet.io/guidelines&amp;sa=D&amp;ust=1563446694814000"
-            >
+          <span>, </span>
+          <span>
+            <a href="https://www.google.com/url?q=https://community.singularitynet.io/guidelines&amp;sa=D&amp;ust=1563446694814000">
               Community Guidelines
             </a>
           </span>
-          <span className="c6 c4">
+          <span>
             , with this Agreement and with all applicable laws and regulations (including without limitation any local
             laws or regulations in your country, state, city, or other governmental area, regarding online conduct and
             acceptable content, and including all applicable laws regarding the transmission of technical data exported
@@ -655,36 +534,30 @@ const PrivacyTerms = () => {
             Website will not infringe or misappropriate the intellectual property rights of any third party.
           </span>
         </p>
-        <h2 className="c2" id="h.s8xuiiksthf6">
-          <span className="c1">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=https://community.singularitynet.io/tos%2316&amp;sa=D&amp;ust=1563446694815000"
-            >
+        <h2 id="h.s8xuiiksthf6">
+          <span>
+            <a href="https://www.google.com/url?q=https://community.singularitynet.io/tos%2316&amp;sa=D&amp;ust=1563446694815000">
               16. Indemnification
             </a>
           </span>
         </h2>
-        <p className="c7">
-          <span className="c6 c4">
+        <p>
+          <span>
             You agree to indemnify and hold harmless SingularityNET, its contractors, and its licensors, and their
             respective directors, officers, employees and agents from and against any and all claims and expenses,
             including attorneys&rsquo; fees, arising out of your use of the Website, including but not limited to your
             violation of this Agreement.
           </span>
         </p>
-        <h2 className="c2" id="h.ukiwn5p3uwux">
-          <span className="c1">
-            <a
-              className="c3"
-              href="https://www.google.com/url?q=https://community.singularitynet.io/tos%2317&amp;sa=D&amp;ust=1563446694815000"
-            >
+        <h2 id="h.ukiwn5p3uwux">
+          <span>
+            <a href="https://www.google.com/url?q=https://community.singularitynet.io/tos%2317&amp;sa=D&amp;ust=1563446694815000">
               17. Miscellaneous
             </a>
           </span>
         </h2>
-        <p className="c7">
-          <span className="c4">
+        <p>
+          <span>
             This Agreement constitutes the entire agreement between SingularityNET and you concerning the subject matter
             hereof, and they may only be modified by a written amendment signed by an authorized executive of
             SingularityNET, or by the posting by SingularityNET of a revised version. Except to the extent applicable
