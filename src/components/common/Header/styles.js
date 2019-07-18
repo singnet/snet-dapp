@@ -2,10 +2,15 @@ import { makeStyles } from "@material-ui/styles";
 
 export const useStyles = makeStyles(theme => ({
   header: {
-    alignItems: "center",
-    display: "flex",
-    backgroundColor: theme.palette.text.purple,
     padding: "12px 65px 4px 60px",
+    display: "flex",
+    alignItems: "center",
+    position: "fixed",
+    right: 0,
+    left: 0,
+    zIndex: 1,
+    backgroundColor: theme.palette.text.purple,
+    boxShadow: "0 2px 6px 0 rgba(0,0,0,0.3)",
     "@media (max-width:1280px)": { padding: "13px 10px 3px 10px" },
     "@media (max-width:768px)": { padding: "15px 22" },
     "@media (max-width:480px)": {
