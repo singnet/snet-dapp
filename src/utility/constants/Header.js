@@ -9,7 +9,7 @@ export const headerData = {
   LOGIN: {
     headerTitle: "New to singularityNET?",
     linkPath: Routes.SIGNUP,
-    headerText: "SignUp",
+    headerText: "Sign Up",
   },
   FORGOT_PASSWORD: {
     headerTitle: "Switch to another account?",
