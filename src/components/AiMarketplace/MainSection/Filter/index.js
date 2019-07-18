@@ -6,7 +6,6 @@ import { useStylesHook } from "./styles";
 import { serviceActions } from "../../../../Redux/actionCreators";
 import {
   filterParamters,
-  defaultActiveFilterItem,
   defaultPaginationParameters,
   generateFilterObject,
 } from "../../../../utility/constants/Pagination";
