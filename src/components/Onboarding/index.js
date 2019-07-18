@@ -7,37 +7,37 @@ import TermsOfUse from "./TermsOfUse";
 import WalletKey from "./WalletKey";
 import { useStyles } from "./styles";
 import OnboardingContainer from "./OnboardingContainer";
-import Routes from "../../utility/constants/Routes";
+// import Routes from "../../utility/constants/Routes";
 import { userActions } from "../../Redux/actionCreators";
 
 class Onboarding extends Component {
   state = {
     verificationCode: "",
-    activeSection: 1,
+    activeSection: 2,
     progressText: ["Authentication", "Terms of use", "Wallet key"],
   };
 
-  componentDidMount = () => {
-    const { checkWalletStatus, username, isWalletAssigned, isEmailVerified, history } = this.props;
-    checkWalletStatus(username);
-    if (isWalletAssigned) {
-      history.push(`/${Routes.AI_MARKETPLACE}`);
-    }
-    if (isEmailVerified) {
-      this.setState({ activeSection: 2 });
-    }
-  };
+  // componentDidMount = () => {
+  //   const { checkWalletStatus, username, isWalletAssigned, isEmailVerified, history } = this.props;
+  //   checkWalletStatus(username);
+  //   if (isWalletAssigned) {
+  //     history.push(`/${Routes.AI_MARKETPLACE}`);
+  //   }
+  //   if (isEmailVerified) {
+  //     this.setState({ activeSection: 2 });
+  //   }
+  // };
 
-  componentDidUpdate = () => {
-    const { checkWalletStatus, username, isWalletAssigned, isEmailVerified, history } = this.props;
-    checkWalletStatus(username);
-    if (isWalletAssigned) {
-      history.push(Routes.AI_MARKETPLACE);
-    }
-    if (isEmailVerified && this.state.activeSection === 1) {
-      this.setState({ activeSection: 2 });
-    }
-  };
+  // componentDidUpdate = () => {
+  //   const { checkWalletStatus, username, isWalletAssigned, isEmailVerified, history } = this.props;
+  //   checkWalletStatus(username);
+  //   if (isWalletAssigned) {
+  //     history.push(Routes.AI_MARKETPLACE);
+  //   }
+  //   if (isEmailVerified && this.state.activeSection === 1) {
+  //     this.setState({ activeSection: 2 });
+  //   }
+  // };
 
   handleNextSection = () => {
     this.setState(prevState => ({
