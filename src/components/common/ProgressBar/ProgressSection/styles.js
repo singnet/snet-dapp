@@ -13,4 +13,9 @@ export const useStyles = makeStyles(theme => ({
     fontSize: 14,
     fontFamily: theme.typography.secondary.main,
   },
+  completedIcon: {
+    color: theme.palette.text.successBoxBorder,
+    fontSize: 28,
+    marginRight: 10,
+  },
 }));

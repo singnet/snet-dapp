@@ -23,11 +23,12 @@ const RenderForm = ({
   return (
     <Fragment>
       <Grid item xs={12} sm={12} md={6} lg={6} className={classes.signupInfo}>
-        <h2>Sign up for your free account in minutes</h2>
+        <h2>Sign up for your free account</h2>
         <p>
           {" "}
-          Use your Github account to easily get started, or fill out the form. Get free credits for the first month and
-          continue with your perferred wallet or credit card.{" "}
+          Gain instant access to unique, privacy-preserving AI services. You can also easily monetize your own AI
+          algorithms! Use your google account to easily get started, or fill out the form. Get free credits for the
+          first month and continue with your perferred wallet or credit card..{" "}
         </p>
         <ul>
           <li>

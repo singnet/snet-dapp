@@ -9,17 +9,19 @@ export const useStyles = theme => ({
     margin: "0 auto",
   },
   signupInfo: {
-    paddingRight: 100,
+    paddingRight: 54,
     "@media (max-width:960px)": {
       paddingRight: 0,
     },
     "& h2": {
       margin: 0,
       color: theme.palette.text.darkShadedGray,
-      fontSize: 36,
+      fontSize: 32,
+      letterSpacing: -0.5,
+      lineHeight: "48px",
     },
     "& p": {
-      margin: "40px 0 40px",
+      margin: "23px 0 24px",
       color: theme.palette.text.mediumShadeGray,
       fontFamily: theme.typography.secondary.main,
       fontSize: 20,
@@ -32,6 +34,8 @@ export const useStyles = theme => ({
 
     "& li": {
       marginBottom: 15,
+      display: "flex",
+      alignItems: "baseline",
       listStyle: "none",
       "& span": {
         marginRight: 15,

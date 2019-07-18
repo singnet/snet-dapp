@@ -14,6 +14,8 @@ export const useStyles = theme => ({
       },
     },
     "& li": {
+      display: "flex",
+      alignItems: "center",
       listStyle: "none",
       "&:first-of-type": {
         "&::before": {
@@ -37,13 +39,9 @@ export const useStyles = theme => ({
         color: theme.palette.text.green,
         fontSize: 20,
       },
-      "@media (max-width:470px)": {
-        marginBottom: 20,
-      },
+      "@media (max-width:470px)": { marginBottom: 20 },
     },
-    "@media (max-width:724px)": {
-      width: "90%",
-    },
+    "@media (max-width:724px)": { width: "90%" },
   },
   active: {
     "& span": {
