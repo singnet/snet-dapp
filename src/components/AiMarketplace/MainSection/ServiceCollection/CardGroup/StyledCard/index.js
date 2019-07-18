@@ -37,7 +37,7 @@ const StyledCard = props => {
             emptyStarColor={"rgba(161,163,168,0.35)"}
             className={classes.ratingStars}
           />
-          <RatingsCount ratingGiven={props.ratingGiven} totalRating={totalRating} />
+          <RatingsCount ratingGiven={props.ratingGiven} totalRating={props.totalRating} />
           <span className={classes.ratedCount}>
             {props.ratingGiven} {props.totalRating}
           </span>
