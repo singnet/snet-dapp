@@ -12,9 +12,14 @@ export const LOGIN_ERROR = "LOGIN_ERROR";
 export const SIGN_OUT = "SIGN_OUT";
 export const CHECK_WALLET_STATUS = "CHECK_WALLET_STATUS";
 export const UPDATE_USERNAME = "UPDATE_USERNAME";
+export const UPDATE_EMAIL_VERIFIED = "UPDATE_EMAIL_VERIFIED";
 
 export const updateUsername = username => dispatch => {
   dispatch({ type: UPDATE_USERNAME, payload: { username } });
+};
+
+export const updateEmailVerified = value => dispatch => {
+  dispatch({ type: UPDATE_EMAIL_VERIFIED, payload: { isEmailVerified: value } });
 };
 
 export const setUserDetails = dispatch => {
@@ -53,7 +58,13 @@ export const setUserDetails = dispatch => {
     });
 };
 
-export const login = ({ username, password }) => dispatch => {
+export const loginSuccess = ({ res, history, route }) => dispatch => {
+  dispatch(updateUsername(res.attributes.name));
+  dispatch(updateEmailVerified(res.attributes.email_verified));
+  history.push(route);
+};
+
+export const login = ({ username, password, history, route }) => dispatch => {
   dispatch({ type: LOGIN_LOADING });
   let userDetails = {};
   return Auth.signIn(username, password)
@@ -64,6 +75,7 @@ export const login = ({ username, password }) => dispatch => {
         payload: { login: { isLoggedIn: true } },
       };
       dispatch(userDetails);
+      dispatch(loginSuccess({ res, history, route }));
     })
     .catch(err => {
       if (err.code === "UserNotConfirmedException") {
@@ -73,6 +85,7 @@ export const login = ({ username, password }) => dispatch => {
           payload: { login: { isLoggedIn: true } },
         };
         dispatch(userDetails);
+        loginSuccess({ history, route });
         return;
       }
       const error = parseError(err);
@@ -122,6 +135,7 @@ export const checkWalletStatus = username => (dispatch, getState) => {
           username,
         },
       };
+      dispatch(updateEmailVerified(currentSession.idToken.payload.email_verified));
       API.get(apiName, path, myInit).then(res => {
         dispatch({
           type: CHECK_WALLET_STATUS,

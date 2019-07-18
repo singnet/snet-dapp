@@ -29,10 +29,12 @@ class Onboarding extends Component {
   };
 
   componentDidUpdate = () => {
-    if (this.props.isWalletAssigned) {
-      this.props.history.push(Routes.AI_MARKETPLACE);
+    const { checkWalletStatus, username, isWalletAssigned, isEmailVerified, history } = this.props;
+    checkWalletStatus(username);
+    if (isWalletAssigned) {
+      history.push(Routes.AI_MARKETPLACE);
     }
-    if (this.props.isEmailVerified && this.state.activeSection === 1) {
+    if (isEmailVerified && this.state.activeSection === 1) {
       this.setState({ activeSection: 2 });
     }
   };
