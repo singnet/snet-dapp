@@ -18,9 +18,7 @@ export const useStyles = theme => ({
       alignItems: "center",
       listStyle: "none",
       "&:first-of-type": {
-        "&::before": {
-          display: "none",
-        },
+        "&::before": { display: "none" },
       },
       "&::before": {
         content: '""',
@@ -30,9 +28,7 @@ export const useStyles = theme => ({
         display: "inline-block",
         backgroundColor: theme.palette.text.lightGray,
         verticalAlign: "middle",
-        "@media (max-width:724px)": {
-          display: "none",
-        },
+        "@media (max-width:724px)": { display: "none" },
       },
       "& i": {
         marginRight: 5,
@@ -46,6 +42,11 @@ export const useStyles = theme => ({
   active: {
     "& span": {
       "&:first-of-type": { backgroundColor: theme.palette.text.primary },
+      "&:last-of-type": { color: theme.palette.text.darkShadedGray },
+    },
+  },
+  completed: {
+    "& span": {
       "&:last-of-type": { color: theme.palette.text.darkShadedGray },
     },
   },

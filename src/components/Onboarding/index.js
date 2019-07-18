@@ -14,7 +14,7 @@ class Onboarding extends Component {
   state = {
     verificationCode: "",
     activeSection: 1,
-    progressText: ["Authentication", "Terms of use", "Wallet key"],
+    progressText: ["Authentication", "Terms of service", "Wallet key"],
   };
 
   componentDidMount = () => {
