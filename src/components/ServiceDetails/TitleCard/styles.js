@@ -48,5 +48,4 @@ export const useStyles = theme => ({
     letterSpacing: 2,
     verticalAlign: "super",
   },
-  titleImg: {},
 });
