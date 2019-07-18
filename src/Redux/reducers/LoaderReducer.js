@@ -1,7 +1,8 @@
-import { loaderActions } from "../actionCreators";
+simport { loaderActions } from "../actionCreators";
 
 const InitialLoaderState = {
   app: { loading: false, loaderHeader: "", loaderText: "" },
+  aiServieList: false,
 };
 
 const loaderReducer = (state = InitialLoaderState, action) => {
@@ -11,6 +12,12 @@ const loaderReducer = (state = InitialLoaderState, action) => {
     }
     case loaderActions.STOP_APP_LOADER: {
       return { ...state, ...action.payload };
+    }
+    case loaderActions.START_AISERVICE_LIST_LOADER: {
+      return { ...state, aiServieList: true };
+    }
+    case loaderActions.STOP_AISERVICE_LIST_LOADER: {
+      return { ...state, aiServieList: false };
     }
     default: {
       return state;
