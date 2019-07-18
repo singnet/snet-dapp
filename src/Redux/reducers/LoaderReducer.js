@@ -1,4 +1,4 @@
-simport { loaderActions } from "../actionCreators";
+import { loaderActions } from "../actionCreators";
 
 const InitialLoaderState = {
   app: { loading: false, loaderHeader: "", loaderText: "" },
