@@ -10,6 +10,7 @@ import Typography from "@material-ui/core/Typography";
 
 import StyledButton from "../../../../../common/StyledButton";
 import { useStyles } from "./styles";
+import RatingsCount from "../../../../../common/RatingsCount";
 
 const ServiceListItem = props => {
   const classes = useStyles();
@@ -36,9 +37,7 @@ const ServiceListItem = props => {
                 value={props.ratingGiven}
                 className={classes.ratingStars}
               />
-              <span className={classes.ratedCount}>
-                {parseFloat(props.ratingGiven).toFixed(1)} ({props.totalRating})
-              </span>
+              <RatingsCount ratingGiven={props.ratingGiven} totalRating={props.totalRating} />
             </div>
             <Typography className={classes.cardTypograpy} component="p">
               {props.cardDescription}

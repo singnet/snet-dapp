@@ -18,7 +18,7 @@ const CardGroup = ({ cards }) => {
             cardTitle={card.org_id}
             cardSubheader={card.display_name}
             ratingGiven={card.service_rating}
-            totalRating={5}
+            totalRating={card.total_users_rated}
             cardDescription={card.description}
           />
         </Link>
