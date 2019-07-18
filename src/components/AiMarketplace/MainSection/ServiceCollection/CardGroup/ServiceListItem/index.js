@@ -30,9 +30,14 @@ const ServiceListItem = props => {
           <CardContent className={classes.cardContent}>
             <div className={classes.ratingSection}>
               <h4 className={classes.cardSubheader}>{props.cardSubheader}</h4>
-              <StarRatingComponent name="rate1" starCount={0} value={0} className={classes.ratingStars} />
+              <StarRatingComponent
+                name="rate1"
+                starCount={5}
+                value={props.ratingGiven}
+                className={classes.ratingStars}
+              />
               <span className={classes.ratedCount}>
-                {props.ratingGiven} {props.totalRating}
+                {parseFloat(props.ratingGiven).toFixed(1)} ({props.totalRating})
               </span>
             </div>
             <Typography className={classes.cardTypograpy} component="p">

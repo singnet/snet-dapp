@@ -17,8 +17,8 @@ const CardGroup = ({ cards }) => {
             cardMedia={card.display_image_url ? card.display_image_url : CardImg}
             cardTitle={card.org_id}
             cardSubheader={card.display_name}
-            ratingGiven=""
-            totalRating=""
+            ratingGiven={card.service_rating}
+            totalRating={5}
             cardDescription={card.description}
           />
         </Link>
