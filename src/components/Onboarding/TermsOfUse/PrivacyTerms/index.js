@@ -10,30 +10,22 @@ const PrivacyTerms = () => {
         <p>
           <span>The following terms and conditions govern all use of the </span>
           <span>
-            <a href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694791000">
-              SingularityNET.io
-            </a>
+            <a href="http://singularitynet.io/&amp;sa=D&amp;ust=1563446694791000">SingularityNET.io</a>
           </span>
           <span>
             &nbsp;website and all content, services and products available at or through the website, including, but not
             limited to,{" "}
           </span>
           <span>
-            <a href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694791000">
-              SingularityNET.io
-            </a>
+            <a href="http://singularitynet.io/&amp;sa=D&amp;ust=1563446694791000">SingularityNET.io</a>
           </span>
           <span>&nbsp;Forum Software, </span>
           <span>
-            <a href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694792000">
-              SingularityNET.io
-            </a>
+            <a href="http://singularitynet.io/&amp;sa=D&amp;ust=1563446694792000">SingularityNET.io</a>
           </span>
           <span>&nbsp;Support Forums and the </span>
           <span>
-            <a href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694792000">
-              SingularityNET.io
-            </a>
+            <a href="http://singularitynet.io/&amp;sa=D&amp;ust=1563446694792000">SingularityNET.io</a>
           </span>
           <span>
             &nbsp;Hosting service (&ldquo;Hosting&rdquo;), (taken together, the Website). The Website is owned and
@@ -42,21 +34,15 @@ const PrivacyTerms = () => {
             rules, policies (including, without limitation,{" "}
           </span>
           <span>
-            <a href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694793000">
-              SingularityNET.io
-            </a>
+            <a href="http://singularitynet.io/&amp;sa=D&amp;ust=1563446694793000">SingularityNET.io</a>
           </span>
           <span>&rsquo;s </span>
           <span>
-            <a href="https://www.google.com/url?q=https://community.singularitynet.io/privacy&amp;sa=D&amp;ust=1563446694793000">
-              Privacy Policy
-            </a>
+            <a href="https://community.singularitynet.io/privacy&amp;sa=D&amp;ust=1563446694793000">Privacy Policy</a>
           </span>
           <span>and </span>
           <span>
-            <a href="https://www.google.com/url?q=https://community.singularitynet.io/faq&amp;sa=D&amp;ust=1563446694793000">
-              Community Guidelines
-            </a>
+            <a href="https://community.singularitynet.io/faq&amp;sa=D&amp;ust=1563446694793000">Community Guidelines</a>
           </span>
           <span>
             ) and procedures that may be published from time to time on this Site by SingularityNET (collectively, the
@@ -74,7 +60,7 @@ const PrivacyTerms = () => {
         </p>
         <h2 id="h.ff8gyjsw63t7">
           <span>
-            <a href="https://www.google.com/url?q=https://community.singularitynet.io/tos%231&amp;sa=D&amp;ust=1563446694794000">
+            <a href="https://community.singularitynet.io/tos%231&amp;sa=D&amp;ust=1563446694794000">
               1. Your SingularityNET.io Account
             </a>
           </span>
@@ -90,7 +76,7 @@ const PrivacyTerms = () => {
         </p>
         <h2 id="h.buj0dld39kgy">
           <span>
-            <a href="https://www.google.com/url?q=https://community.singularitynet.io/tos%232&amp;sa=D&amp;ust=1563446694795000">
+            <a href="https://community.singularitynet.io/tos%232&amp;sa=D&amp;ust=1563446694795000">
               2. Responsibility of Contributors
             </a>
           </span>
@@ -166,7 +152,7 @@ const PrivacyTerms = () => {
         </ul>
         <h2 id="h.sw6drwqhp0c7">
           <span>
-            <a href="https://www.google.com/url?q=https://community.singularitynet.io/tos%233&amp;sa=D&amp;ust=1563446694797000">
+            <a href="https://community.singularitynet.io/tos%233&amp;sa=D&amp;ust=1563446694797000">
               3. User Content License
             </a>
           </span>
@@ -174,7 +160,7 @@ const PrivacyTerms = () => {
         <p>
           <span>User contributions are licensed under a </span>
           <span>
-            <a href="https://www.google.com/url?q=http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US&amp;sa=D&amp;ust=1563446694798000">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US&amp;sa=D&amp;ust=1563446694798000">
               Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License
             </a>
           </span>
@@ -189,7 +175,7 @@ const PrivacyTerms = () => {
         </p>
         <h2 id="h.ulp1ip4l8ara">
           <span>
-            <a href="https://www.google.com/url?q=https://community.singularitynet.io/tos%234&amp;sa=D&amp;ust=1563446694798000">
+            <a href="https://community.singularitynet.io/tos%234&amp;sa=D&amp;ust=1563446694798000">
               4. Payment and Renewal
             </a>
           </span>
@@ -219,9 +205,7 @@ const PrivacyTerms = () => {
         </p>
         <h2 id="h.zdtk6alwvc6t">
           <span>
-            <a href="https://www.google.com/url?q=https://community.singularitynet.io/tos%235&amp;sa=D&amp;ust=1563446694800000">
-              5. Services
-            </a>
+            <a href="https://community.singularitynet.io/tos%235&amp;sa=D&amp;ust=1563446694800000">5. Services</a>
           </span>
         </h2>
         <h3 id="h.78shzpvk2jy1">
@@ -240,9 +224,7 @@ const PrivacyTerms = () => {
         <p>
           <span>We offer HTTPS as a paid add-on. By signing up and using a custom domain on </span>
           <span>
-            <a href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694801000">
-              SingularityNET.io
-            </a>
+            <a href="http://singularitynet.io/&amp;sa=D&amp;ust=1563446694801000">SingularityNET.io</a>
           </span>
           <span>
             , you authorize us to act on the domain name registrant&rsquo;s behalf (by requesting the necessary
@@ -261,7 +243,7 @@ const PrivacyTerms = () => {
         </p>
         <h2 id="h.gg2sknraesaq">
           <span>
-            <a href="https://www.google.com/url?q=https://community.singularitynet.io/tos%236&amp;sa=D&amp;ust=1563446694802000">
+            <a href="https://community.singularitynet.io/tos%236&amp;sa=D&amp;ust=1563446694802000">
               6. Responsibility of Website Visitors
             </a>
           </span>
@@ -284,7 +266,7 @@ const PrivacyTerms = () => {
         </p>
         <h2 id="h.xdjpc1tckamh">
           <span>
-            <a href="https://www.google.com/url?q=https://community.singularitynet.io/tos%237&amp;sa=D&amp;ust=1563446694803000">
+            <a href="https://community.singularitynet.io/tos%237&amp;sa=D&amp;ust=1563446694803000">
               7. Content Posted on Other Websites
             </a>
           </span>
@@ -295,29 +277,21 @@ const PrivacyTerms = () => {
             through the websites and webpages to which{" "}
           </span>
           <span>
-            <a href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694803000">
-              SingularityNET.io
-            </a>
+            <a href="http://singularitynet.io/&amp;sa=D&amp;ust=1563446694803000">SingularityNET.io</a>
           </span>
           <span>&nbsp;links, and that link to </span>
           <span>
-            <a href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694804000">
-              SingularityNET.io
-            </a>
+            <a href="http://singularitynet.io/&amp;sa=D&amp;ust=1563446694804000">SingularityNET.io</a>
           </span>
           <span>. SingularityNET does not have any control over those non - </span>
           <span>
-            <a href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694804000">
-              SingularityNET.io
-            </a>
+            <a href="http://singularitynet.io/&amp;sa=D&amp;ust=1563446694804000">SingularityNET.io</a>
           </span>
           <span>
             websites and webpages, and is not responsible for their contents or their use. By linking to a non -{" "}
           </span>
           <span>
-            <a href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694804000">
-              SingularityNET.io
-            </a>
+            <a href="http://singularitynet.io/&amp;sa=D&amp;ust=1563446694804000">SingularityNET.io</a>
           </span>
           <span>
             &nbsp;website or webpage, SingularityNET does not represent or imply that it endorses such website or
@@ -326,15 +300,13 @@ const PrivacyTerms = () => {
             disclaims any responsibility for any harm resulting from your use of{" "}
           </span>
           <span>
-            <a href="https://www.google.com/url?q=http://non-singularitynet.io/&amp;sa=D&amp;ust=1563446694805000">
-              non-SingularityNET.io
-            </a>
+            <a href="http://non-singularitynet.io/&amp;sa=D&amp;ust=1563446694805000">non-SingularityNET.io</a>
           </span>
           <span>&nbsp;websites and webpages.</span>
         </p>
         <h2 id="h.msuk78527ddq">
           <span>
-            <a href="https://www.google.com/url?q=https://community.singularitynet.io/tos%238&amp;sa=D&amp;ust=1563446694805000">
+            <a href="https://community.singularitynet.io/tos%238&amp;sa=D&amp;ust=1563446694805000">
               8. Copyright Infringement and DMCA Policy
             </a>
           </span>
@@ -345,16 +317,14 @@ const PrivacyTerms = () => {
             property rights of others. If you believe that material located on or linked to by{" "}
           </span>
           <span>
-            <a href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694806000">
-              SingularityNET.io
-            </a>
+            <a href="http://singularitynet.io/&amp;sa=D&amp;ust=1563446694806000">SingularityNET.io</a>
           </span>
           <span>
             violates your copyright, and if this website resides in the USA, you are encouraged to notify SingularityNET
             in accordance with SingularityNET&rsquo;s{" "}
           </span>
           <span>
-            <a href="https://www.google.com/url?q=http://en.wikipedia.org/wiki/Digital_Millennium_Copyright_Act&amp;sa=D&amp;ust=1563446694806000">
+            <a href="http://en.wikipedia.org/wiki/Digital_Millennium_Copyright_Act&amp;sa=D&amp;ust=1563446694806000">
               Digital Millennium Copyright Act
             </a>
           </span>
@@ -369,7 +339,7 @@ const PrivacyTerms = () => {
         </p>
         <h2 id="h.8qstfgio8g4y">
           <span>
-            <a href="https://www.google.com/url?q=https://community.singularitynet.io/tos%239&amp;sa=D&amp;ust=1563446694807000">
+            <a href="https://community.singularitynet.io/tos%239&amp;sa=D&amp;ust=1563446694807000">
               9. Intellectual Property
             </a>
           </span>
@@ -381,21 +351,15 @@ const PrivacyTerms = () => {
             solely with SingularityNET. SingularityNET,{" "}
           </span>
           <span>
-            <a href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694807000">
-              SingularityNET.io
-            </a>
+            <a href="http://singularitynet.io/&amp;sa=D&amp;ust=1563446694807000">SingularityNET.io</a>
           </span>
           <span>, the </span>
           <span>
-            <a href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694807000">
-              SingularityNET.io
-            </a>
+            <a href="http://singularitynet.io/&amp;sa=D&amp;ust=1563446694807000">SingularityNET.io</a>
           </span>
           <span>logo, and all other trademarks, service marks, graphics and logos used in connection with </span>
           <span>
-            <a href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694808000">
-              SingularityNET.io
-            </a>
+            <a href="http://singularitynet.io/&amp;sa=D&amp;ust=1563446694808000">SingularityNET.io</a>
           </span>
           <span>
             , or the Website are trademarks or registered trademarks of SingularityNET or SingularityNET&rsquo;s
@@ -406,25 +370,19 @@ const PrivacyTerms = () => {
         </p>
         <h2 id="h.utsco4lu212n">
           <span>
-            <a href="https://www.google.com/url?q=https://community.singularitynet.io/tos%2310&amp;sa=D&amp;ust=1563446694808000">
-              10. Attribution
-            </a>
+            <a href="https://community.singularitynet.io/tos%2310&amp;sa=D&amp;ust=1563446694808000">10. Attribution</a>
           </span>
         </h2>
         <p>
           <span>SingularityNET reserves the right to display attribution links such as &lsquo;Powered by </span>
           <span>
-            <a href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694809000">
-              SingularityNET.io
-            </a>
+            <a href="http://singularitynet.io/&amp;sa=D&amp;ust=1563446694809000">SingularityNET.io</a>
           </span>
           <span>,&rsquo; theme author, and font attribution in your content footer.</span>
         </p>
         <h2 id="h.lj9wuz1admp2">
           <span>
-            <a href="https://www.google.com/url?q=https://community.singularitynet.io/tos%2311&amp;sa=D&amp;ust=1563446694809000">
-              11. Changes
-            </a>
+            <a href="https://community.singularitynet.io/tos%2311&amp;sa=D&amp;ust=1563446694809000">11. Changes</a>
           </span>
         </h2>
         <p>
@@ -439,9 +397,7 @@ const PrivacyTerms = () => {
         </p>
         <h2 id="h.z1mfxpl5v58c">
           <span>
-            <a href="https://www.google.com/url?q=https://community.singularitynet.io/tos%2312&amp;sa=D&amp;ust=1563446694810000">
-              12. Termination
-            </a>
+            <a href="https://community.singularitynet.io/tos%2312&amp;sa=D&amp;ust=1563446694810000">12. Termination</a>
           </span>
         </h2>
         <p>
@@ -450,9 +406,7 @@ const PrivacyTerms = () => {
             cause, with or without notice, effective immediately. If you wish to terminate this Agreement or your{" "}
           </span>
           <span>
-            <a href="https://www.google.com/url?q=http://singularitynet.io/&amp;sa=D&amp;ust=1563446694811000">
-              SingularityNET.io
-            </a>
+            <a href="http://singularitynet.io/&amp;sa=D&amp;ust=1563446694811000">SingularityNET.io</a>
           </span>
           <span>
             &nbsp;account (if you have one), you may simply discontinue using the Website. All provisions of this
@@ -462,7 +416,7 @@ const PrivacyTerms = () => {
         </p>
         <h2 id="h.qgwgphn7w14a">
           <span>
-            <a href="https://www.google.com/url?q=https://community.singularitynet.io/tos%2313&amp;sa=D&amp;ust=1563446694811000">
+            <a href="https://community.singularitynet.io/tos%2313&amp;sa=D&amp;ust=1563446694811000">
               13. Disclaimer of Warranties
             </a>
           </span>
@@ -476,7 +430,7 @@ const PrivacyTerms = () => {
             be continuous or uninterrupted. If you&rsquo;re actually reading this, here&rsquo;s{" "}
           </span>
           <span>
-            <a href="https://www.google.com/url?q=http://www.newyorker.com/online/blogs/shouts/2012/12/the-hundred-best-lists-of-all-time.html&amp;sa=D&amp;ust=1563446694812000">
+            <a href="http://www.newyorker.com/online/blogs/shouts/2012/12/the-hundred-best-lists-of-all-time.html&amp;sa=D&amp;ust=1563446694812000">
               a treat
             </a>
           </span>
@@ -487,7 +441,7 @@ const PrivacyTerms = () => {
         </p>
         <h2 id="h.i50iqgn3vgkl">
           <span>
-            <a href="https://www.google.com/url?q=https://community.singularitynet.io/tos%2314&amp;sa=D&amp;ust=1563446694812000">
+            <a href="https://community.singularitynet.io/tos%2314&amp;sa=D&amp;ust=1563446694812000">
               14. Limitation of Liability
             </a>
           </span>
@@ -505,7 +459,7 @@ const PrivacyTerms = () => {
         </p>
         <h2 id="h.7stv1b1f9vas">
           <span>
-            <a href="https://www.google.com/url?q=https://community.singularitynet.io/tos%2315&amp;sa=D&amp;ust=1563446694813000">
+            <a href="https://community.singularitynet.io/tos%2315&amp;sa=D&amp;ust=1563446694813000">
               15. General Representation and Warranty
             </a>
           </span>
@@ -516,13 +470,11 @@ const PrivacyTerms = () => {
             SingularityNET{" "}
           </span>
           <span>
-            <a href="https://www.google.com/url?q=https://community.singularitynet.io/privacy&amp;sa=D&amp;ust=1563446694814000">
-              Privacy Policy
-            </a>
+            <a href="https://community.singularitynet.io/privacy&amp;sa=D&amp;ust=1563446694814000">Privacy Policy</a>
           </span>
           <span>, </span>
           <span>
-            <a href="https://www.google.com/url?q=https://community.singularitynet.io/guidelines&amp;sa=D&amp;ust=1563446694814000">
+            <a href="https://community.singularitynet.io/guidelines&amp;sa=D&amp;ust=1563446694814000">
               Community Guidelines
             </a>
           </span>
@@ -536,7 +488,7 @@ const PrivacyTerms = () => {
         </p>
         <h2 id="h.s8xuiiksthf6">
           <span>
-            <a href="https://www.google.com/url?q=https://community.singularitynet.io/tos%2316&amp;sa=D&amp;ust=1563446694815000">
+            <a href="https://community.singularitynet.io/tos%2316&amp;sa=D&amp;ust=1563446694815000">
               16. Indemnification
             </a>
           </span>
@@ -551,7 +503,7 @@ const PrivacyTerms = () => {
         </p>
         <h2 id="h.ukiwn5p3uwux">
           <span>
-            <a href="https://www.google.com/url?q=https://community.singularitynet.io/tos%2317&amp;sa=D&amp;ust=1563446694815000">
+            <a href="https://community.singularitynet.io/tos%2317&amp;sa=D&amp;ust=1563446694815000">
               17. Miscellaneous
             </a>
           </span>
