@@ -1,4 +1,4 @@
-import React, { Component, lazy, Suspense, Fragment } from "react";
+import React, { Component, lazy, Suspense } from "react";
 import Amplify from "aws-amplify";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { ThemeProvider } from "@material-ui/styles";
@@ -90,7 +90,14 @@ class App extends Component {
                   {...this.props}
                   component={withInAppWrapper(UserProfile)}
                 />
-                <Route path="/" exact {...this.props} component={withInAppWrapper(AiMarketplace)} />
+                <PrivateRoute
+                  isAllowed={!isLoggedIn || (isLoggedIn && isWalletAssigned)}
+                  redirectTo={`/${Routes.ONBOARDING}`}
+                  path="/"
+                  exact
+                  {...this.props}
+                  component={withInAppWrapper(AiMarketplace)}
+                />
                 <Route component={PageNotFound} />
               </Switch>
             </Suspense>

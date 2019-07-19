@@ -27,7 +27,7 @@ export const useStyles = theme => ({
   },
   loginHeaderLink: {
     textAlign: "right",
-    "& a": {
+    "& span": {
       "&:hover": {
         textDecoration: "underline",
       },
