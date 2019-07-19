@@ -9,6 +9,8 @@ const InitialUserDetails = {
   isInitialized: false,
   isEmailVerified: false,
   isWalletAssigned: false,
+  email: "",
+  username: "",
 };
 
 const userReducer = (state = InitialUserDetails, action) => {
@@ -16,8 +18,11 @@ const userReducer = (state = InitialUserDetails, action) => {
     case userActions.SET_USER_DETAILS: {
       return {
         ...state,
-        isInitialized: action.payload.isInitialized,
-        isEmailVerified: action.payload.isEmailVerified,
+        login: {
+          ...state.login,
+          ...action.payload.login,
+        },
+        ...action.payload,
       };
     }
     case userActions.LOGIN_SUCCESS: {
@@ -59,11 +64,17 @@ const userReducer = (state = InitialUserDetails, action) => {
           ...state.login,
           ...action.payload.login,
         },
+        isWalletAssigned: false,
       };
     }
-
     case userActions.CHECK_WALLET_STATUS: {
       return { ...state, isWalletAssigned: action.payload.isWalletAssigned };
+    }
+    case userActions.UPDATE_USERNAME: {
+      return { ...state, ...action.payload };
+    }
+    case userActions.UPDATE_EMAIL_VERIFIED: {
+      return { ...state, isEmailVerified: action.payload.isEmailVerified };
     }
 
     default: {

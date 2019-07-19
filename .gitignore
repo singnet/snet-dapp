@@ -69,9 +69,6 @@ scripts/path.js
 #endpoints
 src/utility/constants/APIEndpoints.js
 
-#config
-src/aws_config.js
-
 #redux_dev_tools
 src/Redux/Store.js
 
@@ -79,8 +76,5 @@ src/Redux/Store.js
 src/utility/constants/APIEndpoints.js
 
 #config
-src/aws_config.js
-
-#redux_dev_tools
-src/Redux/Store.js
+src/config
 

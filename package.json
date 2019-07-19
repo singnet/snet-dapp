@@ -5,21 +5,28 @@
   "dependencies": {
     "@material-ui/core": "^4.0.2",
     "@material-ui/icons": "^4.1.0",
+    "@material-ui/lab": "^3.0.0-alpha.30",
     "@material-ui/styles": "^4.0.2",
     "aws-amplify": "^1.1.28",
     "clsx": "^1.0.4",
     "cytoscape": "^3.3.3",
+    "cytoscape-cola": "^2.3.0",
+    "html2canvas": "^1.0.0-alpha.12",
     "material-ui": "^1.0.0-beta.47",
     "material-ui-flat-pagination": "^3.2.0",
     "material-ui-rating": "^3.1.1",
     "protobufjs": "^6.8.8",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-image-gallery": "^0.8.17",
+    "react-dropzone": "^8.0.4",
+    "react-file-drop": "^0.2.8",
+    "react-google-charts": "^3.0.10",
+    "react-json-view": "^1.19.1",
     "react-redux": "^7.1.0",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
     "react-star-rating-component": "^1.4.1",
+    "react-swipeable-views": "^0.13.1",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "utf8": "^3.0.0"
@@ -30,13 +37,13 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "precommit": "pretty-quick --staged",
-    "lint": "eslint --ignore-path .gitignore .",
-    "lint:fix": "eslint --ignore-path .gitignore . --fix",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "deploy": "node scripts/deploy.js enhanced-marketplace us-east-1"
   },
   "lint-staged": {
     "*.js": [
-      "eslint --fix",
+      "eslint . --fix",
       "git add"
     ]
   },
@@ -61,20 +68,12 @@
     ]
   },
   "devDependencies": {
-    "@material-ui/lab": "^3.0.0-alpha.30",
-    "cytoscape-cola": "^2.3.0",
     "eslint": "^5.16.0",
     "eslint-config-prettier": "^4.3.0",
     "eslint-plugin-prettier": "^3.1.0",
-    "html2canvas": "^1.0.0-alpha.12",
     "husky": "^2.4.0",
     "lint-staged": "^8.2.0",
     "prettier": "^1.18.2",
-    "pretty-quick": "^1.11.0",
-    "react-dropzone": "^8.0.4",
-    "react-file-drop": "^0.2.7",
-    "react-google-charts": "^3.0.10",
-    "react-json-view": "^1.19.1",
-    "react-swipeable-views": "^0.13.1"
+    "pretty-quick": "^1.11.0"
   }
 }

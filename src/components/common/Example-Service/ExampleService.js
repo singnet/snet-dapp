@@ -83,7 +83,7 @@ export default class ExampleService extends React.Component {
               value={this.state.a}
               onChange={this.handleFormUpdate}
               onKeyPress={e => this.onKeyPressvalidator(e)}
-            ></input>
+            />
           </div>
         </div>
         <div className="row">
@@ -98,7 +98,7 @@ export default class ExampleService extends React.Component {
               value={this.state.b}
               onChange={this.handleFormUpdate}
               onKeyPress={e => this.onKeyPressvalidator(e)}
-            ></input>
+            />
           </div>
         </div>
         <div className="row">

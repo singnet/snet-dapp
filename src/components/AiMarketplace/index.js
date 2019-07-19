@@ -2,13 +2,14 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 import StyledButton from "../common/StyledButton";
 import MainSection from "./MainSection";
 import { useStyles } from "./styles";
 import Routes from "../../utility/constants/Routes";
 
-const AiMarketplace = ({ classes }) => {
+const AiMarketplace = ({ classes, isLoggedIn }) => {
   return (
     <div className={classes.aiMarketPlaceContainer}>
       <div className={classes.mainWrapper}>
@@ -18,12 +19,12 @@ const AiMarketplace = ({ classes }) => {
           </Grid>
           <Grid item xs={12} sm={9} md={9} lg={9}>
             <p className={classes.description}>
-              Want to find the right AI service for your project? You’ve come to the right place. <br />
-              We’ve got a growing marketplace with hundreds of AI services for you to utilize. <br />
-              They’re powered by a community of amazing developers from all over the globe.
+              Why rely only on a small and overstretched team of developers when you could be working with thousands?
+              Never be limited by in-house machine learning and AI capabilities again. Explore and connect to the
+              largest open AI marketplace in the world.
             </p>
             <Link to={Routes.SIGNUP} className={classes.signupLink}>
-              <StyledButton type="blue" btnText="Sign up for free credits" />
+              {!isLoggedIn && <StyledButton type="blue" btnText="Sign up for free credits" />}
             </Link>
           </Grid>
         </Grid>
@@ -35,4 +36,8 @@ const AiMarketplace = ({ classes }) => {
   );
 };
 
-export default withStyles(useStyles)(AiMarketplace);
+const mapStateToProps = state => ({
+  isLoggedIn: state.userReducer.login.isLoggedIn,
+});
+
+export default connect(mapStateToProps)(withStyles(useStyles)(AiMarketplace));
