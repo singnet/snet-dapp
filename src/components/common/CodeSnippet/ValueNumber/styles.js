@@ -1,8 +1,6 @@
 export const useStyles = theme => ({
   valueNumbergContainer: {
-    "& p": {
-      margin: 0,
-      color: "#FEE200",
-    },
+    margin: 0,
+    color: "#FEE200",
   },
 });

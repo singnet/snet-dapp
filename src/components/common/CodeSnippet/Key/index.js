@@ -4,11 +4,7 @@ import { withStyles } from "@material-ui/styles";
 import { useStyles } from "./styles";
 
 const Key = ({ classes, text }) => {
-  return (
-    <div className={classes.keyContainer}>
-      <p>{text}</p>
-    </div>
-  );
+  return <span className={classes.keyContainer}>{text}</span>;
 };
 
 export default withStyles(useStyles)(Key);

@@ -4,11 +4,7 @@ import { withStyles } from "@material-ui/styles";
 import { useStyles } from "./styles";
 
 const FunctionText = ({ classes, text }) => {
-  return (
-    <div className={classes.functionTextContainer}>
-      <p>{text}</p>
-    </div>
-  );
+  return <span className={classes.functionTextContainer}>{text}</span>;
 };
 
 export default withStyles(useStyles)(FunctionText);

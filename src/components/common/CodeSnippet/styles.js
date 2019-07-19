@@ -4,5 +4,6 @@ export const useStyles = theme => ({
     borderRadius: 4,
     backgroundColor: "#1F1F1F",
     padding: "10px 30px",
+    color: theme.palette.text.white,
   },
 });

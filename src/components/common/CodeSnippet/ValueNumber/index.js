@@ -4,11 +4,7 @@ import { withStyles } from "@material-ui/styles";
 import { useStyles } from "./styles";
 
 const ValueNumber = ({ classes, number }) => {
-  return (
-    <div className={classes.valueNumbergContainer}>
-      <p>{number}</p>
-    </div>
-  );
+  return <span className={classes.valueNumbergContainer}>{number}</span>;
 };
 
 export default withStyles(useStyles)(ValueNumber);
