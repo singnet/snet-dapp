@@ -18,11 +18,13 @@ const AiMarketplace = ({ classes, isLoggedIn }) => {
             <h2 className={classes.title}>AI Marketplace</h2>
           </Grid>
           <Grid item xs={12} sm={9} md={9} lg={9} className={classes.descriptionContainer}>
-            <p className={classes.description}>
-              Why rely only on a small and overstretched team of developers when you could be working with thousands?
-              Never be limited by in-house machine learning and AI capabilities again. Explore and connect to the
-              largest open AI marketplace in the world.
-            </p>
+            <div className={classes.description}>
+              <div>
+                Never be limited by in-house machine learning and AI capabilities again. Explore and connect to the
+                largest open AI marketplace in the world.
+              </div>
+              <div> Built for you, powered by open collaboration.</div>
+            </div>
             <Link to={Routes.SIGNUP} className={classes.signupLink}>
               {!isLoggedIn && <StyledButton type="blue" btnText="Sign up for free credits" />}
             </Link>
