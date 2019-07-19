@@ -16,6 +16,9 @@ export const useStyles = theme => ({
       fontSize: 20,
       textAlign: "left",
     },
+    "& label": {
+      "&.Mui-focused": { color: "#4086ff !important" },
+    },
     "@media (max-width:724px)": {
       width: "90%",
     },
@@ -31,15 +34,6 @@ export const useStyles = theme => ({
     "& span": {
       color: theme.palette.text.darkShadedGray,
       fontWeight: theme.typography.fontweight,
-    },
-  },
-  pendingSection: {
-    marginBottom: 20,
-    color: theme.palette.text.orange,
-    fontWeight: theme.typography.fontweight,
-    "& i": {
-      fontSize: 12,
-      paddingRight: 10,
     },
   },
   textField: {

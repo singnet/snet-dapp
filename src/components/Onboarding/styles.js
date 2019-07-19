@@ -1,7 +1,7 @@
 export const useStyles = theme => ({
   onboardingContainer: {
     paddingBottom: 40,
-    backgroundColor: theme.palette.text.gray8,
+    backgroundColor: theme.palette.text.offWhiteColor,
   },
   topSection: {
     textAlign: "center",

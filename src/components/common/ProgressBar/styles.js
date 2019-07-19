@@ -1,7 +1,7 @@
 export const useStyles = theme => ({
   tabsContainer: {
     width: 630,
-    paddingTop: 25,
+    paddingTop: 41,
     margin: "0 auto",
     "& ul": {
       margin: 0,
@@ -14,11 +14,11 @@ export const useStyles = theme => ({
       },
     },
     "& li": {
+      display: "flex",
+      alignItems: "center",
       listStyle: "none",
       "&:first-of-type": {
-        "&::before": {
-          display: "none",
-        },
+        "&::before": { display: "none" },
       },
       "&::before": {
         content: '""',
@@ -28,27 +28,15 @@ export const useStyles = theme => ({
         display: "inline-block",
         backgroundColor: theme.palette.text.lightGray,
         verticalAlign: "middle",
-        "@media (max-width:724px)": {
-          display: "none",
-        },
+        "@media (max-width:724px)": { display: "none" },
       },
       "& i": {
         marginRight: 5,
         color: theme.palette.text.green,
         fontSize: 20,
       },
-      "@media (max-width:470px)": {
-        marginBottom: 20,
-      },
+      "@media (max-width:470px)": { marginBottom: 20 },
     },
-    "@media (max-width:724px)": {
-      width: "90%",
-    },
-  },
-  active: {
-    "& span": {
-      "&:first-of-type": { backgroundColor: theme.palette.text.primary },
-      "&:last-of-type": { color: theme.palette.text.darkShadedGray },
-    },
+    "@media (max-width:724px)": { width: "90%" },
   },
 });

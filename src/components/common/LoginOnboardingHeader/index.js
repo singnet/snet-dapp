@@ -22,7 +22,7 @@ const LoginOnboardingHeader = ({ classes, headerData, history, signOut }) => {
   };
 
   return (
-    <Grid container spacing={24}>
+    <Grid container spacing={24} className={classes.loginOnboardingHeaderContainer}>
       <Grid container spacing={24} className={classes.loginHeader}>
         <Grid item xs={12} sm={6} md={6} lg={6}>
           <h1>

@@ -13,4 +13,20 @@ export const useStyles = makeStyles(theme => ({
     fontSize: 14,
     fontFamily: theme.typography.secondary.main,
   },
+  completedIcon: {
+    "& span": {
+      color: theme.palette.text.successBoxBorder,
+      fontSize: 28,
+      marginRight: 10,
+    },
+  },
+  active: {
+    "& span": {
+      "&:first-of-type": { backgroundColor: theme.palette.text.primary },
+      "&:last-of-type": { color: theme.palette.text.darkShadedGray },
+    },
+  },
+  completed: {
+    "&:last-of-type span": { color: theme.palette.text.darkShadedGray },
+  },
 }));
