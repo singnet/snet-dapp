@@ -36,8 +36,8 @@ class App extends Component {
   };
 
   render() {
-    const { hamburgerMenu } = this.props;
-    if (!this.props.isInitialized) {
+    const { hamburgerMenu, isInitialized, isWalletAssigned, isLoggedIn } = this.props;
+    if (!isInitialized) {
       return <h2>Loading</h2>;
     }
     return (
@@ -52,33 +52,52 @@ class App extends Component {
                   {...this.props}
                   component={withRegistrationHeader(Login, headerData.LOGIN)}
                 />
-                <PrivateRoute
+                <Route
                   path={`/${Routes.FORGOT_PASSWORD}`}
                   {...this.props}
                   component={withRegistrationHeader(ForgotPassword, headerData.FORGOT_PASSWORD)}
                 />
-                <PrivateRoute
+                <Route
                   path={`/${Routes.FORGOT_PASSWORD_SUBMIT}`}
                   {...this.props}
                   component={withRegistrationHeader(ForgotPasswordSubmit, headerData.FORGOT_PASSWORD_SUBMIT)}
                 />
                 <PrivateRoute
+                  isAllowed={isLoggedIn}
+                  redirectTo={`/${Routes.LOGIN}`}
                   path={`/${Routes.ONBOARDING}`}
                   {...this.props}
                   component={withRegistrationHeader(Onboarding, headerData.ONBOARDING)}
                 />
-                <Route path={`/${Routes.AI_MARKETPLACE}`} {...this.props} component={withInAppWrapper(AiMarketplace)} />
-                <Route
+                <PrivateRoute
+                  isAllowed={!isLoggedIn || (isLoggedIn && isWalletAssigned)}
+                  redirectTo={`/${Routes.ONBOARDING}`}
+                  path={`/${Routes.AI_MARKETPLACE}`}
+                  {...this.props}
+                  component={withInAppWrapper(AiMarketplace)}
+                />
+                <PrivateRoute
+                  isAllowed={!isLoggedIn || (isLoggedIn && isWalletAssigned)}
+                  redirectTo={`/${Routes.ONBOARDING}`}
                   path={`/${Routes.SERVICE_DETAILS}/:service_row_id`}
                   {...this.props}
                   component={withInAppWrapper(ServiceDetails)}
                 />
                 <PrivateRoute
+                  isAllowed={isLoggedIn}
+                  redirectTo={`/${Routes.LOGIN}`}
                   path={`/${Routes.USER_PROFILE}`}
                   {...this.props}
                   component={withInAppWrapper(UserProfile)}
                 />
-                <Route path="/" exact {...this.props} component={withInAppWrapper(AiMarketplace)} />
+                <PrivateRoute
+                  isAllowed={!isLoggedIn || (isLoggedIn && isWalletAssigned)}
+                  redirectTo={`/${Routes.ONBOARDING}`}
+                  path="/"
+                  exact
+                  {...this.props}
+                  component={withInAppWrapper(AiMarketplace)}
+                />
                 <Route component={PageNotFound} />
               </Switch>
             </Suspense>
@@ -92,6 +111,7 @@ class App extends Component {
 
 const mapStateToProps = state => ({
   isLoggedIn: state.userReducer.login.isLoggedIn,
+  isWalletAssigned: state.userReducer.isWalletAssigned,
   isInitialized: state.userReducer.isInitialized,
   hamburgerMenu: state.stylesReducer.hamburgerMenu,
 });
