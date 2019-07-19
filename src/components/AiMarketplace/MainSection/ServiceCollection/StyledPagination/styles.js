@@ -6,10 +6,16 @@ export const useStyles = makeStyles(theme => ({
   },
   pageListformControl: {
     width: 72,
-    margin: "0 12px 0 21px",
+    margin: "0 12px 0 15px",
     "& fieldset": {
       paddingLeft: "0 !important",
       top: 0,
+      "& + div": {
+        "& div": {
+          padding: "8.5px 13px",
+          color: theme.palette.text.darkShadedGray,
+        },
+      },
       "& legend": {
         display: "none",
       },

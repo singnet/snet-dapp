@@ -22,22 +22,27 @@ export const resetFilterItem = dispatch => {
   dispatch({ type: RESET_FILTER_ITEM });
 };
 
+export const fetchServiceSuccess = res => dispatch => {
+  dispatch({
+    type: UPDATE_PAGINATION_DETAILS,
+    payload: {
+      total_count: res.data.total_count,
+    },
+  });
+  dispatch({ type: UPDATE_SERVICE_LIST, payload: res.data.result });
+  dispatch(loaderActions.stopAIServiceListLoader);
+};
+
 export const fetchService = (pagination, filters = []) => async dispatch => {
+  dispatch(loaderActions.startAIServiceListLoader);
   let url = new URL(`${APIEndpoints.GET_SERVICE_LIST.endpoint}/service`);
   return fetch(url, {
     method: "POST",
     body: JSON.stringify({ ...pagination, filters }),
   })
     .then(res => res.json())
-    .then(res => {
-      dispatch({
-        type: UPDATE_PAGINATION_DETAILS,
-        payload: {
-          total_count: res.data.total_count,
-        },
-      });
-      dispatch({ type: UPDATE_SERVICE_LIST, payload: res.data.result });
-    });
+    .then(res => dispatch(fetchServiceSuccess(res)))
+    .catch(() => dispatch(loaderActions.stopAIServiceListLoader));
 };
 
 export const invokeServiceMethod = data => dispatch => {

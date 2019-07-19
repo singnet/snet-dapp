@@ -11,15 +11,17 @@ export const useStyles = theme => ({
       color: theme.palette.text.mediumShadeGray,
       lineHeight: "14px",
       paddingTop: 5,
-      "& i": {
-        paddingRight: 12,
-        color: theme.palette.text.lightShadedGray,
-      },
     },
     "& button": {
       marginTop: 10,
       padding: "7px 65px",
     },
+  },
+  infoIcon: {
+    paddingRight: 12,
+    color: theme.palette.text.lightGray,
+    fontSize: 20,
+    verticalAlign: "sub",
   },
   creditsAndToken: {
     display: "flex",
