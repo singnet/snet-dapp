@@ -87,8 +87,10 @@ export const useStyles = theme => ({
   },
   backToLink: {
     marginTop: 30,
-    color: theme.palette.text.primary,
-    "& span": { verticalAlign: "bottom" },
+    "& span": {
+      color: theme.palette.text.primary,
+      verticalAlign: "bottom",
+    },
     "& a": {
       marginLeft: 11,
       color: theme.palette.text.primary,
@@ -99,6 +101,7 @@ export const useStyles = theme => ({
         borderBottomStyle: "solid",
         borderBottomColor: theme.palette.text.primary,
         paddingBottom: 4,
+        fontWeight: 600,
       },
     },
   },
