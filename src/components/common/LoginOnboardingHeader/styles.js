@@ -15,7 +15,7 @@ export const useStyles = theme => ({
       color: theme.palette.text.mediumShadeGray,
       fontSize: "16px",
     },
-    "& a": {
+    "& span": {
       display: "inline-block",
       color: theme.palette.text.primary,
       fontWeight: theme.typography.fontweight,
