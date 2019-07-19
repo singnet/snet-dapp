@@ -10,6 +10,7 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import IconButton from "@material-ui/core/IconButton";
 
 import StyledButton from "../../../../../common/StyledButton";
+import RatingsCount from "../../../../../common/RatingsCount";
 import { useStyles } from "./styles";
 
 const StyledCard = props => {
@@ -36,6 +37,7 @@ const StyledCard = props => {
             emptyStarColor={"rgba(161,163,168,0.35)"}
             className={classes.ratingStars}
           />
+          <RatingsCount ratingGiven={props.ratingGiven} totalRating={props.totalRating} />
           <span className={classes.ratedCount}>
             {props.ratingGiven} {props.totalRating}
           </span>
