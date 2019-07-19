@@ -55,7 +55,13 @@ class ServiceDetails extends Component {
     }
     return (
       <Grid container spacing={24} className={classes.serviceDetailContainer}>
-        <TitleCard org_id={service.org_id} display_name={service.display_name} img_url={service.display_image_url} />
+        <TitleCard
+          org_id={service.org_id}
+          display_name={service.display_name}
+          img_url={service.hero_image}
+          star_rating={service.service_rating}
+          totalRating={service.total_users_rated}
+        />
         <PricingDetails price_model={service.price_model} />
         <StyledTabs tabs={tabs} activeTab={activeTab} onTabChange={this.handleTabChange} />
       </Grid>

@@ -10,6 +10,7 @@ import Typography from "@material-ui/core/Typography";
 
 import StyledButton from "../../../../../common/StyledButton";
 import { useStyles } from "./styles";
+import RatingsCount from "../../../../../common/RatingsCount";
 
 const ServiceListItem = props => {
   const classes = useStyles();
@@ -30,10 +31,13 @@ const ServiceListItem = props => {
           <CardContent className={classes.cardContent}>
             <div className={classes.ratingSection}>
               <h4 className={classes.cardSubheader}>{props.cardSubheader}</h4>
-              <StarRatingComponent name="rate1" starCount={0} value={0} className={classes.ratingStars} />
-              <span className={classes.ratedCount}>
-                {props.ratingGiven} {props.totalRating}
-              </span>
+              <StarRatingComponent
+                name="rate1"
+                starCount={5}
+                value={props.ratingGiven}
+                className={classes.ratingStars}
+              />
+              <RatingsCount ratingGiven={props.ratingGiven} totalRating={props.totalRating} />
             </div>
             <Typography className={classes.cardTypograpy} component="p">
               {props.cardDescription}
