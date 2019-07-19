@@ -36,9 +36,12 @@ class App extends Component {
   };
 
   render() {
-    const { hamburgerMenu } = this.props;
-    if (!this.props.isInitialized) {
+    const { hamburgerMenu, isInitialized, isWalletAssigned, isLoggedIn } = this.props;
+    if (!isInitialized) {
       return <h2>Loading</h2>;
+    }
+    if (isLoggedIn && !isWalletAssigned) {
+      return withRegistrationHeader(Onboarding, headerData.ONBOARDING);
     }
     return (
       <ThemeProvider theme={theme}>
@@ -92,6 +95,7 @@ class App extends Component {
 
 const mapStateToProps = state => ({
   isLoggedIn: state.userReducer.login.isLoggedIn,
+  isWalletAssigned: state.userReducer.isWalletAssigned,
   isInitialized: state.userReducer.isInitialized,
   hamburgerMenu: state.stylesReducer.hamburgerMenu,
 });
