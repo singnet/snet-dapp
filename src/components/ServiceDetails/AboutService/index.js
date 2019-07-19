@@ -10,6 +10,7 @@ import DemoToggler from "./DemoToggler";
 import ServiceOverview from "./ServiceOverview";
 import Routes from "../../../utility/constants/Routes";
 import CreatorDetails from "../CreatorDetails";
+import ProjectDetails from "../ProjectDetails";
 
 const AboutService = ({ classes, isLoggedIn, service }) => {
   return (
@@ -27,6 +28,7 @@ const AboutService = ({ classes, isLoggedIn, service }) => {
 
       <Grid item xs={12} sm={12} md={4} lg={4}>
         <CreatorDetails organizationName={service.org_id} />
+        <ProjectDetails projectURL={service.url} />
       </Grid>
     </Grid>
   );
