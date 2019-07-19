@@ -8,13 +8,14 @@ import ValueNumber from "./ValueNumber";
 
 import { useStyles } from "./styles";
 
-const CodeSnippet = ({ classes }) => {
+const CodeSnippet = ({ classes, children }) => {
   return (
     <div className={classes.codeSnippetContainer}>
-      <Function text={"FunctionText"} />
+      {children}
+      {/* <Function text={"FunctionText"} />
       <Key text={"Ket Text"} />
       <ValueString text={"Value String"} />
-      <ValueNumber number={"Value Number"} />
+      <ValueNumber number={"Value Number"} /> */}
     </div>
   );
 };
