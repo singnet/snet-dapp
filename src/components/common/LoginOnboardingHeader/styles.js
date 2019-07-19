@@ -28,7 +28,12 @@ export const useStyles = theme => ({
   loginHeaderLink: {
     textAlign: "right",
     "& span": {
+      color: theme.palette.text.primary,
+      fontSize: 16,
+      fontWeight: 600,
       "&:hover": {
+        cursor: "pointer",
+        fontWeight: 600,
         textDecoration: "underline",
       },
     },
