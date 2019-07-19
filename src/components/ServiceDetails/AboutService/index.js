@@ -9,6 +9,7 @@ import { useStyles } from "./styles";
 import DemoToggler from "./DemoToggler";
 import ServiceOverview from "./ServiceOverview";
 import Routes from "../../../utility/constants/Routes";
+import CreatorDetails from "../CreatorDetails";
 
 const AboutService = ({ classes, isLoggedIn, service }) => {
   return (
@@ -24,7 +25,9 @@ const AboutService = ({ classes, isLoggedIn, service }) => {
         </div>
       </Grid>
 
-      <Grid item xs={12} sm={12} md={4} lg={4} />
+      <Grid item xs={12} sm={12} md={4} lg={4}>
+        <CreatorDetails organizationName={service.org_id} />
+      </Grid>
     </Grid>
   );
 };
