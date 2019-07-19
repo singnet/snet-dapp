@@ -10,7 +10,7 @@ import Price from "./Price";
 const PricingDetails = ({ classes, price_model }) => {
   const handleClick = () => {
     window.scroll({
-      top: 600,
+      top: 520,
       behavior: "smooth",
     });
   };
