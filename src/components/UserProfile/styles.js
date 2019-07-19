@@ -1,6 +1,7 @@
 export const useStyles = theme => ({
   UserProfileContainer: {
-    padding: "0 85px",
+    padding: "70px 85px 0",
+    backgroundColor: theme.palette.text.offWhiteColor,
   },
   tabsHeader: {
     backgroundColor: "transparent",

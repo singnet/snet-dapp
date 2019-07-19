@@ -87,12 +87,16 @@ export const useStyles = theme => ({
   },
   backToLink: {
     marginTop: 30,
-    color: theme.palette.text.primary,
+    "& span": {
+      color: theme.palette.text.primary,
+      verticalAlign: "bottom",
+    },
     "& a": {
-      marginLeft: 15,
+      marginLeft: 11,
       color: theme.palette.text.primary,
       textDecoration: "none",
       fontSize: 16,
+      "&:hover": { fontWeight: 600 },
     },
   },
   creatorDetailsContainer: {
@@ -156,9 +160,7 @@ export const useStyles = theme => ({
         fontSize: 16,
         lineHeight: "22px",
       },
-      "& div": {
-        marginLeft: 20,
-      },
+      "& div": { marginLeft: 20 },
       "& a": {
         display: "block",
         color: theme.palette.text.primary,
@@ -176,13 +178,9 @@ export const useStyles = theme => ({
     },
   },
   contributors: {
-    "& p": {
-      marginLeft: "30px !important",
-    },
+    "& p": { marginLeft: "30px !important" },
   },
   demoToggler: {
-    "& a": {
-      textDecoration: "none !important",
-    },
+    "& a": { textDecoration: "none !important" },
   },
 });
