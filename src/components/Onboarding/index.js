@@ -29,10 +29,12 @@ class Onboarding extends Component {
   };
 
   componentDidUpdate = () => {
-    if (this.props.isWalletAssigned) {
-      this.props.history.push(Routes.AI_MARKETPLACE);
+    const { checkWalletStatus, username, isWalletAssigned, isEmailVerified, history } = this.props;
+    checkWalletStatus(username);
+    if (isWalletAssigned) {
+      history.push(Routes.AI_MARKETPLACE);
     }
-    if (this.props.isEmailVerified && this.state.activeSection === 1) {
+    if (isEmailVerified && this.state.activeSection === 1) {
       this.setState({ activeSection: 2 });
     }
   };
@@ -59,23 +61,13 @@ class Onboarding extends Component {
         component: <Authentication handleNextSection={this.handleNextSection} />,
       },
       {
-        title: `Step 2`,
-        description: (
-          <p>
-            You have successfully logged into your singularitynet account. <br />
-            You are just steps away from completing your activation.
-          </p>
-        ),
+        title: `Step 2. Privacy and Terms of Service`,
+        description: <p>Just one more step and you’ll be all set!</p>,
         component: <TermsOfUse handleNextSection={this.handleNextSection} />,
       },
       {
-        title: `Step 3`,
-        description: (
-          <p>
-            You have successfully logged into your singularitynet account. <br />
-            You are just steps away from completing your activation.
-          </p>
-        ),
+        title: `Step 3. Creating Your Personal Wallet`,
+        description: <p>Final step in completing your activation.</p>,
         component: <WalletKey />,
       },
     ];
