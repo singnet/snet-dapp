@@ -8,6 +8,7 @@ import WalletKey from "./WalletKey";
 import { useStyles } from "./styles";
 import OnboardingContainer from "./OnboardingContainer";
 import { userActions } from "../../Redux/actionCreators";
+import Routes from "../../utility/constants/Routes";
 
 class Onboarding extends Component {
   state = {
@@ -16,27 +17,27 @@ class Onboarding extends Component {
     progressText: ["Authentication", "Terms of service", "Wallet key"],
   };
 
-  // componentDidMount = () => {
-  //   const { checkWalletStatus, username, isWalletAssigned, isEmailVerified, history } = this.props;
-  //   checkWalletStatus(username);
-  //   if (isWalletAssigned) {
-  //     history.push(`/${Routes.AI_MARKETPLACE}`);
-  //   }
-  //   if (isEmailVerified) {
-  //     this.setState({ activeSection: 2 });
-  //   }
-  // };
+  componentDidMount = () => {
+    const { checkWalletStatus, username, isWalletAssigned, isEmailVerified, history } = this.props;
+    checkWalletStatus(username);
+    if (isWalletAssigned) {
+      history.push(`/${Routes.AI_MARKETPLACE}`);
+    }
+    if (isEmailVerified) {
+      this.setState({ activeSection: 2 });
+    }
+  };
 
-  // componentDidUpdate = () => {
-  //   const { checkWalletStatus, username, isWalletAssigned, isEmailVerified, history } = this.props;
-  //   checkWalletStatus(username);
-  //   if (isWalletAssigned) {
-  //     history.push(Routes.AI_MARKETPLACE);
-  //   }
-  //   if (isEmailVerified && this.state.activeSection === 1) {
-  //     this.setState({ activeSection: 2 });
-  //   }
-  // };
+  componentDidUpdate = () => {
+    const { checkWalletStatus, username, isWalletAssigned, isEmailVerified, history } = this.props;
+    checkWalletStatus(username);
+    if (isWalletAssigned) {
+      history.push(Routes.AI_MARKETPLACE);
+    }
+    if (isEmailVerified && this.state.activeSection === 1) {
+      this.setState({ activeSection: 2 });
+    }
+  };
 
   handleNextSection = () => {
     this.setState(prevState => ({

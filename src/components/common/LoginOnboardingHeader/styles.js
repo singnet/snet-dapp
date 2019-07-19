@@ -14,7 +14,7 @@ export const useStyles = theme => ({
       color: theme.palette.text.mediumShadeGray,
       fontSize: "16px",
     },
-    "& a": {
+    "& span": {
       display: "inline-block",
       color: theme.palette.text.primary,
       fontWeight: theme.typography.fontweight,
@@ -24,8 +24,15 @@ export const useStyles = theme => ({
   },
   loginHeaderLink: {
     textAlign: "right",
-    "& a": {
-      "&:hover": { textDecoration: "underline" },
+    "& span": {
+      color: theme.palette.text.primary,
+      fontSize: 16,
+      fontWeight: 600,
+      "&:hover": {
+        cursor: "pointer",
+        fontWeight: 600,
+        textDecoration: "underline",
+      },
     },
     "@media (max-width:750px)": {
       maxWidth: "100%",

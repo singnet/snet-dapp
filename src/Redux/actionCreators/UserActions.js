@@ -51,7 +51,9 @@ export const setUserDetails = dispatch => {
           email: res.attributes.email,
           username: res.username,
         };
+        dispatch(checkWalletStatus(res.username));
       }
+      dispatch(userDetails);
     })
     .finally(() => {
       dispatch(userDetails);
