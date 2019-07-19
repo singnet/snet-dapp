@@ -39,15 +39,4 @@ export const useStyles = theme => ({
     },
     "@media (max-width:724px)": { width: "90%" },
   },
-  active: {
-    "& span": {
-      "&:first-of-type": { backgroundColor: theme.palette.text.primary },
-      "&:last-of-type": { color: theme.palette.text.darkShadedGray },
-    },
-  },
-  completed: {
-    "& span": {
-      "&:last-of-type": { color: theme.palette.text.darkShadedGray },
-    },
-  },
 });

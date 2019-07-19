@@ -18,4 +18,15 @@ export const useStyles = makeStyles(theme => ({
     fontSize: 28,
     marginRight: 10,
   },
+  active: {
+    "& span": {
+      "&:first-of-type": { backgroundColor: theme.palette.text.primary },
+      "&:last-of-type": { color: theme.palette.text.darkShadedGray },
+    },
+  },
+  completed: {
+    "& span": {
+      "&:last-of-type": { color: theme.palette.text.darkShadedGray },
+    },
+  },
 }));

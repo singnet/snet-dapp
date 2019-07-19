@@ -96,13 +96,7 @@ export const useStyles = theme => ({
       color: theme.palette.text.primary,
       textDecoration: "none",
       fontSize: 16,
-      "&:hover": {
-        borderBottom: 1,
-        borderBottomStyle: "solid",
-        borderBottomColor: theme.palette.text.primary,
-        paddingBottom: 4,
-        fontWeight: 600,
-      },
+      "&:hover": { fontWeight: 600 },
     },
   },
   creatorDetailsContainer: {
