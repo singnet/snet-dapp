@@ -1,4 +1,4 @@
-import React, { Component, lazy, Suspense } from "react";
+import React, { Component, lazy, Suspense, Fragment } from "react";
 import Amplify from "aws-amplify";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { ThemeProvider } from "@material-ui/styles";
@@ -40,9 +40,6 @@ class App extends Component {
     if (!isInitialized) {
       return <h2>Loading</h2>;
     }
-    if (isLoggedIn && !isWalletAssigned) {
-      return withRegistrationHeader(Onboarding, headerData.ONBOARDING);
-    }
     return (
       <ThemeProvider theme={theme}>
         <div className={hamburgerMenu ? "hide-overflow" : null}>
@@ -55,28 +52,40 @@ class App extends Component {
                   {...this.props}
                   component={withRegistrationHeader(Login, headerData.LOGIN)}
                 />
-                <PrivateRoute
+                <Route
                   path={`/${Routes.FORGOT_PASSWORD}`}
                   {...this.props}
                   component={withRegistrationHeader(ForgotPassword, headerData.FORGOT_PASSWORD)}
                 />
-                <PrivateRoute
+                <Route
                   path={`/${Routes.FORGOT_PASSWORD_SUBMIT}`}
                   {...this.props}
                   component={withRegistrationHeader(ForgotPasswordSubmit, headerData.FORGOT_PASSWORD_SUBMIT)}
                 />
                 <PrivateRoute
+                  isAllowed={isLoggedIn}
+                  redirectTo={`/${Routes.LOGIN}`}
                   path={`/${Routes.ONBOARDING}`}
                   {...this.props}
                   component={withRegistrationHeader(Onboarding, headerData.ONBOARDING)}
                 />
-                <Route path={`/${Routes.AI_MARKETPLACE}`} {...this.props} component={withInAppWrapper(AiMarketplace)} />
-                <Route
+                <PrivateRoute
+                  isAllowed={!isLoggedIn || (isLoggedIn && isWalletAssigned)}
+                  redirectTo={`/${Routes.ONBOARDING}`}
+                  path={`/${Routes.AI_MARKETPLACE}`}
+                  {...this.props}
+                  component={withInAppWrapper(AiMarketplace)}
+                />
+                <PrivateRoute
+                  isAllowed={!isLoggedIn || (isLoggedIn && isWalletAssigned)}
+                  redirectTo={`/${Routes.ONBOARDING}`}
                   path={`/${Routes.SERVICE_DETAILS}/:service_row_id`}
                   {...this.props}
                   component={withInAppWrapper(ServiceDetails)}
                 />
                 <PrivateRoute
+                  isAllowed={isLoggedIn}
+                  redirectTo={`/${Routes.LOGIN}`}
                   path={`/${Routes.USER_PROFILE}`}
                   {...this.props}
                   component={withInAppWrapper(UserProfile)}
