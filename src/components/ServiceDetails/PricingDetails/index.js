@@ -8,6 +8,13 @@ import { useStyles } from "./styles";
 import Price from "./Price";
 
 const PricingDetails = ({ classes, price_model }) => {
+  const handleClick = () => {
+    window.scroll({
+      top: 520,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <Grid item xs={12} sm={12} md={4} lg={4} className={classes.creditsContainer}>
       <div className={classes.creditsAndToken}>
@@ -19,7 +26,7 @@ const PricingDetails = ({ classes, price_model }) => {
         <InfoIcon className={classes.infoIcon} />
         <span>{price_model}</span>
       </p>
-      <StyledButton btnText="demo" />
+      <StyledButton btnText="demo" onClick={handleClick} />
     </Grid>
   );
 };
