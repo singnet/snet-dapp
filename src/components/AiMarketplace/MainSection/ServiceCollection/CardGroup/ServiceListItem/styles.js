@@ -47,6 +47,7 @@ export const useStyles = makeStyles(theme => ({
     fontSize: 20,
     letterSpacing: 0.25,
     fontFamily: theme.typography.primary.main,
+    padding: "0px 9px 0px 0px",
   },
   cardContent: {
     padding: "0 13px",
@@ -78,10 +79,15 @@ export const useStyles = makeStyles(theme => ({
     "& .dv-star-rating-empty-star": {
       "& i": {
         color: theme.palette.text.disabledBtnBg,
+        fontSize: "28px",
       },
     },
     "& i": {
       color: theme.palette.text.RatingStarColor,
+      fontSize: "28px",
+    },
+    "& label": {
+      float: "right !important",
     },
   },
 }));
