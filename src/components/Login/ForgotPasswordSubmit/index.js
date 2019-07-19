@@ -44,7 +44,7 @@ const ForgotPasswordSubmit = ({ classes, history, error, username, forgotPasswor
 
   if (showEmailSentAlert) {
     return (
-      <section className={classes.resetPasswordContainer} onClick={handleShowEmailSentAlert}>
+      <section className={classes.resetPasswordContainer}>
         <span>Reset Password Email Sent.</span>
         <p>Check your email for instructions. </p>
       </section>
