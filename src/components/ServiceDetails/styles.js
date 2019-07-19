@@ -1,7 +1,7 @@
 export const useStyles = theme => ({
   serviceDetailContainer: {
     width: "auto",
-    padding: "30px 60px 0",
+    padding: "100px 60px 0",
     backgroundColor: theme.palette.text.offWhiteColor,
   },
   computerVisionContainer: {
@@ -67,7 +67,8 @@ export const useStyles = theme => ({
       paddingTop: 5,
       "& i": {
         paddingRight: 12,
-        color: theme.palette.text.lightShadedGray,
+        color: theme.palette.text.lightGray,
+        fontSize: 20,
       },
     },
     "& button": {
