@@ -1,5 +1,6 @@
 export const useStyles = theme => ({
   aiMarketPlaceContainer: {
+    paddingTop: 70,
     backgroundColor: theme.palette.text.offWhiteColor,
   },
   mainWrapper: {

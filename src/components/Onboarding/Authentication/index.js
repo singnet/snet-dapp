@@ -67,9 +67,9 @@ class Authentication extends Component {
         <p className={classes.validateEmailDescription}>
           <span>A verification code has been sent to your registered email address.</span>
           <br /> <br />
-          Please enter the verification code below to confirm your email address. If you are unable to find the email
-          from <span>‘otp@singularitynet.io’</span> in your inbox, make sure to check the spam folder. The code will be
-          valid for 5 minutes.{" "}
+          Please enter the verification code below to confirm your email address. Check your spam, or junk folders if
+          you encounter any delays. The email should be from otp@singularitynet.io. The code will be valid for 5
+          minutes.{" "}
         </p>
         <InlineLoader loading={loading} />
         <TextField
