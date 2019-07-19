@@ -23,25 +23,20 @@ const RenderForm = ({
   return (
     <Fragment>
       <Grid item xs={12} sm={12} md={6} lg={6} className={classes.signupInfo}>
-        <h2>Sign up for your free account</h2>
+        <h2>Sign up now to get a free account!</h2>
         <p>
           {" "}
-          Gain instant access to unique, privacy-preserving AI services. You can also easily monetize your own AI
-          algorithms! Use your google account to easily get started, or fill out the form. Get free credits for the
-          first month and continue with your perferred wallet or credit card.{" "}
+          Gain instant access to an ever-growing collection of unique, privacy-preserving AI services for your company
+          or personal use.{" "}
         </p>
         <ul>
           <li>
             <Icon className="fas fa-check-circle" />
-            <p>Built for you, powered by open collaboration.</p>
+            <p>Get free credits to try out all the available AI services.</p>
           </li>
           <li>
             <Icon className="fas fa-check-circle" />
-            <p>Get 100 free credits to try out any of the AI available services. </p>
-          </li>
-          <li>
-            <Icon className="fas fa-check-circle" />
-            <p>Create and monetize your own AI service, and get feedback to improve it! </p>
+            <p>Integrate any AI service to your business.</p>
           </li>
         </ul>
       </Grid>

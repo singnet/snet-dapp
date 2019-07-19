@@ -41,4 +41,7 @@ export const useStyles = theme => ({
       marginLeft: "30px !important",
     },
   },
+  projectDetailsContent: {
+    paddingTop: 10,
+  },
 });

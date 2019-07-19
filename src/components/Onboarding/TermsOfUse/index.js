@@ -22,7 +22,7 @@ class TermsOfUse extends Component {
     return (
       <div className={classes.onboardingContainer}>
         <div className={classes.termsOfUseContainer}>
-          <h3>Review and Accept Terms of Service</h3>
+          <h3>Review and Accept the Terms of Service</h3>
           <div className={classes.termsAndConditions}>
             <PrivacyTerms />
           </div>
