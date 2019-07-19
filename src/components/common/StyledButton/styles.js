@@ -38,6 +38,7 @@ export const useStyles = makeStyles(theme => ({
     color: theme.palette.text.primary,
     "&:disabled": {
       color: "#ccc !important",
+      backgroundColor: "transparent",
     },
     "&:hover": {
       backgroundColor: "rgba(64,134,255,0.1)",

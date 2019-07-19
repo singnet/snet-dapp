@@ -1,5 +1,6 @@
 export const useStyles = theme => ({
   forgotPwdContent: {
+    backgroundColor: theme.palette.text.offWhiteColor,
     textAlign: "center",
     "& h2": {
       margin: 0,

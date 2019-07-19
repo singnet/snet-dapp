@@ -2,10 +2,15 @@ import { makeStyles } from "@material-ui/styles";
 
 export const useStyles = makeStyles(theme => ({
   header: {
-    alignItems: "center",
-    display: "flex",
-    backgroundColor: theme.palette.text.purple,
     padding: "12px 65px 4px 60px",
+    display: "flex",
+    alignItems: "center",
+    position: "fixed",
+    right: 0,
+    left: 0,
+    zIndex: 1,
+    backgroundColor: theme.palette.text.purple,
+    boxShadow: "0 2px 6px 0 rgba(0,0,0,0.3)",
     "@media (max-width:1280px)": { padding: "13px 10px 3px 10px" },
     "@media (max-width:768px)": { padding: "15px 22" },
     "@media (max-width:480px)": {
@@ -31,6 +36,7 @@ export const useStyles = makeStyles(theme => ({
   logoIcon: { width: "100%" },
   navigationSection: {
     width: "58%",
+    marginBottom: 10,
     "@media (max-width:1024px)": { display: "none" },
   },
   navUl: {
@@ -53,34 +59,11 @@ export const useStyles = makeStyles(theme => ({
   },
   navLinksDropDown: {
     listStyle: "none",
-    "& > div": { width: 70 },
-    "& .MuiFormLabel-root.Mui-focused": {
-      color: theme.palette.text.lightShadedGray,
-    },
-    "& label": {
-      fontSize: 16,
-      top: "-20px",
-      color: theme.palette.text.lightShadedGray,
-      "& + div": {
-        margin: 0,
-        "& svg": {
-          top: "calc(50% - 19px)",
-          right: "-35px",
-          color: theme.palette.text.lightShadedGray,
-          fontSize: 30,
-        },
-        "&::after": {
-          border: "1px solid #fff",
-          bottom: "-8px",
-        },
-      },
-      "& option": {
-        color: theme.palette.text.white,
-      },
-    },
+    "& select": { color: theme.palette.text.lightShadedGray },
+    "& svg": { color: theme.palette.text.lightShadedGray },
   },
   activeTab: {
-    paddingBottom: 12,
+    paddingBottom: 4,
     fontWeight: theme.typography.fontweight,
     borderBottomWidth: "2px",
     borderBottomStyle: "solid",

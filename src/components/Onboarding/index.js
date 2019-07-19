@@ -7,14 +7,14 @@ import TermsOfUse from "./TermsOfUse";
 import WalletKey from "./WalletKey";
 import { useStyles } from "./styles";
 import OnboardingContainer from "./OnboardingContainer";
-import Routes from "../../utility/constants/Routes";
 import { userActions } from "../../Redux/actionCreators";
+import Routes from "../../utility/constants/Routes";
 
 class Onboarding extends Component {
   state = {
     verificationCode: "",
-    activeSection: 1,
-    progressText: ["Authentication", "Terms of use", "Wallet key"],
+    activeSection: 2,
+    progressText: ["Authentication", "Terms of service", "Wallet key"],
   };
 
   componentDidMount = () => {
