@@ -36,7 +36,6 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "precommit": "pretty-quick --staged",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "deploy": "node scripts/deploy.js enhanced-marketplace us-east-1"
@@ -47,11 +46,7 @@
       "git add"
     ]
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
+  
   "eslintConfig": {
     "extends": "react-app"
   },
