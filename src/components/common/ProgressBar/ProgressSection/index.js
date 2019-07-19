@@ -14,7 +14,7 @@ const ProgressSection = ({ progressNumber, progressText, progressStatus }) => {
   const classes = useStyles();
 
   return (
-    <li>
+    <li className={classes[progressStatus]}>
       <StatusToggler progressStatus={progressStatus} progressNumber={progressNumber} />
       <span className={classes.TabTitle}>{progressText}</span>
     </li>
