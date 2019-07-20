@@ -51,7 +51,7 @@ class TermsOfUse extends Component {
     const { privateKey, error, allowContinue } = this.state;
     return (
       <div className={classes.walletKeyContainer}>
-        <h3>Wallet Key</h3>
+        <h3>Wallet Key Generator</h3>
         <p>
           <span />
         </p>
@@ -59,10 +59,13 @@ class TermsOfUse extends Component {
           <p className={classes.privateKey}>{privateKey}</p>
         ) : (
           <Fragment>
-            <StyledButton type="transparent" btnText="Export Private Key" onClick={this.handleExportingPrivateKey} />
+            <StyledButton type="transparent" btnText="View your secret key" onClick={this.handleExportingPrivateKey} />
             <div className={classes.warningBox}>
               <Icon className="fas fa-exclamation-triangle" />
-              <span>Please keep in mind that once wallet key is lost, it cant be recovered.</span>
+              <span>
+                ATTENTION: By clicking on "View your secret key" you will be given a unique key known only by yourself.
+                Make sure you STORE YOUR KEY SOMEWHERE SAFE. If you loose your key, you will not be able to recover it.
+              </span>
             </div>
           </Fragment>
         )}

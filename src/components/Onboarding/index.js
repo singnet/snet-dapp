@@ -14,7 +14,7 @@ class Onboarding extends Component {
   state = {
     verificationCode: "",
     activeSection: 2,
-    progressText: ["Authentication", "Terms of service", "Wallet key"],
+    progressText: ["Authentication", "Terms of service", "Wallet Key Generator"],
   };
 
   componentDidMount = () => {
@@ -66,8 +66,8 @@ class Onboarding extends Component {
         component: <TermsOfUse handleNextSection={this.handleNextSection} />,
       },
       {
-        title: `Step 3. Creating Your Personal Wallet`,
-        description: <p>Final step in completing your activation.</p>,
+        title: `Step 3. Creating Your Account Wallet`,
+        description: <p>Final step!</p>,
         component: <WalletKey />,
       },
     ];
