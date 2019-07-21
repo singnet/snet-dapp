@@ -7,9 +7,9 @@ import TitleCard from "./TitleCard";
 import PricingDetails from "./PricingDetails";
 import StyledTabs from "./StyledTabs";
 import AboutService from "./AboutService";
+import InstallAndRunService from "./InstallAndRunService";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../Redux/actionCreators";
-import { PricingStrategy } from "../../utility/PricingStrategy.js";
 
 class ServiceDetails extends Component {
   state = {
@@ -38,13 +38,6 @@ class ServiceDetails extends Component {
   populateServiceData = () => {
     const { service_row_id } = this.props.match.params;
     let service = this.props.services.filter(el => el.service_row_id === Number(service_row_id))[0];
-
-    if (typeof service !== "undefined") {
-      const pricing = service["pricing"];
-      let pricingJSON = typeof pricing === "undefined" || pricing === null ? JSON.stringify(service) : pricing;
-      service.pricing_strategy = new PricingStrategy(pricingJSON);
-    }
-
     this.setState({ service_row_id, service });
   };
 
@@ -56,7 +49,10 @@ class ServiceDetails extends Component {
     const { classes } = this.props;
     const { service, activeTab } = this.state;
 
-    const tabs = [{ name: "About", activeIndex: 0, component: <AboutService service={service} /> }];
+    const tabs = [
+      { name: "About", activeIndex: 0, component: <AboutService service={service} /> },
+      { name: "Install and Run", activeIndex: 1, component: <InstallAndRunService /> },
+    ];
 
     if (!service) {
       return null;
@@ -71,7 +67,7 @@ class ServiceDetails extends Component {
           star_rating={service.service_rating}
           totalRating={service.total_users_rated}
         />
-        <PricingDetails price_model={service.price_model} price_strategy={service.pricing_strategy} />
+        <PricingDetails price_strategy={service.pricing_strategy} />
         <StyledTabs tabs={tabs} activeTab={activeTab} onTabChange={this.handleTabChange} />
       </Grid>
     );

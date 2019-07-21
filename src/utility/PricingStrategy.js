@@ -1,16 +1,28 @@
+const priceData = {
+  fixed_price_model: "fixed_price",
+  fixed_price_per_method: "fixed_price_per_method",
+  agi_precision: 100000000,
+  agi_divisibility: 8,
+};
+
+const priceModelNames = {
+  fixed_price: "Fixed price",
+  fixed_price_per_method: "Method based price",
+};
+
 export class PricingStrategy {
   constructor(pricingJSON) {
-    let pricingData = JSON.parse(pricingJSON);
+    const pricingData = JSON.parse(pricingJSON);
     this.priceModel = pricingData.price_model;
-    if (this.priceModel === "fixed_price") {
+    if (this.priceModel === priceData.fixed_price_model) {
       this.pricingModel = new FixedPricing(pricingData);
-    } else if (this.priceModel === "fixed_price_per_method") {
+    } else if (this.priceModel === priceData.fixed_price_per_method) {
       this.pricingModel = new MethodPricing(pricingData);
     }
   }
 
   getPriceModel() {
-    return this.priceModel;
+    return priceModelNames[this.priceModel];
   }
 
   getPriceInCogs(serviceName, methodName) {
@@ -31,24 +43,14 @@ export class PricingStrategy {
 }
 
 class AGIUtils {
-  static toDecimal(agi) {
-    return (agi / 100000000).toFixed(8);
-  }
-
   static inAGI(cogs) {
-    return (cogs / 100000000).toFixed(8);
+    return (cogs / priceData.agi_precision).toFixed(priceData.agi_divisibility);
   }
-
-  /*static inCogs(web3, value) {
-      const BigNumber = require('bignumber.js');
-      return new BigNumber(web3.toWei(value, "ether") / (10 ** (10))).toNumber();
-    }*/
 }
 
 class FixedPricing {
   constructor(pricingData) {
     this.priceInCogs = pricingData.price_in_cogs;
-    this.priceInAGI = AGIUtils.inAGI(pricingData.price_in_cogs);
   }
 
   getPriceInCogs(serviceName, methodName) {
@@ -56,7 +58,7 @@ class FixedPricing {
   }
 
   getPriceInAGI(serviceName, methodName) {
-    return this.priceInAGI;
+    return AGIUtils.inAGI(this.price_in_cogs);
   }
 
   getMaxPriceInCogs() {
@@ -81,12 +83,12 @@ class MethodPricing {
   }
 
   getPriceInCogs(serviceName, methodName) {
-    let methodPricing = this.pricing[serviceName];
+    const methodPricing = this.pricing[serviceName];
     return methodPricing[methodName];
   }
 
   getPriceInAGI(serviceName, methodName) {
-    let priceInCogs = this.getPriceInCogs(serviceName, methodName);
+    const priceInCogs = this.getPriceInCogs(serviceName, methodName);
     return AGIUtils.inAGI(priceInCogs);
   }
 

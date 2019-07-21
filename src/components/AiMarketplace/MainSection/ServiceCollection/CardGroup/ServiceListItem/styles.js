@@ -5,14 +5,14 @@ export const useStyles = makeStyles(theme => ({
     flexWrap: "nowrap",
   },
   card: {
-    padding: "10px 0 15px",
+    padding: 10,
     position: "relative",
     boxShadow: "none",
     borderTop: 1,
-    borderBottom: 1,
     borderTopStyle: "solid",
-    borderBottomStyle: "solid",
     borderTopColor: theme.palette.text.cardSeparator,
+    borderBottom: 1,
+    borderBottomStyle: "solid",
     borderBottomColor: theme.palette.text.cardSeparator,
     borderRadius: 4,
     backgroundColor: theme.palette.text.white,
@@ -29,7 +29,7 @@ export const useStyles = makeStyles(theme => ({
     height: 120,
   },
   cardHeader: {
-    padding: "0 18px",
+    padding: "0 10px",
   },
   cardTitle: {
     fontWeight: theme.typography.fontweight,
@@ -50,7 +50,7 @@ export const useStyles = makeStyles(theme => ({
     padding: "0px 9px 0px 0px",
   },
   cardContent: {
-    padding: "0 13px",
+    padding: "0 10px",
     "&:last-of-type": { paddingBottom: 0 },
   },
   cardTypograpy: {
@@ -62,7 +62,7 @@ export const useStyles = makeStyles(theme => ({
   cardActions: {
     position: "absolute",
     right: 27,
-    top: "50%",
+    top: 50,
     transform: "translateY(-50%)",
     "& button": {
       color: theme.palette.text.primary,

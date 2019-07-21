@@ -108,4 +108,5 @@ export const useStyles = theme => ({
       "&:nth-child(2) a": { paddingTop: 0 },
     },
   },
+  loggedInState: { display: "none" },
 });

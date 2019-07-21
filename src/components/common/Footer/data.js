@@ -37,7 +37,6 @@ const PrimaryFooterMain = [
       { label: "Request Dev Account", link: "#" },
       { label: "Request AI Services", link: "#" },
       { label: "Bounty Rewards", link: "#" },
-      { label: "Bounty Rewards", link: "#" },
       { label: "Contribute Program", link: "#" },
       { label: "Changelog & Status", link: "#" },
     ],

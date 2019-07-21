@@ -46,7 +46,7 @@ const MobileHeader = ({ classes, data, isLoggedIn, hamburgerMenu, updateHamburge
               </div>
             ))}
           </ul>
-          <div className={classes.mobileActionBtns}>
+          <div className={`${classes.mobileActionBtns} ${isLoggedIn ? classes.loggedInState : ""}`}>
             <HeaderActions isLoggedIn={isLoggedIn} />
           </div>
         </nav>
