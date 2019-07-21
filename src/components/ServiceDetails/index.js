@@ -37,7 +37,7 @@ class ServiceDetails extends Component {
 
   populateServiceData = () => {
     const { service_row_id } = this.props.match.params;
-    let service = this.props.services.filter(el => el.service_row_id === Number(service_row_id))[0];
+    const service = this.props.services.filter(el => el.service_row_id === Number(service_row_id))[0];
     this.setState({ service_row_id, service });
   };
 
