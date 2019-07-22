@@ -4,7 +4,11 @@ import { withStyles } from "@material-ui/styles";
 import { useStyles } from "./styles";
 
 const CodeSnippet = ({ classes, children }) => {
-  return <div className={classes.codeSnippetContainer}>{children}</div>;
+  return (
+    <section className={classes.codeSnippetContainer}>
+      <div className={classes.codeSnippet}>{children}</div>
+    </section>
+  );
 };
 
 export default withStyles(useStyles)(CodeSnippet);
