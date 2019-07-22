@@ -57,6 +57,7 @@ class ServiceDetails extends Component {
     if (!service) {
       return null;
     }
+
     return (
       <Grid container spacing={24} className={classes.serviceDetailContainer}>
         <TitleCard
@@ -66,7 +67,7 @@ class ServiceDetails extends Component {
           star_rating={service.service_rating}
           totalRating={service.total_users_rated}
         />
-        <PricingDetails price_model={service.price_model} />
+        <PricingDetails price_strategy={service.pricing_strategy} />
         <StyledTabs tabs={tabs} activeTab={activeTab} onTabChange={this.handleTabChange} />
       </Grid>
     );
