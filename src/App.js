@@ -28,11 +28,11 @@ Amplify.configure(aws_config);
 
 class App extends Component {
   componentDidMount = () => {
-    this.props.setUserDetails();
+    this.props.fetchUserDetails();
   };
 
   componentDidMount = () => {
-    this.props.setUserDetails();
+    this.props.fetchUserDetails();
   };
 
   render() {
@@ -117,7 +117,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setUserDetails: () => dispatch(userActions.setUserDetails),
+  fetchUserDetails: () => dispatch(userActions.fetchUserDetails),
 });
 
 export default connect(

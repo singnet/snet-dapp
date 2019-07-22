@@ -22,7 +22,7 @@ export const updateEmailVerified = value => dispatch => {
   dispatch({ type: UPDATE_EMAIL_VERIFIED, payload: { isEmailVerified: value } });
 };
 
-export const setUserDetails = dispatch => {
+export const fetchUserDetails = dispatch => {
   let userDetails = {
     type: SET_USER_DETAILS,
     payload: {

@@ -83,7 +83,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setUserDetails: () => dispatch(userActions.setUserDetails),
+  fetchUserDetails: () => dispatch(userActions.fetchUserDetails),
   login: args => dispatch(userActions.login(args)),
 });
 export default connect(
