@@ -5,6 +5,7 @@ import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import GRPCProtoV3Spec from "../../assets/models/GRPCProtoV3Spec";
 import { loaderActions } from "./";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
+import { PricingStrategy } from "../../utility/PricingStrategy.js";
 
 export const UPDATE_SERVICE_LIST = "SET_SERVICE_LIST";
 export const UPDATE_PAGINATION_DETAILS = "SET_PAGINATION_DETAILS";
@@ -29,6 +30,13 @@ export const fetchServiceSuccess = res => dispatch => {
       total_count: res.data.total_count,
     },
   });
+  if (res.data.total_count > 0) {
+    res.data.result.map(service => {
+      const pricing = service["pricing"];
+      let pricingJSON = typeof pricing === "undefined" || pricing === null ? JSON.stringify(service) : pricing;
+      service.pricing_strategy = new PricingStrategy(pricingJSON);
+    });
+  }
   dispatch({ type: UPDATE_SERVICE_LIST, payload: res.data.result });
   dispatch(loaderActions.stopAIServiceListLoader);
 };
