@@ -59,7 +59,7 @@ export const useStyles = theme => ({
   },
   textField: {
     width: "100%",
-    "& label": { color: theme.palette.text.darkShadedGray },
+    "& label": { color: theme.palette.text.darkShadedGrayF },
     "& fieldset": { borderColor: "#828282 !important" },
     "& div": { color: "#212121 !important" },
   },

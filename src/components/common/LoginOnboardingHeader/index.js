@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 
 import Routes from "../../../utility/constants/Routes";
 import { headerData as masterHeaderData } from "../../../utility/constants/Header";
-import Logo from "../../../assets/images/LoginLogo.png";
+import Logo from "../../../assets/images/Logo_Header_Black.svg";
 import { useStyles } from "./styles";
 import { userActions } from "../../../Redux/actionCreators";
 

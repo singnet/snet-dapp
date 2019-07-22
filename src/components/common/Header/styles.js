@@ -26,6 +26,7 @@ export const useStyles = makeStyles(theme => ({
   },
   h1: {
     margin: 0,
+    '& a': { textDecoration: 'none'}
   },
   logoAnchor: {
     display: "inline-block",
