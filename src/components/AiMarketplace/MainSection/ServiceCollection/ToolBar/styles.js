@@ -1,16 +1,15 @@
 import { makeStyles } from "@material-ui/styles";
 
 export const useStyles = makeStyles(theme => ({
-  serviceCollection: {
-    paddingLeft: 25,
-  },
+  toolBar:{ padding: '10px 0' },
+  serviceCollection: { paddingLeft: 25 },
   sortBySection: {
     display: "flex",
     alignItems: "baseline",
     "& svg": { color: theme.palette.text.primary },
   },
   sortbyTxt: {
-    padding: "0 17px 5px 0",
+    padding: "0 17px 0 0",
     color: theme.palette.text.lightShadedGray,
     fontSize: 16,
   },
@@ -19,16 +18,15 @@ export const useStyles = makeStyles(theme => ({
     fontSize: 16,
   },
   searchBar: {
+    paddingTop: 10,
     "& div": {
       color: theme.palette.text.mediumShadeGray,
-      "&::after": {
-        borderBottomColor: "#9b9b9b !important",
-      },
+      "&::after": { borderBottomColor: "#9b9b9b !important" },
     },
   },
   iconsContainer: {
     display: "flex",
-    alignItems: "flex-end",
+    alignItems: "center",
     justifyContent: "flex-end",
     "& button": {
       border: "none",
