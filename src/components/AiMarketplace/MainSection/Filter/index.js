@@ -5,7 +5,6 @@ import StyledExpansionPanel from "./StyledExpansionPanel";
 import { useStylesHook } from "./styles";
 import { serviceActions } from "../../../../Redux/actionCreators";
 import {
-  filterParamters,
   defaultPaginationParameters,
   generateFilterObject,
   filterTitles,
@@ -29,7 +28,7 @@ const Filter = ({ activeFilterItem, pagination, filterDataProps, handleFilterCha
     }
     const currentActiveFilterData = { ...activeFilterItem, [name]: currentFilterItem };
     const filterObj = generateFilterObject(currentActiveFilterData);
-    const latestPagination = { ...pagination, ...defaultPaginationParameters, q: value };
+    const latestPagination = { ...pagination, ...defaultPaginationParameters, q: pagination.q };
     handleFilterChange({ pagination: latestPagination, filterObj, currentActiveFilterData });
   };
 

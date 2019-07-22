@@ -11,13 +11,13 @@ export const defaultFilterData = {
 };
 
 export const defaultActiveFilterItem = {
-  organization: [],
+  org_id: [],
 };
 
 export const filterTitles = {
   tags: "Tags",
   display_name: "Display Name",
-  organization: "Organization",
+  org_id: "Organization",
 };
 
 export const generateFilterObject = filterData => {
