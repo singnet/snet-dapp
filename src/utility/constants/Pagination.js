@@ -1,6 +1,6 @@
-export const filterParamters = { display_name: "dn", org_id: "org", tags: "tg", all: "all" };
+export const filterParamters = { org_id: "org" };
 
-export const filterAttributes = ["display_name", "organization", "tags"];
+export const filterAttributes = ["organization"];
 
 export const defaultFilterData = {
   tags: {
@@ -11,9 +11,13 @@ export const defaultFilterData = {
 };
 
 export const defaultActiveFilterItem = {
-  display_name: [],
   organization: [],
-  tags: [],
+};
+
+export const filterTitles = {
+  tags: "Tags",
+  display_name: "Display Name",
+  organization: "Organization",
 };
 
 export const generateFilterObject = filterData => {
@@ -33,7 +37,6 @@ export const generateFilterObject = filterData => {
 export const sortByCategories = [{ value: "display_name", label: "Display Name" }];
 
 export const defaultPaginationParameters = {
-  q: "",
   limit: 10,
   offset: 0,
   total_count: 0,
