@@ -5,22 +5,39 @@ export const useStyles = theme => ({
     "& li": {
       listStyle: "none",
       padding: "10px 20px",
+      '& a':{
+        width: '100%',
+        display: 'inline-block',
+        '&:hover': {
+          '& span':{ 
+            color: theme.palette.text.primary 
+          }
+        }
+      },
       "& span": {
-        color: theme.palette.text.gray2,
+        color: theme.palette.text.userProfileIconColor,
         verticalAlign: "middle",
-        paddingRight: 20,
+        paddingRight: 15,
+        '&:hover':{ color: theme.palette.text.primary }
       },
-      "& a": {
-        color: theme.palette.text.black1,
-        fontSize: 16,
-        letterSpacing: 0.5,
-        lineHeight: "28px",
-        textDecoration: "none",
-      },
-    },
     "& hr": { margin: "10px 0" },
+    '&:last-of-type':{ paddingBottom: 17 }
+    },
+  },
+  title:{
+    color: theme.palette.text.black1,
+    fontSize: 16,
+    letterSpacing: 0.5,
+    lineHeight: "28px",
+    textDecoration: "none",
+    '&:hover':{ color: theme.palette.text.primary }
   },
   UserMenuAction: {
     cursor: "pointer",
+    '&:hover':{
+      '& span':{ 
+        color: theme.palette.text.primary 
+      }
+    }
   },
 });
