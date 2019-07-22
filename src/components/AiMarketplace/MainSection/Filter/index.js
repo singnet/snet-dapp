@@ -8,13 +8,14 @@ import {
   filterParamters,
   defaultPaginationParameters,
   generateFilterObject,
+  filterTitles,
 } from "../../../../utility/constants/Pagination";
 
 const Filter = ({ activeFilterItem, pagination, filterDataProps, handleFilterChange, resetFilter }) => {
   const classes = useStylesHook();
   const filterData = {};
   Object.entries(filterDataProps).map(([key, items]) => {
-    filterData[key] = { title: key, name: key, items };
+    filterData[key] = { title: filterTitles[key], name: key, items };
   });
 
   const handleActiveFilterItemChange = async event => {
