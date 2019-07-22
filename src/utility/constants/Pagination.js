@@ -37,6 +37,7 @@ export const generateFilterObject = filterData => {
 export const sortByCategories = [{ value: "display_name", label: "Display Name" }];
 
 export const defaultPaginationParameters = {
+  q: "",
   limit: 10,
   offset: 0,
   total_count: 0,
