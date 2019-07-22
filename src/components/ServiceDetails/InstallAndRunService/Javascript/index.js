@@ -24,11 +24,9 @@ const Javascript = ({ classes }) => {
         <CodeSnippet>snet sdk generate-client-library nodejs &lt;org_id&gt; &lt;service_id&gt;</CodeSnippet> <br />
         Run the code <br />
         <CodeSnippet>
-          <div>
-            import services from '&lt;path_to_grpc_service_file&gt;' <br />
-            import messages from '&lt;path_to_grpc_message_file&gt;' <br />
-            const client = sdk.createServiceClient("&lt;org_id&gt;", "&lt;service_id&gt;", "&lt;services.&lt;ClientStub&gt;") <br />
-          </div>
+          import services from '&lt;path_to_grpc_service_file&gt;' <br />
+          import messages from '&lt;path_to_grpc_message_file&gt;' <br />
+          const client = sdk.createServiceClient("&lt;org_id&gt;", "&lt;service_id&gt;", "&lt;services.&lt;ClientStub&gt;") <br />
         </CodeSnippet>
       </div>
     </section>

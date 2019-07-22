@@ -22,7 +22,7 @@ class InstallAndRunService extends Component {
     const { activeTab } = this.state;
     const tabs = [
       { name: "Python", activeIndex: 0, component: <Python /> },
-      { name: "Javascript", activeIndex: 2, component: <Javascript /> },
+      { name: "Javascript", activeIndex: 1, component: <Javascript /> },
     ];
     return (
       <Grid container spacing={24} className={classes.installAndRunContainer}>

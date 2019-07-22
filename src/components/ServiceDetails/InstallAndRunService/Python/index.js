@@ -27,16 +27,14 @@ const Python = ({ classes }) => {
       <div>
         Run the code
         <CodeSnippet>
-          <div>
-            from snet.sdk import SnetSDK <br />
-            import &lt;stub&gt;_pb2 <br />
-            import &lt;stub&gt;_pb2_grpc <br />
-            from config import config <br /> <br />
-            sdk = SnetSDK(config) <br />
-            service_client = sdk.create_service_client( <br />
-            &lt;org_id&gt;, &lt;service_id&gt;, example_service_pb2_grpc.CalculatorStub) <br />
-            request = example_service_pb2.Numbers(a=20, b=3) <br />
-          </div>
+          from snet.sdk import SnetSDK <br />
+          import &lt;stub&gt;_pb2 <br />
+          import &lt;stub&gt;_pb2_grpc <br />
+          from config import config <br /> <br />
+          sdk = SnetSDK(config) <br />
+          service_client = sdk.create_service_client( <br />
+          &lt;org_id&gt;, &lt;service_id&gt;, example_service_pb2_grpc.CalculatorStub) <br />
+          request = example_service_pb2.Numbers(a=20, b=3) <br />
         </CodeSnippet>
       </div>
     </section>
