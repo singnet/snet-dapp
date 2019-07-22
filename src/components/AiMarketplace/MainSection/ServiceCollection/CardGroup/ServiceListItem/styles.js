@@ -21,16 +21,12 @@ export const useStyles = makeStyles(theme => ({
       "& h4": { color: theme.palette.text.primary },
     },
   },
-  mediaContainer: {
-    maxWidth: "100% !important",
-  },
+  mediaContainer: { maxWidth: "100% !important" },
   CardMedia: {
     width: 214,
     height: 120,
   },
-  cardHeader: {
-    padding: "0 10px",
-  },
+  cardHeader: { padding: "0 10px" },
   cardTitle: {
     fontWeight: theme.typography.fontweight,
     fontSize: 12,
@@ -40,7 +36,7 @@ export const useStyles = makeStyles(theme => ({
     fontFamily: theme.typography.primary.main,
   },
   cardSubheader: {
-    margin: "8px 0",
+    margin: "8px 10px 8px 0",
     display: "inline-block",
     color: theme.palette.text.darkShadedGray,
     fontWeight: theme.typography.fontweight,
@@ -62,7 +58,7 @@ export const useStyles = makeStyles(theme => ({
   cardActions: {
     position: "absolute",
     right: 27,
-    top: 50,
+    top: 45,
     transform: "translateY(-50%)",
     "& button": {
       color: theme.palette.text.primary,
@@ -79,12 +75,16 @@ export const useStyles = makeStyles(theme => ({
     "& .dv-star-rating-empty-star": {
       "& i": {
         color: theme.palette.text.disabledBtnBg,
-        fontSize: "28px",
+        fontSize: 21,
       },
     },
     "& i": {
       color: theme.palette.text.RatingStarColor,
-      fontSize: "28px",
+      fontSize: 21,
     },
+  },
+  ratingSection: {
+    display: "flex",
+    alignItems: "center",
   },
 }));

@@ -8,9 +8,11 @@ import { useStyles } from "./styles";
 
 const UserMenuItem = ({ classes, icon, title, linkTo }) => {
   return (
-    <li>
-      <Icon className={clsx(classes.icon, icon)} />
-      <Link to={`/${linkTo}`}>{title}</Link>
+  	<li>
+    	<Link to={`/${linkTo}`}>
+      		<Icon className={clsx(classes.icon, icon)} />
+      		<span className={classes.title}>{title}</span>
+    	</Link>
     </li>
   );
 };
