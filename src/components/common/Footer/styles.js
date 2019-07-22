@@ -21,6 +21,9 @@ export const useStyles = makeStyles(theme => ({
     opacity: 0.6,
     textDecoration: "none",
     "&:hover": { opacity: 1 },
+    "&:first-of-type": {
+      opacity: 1,
+    },
   },
   footerLinksTitle: {
     marginBottom: 8,
