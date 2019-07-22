@@ -1,6 +1,6 @@
 import { Auth, API } from "aws-amplify";
 
-import { APIEndpoints } from "../../config/APIEndpoints";
+import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { parseError } from "../../utility/ErrorHandling";
 import { userActions, errorActions, loaderActions } from ".";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
@@ -13,6 +13,8 @@ export const SIGN_OUT = "SIGN_OUT";
 export const CHECK_WALLET_STATUS = "CHECK_WALLET_STATUS";
 export const UPDATE_USERNAME = "UPDATE_USERNAME";
 export const UPDATE_EMAIL_VERIFIED = "UPDATE_EMAIL_VERIFIED";
+export const SUBSCRIBE_TO_EMAIL_ALERTS = "SUBSCRIBE_TO_EMAIL_ALERTS";
+export const UNSUBSCRIBE_TO_EMAIL_ALERTS = "UNSUBSCRIBE_TO_EMAIL_ALERTS";
 
 export const updateUsername = username => dispatch => {
   dispatch({ type: UPDATE_USERNAME, payload: { username } });
@@ -20,6 +22,27 @@ export const updateUsername = username => dispatch => {
 
 export const updateEmailVerified = value => dispatch => {
   dispatch({ type: UPDATE_EMAIL_VERIFIED, payload: { isEmailVerified: value } });
+};
+
+export const subscribeToEmailAlerts = dispatch => {
+  dispatch({ type: SUBSCRIBE_TO_EMAIL_ALERTS });
+};
+
+export const unsubsrcibeToEmailAlerts = dispatch => {
+  dispatch({ type: UNSUBSCRIBE_TO_EMAIL_ALERTS });
+};
+
+export const fetchUserProfile = (username, token) => dispatch => {
+  const apiName = APIEndpoints.GET_SERVICE_LIST.name;
+  const path = `${APIPaths.GET_USER_PROFILE}${username}`;
+  const myInit = {
+    headers: { Authorization: token },
+  };
+  API.get(apiName, path, myInit).then(res => {
+    if (Boolean(res.data.data[0].email_alerts)) {
+      dispatch(subscribeToEmailAlerts);
+    }
+  });
 };
 
 export const fetchUserDetails = dispatch => {
@@ -39,7 +62,7 @@ export const fetchUserDetails = dispatch => {
         };
         return;
       }
-
+      dispatch(fetchUserProfile(res.username, res.signInUserSession.idToken.jwtToken));
       userDetails.payload = {
         ...userDetails.payload,
         login: { isLoggedIn: true, error: undefined, loading: false },
@@ -58,6 +81,44 @@ export const fetchUserDetails = dispatch => {
     .finally(() => {
       dispatch(userDetails);
     });
+};
+
+export const updateUserProfileInit = (currentUser, updatedUserData) => {
+  const apiName = APIEndpoints.GET_SERVICE_LIST.name;
+  const path = APIPaths.UPDATE_USER_PROFILE;
+  const myInit = {
+    headers: { Authorization: currentUser.signInUserSession.idToken.jwtToken },
+    body: updatedUserData,
+  };
+
+  return API.post(apiName, path, myInit);
+};
+
+const updateUserProfileSuccess = updatedUserData => dispatch => {
+  if (updatedUserData.email_alerts) {
+    dispatch(subscribeToEmailAlerts);
+  } else {
+    dispatch(unsubsrcibeToEmailAlerts);
+  }
+  dispatch(loaderActions.stopAppLoader);
+};
+
+const updateUserProfileFailure = err => dispatch => {
+  dispatch(errorActions.updateProfileSettingsError(String(err)));
+  dispatch(loaderActions.stopAppLoader);
+};
+
+export const updateUserProfile = updatedUserData => async dispatch => {
+  dispatch(loaderActions.startAppLoader(LoaderContent.UPDATE_PROFILE));
+  try {
+    const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
+    const response = await updateUserProfileInit(currentUser, updatedUserData);
+    if (response.status === "success") {
+      dispatch(updateUserProfileSuccess(updatedUserData));
+    }
+  } catch (err) {
+    dispatch(updateUserProfileFailure(err));
+  }
 };
 
 export const loginSuccess = ({ res, history, route }) => dispatch => {
