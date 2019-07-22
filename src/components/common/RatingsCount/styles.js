@@ -4,7 +4,7 @@ export const useStyles = makeStyles(theme => ({
   ratedCount: {
     marginLeft: 10,
     display: "inline-block",
-    color: theme.palette.text.secondary,
+    color: theme.palette.text.lightShadedGray,
     fontSize: 12,
     fontWeight: theme.typography.fontweight,
     letterSpacing: 2,

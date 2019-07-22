@@ -6,7 +6,7 @@ export const useStyles = makeStyles(theme => ({
   },
   sortBySection: {
     display: "flex",
-    alignItems: "flex-end",
+    alignItems: "baseline",
     "& svg": { color: theme.palette.text.primary },
   },
   sortbyTxt: {
