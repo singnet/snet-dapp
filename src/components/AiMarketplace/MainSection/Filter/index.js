@@ -10,15 +10,7 @@ import {
   generateFilterObject,
 } from "../../../../utility/constants/Pagination";
 
-const Filter = ({
-  activeFilterItem,
-  pagination,
-  updatePagination,
-  fetchService,
-  filterDataProps,
-  handleFilterChange,
-  resetFilter,
-}) => {
+const Filter = ({ activeFilterItem, pagination, filterDataProps, handleFilterChange, resetFilter }) => {
   const classes = useStylesHook();
   const filterData = {};
   Object.entries(filterDataProps).map(([key, items]) => {
@@ -69,8 +61,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  updatePagination: pagination => dispatch(serviceActions.updatePagination(pagination)),
-  fetchService: (pagination, filterObj) => dispatch(serviceActions.fetchService(pagination, filterObj)),
   handleFilterChange: args => dispatch(serviceActions.handleFilterChange({ ...args })),
   resetFilter: args => dispatch(serviceActions.resetFilter({ ...args })),
 });
