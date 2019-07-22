@@ -29,12 +29,12 @@ const Filter = ({ activeFilterItem, pagination, filterDataProps, handleFilterCha
     }
     const currentActiveFilterData = { ...activeFilterItem, [name]: currentFilterItem };
     const filterObj = generateFilterObject(currentActiveFilterData);
-    const latestPagination = { ...pagination, ...defaultPaginationParameters, s: filterParamters[name] };
+    const latestPagination = { ...pagination, ...defaultPaginationParameters, q: value };
     handleFilterChange({ pagination: latestPagination, filterObj, currentActiveFilterData });
   };
 
   const handleFilterReset = async () => {
-    const latestPagination = { ...pagination, ...defaultPaginationParameters, s: filterParamters.all };
+    const latestPagination = { ...pagination, ...defaultPaginationParameters };
     resetFilter({ pagination: latestPagination });
   };
 

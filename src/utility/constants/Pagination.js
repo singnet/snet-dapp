@@ -1,6 +1,6 @@
 export const filterParamters = { org_id: "org" };
 
-export const filterAttributes = ["organization"];
+export const filterAttributes = ["org_id"];
 
 export const defaultFilterData = {
   tags: {
