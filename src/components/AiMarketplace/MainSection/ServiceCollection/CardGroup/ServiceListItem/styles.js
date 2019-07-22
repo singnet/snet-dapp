@@ -86,8 +86,5 @@ export const useStyles = makeStyles(theme => ({
       color: theme.palette.text.RatingStarColor,
       fontSize: "28px",
     },
-    "& label": {
-      float: "right !important",
-    },
   },
 }));
