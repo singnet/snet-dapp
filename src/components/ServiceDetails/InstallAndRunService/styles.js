@@ -23,8 +23,9 @@ export const useStyles = theme => ({
     backgroundColor: theme.palette.text.white,
   },
   integrationContent: {
-    height: 500,
+    minHeight: 500,
     padding: "0 22px",
+    paddingBottom: 10,
   },
   tabsHeader: {
     backgroundColor: "transparent",
