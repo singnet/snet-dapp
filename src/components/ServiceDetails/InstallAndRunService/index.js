@@ -4,9 +4,7 @@ import { withStyles } from "@material-ui/styles";
 
 import StyledTabs from "../StyledTabs";
 import Python from "./Python";
-import CLanguage from "./CLanguage";
-import Java from "./Java";
-import Go from "./Go";
+import Javascript from "./Javascript";
 import ProjectDetails from "../ProjectDetails";
 import { useStyles } from "./styles";
 
@@ -24,9 +22,7 @@ class InstallAndRunService extends Component {
     const { activeTab } = this.state;
     const tabs = [
       { name: "Python", activeIndex: 0, component: <Python /> },
-      { name: "C++", activeIndex: 1, component: <CLanguage /> },
-      { name: "Java", activeIndex: 2, component: <Java /> },
-      { name: "Go", activeIndex: 3, component: <Go /> },
+      { name: "Javascript", activeIndex: 1, component: <Javascript /> },
     ];
     return (
       <Grid container spacing={24} className={classes.installAndRunContainer}>
