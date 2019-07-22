@@ -9,9 +9,7 @@ const InitialServiceList = {
     isComplete: false,
   },
   filterData: {
-    tags: [],
-    display_name: [],
-    organization: [],
+    org_id: [],
   },
   activeFilterItem: { ...defaultActiveFilterItem },
 };

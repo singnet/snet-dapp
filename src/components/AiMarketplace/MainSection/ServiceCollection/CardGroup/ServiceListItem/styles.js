@@ -43,6 +43,7 @@ export const useStyles = makeStyles(theme => ({
     fontSize: 20,
     letterSpacing: 0.25,
     fontFamily: theme.typography.primary.main,
+    padding: "0px 9px 0px 0px",
   },
   cardContent: {
     padding: "0 10px",
@@ -82,8 +83,8 @@ export const useStyles = makeStyles(theme => ({
       fontSize: 21,
     },
   },
-  ratingSection:{
-    display: 'flex',
-    alignItems: 'center'
-  }
+  ratingSection: {
+    display: "flex",
+    alignItems: "center",
+  },
 }));
