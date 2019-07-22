@@ -5,24 +5,16 @@ import StyledExpansionPanel from "./StyledExpansionPanel";
 import { useStylesHook } from "./styles";
 import { serviceActions } from "../../../../Redux/actionCreators";
 import {
-  filterParamters,
   defaultPaginationParameters,
   generateFilterObject,
+  filterTitles,
 } from "../../../../utility/constants/Pagination";
 
-const Filter = ({
-  activeFilterItem,
-  pagination,
-  updatePagination,
-  fetchService,
-  filterDataProps,
-  handleFilterChange,
-  resetFilter,
-}) => {
+const Filter = ({ activeFilterItem, pagination, filterDataProps, handleFilterChange, resetFilter }) => {
   const classes = useStylesHook();
   const filterData = {};
   Object.entries(filterDataProps).map(([key, items]) => {
-    filterData[key] = { title: key, name: key, items };
+    filterData[key] = { title: filterTitles[key], name: key, items };
   });
 
   const handleActiveFilterItemChange = async event => {
@@ -36,12 +28,12 @@ const Filter = ({
     }
     const currentActiveFilterData = { ...activeFilterItem, [name]: currentFilterItem };
     const filterObj = generateFilterObject(currentActiveFilterData);
-    const latestPagination = { ...pagination, ...defaultPaginationParameters, s: filterParamters[name], q: value };
+    const latestPagination = { ...pagination, ...defaultPaginationParameters, q: pagination.q };
     handleFilterChange({ pagination: latestPagination, filterObj, currentActiveFilterData });
   };
 
   const handleFilterReset = async () => {
-    const latestPagination = { ...pagination, ...defaultPaginationParameters, s: filterParamters.all, q: "" };
+    const latestPagination = { ...pagination, ...defaultPaginationParameters };
     resetFilter({ pagination: latestPagination });
   };
 
@@ -69,8 +61,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  updatePagination: pagination => dispatch(serviceActions.updatePagination(pagination)),
-  fetchService: (pagination, filterObj) => dispatch(serviceActions.fetchService(pagination, filterObj)),
   handleFilterChange: args => dispatch(serviceActions.handleFilterChange({ ...args })),
   resetFilter: args => dispatch(serviceActions.resetFilter({ ...args })),
 });

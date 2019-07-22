@@ -7,11 +7,15 @@ import { useStyles } from "./styles";
 
 const SearchInputToggler = ({ showSearchInput, toggleSearchInput, handleSearch, searchKeyword }) => {
   const classes = useStyles();
+  const handleBlur = () => {
+    if (searchKeyword !== "") {
+      return;
+    }
+    toggleSearchInput(false);
+  };
 
   if (showSearchInput) {
-    return (
-      <Input error onBlur={() => toggleSearchInput(false)} autoFocus onChange={handleSearch} value={searchKeyword} />
-    );
+    return <Input error onBlur={handleBlur} autoFocus onChange={handleSearch} value={searchKeyword} />;
   }
   return <Icon className={clsx(classes.icon, "fa fa-search")} onClick={() => toggleSearchInput(true)} />;
 };

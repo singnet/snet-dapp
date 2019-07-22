@@ -105,19 +105,19 @@ export const fetchFilterData = attribute => dispatch => {
 };
 
 export const handleFilterChange = ({ pagination, filterObj, currentActiveFilterData }) => dispatch => {
-  dispatch(loaderActions.startAppLoader(LoaderContent.FILTER));
+  dispatch(loaderActions.startAIServiceListLoader);
   Promise.all([
     dispatch(updatePagination(pagination)),
     dispatch(fetchService(pagination, filterObj)),
     dispatch(updateActiveFilterItem(currentActiveFilterData)),
   ])
-    .then(() => dispatch(loaderActions.stopAppLoader))
-    .catch(() => dispatch(loaderActions.stopAppLoader));
+    .then(() => dispatch(loaderActions.stopAIServiceListLoader))
+    .catch(() => dispatch(loaderActions.stopAIServiceListLoader));
 };
 
 export const resetFilter = ({ pagination }) => dispatch => {
-  dispatch(loaderActions.startAppLoader(LoaderContent.FILTER));
+  dispatch(loaderActions.startAIServiceListLoader);
   Promise.all([dispatch(updatePagination(pagination)), dispatch(fetchService(pagination)), dispatch(resetFilterItem)])
-    .then(() => dispatch(loaderActions.stopAppLoader))
-    .catch(() => dispatch(loaderActions.stopAppLoader));
+    .then(() => dispatch(loaderActions.stopAIServiceListLoader))
+    .catch(() => dispatch(loaderActions.stopAIServiceListLoader));
 };
