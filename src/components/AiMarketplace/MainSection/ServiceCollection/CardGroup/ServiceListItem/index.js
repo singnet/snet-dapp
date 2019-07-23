@@ -31,20 +31,20 @@ const ServiceListItem = props => {
           <CardContent className={classes.cardContent}>
             <div className={classes.ratingSection}>
               <h4 className={classes.cardSubheader}>{props.cardSubheader}</h4>
-              <StarRatingComponent
-                name="rate1"
-                starCount={5}
-                value={props.ratingGiven}
-                className={classes.ratingStars}
-              />
-              <RatingsCount ratingGiven={props.ratingGiven} totalRating={props.totalRating} />
+              <div>
+                <StarRatingComponent
+                  name="rate1"
+                  starCount={5}
+                  value={props.ratingGiven}
+                  className={classes.ratingStars}
+                />
+                <RatingsCount ratingGiven={props.ratingGiven} totalRating={props.totalRating} />
+              </div>
             </div>
             <Typography className={classes.cardTypograpy} component="p">
               {props.cardDescription}
             </Typography>
           </CardContent>
-        </Grid>
-        <Grid item xs={12} sm={1} md={1} lg={1}>
           <CardActions className={classes.cardActions}>
             <StyledButton type="transparent" btnText="demo" />
           </CardActions>

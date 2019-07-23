@@ -32,9 +32,8 @@ export const useStyles = theme => ({
   UserMenuAction: {
     cursor: "pointer",
     '&:hover':{
-      '& span':{ 
-        color: theme.palette.text.primary 
-      }
+      '& svg':{ color: theme.palette.text.primary },
+      '& span':{ color: theme.palette.text.primary  }
     }
   },
 });

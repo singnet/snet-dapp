@@ -28,7 +28,7 @@ export const useStyles = makeStyles(theme => ({
     fontSize: 18,
     letterSpacing: 0.23,
     fontFamily: theme.typography.primary.main,
-    lineHeight: "23px",
+    lineHeight: "23px",    
     "& h4": { margin: "7px 0" },
   },
   CardMedia: {
