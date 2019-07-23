@@ -10,6 +10,7 @@ import AboutService from "./AboutService";
 import InstallAndRunService from "./InstallAndRunService";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../Redux/actionCreators";
+import Routes from "../../utility/constants/Routes";
 
 class ServiceDetails extends Component {
   state = {
@@ -19,9 +20,13 @@ class ServiceDetails extends Component {
   };
 
   componentDidMount = async () => {
-    if (!this.props.services || this.props.services.length === 0) {
-      this.populateServiceData(this.props.pagination);
-      await this.props.fetchService(this.props.pagination);
+    const { isLoggedIn, isWalletAssigned, history, services, pagination, fetchService } = this.props;
+    if (isLoggedIn && !isWalletAssigned) {
+      history.push(`/${Routes.ONBOARDING}`);
+    }
+    if (!services || services.length === 0) {
+      this.populateServiceData(pagination);
+      await fetchService(pagination);
       return;
     }
     this.populateServiceData();
@@ -81,6 +86,8 @@ ServiceDetails.defaultProps = {
 const mapStateToProps = state => ({
   services: state.serviceReducer.services,
   pagination: state.serviceReducer.pagination,
+  isLoggedIn: state.userReducer.login.isLoggedIn,
+  isWalletAssigned: state.userReducer.isWalletAssigned,
 });
 
 const mapDispatchToProps = dispatch => ({
