@@ -89,7 +89,7 @@ const theme = createMuiTheme({
       userProfileIconColor,
       alertBoxBorder,
       alertBoxColor,
-      alertBoxBackgroundColor
+      alertBoxBackgroundColor,
     },
   },
   typography: {
