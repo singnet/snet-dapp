@@ -16,6 +16,9 @@ const InitialUserDetails = {
 
 const userReducer = (state = InitialUserDetails, action) => {
   switch (action.type) {
+    case userActions.APP_INITIALIZATION_SUCCESS: {
+      return { ...state, ...action.payload };
+    }
     case userActions.SET_USER_DETAILS: {
       return {
         ...state,
@@ -70,6 +73,9 @@ const userReducer = (state = InitialUserDetails, action) => {
     }
     case userActions.CHECK_WALLET_STATUS: {
       return { ...state, isWalletAssigned: action.payload.isWalletAssigned };
+    }
+    case userActions.WALLET_CREATION_SUCCESS: {
+      return { ...state, ...action.payload };
     }
     case userActions.UPDATE_USERNAME: {
       return { ...state, ...action.payload };

@@ -3,12 +3,14 @@ import { withStyles } from "@material-ui/styles";
 import { withRouter } from "react-router";
 import { Auth, API } from "aws-amplify";
 import { Icon } from "@material-ui/core";
+import { connect } from "react-redux";
 
 import StyledButton from "../../common/StyledButton";
 import AlertBox from "../../common/AlertBox";
 import { parseError } from "../../../utility/ErrorHandling";
 import Routes from "../../../utility/constants/Routes";
 import { useStyles } from "./styles";
+import { userActions } from "../../../Redux/actionCreators";
 
 class TermsOfUse extends Component {
   state = {
@@ -46,6 +48,16 @@ class TermsOfUse extends Component {
       });
   };
 
+  handleContinue = () => {
+    const { enforcedWalletCreation, history, walletCreationSuccess } = this.props;
+    if (enforcedWalletCreation) {
+      walletCreationSuccess();
+      return;
+    }
+    history.push(Routes.AI_MARKETPLACE);
+    walletCreationSuccess();
+  };
+
   render() {
     const { classes } = this.props;
     const { privateKey, error, allowContinue } = this.state;
@@ -71,16 +83,18 @@ class TermsOfUse extends Component {
         )}
         <AlertBox type="error" message={error} />
         <div className={classes.continueBtnContainer}>
-          <StyledButton
-            type="blue"
-            btnText="continue"
-            disabled={!allowContinue}
-            onClick={() => this.props.history.push(Routes.AI_MARKETPLACE)}
-          />
+          <StyledButton type="blue" btnText="continue" disabled={!allowContinue} onClick={this.handleContinue} />
         </div>
       </div>
     );
   }
 }
 
-export default withStyles(useStyles)(withRouter(TermsOfUse));
+const mapDispatchToProps = dispatch => ({
+  walletCreationSuccess: () => dispatch(userActions.walletCreationSuccess),
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(withStyles(useStyles)(withRouter(TermsOfUse)));
