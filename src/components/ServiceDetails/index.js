@@ -14,32 +14,26 @@ import { serviceActions } from "../../Redux/actionCreators";
 class ServiceDetails extends Component {
   state = {
     service_row_id: "",
-    service: {},
     activeTab: 0,
   };
 
   componentDidMount = async () => {
-    const { services, pagination, fetchService } = this.props;
-
-    if (!services || services.length === 0) {
-      this.populateServiceData(pagination);
-      await fetchService(pagination);
-      return;
-    }
+    await this.fetchServices();
     this.populateServiceData();
   };
 
-  componentDidUpdate = async () => {
-    const { service } = this.state;
-    if (!service || (Object.entries(service).length === 0 && service.constructor === Object)) {
-      await this.props.fetchService(this.props.pagination);
-      this.populateServiceData();
+  fetchServices = async () => {
+    const { services, pagination, fetchService } = this.props;
+    if (services && services.length > 0) {
+      return;
     }
+
+    return fetchService(pagination);
   };
 
   populateServiceData = () => {
     const { service_row_id } = this.props.match.params;
-    const service = this.props.services.filter(el => el.service_row_id === Number(service_row_id))[0];
+    const service = this.props.services.find(service => service.service_row_id === Number(service_row_id));
     this.setState({ service_row_id, service });
   };
 
