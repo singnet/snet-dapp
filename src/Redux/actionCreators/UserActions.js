@@ -16,6 +16,11 @@ export const UPDATE_EMAIL_VERIFIED = "UPDATE_EMAIL_VERIFIED";
 export const SUBSCRIBE_TO_EMAIL_ALERTS = "SUBSCRIBE_TO_EMAIL_ALERTS";
 export const UNSUBSCRIBE_TO_EMAIL_ALERTS = "UNSUBSCRIBE_TO_EMAIL_ALERTS";
 export const WALLET_CREATION_SUCCESS = "WALLET_CREATION_SUCCESS";
+export const APP_INITIALIZATION_SUCCESS = "APP_INITIALIZATION_SUCCESS";
+
+export const appInitializationSuccess = dispatch => {
+  dispatch({ type: APP_INITIALIZATION_SUCCESS, payload: { isInitialized: true } });
+};
 
 export const updateUsername = username => dispatch => {
   dispatch({ type: UPDATE_USERNAME, payload: { username } });
@@ -82,6 +87,13 @@ const fetchUserDetailsSuccess = (isEmailVerified, email, username, isWalletAssig
   });
 };
 
+const fetchUserDetailsError = err => dispatch => {
+  if (err === "No current user") {
+    dispatch(noAuthenticatedUser);
+  }
+  dispatch(appInitializationSuccess);
+};
+
 export const fetchUserDetails = async dispatch => {
   try {
     const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
@@ -102,9 +114,7 @@ export const fetchUserDetails = async dispatch => {
       );
     }
   } catch (err) {
-    if (err === "No current user") {
-      dispatch(noAuthenticatedUser);
-    }
+    dispatch(fetchUserDetailsError(err));
   }
 };
 
