@@ -37,7 +37,7 @@ class App extends Component {
   };
 
   render() {
-    const { hamburgerMenu, isInitialized, isWalletAssigned, isLoggedIn } = this.props;
+    const { hamburgerMenu, isInitialized, isLoggedIn } = this.props;
     if (!isInitialized) {
       return <h2>Loading</h2>;
     }
