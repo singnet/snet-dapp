@@ -23,4 +23,5 @@ export const LoaderContent = {
     loaderHeader: "Filter",
     loaderText: "Filtering the services",
   },
+  UPDATE_PROFILE: { loaderHeader: "Updating", loaderText: "Filtering the services" },
 };

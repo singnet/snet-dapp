@@ -11,7 +11,7 @@ const ToolBar = ({ listView, total_count, handleSearchChange, toggleView, curren
   const [searchKeyword, setSearchKeyword] = useState("");
 
   const handleSearch = event => {
-    setSearchKeyword(event.target.value);
+    setSearchKeyword(event.currentTarget.value);
     const pagination = {
       offset: 0,
       q: event.target.value,
