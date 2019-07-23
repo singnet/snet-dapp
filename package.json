@@ -44,8 +44,7 @@
   "lint-staged": {
     "*.js": [
       "eslint . --fix",
-      "git add",
-      "git commit -m 'eslint:fix'"
+      "git add"
     ]
   },
   "husky": {
