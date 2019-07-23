@@ -10,7 +10,6 @@ import AboutService from "./AboutService";
 import InstallAndRunService from "./InstallAndRunService";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../Redux/actionCreators";
-import Routes from "../../utility/constants/Routes";
 
 class ServiceDetails extends Component {
   state = {
@@ -20,10 +19,8 @@ class ServiceDetails extends Component {
   };
 
   componentDidMount = async () => {
-    const { isLoggedIn, isWalletAssigned, history, services, pagination, fetchService } = this.props;
-    if (isLoggedIn && !isWalletAssigned) {
-      history.push(`/${Routes.ONBOARDING}`);
-    }
+    const { services, pagination, fetchService } = this.props;
+
     if (!services || services.length === 0) {
       this.populateServiceData(pagination);
       await fetchService(pagination);

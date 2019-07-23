@@ -71,6 +71,9 @@ const userReducer = (state = InitialUserDetails, action) => {
     case userActions.CHECK_WALLET_STATUS: {
       return { ...state, isWalletAssigned: action.payload.isWalletAssigned };
     }
+    case userActions.WALLET_CREATION_SUCCESS: {
+      return { ...state, ...action.payload };
+    }
     case userActions.UPDATE_USERNAME: {
       return { ...state, ...action.payload };
     }

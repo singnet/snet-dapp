@@ -13,6 +13,7 @@ import withInAppWrapper from "./components/HOC/WithInAppHeader";
 import { userActions } from "./Redux/actionCreators";
 import PrivateRoute from "./components/common/PrivateRoute";
 import AppLoader from "./components/common/AppLoader";
+import WalletReqdRoute from "./components/common/WalletReqdRoute";
 
 const ForgotPassword = lazy(() => import("./components/Login/ForgotPassword"));
 const ForgotPasswordSubmit = lazy(() => import("./components/Login/ForgotPasswordSubmit"));
@@ -69,20 +70,24 @@ class App extends Component {
                   {...this.props}
                   component={withRegistrationHeader(Onboarding, headerData.ONBOARDING)}
                 />
-                <Route path={`/${Routes.AI_MARKETPLACE}`} {...this.props} component={withInAppWrapper(AiMarketplace)} />
-                <Route
+                <WalletReqdRoute
+                  path={`/${Routes.AI_MARKETPLACE}`}
+                  {...this.props}
+                  component={withInAppWrapper(AiMarketplace)}
+                />
+                <WalletReqdRoute
                   path={`/${Routes.SERVICE_DETAILS}/:service_row_id`}
                   {...this.props}
                   component={withInAppWrapper(ServiceDetails)}
                 />
-                <PrivateRoute
-                  isAllowed={isLoggedIn}
+                <WalletReqdRoute
+                  loginReqd
                   redirectTo={`/${Routes.LOGIN}`}
                   path={`/${Routes.USER_PROFILE}`}
                   {...this.props}
                   component={withInAppWrapper(UserProfile)}
                 />
-                <Route path="/" exact {...this.props} component={withInAppWrapper(AiMarketplace)} />
+                <WalletReqdRoute path="/" exact {...this.props} component={withInAppWrapper(AiMarketplace)} />
                 <Route component={PageNotFound} />
               </Switch>
             </Suspense>
