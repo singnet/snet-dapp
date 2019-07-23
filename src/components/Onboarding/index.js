@@ -1,82 +1,105 @@
 import React, { Component } from "react";
-
-// material ui imports
 import { withStyles } from "@material-ui/styles";
+import { connect } from "react-redux";
 
-import ProgressBar from "./ProgressBar";
-import Header from "../common/LoginOnboardingHeader";
 import Authentication from "./Authentication";
-import TermsOfUse from "./termsOfUse";
-import Session from "../../utility/stringConstants/session";
-import { Auth } from "aws-amplify";
+import TermsOfUse from "./TermsOfUse";
 import WalletKey from "./WalletKey";
+import { useStyles } from "./styles";
+import OnboardingContainer from "./OnboardingContainer";
+import { userActions } from "../../Redux/actionCreators";
+import Routes from "../../utility/constants/Routes";
 
-const useStyles = theme => ({
-  onboardingContainer: {
-    paddingBottom: 40,
-    backgroundColor: theme.palette.text.gray8
-  },
-  topSection: {
-    textAlign: "center",
-    "& h2": {
-      color: theme.palette.text.black1,
-      fontSize: 32,
-      fontWeight: theme.typography.fontweight
-    },
-    "& p": {
-      margin: "20px 0 0",
-      color: theme.palette.text.gray3,
-      fontFamily: theme.typography.secondary.main,
-      fontSize: 20,
-      lineHeight: "30px"
-    }
-  }
-});
-
-class Authorization extends Component {
+class Onboarding extends Component {
   state = {
     verificationCode: "",
-    activeSection: 1
+    activeSection: 2,
+    progressText: ["Authentication", "Terms of service", "Wallet Key Generator"],
+  };
+
+  componentDidMount = () => {
+    const { checkWalletStatus, username, isWalletAssigned, isEmailVerified, history } = this.props;
+    checkWalletStatus(username);
+    if (isWalletAssigned) {
+      history.push(`/${Routes.AI_MARKETPLACE}`);
+    }
+    if (isEmailVerified) {
+      this.setState({ activeSection: 2 });
+    }
+  };
+
+  componentDidUpdate = () => {
+    const { checkWalletStatus, username, isWalletAssigned, isEmailVerified, history } = this.props;
+    checkWalletStatus(username);
+    if (isWalletAssigned) {
+      history.push(Routes.AI_MARKETPLACE);
+    }
+    if (isEmailVerified && this.state.activeSection === 1) {
+      this.setState({ activeSection: 2 });
+    }
   };
 
   handleNextSection = () => {
     this.setState(prevState => ({
-      activeSection: prevState.activeSection + 1
+      activeSection: prevState.activeSection + 1,
     }));
   };
-  handleLogout = () => {
-    Auth.signOut()
-      .then(data => {
-        sessionStorage.removeItem(Session.USERNAME);
-      })
-      .catch(err => console.log(err));
-  };
-  render() {
-    const { classes } = this.props;
-    const { activeSection } = this.state;
 
-    let username = sessionStorage.getItem(Session.USERNAME);
-    const headings = [`Welcome ${username}`, "Step 2", "Step 3"];
-    const components = [
-      <Authentication handleNextSection={this.handleNextSection} />,
-      <TermsOfUse handleNextSection={this.handleNextSection} />,
-      <WalletKey />
+  render() {
+    const { classes, username } = this.props;
+    const { activeSection, progressText } = this.state;
+
+    const OnboardingDetails = [
+      {
+        title: `Welcome ${username}`,
+        description: (
+          <p>
+            You have successfully logged into your singularitynet account. <br />
+            You are just steps away from completing your activation.
+          </p>
+        ),
+        component: <Authentication handleNextSection={this.handleNextSection} />,
+      },
+      {
+        title: `Step 2. Privacy and Terms of Service`,
+        description: <p>Just one more step and you’ll be all set!</p>,
+        component: <TermsOfUse handleNextSection={this.handleNextSection} />,
+      },
+      {
+        title: `Step 3. Creating Your Account Wallet`,
+        description: <p>Final step!</p>,
+        component: <WalletKey />,
+      },
     ];
+
     return (
       <div className={classes.onboardingContainer}>
-        <Header linkText="Log Out" linkClick={this.handleLogout} />
-        <div className={classes.topSection}>
-          <h2>{headings[activeSection - 1]}</h2>
-          <p>
-            You have successfully logged into your singularitynet account.
-            <br /> You are just steps away from completing your activation.
-          </p>
-        </div>
-        <ProgressBar activeSection={activeSection} />
-        {components[activeSection - 1]}
+        {OnboardingDetails.map((item, index) => (
+          <OnboardingContainer
+            key={item.title}
+            classes={classes}
+            item={item}
+            active={activeSection === index + 1}
+            activeSection={activeSection}
+            progressText={progressText}
+          />
+        ))}
       </div>
     );
   }
 }
 
-export default withStyles(useStyles)(Authorization);
+const mapStateToProps = state => ({
+  isEmailVerified: state.userReducer.isEmailVerified,
+  isWalletAssigned: state.userReducer.isWalletAssigned,
+  username: state.userReducer.username,
+});
+
+const mapDispatchToProps = dispatch => ({
+  checkWalletStatus: username => dispatch(userActions.checkWalletStatus(username)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(useStyles)(Onboarding));
