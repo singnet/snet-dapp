@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import Logo from "../../../assets/images/Logo.png";
+import Logo from "../../../assets/images/Logo_Footer_White.svg";
 import { useStyles } from "./styles";
 import NavBar from "./NavBar";
 import HeaderActions from "./HeaderActions";

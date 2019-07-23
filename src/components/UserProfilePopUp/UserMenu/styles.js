@@ -4,7 +4,7 @@ export const useStyles = theme => ({
     margin: 0,
     "& li": {
       listStyle: "none",
-      padding: "10px 20px",
+      padding: "12px 20px",
       '& a':{
         width: '100%',
         display: 'inline-block',
@@ -21,7 +21,7 @@ export const useStyles = theme => ({
         '&:hover':{ color: theme.palette.text.primary }
       },
     "& hr": { margin: "10px 0" },
-    '&:last-of-type':{ paddingBottom: 17 }
+    '&:last-of-type':{ paddingBottom: 19 }
     },
   },
   title:{
