@@ -8,13 +8,13 @@ export const useStyles = theme => ({
     color: theme.palette.text.alertBoxColor,
     fontSize: "14px ",
     fontFamily: theme.typography.secondary.main,
-    lineHeight: '20px',
+    lineHeight: "20px",
     letterSpacing: 0.25,
     textAlign: "left",
   },
   error: {
     borderColor: theme.palette.text.alertBoxBorder,
-    backgroundColor: theme.palette.text.alertBoxBackgroundColor
+    backgroundColor: theme.palette.text.alertBoxBackgroundColor,
   },
   success: {
     borderColor: theme.palette.text.successBoxBorder,

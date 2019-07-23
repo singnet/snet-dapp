@@ -1,9 +1,9 @@
 export const useStyles = theme => ({
-  signupMainContainer:{ backgroundColor: theme.palette.text.offWhiteColor },
+  signupMainContainer: { backgroundColor: theme.palette.text.offWhiteColor },
   signupMainContent: {
     width: "71%",
     paddingBottom: 50,
-    margin: "0 auto"
+    margin: "0 auto",
   },
   signupContent: {
     width: "71%",
@@ -97,7 +97,7 @@ export const useStyles = theme => ({
     width: "100%",
     marginBottom: 0,
     display: "inline-block",
-    "& div": {  width: "100%" },
+    "& div": { width: "100%" },
   },
   charCount: {
     color: theme.palette.text.mediumShadeGray,

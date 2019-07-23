@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/styles";
 export const useStyles = makeStyles(theme => ({
   cardItemsContainer: {
     flexWrap: "nowrap",
-    '@media(max-width: 480px)':{ flexDirection: 'column'}
+    "@media(max-width: 480px)": { flexDirection: "column" },
   },
   card: {
     padding: 10,
@@ -27,9 +27,9 @@ export const useStyles = makeStyles(theme => ({
     width: 214,
     height: 120,
   },
-  cardHeader: { 
+  cardHeader: {
     padding: "0 10px",
-    textAlign: 'left'
+    textAlign: "left",
   },
   cardTitle: {
     fontWeight: theme.typography.fontweight,
@@ -48,8 +48,8 @@ export const useStyles = makeStyles(theme => ({
     letterSpacing: 0.25,
     fontFamily: theme.typography.primary.main,
     padding: "0px 9px 0px 0px",
-    textAlign: 'left',
-    '@media(max-width: 768px)':{ width: '100%' }
+    textAlign: "left",
+    "@media(max-width: 768px)": { width: "100%" },
   },
   cardContent: {
     padding: "0 10px",
@@ -72,13 +72,13 @@ export const useStyles = makeStyles(theme => ({
       fontWeight: 600,
       letterSpacing: 1.25,
     },
-    '@media(max-width: 768px)':{ 
+    "@media(max-width: 768px)": {
       padding: 0,
-      position: 'static',
+      position: "static",
       transform: "translateY(0)",
-      float: 'right',
-      '& button':{ padding: 0 }
-    }
+      float: "right",
+      "& button": { padding: 0 },
+    },
   },
   showMore: {
     padding: 0,
@@ -99,10 +99,10 @@ export const useStyles = makeStyles(theme => ({
   ratingSection: {
     display: "flex",
     alignItems: "center",
-    '@media(max-width:768px)':{
+    "@media(max-width:768px)": {
       marginBottom: 10,
-      flexDirection: 'column',
-      alignItems: 'flex-start'
-    }
+      flexDirection: "column",
+      alignItems: "flex-start",
+    },
   },
 }));
