@@ -44,10 +44,15 @@
   "lint-staged": {
     "*.js": [
       "eslint . --fix",
-      "git add"
+      "git add",
+      "git commit -m 'eslint:fix'"
     ]
   },
-  
+  "husky": {
+    "hooks": {
+      "precommit": "lint-staged"
+    }
+  },
   "eslintConfig": {
     "extends": "react-app"
   },
