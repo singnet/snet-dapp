@@ -15,6 +15,7 @@ import AlertBox from "../../common/AlertBox";
 class UserProfileSettings extends Component {
   state = {
     error: undefined,
+    emailAlerts: this.props.emailAlerts,
   };
 
   handleEmailChange = event => {
@@ -41,9 +42,19 @@ class UserProfileSettings extends Component {
     this.props.history.push(`/${Routes.FORGOT_PASSWORD}`);
   };
 
+  handleSubmit = () => {
+    const { username, updateUserProfile } = this.props;
+    const updatedUserData = { username, email_alerts: this.state.emailAlerts };
+    updateUserProfile(updatedUserData);
+  };
+
+  shouldSubmitBeEnabled = () => {
+    return this.state.emailAlerts !== this.props.emailAlerts;
+  };
+
   render() {
     const { classes, userEmail, username } = this.props;
-    const { error } = this.state;
+    const { error, emailAlerts } = this.state;
     return (
       <Grid container spacing={24} className={classes.settingMainContainer}>
         <Grid item xs={12} sm={12} md={8} lg={8} className={classes.settingsContainer}>
@@ -83,7 +94,15 @@ class UserProfileSettings extends Component {
             <div className={classes.notification}>
               <h4>Notifications</h4>
               <FormControlLabel
-                control={<Checkbox className={classes.checkkBox} value="" color="primary" />}
+                control={
+                  <Checkbox
+                    className={classes.checkkBox}
+                    value=""
+                    color="primary"
+                    checked={emailAlerts}
+                    onChange={this.handleEmailAlerts}
+                  />
+                }
                 label="Receive notifications via email"
               />
               <p>
@@ -93,7 +112,11 @@ class UserProfileSettings extends Component {
             </div>
             <AlertBox message={error} />
             <div className={classes.btnContainer}>
-              <StyledButton btnText="save changes" disabled />
+              <StyledButton
+                btnText="save changes"
+                disabled={!this.shouldSubmitBeEnabled()}
+                onClick={this.handleSubmit}
+              />
               <StyledButton btnText="delete account" type="red" onClick={this.handleDelete} />
             </div>
           </div>
@@ -106,11 +129,13 @@ class UserProfileSettings extends Component {
 const mapStateToProps = state => ({
   userEmail: state.userReducer.email,
   username: state.userReducer.username,
+  emailAlerts: state.userReducer.emailAlerts,
 });
 
 const mapDispatchToProps = dispatch => ({
   deleteUserAccount: ({ history, route }) => dispatch(userActions.deleteUserAccount({ history, route })),
   fetchUserProfile: () => dispatch(userActions.fetchUserProfile()),
+  updateUserProfile: updatedUserData => dispatch(userActions.updateUserProfile(updatedUserData)),
 });
 
 export default connect(

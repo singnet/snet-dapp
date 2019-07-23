@@ -33,7 +33,7 @@ class MainSection extends Component {
     for (let i in currentFilter) {
       if (currentFilter[i].length > 0) {
         filterObj = generateFilterObject(this.props.currentFilter);
-        return;
+        break;
       }
     }
     fetchService(pagination, filterObj);
