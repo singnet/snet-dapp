@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { Provider as ReduxProvider } from "react-redux";
 
 import "./index.css";
+import "./assets/icomoon.css";
 import App from "./App";
 import configureStore from "./Redux/Store";
 

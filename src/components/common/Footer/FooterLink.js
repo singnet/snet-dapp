@@ -7,7 +7,7 @@ const FooterLink = ({ label, link, image }) => {
   return (
     <li className={classes.footerLinks}>
       <a href={link} className={classes.footerLinkText} title={label}>
-        {image ? <img src={image} alt="SingularityNET" className={classes.footerLogoIcon} /> : label}
+        {image ? <span className="icon-logo"></span> : label}
       </a>
     </li>
   );

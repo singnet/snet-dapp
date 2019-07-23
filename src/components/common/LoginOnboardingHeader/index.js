@@ -27,7 +27,7 @@ const LoginOnboardingHeader = ({ classes, headerData, history, signOut }) => {
         <Grid item xs={12} sm={6} md={6} lg={6}>
           <h1>
             <Link to={Routes.AI_MARKETPLACE}>
-              <img src={Logo} alt="SingularityNET" />
+              <span className="icon-logo"></span>
             </Link>
           </h1>
         </Grid>

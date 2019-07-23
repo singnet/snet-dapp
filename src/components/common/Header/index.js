@@ -16,7 +16,7 @@ const Header = ({ isLoggedIn }) => {
       <header className={classes.header}>
         <div className={classes.logoSection}>
           <MobileHeader data={NavData} isLoggedIn={isLoggedIn} />
-          <Title Logo={Logo} title="SingularityNET" />
+          <Title />
         </div>
         <div className={classes.navigationSection}>
           <NavBar data={NavData} />

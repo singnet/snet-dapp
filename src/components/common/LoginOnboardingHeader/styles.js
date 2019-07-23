@@ -8,7 +8,12 @@ export const useStyles = theme => ({
     maxWidth: "71%",
     margin: "0 auto",
     padding: "30px 0",
-    "& h1": { margin: 0 },
+    "& h1": { 
+      margin: 0,
+      '& span':{
+        '&:before':{ color: theme.palette.text.purple }
+      }
+    },
     "& p": {
       margin: 0,
       color: theme.palette.text.mediumShadeGray,

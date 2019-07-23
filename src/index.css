@@ -33,3 +33,12 @@ h1, h2 { margin: 0; }
   height: 100vh; 
   overflow: hidden;
 }
+
+.icon-logo { font-weight: normal !important; }
+
+.icon-logo:before {
+  content: "\e903";
+  color: #fff;
+  font-size: 60px;
+  display: inline-block;;
+}
