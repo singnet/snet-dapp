@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/styles";
 import Icon from "@material-ui/core/Icon";
-import CloseIcon from '@material-ui/icons/Close';
+import CloseIcon from "@material-ui/icons/Close";
 
 import { useStyles } from "./styles";
 

@@ -1,6 +1,6 @@
 export const useStyles = theme => ({
   loginDetails: {
-    height: '100vh',
+    height: "100vh",
     textAlign: "center",
     backgroundColor: theme.palette.text.offWhiteColor,
     "& h2": {
@@ -59,7 +59,7 @@ export const useStyles = theme => ({
   },
   textField: {
     width: "100%",
-    "& label": { fontFamily: theme.typography.primary.main },
+    "& label": { color: theme.palette.text.darkShadedGrayF },
     "& fieldset": { borderColor: "#828282 !important" },
     "& div": { color: "#212121 !important" },
   },
