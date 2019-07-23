@@ -1,8 +1,9 @@
 import Routes from "./Routes";
 import { signOut } from "../../Redux/actionCreators/UserActions";
+import Settings from "@material-ui/icons/Settings";
 export const UserMenuList = [
   {
-    menuIcon: "fas fa-cog",
+    menuIcon: Settings,
     menuTitle: "Settings",
     menuLink: Routes.USER_PROFILE,
   },
