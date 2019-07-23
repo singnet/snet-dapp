@@ -1,6 +1,6 @@
 export const useStyles = theme => ({
   loginDetails: {
-    height: '100vh',
+    height: "100vh",
     textAlign: "center",
     backgroundColor: theme.palette.text.offWhiteColor,
     "& h2": {

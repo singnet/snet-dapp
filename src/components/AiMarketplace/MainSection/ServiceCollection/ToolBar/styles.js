@@ -1,7 +1,7 @@
 import { makeStyles } from "@material-ui/styles";
 
 export const useStyles = makeStyles(theme => ({
-  toolBar:{ padding: '10px 0' },
+  toolBar: { padding: "10px 0" },
   serviceCollection: { paddingLeft: 25 },
   sortBySection: {
     display: "flex",

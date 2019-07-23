@@ -82,7 +82,7 @@ const theme = createMuiTheme({
       transBlueBorderTextHover,
       transBlueBorderBgHover,
       cardSeparator,
-      userProfileIconColor
+      userProfileIconColor,
     },
   },
   typography: {
