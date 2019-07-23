@@ -8,29 +8,13 @@ import { serviceActions } from "../../../../Redux/actionCreators";
 import { APIEndpoints } from "../../../../config/APIEndpoints";
 
 class ThirdPartyAIService extends Component {
-  state = {
-    AIServiceCustomComponent: undefined,
-    serviceSpecJSON: undefined,
-    protoSpec: undefined,
-  };
+  state = {};
 
   sampleServices = new SampleServices();
 
-  componentDidMount = () => {
-    this.fetchAIServiceComponent();
-  };
-
-  componentDidUpdate = () => {
-    this.fetchAIServiceComponent();
-  };
-
-  fetchAIServiceComponent = () => {
-    const { org_id, service_id } = this.props;
-    if (org_id && service_id && !this.state.AIServiceCustomComponent) {
-      this.fetchServiceSpec(org_id, service_id);
-      const AIServiceCustomComponent = this.sampleServices.getComponent(org_id, service_id);
-      this.setState({ AIServiceCustomComponent });
-    }
+  componentDidMount = async () => {
+    const { org_id , service_id } = this.props;
+    this.fetchServiceSpec(org_id, service_id);
   };
 
   fetchServiceSpec = async (org_id, service_id) => {
@@ -55,11 +39,14 @@ class ThirdPartyAIService extends Component {
   };
 
   render() {
-    const { classes, grpcResponse, isComplete } = this.props;
-    const { AIServiceCustomComponent, serviceSpecJSON, protoSpec } = this.state;
+    const { org_id, service_id, classes, grpcResponse, isComplete } = this.props;
+    const { serviceSpecJSON, protoSpec } = this.state;
+
+    const AIServiceCustomComponent = this.sampleServices.getComponent(org_id, service_id);
     if (!AIServiceCustomComponent || !serviceSpecJSON || !protoSpec) {
       return null;
     }
+
     return (
       <div className={classes.serviceDetailsTab}>
         <AIServiceCustomComponent
