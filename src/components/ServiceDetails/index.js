@@ -19,9 +19,11 @@ class ServiceDetails extends Component {
   };
 
   componentDidMount = async () => {
-    if (!this.props.services || this.props.services.length === 0) {
-      this.populateServiceData(this.props.pagination);
-      await this.props.fetchService(this.props.pagination);
+    const { services, pagination, fetchService } = this.props;
+
+    if (!services || services.length === 0) {
+      this.populateServiceData(pagination);
+      await fetchService(pagination);
       return;
     }
     this.populateServiceData();
@@ -81,6 +83,8 @@ ServiceDetails.defaultProps = {
 const mapStateToProps = state => ({
   services: state.serviceReducer.services,
   pagination: state.serviceReducer.pagination,
+  isLoggedIn: state.userReducer.login.isLoggedIn,
+  isWalletAssigned: state.userReducer.isWalletAssigned,
 });
 
 const mapDispatchToProps = dispatch => ({
