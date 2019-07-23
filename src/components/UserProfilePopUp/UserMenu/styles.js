@@ -9,28 +9,25 @@ export const useStyles = theme => ({
         width: '100%',
         display: 'inline-block',
         '&:hover': {
-          '& span':{ 
-            color: theme.palette.text.primary 
-          }
+          '& svg':{ color: theme.palette.text.primary  },
+          '& span':{ color: theme.palette.text.primary  }
         }
       },
-      "& span": {
+      "& span":{
+        color: theme.palette.text.black1,
+        fontSize: 16,
+        letterSpacing: 0.5,
+        lineHeight: "28px",
+        textDecoration: "none"
+      },
+      "& svg": {
         color: theme.palette.text.userProfileIconColor,
         verticalAlign: "middle",
-        paddingRight: 15,
-        '&:hover':{ color: theme.palette.text.primary }
+        paddingRight: 15,        
       },
     "& hr": { margin: "10px 0" },
     '&:last-of-type':{ paddingBottom: 19 }
     },
-  },
-  title:{
-    color: theme.palette.text.black1,
-    fontSize: 16,
-    letterSpacing: 0.5,
-    lineHeight: "28px",
-    textDecoration: "none",
-    '&:hover':{ color: theme.palette.text.primary }
   },
   UserMenuAction: {
     cursor: "pointer",
