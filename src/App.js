@@ -69,16 +69,8 @@ class App extends Component {
                   {...this.props}
                   component={withRegistrationHeader(Onboarding, headerData.ONBOARDING)}
                 />
-                <PrivateRoute
-                  isAllowed={!isLoggedIn || (isLoggedIn && isWalletAssigned)}
-                  redirectTo={`/${Routes.ONBOARDING}`}
-                  path={`/${Routes.AI_MARKETPLACE}`}
-                  {...this.props}
-                  component={withInAppWrapper(AiMarketplace)}
-                />
-                <PrivateRoute
-                  isAllowed={!isLoggedIn || (isLoggedIn && isWalletAssigned)}
-                  redirectTo={`/${Routes.ONBOARDING}`}
+                <Route path={`/${Routes.AI_MARKETPLACE}`} {...this.props} component={withInAppWrapper(AiMarketplace)} />
+                <Route
                   path={`/${Routes.SERVICE_DETAILS}/:service_row_id`}
                   {...this.props}
                   component={withInAppWrapper(ServiceDetails)}
@@ -90,14 +82,7 @@ class App extends Component {
                   {...this.props}
                   component={withInAppWrapper(UserProfile)}
                 />
-                <PrivateRoute
-                  isAllowed={!isLoggedIn || (isLoggedIn && isWalletAssigned)}
-                  redirectTo={`/${Routes.ONBOARDING}`}
-                  path="/"
-                  exact
-                  {...this.props}
-                  component={withInAppWrapper(AiMarketplace)}
-                />
+                <Route path="/" exact {...this.props} component={withInAppWrapper(AiMarketplace)} />
                 <Route component={PageNotFound} />
               </Switch>
             </Suspense>
