@@ -22,9 +22,9 @@ export const useStyles = makeStyles(theme => ({
   h1: {
     margin: 0,
     "& a": { textDecoration: "none" },
-    '& span':{
-      '&:before':{ fontSize: 45 }
-    }
+    "& span": {
+      "&:before": { fontSize: 45 },
+    },
   },
   logoAnchor: {
     display: "inline-block",

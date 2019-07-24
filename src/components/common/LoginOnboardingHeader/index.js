@@ -8,7 +8,6 @@ import { connect } from "react-redux";
 import SnetSvgLogo from "../SnetSvgLogo";
 import Routes from "../../../utility/constants/Routes";
 import { headerData as masterHeaderData } from "../../../utility/constants/Header";
-import Logo from "../../../assets/images/Logo_Header_Black.svg";
 import { useStyles } from "./styles";
 import { userActions } from "../../../Redux/actionCreators";
 

@@ -9,7 +9,7 @@ const FooterLink = ({ label, link, image }) => {
   return (
     <li className={classes.footerLinks}>
       <a href={link} className={classes.footerLinkText} title={label}>
-        {image ? <SnetSvgLogo/> : label}
+        {image ? <SnetSvgLogo /> : label}
       </a>
     </li>
   );
