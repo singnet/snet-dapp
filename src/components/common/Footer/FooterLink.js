@@ -1,5 +1,7 @@
 import React from "react";
 
+import SnetSvgLogo from "../SnetSvgLogo";
+
 import { useStyles } from "./styles";
 
 const FooterLink = ({ label, link, image }) => {
@@ -7,7 +9,7 @@ const FooterLink = ({ label, link, image }) => {
   return (
     <li className={classes.footerLinks}>
       <a href={link} className={classes.footerLinkText} title={label}>
-        {image ? <span className="icon-logo"></span> : label}
+        {image ? <SnetSvgLogo/> : label}
       </a>
     </li>
   );
