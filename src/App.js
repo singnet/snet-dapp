@@ -24,7 +24,7 @@ const SignUp = lazy(() => import("./components/Login/Signup"));
 const Login = lazy(() => import("./components/Login"));
 const ServiceDetails = lazy(() => import("./components/ServiceDetails"));
 const UserProfile = lazy(() => import("./components/UserProfile"));
-const GetStarted = lazy(() => import ("./components/GetStarted"));
+const GetStarted = lazy(() => import("./components/GetStarted"));
 
 Amplify.configure(aws_config);
 
@@ -89,8 +89,8 @@ class App extends Component {
                   component={withInAppWrapper(UserProfile)}
                 />
                 <WalletReqdRoute path="/" exact {...this.props} component={withInAppWrapper(AiMarketplace)} />
-                <Route component={PageNotFound} />
                 <Route path={`/${Routes.GET_STARTED}`} component={GetStarted} />
+                <Route component={PageNotFound} />
               </Switch>
             </Suspense>
           </Router>
