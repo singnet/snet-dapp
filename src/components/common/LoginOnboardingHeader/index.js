@@ -5,9 +5,9 @@ import Grid from "@material-ui/core/Grid";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
+import SnetSvgLogo from "../SnetSvgLogo";
 import Routes from "../../../utility/constants/Routes";
 import { headerData as masterHeaderData } from "../../../utility/constants/Header";
-import Logo from "../../../assets/images/Logo_Header_Black.svg";
 import { useStyles } from "./styles";
 import { userActions } from "../../../Redux/actionCreators";
 
@@ -27,7 +27,7 @@ const LoginOnboardingHeader = ({ classes, headerData, history, signOut }) => {
         <Grid item xs={12} sm={6} md={6} lg={6}>
           <h1>
             <Link to={Routes.AI_MARKETPLACE}>
-              <img src={Logo} alt="SingularityNET" />
+              <SnetSvgLogo />
             </Link>
           </h1>
         </Grid>
