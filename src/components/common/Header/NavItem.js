@@ -4,6 +4,7 @@ import { useStyles } from "./styles";
 
 const NavItem = ({ active, title, link, openInNewTab }) => {
   const classes = useStyles();
+  console.log(title,link,"-->")
   return (
     <li className={classes.navLinks}>
       <a
