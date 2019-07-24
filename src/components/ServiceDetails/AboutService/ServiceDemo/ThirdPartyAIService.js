@@ -109,7 +109,7 @@ class ThirdPartyAIService extends Component {
           serviceId={service_id}
           refetchFeedback={this.fetchUserFeedback}
         />
-        <CompletedActions isComplete />
+        <CompletedActions isComplete feedback={feedback} />
       </div>
     );
   }
