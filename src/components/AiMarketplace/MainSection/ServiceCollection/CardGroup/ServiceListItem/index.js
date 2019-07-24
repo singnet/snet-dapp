@@ -1,7 +1,6 @@
 import React from "react";
 import StarRatingComponent from "react-star-rating-component";
 import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -9,7 +8,9 @@ import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import Typography from "@material-ui/core/Typography";
 
+import StyledButton from "../../../../../common/StyledButton";
 import { useStyles } from "./styles";
+import RatingsCount from "../../../../../common/RatingsCount";
 
 const ServiceListItem = props => {
   const classes = useStyles();
@@ -29,11 +30,14 @@ const ServiceListItem = props => {
           />
           <CardContent className={classes.cardContent}>
             <div className={classes.ratingSection}>
-              <span className={classes.cardSubheader}>{props.cardSubheader}</span>
-              <StarRatingComponent name="rate1" starCount={0} value={0} className={classes.ratingStars} />
-              <span className={classes.ratedCount}>
-                {props.ratingGiven} {props.totalRating}
-              </span>
+              <h4 className={classes.cardSubheader}>{props.cardSubheader}</h4>
+              <StarRatingComponent
+                name="rate1"
+                starCount={5}
+                value={props.ratingGiven}
+                className={classes.ratingStars}
+              />
+              <RatingsCount ratingGiven={props.ratingGiven} totalRating={props.totalRating} />
             </div>
             <Typography className={classes.cardTypograpy} component="p">
               {props.cardDescription}
@@ -42,9 +46,7 @@ const ServiceListItem = props => {
         </Grid>
         <Grid item xs={12} sm={1} md={1} lg={1}>
           <CardActions className={classes.cardActions}>
-            <Button color="primary" className={classes.demoBtn}>
-              demo
-            </Button>
+            <StyledButton type="transparent" btnText="demo" />
           </CardActions>
         </Grid>
       </Grid>

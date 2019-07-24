@@ -18,7 +18,7 @@ export const useStyles = theme => ({
         textDecoration: "none",
       },
     },
-    "& hr": { margin: "22px 0 10px" },
+    "& hr": { margin: "10px 0" },
   },
   UserMenuAction: {
     cursor: "pointer",

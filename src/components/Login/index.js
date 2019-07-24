@@ -17,18 +17,6 @@ class Login extends Component {
     password: "",
   };
 
-  componentDidMount = () => {
-    if (this.props.isLoggedIn) {
-      this.props.history.push(Routes.ONBOARDING);
-    }
-  };
-
-  componentDidUpdate = () => {
-    if (this.props.isLoggedIn) {
-      this.props.history.push(Routes.ONBOARDING);
-    }
-  };
-
   handleUsername = event => {
     this.setState({ username: event.currentTarget.value });
   };
@@ -38,12 +26,13 @@ class Login extends Component {
   };
 
   handleSubmit = event => {
+    const { history } = this.props;
+    const route = `/${Routes.ONBOARDING}`;
     this.setState({ error: undefined });
     const { username, password } = this.state;
     event.preventDefault();
     event.stopPropagation();
-    let credentials = { username, password };
-    this.props.login(credentials);
+    this.props.login({ username, password, history, route });
   };
 
   render() {
@@ -56,11 +45,12 @@ class Login extends Component {
           <form noValidate autoComplete="off" className={classes.loginForm}>
             <TextField
               id="outlined-user-name"
-              label="UserName or Email"
+              label="Username or Email"
               className={classes.textField}
               margin="normal"
               variant="outlined"
               value={username}
+              autoFocus
               onChange={this.handleUsername}
             />
             <TextField
@@ -94,7 +84,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   setUserDetails: () => dispatch(userActions.setUserDetails),
-  login: credentials => dispatch(userActions.login(credentials)),
+  login: args => dispatch(userActions.login(args)),
 });
 export default connect(
   mapStateToProps,

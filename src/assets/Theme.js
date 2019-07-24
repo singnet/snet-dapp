@@ -1,6 +1,10 @@
 import { createMuiTheme } from "@material-ui/core/styles";
 
 const customBlue = "#4086ff";
+const customHoverBlue = "#005ACB";
+
+const transBlueBorderTextHover = "#005ACB";
+const transBlueBorderBgHover = "rgba(0,90,203,0.05)";
 
 const purple = "#220D3A";
 
@@ -19,6 +23,7 @@ const gray = "rgba(0,0,0,0.04)";
 const gray1 = "#F5F7F8";
 const cardBackground = "#f8f8f8";
 const iconColor = "#AAAEB3";
+const cardSeparator = "#e5e5e5";
 
 const whiteColor = "#fff";
 const offWhiteColor = "#fAFAFA";
@@ -41,11 +46,14 @@ const aqua = "#00C48C";
 const errorRed = "#B00020";
 const redBtnText = "#D0021B";
 
+const h2 = { size: 32, color: darkShadedGray };
+
 const theme = createMuiTheme({
   palette: {
     text: {
       primary: customBlue,
       white: whiteColor,
+      customHoverBlue,
       disabledBtnBg,
       black1,
       darkShadedGray,
@@ -69,6 +77,9 @@ const theme = createMuiTheme({
       successBoxBorder,
       grayTitleText,
       redBtnText,
+      transBlueBorderTextHover,
+      transBlueBorderBgHover,
+      cardSeparator,
     },
   },
   typography: {
@@ -90,6 +101,9 @@ const theme = createMuiTheme({
     githubBlack,
     footerBgColor,
     succesBoxBg,
+  },
+  font: {
+    h2,
   },
 });
 

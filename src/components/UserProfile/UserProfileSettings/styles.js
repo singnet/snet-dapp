@@ -56,26 +56,7 @@ export const useStyles = theme => ({
       letterSpacing: 0.25,
       lineHeight: "20px",
     },
-    "& a": {
-      borderWidth: 1,
-      borderStyle: "solid",
-      bordercolor: theme.palette.text.primary,
-      borderRadius: 4,
-      padding: "10px 20px",
-      display: "inline-block",
-      color: theme.palette.text.primary,
-      fontSize: 14,
-      fontWeight: 600,
-      letterSpacing: 1.25,
-      lineHeight: "16px",
-      textDecoration: "none",
-      textTransform: "uppercase",
-      "& span": {
-        fontSize: 22,
-        verticalAlign: "text-top",
-        marginRight: 10,
-      },
-    },
+    "& a": { textDecoration: "none" },
   },
   autoRefillCredits: {
     "& > span": {

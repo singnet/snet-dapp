@@ -5,17 +5,21 @@ export const useStyles = makeStyles(theme => ({
     flexWrap: "nowrap",
   },
   card: {
-    padding: "10px 0 15px",
+    padding: 10,
     position: "relative",
     boxShadow: "none",
     borderTop: 1,
-    borderBottom: 1,
     borderTopStyle: "solid",
+    borderTopColor: theme.palette.text.cardSeparator,
+    borderBottom: 1,
     borderBottomStyle: "solid",
-    borderTopColor: theme.palette.text.lightShadedGray,
-    borderBottomColor: theme.palette.text.lightShadedGray,
+    borderBottomColor: theme.palette.text.cardSeparator,
     borderRadius: 4,
     backgroundColor: theme.palette.text.white,
+    "&:hover": {
+      backgroundColor: theme.palette.text.offWhiteColor,
+      "& h4": { color: theme.palette.text.primary },
+    },
   },
   mediaContainer: {
     maxWidth: "100% !important",
@@ -25,7 +29,7 @@ export const useStyles = makeStyles(theme => ({
     height: 120,
   },
   cardHeader: {
-    padding: "0 18px",
+    padding: "0 10px",
   },
   cardTitle: {
     fontWeight: theme.typography.fontweight,
@@ -36,14 +40,17 @@ export const useStyles = makeStyles(theme => ({
     fontFamily: theme.typography.primary.main,
   },
   cardSubheader: {
+    margin: "8px 0",
+    display: "inline-block",
     color: theme.palette.text.darkShadedGray,
     fontWeight: theme.typography.fontweight,
     fontSize: 20,
     letterSpacing: 0.25,
     fontFamily: theme.typography.primary.main,
+    padding: "0px 9px 0px 0px",
   },
   cardContent: {
-    padding: "0 13px",
+    padding: "0 10px",
     "&:last-of-type": { paddingBottom: 0 },
   },
   cardTypograpy: {
@@ -55,8 +62,14 @@ export const useStyles = makeStyles(theme => ({
   cardActions: {
     position: "absolute",
     right: 27,
-    top: "50%",
+    top: 50,
     transform: "translateY(-50%)",
+    "& button": {
+      color: theme.palette.text.primary,
+      fontSize: 14,
+      fontWeight: 600,
+      letterSpacing: 1.25,
+    },
   },
   showMore: {
     padding: 0,
@@ -66,19 +79,12 @@ export const useStyles = makeStyles(theme => ({
     "& .dv-star-rating-empty-star": {
       "& i": {
         color: theme.palette.text.disabledBtnBg,
+        fontSize: "28px",
       },
     },
     "& i": {
       color: theme.palette.text.RatingStarColor,
+      fontSize: "28px",
     },
-  },
-  ratedCount: {
-    marginLeft: 10,
-    display: "inline-block",
-    color: theme.palette.text.secondary,
-    fontSize: 12,
-    fontWeight: theme.typography.fontweight,
-    letterSpacing: 2,
-    verticalAlign: "super",
   },
 }));

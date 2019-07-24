@@ -5,6 +5,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 
 import StyledButton from "../../common/StyledButton";
 import { useStyles } from "./styles";
+import PrivacyTerms from "./PrivacyTerms";
 
 class TermsOfUse extends Component {
   state = {
@@ -21,8 +22,10 @@ class TermsOfUse extends Component {
     return (
       <div className={classes.onboardingContainer}>
         <div className={classes.termsOfUseContainer}>
-          <h3>Review and Accept Terms of Service</h3>
-          <div className={classes.termsAndConditions} />
+          <h3>Review and Accept the Terms of Service</h3>
+          <div className={classes.termsAndConditions}>
+            <PrivacyTerms />
+          </div>
           <div className={classes.checkboxAndButton}>
             <FormControlLabel
               control={<Checkbox checked={hasAcceptedTerms} onChange={this.handleAcceptTerms} color="primary" />}

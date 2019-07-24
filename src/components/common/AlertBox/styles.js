@@ -2,6 +2,8 @@ export const useStyles = theme => ({
   messageBox: {
     borderWidth: 1,
     borderStyle: "solid",
+    borderColor: theme.backgroundColor.red,
+    borderRadius: 2,
     padding: "13px 20px",
     marginTop: "20px ",
     backgroundColor: theme.backgroundColor.red,

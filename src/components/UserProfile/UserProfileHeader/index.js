@@ -5,11 +5,11 @@ import UserProfileCard from "../../common/UserProfileCard";
 import { useStyles } from "./styles";
 import StyledButton from "../../common/StyledButton";
 
-const UserProfileHeader = ({ classes, userName }) => {
+const UserProfileHeader = ({ classes, username }) => {
   return (
     <div className={classes.userProfileHeader}>
-      <UserProfileCard userName={userName} />
-      <StyledButton btnText="request developer's account" />
+      <UserProfileCard userName={username} />
+      <StyledButton type="transparentBlueBorder" btnText="request developer's account" />
     </div>
   );
 };

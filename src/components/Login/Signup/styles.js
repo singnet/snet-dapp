@@ -9,17 +9,19 @@ export const useStyles = theme => ({
     margin: "0 auto",
   },
   signupInfo: {
-    paddingRight: 100,
+    paddingRight: 54,
     "@media (max-width:960px)": {
       paddingRight: 0,
     },
     "& h2": {
       margin: 0,
       color: theme.palette.text.darkShadedGray,
-      fontSize: 36,
+      fontSize: 32,
+      letterSpacing: -0.5,
+      lineHeight: "48px",
     },
     "& p": {
-      margin: "40px 0 40px",
+      margin: "23px 0 24px",
       color: theme.palette.text.mediumShadeGray,
       fontFamily: theme.typography.secondary.main,
       fontSize: 20,
@@ -32,6 +34,8 @@ export const useStyles = theme => ({
 
     "& li": {
       marginBottom: 15,
+      display: "flex",
+      alignItems: "baseline",
       listStyle: "none",
       "& span": {
         marginRight: 15,
@@ -56,14 +60,7 @@ export const useStyles = theme => ({
     padding: "20px 20px 30px",
     margin: "0 auto",
     boxShadow: "0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.14), 0 1px 3px 0 rgba(0,0,0,0.2)",
-    "& h3": {
-      margin: "0 0 11px",
-      color: theme.palette.text.darkShadedGray,
-      fontSize: 16,
-      letterSpacing: "0.29px",
-      textAlign: "center",
-      textTransform: "uppercase",
-    },
+
     "& button": { width: "100%" },
     "@media (max-width:960px)": {
       width: "95%",
@@ -135,5 +132,13 @@ export const useStyles = theme => ({
   confirmOtp: {
     width: 410,
     margin: "0 auto",
+    "& h3": {
+      margin: "0 0 11px",
+      color: theme.palette.text.darkShadedGray,
+      fontSize: 16,
+      letterSpacing: "0.29px",
+      textAlign: "center",
+      textTransform: "uppercase",
+    },
   },
 });

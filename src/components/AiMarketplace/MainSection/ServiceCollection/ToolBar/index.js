@@ -3,7 +3,7 @@ import Grid from "@material-ui/core/Grid";
 
 import { useStyles } from "./styles";
 import SearchInputToggler from "./SearchInputToggler";
-import ViewToggler from "./ViewToggler";
+//import ViewToggler from "./ViewToggler";
 import ServiceSortOptions from "./ServiceSortOptions";
 
 const ToolBar = ({ listView, total_count, handleSearchChange, toggleView }) => {
@@ -27,7 +27,7 @@ const ToolBar = ({ listView, total_count, handleSearchChange, toggleView }) => {
         <ServiceSortOptions />
       </Grid>
       <Grid item xs={12} sm={6} md={6} lg={6} className={classes.iconsContainer}>
-        <span className={classes.servicesCount}>{total_count} services &nbsp;&nbsp;&nbsp; | </span>
+        <span className={classes.servicesCount}>{total_count} services &nbsp; | </span>
         <button className={classes.searchBar}>
           <SearchInputToggler
             showSearchInput={showSearchInput}
@@ -36,7 +36,9 @@ const ToolBar = ({ listView, total_count, handleSearchChange, toggleView }) => {
             searchKeyword={searchKeyword}
           />
         </button>
-        <ViewToggler listView={listView} toggleView={toggleView} />
+        {
+          //<ViewToggler listView={listView} toggleView={toggleView} />
+        }
       </Grid>
     </Grid>
   );
