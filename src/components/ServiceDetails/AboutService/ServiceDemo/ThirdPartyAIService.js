@@ -7,6 +7,7 @@ import { useStyles } from "./styles";
 import { serviceActions } from "../../../../Redux/actionCreators";
 import { APIEndpoints } from "../../../../config/APIEndpoints";
 import { createServiceClient } from "../../../../utility/sdk";
+import CompletedActions from "./CompletedActions";
 
 class ThirdPartyAIService extends Component {
   state = {
@@ -18,7 +19,13 @@ class ThirdPartyAIService extends Component {
 
   componentDidMount = async () => {
     const { org_id, service_id, username } = this.props;
-    this.serviceClient = await createServiceClient(org_id, service_id, username, this.serviceRequestStartHandler, this.serviceRequestCompleteHandler);
+    this.serviceClient = await createServiceClient(
+      org_id,
+      service_id,
+      username,
+      this.serviceRequestStartHandler,
+      this.serviceRequestCompleteHandler
+    );
     const { serviceSpecJSON, protoSpec } = await this.fetchServiceSpec(org_id, service_id);
     this.serviceSpecJSON = serviceSpecJSON;
     this.protoSpec = protoSpec;
@@ -79,6 +86,7 @@ class ThirdPartyAIService extends Component {
           response={grpcResponse}
           sliderWidth={"550px"}
         />
+        <CompletedActions isComplete />
       </div>
     );
   }
