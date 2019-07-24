@@ -8,11 +8,14 @@ export const useStyles = makeStyles(theme => ({
       display: "inline-block",
     },
   },
-  footerLogoSection: {
-    textAlign: "right",
+  LeftData: {
+    paddingRight: 30,
     borderRightWidth: 1,
     borderRightStyle: "solid",
-    padding: "0 30px 0 0",
+  },
+  footerLogoSection: {
+    textAlign: "right",
+    padding: 0,
     margin: 0,
     "& img": {
       "@media (max-width:1023px)": {

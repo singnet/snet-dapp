@@ -1,7 +1,4 @@
-import Logo from "../../../assets/images/Logo.png";
-
 const PrimaryFooterLeft = [
-  { label: "SingularityNET", link: "#", image: Logo },
   { label: "Contact Us", link: "#" },
   { label: "Foundation Main Site", link: "#" },
   { label: "Singularity Studio", link: "#" },
@@ -36,7 +33,6 @@ const PrimaryFooterMain = [
     children: [
       { label: "Request Dev Account", link: "#" },
       { label: "Request AI Services", link: "#" },
-      { label: "Bounty Rewards", link: "#" },
       { label: "Bounty Rewards", link: "#" },
       { label: "Contribute Program", link: "#" },
       { label: "Changelog & Status", link: "#" },
