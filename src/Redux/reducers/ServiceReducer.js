@@ -12,6 +12,10 @@ const InitialServiceList = {
     org_id: [],
   },
   activeFilterItem: { ...defaultActiveFilterItem },
+  feedback: {
+    rating: 0,
+    review: "",
+  },
 };
 
 const serviceReducer = (state = InitialServiceList, action) => {
@@ -54,6 +58,15 @@ const serviceReducer = (state = InitialServiceList, action) => {
       return {
         ...state,
         activeFilterItem: { ...defaultActiveFilterItem },
+      };
+    }
+    case serviceActions.UPDATE_FEEDBACK: {
+      return {
+        ...state,
+        feedback: {
+          ...state.feedback,
+          ...action.payload,
+        },
       };
     }
     default: {

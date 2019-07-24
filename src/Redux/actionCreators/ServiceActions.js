@@ -14,6 +14,7 @@ export const UPDATE_SPEC_DETAILS = "UPDATE_SPEC_DETAILS";
 export const UPDATE_FILTER_DATA = "UPDATE_FILTER_DATA";
 export const UPDATE_ACTIVE_FILTER_ITEM = "UPDATE_ACTIVE_FILTER_ITEM";
 export const RESET_FILTER_ITEM = "RESET_FILTER_ITEM";
+export const UPDATE_FEEDBACK = "UPDATE_FEEDBACK";
 
 export const updateActiveFilterItem = activeFilterItem => dispatch => {
   dispatch({ type: UPDATE_ACTIVE_FILTER_ITEM, payload: { ...activeFilterItem } });
@@ -121,3 +122,35 @@ export const resetFilter = ({ pagination }) => dispatch => {
     .then(() => dispatch(loaderActions.stopAIServiceListLoader))
     .catch(() => dispatch(loaderActions.stopAIServiceListLoader));
 };
+
+const fetchFeedbackAPIRequest = (username, orgId, serviceId, token) => {
+  const apiName = APIEndpoints.GET_SERVICE_LIST.name;
+  const path = `${APIPaths.FEEDBACK}${username}&org_id=${orgId}&service_id=${serviceId}`;
+  const myInit = {
+    headers: { Authorization: token },
+  };
+  return API.get(apiName, path, myInit);
+};
+
+const fetchFeedbackSuccess = (rating, review) => dispatch => {
+  dispatch({ type: UPDATE_FEEDBACK, payload: { rating, review } });
+};
+
+export const fetchFeedback = (orgId, serviceId) => async dispatch => {
+  try {
+    const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
+    const res = await fetchFeedbackAPIRequest(
+      currentUser.username,
+      orgId,
+      serviceId,
+      currentUser.signInUserSession.idToken.jwtToken
+    );
+    console.log("fetchFeedback", res);
+  } catch (err) {
+    console.log("feedback", err);
+  }
+};
+
+// export const submitFeedback = (rating, review) => dispatch => {
+
+// }
