@@ -6,6 +6,7 @@ import SampleServices from "../../../../assets/thirdPartyServices";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../../../Redux/actionCreators";
 import { APIEndpoints } from "../../../../config/APIEndpoints";
+import CompletedActions from "./CompletedActions";
 
 class ThirdPartyAIService extends Component {
   state = {
@@ -70,6 +71,7 @@ class ThirdPartyAIService extends Component {
           response={grpcResponse}
           sliderWidth={"550px"}
         />
+        <CompletedActions isComplete />
       </div>
     );
   }
