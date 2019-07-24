@@ -21,7 +21,13 @@ class ThirdPartyAIService extends Component {
 
   componentDidMount = async () => {
     const { org_id, service_id, username } = this.props;
-    this.serviceClient = await createServiceClient(org_id, service_id, username, this.serviceRequestStartHandler, this.serviceRequestCompleteHandler);
+    this.serviceClient = await createServiceClient(
+      org_id,
+      service_id,
+      username,
+      this.serviceRequestStartHandler,
+      this.serviceRequestCompleteHandler
+    );
     await this.setupComponent();
     this.setState({ loading: false });
   };
@@ -103,6 +109,7 @@ class ThirdPartyAIService extends Component {
           serviceId={service_id}
           refetchFeedback={this.fetchUserFeedback}
         />
+        <CompletedActions isComplete />
       </div>
     );
   }
