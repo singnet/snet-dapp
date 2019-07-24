@@ -46,7 +46,7 @@ class Onboarding extends Component {
   };
 
   render() {
-    const { classes, username } = this.props;
+    const { classes, username, enforcedWalletCreation } = this.props;
     const { activeSection, progressText } = this.state;
 
     const OnboardingDetails = [
@@ -68,7 +68,7 @@ class Onboarding extends Component {
       {
         title: `Step 3. Creating Your Account Wallet`,
         description: <p>Final step!</p>,
-        component: <WalletKey />,
+        component: <WalletKey enforcedWalletCreation={enforcedWalletCreation} />,
       },
     ];
 
