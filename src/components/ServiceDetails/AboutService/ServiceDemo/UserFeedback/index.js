@@ -6,13 +6,15 @@ import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
 import CardContent from "@material-ui/core/CardContent";
 import StarRatingComponent from "react-star-rating-component";
+import { connect } from "react-redux";
 
 import StyledTextField from "../../../../common/StyledTextField";
 import RatingsCount from "../../../../common/RatingsCount";
 import { useStyles } from "./styles";
 import StyledButton from "../../../../common/StyledButton";
+import { serviceActions } from "../../../../../Redux/actionCreators";
 
-const UserFeedback = ({ open, handleClose, feedback }) => {
+const UserFeedback = ({ open, handleClose, feedback, submitFeedback, orgId, serviceId }) => {
   const [review, setReview] = useState(feedback.review);
   const [rating, setRating] = useState(feedback.rating);
   const classes = useStyles();
@@ -31,7 +33,10 @@ const UserFeedback = ({ open, handleClose, feedback }) => {
     handleClose();
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    const feedback = { rating, review };
+    submitFeedback(orgId, serviceId, feedback);
+  };
 
   return (
     <Modal open={open}>
@@ -46,7 +51,13 @@ const UserFeedback = ({ open, handleClose, feedback }) => {
         />
         <CardContent>
           <div>
-            <StarRatingComponent name="rate1" starCount={5} value={rating} className={classes.ratingStars} />
+            <StarRatingComponent
+              name="rate1"
+              starCount={5}
+              value={rating}
+              className={classes.ratingStars}
+              onStarClick={handleRatingChange}
+            />
             <RatingsCount ratingGiven totalRating />
           </div>
           <StyledTextField
@@ -67,4 +78,11 @@ const UserFeedback = ({ open, handleClose, feedback }) => {
   );
 };
 
-export default UserFeedback;
+const mapDispatchToProps = dispatch => ({
+  submitFeedback: (orgId, serviceId, feedback) => dispatch(serviceActions.submitFeedback(orgId, serviceId, feedback)),
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(UserFeedback);
