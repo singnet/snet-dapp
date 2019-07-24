@@ -12,6 +12,14 @@ export const useStyles = makeStyles(theme => ({
     paddingRight: 30,
     borderRightWidth: 1,
     borderRightStyle: "solid",
+    "@media (max-width:1023px)": {
+      borderBottom: 1,
+      borderBottomStyle: "solid",
+      padding: '0 15px',
+      display: "flex",
+      alignItems: 'center',
+      justifyContent: 'space-between'
+    },
   },
   footerLogoSection: {
     textAlign: "right",
@@ -20,33 +28,24 @@ export const useStyles = makeStyles(theme => ({
     "& img": {
       "@media (max-width:1023px)": {
         width: 140,
-        marginRight: 52,
-      },
+        marginRight: 52
+      }
     },
     "& li": {
-      "&:first-of-type": {
-        "@media (max-width:1023px)": {
-          marginRight: 0,
-        },
-      },
       "&:last-of-type": {
-        "@media (max-width:1023px)": {
-          marginRight: 0,
-        },
+        "@media (max-width:1023px)": { marginRight: 0 },
       },
-      "@media (max-width:1023px)": {
+      "@media (max-width:1023px)": { 
         marginRight: 25,
+        display: 'inline-block' 
       },
     },
     "@media (max-width:1023px)": {
       padding: "0 15px 10px",
       borderRight: "none",
-      borderBottom: 1,
-      borderBottomStyle: "solid",
-      display: "flex",
+      display: "inline-block",
       alignItems: "center",
       textAlign: "inherit",
     },
-    "@media (max-width:1023px) and (min-width:768px)": {},
   },
 }));
