@@ -4,7 +4,7 @@ import StyledButton from "../../../../common/StyledButton";
 import { useStyles } from "./styles";
 import UserFeedback from "../UserFeedback";
 
-const CompletedActions = ({ isComplete, feedback }) => {
+const CompletedActions = ({ isComplete, feedback, orgId, serviceId }) => {
   const [openUserFeedback, setUserFeedback] = useState(false);
 
   const handleOpenUserFeedback = () => {
@@ -21,7 +21,13 @@ const CompletedActions = ({ isComplete, feedback }) => {
   }
   return (
     <div className={classes.buttonsContainer}>
-      <UserFeedback open={openUserFeedback} handleClose={handleCloseUserFeedback} feedback={feedback} />
+      <UserFeedback
+        open={openUserFeedback}
+        handleClose={handleCloseUserFeedback}
+        feedback={feedback}
+        orgId={orgId}
+        serviceId={serviceId}
+      />
       <StyledButton type="transparent" btnText="Rate the service" onClick={handleOpenUserFeedback} />
       <StyledButton type="blue" btnText="Reset and Run" />
     </div>

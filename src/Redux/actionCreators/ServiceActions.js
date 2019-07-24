@@ -123,9 +123,9 @@ export const resetFilter = ({ pagination }) => dispatch => {
     .catch(() => dispatch(loaderActions.stopAIServiceListLoader));
 };
 
-const fetchFeedbackAPIRequest = (username, orgId, serviceId, token) => {
+const fetchFeedbackAPI = (username, orgId, serviceId, token) => {
   const apiName = APIEndpoints.GET_SERVICE_LIST.name;
-  const path = `${APIPaths.FEEDBACK}${username}&org_id=${orgId}&service_id=${serviceId}`;
+  const path = `${APIPaths.FEEDBACK}?user_address=${username}&org_id=${orgId}&service_id=${serviceId}`;
   const myInit = {
     headers: { Authorization: token },
   };
@@ -139,7 +139,7 @@ const fetchFeedbackSuccess = (rating, review) => dispatch => {
 export const fetchFeedback = (orgId, serviceId) => async dispatch => {
   try {
     const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
-    const res = await fetchFeedbackAPIRequest(
+    const res = await fetchFeedbackAPI(
       currentUser.username,
       orgId,
       serviceId,
@@ -151,6 +151,31 @@ export const fetchFeedback = (orgId, serviceId) => async dispatch => {
   }
 };
 
-// export const submitFeedback = (rating, review) => dispatch => {
+const submitFeedbackAPI = (feedbackObj, token) => {
+  const apiName = APIEndpoints.GET_SERVICE_LIST.name;
+  const path = `${APIPaths.FEEDBACK}`;
+  const myInit = {
+    body: { ...feedbackObj },
+    headers: { Authorization: token },
+  };
+  return API.post(apiName, path, myInit);
+};
 
-// }
+export const submitFeedback = (orgId, serviceId, feedback) => async dispatch => {
+  try {
+    const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
+    const feedbackObj = {
+      feedback: {
+        user_address: currentUser.username,
+        org_id: orgId,
+        service_id: serviceId,
+        user_rating: feedback.rating,
+        comment: feedback.review,
+      },
+    };
+    const res = await submitFeedbackAPI(feedbackObj, currentUser.signInUserSession.idToken.jwtToken);
+    console.log("submitFeedback", res);
+  } catch (err) {
+    console.log("submitFeedback", err);
+  }
+};

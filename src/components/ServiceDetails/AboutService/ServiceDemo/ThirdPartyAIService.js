@@ -57,7 +57,7 @@ class ThirdPartyAIService extends Component {
   };
 
   render() {
-    const { classes, grpcResponse, isComplete, feedback } = this.props;
+    const { classes, grpcResponse, isComplete, feedback, org_id, service_id } = this.props;
     const { AIServiceCustomComponent, serviceSpecJSON, protoSpec } = this.state;
     if (!AIServiceCustomComponent || !serviceSpecJSON || !protoSpec) {
       return null;
@@ -72,7 +72,7 @@ class ThirdPartyAIService extends Component {
           response={grpcResponse}
           sliderWidth={"550px"}
         />
-        <CompletedActions isComplete feedback={feedback} />
+        <CompletedActions isComplete feedback={feedback} orgId={org_id} serviceId={service_id} />
       </div>
     );
   }
