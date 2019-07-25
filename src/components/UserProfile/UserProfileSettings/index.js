@@ -11,6 +11,7 @@ import { useStyles } from "./styles";
 import { userActions } from "../../../Redux/actionCreators";
 import Routes from "../../../utility/constants/Routes";
 import AlertBox from "../../common/AlertBox";
+import ConfirmDelete from "./ConfirmDelete";
 
 class UserProfileSettings extends Component {
   state = {
@@ -121,6 +122,7 @@ class UserProfileSettings extends Component {
             </div>
           </div>
         </Grid>
+        <ConfirmDelete open />
       </Grid>
     );
   }
