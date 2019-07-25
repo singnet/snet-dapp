@@ -32,6 +32,7 @@ const userReducer = (state = InitialUserDetails, action) => {
     case userActions.LOGIN_SUCCESS: {
       return {
         ...state,
+        ...action.payload,
         login: {
           ...state.login,
           error: undefined,
