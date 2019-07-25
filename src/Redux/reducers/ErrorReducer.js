@@ -4,6 +4,7 @@ const InitialErrorState = {
   app: undefined,
   forgotPassword: undefined,
   forgotPasswordSubmit: undefined,
+  profileSettings: undefined,
 };
 
 const errorReducer = (state = InitialErrorState, action) => {
@@ -18,6 +19,12 @@ const errorReducer = (state = InitialErrorState, action) => {
       return { ...state, ...action.payload };
     }
     case errorActions.RESET_FORGOT_PASSWORD_SUBMIT_ERROR: {
+      return { ...state, ...action.payload };
+    }
+    case errorActions.UPDATE_PROFILE_SETTINGS_ERROR: {
+      return { ...state, ...action.payload };
+    }
+    case errorActions.RESET_PROFILE_SETTINGS_ERROR: {
       return { ...state, ...action.payload };
     }
     default: {

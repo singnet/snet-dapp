@@ -4,7 +4,7 @@ import { withStyles } from "@material-ui/styles";
 import { useStyles } from "./styles";
 
 const CLanguage = ({ classes }) => {
-  return null;
+  return <></>;
 };
 
 export default withStyles(useStyles)(CLanguage);

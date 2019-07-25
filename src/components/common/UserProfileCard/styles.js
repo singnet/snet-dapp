@@ -20,7 +20,18 @@ export const useStyles = theme => ({
         fontSize: 16,
         lineHeight: "22px",
         textDecoration: "none",
+        "&:hover": {
+          color: theme.palette.text.primary,
+          fontweight: 600,
+        },
       },
     },
+  },
+  closeIcon: {
+    position: "absolute",
+    top: 10,
+    right: 20,
+    display: "none",
+    "@media(max-width: 768px)": { display: "block" },
   },
 });

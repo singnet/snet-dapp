@@ -106,28 +106,30 @@ class SignUp extends Component {
     const { classes } = this.props;
 
     return (
-      <Grid container spacing={24} className={classes.signupMainContent}>
-        {toBeConfirmed ? (
-          <RenderOTP
-            otp={otp}
-            handleOTP={this.handleOTP}
-            handleResendOTP={this.handleResendOTP}
-            handleConfirmSignup={this.handleConfirmSignup}
-            error={error}
-          />
-        ) : (
-          <RenderForm
-            username={username}
-            handleUsername={this.handleUsername}
-            email={email}
-            handleEmail={this.handleEmail}
-            password={password}
-            handlePassword={this.handlePassword}
-            error={error}
-            handleSubmit={this.handleSubmit}
-          />
-        )}
-      </Grid>
+      <div className={classes.signupMainContainer}>
+        <Grid container spacing={24} className={classes.signupMainContent}>
+          {toBeConfirmed ? (
+            <RenderOTP
+              otp={otp}
+              handleOTP={this.handleOTP}
+              handleResendOTP={this.handleResendOTP}
+              handleConfirmSignup={this.handleConfirmSignup}
+              error={error}
+            />
+          ) : (
+            <RenderForm
+              username={username}
+              handleUsername={this.handleUsername}
+              email={email}
+              handleEmail={this.handleEmail}
+              password={password}
+              handlePassword={this.handlePassword}
+              error={error}
+              handleSubmit={this.handleSubmit}
+            />
+          )}
+        </Grid>
+      </div>
     );
   }
 }

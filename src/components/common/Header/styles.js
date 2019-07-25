@@ -12,11 +12,6 @@ export const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.text.purple,
     boxShadow: "0 2px 6px 0 rgba(0,0,0,0.3)",
     "@media (max-width:1280px)": { padding: "13px 10px 3px 10px" },
-    "@media (max-width:768px)": { padding: "15px 22" },
-    "@media (max-width:480px)": {
-      flexDirection: "column",
-      alignItems: "flex-start",
-    },
   },
   logoSection: {
     width: "30%",
@@ -26,6 +21,10 @@ export const useStyles = makeStyles(theme => ({
   },
   h1: {
     margin: 0,
+    "& a": { textDecoration: "none" },
+    "& span": {
+      "&:before": { fontSize: 45 },
+    },
   },
   logoAnchor: {
     display: "inline-block",
@@ -75,12 +74,6 @@ export const useStyles = makeStyles(theme => ({
     marginBottom: 6,
     "@media (max-width:1024px)": { width: "35%" },
     "@media (max-width: 587px)": { width: "50%" },
-    "@media (max-width:480px)": {
-      width: "100%",
-      marginTop: 10,
-      display: "flex",
-      alignSelf: "flex-end",
-    },
   },
   loginBtnsUl: {
     margin: 0,

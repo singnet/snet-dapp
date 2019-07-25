@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/styles";
 export const useStyles = makeStyles(theme => ({
   cardItemsContainer: {
     flexWrap: "nowrap",
+    "@media(max-width: 480px)": { flexDirection: "column" },
   },
   card: {
     padding: 10,
@@ -21,15 +22,14 @@ export const useStyles = makeStyles(theme => ({
       "& h4": { color: theme.palette.text.primary },
     },
   },
-  mediaContainer: {
-    maxWidth: "100% !important",
-  },
+  mediaContainer: { maxWidth: "100% !important" },
   CardMedia: {
     width: 214,
     height: 120,
   },
   cardHeader: {
     padding: "0 10px",
+    textAlign: "left",
   },
   cardTitle: {
     fontWeight: theme.typography.fontweight,
@@ -40,7 +40,7 @@ export const useStyles = makeStyles(theme => ({
     fontFamily: theme.typography.primary.main,
   },
   cardSubheader: {
-    margin: "8px 0",
+    margin: "8px 10px 8px 0",
     display: "inline-block",
     color: theme.palette.text.darkShadedGray,
     fontWeight: theme.typography.fontweight,
@@ -48,6 +48,8 @@ export const useStyles = makeStyles(theme => ({
     letterSpacing: 0.25,
     fontFamily: theme.typography.primary.main,
     padding: "0px 9px 0px 0px",
+    textAlign: "left",
+    "@media(max-width: 768px)": { width: "100%" },
   },
   cardContent: {
     padding: "0 10px",
@@ -62,13 +64,20 @@ export const useStyles = makeStyles(theme => ({
   cardActions: {
     position: "absolute",
     right: 27,
-    top: 50,
+    top: 45,
     transform: "translateY(-50%)",
     "& button": {
       color: theme.palette.text.primary,
       fontSize: 14,
       fontWeight: 600,
       letterSpacing: 1.25,
+    },
+    "@media(max-width: 768px)": {
+      padding: 0,
+      position: "static",
+      transform: "translateY(0)",
+      float: "right",
+      "& button": { padding: 0 },
     },
   },
   showMore: {
@@ -79,12 +88,21 @@ export const useStyles = makeStyles(theme => ({
     "& .dv-star-rating-empty-star": {
       "& i": {
         color: theme.palette.text.disabledBtnBg,
-        fontSize: "28px",
+        fontSize: 21,
       },
     },
     "& i": {
       color: theme.palette.text.RatingStarColor,
-      fontSize: "28px",
+      fontSize: 21,
+    },
+  },
+  ratingSection: {
+    display: "flex",
+    alignItems: "center",
+    "@media(max-width:768px)": {
+      marginBottom: 10,
+      flexDirection: "column",
+      alignItems: "flex-start",
     },
   },
 }));

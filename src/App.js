@@ -13,6 +13,7 @@ import withInAppWrapper from "./components/HOC/WithInAppHeader";
 import { userActions } from "./Redux/actionCreators";
 import PrivateRoute from "./components/common/PrivateRoute";
 import AppLoader from "./components/common/AppLoader";
+import WalletReqdRoute from "./components/common/WalletReqdRoute";
 
 const ForgotPassword = lazy(() => import("./components/Login/ForgotPassword"));
 const ForgotPasswordSubmit = lazy(() => import("./components/Login/ForgotPasswordSubmit"));
@@ -28,15 +29,15 @@ Amplify.configure(aws_config);
 
 class App extends Component {
   componentDidMount = () => {
-    this.props.setUserDetails();
+    this.props.fetchUserDetails();
   };
 
   componentDidMount = () => {
-    this.props.setUserDetails();
+    this.props.fetchUserDetails();
   };
 
   render() {
-    const { hamburgerMenu, isInitialized, isWalletAssigned, isLoggedIn } = this.props;
+    const { hamburgerMenu, isInitialized, isLoggedIn } = this.props;
     if (!isInitialized) {
       return <h2>Loading</h2>;
     }
@@ -69,35 +70,24 @@ class App extends Component {
                   {...this.props}
                   component={withRegistrationHeader(Onboarding, headerData.ONBOARDING)}
                 />
-                <PrivateRoute
-                  isAllowed={!isLoggedIn || (isLoggedIn && isWalletAssigned)}
-                  redirectTo={`/${Routes.ONBOARDING}`}
+                <WalletReqdRoute
                   path={`/${Routes.AI_MARKETPLACE}`}
                   {...this.props}
                   component={withInAppWrapper(AiMarketplace)}
                 />
-                <PrivateRoute
-                  isAllowed={!isLoggedIn || (isLoggedIn && isWalletAssigned)}
-                  redirectTo={`/${Routes.ONBOARDING}`}
+                <WalletReqdRoute
                   path={`/${Routes.SERVICE_DETAILS}/:service_row_id`}
                   {...this.props}
                   component={withInAppWrapper(ServiceDetails)}
                 />
-                <PrivateRoute
-                  isAllowed={isLoggedIn}
+                <WalletReqdRoute
+                  loginReqd
                   redirectTo={`/${Routes.LOGIN}`}
                   path={`/${Routes.USER_PROFILE}`}
                   {...this.props}
                   component={withInAppWrapper(UserProfile)}
                 />
-                <PrivateRoute
-                  isAllowed={!isLoggedIn || (isLoggedIn && isWalletAssigned)}
-                  redirectTo={`/${Routes.ONBOARDING}`}
-                  path="/"
-                  exact
-                  {...this.props}
-                  component={withInAppWrapper(AiMarketplace)}
-                />
+                <WalletReqdRoute path="/" exact {...this.props} component={withInAppWrapper(AiMarketplace)} />
                 <Route component={PageNotFound} />
               </Switch>
             </Suspense>
@@ -117,7 +107,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setUserDetails: () => dispatch(userActions.setUserDetails),
+  fetchUserDetails: () => dispatch(userActions.fetchUserDetails),
 });
 
 export default connect(
