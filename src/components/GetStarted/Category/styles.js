@@ -1,5 +1,5 @@
 export const useStyles = theme => ({
-	CategoryWrapper:{ marginTop: 30 },
+	CategoryWrapper:{ marginBottom: 60 },
 	CategoryContent: {
 		'& p': {
 			margin: '10px 0 27px',
