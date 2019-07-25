@@ -2,6 +2,7 @@ export const useStyles = theme => ({
 	VerticalTabsContainer: {
 		display: 'flex',
 		'& button':{
+			maxWidth: '100%',
 			padding: '13px 25px',
 			borderLeft: 1,
     	borderLeftStyle: 'solid',
@@ -33,6 +34,7 @@ export const useStyles = theme => ({
 		}
 	},
 	TabsWrapper:{
+		width: '100%',
 		'& .MuiTabs-flexContainer': { flexDirection: 'column'},
 		'& .MuiTabs-indicator': { display: 'none' }
 	}
