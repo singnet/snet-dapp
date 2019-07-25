@@ -1,12 +1,16 @@
 import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 import { useStyles } from "./styles";
 import Routes from "../../../utility/constants/Routes";
 import UserProfileToggler from "../../UserProfilePopUp/UserProfileToggler";
 
-const HeaderActions = ({ isLoggedIn }) => {
+const HeaderActions = ({ isLoggedIn, history }) => {
   const classes = useStyles();
+  const handleRedirection = redirectTo => {
+    const sourcePath = history.location.pathname;
+    history.push({ pathname: redirectTo, state: { sourcePath } });
+  };
   return (
     <ul className={classes.loginBtnsUl}>
       {isLoggedIn ? (
@@ -14,17 +18,18 @@ const HeaderActions = ({ isLoggedIn }) => {
       ) : (
         <Fragment>
           <li className={classes.loginBtnsLi}>
-            <Link to={`/${Routes.LOGIN}`}>
-              <span className={classes.loginBtnsAnchor}>Login</span>
-            </Link>
+            <span className={classes.loginBtnsAnchor} onClick={() => handleRedirection(`/${Routes.LOGIN}`)}>
+              Login
+            </span>
           </li>
           <li className={`${classes.signupBtn} ${classes.loginBtnsLi}`}>
-            <Link to={`/${Routes.SIGNUP}`}>
-              <span className={`${classes.loginBtnsAnchor} ${classes.UppercaseText} ${classes.signupBtnText}`}>
-                {" "}
-                Sign Up Free
-              </span>
-            </Link>
+            <span
+              className={`${classes.loginBtnsAnchor} ${classes.UppercaseText} ${classes.signupBtnText}`}
+              onClick={() => handleRedirection(`/${Routes.SIGNUP}`)}
+            >
+              {" "}
+              Sign Up Free
+            </span>
           </li>
         </Fragment>
       )}
@@ -32,4 +37,4 @@ const HeaderActions = ({ isLoggedIn }) => {
   );
 };
 
-export default HeaderActions;
+export default withRouter(HeaderActions);
