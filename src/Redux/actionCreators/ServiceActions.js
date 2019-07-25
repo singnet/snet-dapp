@@ -125,7 +125,7 @@ export const resetFilter = ({ pagination }) => dispatch => {
 
 const fetchFeedbackAPI = (username, orgId, serviceId, token) => {
   const apiName = APIEndpoints.GET_SERVICE_LIST.name;
-  const path = `${APIPaths.FEEDBACK}?user_address=${username}&org_id=${orgId}&service_id=${serviceId}`;
+  const path = `${APIPaths.FEEDBACK}?username=${username}&org_id=${orgId}&service_id=${serviceId}`;
   const myInit = {
     headers: { Authorization: token },
   };
@@ -166,7 +166,7 @@ export const submitFeedback = (orgId, serviceId, feedback) => async dispatch => 
     const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
     const feedbackObj = {
       feedback: {
-        user_address: currentUser.username,
+        username: currentUser.username,
         org_id: orgId,
         service_id: serviceId,
         user_rating: feedback.rating,
