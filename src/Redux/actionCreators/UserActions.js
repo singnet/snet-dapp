@@ -156,24 +156,27 @@ export const updateUserProfile = updatedUserData => async dispatch => {
   }
 };
 
-export const loginSuccess = ({ res, history, route }) => dispatch => {
-  dispatch(updateUsername(res.attributes.name));
-  dispatch(updateEmailVerified(res.attributes.email_verified));
+export const loginSuccess = ({ res, history, route, wallet }) => dispatch => {
+  const userDetails = {
+    type: userActions.LOGIN_SUCCESS,
+    payload: {
+      login: { isLoggedIn: true },
+      isWalletAssigned: wallet.data.isAssigned,
+      username: res.attributes.name,
+      isEmailVerified: res.attributes.email_verified,
+    },
+  };
+  dispatch(userDetails);
   history.push(route);
 };
 
-export const login = ({ username, password, history, route }) => dispatch => {
+export const login = ({ username, password, history, route }) => async dispatch => {
   dispatch({ type: LOGIN_LOADING });
   let userDetails = {};
   return Auth.signIn(username, password)
-    .then(res => {
-      dispatch(() => updateUsername(username));
-      userDetails = {
-        type: userActions.LOGIN_SUCCESS,
-        payload: { login: { isLoggedIn: true } },
-      };
-      dispatch(userDetails);
-      dispatch(loginSuccess({ res, history, route }));
+    .then(async res => {
+      const wallet = await fetchWalletStatus(res.username, res.signInUserSession.idToken.jwtToken);
+      dispatch(loginSuccess({ res, history, route, wallet }));
     })
     .catch(err => {
       if (err.code === "UserNotConfirmedException") {
