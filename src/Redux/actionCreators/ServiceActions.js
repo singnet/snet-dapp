@@ -169,7 +169,7 @@ export const submitFeedback = (orgId, serviceId, feedback) => async dispatch => 
         username: currentUser.username,
         org_id: orgId,
         service_id: serviceId,
-        user_rating: feedback.rating,
+        user_rating: parseFloat(feedback.rating).toFixed(1),
         comment: feedback.review,
       },
     };
