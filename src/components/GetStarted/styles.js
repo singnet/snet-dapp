@@ -1,11 +1,12 @@
 export const useStyles = theme =>({
 	GetStartedMainContaienr:{
 		padding: '30px 60px 50px',
-		backgroundColor: theme.palette.text.offWhiteColor
+		backgroundColor: theme.palette.text.offWhiteColor,
+		flexDirection: 'column'
 	},
 	TopSection:{
 		maxWidth: 800,
-		margin: '0 auto',	
+		margin: '0 auto 30px',	
 		textAlign: 'center',
 		'& h2':{
 			color: theme.palette.text.darkShadedGray,

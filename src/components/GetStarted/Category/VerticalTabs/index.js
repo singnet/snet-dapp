@@ -9,7 +9,12 @@ import { useStyles } from "./styles";
 
 class VerticalTabs extends Component {
   render() {
-    const { classes, activeIndex, handleChange } = this.props;
+    const { classes, activeIndex, handleChange, title } = this.props;
+
+    var titles = title.map(function(label){
+    	return <Tab label={label} />;
+    })
+    
     return (
       <div className={classes.VerticalTabsContainer}>
         <Tabs
@@ -17,11 +22,7 @@ class VerticalTabs extends Component {
           onChange={handleChange}
           className={classes.TabsWrapper}
         >
-          <Tab label='List or Card views' />
-          <Tab label='Change Filter options' />
-          <Tab label='Sort options' />
-          <Tab label='Rating Ranking' />
-          <Tab label='Feature Label 5' />
+          {titles}
         </Tabs>       
     </div>
     )
