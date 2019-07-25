@@ -6,7 +6,8 @@ export const useStyles = theme => ({
 			color: theme.palette.text.mediumShadeGray,
 			fontFamily: theme.typography.secondary.main,
 			fontSize: 16,
-			lineHeight: '24px'
+			lineHeight: '24px',
+			'& span': { fontWeight: 600 }
 		}
 	},
 	Title:{
