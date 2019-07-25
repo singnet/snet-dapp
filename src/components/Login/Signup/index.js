@@ -76,12 +76,17 @@ class SignUp extends Component {
 
   handleConfirmSignup = event => {
     const { username, otp } = this.state;
+    const { history, updateUsername } = this.props;
     event.preventDefault();
     event.stopPropagation();
+    let route = `/${Routes.LOGIN}`;
+    if (history.location.state && history.location.state.sourcePath) {
+      route = history.location.state.sourcePath;
+    }
     Auth.confirmSignUp(username, otp)
-      .then(res => {
-        this.props.updateUsername(username);
-        this.props.history.push(Routes.LOGIN);
+      .then(() => {
+        updateUsername(username);
+        history.push(route);
       })
       .catch(err => {
         let error = parseError(err);
