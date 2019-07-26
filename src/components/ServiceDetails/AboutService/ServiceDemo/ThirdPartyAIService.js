@@ -9,20 +9,24 @@ import { APIEndpoints } from "../../../../config/APIEndpoints";
 import { createServiceClient } from '../../../../utility/sdk';
 
 class ThirdPartyAIService extends Component {
-  state = {};
+  state = {
+    loading: true,
+  };
 
   sampleServices = new SampleServices();
 
   componentDidMount = async () => {
     const { org_id, service_id, username } = this.props;
     this.serviceClient = await createServiceClient(org_id, service_id, username);
-    this.fetchServiceSpec(org_id, service_id);
+    const { serviceSpecJSON, protoSpec } = await this.fetchServiceSpec(org_id, service_id);
+    this.serviceSpecJSON = serviceSpecJSON;
+    this.protoSpec = protoSpec;
+    this.setState({ loading: false });
   };
 
   fetchServiceSpec = async (org_id, service_id) => {
     const servicebufURL = `${APIEndpoints.SERVICE_BUF.endpoint}/${org_id}/${service_id}`;
-    const { serviceSpecJSON, protoSpec } = await this.props.fetchProtoSpec(servicebufURL);
-    this.setState({ serviceSpecJSON, protoSpec });
+    return this.props.fetchProtoSpec(servicebufURL);
   };
 
   handleServiceInvokation = (serviceName, methodName, requestObject) => {
@@ -41,18 +45,20 @@ class ThirdPartyAIService extends Component {
   };
 
   render() {
-    const { org_id, service_id, classes, grpcResponse, isComplete } = this.props;
-    const { serviceSpecJSON, protoSpec } = this.state;
-
-    const AIServiceCustomComponent = this.sampleServices.getComponent(org_id, service_id);
-    if (!AIServiceCustomComponent || !serviceSpecJSON || !protoSpec) {
+    const { loading } = this.state;
+    if (loading) {
       return null;
     }
+
+    const { org_id, service_id, classes, grpcResponse, isComplete } = this.props;
+    const { serviceClient, serviceSpecJSON, protoSpec } = this;
+
+    const AIServiceCustomComponent = this.sampleServices.getComponent(org_id, service_id);
 
     return (
       <div className={classes.serviceDetailsTab}>
         <AIServiceCustomComponent
-          serviceClient={this.serviceClient}
+          serviceClient={serviceClient}
           callApiCallback={this.handleServiceInvokation}
           protoSpec={protoSpec}
           serviceSpec={serviceSpecJSON}
