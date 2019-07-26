@@ -92,7 +92,7 @@ const theme = createMuiTheme({
       alertBoxBorder,
       alertBoxColor,
       alertBoxBackgroundColor,
-      verticalTabLeftBorder
+      verticalTabLeftBorder,
     },
   },
   typography: {
