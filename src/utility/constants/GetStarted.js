@@ -5,6 +5,8 @@ import ThumbsUpDownIcon from "@material-ui/icons/ThumbsUpDown";
 import SettingsIcon from "@material-ui/icons/Settings";
 import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
 
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+
 export const GetStartedCategoriesData = [
   {
     categoryIcon: SeacrhIcon,
@@ -47,5 +49,88 @@ export const GetStartedCategoriesData = [
     categoryDescription: "Exploring AI  – Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
     categoryTabs: [ "Managing your credits", "Wallet Support", "Reviews", "Feature Label 4", "Feature Label 5" ],
     categoryTabsContent: ["media 1", "media 2", "media 3", "media 4", "media 5"]
+  },
+];
+
+export const GetStartedFeaturesData = [
+  {
+    featureIcon: CheckCircleIcon,
+    featureName: 'Feature Name',
+    featureDescription: 'Access to the RFAI portal to request for a new AI service and incentivize development.'
+  },
+  {
+    featureIcon: CheckCircleIcon,
+    featureName: 'Feature Name',
+    featureDescription: 'Access to the RFAI portal to request for a new AI service and incentivize development.'
+  },
+  {
+    featureIcon: CheckCircleIcon,
+    featureName: 'Feature Name',
+    featureDescription: 'Access to the RFAI portal to request for a new AI service and incentivize development.'
+  },
+  {
+    featureIcon: CheckCircleIcon,
+    featureName: 'Feature Name',
+    featureDescription: 'Access to the RFAI portal to request for a new AI service and incentivize development.'
+  },
+  {
+    featureIcon: CheckCircleIcon,
+    featureName: 'Feature Name',
+    featureDescription: 'AI services dashboard.'
+  },
+  {
+    featureIcon: CheckCircleIcon,
+    featureName: 'Feature Name',
+    featureDescription: 'AI services dashboard.'
+  },
+  {
+    featureIcon: CheckCircleIcon,
+    featureName: 'Feature Name',
+    featureDescription: 'AI services dashboard.'
+  },
+  {
+    featureIcon: CheckCircleIcon,
+    featureName: 'Feature Name',
+    featureDescription: 'AI services dashboard.'
+  },
+  {
+    featureIcon: CheckCircleIcon,
+    featureName: 'Feature Name',
+    featureDescription: 'Transfer AGI Tokens from multiple wallet anytime.'
+  },
+  {
+    featureIcon: CheckCircleIcon,
+    featureName: 'Feature Name',
+    featureDescription: 'Transfer AGI Tokens from multiple wallet anytime.'
+  },
+  {
+    featureIcon: CheckCircleIcon,
+    featureName: 'Feature Name',
+    featureDescription: 'Transfer AGI Tokens from multiple wallet anytime.'
+  },
+  {
+    featureIcon: CheckCircleIcon,
+    featureName: 'Feature Name',
+    featureDescription: 'Transfer AGI Tokens from multiple wallet anytime.'
+  },
+  {
+    featureIcon: CheckCircleIcon,
+    featureName: 'Integrate with any language',
+    featureDescription: 'Integrate AI services using your preferred language such as Python, Java, C++, and many more.'
+  },
+  {
+    featureIcon: CheckCircleIcon,
+    featureName: 'Integrate with any language',
+    featureDescription: 'Integrate AI services using your preferred language such as Python, Java, C++, and many more.'
+  },
+  {
+    featureIcon: CheckCircleIcon,
+    featureName: 'Integrate with any language',
+    featureDescription: 'Integrate AI services using your preferred language such as Python, Java, C++, and many more.'
+  },
+  {
+    featureIcon: CheckCircleIcon,
+    featureName: 'Integrate with any language',
+    featureDescription: 'Integrate AI services using your preferred language such as Python, Java, C++, and many more.'
   },
 ];

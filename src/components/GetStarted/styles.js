@@ -1,6 +1,6 @@
 export const useStyles = theme =>({
 	GetStartedMainContaienr:{
-		padding: '30px 60px 50px',
+		padding: '30px 60px 60px',
 		backgroundColor: theme.palette.text.offWhiteColor,
 		flexDirection: 'column'
 	},
@@ -40,7 +40,18 @@ export const useStyles = theme =>({
 			lineHeight: '30px'
 		}
 	},
-	FeaturesMainContainer:{
-		marginTop: 60,
+	FeaturesMainContainer:{ marginTop: 60 },
+	FreeTrialSignUp:{
+		marginTop: 16,
+		textAlign: 'center',
+		'& > span':{
+			marginBottom: 16,
+			display: 'block',
+			color: theme.palette.text.darkShadedGray,
+			fontSize: 14,
+			fontStyle: 'italic',
+			lineHeight: '19px'
+		},
+		'& button':{ padding: '13px 16% 11px' }
 	}
 }) 

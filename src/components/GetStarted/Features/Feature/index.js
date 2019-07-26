@@ -1,124 +1,16 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 
 import { useStyles } from "./styles";
 
-const Feature = ({ classes }) => {
+const Feature = ({ classes, icon: Icon, title, description }) => {
 	return (
-		<div className={classes.FeatureContainer}>
-			<div className={classes.SingleFeatureWrapper}>
-				<CheckCircleIcon />
-				<div>
-					<h4>Feature Name</h4>
-					<p>Access to the RFAI portal to request for a new AI service and incentivize development.</p>
-				</div>
-			</div>
-			<div className={classes.SingleFeatureWrapper}>
-				<CheckCircleIcon />
-				<div>
-					<h4>Feature Name</h4>
-					<p>Access to the RFAI portal to request for a new AI service and incentivize development.</p>
-				</div>
-			</div>
-			<div className={classes.SingleFeatureWrapper}>
-				<CheckCircleIcon />
-				<div>
-					<h4>Feature Name</h4>
-					<p>Access to the RFAI portal to request for a new AI service and incentivize development.</p>
-				</div>
-			</div>
-			<div className={classes.SingleFeatureWrapper}>
-				<CheckCircleIcon />
-				<div>
-					<h4>Feature Name</h4>
-					<p>Access to the RFAI portal to request for a new AI service and incentivize development.</p>
-				</div>
-			</div>
-			<div className={classes.SingleFeatureWrapper}>
-				<CheckCircleIcon />
-				<div>
-					<h4>Feature Name</h4>
-					<p>Access to the RFAI portal to request for a new AI service and incentivize development.</p>
-				</div>
-			</div>
-			<div className={classes.SingleFeatureWrapper}>
-				<CheckCircleIcon />
-				<div>
-					<h4>Feature Name</h4>
-					<p>Access to the RFAI portal to request for a new AI service and incentivize development.</p>
-				</div>
-			</div>
-			<div className={classes.SingleFeatureWrapper}>
-				<CheckCircleIcon />
-				<div>
-					<h4>Feature Name</h4>
-					<p>Access to the RFAI portal to request for a new AI service and incentivize development.</p>
-				</div>
-			</div>
-			<div className={classes.SingleFeatureWrapper}>
-				<CheckCircleIcon />
-				<div>
-					<h4>Feature Name</h4>
-					<p>Access to the RFAI portal to request for a new AI service and incentivize development.</p>
-				</div>
-			</div>
-			<div className={classes.SingleFeatureWrapper}>
-				<CheckCircleIcon />
-				<div>
-					<h4>Feature Name</h4>
-					<p>Access to the RFAI portal to request for a new AI service and incentivize development.</p>
-				</div>
-			</div>
-			<div className={classes.SingleFeatureWrapper}>
-				<CheckCircleIcon />
-				<div>
-					<h4>Feature Name</h4>
-					<p>Access to the RFAI portal to request for a new AI service and incentivize development.</p>
-				</div>
-			</div>
-			<div className={classes.SingleFeatureWrapper}>
-				<CheckCircleIcon />
-				<div>
-					<h4>Feature Name</h4>
-					<p>Access to the RFAI portal to request for a new AI service and incentivize development.</p>
-				</div>
-			</div>
-			<div className={classes.SingleFeatureWrapper}>
-				<CheckCircleIcon />
-				<div>
-					<h4>Feature Name</h4>
-					<p>Access to the RFAI portal to request for a new AI service and incentivize development.</p>
-				</div>
-			</div>
-			<div className={classes.SingleFeatureWrapper}>
-				<CheckCircleIcon />
-				<div>
-					<h4>Feature Name</h4>
-					<p>Access to the RFAI portal to request for a new AI service and incentivize development.</p>
-				</div>
-			</div>
-			<div className={classes.SingleFeatureWrapper}>
-				<CheckCircleIcon />
-				<div>
-					<h4>Feature Name</h4>
-					<p>Access to the RFAI portal to request for a new AI service and incentivize development.</p>
-				</div>
-			</div>
-			<div className={classes.SingleFeatureWrapper}>
-				<CheckCircleIcon />
-				<div>
-					<h4>Feature Name</h4>
-					<p>Access to the RFAI portal to request for a new AI service and incentivize development.</p>
-				</div>
-			</div>
-			<div className={classes.SingleFeatureWrapper}>
-				<CheckCircleIcon />
-				<div>
-					<h4>Feature Name</h4>
-					<p>Access to the RFAI portal to request for a new AI service and incentivize development.</p>
-				</div>
+		<div className={classes.SingleFeatureWrapper}>
+			<Icon />
+			<div>
+				<h4>{title}</h4>
+				<p>{description}</p>
 			</div>
 		</div>
 	)
