@@ -11,17 +11,22 @@ import { createServiceClient } from '../../../../utility/sdk';
 class ThirdPartyAIService extends Component {
   state = {
     loading: true,
+    serviceRequestComplete: false,
   };
 
   sampleServices = new SampleServices();
 
   componentDidMount = async () => {
     const { org_id, service_id, username } = this.props;
-    this.serviceClient = await createServiceClient(org_id, service_id, username);
+    this.serviceClient = await createServiceClient(org_id, service_id, username, this.serviceRequestCompleteHandler);
     const { serviceSpecJSON, protoSpec } = await this.fetchServiceSpec(org_id, service_id);
     this.serviceSpecJSON = serviceSpecJSON;
     this.protoSpec = protoSpec;
     this.setState({ loading: false });
+  };
+
+  serviceRequestCompleteHandler = () => {
+    this.setState({ serviceRequestComplete: true })
   };
 
   fetchServiceSpec = async (org_id, service_id) => {
