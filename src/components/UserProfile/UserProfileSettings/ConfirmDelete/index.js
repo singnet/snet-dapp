@@ -53,7 +53,7 @@ const ConfirmDelete = ({ open, handleClose, handleSubmit }) => {
                \n Your remaining AGI tokens will remain in your wallet for you manage with your  3rd party wallet service. 
                \n Lorem ipsum dolor sit amet, consectetur adipiscing elit.  ermentum dictum placerat nec`}
             />
-            <FormControl variant="filled" className={classes.formControl}>
+            <FormControl fullWidth className={classes.formControl}>
               <InputLabel htmlFor="outlined-reason-native-simple">Reason</InputLabel>
               <Select
                 native
@@ -70,7 +70,7 @@ const ConfirmDelete = ({ open, handleClose, handleSubmit }) => {
             <StyledTextField
               label="Your feedback matters.  Anything else you’d like share"
               value={feedback}
-              fill
+              fullWidth
               multiline
               rows="4"
             />

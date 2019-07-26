@@ -10,7 +10,4 @@ export const useStyles = makeStyles(theme => ({
     display: "flex",
     justifyContent: "space-between",
   },
-  formControl: {
-    width: "100%",
-  },
 }));
