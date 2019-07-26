@@ -5,6 +5,7 @@ import { withStyles } from "@material-ui/styles";
 import StyledButton from "../common/StyledButton";
 import { GetStartedCategoriesData } from "../../utility/constants/GetStartedCategories";
 import Category from "./Category";
+import Features from "./Features";
 import { useStyles } from "./styles";
 
 const GetStarted = ({ classes }) => {
@@ -27,7 +28,10 @@ const GetStarted = ({ classes }) => {
 				<h2>Get Started</h2>
 				<p>We've made it fast and easy to experience the AI Marketplace.<br/ >Start with our free account and start demoing our cateloge of AI services in matter of minutes.</p>
 				<StyledButton  btnText="Sign up Free" type="blue"/>
-			</Grid>			
+			</Grid>
+			<Grid item xs={12} sm={12} md={12} lg={12} className={classes.FeaturesMainContainer}>
+				<Features />
+			</Grid>
 		</Grid>
 	)
 }

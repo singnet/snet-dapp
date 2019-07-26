@@ -24,7 +24,7 @@ export const useStyles = theme =>({
 	},
 	SignUpFree:{
 		maxWidth: '47%',
-		margin: '0 auto',
+		margin: '0 auto ',
 		textAlign: 'center',
 		'& h2':{
 			color: theme.palette.text.darkShadedGray,
@@ -39,5 +39,8 @@ export const useStyles = theme =>({
 			fontSize: 20,
 			lineHeight: '30px'
 		}
+	},
+	FeaturesMainContainer:{
+		marginTop: 60,
 	}
 }) 
