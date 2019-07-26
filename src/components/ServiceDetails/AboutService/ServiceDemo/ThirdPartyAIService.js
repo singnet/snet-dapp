@@ -6,6 +6,7 @@ import SampleServices from "../../../../assets/thirdPartyServices";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../../../Redux/actionCreators";
 import { APIEndpoints } from "../../../../config/APIEndpoints";
+import { createServiceClient } from '../../../../utility/sdk';
 
 class ThirdPartyAIService extends Component {
   state = {};
@@ -14,6 +15,7 @@ class ThirdPartyAIService extends Component {
 
   componentDidMount = async () => {
     const { org_id , service_id } = this.props;
+    this.serviceClient = await createServiceClient(org_id, service_id, 'Vivek205');
     this.fetchServiceSpec(org_id, service_id);
   };
 
@@ -50,6 +52,7 @@ class ThirdPartyAIService extends Component {
     return (
       <div className={classes.serviceDetailsTab}>
         <AIServiceCustomComponent
+          serviceClient={this.serviceClient}
           callApiCallback={this.handleServiceInvokation}
           protoSpec={protoSpec}
           serviceSpec={serviceSpecJSON}
