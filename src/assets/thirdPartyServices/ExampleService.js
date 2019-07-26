@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Calculator } from './ExampleService/_example_service_pb_service';
+import { Calculator } from './ExampleService/example_service_pb_service';
 import { getMethodNames } from '../../utility/sdk';
 
 export default class ExampleService extends React.Component {

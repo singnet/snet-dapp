@@ -1,7 +1,7 @@
 // package: example_service
 // file: example_service.proto
 
-var example_service_pb = require("./_example_service_pb");
+var example_service_pb = require("./example_service_pb");
 var grpc = require("@improbable-eng/grpc-web").grpc;
 
 var Calculator = (function () {
