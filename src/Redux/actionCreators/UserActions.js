@@ -139,10 +139,11 @@ export const updateUserProfile = updatedUserData => async dispatch => {
     const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
     const response = await updateUserProfileInit(currentUser, updatedUserData);
     if (response.status === "success") {
-      dispatch(updateUserProfileSuccess(updatedUserData));
+      return dispatch(updateUserProfileSuccess(updatedUserData));
     }
   } catch (err) {
     dispatch(updateUserProfileFailure(err));
+    throw err;
   }
 };
 
