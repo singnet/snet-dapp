@@ -1,10 +1,4 @@
 export const useStyles = theme => ({
-	FeatureContainer: { 
-		marginTop: 30,
-		display: 'flex',
-		justifyContent: 'space-between',
-		flexWrap: 'wrap'
-	},
 	SingleFeatureWrapper:{
 		width: 302,
 		marginBottom: 20,

@@ -1,6 +1,7 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
+import { GetStartedFeaturesData } from "../../../utility/constants/GetStarted";
 
 import Feature from "./Feature";
 import { useStyles } from "./styles";
@@ -9,7 +10,11 @@ const Features = ({ classes }) => {
 	return (
 		<div className={classes.FeaturesWrapper}>
 			<h2>All-in-one solution with powerful features</h2>
-			<Feature />
+			<div className={classes.FeatureContainer}>
+				{GetStartedFeaturesData.map(item =>(
+					<Feature icon={item.featureIcon} title={item.featureName} description={item.featureDescription} />
+				))}
+			</div>
 		</div>
 	)
 }

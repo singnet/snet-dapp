@@ -6,6 +6,12 @@ export const useStyles = theme => ({
 			fontSize: 32,
 			fontWeight: 600,
 			lineHeight: '48px'
-		}, 
+		}
+	},
+	FeatureContainer: { 
+		marginTop: 30,
+		display: 'flex',
+		justifyContent: 'space-between',
+		flexWrap: 'wrap'
 	}
 })
