@@ -1,7 +1,27 @@
 import { makeStyles } from "@material-ui/styles";
 
 export const useStyles = makeStyles(theme => ({
-  card: { maxWidth: 520 },
+  card: { 
+    width: 520,
+    margin: '0 auto',
+    transform: 'translateY(50%)' 
+  },
+  cardHeader:{
+    borderRadius: '4px 4px 0 0',
+    padding: '5px 22px',
+    backgroundColor: theme.palette.text.offWhiteColor,
+    '& h2':{
+      color: theme.palette.text.darkShadedGray,
+      fontFamily: theme.typography.tertiary.main,
+      fontSize: 24,
+      lineHeight: '28px'
+    }
+  },
+  RatingConatiner:{
+    marginBottom: 14,
+    display: 'flex',
+    alignItems: 'center'
+  },
   ratingStars: {
     "& .dv-star-rating-empty-star": {
       "& i": {
@@ -14,12 +34,10 @@ export const useStyles = makeStyles(theme => ({
       fontSize: 21,
     },
   },
-  buttonsContainer: {
-    marginTop: 10,
-    textAlign: "center",
-    "& button": {
-      padding: " 13px 60px 11px",
-      marginTop: 10,
-    },
+  cardContent:{ padding: '20px 43px' },
+  cardActions: {
+    padding: '0 0 21px', 
+    justifyContent: 'center' 
   },
+  ReviewTitle: { display: 'none' }
 }));

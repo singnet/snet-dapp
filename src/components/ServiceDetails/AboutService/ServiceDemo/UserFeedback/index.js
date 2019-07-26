@@ -5,6 +5,7 @@ import CardHeader from "@material-ui/core/CardHeader";
 import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
 import CardContent from "@material-ui/core/CardContent";
+import CardActions from "@material-ui/core/CardActions";
 import StarRatingComponent from "react-star-rating-component";
 import { connect } from "react-redux";
 
@@ -42,6 +43,7 @@ const UserFeedback = ({ open, handleClose, feedback, submitFeedback, orgId, serv
     <Modal open={open}>
       <Card className={classes.card}>
         <CardHeader
+          className={classes.cardHeader}
           title={<h2>Write Your Own Review</h2>}
           action={
             <IconButton onClick={handleClose}>
@@ -49,8 +51,8 @@ const UserFeedback = ({ open, handleClose, feedback, submitFeedback, orgId, serv
             </IconButton>
           }
         />
-        <CardContent>
-          <div>
+        <CardContent className={classes.cardContent}>
+          <div className={classes.RatingConatiner}>
             <StarRatingComponent
               name="rate1"
               starCount={5}
@@ -60,19 +62,30 @@ const UserFeedback = ({ open, handleClose, feedback, submitFeedback, orgId, serv
             />
             <RatingsCount ratingGiven totalRating />
           </div>
-          <StyledTextField
-            label="Review"
-            value={review}
-            fullWidth
-            multiline
-            rowsMax="4"
-            onChange={handleReviewChange}
-          />
-          <div className={classes.buttonsContainer}>
-            <StyledButton type="transparent" btnText="Cancel" onClick={handleCancel} />
-            <StyledButton type="blue" btnText="Submit" onClick={handleSubmit} />
+          <div className={classes.InputWrapper}>
+            <StyledTextField
+              label="Review Title"
+              value={review}
+              fullWidth
+              multiline
+              rowsMax="4"
+              onChange={handleReviewChange}
+              className={classes.ReviewTitle}
+            />
+            <StyledTextField
+              label="Review"
+              value={review}
+              fullWidth
+              multiline
+              rowsMax="4"
+              onChange={handleReviewChange}
+            />
           </div>
         </CardContent>
+        <CardActions className={classes.cardActions}>
+          <StyledButton type="transparent" btnText="Cancel" onClick={handleCancel} />
+          <StyledButton type="blue" btnText="Submit" onClick={handleSubmit} />
+        </CardActions>
       </Card>
     </Modal>
   );
