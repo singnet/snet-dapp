@@ -6,6 +6,12 @@ const customHoverBlue = "#005ACB";
 const transBlueBorderTextHover = "#005ACB";
 const transBlueBorderBgHover = "rgba(0,90,203,0.05)";
 
+const alertBoxColor = "rgba(0,0,0,0.6)";
+const alertBoxBorder = "#E67381";
+const alertBoxBackgroundColor = "#FDE5E8";
+
+const userProfileIconColor = "#757575";
+
 const purple = "#220D3A";
 
 const darkShadedGray = "#212121";
@@ -80,6 +86,10 @@ const theme = createMuiTheme({
       transBlueBorderTextHover,
       transBlueBorderBgHover,
       cardSeparator,
+      userProfileIconColor,
+      alertBoxBorder,
+      alertBoxColor,
+      alertBoxBackgroundColor,
     },
   },
   typography: {

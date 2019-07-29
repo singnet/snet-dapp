@@ -6,17 +6,17 @@ import SearchInputToggler from "./SearchInputToggler";
 //import ViewToggler from "./ViewToggler";
 import ServiceSortOptions from "./ServiceSortOptions";
 
-const ToolBar = ({ listView, total_count, handleSearchChange, toggleView }) => {
+const ToolBar = ({ listView, total_count, handleSearchChange, toggleView, currentPagination }) => {
   const [showSearchInput, toggleSearchInput] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState("");
 
   const handleSearch = event => {
-    setSearchKeyword(event.target.value);
+    setSearchKeyword(event.currentTarget.value);
     const pagination = {
       offset: 0,
       q: event.target.value,
     };
-    handleSearchChange(pagination);
+    handleSearchChange({ ...currentPagination, ...pagination });
   };
 
   const classes = useStyles();

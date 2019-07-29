@@ -19,9 +19,11 @@ class ServiceDetails extends Component {
   };
 
   componentDidMount = async () => {
-    if (!this.props.services || this.props.services.length === 0) {
-      this.populateServiceData(this.props.pagination);
-      await this.props.fetchService(this.props.pagination);
+    const { services, pagination, fetchService } = this.props;
+
+    if (!services || services.length === 0) {
+      this.populateServiceData(pagination);
+      await fetchService(pagination);
       return;
     }
     this.populateServiceData();
@@ -57,6 +59,7 @@ class ServiceDetails extends Component {
     if (!service) {
       return null;
     }
+
     return (
       <Grid container spacing={24} className={classes.serviceDetailContainer}>
         <TitleCard
@@ -66,7 +69,7 @@ class ServiceDetails extends Component {
           star_rating={service.service_rating}
           totalRating={service.total_users_rated}
         />
-        <PricingDetails price_model={service.price_model} />
+        <PricingDetails price_strategy={service.pricing_strategy} />
         <StyledTabs tabs={tabs} activeTab={activeTab} onTabChange={this.handleTabChange} />
       </Grid>
     );
@@ -80,6 +83,8 @@ ServiceDetails.defaultProps = {
 const mapStateToProps = state => ({
   services: state.serviceReducer.services,
   pagination: state.serviceReducer.pagination,
+  isLoggedIn: state.userReducer.login.isLoggedIn,
+  isWalletAssigned: state.userReducer.isWalletAssigned,
 });
 
 const mapDispatchToProps = dispatch => ({

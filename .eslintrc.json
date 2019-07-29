@@ -24,6 +24,7 @@
         "component": true,
         "html": true
       }
-    ]
+    ],
+    "no-extra-boolean-cast": 0
   }
 }

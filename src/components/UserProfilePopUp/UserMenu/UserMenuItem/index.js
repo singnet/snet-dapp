@@ -1,16 +1,16 @@
 import React from "react";
-import Icon from "@material-ui/core/Icon";
-import clsx from "clsx";
 import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/styles";
 
 import { useStyles } from "./styles";
 
-const UserMenuItem = ({ classes, icon, title, linkTo }) => {
+const UserMenuItem = ({ classes, icon: Icon, title, linkTo }) => {
   return (
     <li>
-      <Icon className={clsx(classes.icon, icon)} />
-      <Link to={`/${linkTo}`}>{title}</Link>
+      <Link to={`/${linkTo}`}>
+        <Icon className={classes.icon} />
+        <span className={classes.title}>{title}</span>
+      </Link>
     </li>
   );
 };

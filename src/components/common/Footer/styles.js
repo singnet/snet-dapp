@@ -13,7 +13,9 @@ export const useStyles = makeStyles(theme => ({
     "@media (max-width:1279px) and (min-width:1024px)": { width: "98%" },
     "@media (max-width:1023px)": { width: "100%" },
   },
-  footerLinks: { listStyle: "none" },
+  footerLinks: {
+    listStyle: "none",
+  },
   footerLinkText: {
     color: theme.palette.text.white,
     fontSize: 14,
@@ -21,6 +23,9 @@ export const useStyles = makeStyles(theme => ({
     opacity: 0.6,
     textDecoration: "none",
     "&:hover": { opacity: 1 },
+    "&:first-of-type": {
+      opacity: 1,
+    },
   },
   footerLinksTitle: {
     marginBottom: 8,

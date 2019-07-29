@@ -45,7 +45,7 @@ const RenderForm = ({
         <form noValidate autoComplete="off" className={classes.signupForm}>
           <TextField
             id="outlined-user-name"
-            label="UserName"
+            label="Username"
             className={classes.textField}
             value={username}
             onChange={handleUsername}
@@ -66,9 +66,7 @@ const RenderForm = ({
               value={email}
               onChange={handleEmail}
             />
-            {email !== "" && !isValidEmail(email) && (
-              <span className={classes.usernameError}>Error msg - invalid email</span>
-            )}
+            {email !== "" && !isValidEmail(email) && <span className={classes.usernameError}>invalid email</span>}
           </div>
           <TextField
             id="outlined-password-input"

@@ -5,8 +5,10 @@ export const useStyles = makeStyles(theme => ({
     "&:before": { display: "none" },
     "& select": {
       width: "100%",
-      paddingTop: 0,
-      paddingBottom: 0,
+      padding: "auto",
+      "&:hover": {
+        backgroundColor: theme.palette.text.transBlueBorderBgHover,
+      },
     },
   },
 }));

@@ -1,4 +1,5 @@
 export const useStyles = theme => ({
+  signupMainContainer: { backgroundColor: theme.palette.text.offWhiteColor },
   signupMainContent: {
     width: "71%",
     paddingBottom: 50,
@@ -59,8 +60,7 @@ export const useStyles = theme => ({
     width: 410,
     padding: "20px 20px 30px",
     margin: "0 auto",
-    boxShadow: "0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.14), 0 1px 3px 0 rgba(0,0,0,0.2)",
-
+    boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
     "& button": { width: "100%" },
     "@media (max-width:960px)": {
       width: "95%",
@@ -97,12 +97,7 @@ export const useStyles = theme => ({
     width: "100%",
     marginBottom: 0,
     display: "inline-block",
-    "& label": {
-      fontFamily: theme.typography.primary.main,
-    },
-    "& div": {
-      width: "100%",
-    },
+    "& div": { width: "100%" },
   },
   charCount: {
     color: theme.palette.text.mediumShadeGray,
