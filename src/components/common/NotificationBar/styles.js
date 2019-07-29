@@ -1,5 +1,5 @@
 export const useStyles = theme => ({
-  offlineNotification: {
+  NotificationBar: {
     padding: "7px 4.5% 7px 6.5%",
     backgroundColor: theme.backgroundColor.offlineRedBg,
   },

@@ -7,10 +7,10 @@ import Grid from "@material-ui/core/Grid";
 import StyledButton from "../StyledButton";
 import { useStyles } from "./styles";
 
-const OfflineNotification = ({ classes, showNotification }) => {
+const NotificationBar = ({ classes, showNotification }) => {
   if (!showNotification) return null;
   return (
-    <Grid container className={classes.offlineNotification}>
+    <Grid container className={classes.NotificationBar}>
       <Grid item xs={12} sm={12} md={6} lg={6} className={classes.notificationText}>
         <Icon className={clsx(classes.icon, "fas fa-exclamation")} />
         <span>Service temporarily offline by the owner. Please check back later</span>
@@ -23,4 +23,4 @@ const OfflineNotification = ({ classes, showNotification }) => {
   );
 };
 
-export default withStyles(useStyles)(OfflineNotification);
+export default withStyles(useStyles)(NotificationBar);
