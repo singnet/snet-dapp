@@ -1,6 +1,6 @@
 export const useStyles = theme => ({
   NotificationBar: {
-    padding: "7px 4.5% 7px 6.5%",
+    padding: "10px 0",
     backgroundColor: theme.backgroundColor.offlineRedBg,
   },
   notificationText: {
@@ -20,7 +20,7 @@ export const useStyles = theme => ({
         marginRight: 17.5,
       },
       "&:last-of-type": {
-        color: theme.palette.text.lightShadedGray,
+        color: theme.palette.text.alertBoxColor,
         fontFamily: theme.typography.secondary.main,
         fontSize: 14.2,
         letterSpacing: 0.25,
