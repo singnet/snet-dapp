@@ -22,6 +22,6 @@ export const useStyles = theme => ({
   },
   warning: {
     borderColor: theme.palette.text.warningBoxBorder,
-    backgroundColor: theme.palette.text.warningBoxBg
-  }
+    backgroundColor: theme.palette.text.warningBoxBg,
+  },
 });
