@@ -8,20 +8,18 @@ import { useStyles } from "./styles";
 export const alertTypes = {
   ERROR: "error",
   SUCCESS: "success",
-  WARNING: "warning"
+  WARNING: "warning",
 };
 
 const backgroundColor = {
   error: alertTypes.ERROR,
   success: alertTypes.SUCCESS,
-  warning: alertTypes.WARNING
+  warning: alertTypes.WARNING,
 };
 
 const AlertBox = ({ classes, message, type }) => {
   if (message) {
-    return (
-      <p className={clsx(classes.messageBox, classes[backgroundColor[type]])}>{message}</p>
-    )
+    return <p className={clsx(classes.messageBox, classes[backgroundColor[type]])}>{message}</p>;
   }
   return null;
 };
