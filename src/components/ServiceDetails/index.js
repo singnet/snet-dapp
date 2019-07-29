@@ -17,17 +17,17 @@ class ServiceDetails extends Component {
     activeTab: 0,
   };
 
-  componentDidMount = async () => {
-    await this.fetchServices();
-  };
+  componentDidMount() {
+    this.fetchServices();
+  }
 
-  fetchServices = async () => {
+  fetchServices = () => {
     const { service, pagination, fetchServices } = this.props;
     if (service) {
       return;
     }
 
-    return fetchServices(pagination);
+    fetchServices(pagination);
   };
 
   handleTabChange = activeTab => {
