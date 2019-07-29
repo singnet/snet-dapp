@@ -1,4 +1,4 @@
-  import React from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import clsx from "clsx";
@@ -13,7 +13,7 @@ const buttonColor = {
   transparent: "transparentBg",
   transparentBlueBorder: "transparentBlueBorder",
   red: "red",
-  redBg: "redBg"
+  redBg: "redBg",
 };
 
 const StyledButton = ({ disabled, onClick, type, iconClass, btnText }) => {

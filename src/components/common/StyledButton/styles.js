@@ -53,7 +53,7 @@ export const useStyles = makeStyles(theme => ({
     },
   },
   redBg: {
-    padding: '13px 38px 11px',
+    padding: "13px 38px 11px",
     color: theme.palette.text.white,
     backgroundColor: theme.palette.text.redBtnBg,
     "&:hover": {
