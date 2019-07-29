@@ -55,6 +55,7 @@ class Login extends Component {
               value={username}
               autoFocus
               onChange={this.handleUsername}
+              autoFocus
             />
             <TextField
               id="outlined-password-input"

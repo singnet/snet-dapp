@@ -8,9 +8,6 @@ import StyledButton from "../StyledButton";
 import { useStyles } from "./styles";
 
 const NotificationBar = ({ classes, showNotification }) => {
-
-  console.log('showNotification', showNotification)
-
   if (!showNotification) return null;
   return (
     <Grid container className={classes.NotificationBar}>
