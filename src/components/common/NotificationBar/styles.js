@@ -6,6 +6,7 @@ export const useStyles = theme => ({
   notificationText: {
     display: "flex",
     alignItems: "center",
+    justifyContent: 'center',
     "& span": {
       "&:first-of-type": {
         color: theme.palette.text.offlineRed,
@@ -24,15 +25,7 @@ export const useStyles = theme => ({
         fontSize: 14.2,
         letterSpacing: 0.25,
         lineHeight: "20px",
-      },
-    },
-  },
-  notificationActions: {
-    textAlign: "right",
-    "& button": { padding: 0 },
-    "@media(max-width: 960px)": {
-      marginTop: 10,
-      textAlign: "left",
-    },
-  },
+      }
+    }
+  }
 });

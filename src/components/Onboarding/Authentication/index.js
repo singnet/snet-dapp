@@ -3,9 +3,9 @@ import TextField from "@material-ui/core/TextField";
 import { Auth } from "aws-amplify";
 import { withStyles } from "@material-ui/styles";
 import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 
 import StyledButton from "../../common/StyledButton";
-import Session from "../../../utility/constants/Session";
 import { isValidNumber } from "../../../utility/Validation";
 import { parseError } from "../../../utility/ErrorHandling";
 import { useStyles } from "./styles";
@@ -31,8 +31,8 @@ class Authentication extends Component {
 
   handleContinue = () => {
     const { verificationCode } = this.state;
+    const { username } = this.props;
     this.setState({ loading: true });
-    let username = sessionStorage.getItem(Session.USERNAME);
     Auth.confirmSignUp(username, verificationCode)
       .then(res => {
         this.setState({ loading: false });
@@ -46,7 +46,7 @@ class Authentication extends Component {
 
   handleResendCode = () => {
     this.setState({ loading: true });
-    let username = sessionStorage.getItem(Session.USERNAME);
+    const { username } = this.props;
     Auth.resendSignUp(username)
       .then(res => {
         this.setState({ loading: false });
@@ -67,9 +67,9 @@ class Authentication extends Component {
         <p className={classes.validateEmailDescription}>
           <span>A verification code has been sent to your registered email address.</span>
           <br /> <br />
-          Please enter the verification code below to confirm your email address. If you are unable to find the email
-          from <span>‘otp@singularitynet.io’</span> in your inbox, make sure to check the spam folder. The code will be
-          valid for 5 minutes.{" "}
+          Please enter the verification code below to confirm your email address. Check your spam, or junk folders if
+          you encounter any delays. The email should be from otp@singularitynet.io. The code will be valid for 5
+          minutes.{" "}
         </p>
         <InlineLoader loading={loading} />
         <TextField
@@ -98,4 +98,8 @@ class Authentication extends Component {
   }
 }
 
-export default withRouter(withStyles(useStyles)(Authentication));
+const mapStateToProps = state => ({
+  username: state.userReducer.username,
+});
+
+export default connect(mapStateToProps)(withRouter(withStyles(useStyles)(Authentication)));

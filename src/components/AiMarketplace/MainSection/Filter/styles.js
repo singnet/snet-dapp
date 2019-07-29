@@ -2,16 +2,20 @@ import { makeStyles, createStyles } from "@material-ui/styles";
 export const useStyles = theme =>
   createStyles({
     filterContainer: {
-      boxShadow: "0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.14), 0 1px 3px 0 rgba(0,0,0,0.2)",
+      boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
     },
     filterResetBtnContainer: {
-      padding: "15px 22px",
+      padding: "11px 22px",
       display: "flex",
       justifyContent: "space-between",
-      backgroundColor: theme.palette.text.offWhiteColor,
+      borderRadius: "4px 4px 0 0",
+      borderBottom: 1,
+      borderBottomStyle: "solid",
+      borderBottomColor: theme.palette.text.gray1,
     },
     h2: {
       color: theme.palette.text.darkShadedGray,
+      fontSize: 20,
     },
     resetBtn: {
       border: "none",
@@ -24,11 +28,16 @@ export const useStyles = theme =>
       fontFamily: theme.typography.primary.main,
     },
     filterExpansionPanel: {
+      marginTop: 0,
       marginBottom: 1,
       boxShadow: "none",
       backgroundColor: theme.palette.text.gray,
       "&::before": {
         position: "static",
+      },
+      "&.Mui-expanded": {
+        marginTop: 0,
+        backgroundColor: theme.palette.text.white,
       },
     },
     filtersHeadingTitle: {
@@ -45,7 +54,7 @@ export const useStyles = theme =>
       justifyContent: "space-between",
       alignItems: "center",
       "& svg": {
-        color: "#4086FF !important",
+        color: theme.palette.text.mediumShadeGray,
       },
     },
     count: {

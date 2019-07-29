@@ -3,12 +3,14 @@ import { withStyles } from "@material-ui/styles";
 import { withRouter } from "react-router";
 import { Auth, API } from "aws-amplify";
 import { Icon } from "@material-ui/core";
+import { connect } from "react-redux";
 
 import StyledButton from "../../common/StyledButton";
-import ErrorMsgBox from "../../common/ErrorMsgBox";
+import AlertBox from "../../common/AlertBox";
 import { parseError } from "../../../utility/ErrorHandling";
 import Routes from "../../../utility/constants/Routes";
 import { useStyles } from "./styles";
+import { userActions } from "../../../Redux/actionCreators";
 
 class TermsOfUse extends Component {
   state = {
@@ -46,38 +48,53 @@ class TermsOfUse extends Component {
       });
   };
 
+  handleContinue = () => {
+    const { enforcedWalletCreation, history, walletCreationSuccess } = this.props;
+    if (enforcedWalletCreation) {
+      walletCreationSuccess();
+      return;
+    }
+    history.push(Routes.AI_MARKETPLACE);
+    walletCreationSuccess();
+  };
+
   render() {
     const { classes } = this.props;
     const { privateKey, error, allowContinue } = this.state;
     return (
       <div className={classes.walletKeyContainer}>
-        <h3>Wallet Key</h3>
+        <h3>Wallet Key Generator</h3>
         <p>
-          <span></span>
+          <span />
         </p>
         {privateKey ? (
           <p className={classes.privateKey}>{privateKey}</p>
         ) : (
           <Fragment>
-            <StyledButton type="transparent" btnText="Export Private Key" onClick={this.handleExportingPrivateKey} />
+            <StyledButton type="transparent" btnText="View your secret key" onClick={this.handleExportingPrivateKey} />
             <div className={classes.warningBox}>
               <Icon className="fas fa-exclamation-triangle" />
-              <span>Please keep in mind that once wallet key is lost, it cant be recovered.</span>
+              <span>
+                ATTENTION: By clicking on "View your secret key" you will be given a unique key known only by yourself.
+                Make sure you STORE YOUR KEY SOMEWHERE SAFE. If you loose your key, you will not be able to recover it.
+              </span>
             </div>
           </Fragment>
         )}
-        <ErrorMsgBox showErr={error} errorMsg={error} />
+        <AlertBox type="error" message={error} />
         <div className={classes.continueBtnContainer}>
-          <StyledButton
-            type="blue"
-            btnText="continue"
-            disabled={!allowContinue}
-            onClick={() => this.props.history.push(Routes.AI_MARKETPLACE)}
-          />
+          <StyledButton type="blue" btnText="continue" disabled={!allowContinue} onClick={this.handleContinue} />
         </div>
       </div>
     );
   }
 }
 
-export default withStyles(useStyles)(withRouter(TermsOfUse));
+const mapDispatchToProps = dispatch => ({
+  walletCreationSuccess: () => dispatch(userActions.walletCreationSuccess),
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(withStyles(useStyles)(withRouter(TermsOfUse)));

@@ -7,6 +7,7 @@ import TitleCard from "./TitleCard";
 import PricingDetails from "./PricingDetails";
 import StyledTabs from "./StyledTabs";
 import AboutService from "./AboutService";
+import InstallAndRunService from "./InstallAndRunService";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../Redux/actionCreators";
 import NotificationBar from "../common/NotificationBar";
@@ -19,9 +20,11 @@ class ServiceDetails extends Component {
   };
 
   componentDidMount = async () => {
-    if (!this.props.services || this.props.services.length === 0) {
-      this.populateServiceData(this.props.pagination);
-      await this.props.fetchService(this.props.pagination);
+    const { services, pagination, fetchService } = this.props;
+
+    if (!services || services.length === 0) {
+      this.populateServiceData(pagination);
+      await fetchService(pagination);
       return;
     }
     this.populateServiceData();
@@ -49,17 +52,23 @@ class ServiceDetails extends Component {
     const { classes } = this.props;
     const { service, activeTab } = this.state;
 
-    const tabs = [{ name: "About", activeIndex: 0, component: <AboutService service={service} /> }];
+    const tabs = [
+      { name: "About", activeIndex: 0, component: <AboutService service={service} /> },
+      { name: "Install and Run", activeIndex: 1, component: <InstallAndRunService /> },
+    ];
 
     if (!service) {
       return null;
     }
+
     return (
       <div>
-        <NotificationBar showNotification={true} />
         <Grid container spacing={24} className={classes.serviceDetailContainer}>
-          <TitleCard org_id={service.org_id} display_name={service.display_name} />
-          <PricingDetails price_model={service.price_model} />
+          <NotificationBar showNotification={!service.is_available} />
+          <div className={classes.TopSection}>
+            <TitleCard org_id={service.org_id} display_name={service.display_name} />
+            <PricingDetails price_model={service.price_model} />
+          </div>
           <StyledTabs tabs={tabs} activeTab={activeTab} onTabChange={this.handleTabChange} />
         </Grid>
       </div>
@@ -74,6 +83,8 @@ ServiceDetails.defaultProps = {
 const mapStateToProps = state => ({
   services: state.serviceReducer.services,
   pagination: state.serviceReducer.pagination,
+  isLoggedIn: state.userReducer.login.isLoggedIn,
+  isWalletAssigned: state.userReducer.isWalletAssigned,
 });
 
 const mapDispatchToProps = dispatch => ({

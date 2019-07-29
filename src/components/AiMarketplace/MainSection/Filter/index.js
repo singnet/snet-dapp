@@ -1,50 +1,40 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
 
-import StyledExpansionPanel from "./StyledExpansionPanel.js";
+import StyledExpansionPanel from "./StyledExpansionPanel";
 import { useStylesHook } from "./styles";
-import { serviceActions } from "../../../../Redux/actionCreators/index.js";
+import { serviceActions } from "../../../../Redux/actionCreators";
 import {
-  defaultFilterData,
-  filterParamters,
-  defaultActiveFilterItem,
   defaultPaginationParameters,
-} from "../../../../utility/constants/Pagination.js";
+  generateFilterObject,
+  filterTitles,
+} from "../../../../utility/constants/Pagination";
 
-let filterData = { ...defaultFilterData };
-
-const Filter = ({ services, pagination, updatePagination, fetchService }) => {
-  const [activeFilterItem, setActiveFilterItem] = useState(defaultActiveFilterItem);
+const Filter = ({ activeFilterItem, pagination, filterDataProps, handleFilterChange, resetFilter }) => {
   const classes = useStylesHook();
-
-  if (services.length > 0) {
-    services.map(service => {
-      if (service.tags.length > 0) {
-        service.tags.map(tag => {
-          if (!filterData.tags.items.find(el => el.title === tag)) {
-            filterData.tags.items.push({ title: tag });
-          }
-        });
-      }
-    });
-  }
+  const filterData = {};
+  Object.entries(filterDataProps).map(([key, items]) => {
+    filterData[key] = { title: filterTitles[key], name: key, items };
+  });
 
   const handleActiveFilterItemChange = async event => {
     const name = event.currentTarget.name;
     const value = event.currentTarget.value;
-    const latestPagination = { ...pagination, ...defaultPaginationParameters, s: filterParamters[name], q: value };
-    await updatePagination(latestPagination);
-    await fetchService(latestPagination);
-    setActiveFilterItem({
-      ...activeFilterItem,
-      [name]: value,
-    });
+    const currentFilterItem = [...activeFilterItem[name]];
+    if (!currentFilterItem.includes(value)) {
+      currentFilterItem.push(value);
+    } else {
+      currentFilterItem.splice(currentFilterItem.findIndex(el => el === value), 1);
+    }
+    const currentActiveFilterData = { ...activeFilterItem, [name]: currentFilterItem };
+    const filterObj = generateFilterObject(currentActiveFilterData);
+    const latestPagination = { ...pagination, ...defaultPaginationParameters, q: pagination.q };
+    handleFilterChange({ pagination: latestPagination, filterObj, currentActiveFilterData });
   };
 
   const handleFilterReset = async () => {
-    const latestPagination = { ...pagination, ...defaultPaginationParameters, s: filterParamters.all, q: "" };
-    await fetchService(latestPagination);
-    setActiveFilterItem(defaultActiveFilterItem);
+    const latestPagination = { ...pagination, ...defaultPaginationParameters };
+    resetFilter({ pagination: latestPagination });
   };
 
   return (
@@ -65,13 +55,14 @@ const Filter = ({ services, pagination, updatePagination, fetchService }) => {
 };
 
 const mapStateToProps = state => ({
-  services: state.serviceReducer.services,
+  activeFilterItem: state.serviceReducer.activeFilterItem,
   pagination: state.serviceReducer.pagination,
+  filterDataProps: state.serviceReducer.filterData,
 });
 
 const mapDispatchToProps = dispatch => ({
-  updatePagination: pagination => dispatch(serviceActions.updatePagination(pagination)),
-  fetchService: pagination => dispatch(serviceActions.fetchService(pagination)),
+  handleFilterChange: args => dispatch(serviceActions.handleFilterChange({ ...args })),
+  resetFilter: args => dispatch(serviceActions.resetFilter({ ...args })),
 });
 
 export default connect(

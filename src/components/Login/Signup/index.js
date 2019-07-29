@@ -2,14 +2,15 @@ import React, { Component } from "react";
 import { Auth } from "aws-amplify";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
+import { connect } from "react-redux";
 
 import Routes from "../../../utility/constants/Routes";
 import { isValidEmail } from "../../../utility/Validation";
-import Session from "../../../utility/constants/Session";
 import { parseError } from "../../../utility/ErrorHandling";
 import { useStyles } from "./styles";
 import RenderForm from "./RenderForm";
 import RenderOTP from "./RenderOTP";
+import { userActions } from "../../../Redux/actionCreators";
 
 class SignUp extends Component {
   state = {
@@ -67,7 +68,7 @@ class SignUp extends Component {
       },
     })
       .then(user => {
-        sessionStorage.setItem(Session.USERNAME, username);
+        this.props.updateUsername(username);
         this.setState({ toBeConfirmed: true });
       })
       .catch(err => this.setState({ error: err.message }));
@@ -75,12 +76,17 @@ class SignUp extends Component {
 
   handleConfirmSignup = event => {
     const { username, otp } = this.state;
+    const { history, updateUsername } = this.props;
     event.preventDefault();
     event.stopPropagation();
+    let route = `/${Routes.LOGIN}`;
+    if (history.location.state && history.location.state.sourcePath) {
+      route = history.location.state.sourcePath;
+    }
     Auth.confirmSignUp(username, otp)
-      .then(res => {
-        sessionStorage.setItem(Session.USERNAME, username);
-        this.props.history.push(Routes.LOGIN);
+      .then(() => {
+        updateUsername(username);
+        history.push(route);
       })
       .catch(err => {
         let error = parseError(err);
@@ -105,30 +111,39 @@ class SignUp extends Component {
     const { classes } = this.props;
 
     return (
-      <Grid container spacing={24} className={classes.signupMainContent}>
-        {toBeConfirmed ? (
-          <RenderOTP
-            otp={otp}
-            handleOTP={this.handleOTP}
-            handleResendOTP={this.handleResendOTP}
-            handleConfirmSignup={this.handleConfirmSignup}
-            error={error}
-          />
-        ) : (
-          <RenderForm
-            username={username}
-            handleUsername={this.handleUsername}
-            email={email}
-            handleEmail={this.handleEmail}
-            password={password}
-            handlePassword={this.handlePassword}
-            error={error}
-            handleSubmit={this.handleSubmit}
-          />
-        )}
-      </Grid>
+      <div className={classes.signupMainContainer}>
+        <Grid container spacing={24} className={classes.signupMainContent}>
+          {toBeConfirmed ? (
+            <RenderOTP
+              otp={otp}
+              handleOTP={this.handleOTP}
+              handleResendOTP={this.handleResendOTP}
+              handleConfirmSignup={this.handleConfirmSignup}
+              error={error}
+            />
+          ) : (
+            <RenderForm
+              username={username}
+              handleUsername={this.handleUsername}
+              email={email}
+              handleEmail={this.handleEmail}
+              password={password}
+              handlePassword={this.handlePassword}
+              error={error}
+              handleSubmit={this.handleSubmit}
+            />
+          )}
+        </Grid>
+      </div>
     );
   }
 }
 
-export default withStyles(useStyles)(SignUp);
+const mapDispatchToProps = dispatch => ({
+  updateUsername: username => dispatch(userActions.updateUsername(username)),
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(withStyles(useStyles)(SignUp));

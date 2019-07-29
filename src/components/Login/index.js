@@ -6,7 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import { connect } from "react-redux";
 
 import StyledButton from "../common/StyledButton";
-import ErrorMsgBox from "../common/ErrorMsgBox";
+import AlertBox from "../common/AlertBox";
 import Routes from "../../utility/constants/Routes";
 import { useStyles } from "./styles";
 import { userActions } from "../../Redux/actionCreators";
@@ -15,18 +15,6 @@ class Login extends Component {
   state = {
     username: "",
     password: "",
-  };
-
-  componentDidMount = () => {
-    if (this.props.isLoggedIn) {
-      this.props.history.push(Routes.ONBOARDING);
-    }
-  };
-
-  componentDidUpdate = () => {
-    if (this.props.isLoggedIn) {
-      this.props.history.push(Routes.ONBOARDING);
-    }
   };
 
   handleUsername = event => {
@@ -38,12 +26,16 @@ class Login extends Component {
   };
 
   handleSubmit = event => {
+    const { history } = this.props;
+    let route = `/${Routes.ONBOARDING}`;
+    if (history.location.state && history.location.state.sourcePath) {
+      route = history.location.state.sourcePath;
+    }
     this.setState({ error: undefined });
     const { username, password } = this.state;
     event.preventDefault();
     event.stopPropagation();
-    let credentials = { username, password };
-    this.props.login(credentials);
+    this.props.login({ username, password, history, route });
   };
 
   render() {
@@ -56,11 +48,12 @@ class Login extends Component {
           <form noValidate autoComplete="off" className={classes.loginForm}>
             <TextField
               id="outlined-user-name"
-              label="UserName or Email"
+              label="Username or Email"
               className={classes.textField}
               margin="normal"
               variant="outlined"
               value={username}
+              autoFocus
               onChange={this.handleUsername}
             />
             <TextField
@@ -78,7 +71,7 @@ class Login extends Component {
               <div className={classes.checkbox} />
               <Link to={Routes.FORGOT_PASSWORD}>Forgot password?</Link>
             </div>
-            <ErrorMsgBox errorMsg={loginError} showErr={loginError} />
+            <AlertBox type="error" message={loginError} />
             <StyledButton type="blue" btnText="login" onClick={this.handleSubmit} />
           </form>
         </Grid>
@@ -93,8 +86,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setUserDetails: () => dispatch(userActions.setUserDetails),
-  login: credentials => dispatch(userActions.login(credentials)),
+  fetchUserDetails: () => dispatch(userActions.fetchUserDetails),
+  login: args => dispatch(userActions.login(args)),
 });
 export default connect(
   mapStateToProps,

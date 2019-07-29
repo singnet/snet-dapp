@@ -9,7 +9,7 @@ const StatusToggler = ({ progressNumber, progressStatus }) => {
 
   if (progressStatus === ProgressStatusList.COMPLETED) {
     return (
-      <span>
+      <span className={classes.completedIcon}>
         <Icon className="fas fa-check-circle" />
       </span>
     );
