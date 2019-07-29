@@ -18,11 +18,15 @@ class ThirdPartyAIService extends Component {
 
   componentDidMount = async () => {
     const { org_id, service_id, username } = this.props;
-    this.serviceClient = await createServiceClient(org_id, service_id, username, this.serviceRequestCompleteHandler);
+    this.serviceClient = await createServiceClient(org_id, service_id, username, this.serviceRequestStartHandler, this.serviceRequestCompleteHandler);
     const { serviceSpecJSON, protoSpec } = await this.fetchServiceSpec(org_id, service_id);
     this.serviceSpecJSON = serviceSpecJSON;
     this.protoSpec = protoSpec;
     this.setState({ loading: false });
+  };
+
+  serviceRequestStartHandler = () => {
+    this.setState({ serviceRequestComplete: false })
   };
 
   serviceRequestCompleteHandler = () => {

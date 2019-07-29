@@ -36,7 +36,7 @@ const fetchServiceMetadata = async (org_id, service_id) => {
   return fetch(apiEndpoint).then(res => res.json()).then(parseServiceMetadata);
 };
 
-export const createServiceClient = async (org_id, service_id, username, serviceRequestCompleteHandler) => {
+export const createServiceClient = async (org_id, service_id, username, serviceRequestStartHandler, serviceRequestCompleteHandler) => {
   const options = { metadataGenerator: metadataGenerator(username) };
   const metadata = await fetchServiceMetadata(org_id, service_id);
   const serviceClient = new ServiceClient(undefined, org_id, service_id, undefined, metadata, metadata.defaultGroup, undefined, options);
@@ -47,11 +47,19 @@ export const createServiceClient = async (org_id, service_id, username, serviceR
     props.onEnd(...args);
   };
 
+  const requestStartHandler = () => {
+    if(serviceRequestStartHandler) {
+      serviceRequestStartHandler();
+    }
+  };
+
   return {
     invoke(methodDescriptor, props) {
+      requestStartHandler();
       serviceClient.invoke(methodDescriptor, { ...props, onEnd: onEnd(props) });
     },
     unary(methodDescriptor, props) {
+      requestStartHandler();
       serviceClient.unary(methodDescriptor, { ...props, onEnd: onEnd(props) });
     }
   };
