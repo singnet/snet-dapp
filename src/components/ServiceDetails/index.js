@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
+import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
+import CardGiftcardIcon from "@material-ui/icons/CardGiftcard";
+
 
 import TitleCard from "./TitleCard";
 import PricingDetails from "./PricingDetails";
@@ -64,7 +67,8 @@ class ServiceDetails extends Component {
     return (
       <div>
         <Grid container spacing={24} className={classes.serviceDetailContainer}>
-          <NotificationBar showNotification={!service.is_available} />
+          { /*<NotificationBar type="warning" showNotification={!service.is_available} icon={ErrorOutlineIcon} notificationText={"Service temporarily offline by the owner.  Please check back later"} /> */}
+          <NotificationBar type="information" showNotification={!service.is_available} icon={CardGiftcardIcon} notificationText={"Free Trial Access:  You can try out this service for free. You have   99 free API calls    after which a subscription needs to be purchased"} />
           <div className={classes.TopSection}>
             <TitleCard org_id={service.org_id} display_name={service.display_name} />
             <PricingDetails price_model={service.price_model} />

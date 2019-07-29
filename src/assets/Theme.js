@@ -57,6 +57,8 @@ const h2 = { size: 32, color: darkShadedGray };
 const offlineRed = "#EF5265";
 const offlineRedBg = "rgba(239,82,101,0.15)";
 
+const informationBg = "#2196F3";
+
 const theme = createMuiTheme({
   palette: {
     text: {
@@ -94,6 +96,7 @@ const theme = createMuiTheme({
       alertBoxBorder,
       alertBoxColor,
       alertBoxBackgroundColor,
+      informationBg
     },
   },
   typography: {
