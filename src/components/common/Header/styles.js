@@ -107,6 +107,7 @@ export const useStyles = makeStyles(theme => ({
     textDecoration: "none",
     fontSize: 16,
     color: theme.palette.text.white,
+    cursor: "pointer",
   },
   signupBtnText: {
     fontWeight: theme.typography.fontweight,

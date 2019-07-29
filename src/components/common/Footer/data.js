@@ -1,7 +1,4 @@
-import Logo from "../../../assets/images/Logo_Footer_White.svg";
-
 const PrimaryFooterLeft = [
-  { label: "SingularityNET", link: "#", image: Logo },
   { label: "Contact Us", link: "#" },
   { label: "Foundation Main Site", link: "#" },
   { label: "Singularity Studio", link: "#" },
