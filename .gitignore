@@ -56,6 +56,7 @@ typings/
 
 # dotenv environment variables file
 .env
+.env*.local
 
 # next.js build output
 .next
@@ -66,15 +67,8 @@ build/
 #deploy Paths
 scripts/path.js
 
-#endpoints
-src/utility/constants/APIEndpoints.js
-
 #redux_dev_tools
 src/Redux/Store.js
 
-#endpoints
-src/utility/constants/APIEndpoints.js
-
-#config
-src/config
-
+# jetbrains
+.idea
