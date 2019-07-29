@@ -5,6 +5,7 @@ import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import { connect } from "react-redux";
+import WarningIcon from "@material-ui/icons/Warning";
 
 import StyledButton from "../../common/StyledButton";
 import { useStyles } from "./styles";
@@ -19,6 +20,11 @@ class UserProfileSettings extends Component {
     alertType: alertTypes.ERROR,
     emailAlerts: false,
     showConfirmDelete: false,
+    reasonForDeletingAcc: [{ 
+      value: "display_name", 
+      label: "Ten" 
+    }],
+    warningMessage: ["Your wallet or any wallets you have used are always yours.  We do not have any connection to your wallet and cannot help you recover wallet keys for you. ", "Your remaining AGI tokens will remain in your wallet for you manage with your  3rd party wallet service.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.  ermentum dictum placerat nec"]
   };
 
   componentDidUpdate = prevProps => {
@@ -77,7 +83,7 @@ class UserProfileSettings extends Component {
 
   render() {
     const { classes, userEmail, username } = this.props;
-    const { alertMessage, alertType, emailAlerts, showConfirmDelete } = this.state;
+    const { alertMessage, alertType, emailAlerts, showConfirmDelete, reasonForDeletingAcc, warningMessage } = this.state;
     return (
       <Grid container spacing={24} className={classes.settingMainContainer}>
         <Grid item xs={12} sm={12} md={8} lg={8} className={classes.settingsContainer}>
@@ -145,9 +151,12 @@ class UserProfileSettings extends Component {
           </div>
         </Grid>
         <ConfirmDelete
+          list={reasonForDeletingAcc}
           open={showConfirmDelete}
           handleClose={this.handleConfirmDeleteClose}
           handleSubmit={this.handleConfirmDeleteSubmit}
+          message={warningMessage}
+          icon={WarningIcon}
         />
       </Grid>
     );

@@ -5,6 +5,7 @@ import CardHeader from "@material-ui/core/CardHeader";
 import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
 import CardContent from "@material-ui/core/CardContent";
+import CardActions from "@material-ui/core/CardActions";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
@@ -13,9 +14,10 @@ import OutlinedInput from "@material-ui/core/OutlinedInput";
 import { useStyles } from "./styles";
 import AlertBox from "../../../common/AlertBox";
 import StyledTextField from "../../../common/StyledTextField";
+import StyledDropdown from "../../../common/StyledDropdown";
 import StyledButton from "../../../common/StyledButton";
 
-const ConfirmDelete = ({ open, handleClose, handleSubmit }) => {
+const ConfirmDelete = ({ open, handleClose, handleSubmit, list, message, icon: Icon }) => {
   const [reason, setReason] = useState("");
   const [feedback, setFeedback] = useState("");
   const classes = useStyles();
@@ -32,9 +34,10 @@ const ConfirmDelete = ({ open, handleClose, handleSubmit }) => {
 
   return (
     <div>
-      <Modal open={open} onClose={handleCancel}>
+      <Modal open={open} onClose={handleCancel} className={classes.Modal}>
         <Card className={classes.card}>
           <CardHeader
+           className={classes.CardHeader}
             title="Delete User"
             action={
               <IconButton onClick={handleCancel}>
@@ -42,43 +45,39 @@ const ConfirmDelete = ({ open, handleClose, handleSubmit }) => {
               </IconButton>
             }
           />
-          <CardContent>
-            <strong>Are you sure?</strong>
-            <p>
-              Deleting your account will go in affect immediately and you will not longer have access to your account
-              data.
-            </p>
-            <AlertBox
-              message={`Deleting your account will go in affect immediately and you will not longer have access to your account data.
-               \n Your remaining AGI tokens will remain in your wallet for you manage with your  3rd party wallet service. 
-               \n Lorem ipsum dolor sit amet, consectetur adipiscing elit.  ermentum dictum placerat nec`}
-            />
-            <FormControl fullWidth className={classes.formControl}>
-              <InputLabel htmlFor="outlined-reason-native-simple">Reason</InputLabel>
-              <Select
-                native
-                displayEmpty
-                value={reason}
-                onChange={handleReasonChange}
-                input={<OutlinedInput name="age" id="outlined-reason-native-simple" />}
-              >
-                <option value={10}>Ten</option>
-                <option value={20}>Twenty</option>
-                <option value={30}>Thirty</option>
-              </Select>
-            </FormControl>
-            <StyledTextField
-              label="Your feedback matters.  Anything else you’d like share"
-              value={feedback}
-              fullWidth
-              multiline
-              rows="4"
-            />
-            <div className={classes.btnContainer}>
-              <StyledButton btnText="cancel" type="transparent" onClick={handleCancel} />
-              <StyledButton btnText="Delete Your Account" type="red" onClick={() => handleSubmit(reason, feedback)} />
-            </div>
+          <CardContent className={classes.CardContent}>
+            <h2>Are you sure?</h2>
+            <p>Deleting your account will go in affect immediately and you will not longer have access to your account
+              data. </p>
+            <div className={classes.BeforeYouGoContent}>
+              <h2>Before you go...</h2>
+              <div className={classes.WarningBoxConatiner}>
+                {message.map(msg =>(
+                  <div>
+                  <Icon />
+                    <AlertBox type="warning" message={msg} />
+                  </div>
+                ))}
+              </div>
+              <FormControl fullWidth className={classes.formControl}>
+                <div className={classes.DropDownContainer}>
+                  <span>Reason for deleting your account</span>
+                  <StyledDropdown list={list} value={"hey"} labelTxt={"select item"} />
+                </div>                  
+                <StyledTextField
+                  label="Your feedback matters.  Anything else you’d like share"
+                  value={feedback}
+                  fullWidth
+                  multiline
+                  rows="4"
+                />
+              </FormControl>                
+            </div>            
           </CardContent>
+          <CardActions className={classes.CardActions}>
+            <StyledButton btnText="cancel" type="transparent" onClick={handleCancel} />
+            <StyledButton btnText="Delete Your Account" type="redBg" onClick={() => handleSubmit(reason, feedback)} />
+          </CardActions>
         </Card>
       </Modal>
     </div>
