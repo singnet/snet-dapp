@@ -13,9 +13,9 @@ import {
 const Filter = ({ activeFilterItem, pagination, filterDataProps, handleFilterChange, resetFilter }) => {
   const classes = useStylesHook();
   const filterData = {};
-  Object.entries(filterDataProps).map(([key, items]) => {
-    filterData[key] = { title: filterTitles[key], name: key, items };
-  });
+  Object.entries(filterDataProps).forEach(
+    ([key, items]) => (filterData[key] = { title: filterTitles[key], name: key, items })
+  );
 
   const handleActiveFilterItemChange = async event => {
     const name = event.currentTarget.name;

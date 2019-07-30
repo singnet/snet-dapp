@@ -10,18 +10,19 @@ import StarRatingComponent from "react-star-rating-component";
 import { connect } from "react-redux";
 
 import StyledTextField from "../../../../common/StyledTextField";
-import RatingsCount from "../../../../common/RatingsCount";
 import { useStyles } from "./styles";
 import StyledButton from "../../../../common/StyledButton";
 import { serviceActions } from "../../../../../Redux/actionCreators";
+import AlertBox from "../../../../common/AlertBox";
 
-const UserFeedback = ({ open, handleClose, feedback, submitFeedback, orgId, serviceId }) => {
-  const [review, setReview] = useState(feedback.review);
+const UserFeedback = ({ open, handleClose, feedback, submitFeedback, orgId, serviceId, refetchFeedback }) => {
+  const [comment, setComment] = useState(feedback.comment);
   const [rating, setRating] = useState(feedback.rating);
+  const [alert, setAlert] = useState({ type: "error", message: undefined });
   const classes = useStyles();
 
-  const handleReviewChange = event => {
-    setReview(event.target.value);
+  const handleCommentChange = event => {
+    setComment(event.target.value);
   };
 
   const handleRatingChange = value => {
@@ -29,18 +30,31 @@ const UserFeedback = ({ open, handleClose, feedback, submitFeedback, orgId, serv
   };
 
   const handleCancel = () => {
-    setReview(feedback.review);
+    setComment(feedback.comment);
     setRating(feedback.rating);
     handleClose();
   };
 
-  const handleSubmit = () => {
-    const feedback = { rating, review };
-    submitFeedback(orgId, serviceId, feedback);
+  const handleSubmit = async () => {
+    setAlert({ type: "error", message: undefined });
+    const feedback = { rating, comment };
+    try {
+      const response = await submitFeedback(orgId, serviceId, feedback);
+      refetchFeedback();
+      if (response.status === "success") {
+        setAlert({ type: "success", message: "feedback updated successfully" });
+      }
+    } catch (error) {
+      setAlert({ type: "error", message: JSON.stringify(error) });
+    }
+  };
+
+  const shouldSubmitBeEnabled = () => {
+    return rating !== feedback.rating || comment !== feedback.comment;
   };
 
   return (
-    <Modal open={open}>
+    <Modal open={open} onClose={handleCancel}>
       <Card className={classes.card}>
         <CardHeader
           className={classes.cardHeader}
@@ -60,31 +74,31 @@ const UserFeedback = ({ open, handleClose, feedback, submitFeedback, orgId, serv
               className={classes.ratingStars}
               onStarClick={handleRatingChange}
             />
-            <RatingsCount ratingGiven totalRating />
           </div>
           <div className={classes.InputWrapper}>
             <StyledTextField
               label="Review Title"
-              value={review}
+              value={comment}
               fullWidth
               multiline
               rowsMax="4"
-              onChange={handleReviewChange}
+              onChange={handleCommentChange}
               className={classes.ReviewTitle}
             />
             <StyledTextField
               label="Review"
-              value={review}
+              value={comment}
               fullWidth
               multiline
               rowsMax="4"
-              onChange={handleReviewChange}
+              onChange={handleCommentChange}
             />
           </div>
+          <AlertBox type={alert.type} message={alert.message} />
         </CardContent>
         <CardActions className={classes.cardActions}>
           <StyledButton type="transparent" btnText="Cancel" onClick={handleCancel} />
-          <StyledButton type="blue" btnText="Submit" onClick={handleSubmit} />
+          <StyledButton type="blue" btnText="Submit" onClick={handleSubmit} disabled={!shouldSubmitBeEnabled()} />
         </CardActions>
       </Card>
     </Modal>

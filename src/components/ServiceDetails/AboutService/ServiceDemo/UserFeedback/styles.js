@@ -1,26 +1,26 @@
 import { makeStyles } from "@material-ui/styles";
 
 export const useStyles = makeStyles(theme => ({
-  card: { 
+  card: {
     width: 520,
-    margin: '0 auto',
-    transform: 'translateY(50%)' 
+    margin: "0 auto",
+    transform: "translateY(50%)",
   },
-  cardHeader:{
-    borderRadius: '4px 4px 0 0',
-    padding: '5px 22px',
+  cardHeader: {
+    borderRadius: "4px 4px 0 0",
+    padding: "5px 22px",
     backgroundColor: theme.palette.text.offWhiteColor,
-    '& h2':{
+    "& h2": {
       color: theme.palette.text.darkShadedGray,
       fontFamily: theme.typography.tertiary.main,
       fontSize: 24,
-      lineHeight: '28px'
-    }
+      lineHeight: "28px",
+    },
   },
-  RatingConatiner:{
+  RatingConatiner: {
     marginBottom: 14,
-    display: 'flex',
-    alignItems: 'center'
+    display: "flex",
+    alignItems: "center",
   },
   ratingStars: {
     "& .dv-star-rating-empty-star": {
@@ -34,10 +34,10 @@ export const useStyles = makeStyles(theme => ({
       fontSize: 21,
     },
   },
-  cardContent:{ padding: '20px 43px' },
+  cardContent: { padding: "20px 43px" },
   cardActions: {
-    padding: '0 0 21px', 
-    justifyContent: 'center' 
+    padding: "0 0 21px",
+    justifyContent: "center",
   },
-  ReviewTitle: { display: 'none' }
+  ReviewTitle: { display: "none" },
 }));
