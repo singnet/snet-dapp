@@ -32,12 +32,27 @@ const parseServiceMetadata = (response) => {
 };
 
 const fetchServiceMetadata = async (org_id, service_id) => {
+  if(process.env.REACT_APP_SANDBOX) {
+    return {}
+  }
+
   const apiEndpoint = `${APIEndpoints.GET_SERVICE_LIST.endpoint}/org/${org_id}/service/${service_id}/group`;
   return fetch(apiEndpoint).then(res => res.json()).then(parseServiceMetadata);
 };
 
+const generateOptions = (username) => {
+  if(process.env.REACT_APP_SANDBOX) {
+    return {
+      endpoint: process.env.REACT_APP_SANDBOX_SERVICE_ENDPOINT,
+      disableBlockchainOperations: true
+    };
+  }
+
+  return { metadataGenerator: metadataGenerator(username) };
+};
+
 export const createServiceClient = async (org_id, service_id, username, serviceRequestStartHandler, serviceRequestCompleteHandler) => {
-  const options = { metadataGenerator: metadataGenerator(username) };
+  const options = generateOptions(username);
   const metadata = await fetchServiceMetadata(org_id, service_id);
   const serviceClient = new ServiceClient(undefined, org_id, service_id, undefined, metadata, metadata.defaultGroup, undefined, options);
   const onEnd = (props) => (...args) => {

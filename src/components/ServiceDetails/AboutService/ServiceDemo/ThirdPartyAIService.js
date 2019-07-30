@@ -34,6 +34,10 @@ class ThirdPartyAIService extends Component {
   };
 
   fetchServiceSpec = async (org_id, service_id) => {
+    if(process.env.SANDBOX) {
+      return {};
+    }
+
     const servicebufURL = `${APIEndpoints.SERVICE_BUF.endpoint}/${org_id}/${service_id}`;
     return this.props.fetchProtoSpec(servicebufURL);
   };
