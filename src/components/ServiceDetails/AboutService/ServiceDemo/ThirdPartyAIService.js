@@ -7,6 +7,7 @@ import { useStyles } from "./styles";
 import { serviceActions } from "../../../../Redux/actionCreators";
 import { APIEndpoints } from "../../../../config/APIEndpoints";
 import CompletedActions from "./CompletedActions";
+import { createServiceClient } from "../../../../utility/sdk";
 
 class ThirdPartyAIService extends Component {
   state = {
@@ -17,17 +18,29 @@ class ThirdPartyAIService extends Component {
       comment: "",
       rating: "",
     },
-    fetchFeedbackComplete: false,
+    loading: true,
+    serviceRequestComplete: false,
   };
 
   sampleServices = new SampleServices();
 
-  componentDidMount = () => {
-    this.fetchAIServiceComponent();
+  componentDidMount = async () => {
+    const { org_id, service_id, username } = this.props;
+    this.serviceClient = await createServiceClient(
+      org_id,
+      service_id,
+      username,
+      this.serviceRequestStartHandler,
+      this.serviceRequestCompleteHandler
+    );
+    const { serviceSpecJSON, protoSpec } = await this.fetchServiceSpec(org_id, service_id);
+    this.serviceSpecJSON = serviceSpecJSON;
+    this.protoSpec = protoSpec;
+    this.setState({ loading: false });
   };
 
-  componentDidUpdate = () => {
-    this.fetchAIServiceComponent();
+  serviceRequestStartHandler = () => {
+    this.setState({ serviceRequestComplete: false });
   };
 
   fetchAIServiceComponent = () => {
@@ -40,20 +53,22 @@ class ThirdPartyAIService extends Component {
     }
   };
 
+  serviceRequestCompleteHandler = () => {
+    this.setState({ serviceRequestComplete: true });
+  };
+
   fetchUserFeedback = async () => {
     const { org_id, service_id } = this.props;
     const feedback = await this.props.fetchFeedback(org_id, service_id);
     this.setState(prevState => ({
       ...prevState,
       feedback: { comment: feedback.data[0].comment[0], rating: feedback.data[0].rating },
-      fetchFeedbackComplete: true,
     }));
   };
 
   fetchServiceSpec = async (org_id, service_id) => {
     const servicebufURL = `${APIEndpoints.SERVICE_BUF.endpoint}/${org_id}/${service_id}`;
-    const { serviceSpecJSON, protoSpec } = await this.props.fetchProtoSpec(servicebufURL);
-    this.setState({ serviceSpecJSON, protoSpec });
+    return this.props.fetchProtoSpec(servicebufURL);
   };
 
   handleServiceInvokation = (serviceName, methodName, requestObject) => {
@@ -72,14 +87,22 @@ class ThirdPartyAIService extends Component {
   };
 
   render() {
-    const { classes, grpcResponse, isComplete, org_id, service_id } = this.props;
-    const { AIServiceCustomComponent, serviceSpecJSON, protoSpec, feedback, fetchFeedbackComplete } = this.state;
+    const { AIServiceCustomComponent, serviceSpecJSON, protoSpec, feedback, serviceRequestComplete } = this.state;
     if (!AIServiceCustomComponent || !serviceSpecJSON || !protoSpec) {
       return null;
     }
+    const { loading } = this.state;
+    if (loading) {
+      return null;
+    }
+
+    const { org_id, service_id, classes, grpcResponse, isComplete } = this.props;
+    const { serviceClient } = this;
+
     return (
       <div className={classes.serviceDetailsTab}>
         <AIServiceCustomComponent
+          serviceClient={serviceClient}
           callApiCallback={this.handleServiceInvokation}
           protoSpec={protoSpec}
           serviceSpec={serviceSpecJSON}
@@ -88,7 +111,7 @@ class ThirdPartyAIService extends Component {
           sliderWidth={"550px"}
         />
         <CompletedActions
-          isComplete={fetchFeedbackComplete}
+          isComplete={serviceRequestComplete}
           feedback={feedback}
           orgId={org_id}
           serviceId={service_id}
@@ -101,9 +124,7 @@ class ThirdPartyAIService extends Component {
 
 const mapStateToProps = state => ({
   grpcResponse: state.serviceReducer.serviceMethodExecution.response,
-  // isComplete: state.serviceReducer.serviceMethodExecution.isComplete,
   username: state.userReducer.username,
-  // feedback: state.serviceReducer.feedback,
 });
 const mapDispatchToProps = dispatch => ({
   fetchProtoSpec: servicebufURL => dispatch(serviceActions.fetchProtoSpec(servicebufURL)),

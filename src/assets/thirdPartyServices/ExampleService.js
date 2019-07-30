@@ -1,5 +1,8 @@
 import React from "react";
 
+import { Calculator } from './ExampleService/example_service_pb_service';
+import { getMethodNames } from '../../utility/sdk';
+
 export default class ExampleService extends React.Component {
   constructor(props) {
     super(props);
@@ -7,7 +10,6 @@ export default class ExampleService extends React.Component {
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
 
     this.state = {
-      serviceName: "Calculator",
       methodName: "Select a method",
       a: 0,
       b: 0,
@@ -35,10 +37,18 @@ export default class ExampleService extends React.Component {
   }
 
   submitAction() {
-    this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
-      a: this.state.a,
-      b: this.state.b,
-    });
+    const methodDescriptor = Calculator[this.state.methodName];
+    const request = new methodDescriptor.requestType();
+    request.setA(this.state.a);
+    request.setB(this.state.b);
+
+    const props = {
+      request,
+      onEnd: ({ code, statusMessage, headers, message, trailers }) => {
+        this.setState({ isComplete: true, response: { value: message.getValue() }});
+      }
+    };
+    this.props.serviceClient.unary(methodDescriptor, props);
   }
 
   renderServiceMethodNames(serviceMethodNames) {
@@ -49,8 +59,7 @@ export default class ExampleService extends React.Component {
   }
 
   renderForm() {
-    const service = this.props.protoSpec.findServiceByName(this.state.serviceName);
-    const serviceMethodNames = service.methodNames;
+    const serviceMethodNames = getMethodNames(Calculator);
     return (
       <React.Fragment>
         <div className="row">
@@ -115,7 +124,7 @@ export default class ExampleService extends React.Component {
   }
 
   parseResponse() {
-    const { response } = this.props;
+    const { response } = this.state;
     if (typeof response !== "undefined") {
       if (typeof response === "string") {
         return response;
@@ -135,7 +144,7 @@ export default class ExampleService extends React.Component {
   }
 
   render() {
-    if (this.props.isComplete) return <div>{this.renderComplete()}</div>;
+    if (this.state.isComplete) return <div>{this.renderComplete()}</div>;
     else {
       return <div>{this.renderForm()}</div>;
     }
