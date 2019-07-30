@@ -132,23 +132,9 @@ const fetchFeedbackAPI = (username, orgId, serviceId, token) => {
   return API.get(apiName, path, myInit);
 };
 
-const fetchFeedbackSuccess = (rating, review) => dispatch => {
-  dispatch({ type: UPDATE_FEEDBACK, payload: { rating, review } });
-};
-
-export const fetchFeedback = (orgId, serviceId) => async dispatch => {
-  try {
-    const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
-    const res = await fetchFeedbackAPI(
-      currentUser.username,
-      orgId,
-      serviceId,
-      currentUser.signInUserSession.idToken.jwtToken
-    );
-    console.log("fetchFeedback", res);
-  } catch (err) {
-    console.log("feedback", err);
-  }
+export const fetchFeedback = (orgId, serviceId) => async () => {
+  const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
+  return fetchFeedbackAPI(currentUser.username, orgId, serviceId, currentUser.signInUserSession.idToken.jwtToken);
 };
 
 const submitFeedbackAPI = (feedbackObj, token) => {
@@ -161,21 +147,16 @@ const submitFeedbackAPI = (feedbackObj, token) => {
   return API.post(apiName, path, myInit);
 };
 
-export const submitFeedback = (orgId, serviceId, feedback) => async dispatch => {
-  try {
-    const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
-    const feedbackObj = {
-      feedback: {
-        username: currentUser.username,
-        org_id: orgId,
-        service_id: serviceId,
-        user_rating: parseFloat(feedback.rating).toFixed(1),
-        comment: feedback.review,
-      },
-    };
-    const res = await submitFeedbackAPI(feedbackObj, currentUser.signInUserSession.idToken.jwtToken);
-    console.log("submitFeedback", res);
-  } catch (err) {
-    console.log("submitFeedback", err);
-  }
+export const submitFeedback = (orgId, serviceId, feedback) => async () => {
+  const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
+  const feedbackObj = {
+    feedback: {
+      username: currentUser.username,
+      org_id: orgId,
+      service_id: serviceId,
+      user_rating: parseFloat(feedback.rating).toFixed(1),
+      comment: feedback.comment,
+    },
+  };
+  return submitFeedbackAPI(feedbackObj, currentUser.signInUserSession.idToken.jwtToken);
 };

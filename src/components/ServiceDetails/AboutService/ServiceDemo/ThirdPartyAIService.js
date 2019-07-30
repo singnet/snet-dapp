@@ -13,6 +13,11 @@ class ThirdPartyAIService extends Component {
     AIServiceCustomComponent: undefined,
     serviceSpecJSON: undefined,
     protoSpec: undefined,
+    feedback: {
+      comment: "",
+      rating: "",
+    },
+    fetchFeedbackComplete: false,
   };
 
   sampleServices = new SampleServices();
@@ -26,13 +31,23 @@ class ThirdPartyAIService extends Component {
   };
 
   fetchAIServiceComponent = () => {
-    const { org_id, service_id, fetchFeedback } = this.props;
+    const { org_id, service_id } = this.props;
     if (org_id && service_id && !this.state.AIServiceCustomComponent) {
       this.fetchServiceSpec(org_id, service_id);
       const AIServiceCustomComponent = this.sampleServices.getComponent(org_id, service_id);
       this.setState({ AIServiceCustomComponent });
-      fetchFeedback(org_id, service_id);
+      this.fetchUserFeedback();
     }
+  };
+
+  fetchUserFeedback = async () => {
+    const { org_id, service_id } = this.props;
+    const feedback = await this.props.fetchFeedback(org_id, service_id);
+    this.setState(prevState => ({
+      ...prevState,
+      feedback: { comment: feedback.data[0].comment[0], rating: feedback.data[0].rating },
+      fetchFeedbackComplete: true,
+    }));
   };
 
   fetchServiceSpec = async (org_id, service_id) => {
@@ -57,8 +72,8 @@ class ThirdPartyAIService extends Component {
   };
 
   render() {
-    const { classes, grpcResponse, isComplete, feedback, org_id, service_id } = this.props;
-    const { AIServiceCustomComponent, serviceSpecJSON, protoSpec } = this.state;
+    const { classes, grpcResponse, isComplete, org_id, service_id } = this.props;
+    const { AIServiceCustomComponent, serviceSpecJSON, protoSpec, feedback, fetchFeedbackComplete } = this.state;
     if (!AIServiceCustomComponent || !serviceSpecJSON || !protoSpec) {
       return null;
     }
@@ -72,7 +87,13 @@ class ThirdPartyAIService extends Component {
           response={grpcResponse}
           sliderWidth={"550px"}
         />
-        <CompletedActions isComplete feedback={feedback} orgId={org_id} serviceId={service_id} />
+        <CompletedActions
+          isComplete={fetchFeedbackComplete}
+          feedback={feedback}
+          orgId={org_id}
+          serviceId={service_id}
+          refetchFeedback={this.fetchUserFeedback}
+        />
       </div>
     );
   }
@@ -80,9 +101,9 @@ class ThirdPartyAIService extends Component {
 
 const mapStateToProps = state => ({
   grpcResponse: state.serviceReducer.serviceMethodExecution.response,
-  isComplete: state.serviceReducer.serviceMethodExecution.isComplete,
+  // isComplete: state.serviceReducer.serviceMethodExecution.isComplete,
   username: state.userReducer.username,
-  feedback: state.serviceReducer.feedback,
+  // feedback: state.serviceReducer.feedback,
 });
 const mapDispatchToProps = dispatch => ({
   fetchProtoSpec: servicebufURL => dispatch(serviceActions.fetchProtoSpec(servicebufURL)),

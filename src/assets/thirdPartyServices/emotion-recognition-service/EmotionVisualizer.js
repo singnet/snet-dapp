@@ -110,6 +110,7 @@ export default class EmotionVisualizer extends React.Component {
           <div ref="outsideWrap" style={styles.outsideWrapper}>
             <div style={styles.insideWrapper}>
               <img
+                alt="source"
                 ref="sourceImg"
                 src={"data:" + this.props.inputImageType + ";base64," + this.props.inputImage}
                 style={styles.coveredImage}
