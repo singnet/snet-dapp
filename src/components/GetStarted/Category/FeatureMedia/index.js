@@ -1,10 +1,9 @@
 import React from "react";
 import { withStyles } from "@material-ui/styles";
-import Typography from "@material-ui/core/Typography";
 
 import { useStyles } from "./styles";
 
-const FeatureMedia = ({ classes, activeIndex }) => {
+const FeatureMedia = ({ classes, activeIndex, content }) => {
   return (
     <div>
       {activeIndex === 0 && <TabContainer>Item One</TabContainer>}
@@ -18,9 +17,9 @@ const FeatureMedia = ({ classes, activeIndex }) => {
 
 function TabContainer(props) {
   return (
-    <Typography component="div" style={{ padding: 24 }}>
+    <div>
       {props.children}
-    </Typography>
+    </div>
   );
 }
 

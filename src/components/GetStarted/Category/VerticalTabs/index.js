@@ -5,22 +5,19 @@ import { withStyles } from "@material-ui/styles";
 
 import { useStyles } from "./styles";
 
-class VerticalTabs extends Component {
-  render() {
-    const { classes, activeIndex, handleChange, title } = this.props;
+const VerticalTabs = ({ classes, activeIndex, handleChange, title }) => {
 
-    var titles = title.map(label => {
-      return <Tab label={label} />;
-    });
+  const titles = title.map(tab => {
+    return <Tab label={tab.title} />;
+  });
 
-    return (
-      <div className={classes.VerticalTabsContainer}>
-        <Tabs value={activeIndex} onChange={handleChange} className={classes.TabsWrapper}>
-          {titles}
-        </Tabs>
-      </div>
-    );
-  }
+  return (
+    <div className={classes.VerticalTabsContainer}>
+      <Tabs value={activeIndex} onChange={handleChange} className={classes.TabsWrapper}>
+        {titles}
+      </Tabs>
+    </div>
+  );
 }
 
 export default withStyles(useStyles)(VerticalTabs);
