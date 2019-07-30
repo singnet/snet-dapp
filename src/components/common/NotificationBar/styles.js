@@ -24,7 +24,7 @@ export const useStyles = theme => ({
     }
   },
   information: {
-    backgroundColor: theme.palette.text.informationBg,
+    backgroundColor: theme.palette.text.informationBarBg,
     color: theme.palette.text.white,
     '& svg': { marginRight: 21 }
   }
