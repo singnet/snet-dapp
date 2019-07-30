@@ -6,11 +6,18 @@ import Routes from "../../utility/constants/Routes";
 import { headerData } from "../../utility/constants/Header";
 import withRegistrationHeader from "../HOC/WithRegistrationHeader";
 
-const WalletReqdRoute = ({ loginReqd, isLoggedIn, isWalletAssigned, component: Component, ...rest }) => {
+const WalletReqdRoute = ({
+  loginReqd,
+  isLoggedIn,
+  isWalletAssigned,
+  component: Component,
+  path: sourcePath,
+  ...rest
+}) => {
   const OnboardingComponent = withRegistrationHeader(Onboarding, headerData.ONBOARDING);
 
   if (loginReqd && !isLoggedIn) {
-    return <Redirect to={`/${Routes.LOGIN}`} />;
+    return <Redirect to={{ pathname: `/${Routes.LOGIN}`, state: { sourcePath } }} />;
   }
   if (isLoggedIn && !isWalletAssigned) {
     return <Route render={props => <OnboardingComponent {...props} enforcedWalletCreation />} />;

@@ -27,7 +27,10 @@ class Login extends Component {
 
   handleSubmit = event => {
     const { history } = this.props;
-    const route = `/${Routes.ONBOARDING}`;
+    let route = `/${Routes.ONBOARDING}`;
+    if (history.location.state && history.location.state.sourcePath) {
+      route = history.location.state.sourcePath;
+    }
     this.setState({ error: undefined });
     const { username, password } = this.state;
     event.preventDefault();

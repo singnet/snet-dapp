@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import Logo from "../../../assets/images/Logo_Footer_White.svg";
 import { useStyles } from "./styles";
 import NavBar from "./NavBar";
 import HeaderActions from "./HeaderActions";
@@ -16,7 +15,7 @@ const Header = ({ isLoggedIn }) => {
       <header className={classes.header}>
         <div className={classes.logoSection}>
           <MobileHeader data={NavData} isLoggedIn={isLoggedIn} />
-          <Title Logo={Logo} title="SingularityNET" />
+          <Title />
         </div>
         <div className={classes.navigationSection}>
           <NavBar data={NavData} />

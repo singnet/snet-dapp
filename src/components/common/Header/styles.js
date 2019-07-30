@@ -22,6 +22,9 @@ export const useStyles = makeStyles(theme => ({
   h1: {
     margin: 0,
     "& a": { textDecoration: "none" },
+    "& span": {
+      "&:before": { fontSize: 45 },
+    },
   },
   logoAnchor: {
     display: "inline-block",
@@ -104,6 +107,7 @@ export const useStyles = makeStyles(theme => ({
     textDecoration: "none",
     fontSize: 16,
     color: theme.palette.text.white,
+    cursor: "pointer",
   },
   signupBtnText: {
     fontWeight: theme.typography.fontweight,
