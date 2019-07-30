@@ -63,3 +63,7 @@ const serviceReducer = (state = InitialServiceList, action) => {
 };
 
 export default serviceReducer;
+
+export const serviceDetails = (state, serviceRowId) => {
+  return state.serviceReducer.services.find(service => service.service_row_id === Number(serviceRowId));
+};

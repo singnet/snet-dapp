@@ -20,4 +20,5 @@ export const APIPaths = {
   INVOKE_SERVICE: "/invoke",
   FILTER_DATA: "/service?attribute=",
   FEEDBACK: "/feedback",
+  GET_SIGNATURE: "/sign-call",
 };

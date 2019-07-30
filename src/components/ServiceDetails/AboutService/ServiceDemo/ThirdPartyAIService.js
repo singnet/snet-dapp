@@ -6,37 +6,36 @@ import SampleServices from "../../../../assets/thirdPartyServices";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../../../Redux/actionCreators";
 import { APIEndpoints } from "../../../../config/APIEndpoints";
+import { createServiceClient } from '../../../../utility/sdk';
 
 class ThirdPartyAIService extends Component {
   state = {
-    AIServiceCustomComponent: undefined,
-    serviceSpecJSON: undefined,
-    protoSpec: undefined,
+    loading: true,
+    serviceRequestComplete: false,
   };
 
   sampleServices = new SampleServices();
 
-  componentDidMount = () => {
-    this.fetchAIServiceComponent();
+  componentDidMount = async () => {
+    const { org_id, service_id, username } = this.props;
+    this.serviceClient = await createServiceClient(org_id, service_id, username, this.serviceRequestStartHandler, this.serviceRequestCompleteHandler);
+    const { serviceSpecJSON, protoSpec } = await this.fetchServiceSpec(org_id, service_id);
+    this.serviceSpecJSON = serviceSpecJSON;
+    this.protoSpec = protoSpec;
+    this.setState({ loading: false });
   };
 
-  componentDidUpdate = () => {
-    this.fetchAIServiceComponent();
+  serviceRequestStartHandler = () => {
+    this.setState({ serviceRequestComplete: false })
   };
 
-  fetchAIServiceComponent = () => {
-    const { org_id, service_id } = this.props;
-    if (org_id && service_id && !this.state.AIServiceCustomComponent) {
-      this.fetchServiceSpec(org_id, service_id);
-      const AIServiceCustomComponent = this.sampleServices.getComponent(org_id, service_id);
-      this.setState({ AIServiceCustomComponent });
-    }
+  serviceRequestCompleteHandler = () => {
+    this.setState({ serviceRequestComplete: true })
   };
 
   fetchServiceSpec = async (org_id, service_id) => {
     const servicebufURL = `${APIEndpoints.SERVICE_BUF.endpoint}/${org_id}/${service_id}`;
-    const { serviceSpecJSON, protoSpec } = await this.props.fetchProtoSpec(servicebufURL);
-    this.setState({ serviceSpecJSON, protoSpec });
+    return this.props.fetchProtoSpec(servicebufURL);
   };
 
   handleServiceInvokation = (serviceName, methodName, requestObject) => {
@@ -55,14 +54,20 @@ class ThirdPartyAIService extends Component {
   };
 
   render() {
-    const { classes, grpcResponse, isComplete } = this.props;
-    const { AIServiceCustomComponent, serviceSpecJSON, protoSpec } = this.state;
-    if (!AIServiceCustomComponent || !serviceSpecJSON || !protoSpec) {
+    const { loading } = this.state;
+    if (loading) {
       return null;
     }
+
+    const { org_id, service_id, classes, grpcResponse, isComplete } = this.props;
+    const { serviceClient, serviceSpecJSON, protoSpec } = this;
+
+    const AIServiceCustomComponent = this.sampleServices.getComponent(org_id, service_id);
+
     return (
       <div className={classes.serviceDetailsTab}>
         <AIServiceCustomComponent
+          serviceClient={serviceClient}
           callApiCallback={this.handleServiceInvokation}
           protoSpec={protoSpec}
           serviceSpec={serviceSpecJSON}
