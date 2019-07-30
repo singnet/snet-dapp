@@ -13,7 +13,7 @@ class Category extends Component {
 
   render() {
     const { activeIndex } = this.state;
-    const { classes, icon: Icon, title, description, tabsTitle, tabsContent } = this.props;
+    const { classes, icon: Icon, title, description, tabs } = this.props;
 
     return (
       <Grid container spacing={24} className={classes.CategoryWrapper}>
@@ -23,10 +23,10 @@ class Category extends Component {
             <h3>{title}</h3>
           </div>
           <p>{description}</p>
-          <VerticalTabs activeIndex={activeIndex} handleChange={this.handleChange} title={tabsTitle} />
+          <VerticalTabs activeIndex={activeIndex} handleChange={this.handleChange} title={tabs} />
         </Grid>
         <Grid item xs={12} sm={12} md={6} lg={6} className={classes.CategoryMedia}>
-          <FeatureMedia activeIndex={activeIndex} content={tabsContent} />
+          <FeatureMedia activeIndex={activeIndex} content={tabs} />
         </Grid>
       </Grid>
     );
