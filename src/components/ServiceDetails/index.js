@@ -67,8 +67,6 @@ class ServiceDetails extends Component {
 const mapStateToProps = (state, ownProps) => ({
   service: serviceDetails(state, ownProps.match.params.service_row_id),
   pagination: state.serviceReducer.pagination,
-  isLoggedIn: state.userReducer.login.isLoggedIn,
-  isWalletAssigned: state.userReducer.isWalletAssigned,
 });
 
 const mapDispatchToProps = dispatch => ({
