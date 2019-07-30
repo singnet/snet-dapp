@@ -34,7 +34,7 @@ class ThirdPartyAIService extends Component {
   };
 
   fetchServiceSpec = async (org_id, service_id) => {
-    if(process.env.SANDBOX) {
+    if(process.env.REACT_APP_SANDBOX) {
       return {};
     }
 
