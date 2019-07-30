@@ -109,7 +109,6 @@ class ThirdPartyAIService extends Component {
           serviceId={service_id}
           refetchFeedback={this.fetchUserFeedback}
         />
-        <CompletedActions isComplete feedback={feedback} orgId={org_id} serviceId={service_id} />
       </div>
     );
   }
@@ -117,7 +116,7 @@ class ThirdPartyAIService extends Component {
 
 const mapStateToProps = state => ({
   grpcResponse: state.serviceReducer.serviceMethodExecution.response,
-  isComplete: state.serviceReducer.serviceMethodExecution.isComplete,
+  // isComplete: state.serviceReducer.serviceMethodExecution.isComplete,
   username: state.userReducer.username,
 });
 const mapDispatchToProps = dispatch => ({
