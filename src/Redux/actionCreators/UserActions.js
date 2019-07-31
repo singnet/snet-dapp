@@ -53,7 +53,7 @@ export const fetchUserProfile = (username, token) => dispatch => {
 
 const fetchWalletStatus = (username, token) => {
   const apiName = APIEndpoints.USER.name;
-  const path = `/wallet?username=${username}`;
+  const path = `${APIPaths.WALLET}?username=${username}`;
   const myInit = {
     headers: { Authorization: token },
     queryStringParameters: {
@@ -231,9 +231,9 @@ export const walletCreationSuccess = dispatch => {
 export const checkWalletStatus = username => (dispatch, getState) => {
   Auth.currentSession({ bypassCache: true })
     .then(currentSession => {
-      let apiName = APIEndpoints.USER.name;
-      let path = `/wallet?username=${username}`;
-      let myInit = {
+      const apiName = APIEndpoints.USER.name;
+      const path = `${APIPaths.WALLET}?username=${username}`;
+      const myInit = {
         headers: { Authorization: currentSession.idToken.jwtToken },
         queryStringParameters: {
           username,
