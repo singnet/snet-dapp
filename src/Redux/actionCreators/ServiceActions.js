@@ -14,6 +14,7 @@ export const UPDATE_SPEC_DETAILS = "UPDATE_SPEC_DETAILS";
 export const UPDATE_FILTER_DATA = "UPDATE_FILTER_DATA";
 export const UPDATE_ACTIVE_FILTER_ITEM = "UPDATE_ACTIVE_FILTER_ITEM";
 export const RESET_FILTER_ITEM = "RESET_FILTER_ITEM";
+export const UPDATE_FEEDBACK = "UPDATE_FEEDBACK";
 
 export const updateActiveFilterItem = activeFilterItem => dispatch => {
   dispatch({ type: UPDATE_ACTIVE_FILTER_ITEM, payload: { ...activeFilterItem } });
@@ -43,7 +44,7 @@ export const fetchServiceSuccess = res => dispatch => {
 
 export const fetchService = (pagination, filters = []) => async dispatch => {
   dispatch(loaderActions.startAIServiceListLoader);
-  let url = new URL(`${APIEndpoints.GET_SERVICE_LIST.endpoint}/service`);
+  let url = new URL(`${APIEndpoints.CONTRACT.endpoint}/service`);
   return fetch(url, {
     method: "POST",
     body: JSON.stringify({ ...pagination, filters }),
@@ -96,7 +97,7 @@ export const updatePagination = pagination => dispatch => {
 };
 
 export const fetchFilterData = attribute => dispatch => {
-  const url = `${APIEndpoints.GET_SERVICE_LIST.endpoint}${APIPaths.FILTER_DATA}${attribute}`;
+  const url = `${APIEndpoints.CONTRACT.endpoint}${APIPaths.FILTER_DATA}${attribute}`;
   return fetch(url)
     .then(res => res.json())
     .then(res => {
@@ -120,4 +121,42 @@ export const resetFilter = ({ pagination }) => dispatch => {
   Promise.all([dispatch(updatePagination(pagination)), dispatch(fetchService(pagination)), dispatch(resetFilterItem)])
     .then(() => dispatch(loaderActions.stopAIServiceListLoader))
     .catch(() => dispatch(loaderActions.stopAIServiceListLoader));
+};
+
+const fetchFeedbackAPI = (username, orgId, serviceId, token) => {
+  const apiName = APIEndpoints.USER.name;
+  const path = `${APIPaths.FEEDBACK}?username=${username}&org_id=${orgId}&service_id=${serviceId}`;
+  const myInit = {
+    headers: { Authorization: token },
+  };
+  return API.get(apiName, path, myInit);
+};
+
+export const fetchFeedback = (orgId, serviceId) => async () => {
+  const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
+  return fetchFeedbackAPI(currentUser.username, orgId, serviceId, currentUser.signInUserSession.idToken.jwtToken);
+};
+
+const submitFeedbackAPI = (feedbackObj, token) => {
+  const apiName = APIEndpoints.USER.name;
+  const path = `${APIPaths.FEEDBACK}`;
+  const myInit = {
+    body: { ...feedbackObj },
+    headers: { Authorization: token },
+  };
+  return API.post(apiName, path, myInit);
+};
+
+export const submitFeedback = (orgId, serviceId, feedback) => async () => {
+  const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
+  const feedbackObj = {
+    feedback: {
+      username: currentUser.username,
+      org_id: orgId,
+      service_id: serviceId,
+      user_rating: parseFloat(feedback.rating).toFixed(1),
+      comment: feedback.comment,
+    },
+  };
+  return submitFeedbackAPI(feedbackObj, currentUser.signInUserSession.idToken.jwtToken);
 };
