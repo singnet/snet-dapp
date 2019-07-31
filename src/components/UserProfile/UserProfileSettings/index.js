@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 
 import StyledButton from "../../common/StyledButton";
 import { useStyles } from "./styles";
-import { userActions } from "../../../Redux/actionCreators";
+import { userActions, loaderActions } from "../../../Redux/actionCreators";
 import Routes from "../../../utility/constants/Routes";
 import AlertBox, { alertTypes } from "../../common/AlertBox";
 import ConfirmDelete from "./ConfirmDelete";
@@ -19,6 +19,7 @@ class UserProfileSettings extends Component {
     alertType: alertTypes.ERROR,
     emailAlerts: false,
     showConfirmDelete: false,
+    confirmDeleteError: undefined,
   };
 
   componentDidUpdate = prevProps => {
@@ -62,22 +63,27 @@ class UserProfileSettings extends Component {
   };
 
   handleConfirmDeleteClose = () => {
-    this.setState({ showConfirmDelete: false });
+    this.setState({ showConfirmDelete: false, confirmDeleteError: undefined });
   };
 
   handleConfirmDeleteSubmit = async () => {
-    const { history } = this.props;
+    const { history, stopLoader } = this.props;
     const route = `/${Routes.AI_MARKETPLACE}`;
     try {
       await this.props.deleteUserAccount({ history, route });
     } catch (err) {
-      this.setState({ alertMessage: String(err) });
+      let confirmDeleteError = String(err.message);
+      if (err.response && err.response.status === 404) {
+        confirmDeleteError = "The profile has already been deleted";
+      }
+      this.setState({ confirmDeleteError });
+      stopLoader();
     }
   };
 
   render() {
     const { classes, userEmail, username } = this.props;
-    const { alertMessage, alertType, emailAlerts, showConfirmDelete } = this.state;
+    const { alertMessage, alertType, emailAlerts, showConfirmDelete, confirmDeleteError } = this.state;
     return (
       <Grid container spacing={24} className={classes.settingMainContainer}>
         <Grid item xs={12} sm={12} md={8} lg={8} className={classes.settingsContainer}>
@@ -148,6 +154,7 @@ class UserProfileSettings extends Component {
           open={showConfirmDelete}
           handleClose={this.handleConfirmDeleteClose}
           handleSubmit={this.handleConfirmDeleteSubmit}
+          error={confirmDeleteError}
         />
       </Grid>
     );
@@ -164,6 +171,7 @@ const mapDispatchToProps = dispatch => ({
   deleteUserAccount: ({ history, route }) => dispatch(userActions.deleteUserAccount({ history, route })),
   fetchUserProfile: () => dispatch(userActions.fetchUserProfile()),
   updateUserProfile: updatedUserData => dispatch(userActions.updateUserProfile(updatedUserData)),
+  stopLoader: () => dispatch(loaderActions.stopAppLoader),
 });
 
 export default connect(
