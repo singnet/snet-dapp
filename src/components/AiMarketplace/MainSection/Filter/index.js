@@ -27,7 +27,13 @@ const Filter = ({ activeFilterItem, pagination, filterDataProps, handleFilterCha
       currentFilterItem.splice(currentFilterItem.findIndex(el => el === value), 1);
     }
     const currentActiveFilterData = { ...activeFilterItem, [name]: currentFilterItem };
-    const filterObj = generateFilterObject(currentActiveFilterData);
+    let filterObj = [];
+    for (let i in currentActiveFilterData) {
+      if (currentActiveFilterData[i].length > 0) {
+        filterObj = generateFilterObject(currentActiveFilterData);
+        break;
+      }
+    }
     const latestPagination = { ...pagination, ...defaultPaginationParameters, q: pagination.q };
     handleFilterChange({ pagination: latestPagination, filterObj, currentActiveFilterData });
   };
