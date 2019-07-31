@@ -72,3 +72,6 @@ src/Redux/Store.js
 
 # jetbrains
 .idea
+
+#vscode
+.vs
