@@ -10,7 +10,7 @@ import AboutService from "./AboutService";
 import InstallAndRunService from "./InstallAndRunService";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../Redux/actionCreators";
-import { serviceDetails } from '../../Redux/reducers/ServiceReducer';
+import { serviceDetails } from "../../Redux/reducers/ServiceReducer";
 
 class ServiceDetails extends Component {
   state = {

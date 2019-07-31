@@ -6,7 +6,7 @@ import SampleServices from "../../../../assets/thirdPartyServices";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../../../Redux/actionCreators";
 import { APIEndpoints } from "../../../../config/APIEndpoints";
-import { createServiceClient } from '../../../../utility/sdk';
+import { createServiceClient } from "../../../../utility/sdk";
 
 class ThirdPartyAIService extends Component {
   state = {
@@ -26,15 +26,15 @@ class ThirdPartyAIService extends Component {
   };
 
   serviceRequestStartHandler = () => {
-    this.setState({ serviceRequestComplete: false })
+    this.setState({ serviceRequestComplete: false });
   };
 
   serviceRequestCompleteHandler = () => {
-    this.setState({ serviceRequestComplete: true })
+    this.setState({ serviceRequestComplete: true });
   };
 
   fetchServiceSpec = async (org_id, service_id) => {
-    if(process.env.REACT_APP_SANDBOX) {
+    if (process.env.REACT_APP_SANDBOX) {
       return {};
     }
 
