@@ -116,7 +116,7 @@ class ThirdPartyAIService extends Component {
 
 const mapStateToProps = state => ({
   grpcResponse: state.serviceReducer.serviceMethodExecution.response,
-  // isComplete: state.serviceReducer.serviceMethodExecution.isComplete,
+  isComplete: state.serviceReducer.serviceMethodExecution.isComplete,
   username: state.userReducer.username,
 });
 const mapDispatchToProps = dispatch => ({
