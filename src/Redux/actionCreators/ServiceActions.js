@@ -44,7 +44,7 @@ export const fetchServiceSuccess = res => dispatch => {
 
 export const fetchService = (pagination, filters = []) => async dispatch => {
   dispatch(loaderActions.startAIServiceListLoader);
-  let url = new URL(`${APIEndpoints.CONTRACT.endpoint}/service`);
+  const url = new URL(`${APIEndpoints.CONTRACT.endpoint}/service`);
   return fetch(url, {
     method: "POST",
     body: JSON.stringify({ ...pagination, filters }),
@@ -60,7 +60,7 @@ export const invokeServiceMethod = data => dispatch => {
     .then(currentSession => {
       const apiName = APIEndpoints.INVOKE_SERVICE.name;
       const path = APIPaths.INVOKE_SERVICE;
-      let myInit = {
+      const myInit = {
         body: data,
         headers: { Authorization: currentSession.idToken.jwtToken },
       };
