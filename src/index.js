@@ -10,7 +10,7 @@ import configureStore from "./Redux/Store";
 
 const store = configureStore();
 
-const renderApp = () => {
+const SnetApp = () => {
   if (process.env.REACT_APP_SANDBOX) {
     return <SandboxApp />;
   }
@@ -18,4 +18,4 @@ const renderApp = () => {
   return <App />;
 };
 
-ReactDOM.render(<ReduxProvider store={store}>{renderApp()}</ReduxProvider>, document.getElementById("root"));
+ReactDOM.render(<ReduxProvider store={store}><SnetApp /></ReduxProvider>, document.getElementById("root"));
