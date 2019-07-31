@@ -10,6 +10,7 @@ import CardActions from "@material-ui/core/CardActions";
 import { useStyles } from "./styles";
 import StyledButton from "../../../common/StyledButton";
 import BulletPoint from "../../../common/BulletPoint";
+import AlertBox, { alertTypes } from "../../../common/AlertBox";
 
 const warningMessage = [
   "Your wallet or any wallets you have used are always yours.  We do not have any connection to your wallet and cannot help you recover wallet keys for you. ",
@@ -17,7 +18,7 @@ const warningMessage = [
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit.  ermentum dictum placerat nec",
 ];
 
-const ConfirmDelete = ({ open, handleClose, handleSubmit }) => {
+const ConfirmDelete = ({ open, handleClose, handleSubmit, error }) => {
   const classes = useStyles();
 
   const handleCancel = () => {
@@ -47,9 +48,7 @@ const ConfirmDelete = ({ open, handleClose, handleSubmit }) => {
               <h2>Before you go...</h2>
               <div className={classes.WarningBoxConatiner}>
                 {warningMessage.map(msg => (
-                  <div>
-                    <BulletPoint type="warning" message={msg} />
-                  </div>
+                  <BulletPoint key={msg} type="warning" message={msg} />
                 ))}
               </div>
               {/* <FormControl fullWidth className={classes.formControl}>
@@ -65,6 +64,7 @@ const ConfirmDelete = ({ open, handleClose, handleSubmit }) => {
                   rows="4"
                 />
               </FormControl> */}
+              <AlertBox type={alertTypes.ERROR} message={error} />
             </div>
           </CardContent>
           <CardActions className={classes.CardActions}>

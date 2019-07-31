@@ -272,6 +272,16 @@ const userDeleted = ({ history, route }) => dispatch => {
   });
   history.push(route);
 };
+
+const deleteUserFromMarketPlace = token => {
+  const apiName = APIEndpoints.USER.name;
+  const path = APIPaths.DELETE_USER;
+  const myInit = {
+    headers: { Authorization: token },
+  };
+  return API.get(apiName, path, myInit);
+};
+
 const deleteUser = (user, { history, route }) => dispatch => {
   new Promise((resolve, reject) => {
     user.deleteUser(error => {
@@ -282,21 +292,16 @@ const deleteUser = (user, { history, route }) => dispatch => {
       resolve();
     });
   }).then(() => {
-    dispatch(loaderActions.stopAppLoader);
     dispatch(userDeleted({ history, route }));
+    dispatch(loaderActions.stopAppLoader);
   });
 };
-const fetchCurrentUser = () => {
-  return Auth.currentAuthenticatedUser({ bypassCache: true });
-};
 
-export const deleteUserAccount = ({ history, route }) => dispatch => {
+export const deleteUserAccount = ({ history, route }) => async dispatch => {
   dispatch(loaderActions.startAppLoader(LoaderContent.DELETE_USER));
-  dispatch(() =>
-    fetchCurrentUser().then(user => {
-      dispatch(deleteUser(user, { history, route }));
-    })
-  );
+  const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
+  await deleteUserFromMarketPlace(currentUser.signInUserSession.idToken.jwtToken);
+  dispatch(deleteUser(currentUser, { history, route }));
 };
 
 const forgotPasswordInit = dispatch => {

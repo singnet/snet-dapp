@@ -26,4 +26,5 @@ export const APIPaths = {
   FILTER_DATA: "/service?attribute=",
   FEEDBACK: "/feedback",
   GET_SIGNATURE: "/sign-call",
+  DELETE_USER: "/delete-user",
 };
