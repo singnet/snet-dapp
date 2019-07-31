@@ -71,7 +71,7 @@ class MethodPricing {
     this.maxPriceInCogs = 0;
     this.pricing = {};
 
-    pricingData.details.map((servicePrice, index) => {
+    pricingData.details.map(servicePrice => {
       this.pricing[servicePrice.service_name] = {};
       servicePrice.method_pricing.map(methodPrice => {
         if (methodPrice.price_in_cogs > this.maxPriceInCogs) {
