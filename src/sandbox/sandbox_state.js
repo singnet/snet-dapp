@@ -12,7 +12,7 @@ const service = {
   url: 'https://github.com/singnet/example-service',
   display_image_url: null,
   assets_url: '{}',
-  assets_hash: '{"hero_image": "QmT8R46N7mf16aELii2AZxRnvYa4Tgy1WgEAZ2aXK2U76N/hero_example_service.jpg"}',
+  assets_hash: '{"hero_image": ""}',
   rating: null,
   service_rating: 3.63736,
   total_users_rated: 91,
