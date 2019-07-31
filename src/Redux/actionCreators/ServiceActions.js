@@ -138,7 +138,7 @@ export const fetchFeedback = (orgId, serviceId) => async () => {
 };
 
 const submitFeedbackAPI = (feedbackObj, token) => {
-  const apiName = APIEndpoints.GET_SERVICE_LIST.name;
+  const apiName = APIEndpoints.USER.name;
   const path = `${APIPaths.FEEDBACK}`;
   const myInit = {
     body: { ...feedbackObj },
