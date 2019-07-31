@@ -1,5 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { withStyles } from "@material-ui/styles";
+
+import { useStyles } from "./styles";
+
 const UserMenuItem = ({ classes, icon: Icon, title, linkTo }) => {
   return (
     <li>
@@ -10,4 +14,4 @@ const UserMenuItem = ({ classes, icon: Icon, title, linkTo }) => {
     </li>
   );
 };
-export default UserMenuItem;
+export default withStyles(useStyles)(UserMenuItem);
