@@ -24,7 +24,11 @@ const CardGroup = ({ cards, loading }) => {
   return (
     <div className={classes.cardCollection}>
       {cards.map(card => (
-        <Link key={card.service_id} to={`/${Routes.SERVICE_DETAILS}/${card.service_row_id}`} className={classes.routerLink}>
+        <Link
+          key={card.service_id}
+          to={`/${Routes.SERVICE_DETAILS}/${card.service_row_id}`}
+          className={classes.routerLink}
+        >
           <ServiceListItem
             key={card.service_id}
             cardMedia={card.hero_image ? card.hero_image : CardImg}
