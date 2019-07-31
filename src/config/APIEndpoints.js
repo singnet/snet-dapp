@@ -21,6 +21,7 @@ export const APIPaths = {
   GET_SERVICE_LIST: "/service",
   GET_USER_PROFILE: "/profile?username=",
   UPDATE_USER_PROFILE: "/profile",
+  WALLET: "/wallet",
   INVOKE_SERVICE: "/invoke",
   FILTER_DATA: "/service?attribute=",
   FEEDBACK: "/feedback",
