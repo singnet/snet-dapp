@@ -12,6 +12,10 @@ const InitialServiceList = {
     org_id: [],
   },
   activeFilterItem: { ...defaultActiveFilterItem },
+  serviceMethodExecution: {
+    response: {},
+    isComplete: false,
+  },
 };
 
 const serviceReducer = (state = InitialServiceList, action) => {
