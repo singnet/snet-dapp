@@ -44,7 +44,7 @@ export const fetchServiceSuccess = res => dispatch => {
 
 export const fetchService = (pagination, filters = []) => async dispatch => {
   dispatch(loaderActions.startAIServiceListLoader);
-  let url = new URL(`${APIEndpoints.GET_SERVICE_LIST.endpoint}/service`);
+  let url = new URL(`${APIEndpoints.CONTRACT.endpoint}/service`);
   return fetch(url, {
     method: "POST",
     body: JSON.stringify({ ...pagination, filters }),
@@ -97,7 +97,7 @@ export const updatePagination = pagination => dispatch => {
 };
 
 export const fetchFilterData = attribute => dispatch => {
-  const url = `${APIEndpoints.GET_SERVICE_LIST.endpoint}${APIPaths.FILTER_DATA}${attribute}`;
+  const url = `${APIEndpoints.CONTRACT.endpoint}${APIPaths.FILTER_DATA}${attribute}`;
   return fetch(url)
     .then(res => res.json())
     .then(res => {
@@ -124,7 +124,7 @@ export const resetFilter = ({ pagination }) => dispatch => {
 };
 
 const fetchFeedbackAPI = (username, orgId, serviceId, token) => {
-  const apiName = APIEndpoints.GET_SERVICE_LIST.name;
+  const apiName = APIEndpoints.USER.name;
   const path = `${APIPaths.FEEDBACK}?username=${username}&org_id=${orgId}&service_id=${serviceId}`;
   const myInit = {
     headers: { Authorization: token },
