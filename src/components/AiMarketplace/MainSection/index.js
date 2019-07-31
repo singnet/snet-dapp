@@ -17,9 +17,7 @@ class MainSection extends Component {
   componentDidMount = () => {
     const { fetchFilterData } = this.props;
     this.handleFetchService(this.props.pagination);
-    filterAttributes.map(attribute => {
-      fetchFilterData(attribute);
-    });
+    filterAttributes.map(attribute => fetchFilterData(attribute));
   };
 
   handlePaginationChange = async pagination => {
@@ -32,7 +30,7 @@ class MainSection extends Component {
     let filterObj = [];
     for (let i in currentFilter) {
       if (currentFilter[i].length > 0) {
-        filterObj = generateFilterObject(this.props.currentFilter);
+        filterObj = generateFilterObject(currentFilter);
         break;
       }
     }
