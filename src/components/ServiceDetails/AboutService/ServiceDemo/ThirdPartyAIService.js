@@ -34,9 +34,8 @@ class ThirdPartyAIService extends Component {
       this.serviceRequestCompleteHandler
     );
     const { serviceSpecJSON, protoSpec } = await this.fetchServiceSpec(org_id, service_id);
-    this.serviceSpecJSON = serviceSpecJSON;
-    this.protoSpec = protoSpec;
-    this.setState({ loading: false });
+    this.fetchAIServiceComponent();
+    this.setState({ loading: false, serviceSpecJSON, protoSpec });
   };
 
   serviceRequestStartHandler = () => {
@@ -87,7 +86,9 @@ class ThirdPartyAIService extends Component {
   };
 
   render() {
+    const { org_id, service_id, classes, grpcResponse, isComplete } = this.props;
     const { AIServiceCustomComponent, serviceSpecJSON, protoSpec, feedback, serviceRequestComplete } = this.state;
+
     if (!AIServiceCustomComponent || !serviceSpecJSON || !protoSpec) {
       return null;
     }
@@ -95,8 +96,6 @@ class ThirdPartyAIService extends Component {
     if (loading) {
       return null;
     }
-
-    const { org_id, service_id, classes, grpcResponse, isComplete } = this.props;
     const { serviceClient } = this;
 
     return (
@@ -111,7 +110,7 @@ class ThirdPartyAIService extends Component {
           sliderWidth={"550px"}
         />
         <CompletedActions
-          isComplete={serviceRequestComplete}
+          isComplete={isComplete || serviceRequestComplete}
           feedback={feedback}
           orgId={org_id}
           serviceId={service_id}
@@ -124,6 +123,7 @@ class ThirdPartyAIService extends Component {
 
 const mapStateToProps = state => ({
   grpcResponse: state.serviceReducer.serviceMethodExecution.response,
+  isComplete: state.serviceReducer.serviceMethodExecution.isComplete,
   username: state.userReducer.username,
 });
 const mapDispatchToProps = dispatch => ({

@@ -45,7 +45,7 @@ const UserFeedback = ({ open, handleClose, feedback, submitFeedback, orgId, serv
         setAlert({ type: "success", message: "feedback updated successfully" });
       }
     } catch (error) {
-      setAlert({ type: "error", message: JSON.stringify(error) });
+      setAlert({ type: "error", message: JSON.stringify(error.message) });
     }
   };
 
