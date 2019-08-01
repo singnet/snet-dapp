@@ -26,7 +26,7 @@ const StyledExpansionPanel = ({ classes, expansionItems, handleChange, activeFil
               </ExpansionPanelSummary>
               <ExpansionPanelDetails className={classes.filterDetails}>
                 {expansionItem.items.map(item => (
-                  <div className={classes.formCntrlGrup} key={item.title}>
+                  <div className={classes.formCntrlGrup} key={item}>
                     <FormControlLabel
                       control={
                         <Checkbox
@@ -48,7 +48,7 @@ const StyledExpansionPanel = ({ classes, expansionItems, handleChange, activeFil
             </ExpansionPanel>
           );
         }
-        return null;
+        return <Fragment key={expansionItem.title} />;
       })}
     </Fragment>
   );

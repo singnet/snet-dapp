@@ -23,12 +23,10 @@ export const filterTitles = {
 export const generateFilterObject = filterData => {
   const filterObject = [];
   const filter = { filter: [] };
-  Object.entries(filterData).map(([attribute, values]) => {
+  filter.filter = Object.entries(filterData).map(([attribute, values]) => {
     const filterCondition = { filter_condition: { attr: attribute, operator: "IN", value: [] } };
-    values.map(value => {
-      filterCondition.filter_condition.value.push(value);
-    });
-    filter.filter.push(filterCondition);
+    filterCondition.filter_condition.value = values.map(value => value);
+    return filterCondition;
   });
   filterObject.push(filter);
   return filterObject;

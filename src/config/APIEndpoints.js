@@ -1,7 +1,11 @@
 export const APIEndpoints = {
-  GET_SERVICE_LIST: {
-    name: "Get Service",
-    endpoint: process.env.REACT_APP_SERVICES_ENDPOINT,
+  CONTRACT: {
+    name: "Contract",
+    endpoint: process.env.REACT_APP_CONTRACT_ENDPOINT,
+  },
+  USER: {
+    name: "User",
+    endpoint: process.env.REACT_APP_USER_ENDPOINT,
   },
   SERVICE_BUF: {
     name: "Service Buff",
@@ -17,6 +21,7 @@ export const APIPaths = {
   GET_SERVICE_LIST: "/service",
   GET_USER_PROFILE: "/profile?username=",
   UPDATE_USER_PROFILE: "/profile",
+  WALLET: "/wallet",
   INVOKE_SERVICE: "/invoke",
   FILTER_DATA: "/service?attribute=",
   FEEDBACK: "/feedback",
