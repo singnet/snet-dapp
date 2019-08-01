@@ -1,5 +1,5 @@
 export const useStyles = theme => ({
-  GetStartedDescription:{
+  GetStartedDescription: {
     "& h2": {
       color: theme.palette.text.darkShadedGray,
       fontSize: 32,
@@ -13,9 +13,9 @@ export const useStyles = theme => ({
       fontSize: 20,
       lineHeight: "30px",
     },
-    "& button": { 
+    "& button": {
       padding: "13px 16% 11px",
-      marginTop: 16 
+      marginTop: 16,
     },
-  }
+  },
 });

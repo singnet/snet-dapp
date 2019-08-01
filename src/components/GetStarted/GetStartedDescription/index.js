@@ -9,7 +9,7 @@ const GetStartedDescription = ({ classes, title, description, button, btnText, b
     <div className={classes.GetStartedDescription}>
       <h2>{title}</h2>
       <p>{description}</p>
-      {button ? <StyledButton btnText={btnText} type={btnType} /> : null }
+      {button ? <StyledButton btnText={btnText} type={btnType} /> : null}
     </div>
   );
 };

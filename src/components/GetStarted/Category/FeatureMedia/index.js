@@ -16,11 +16,7 @@ const FeatureMedia = ({ classes, activeIndex, content }) => {
 };
 
 function TabContainer(props) {
-  return (
-    <div>
-      {props.children}
-    </div>
-  );
+  return <div>{props.children}</div>;
 }
 
 export default withStyles(useStyles)(FeatureMedia);

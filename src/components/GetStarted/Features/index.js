@@ -11,7 +11,12 @@ const Features = ({ classes }) => {
       <h2>All-in-one solution with powerful features</h2>
       <div className={classes.FeatureContainer}>
         {GetStartedFeaturesData.map(item => (
-          <Feature icon={item.featureIcon} title={item.featureName} description={item.featureDescription} />
+          <Feature
+            key={item.featureName}
+            icon={item.featureIcon}
+            title={item.featureName}
+            description={item.featureDescription}
+          />
         ))}
       </div>
     </div>
