@@ -38,7 +38,7 @@ const tabs = [
   {
     title: "Get Started",
     active: false,
-    link: "https://blog.singularitynet.io/a-beginners-guide-to-the-singularitynet-beta-74d523902958",
+    link: `/${Routes.GET_STARTED}`,
     openInNewTab: true,
   },
 ];
