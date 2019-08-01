@@ -2,13 +2,21 @@ import React from "react";
 import { withStyles } from "@material-ui/styles";
 
 import { useStyles } from "./styles";
+import VideoContainer from "./VideoContainer";
+import GifContainer from "./GifContainer";
+import ImgContainer from "./ImgContainer";
 
-const FeatureMedia = ({ classes, content }) => {
-  return <TabContainer>Item One</TabContainer>;
+const FeatureMedia = ({ classes, media }) => {
+  if (media.type === "video") {
+    return <VideoContainer content={media.content} />;
+  }
+  if (media.type === "gif") {
+    return <GifContainer content={media.content} />;
+  }
+  if (media.type == "img") {
+    return <ImgContainer content={media.content} />;
+  }
+  return null;
 };
-
-function TabContainer(props) {
-  return <div>{props.children}</div>;
-}
 
 export default withStyles(useStyles)(FeatureMedia);
