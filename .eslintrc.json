@@ -25,6 +25,8 @@
         "html": true
       }
     ],
-    "no-extra-boolean-cast": 0
+    "no-extra-boolean-cast": 0,
+    "no-unused-vars": "error",
+    "react/jsx-key": "error"
   }
 }
