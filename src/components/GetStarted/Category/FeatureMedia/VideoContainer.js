@@ -1,7 +1,7 @@
 import React from "react";
 
-const VideoContainer = () => {
-  return <div />;
+const VideoContainer = ({ content }) => {
+  return <div>{content}</div>;
 };
 
 export default VideoContainer;
