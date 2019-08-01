@@ -26,7 +26,7 @@ class Category extends Component {
           <VerticalTabs activeIndex={activeIndex} handleChange={this.handleChange} title={tabs} />
         </Grid>
         <Grid item xs={12} sm={12} md={6} lg={6} className={classes.CategoryMedia}>
-          <FeatureMedia activeIndex={activeIndex} content={tabs} />
+          <FeatureMedia content={tabs[activeIndex]} />
         </Grid>
       </Grid>
     );
