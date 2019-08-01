@@ -6,7 +6,7 @@ import VideoContainer from "./VideoContainer";
 import GifContainer from "./GifContainer";
 import ImgContainer from "./ImgContainer";
 
-const FeatureMedia = ({ classes, media }) => {
+const FeatureMedia = ({ media }) => {
   if (media.type === "video") {
     return <VideoContainer content={media.content} />;
   }

@@ -1,7 +1,7 @@
 import React from "react";
 
-const ImgContainer = () => {
-  return <div />;
+const ImgContainer = ({ content }) => {
+  return <div>{content}</div>;
 };
 
 export default ImgContainer;
