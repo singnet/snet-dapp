@@ -4,10 +4,6 @@ import { defaultListingConfig, defaultActiveFilterItem } from "../../utility/con
 const InitialServiceList = {
   services: [],
   pagination: { ...defaultListingConfig },
-  serviceMethodExecution: {
-    response: {},
-    isComplete: false,
-  },
   filterData: {
     org_id: [],
   },

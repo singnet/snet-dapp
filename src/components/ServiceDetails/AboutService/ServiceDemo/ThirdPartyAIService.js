@@ -6,13 +6,11 @@ import SampleServices from "../../../../assets/thirdPartyServices";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../../../Redux/actionCreators";
 import { APIEndpoints } from "../../../../config/APIEndpoints";
-import { createServiceClient } from "../../../../utility/sdk";
 import CompletedActions from "./CompletedActions";
+import { createServiceClient } from "../../../../utility/sdk";
 
 class ThirdPartyAIService extends Component {
   state = {
-    loading: true,
-    serviceRequestComplete: false,
     AIServiceCustomComponent: undefined,
     serviceSpecJSON: undefined,
     protoSpec: undefined,
@@ -20,7 +18,8 @@ class ThirdPartyAIService extends Component {
       comment: "",
       rating: "",
     },
-    fetchFeedbackComplete: false,
+    loading: true,
+    serviceRequestComplete: false,
   };
 
   sampleServices = new SampleServices();
@@ -43,10 +42,6 @@ class ThirdPartyAIService extends Component {
     this.setState({ serviceRequestComplete: false });
   };
 
-  serviceRequestCompleteHandler = () => {
-    this.setState({ serviceRequestComplete: true });
-  };
-
   fetchAIServiceComponent = () => {
     const { org_id, service_id } = this.props;
     if (org_id && service_id && !this.state.AIServiceCustomComponent) {
@@ -57,13 +52,16 @@ class ThirdPartyAIService extends Component {
     }
   };
 
+  serviceRequestCompleteHandler = () => {
+    this.setState({ serviceRequestComplete: true });
+  };
+
   fetchUserFeedback = async () => {
     const { org_id, service_id } = this.props;
     const feedback = await this.props.fetchFeedback(org_id, service_id);
     this.setState(prevState => ({
       ...prevState,
       feedback: { comment: feedback.data[0].comment[0], rating: feedback.data[0].rating },
-      fetchFeedbackComplete: true,
     }));
   };
 
