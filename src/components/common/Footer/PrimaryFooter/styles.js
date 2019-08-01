@@ -15,10 +15,10 @@ export const useStyles = makeStyles(theme => ({
     "@media (max-width:1023px)": {
       borderBottom: 1,
       borderBottomStyle: "solid",
-      padding: '0 15px',
+      padding: "0 15px",
       display: "flex",
-      alignItems: 'center',
-      justifyContent: 'space-between'
+      alignItems: "center",
+      justifyContent: "space-between",
     },
   },
   footerLogoSection: {
@@ -28,16 +28,16 @@ export const useStyles = makeStyles(theme => ({
     "& img": {
       "@media (max-width:1023px)": {
         width: 140,
-        marginRight: 52
-      }
+        marginRight: 52,
+      },
     },
     "& li": {
       "&:last-of-type": {
         "@media (max-width:1023px)": { marginRight: 0 },
       },
-      "@media (max-width:1023px)": { 
+      "@media (max-width:1023px)": {
         marginRight: 25,
-        display: 'inline-block' 
+        display: "inline-block",
       },
     },
     "@media (max-width:1023px)": {
