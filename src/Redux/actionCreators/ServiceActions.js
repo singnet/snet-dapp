@@ -6,6 +6,7 @@ import GRPCProtoV3Spec from "../../assets/models/GRPCProtoV3Spec";
 import { loaderActions } from "./";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
 import { PricingStrategy } from "../../utility/PricingStrategy.js";
+import { generateAPIInit } from "../../utility/API";
 
 export const UPDATE_SERVICE_LIST = "SET_SERVICE_LIST";
 export const UPDATE_PAGINATION_DETAILS = "SET_PAGINATION_DETAILS";
@@ -60,10 +61,7 @@ export const invokeServiceMethod = data => dispatch => {
     .then(currentSession => {
       const apiName = APIEndpoints.INVOKE_SERVICE.name;
       const path = APIPaths.INVOKE_SERVICE;
-      const myInit = {
-        body: data,
-        headers: { Authorization: currentSession.idToken.jwtToken },
-      };
+      const myInit = generateAPIInit(currentSession.idToken.jwtToken, data);
       return API.post(apiName, path, myInit);
     })
     .then(response => {
@@ -126,9 +124,7 @@ export const resetFilter = ({ pagination }) => dispatch => {
 const fetchFeedbackAPI = (username, orgId, serviceId, token) => {
   const apiName = APIEndpoints.USER.name;
   const path = `${APIPaths.FEEDBACK}?username=${username}&org_id=${orgId}&service_id=${serviceId}`;
-  const myInit = {
-    headers: { Authorization: token },
-  };
+  const myInit = generateAPIInit(token);
   return API.get(apiName, path, myInit);
 };
 
@@ -140,10 +136,7 @@ export const fetchFeedback = (orgId, serviceId) => async () => {
 const submitFeedbackAPI = (feedbackObj, token) => {
   const apiName = APIEndpoints.USER.name;
   const path = `${APIPaths.FEEDBACK}`;
-  const myInit = {
-    body: { ...feedbackObj },
-    headers: { Authorization: token },
-  };
+  const myInit = generateAPIInit(token, feedbackObj);
   return API.post(apiName, path, myInit);
 };
 
