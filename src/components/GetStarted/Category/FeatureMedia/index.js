@@ -19,4 +19,8 @@ const FeatureMedia = ({ media }) => {
   return null;
 };
 
+FeatureMedia.defaultProps = {
+  media: {},
+};
+
 export default withStyles(useStyles)(FeatureMedia);
