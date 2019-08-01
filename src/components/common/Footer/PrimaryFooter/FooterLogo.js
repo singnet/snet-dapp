@@ -9,7 +9,7 @@ const FooterLogo = () => {
   return (
     <div className={classes.FooterLogo}>
       <h1>
-        <a href="#" title="SingularityNET">
+        <a href="/" title="SingularityNET">
           <img src={Logo} alt="SingularityNET" />
         </a>
       </h1>

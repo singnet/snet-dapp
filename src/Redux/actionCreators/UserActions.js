@@ -4,6 +4,7 @@ import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { parseError } from "../../utility/ErrorHandling";
 import { userActions, errorActions, loaderActions } from ".";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
+import { generateAPIInit } from "../../utility/API";
 
 export const SET_USER_DETAILS = "SET_USER_DETAILS";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
@@ -39,11 +40,9 @@ export const unsubsrcibeToEmailAlerts = dispatch => {
 };
 
 export const fetchUserProfile = (username, token) => dispatch => {
-  const apiName = APIEndpoints.GET_SERVICE_LIST.name;
+  const apiName = APIEndpoints.USER.name;
   const path = `${APIPaths.GET_USER_PROFILE}${username}`;
-  const myInit = {
-    headers: { Authorization: token },
-  };
+  const myInit = generateAPIInit(token);
   API.get(apiName, path, myInit).then(res => {
     if (res.data.data.length > 0 && Boolean(res.data.data[0].email_alerts)) {
       dispatch(subscribeToEmailAlerts);
@@ -52,14 +51,9 @@ export const fetchUserProfile = (username, token) => dispatch => {
 };
 
 const fetchWalletStatus = (username, token) => {
-  const apiName = APIEndpoints.GET_SERVICE_LIST.name;
-  const path = `/wallet?username=${username}`;
-  const myInit = {
-    headers: { Authorization: token },
-    queryStringParameters: {
-      username,
-    },
-  };
+  const apiName = APIEndpoints.USER.name;
+  const path = `${APIPaths.WALLET}?username=${username}`;
+  const myInit = generateAPIInit(token);
   return API.get(apiName, path, myInit);
 };
 
@@ -119,13 +113,9 @@ export const fetchUserDetails = async dispatch => {
 };
 
 export const updateUserProfileInit = (currentUser, updatedUserData) => {
-  const apiName = APIEndpoints.GET_SERVICE_LIST.name;
+  const apiName = APIEndpoints.USER.name;
   const path = APIPaths.UPDATE_USER_PROFILE;
-  const myInit = {
-    headers: { Authorization: currentUser.signInUserSession.idToken.jwtToken },
-    body: updatedUserData,
-  };
-
+  const myInit = generateAPIInit(currentUser.signInUserSession.idToken.jwtToken, updatedUserData);
   return API.post(apiName, path, myInit);
 };
 
@@ -231,14 +221,9 @@ export const walletCreationSuccess = dispatch => {
 export const checkWalletStatus = username => (dispatch, getState) => {
   Auth.currentSession({ bypassCache: true })
     .then(currentSession => {
-      let apiName = APIEndpoints.GET_SERVICE_LIST.name;
-      let path = `/wallet?username=${username}`;
-      let myInit = {
-        headers: { Authorization: currentSession.idToken.jwtToken },
-        queryStringParameters: {
-          username,
-        },
-      };
+      const apiName = APIEndpoints.USER.name;
+      const path = `${APIPaths.WALLET}?username=${username}`;
+      const myInit = generateAPIInit(currentSession.idToken.jwtToken);
       dispatch(updateEmailVerified(currentSession.idToken.payload.email_verified));
       API.get(apiName, path, myInit).then(res => {
         dispatch({

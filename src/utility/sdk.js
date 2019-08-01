@@ -16,7 +16,7 @@ const parseMetadata = response => {
 const metadataGenerator = username => async (serviceClient, serviceName, method) => {
   const { orgId: org_id, serviceId: service_id } = serviceClient.metadata;
   const payload = { org_id, service_id, service_name: serviceName, method, username };
-  return fetch(`${APIEndpoints.GET_SERVICE_LIST.endpoint}${APIPaths.GET_SIGNATURE}`, {
+  return fetch(`${APIEndpoints.CONTRACT.endpoint}${APIPaths.GET_SIGNATURE}`, {
     method: "POST",
     body: JSON.stringify(payload),
   })
@@ -37,7 +37,7 @@ const fetchServiceMetadata = async (org_id, service_id) => {
     return {};
   }
 
-  const apiEndpoint = `${APIEndpoints.GET_SERVICE_LIST.endpoint}/org/${org_id}/service/${service_id}/group`;
+  const apiEndpoint = `${APIEndpoints.CONTRACT.endpoint}/org/${org_id}/service/${service_id}/group`;
   return fetch(apiEndpoint)
     .then(res => res.json())
     .then(parseServiceMetadata);
@@ -54,10 +54,25 @@ const generateOptions = username => {
   return { metadataGenerator: metadataGenerator(username) };
 };
 
-export const createServiceClient = async (org_id, service_id, username, serviceRequestStartHandler, serviceRequestCompleteHandler) => {
+export const createServiceClient = async (
+  org_id,
+  service_id,
+  username,
+  serviceRequestStartHandler,
+  serviceRequestCompleteHandler
+) => {
   const options = generateOptions(username);
   const metadata = await fetchServiceMetadata(org_id, service_id);
-  const serviceClient = new ServiceClient(undefined, org_id, service_id, undefined, metadata, metadata.defaultGroup, undefined, options);
+  const serviceClient = new ServiceClient(
+    undefined,
+    org_id,
+    service_id,
+    undefined,
+    metadata,
+    metadata.defaultGroup,
+    undefined,
+    options
+  );
   const onEnd = props => (...args) => {
     if (serviceRequestCompleteHandler) {
       serviceRequestCompleteHandler();
