@@ -20,6 +20,7 @@ const CardGroup = ({ cards, loading }) => {
       </div>
     );
   }
+
   return (
     <div className={classes.cardCollection}>
       {cards.map(card => (

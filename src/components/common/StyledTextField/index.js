@@ -26,6 +26,7 @@ class StyledTextField extends Component {
         onChange={handleChange("name")}
         margin="normal"
         variant="outlined"
+        {...this.props}
       />
     );
   }
