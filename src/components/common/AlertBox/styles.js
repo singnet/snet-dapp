@@ -22,10 +22,10 @@ export const useStyles = theme => ({
   },
   info: {
     borderColor: theme.palette.text.primary,
-    backgroundColor: theme.palette.text.infoBg
+    backgroundColor: theme.palette.text.infoBg,
   },
   warning: {
     border: theme.palette.text.warningBorder,
-    backgroundColor: theme.palette.text.warningBg
-  }
+    backgroundColor: theme.palette.text.warningBg,
+  },
 });

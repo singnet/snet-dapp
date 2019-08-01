@@ -2,9 +2,7 @@ import React, { Component } from "react";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
-import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
 import CardGiftcardIcon from "@material-ui/icons/CardGiftcard";
-
 
 import TitleCard from "./TitleCard";
 import PricingDetails from "./PricingDetails";
@@ -14,37 +12,24 @@ import InstallAndRunService from "./InstallAndRunService";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../Redux/actionCreators";
 import NotificationBar from "../common/NotificationBar";
+import { serviceDetails } from "../../Redux/reducers/ServiceReducer";
 
 class ServiceDetails extends Component {
   state = {
-    service_row_id: "",
-    service: {},
     activeTab: 0,
   };
 
-  componentDidMount = async () => {
-    const { services, pagination, fetchService } = this.props;
+  componentDidMount() {
+    this.fetchServices();
+  }
 
-    if (!services || services.length === 0) {
-      this.populateServiceData(pagination);
-      await fetchService(pagination);
+  fetchServices = () => {
+    const { service, pagination, fetchServices } = this.props;
+    if (service) {
       return;
     }
-    this.populateServiceData();
-  };
 
-  componentDidUpdate = async () => {
-    const { service } = this.state;
-    if (!service || (Object.entries(service).length === 0 && service.constructor === Object)) {
-      await this.props.fetchService(this.props.pagination);
-      this.populateServiceData();
-    }
-  };
-
-  populateServiceData = () => {
-    const { service_row_id } = this.props.match.params;
-    const service = this.props.services.filter(el => el.service_row_id === Number(service_row_id))[0];
-    this.setState({ service_row_id, service });
+    fetchServices(pagination);
   };
 
   handleTabChange = activeTab => {
@@ -52,23 +37,30 @@ class ServiceDetails extends Component {
   };
 
   render() {
-    const { classes } = this.props;
-    const { service, activeTab } = this.state;
+    const { classes, service } = this.props;
+
+    if (!service) {
+      return null;
+    }
+
+    const { activeTab } = this.state;
 
     const tabs = [
       { name: "About", activeIndex: 0, component: <AboutService service={service} /> },
       { name: "Install and Run", activeIndex: 1, component: <InstallAndRunService /> },
     ];
 
-    if (!service) {
-      return null;
-    }
-
     return (
       <div>
         <Grid container spacing={24} className={classes.serviceDetailContainer}>
-          { /*<NotificationBar type="warning" showNotification={!service.is_available} icon={ErrorOutlineIcon} notificationText={"Service temporarily offline by the owner.  Please check back later"} /> */}
-          <NotificationBar type="information" showNotification={!service.is_available} icon={CardGiftcardIcon} notificationText={"Free Trial Access:  You can try out this service for free. You have   99 free API calls    after which a subscription needs to be purchased"} />
+          <NotificationBar
+            type="information"
+            showNotification={!service.is_available}
+            icon={CardGiftcardIcon}
+            notificationText={
+              "Free Trial Access:  You can try out this service for free. You have   99 free API calls    after which a subscription needs to be purchased"
+            }
+          />
           <div className={classes.TopSection}>
             <TitleCard org_id={service.org_id} display_name={service.display_name} />
             <PricingDetails price_model={service.price_model} />
@@ -80,19 +72,15 @@ class ServiceDetails extends Component {
   }
 }
 
-ServiceDetails.defaultProps = {
-  services: [],
-};
-
-const mapStateToProps = state => ({
-  services: state.serviceReducer.services,
+const mapStateToProps = (state, ownProps) => ({
+  service: serviceDetails(state, ownProps.match.params.service_row_id),
   pagination: state.serviceReducer.pagination,
   isLoggedIn: state.userReducer.login.isLoggedIn,
   isWalletAssigned: state.userReducer.isWalletAssigned,
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchService: pagination => dispatch(serviceActions.fetchService(pagination)),
+  fetchServices: pagination => dispatch(serviceActions.fetchService(pagination)),
 });
 
 export default connect(

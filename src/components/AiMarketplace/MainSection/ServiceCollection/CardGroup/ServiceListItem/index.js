@@ -37,7 +37,7 @@ const ServiceListItem = props => {
                 <StarRatingComponent
                   name="rate1"
                   starCount={5}
-                  value={props.ratingGiven}
+                  value={Number(props.ratingGiven)}
                   className={classes.ratingStars}
                 />
                 <RatingsCount ratingGiven={props.ratingGiven} totalRating={props.totalRating} />

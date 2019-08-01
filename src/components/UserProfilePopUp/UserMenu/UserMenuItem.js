@@ -14,5 +14,4 @@ const UserMenuItem = ({ classes, icon: Icon, title, linkTo }) => {
     </li>
   );
 };
-
 export default withStyles(useStyles)(UserMenuItem);

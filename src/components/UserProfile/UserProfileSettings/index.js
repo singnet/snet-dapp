@@ -8,14 +8,24 @@ import { connect } from "react-redux";
 
 import StyledButton from "../../common/StyledButton";
 import { useStyles } from "./styles";
-import { userActions } from "../../../Redux/actionCreators";
+import { userActions, loaderActions } from "../../../Redux/actionCreators";
 import Routes from "../../../utility/constants/Routes";
-import AlertBox from "../../common/AlertBox";
+import AlertBox, { alertTypes } from "../../common/AlertBox";
+import ConfirmDelete from "./ConfirmDelete";
 
 class UserProfileSettings extends Component {
   state = {
-    error: undefined,
-    emailAlerts: this.props.emailAlerts,
+    alertMessage: undefined,
+    alertType: alertTypes.ERROR,
+    emailAlerts: false,
+    showConfirmDelete: false,
+    confirmDeleteError: undefined,
+  };
+
+  componentDidUpdate = prevProps => {
+    if (prevProps.emailAlerts !== this.props.emailAlerts) {
+      this.setState({ emailAlerts: this.props.emailAlerts });
+    }
   };
 
   handleEmailChange = event => {
@@ -29,32 +39,51 @@ class UserProfileSettings extends Component {
   };
 
   handleDelete = async () => {
-    const { history } = this.props;
-    const route = `/${Routes.AI_MARKETPLACE}`;
-    try {
-      await this.props.deleteUserAccount({ history, route });
-    } catch (err) {
-      this.setState({ error: String(err) });
-    }
+    this.setState({ showConfirmDelete: true });
   };
 
   handleChangePassword = () => {
     this.props.history.push(`/${Routes.FORGOT_PASSWORD}`);
   };
 
-  handleSubmit = () => {
+  handleSubmit = async () => {
+    this.setState({ alertMessage: undefined });
     const { username, updateUserProfile } = this.props;
     const updatedUserData = { username, email_alerts: this.state.emailAlerts };
-    updateUserProfile(updatedUserData);
+    try {
+      await updateUserProfile(updatedUserData);
+      this.setState({ alertType: alertTypes.SUCCESS, alertMessage: "Changes saved successfully" });
+    } catch (error) {
+      this.setState({ alertType: alertTypes.ERROR, alertMessage: String(error) });
+    }
   };
 
   shouldSubmitBeEnabled = () => {
     return this.state.emailAlerts !== this.props.emailAlerts;
   };
 
+  handleConfirmDeleteClose = () => {
+    this.setState({ showConfirmDelete: false, confirmDeleteError: undefined });
+  };
+
+  handleConfirmDeleteSubmit = async () => {
+    const { history, stopLoader } = this.props;
+    const route = `/${Routes.AI_MARKETPLACE}`;
+    try {
+      await this.props.deleteUserAccount({ history, route });
+    } catch (err) {
+      let confirmDeleteError = String(err.message);
+      if (err.response && err.response.status === 404) {
+        confirmDeleteError = "The profile has already been deleted";
+      }
+      this.setState({ confirmDeleteError });
+      stopLoader();
+    }
+  };
+
   render() {
     const { classes, userEmail, username } = this.props;
-    const { error, emailAlerts } = this.state;
+    const { alertMessage, alertType, emailAlerts, showConfirmDelete, confirmDeleteError } = this.state;
     return (
       <Grid container spacing={24} className={classes.settingMainContainer}>
         <Grid item xs={12} sm={12} md={8} lg={8} className={classes.settingsContainer}>
@@ -110,7 +139,7 @@ class UserProfileSettings extends Component {
                 sent to your email.
               </p>
             </div>
-            <AlertBox message={error} />
+            <AlertBox message={alertMessage} type={alertType} />
             <div className={classes.btnContainer}>
               <StyledButton
                 btnText="save changes"
@@ -121,6 +150,12 @@ class UserProfileSettings extends Component {
             </div>
           </div>
         </Grid>
+        <ConfirmDelete
+          open={showConfirmDelete}
+          handleClose={this.handleConfirmDeleteClose}
+          handleSubmit={this.handleConfirmDeleteSubmit}
+          error={confirmDeleteError}
+        />
       </Grid>
     );
   }
@@ -136,6 +171,7 @@ const mapDispatchToProps = dispatch => ({
   deleteUserAccount: ({ history, route }) => dispatch(userActions.deleteUserAccount({ history, route })),
   fetchUserProfile: () => dispatch(userActions.fetchUserProfile()),
   updateUserProfile: updatedUserData => dispatch(userActions.updateUserProfile(updatedUserData)),
+  stopLoader: () => dispatch(loaderActions.stopAppLoader),
 });
 
 export default connect(

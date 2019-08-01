@@ -51,6 +51,7 @@ const aqua = "#00C48C";
 
 const errorRed = "#B00020";
 const redBtnText = "#D0021B";
+const redBtnBg = "#E67381";
 
 const h2 = { size: 32, color: darkShadedGray };
 
@@ -59,7 +60,7 @@ const offlineRedBg = "rgba(239,82,101,0.15)";
 
 const informationBarBg = "#2196F3";
 
-const infoBg = "#DEEAFF"
+const infoBg = "#DEEAFF";
 
 const warningBg = "#FDF3E5";
 const warningBorder = "#F18D5A";
@@ -101,22 +102,17 @@ const theme = createMuiTheme({
       alertBoxBorder,
       alertBoxColor,
       alertBoxBackgroundColor,
-      informationBg,
+      informationBarBg,
       infoBg,
+      redBtnBg,
       warningBg,
-      warningBorder
+      warningBorder,
     },
   },
   typography: {
-    primary: {
-      main: ["OpenSans"],
-    },
-    secondary: {
-      main: ["Raleway"],
-    },
-    tertiary: {
-      main: ["Roboto"],
-    },
+    primary: { main: ["OpenSans"] },
+    secondary: { main: ["Raleway"] },
+    tertiary: { main: ["Roboto"] },
     fontweight: 600,
   },
   backgroundColor: {
@@ -127,7 +123,10 @@ const theme = createMuiTheme({
     offlineRedBg,
     footerBgColor,
     succesBoxBg,
-  }
+  },
+  font: {
+    h2,
+  },
 });
 
 export default theme;

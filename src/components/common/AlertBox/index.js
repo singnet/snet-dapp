@@ -5,9 +5,16 @@ import { withStyles } from "@material-ui/styles";
 
 import { useStyles } from "./styles";
 
+export const alertTypes = {
+  ERROR: "error",
+  SUCCESS: "success",
+  WARNING: "warning",
+};
+
 const backgroundColor = {
-  error: "error",
-  success: "success",
+  error: alertTypes.ERROR,
+  success: alertTypes.SUCCESS,
+  warning: alertTypes.WARNING,
 };
 
 const AlertBox = ({ classes, message, type }) => {
@@ -18,7 +25,7 @@ const AlertBox = ({ classes, message, type }) => {
 };
 
 AlertBox.propTypes = {
-  type: PropTypes.oneOf(["error", "success"]),
+  type: PropTypes.oneOf(Object.values(alertTypes)),
   message: PropTypes.string,
 };
 

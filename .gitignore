@@ -70,5 +70,6 @@ scripts/path.js
 #redux_dev_tools
 src/Redux/Store.js
 
-# jetbrains
+#IDE files
 .idea
+.vs
