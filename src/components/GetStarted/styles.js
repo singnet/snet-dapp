@@ -7,12 +7,12 @@ export const useStyles = theme => ({
   TopSection: {
     maxWidth: 800,
     margin: "0 auto 30px",
-    textAlign: "center"
+    textAlign: "center",
   },
   SignUpFree: {
     maxWidth: "47%",
     margin: "0 auto ",
-    textAlign: "center"
+    textAlign: "center",
   },
   FeaturesMainContainer: { marginTop: 60 },
   FreeTrialSignUp: {

@@ -14,38 +14,38 @@ export const GetStartedCategoriesData = [
     categoryDescription:
       "Exploring AI – Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
     categoryTabs: [
-      {title: "List or Card views", media: {type: 'video', content: 'content'}},
-      {title: "Change Filter options", media: {type: 'gif', content: 'content'}},
-      {title: "Sort options", media: {type: 'gif', content: 'content'}},
-      {title: "Rating Ranking", media: {type: 'gif', content: 'content'}},
-      {title: "Feature Label 5", media: {type: 'gif', content: 'content'}}
-    ]
+      { title: "List or Card views", media: { type: "video", content: "content" } },
+      { title: "Change Filter options", media: { type: "gif", content: "content" } },
+      { title: "Sort options", media: { type: "gif", content: "content" } },
+      { title: "Rating Ranking", media: { type: "gif", content: "content" } },
+      { title: "Feature Label 5", media: { type: "gif", content: "content" } },
+    ],
   },
   {
     categoryIcon: DescriptionIcon,
     categoryTitle: "AI Profiles",
     categoryDescription:
       "Exploring AI – Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
-      categoryTabs: [
-      {title: "About Details", media: {type: 'video', content: 'content'}},
-      {title: "Feature Label 2", media: {type: 'gif', content: 'content'}},
-      {title: "Feature Label 3", media: {type: 'gif', content: 'content'}},
-      {title: "Feature Label 4", media: {type: 'gif', content: 'content'}},
-      {title: "Feature Label 5", media: {type: 'gif', content: 'content'}}
-    ]
+    categoryTabs: [
+      { title: "About Details", media: { type: "video", content: "content" } },
+      { title: "Feature Label 2", media: { type: "gif", content: "content" } },
+      { title: "Feature Label 3", media: { type: "gif", content: "content" } },
+      { title: "Feature Label 4", media: { type: "gif", content: "content" } },
+      { title: "Feature Label 5", media: { type: "gif", content: "content" } },
+    ],
   },
   {
     categoryIcon: PlayCircleFilledIcon,
     categoryTitle: "Demo AI Services",
     categoryDescription:
       "Using your inputs  – Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
-      categoryTabs: [
-      {title: "Accessing the Demo", media: {type: 'video', content: 'content'}},
-      {title: "Change Filter options", media: {type: 'gif', content: 'content'}},
-      {title: "Sort options", media: {type: 'gif', content: 'content'}},
-      {title: "Rating Ranking", media: {type: 'gif', content: 'content'}},
-      {title: "Feature Label 5", media: {type: 'gif', content: 'content'}}
-    ]
+    categoryTabs: [
+      { title: "Accessing the Demo", media: { type: "video", content: "content" } },
+      { title: "Change Filter options", media: { type: "gif", content: "content" } },
+      { title: "Sort options", media: { type: "gif", content: "content" } },
+      { title: "Rating Ranking", media: { type: "gif", content: "content" } },
+      { title: "Feature Label 5", media: { type: "gif", content: "content" } },
+    ],
   },
   {
     categoryIcon: ThumbsUpDownIcon,
@@ -53,12 +53,12 @@ export const GetStartedCategoriesData = [
     categoryDescription:
       "Exploring AI  – Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
     categoryTabs: [
-      {title: "About Details", media: {type: 'video', content: 'content'}},
-      {title: "Tutorials", media: {type: 'gif', content: 'content'}},
-      {title: "Reviews", media: {type: 'gif', content: 'content'}},
-      {title: "Feature Label 4", media: {type: 'gif', content: 'content'}},
-      {title: "Feature Label 5", media: {type: 'gif', content: 'content'}}
-    ]
+      { title: "About Details", media: { type: "video", content: "content" } },
+      { title: "Tutorials", media: { type: "gif", content: "content" } },
+      { title: "Reviews", media: { type: "gif", content: "content" } },
+      { title: "Feature Label 4", media: { type: "gif", content: "content" } },
+      { title: "Feature Label 5", media: { type: "gif", content: "content" } },
+    ],
   },
   {
     categoryIcon: SettingsIcon,
@@ -66,12 +66,12 @@ export const GetStartedCategoriesData = [
     categoryDescription:
       "Using your inputs  – Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
     categoryTabs: [
-      {title: "Accessing the Demo", media: {type: 'video', content: 'content'}},
-      {title: "Change Filter options", media: {type: 'gif', content: 'content'}},
-      {title: "Sort options", media: {type: 'gif', content: 'content'}},
-      {title: "Rating Ranking", media: {type: 'gif', content: 'content'}},
-      {title: "Feature Label 5", media: {type: 'gif', content: 'content'}}
-    ]
+      { title: "Accessing the Demo", media: { type: "video", content: "content" } },
+      { title: "Change Filter options", media: { type: "gif", content: "content" } },
+      { title: "Sort options", media: { type: "gif", content: "content" } },
+      { title: "Rating Ranking", media: { type: "gif", content: "content" } },
+      { title: "Feature Label 5", media: { type: "gif", content: "content" } },
+    ],
   },
   {
     categoryIcon: MonetizationOnIcon,
@@ -79,12 +79,12 @@ export const GetStartedCategoriesData = [
     categoryDescription:
       "Exploring AI  – Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
     categoryTabs: [
-      {title: "Managing your credits", media: {type: 'video', content: 'content'}},
-      {title: "Wallet Support", media: {type: 'gif', content: 'content'}},
-      {title: "Reviews", media: {type: 'gif', content: 'content'}},
-      {title: "Feature Label 4", media: {type: 'gif', content: 'content'}},
-      {title: "Feature Label 5", media: {type: 'gif', content: 'content'}}
-    ]
+      { title: "Managing your credits", media: { type: "video", content: "content" } },
+      { title: "Wallet Support", media: { type: "gif", content: "content" } },
+      { title: "Reviews", media: { type: "gif", content: "content" } },
+      { title: "Feature Label 4", media: { type: "gif", content: "content" } },
+      { title: "Feature Label 5", media: { type: "gif", content: "content" } },
+    ],
   },
 ];
 
