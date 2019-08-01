@@ -7,10 +7,17 @@ import VerticalTabs from "./VerticalTabs";
 import { useStyles } from "./styles";
 
 const Category = ({ classes, icon: Icon, title, description, tabs }) => {
-  const [activeIndex, setActiveIndex] = useState();
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  const handleChange = event => {
-    setActiveIndex(event.target.value);
+  const handleChange = (event, selectedTabIndex) => {
+    setActiveIndex(selectedTabIndex);
+  };
+
+  const activeFeatureMedia = () => {
+    if (tabs[activeIndex]) {
+      return tabs[activeIndex].media;
+    }
+    return {};
   };
 
   return (
@@ -24,7 +31,7 @@ const Category = ({ classes, icon: Icon, title, description, tabs }) => {
         <VerticalTabs activeIndex={activeIndex} handleChange={handleChange} title={tabs} />
       </Grid>
       <Grid item xs={12} sm={12} md={6} lg={6} className={classes.CategoryMedia}>
-        <FeatureMedia content={tabs[activeIndex].media} />
+        <FeatureMedia media={activeFeatureMedia()} />
       </Grid>
     </Grid>
   );
