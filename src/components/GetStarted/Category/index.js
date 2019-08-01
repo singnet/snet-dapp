@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 
@@ -6,31 +6,28 @@ import FeatureMedia from "./FeatureMedia";
 import VerticalTabs from "./VerticalTabs";
 import { useStyles } from "./styles";
 
-class Category extends Component {
-  state = { activeIndex: 0 };
+const Category = ({ classes, icon: Icon, title, description, tabs }) => {
+  const [activeIndex, setActiveIndex] = useState();
 
-  handleChange = (_, activeIndex) => this.setState({ activeIndex });
+  const handleChange = event => {
+    setActiveIndex(event.target.value);
+  };
 
-  render() {
-    const { activeIndex } = this.state;
-    const { classes, icon: Icon, title, description, tabs } = this.props;
-
-    return (
-      <Grid container spacing={24} className={classes.CategoryWrapper}>
-        <Grid item xs={12} sm={12} md={6} lg={6} className={classes.CategoryContent}>
-          <div className={classes.Title}>
-            <Icon />
-            <h3>{title}</h3>
-          </div>
-          <p>{description}</p>
-          <VerticalTabs activeIndex={activeIndex} handleChange={this.handleChange} title={tabs} />
-        </Grid>
-        <Grid item xs={12} sm={12} md={6} lg={6} className={classes.CategoryMedia}>
-          <FeatureMedia content={tabs[activeIndex].media} />
-        </Grid>
+  return (
+    <Grid container spacing={24} className={classes.CategoryWrapper}>
+      <Grid item xs={12} sm={12} md={6} lg={6} className={classes.CategoryContent}>
+        <div className={classes.Title}>
+          <Icon />
+          <h3>{title}</h3>
+        </div>
+        <p>{description}</p>
+        <VerticalTabs activeIndex={activeIndex} handleChange={handleChange} title={tabs} />
       </Grid>
-    );
-  }
-}
+      <Grid item xs={12} sm={12} md={6} lg={6} className={classes.CategoryMedia}>
+        <FeatureMedia content={tabs[activeIndex].media} />
+      </Grid>
+    </Grid>
+  );
+};
 
 export default withStyles(useStyles)(Category);
