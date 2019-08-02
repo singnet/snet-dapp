@@ -144,7 +144,6 @@ export const submitFeedback = (orgId, serviceId, feedback) => async () => {
   const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
   const feedbackObj = {
     feedback: {
-      username: currentUser.attributes.email,
       org_id: orgId,
       service_id: serviceId,
       user_rating: parseFloat(feedback.rating).toFixed(1),
