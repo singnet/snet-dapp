@@ -41,7 +41,7 @@ export const unsubsrcibeToEmailAlerts = dispatch => {
 
 export const fetchUserProfile = (username, token) => dispatch => {
   const apiName = APIEndpoints.USER.name;
-  const path = `${APIPaths.GET_USER_PROFILE}${username}`;
+  const path = APIPaths.GET_USER_PROFILE;
   const myInit = generateAPIInit(token);
   API.get(apiName, path, myInit).then(res => {
     if (res.data.data.length > 0 && Boolean(res.data.data[0].email_alerts)) {
@@ -52,7 +52,7 @@ export const fetchUserProfile = (username, token) => dispatch => {
 
 const fetchWalletStatus = (username, token) => {
   const apiName = APIEndpoints.USER.name;
-  const path = `${APIPaths.WALLET}?username=${username}`;
+  const path = `${APIPaths.WALLET}`;
   const myInit = generateAPIInit(token);
   return API.get(apiName, path, myInit);
 };
@@ -103,7 +103,7 @@ export const fetchUserDetails = async dispatch => {
           currentUser.attributes.email_verified,
           currentUser.attributes.email,
           currentUser.username,
-          wallet.data.isAssigned
+          wallet.data.length > 0
         )
       );
     }
@@ -152,7 +152,7 @@ export const loginSuccess = ({ res, history, route, wallet }) => dispatch => {
     type: userActions.LOGIN_SUCCESS,
     payload: {
       login: { isLoggedIn: true },
-      isWalletAssigned: wallet.data.isAssigned,
+      isWalletAssigned: wallet.data.legnth > 0,
       username: res.attributes.name,
       isEmailVerified: res.attributes.email_verified,
     },
@@ -190,6 +190,18 @@ export const login = ({ username, password, history, route }) => async dispatch 
     });
 };
 
+const registrationAPI = token => {
+  const apiName = APIEndpoints.USER.name;
+  const apiPath = APIPaths.SIGNUP;
+  const myInit = generateAPIInit(token);
+  return API.get(apiName, apiPath, myInit);
+};
+
+export const registerInMarketplace = async dispatch => {
+  const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
+  return registrationAPI(currentUser.signInUserSession.idToken.jwtToken);
+};
+
 export const signOut = dispatch => {
   dispatch(loaderActions.startAppLoader(LoaderContent.SIGN_OUT));
   let userDetails = {
@@ -223,13 +235,13 @@ export const checkWalletStatus = username => (dispatch, getState) => {
   Auth.currentSession({ bypassCache: true })
     .then(currentSession => {
       const apiName = APIEndpoints.USER.name;
-      const path = `${APIPaths.WALLET}?username=${username}`;
+      const path = `${APIPaths.WALLET}`;
       const myInit = generateAPIInit(currentSession.idToken.jwtToken);
       dispatch(updateEmailVerified(currentSession.idToken.payload.email_verified));
       API.get(apiName, path, myInit).then(res => {
         dispatch({
           type: CHECK_WALLET_STATUS,
-          payload: { isWalletAssigned: res.data.isAssigned },
+          payload: { isWalletAssigned: res.data.legnth > 0 },
         });
       });
     })
@@ -267,7 +279,7 @@ const deleteUserFromMarketPlace = token => {
   return API.get(apiName, path, myInit);
 };
 
-const deleteUser = (user, { history, route }) => dispatch => {
+const deleteUserFromCognito = (user, { history, route }) => dispatch => {
   new Promise((resolve, reject) => {
     user.deleteUser(error => {
       if (error) {
@@ -286,7 +298,7 @@ export const deleteUserAccount = ({ history, route }) => async dispatch => {
   dispatch(loaderActions.startAppLoader(LoaderContent.DELETE_USER));
   const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
   await deleteUserFromMarketPlace(currentUser.signInUserSession.idToken.jwtToken);
-  dispatch(deleteUser(currentUser, { history, route }));
+  dispatch(deleteUserFromCognito(currentUser, { history, route }));
 };
 
 const forgotPasswordInit = dispatch => {

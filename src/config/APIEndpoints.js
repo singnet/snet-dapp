@@ -18,8 +18,9 @@ export const APIEndpoints = {
 };
 
 export const APIPaths = {
+  SIGNUP: "/signup",
   GET_SERVICE_LIST: "/service",
-  GET_USER_PROFILE: "/profile?username=",
+  GET_USER_PROFILE: "/profile",
   UPDATE_USER_PROFILE: "/profile",
   WALLET: "/wallet",
   INVOKE_SERVICE: "/invoke",

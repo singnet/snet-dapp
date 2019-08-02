@@ -59,10 +59,12 @@ class ThirdPartyAIService extends Component {
   fetchUserFeedback = async () => {
     const { org_id, service_id } = this.props;
     const feedback = await this.props.fetchFeedback(org_id, service_id);
-    this.setState(prevState => ({
-      ...prevState,
-      feedback: { comment: feedback.data[0].comment[0], rating: feedback.data[0].rating },
-    }));
+    if (feedback.data.length > 0) {
+      this.setState(prevState => ({
+        ...prevState,
+        feedback: { comment: feedback.data[0].comment[0], rating: feedback.data[0].rating },
+      }));
+    }
   };
 
   fetchServiceSpec = async (org_id, service_id) => {
@@ -110,7 +112,7 @@ class ThirdPartyAIService extends Component {
           sliderWidth={"550px"}
         />
         <CompletedActions
-          isComplete={isComplete || serviceRequestComplete}
+          isComplete={isComplete || serviceRequestComplete || true}
           feedback={feedback}
           orgId={org_id}
           serviceId={service_id}
