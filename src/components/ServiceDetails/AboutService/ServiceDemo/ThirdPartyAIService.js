@@ -103,7 +103,7 @@ class ThirdPartyAIService extends Component {
           />
         </Suspense>
         <CompletedActions
-          isComplete={isComplete || serviceRequestComplete || true}
+          isComplete={isComplete || serviceRequestComplete}
           feedback={feedback}
           orgId={org_id}
           serviceId={service_id}
