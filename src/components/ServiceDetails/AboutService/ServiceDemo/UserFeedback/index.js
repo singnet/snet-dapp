@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "@material-ui/core/Modal";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -21,6 +21,11 @@ const UserFeedback = ({ open, handleClose, feedback, submitFeedback, orgId, serv
   const [alert, setAlert] = useState({ type: "error", message: undefined });
   const classes = useStyles();
 
+  useEffect(() => {
+    setComment(feedback.comment);
+    setRating(feedback.rating);
+  }, [feedback.comment, feedback.rating]);
+
   const handleCommentChange = event => {
     setComment(event.target.value);
   };
@@ -32,6 +37,7 @@ const UserFeedback = ({ open, handleClose, feedback, submitFeedback, orgId, serv
   const handleCancel = () => {
     setComment(feedback.comment);
     setRating(feedback.rating);
+    setAlert({ type: "error", message: undefined });
     handleClose();
   };
 
