@@ -2,8 +2,8 @@ import { PricingStrategy } from "../utility/PricingStrategy";
 
 const service = {
   service_row_id: 1,
-  org_id: "snet",
-  service_id: "example-service",
+  org_id: process.env.REACT_APP_SANDBOX_ORG_ID,
+  service_id: process.env.REACT_APP_SANDBOX_SERVICE_ID,
   price_model: "fixed_price",
   price_in_cogs: "1.00000000",
   pricing: '{"price_model": "fixed_price", "price_in_cogs": 1}',
