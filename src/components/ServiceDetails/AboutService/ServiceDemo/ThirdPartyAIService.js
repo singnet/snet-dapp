@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, { Component, Suspense } from "react";
 import { connect } from "react-redux";
 import { withStyles } from "@material-ui/styles";
 
-import SampleServices from "../../../../assets/thirdPartyServices";
+import thirdPartyCustomUIComponents from "../../../../assets/thirdPartyServices";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../../../Redux/actionCreators";
 import { APIEndpoints } from "../../../../config/APIEndpoints";
@@ -18,8 +18,6 @@ class ThirdPartyAIService extends Component {
     loading: true,
     serviceRequestComplete: false,
   };
-
-  sampleServices = new SampleServices();
 
   componentDidMount = async () => {
     const { org_id, service_id, username } = this.props;
@@ -87,19 +85,21 @@ class ThirdPartyAIService extends Component {
     const { org_id, service_id, classes, grpcResponse, isComplete } = this.props;
     const { feedback, serviceRequestComplete } = this.state;
     const { serviceClient, serviceSpecJSON, protoSpec } = this;
-    const AIServiceCustomComponent = this.sampleServices.getComponent(org_id, service_id);
+    const AIServiceCustomComponent = thirdPartyCustomUIComponents.componentFor(org_id, service_id);
 
     return (
       <div className={classes.serviceDetailsTab}>
-        <AIServiceCustomComponent
-          serviceClient={serviceClient}
-          callApiCallback={this.handleServiceInvokation}
-          protoSpec={protoSpec}
-          serviceSpec={serviceSpecJSON}
-          isComplete={isComplete}
-          response={grpcResponse}
-          sliderWidth={"550px"}
-        />
+        <Suspense fallback={<div>Loading Custom Component...</div>}>
+          <AIServiceCustomComponent
+            serviceClient={serviceClient}
+            callApiCallback={this.handleServiceInvokation}
+            protoSpec={protoSpec}
+            serviceSpec={serviceSpecJSON}
+            isComplete={isComplete}
+            response={grpcResponse}
+            sliderWidth={"550px"}
+          />
+        </Suspense>
         <CompletedActions
           isComplete={isComplete || serviceRequestComplete}
           feedback={feedback}
