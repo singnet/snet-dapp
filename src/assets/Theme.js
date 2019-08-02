@@ -52,6 +52,8 @@ const aqua = "#00C48C";
 const errorRed = "#B00020";
 const redBtnText = "#D0021B";
 
+const verticalTabLeftBorder = "#e2e2e2";
+
 const h2 = { size: 32, color: darkShadedGray };
 
 const theme = createMuiTheme({
@@ -90,6 +92,7 @@ const theme = createMuiTheme({
       alertBoxBorder,
       alertBoxColor,
       alertBoxBackgroundColor,
+      verticalTabLeftBorder,
     },
   },
   typography: {
