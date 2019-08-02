@@ -11,9 +11,6 @@ import { createServiceClient } from "../../../../utility/sdk";
 
 class ThirdPartyAIService extends Component {
   state = {
-    AIServiceCustomComponent: undefined,
-    serviceSpecJSON: undefined,
-    protoSpec: undefined,
     feedback: {
       comment: "",
       rating: "",
@@ -34,22 +31,14 @@ class ThirdPartyAIService extends Component {
       this.serviceRequestCompleteHandler
     );
     const { serviceSpecJSON, protoSpec } = await this.fetchServiceSpec(org_id, service_id);
-    this.fetchAIServiceComponent();
-    this.setState({ loading: false, serviceSpecJSON, protoSpec });
+    this.serviceSpecJSON = serviceSpecJSON;
+    this.protoSpec = protoSpec;
+    await this.fetchUserFeedback();
+    this.setState({ loading: false });
   };
 
   serviceRequestStartHandler = () => {
     this.setState({ serviceRequestComplete: false });
-  };
-
-  fetchAIServiceComponent = () => {
-    const { org_id, service_id } = this.props;
-    if (org_id && service_id && !this.state.AIServiceCustomComponent) {
-      this.fetchServiceSpec(org_id, service_id);
-      const AIServiceCustomComponent = this.sampleServices.getComponent(org_id, service_id);
-      this.setState({ AIServiceCustomComponent });
-      this.fetchUserFeedback();
-    }
   };
 
   serviceRequestCompleteHandler = () => {
@@ -90,17 +79,15 @@ class ThirdPartyAIService extends Component {
   };
 
   render() {
-    const { org_id, service_id, classes, grpcResponse, isComplete } = this.props;
-    const { AIServiceCustomComponent, serviceSpecJSON, protoSpec, feedback, serviceRequestComplete } = this.state;
-
-    if (!AIServiceCustomComponent || !serviceSpecJSON || !protoSpec) {
-      return null;
-    }
     const { loading } = this.state;
     if (loading) {
       return null;
     }
-    const { serviceClient } = this;
+
+    const { org_id, service_id, classes, grpcResponse, isComplete } = this.props;
+    const { feedback, serviceRequestComplete } = this.state;
+    const { serviceClient, serviceSpecJSON, protoSpec } = this;
+    const AIServiceCustomComponent = this.sampleServices.getComponent(org_id, service_id);
 
     return (
       <div className={classes.serviceDetailsTab}>
