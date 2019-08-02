@@ -21,18 +21,20 @@ class ThirdPartyAIService extends Component {
 
   componentDidMount = async () => {
     const { org_id, service_id, username } = this.props;
-    this.serviceClient = await createServiceClient(
-      org_id,
-      service_id,
-      username,
-      this.serviceRequestStartHandler,
-      this.serviceRequestCompleteHandler
-    );
-    const { serviceSpecJSON, protoSpec } = await this.fetchServiceSpec(org_id, service_id);
+    this.serviceClient = await createServiceClient(org_id, service_id, username, this.serviceRequestStartHandler, this.serviceRequestCompleteHandler);
+    await this.setupComponent();
+    this.setState({ loading: false });
+  };
+
+  setupComponent = async () => {
+    if (process.env.REACT_APP_SANDBOX) {
+      return;
+    }
+
+    const { serviceSpecJSON, protoSpec } = await this.fetchServiceSpec();
     this.serviceSpecJSON = serviceSpecJSON;
     this.protoSpec = protoSpec;
-    await this.fetchUserFeedback();
-    this.setState({ loading: false });
+    this.fetchUserFeedback();
   };
 
   serviceRequestStartHandler = () => {
@@ -49,11 +51,8 @@ class ThirdPartyAIService extends Component {
     this.setState({ feedback: { comment: feedback.data[0].comment[0], rating: feedback.data[0].rating } });
   };
 
-  fetchServiceSpec = async (org_id, service_id) => {
-    if (process.env.REACT_APP_SANDBOX) {
-      return {};
-    }
-
+  fetchServiceSpec = async () => {
+    const { org_id, service_id } = this.props;
     const servicebufURL = `${APIEndpoints.SERVICE_BUF.endpoint}/${org_id}/${service_id}`;
     return this.props.fetchProtoSpec(servicebufURL);
   };
@@ -86,7 +85,7 @@ class ThirdPartyAIService extends Component {
 
     return (
       <div className={classes.serviceDetailsTab}>
-        <Suspense fallback={<div>Loading Custom Component...</div>}>
+        <Suspense fallback={<div>Loading Service...</div>}>
           <AIServiceCustomComponent
             serviceClient={serviceClient}
             callApiCallback={this.handleServiceInvokation}
