@@ -8,6 +8,10 @@ const CompletedActions = ({ isComplete, feedback, orgId, serviceId, refetchFeedb
   const [openUserFeedback, setUserFeedback] = useState(false);
 
   const handleOpenUserFeedback = () => {
+    if (process.env.REACT_APP_SANDBOX) {
+      return;
+    }
+
     setUserFeedback(true);
   };
 
