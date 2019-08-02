@@ -11,7 +11,7 @@ const store = configureStore();
 
 ReactDOM.render(
   <ReduxProvider store={store}>
-      <SnetApp />
+    <SnetApp />
   </ReduxProvider>,
   document.getElementById("root")
 );
