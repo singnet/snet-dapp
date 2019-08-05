@@ -54,6 +54,9 @@ class ThirdPartyAIService extends Component {
   fetchUserFeedback = async () => {
     const { org_id, service_id } = this.props;
     const feedback = await this.props.fetchFeedback(org_id, service_id);
+    if (!feedback.data.length > 0) {
+      return;
+    }
     this.setState({ feedback: { comment: feedback.data[0].comment[0], rating: feedback.data[0].rating } });
   };
 
