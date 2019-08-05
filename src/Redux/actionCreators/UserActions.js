@@ -152,7 +152,7 @@ export const loginSuccess = ({ res, history, route, wallet }) => dispatch => {
     type: userActions.LOGIN_SUCCESS,
     payload: {
       login: { isLoggedIn: true },
-      isWalletAssigned: wallet.data.legnth > 0,
+      isWalletAssigned: wallet.data.length > 0,
       username: res.attributes.name,
       isEmailVerified: res.attributes.email_verified,
     },
@@ -241,7 +241,7 @@ export const checkWalletStatus = username => (dispatch, getState) => {
       API.get(apiName, path, myInit).then(res => {
         dispatch({
           type: CHECK_WALLET_STATUS,
-          payload: { isWalletAssigned: res.data.legnth > 0 },
+          payload: { isWalletAssigned: res.data.length > 0 },
         });
       });
     })
