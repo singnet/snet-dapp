@@ -1,5 +1,5 @@
 import React from "react";
-import SandboxApp  from "./sandbox/SandboxApp";
+import SandboxApp from "./sandbox/SandboxApp";
 import App from "./App";
 
 export default () => {

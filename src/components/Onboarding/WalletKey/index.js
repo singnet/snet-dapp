@@ -11,6 +11,8 @@ import { parseError } from "../../../utility/ErrorHandling";
 import Routes from "../../../utility/constants/Routes";
 import { useStyles } from "./styles";
 import { userActions } from "../../../Redux/actionCreators";
+import { APIEndpoints, APIPaths } from "../../../config/APIEndpoints";
+import { initializeAPIOptions } from "../../../utility/API";
 
 class TermsOfUse extends Component {
   state = {
@@ -22,13 +24,12 @@ class TermsOfUse extends Component {
   handleExportingPrivateKey = () => {
     Auth.currentSession({ bypassCache: true })
       .then(data => {
-        API.get("Get Service", "/signup", {
-          headers: {
-            Authorization: data.idToken.jwtToken,
-          },
-        })
+        const apiName = APIEndpoints.USER.name;
+        const apiPath = APIPaths.SIGNUP;
+        const apiOptions = initializeAPIOptions(data.idToken.jwtToken);
+        API.get(apiName, apiPath, apiOptions)
           .then(res => {
-            if (res.data === "User Already Exist!") {
+            if (res.data === "User already exist") {
               this.setState({ error: res.data, allowContinue: true });
               return;
             }

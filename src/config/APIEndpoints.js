@@ -18,12 +18,14 @@ export const APIEndpoints = {
 };
 
 export const APIPaths = {
+  SIGNUP: "/signup",
   GET_SERVICE_LIST: "/service",
-  GET_USER_PROFILE: "/profile?username=",
+  GET_USER_PROFILE: "/profile",
   UPDATE_USER_PROFILE: "/profile",
   WALLET: "/wallet",
   INVOKE_SERVICE: "/invoke",
   FILTER_DATA: "/service?attribute=",
   FEEDBACK: "/feedback",
   GET_SIGNATURE: "/sign-call",
+  DELETE_USER: "/delete-user",
 };

@@ -40,4 +40,12 @@ export const useStyles = makeStyles(theme => ({
     justifyContent: "center",
   },
   ReviewTitle: { display: "none" },
+  buttonsContainer: {
+    marginTop: 10,
+    textAlign: "center",
+    "& button": {
+      padding: " 13px 60px 11px",
+      marginTop: 10,
+    },
+  },
 }));

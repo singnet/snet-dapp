@@ -5,7 +5,7 @@ import { Provider as ReduxProvider } from "react-redux";
 import "./index.css";
 import "./assets/icomoon.css";
 import configureStore from "./Redux/Store";
-import SnetApp from './SnetApp';
+import SnetApp from "./SnetApp";
 
 const store = configureStore();
 
