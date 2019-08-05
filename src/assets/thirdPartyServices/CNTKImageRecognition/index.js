@@ -52,11 +52,14 @@ export default class CNTKImageRecognition extends React.Component {
     const props = {
       request,
       onEnd: ({ message }) => {
-        this.setState({ isComplete: true, response: { value: message.getValue() } });
+        this.setState({
+          isComplete: true,
+          response: { status: "success", top_5: message.getTop5(), delta_time: message.getDeltaTime() },
+        });
       },
     };
 
-    this.props.serviceClient.unary(methodDescriptor, props)
+    this.props.serviceClient.unary(methodDescriptor, props);
   }
 
   renderForm() {
@@ -116,29 +119,15 @@ export default class CNTKImageRecognition extends React.Component {
   }
 
   renderComplete() {
-    let status = "Ok\n";
-    let top_5 = "\n";
-    let delta_time = "\n";
+    const { response } = this.state;
 
-    if (typeof this.state.response === "object") {
-      delta_time = this.state.response.delta_time + "s\n";
-      top_5 = this.state.response.top_5;
-      top_5 = top_5.replace("{", "").replace("}", "");
-      let top_5_list = top_5.split(", ");
-      top_5 = "\n";
-      for (let i = 0; i < top_5_list.length; i++) {
-        top_5 += top_5_list[i] + "\n";
-      }
-    } else {
-      status = this.state.response + "\n";
-    }
     return (
       <div>
         <p style={{ fontSize: "13px" }}>Response from service is: </p>
         <pre>
-          Status: {status}
-          Time : {delta_time}
-          Output: {top_5}
+          Status: {response.status}
+          Time : {response.delta_time}
+          Output: {response.top_5}
         </pre>
       </div>
     );
