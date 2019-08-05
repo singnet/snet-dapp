@@ -12,7 +12,7 @@ import Routes from "../../../utility/constants/Routes";
 import { useStyles } from "./styles";
 import { userActions } from "../../../Redux/actionCreators";
 import { APIEndpoints, APIPaths } from "../../../config/APIEndpoints";
-import { generateAPIInit } from "../../../utility/API";
+import { initializeAPIOptions } from "../../../utility/API";
 
 class TermsOfUse extends Component {
   state = {
@@ -26,7 +26,7 @@ class TermsOfUse extends Component {
       .then(data => {
         const apiName = APIEndpoints.USER.name;
         const apiPath = APIPaths.SIGNUP;
-        const myInit = generateAPIInit(data.idToken.jwtToken);
+        const myInit = initializeAPIOptions(data.idToken.jwtToken);
         API.get(apiName, apiPath, myInit)
           .then(res => {
             if (res.data === "User already exist") {
