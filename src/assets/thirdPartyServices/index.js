@@ -1,6 +1,6 @@
 import React, { lazy } from "react";
 
-const ExampleService = lazy(() => import("./ExampleService.js"));
+const ExampleService = lazy(() => import("./snet/example_service"));
 const CNTKImageRecognition = lazy(() => import("./CNTKImageRecognition.js"));
 const CNTKNextDayTrend = lazy(() => import("./CNTKNextDayTrend.js"));
 const CNTKLSTMForecast = lazy(() => import("./CNTKLSTMForecast.js"));

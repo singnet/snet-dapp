@@ -52,6 +52,15 @@ export const useStyles = makeStyles(theme => ({
       color: theme.palette.text.white,
     },
   },
+  redBg: {
+    padding: "13px 38px 11px",
+    color: theme.palette.text.white,
+    backgroundColor: theme.palette.text.redBtnBg,
+    "&:hover": {
+      backgroundColor: theme.palette.text.redBtnText,
+      color: theme.palette.text.white,
+    },
+  },
   transparentBlueBorder: {
     borderColor: theme.palette.text.primary,
     backgroundColor: "transparent !important",
