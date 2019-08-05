@@ -4,7 +4,7 @@ import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { parseError } from "../../utility/ErrorHandling";
 import { userActions, errorActions, loaderActions } from ".";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
-import { generateAPIInit } from "../../utility/API";
+import { initializeAPIOptions } from "../../utility/API";
 
 export const SET_USER_DETAILS = "SET_USER_DETAILS";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
@@ -42,7 +42,7 @@ export const unsubsrcibeToEmailAlerts = dispatch => {
 export const fetchUserProfile = (username, token) => dispatch => {
   const apiName = APIEndpoints.USER.name;
   const path = APIPaths.GET_USER_PROFILE;
-  const myInit = generateAPIInit(token);
+  const myInit = initializeAPIOptions(token);
   API.get(apiName, path, myInit).then(res => {
     if (res.data.data.length > 0 && Boolean(res.data.data[0].email_alerts)) {
       dispatch(subscribeToEmailAlerts);
@@ -53,7 +53,7 @@ export const fetchUserProfile = (username, token) => dispatch => {
 const fetchWalletStatus = (username, token) => {
   const apiName = APIEndpoints.USER.name;
   const path = `${APIPaths.WALLET}`;
-  const myInit = generateAPIInit(token);
+  const myInit = initializeAPIOptions(token);
   return API.get(apiName, path, myInit);
 };
 
@@ -115,7 +115,7 @@ export const fetchUserDetails = async dispatch => {
 export const updateUserProfileInit = (currentUser, updatedUserData) => {
   const apiName = APIEndpoints.USER.name;
   const path = APIPaths.UPDATE_USER_PROFILE;
-  const myInit = generateAPIInit(currentUser.signInUserSession.idToken.jwtToken, updatedUserData);
+  const myInit = initializeAPIOptions(currentUser.signInUserSession.idToken.jwtToken, updatedUserData);
   return API.post(apiName, path, myInit);
 };
 
@@ -152,7 +152,7 @@ export const loginSuccess = ({ res, history, route, wallet }) => dispatch => {
     type: userActions.LOGIN_SUCCESS,
     payload: {
       login: { isLoggedIn: true },
-      isWalletAssigned: wallet.data.legnth > 0,
+      isWalletAssigned: wallet.data.length > 0,
       username: res.attributes.name,
       isEmailVerified: res.attributes.email_verified,
     },
@@ -193,7 +193,7 @@ export const login = ({ username, password, history, route }) => async dispatch 
 const registrationAPI = token => {
   const apiName = APIEndpoints.USER.name;
   const apiPath = APIPaths.SIGNUP;
-  const myInit = generateAPIInit(token);
+  const myInit = initializeAPIOptions(token);
   return API.get(apiName, apiPath, myInit);
 };
 
@@ -236,12 +236,12 @@ export const checkWalletStatus = username => (dispatch, getState) => {
     .then(currentSession => {
       const apiName = APIEndpoints.USER.name;
       const path = `${APIPaths.WALLET}`;
-      const myInit = generateAPIInit(currentSession.idToken.jwtToken);
+      const myInit = initializeAPIOptions(currentSession.idToken.jwtToken);
       dispatch(updateEmailVerified(currentSession.idToken.payload.email_verified));
       API.get(apiName, path, myInit).then(res => {
         dispatch({
           type: CHECK_WALLET_STATUS,
-          payload: { isWalletAssigned: res.data.legnth > 0 },
+          payload: { isWalletAssigned: res.data.length > 0 },
         });
       });
     })

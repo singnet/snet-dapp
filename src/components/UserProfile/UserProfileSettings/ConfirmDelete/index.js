@@ -51,19 +51,6 @@ const ConfirmDelete = ({ open, handleClose, handleSubmit, error }) => {
                   <BulletPoint key={msg} type="warning" message={msg} />
                 ))}
               </div>
-              {/* <FormControl fullWidth className={classes.formControl}>
-                <div className={classes.DropDownContainer}>
-                  <span>Reason for deleting your account</span>
-                  <StyledDropdown list={list} value={"hey"} labelTxt={"select item"} />
-                </div>
-                <StyledTextField
-                  label="Your feedback matters.  Anything else you’d like share"
-                  value={feedback}
-                  fullWidth
-                  multiline
-                  rows="4"
-                />
-              </FormControl> */}
               <AlertBox type={alertTypes.ERROR} message={error} />
             </div>
           </CardContent>
