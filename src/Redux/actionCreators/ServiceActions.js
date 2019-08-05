@@ -61,8 +61,8 @@ export const invokeServiceMethod = data => dispatch => {
     .then(currentSession => {
       const apiName = APIEndpoints.INVOKE_SERVICE.name;
       const path = APIPaths.INVOKE_SERVICE;
-      const myInit = initializeAPIOptions(currentSession.idToken.jwtToken, data);
-      return API.post(apiName, path, myInit);
+      const apiOptions = initializeAPIOptions(currentSession.idToken.jwtToken, data);
+      return API.post(apiName, path, apiOptions);
     })
     .then(response => {
       dispatch(loaderActions.stopAppLoader);
@@ -124,8 +124,8 @@ export const resetFilter = ({ pagination }) => dispatch => {
 const fetchFeedbackAPI = (username, orgId, serviceId, token) => {
   const apiName = APIEndpoints.USER.name;
   const path = `${APIPaths.FEEDBACK}?org_id=${orgId}&service_id=${serviceId}`;
-  const myInit = initializeAPIOptions(token);
-  return API.get(apiName, path, myInit);
+  const apiOptions = initializeAPIOptions(token);
+  return API.get(apiName, path, apiOptions);
 };
 
 export const fetchFeedback = (orgId, serviceId) => async () => {
@@ -136,8 +136,8 @@ export const fetchFeedback = (orgId, serviceId) => async () => {
 const submitFeedbackAPI = (feedbackObj, token) => {
   const apiName = APIEndpoints.USER.name;
   const path = `${APIPaths.FEEDBACK}`;
-  const myInit = initializeAPIOptions(token, feedbackObj);
-  return API.post(apiName, path, myInit);
+  const apiOptions = initializeAPIOptions(token, feedbackObj);
+  return API.post(apiName, path, apiOptions);
 };
 
 export const submitFeedback = (orgId, serviceId, feedback) => async () => {

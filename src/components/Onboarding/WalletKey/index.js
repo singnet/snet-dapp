@@ -26,8 +26,8 @@ class TermsOfUse extends Component {
       .then(data => {
         const apiName = APIEndpoints.USER.name;
         const apiPath = APIPaths.SIGNUP;
-        const myInit = initializeAPIOptions(data.idToken.jwtToken);
-        API.get(apiName, apiPath, myInit)
+        const apiOptions = initializeAPIOptions(data.idToken.jwtToken);
+        API.get(apiName, apiPath, apiOptions)
           .then(res => {
             if (res.data === "User already exist") {
               this.setState({ error: res.data, allowContinue: true });
