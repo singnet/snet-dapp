@@ -26,12 +26,6 @@ class UserProfileSettings extends Component {
     this.setState({ emailAlerts: this.props.emailAlerts });
   };
 
-  componentDidUpdate = prevProps => {
-    if (prevProps.emailAlerts !== this.props.emailAlerts) {
-      this.setState({ emailAlerts: this.props.emailAlerts });
-    }
-  };
-
   handleEmailChange = event => {
     this.setState({
       email: event.target.value,
