@@ -48,8 +48,8 @@ class UserProfileSettings extends Component {
 
   handleSubmit = async () => {
     this.setState({ alertMessage: undefined });
-    const { username, updateUserProfile } = this.props;
-    const updatedUserData = { username, email_alerts: this.state.emailAlerts };
+    const { updateUserProfile } = this.props;
+    const updatedUserData = { email_alerts: this.state.emailAlerts };
     try {
       await updateUserProfile(updatedUserData);
       this.setState({ alertType: alertTypes.SUCCESS, alertMessage: "Changes saved successfully" });
