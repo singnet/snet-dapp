@@ -1,16 +1,17 @@
 import React from "react";
-import { hasOwnDefinedProperty } from "../../utility/JSHelper";
 import Button from "@material-ui/core/Button";
-import SNETImageUpload from "./standardComponents/SNETImageUpload";
+
+import { Recognizer } from "./image_recon_pb_service";
+import { getMethodNames } from "../../../utility/sdk";
+import MethodNamesDropDown from "../common/MethodNamesDropDown";
+import SNETImageUpload from "../standardComponents/SNETImageUpload";
 
 export default class CNTKImageRecognition extends React.Component {
   constructor(props) {
     super(props);
     this.submitAction = this.submitAction.bind(this);
-    this.handleServiceName = this.handleServiceName.bind(this);
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
     this.getImageURL = this.getImageURL.bind(this);
-    this.getServiceMethods = this.getServiceMethods.bind(this);
 
     this.state = {
       users_guide: "https://github.com/singnet/dnn-model-services/blob/master/docs/users_guide/cntk-image-recon.md",
@@ -24,70 +25,8 @@ export default class CNTKImageRecognition extends React.Component {
       model: "ResNet152",
 
       response: undefined,
+      isComplete: false,
     };
-    this.isComplete = false;
-    this.serviceMethods = [];
-    this.allServices = [];
-    this.methodsForAllServices = [];
-    this.parseProps(props);
-  }
-
-  parseProps(nextProps) {
-    this.isComplete = nextProps.isComplete;
-    if (!this.isComplete) {
-      this.parseServiceSpec(nextProps.serviceSpec);
-    } else {
-      console.log(nextProps.response);
-      if (typeof nextProps.response !== "undefined") {
-        this.state.response = nextProps.response;
-      }
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.isComplete !== nextProps.isComplete) {
-      this.parseProps(nextProps);
-    }
-  }
-
-  parseServiceSpec(serviceSpec) {
-    const packageName = Object.keys(serviceSpec.nested).find(
-      key => typeof serviceSpec.nested[key] === "object" && hasOwnDefinedProperty(serviceSpec.nested[key], "nested")
-    );
-
-    var objects = undefined;
-    var items = undefined;
-    if (typeof packageName !== "undefined") {
-      items = serviceSpec.lookup(packageName);
-      objects = Object.keys(items);
-    } else {
-      items = serviceSpec.nested;
-      objects = Object.keys(serviceSpec.nested);
-    }
-
-    this.methodsForAllServices = [];
-    objects.map(rr => {
-      if (typeof items[rr] === "object" && items[rr] !== null && items[rr].hasOwnProperty("methods")) {
-        this.allServices.push(rr);
-        this.methodsForAllServices.push(rr);
-
-        var methods = Object.keys(items[rr]["methods"]);
-        methods.unshift("Select a method");
-        this.methodsForAllServices[rr] = methods;
-      }
-    });
-    this.getServiceMethods(this.allServices[0]);
-  }
-
-  getServiceMethods(strService) {
-    this.setState({
-      serviceName: strService,
-    });
-    var data = this.methodsForAllServices[strService];
-    if (typeof data === "undefined") {
-      data = [];
-    }
-    this.serviceMethods = data;
   }
 
   canBeInvoked() {
@@ -102,27 +41,27 @@ export default class CNTKImageRecognition extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   }
 
-  handleServiceName(event) {
-    var strService = event.target.value;
-    this.setState({
-      serviceName: strService,
-    });
-    console.log("Selected service is " + strService);
-    var data = this.methodsForAllServices[strService];
-    if (typeof data === "undefined") {
-      data = [];
-    }
-    this.serviceMethods = data;
-  }
-
   submitAction() {
-    this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
-      img_path: this.state.img_path,
-      model: this.state.model,
-    });
+    const { methodName, img_path, model } = this.state;
+    const methodDescriptor = Recognizer[methodName];
+    const request = new methodDescriptor.requestType();
+
+    request.setImgPath(img_path);
+    request.setModel(model);
+
+    const props = {
+      request,
+      onEnd: ({ message }) => {
+        this.setState({ isComplete: true, response: { value: message.getValue() } });
+      },
+    };
+
+    this.props.serviceClient.unary(methodDescriptor, props)
   }
 
   renderForm() {
+    const serviceNameOptions = ["Select a method", ...getMethodNames(Recognizer)];
+
     return (
       <React.Fragment>
         <div className="row">
@@ -130,18 +69,11 @@ export default class CNTKImageRecognition extends React.Component {
             Method Name:{" "}
           </div>
           <div className="col-md-3 col-lg-3">
-            <select
-              name="methodName"
-              style={{ height: "30px", width: "250px", fontSize: "13px", marginBottom: "5px" }}
+            <MethodNamesDropDown
+              list={serviceNameOptions}
               value={this.state.methodName}
               onChange={this.handleFormUpdate}
-            >
-              {this.serviceMethods.map((row, index) => (
-                <option value={row} key={index}>
-                  {row}
-                </option>
-              ))}
-            </select>
+            />
           </div>
         </div>
         <div className="row" align="center">
@@ -213,7 +145,7 @@ export default class CNTKImageRecognition extends React.Component {
   }
 
   render() {
-    if (this.isComplete) return <div>{this.renderComplete()}</div>;
+    if (this.state.isComplete) return <div>{this.renderComplete()}</div>;
     else {
       return <div>{this.renderForm()}</div>;
     }
