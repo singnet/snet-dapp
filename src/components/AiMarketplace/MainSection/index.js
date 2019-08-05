@@ -52,6 +52,10 @@ class MainSection extends Component {
         <Grid item xs={12} sm={9} md={9} lg={9}>
           <ServiceCollection
             data={services}
+            cardGroupProps={{
+              services: services,
+              listView: listView,
+            }}
             paginationProps={{
               limit: pagination.limit,
               offset: pagination.offset,

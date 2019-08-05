@@ -7,8 +7,9 @@ import ServiceListItem from "./ServiceListItem";
 import CardImg from "../../../../../assets/images/dummy-card.png";
 import { useStyles } from "./styles";
 import Routes from "../../../../../utility/constants/Routes";
+import ServiceGridItem from "./ServiceGridItem";
 
-const CardGroup = ({ cards, loading }) => {
+const CardGroup = ({ services, loading, listView }) => {
   const classes = useStyles();
   if (loading) {
     return (
@@ -20,23 +21,45 @@ const CardGroup = ({ cards, loading }) => {
       </div>
     );
   }
-
+  if (listView) {
+    return (
+      <div className={classes.cardCollection}>
+        {services.map(service => (
+          <Link
+            key={service.service_row_id}
+            to={`/${Routes.SERVICE_DETAILS}/${service.service_row_id}`}
+            className={classes.routerLink}
+          >
+            <ServiceListItem
+              cardMedia={
+                JSON.parse(service.assets_url).hero_image ? JSON.parse(service.assets_url).hero_image : CardImg
+              }
+              cardTitle={service.org_id}
+              cardSubheader={service.display_name}
+              ratingGiven={service.service_rating}
+              totalRating={service.total_users_rated}
+              cardDescription={service.description}
+            />
+          </Link>
+        ))}
+      </div>
+    );
+  }
   return (
     <div className={classes.cardCollection}>
-      {cards.map(card => (
+      {services.map(service => (
         <Link
-          key={card.service_row_id}
-          to={`/${Routes.SERVICE_DETAILS}/${card.service_row_id}`}
+          key={service.service_row_id}
+          to={`/${Routes.SERVICE_DETAILS}/${service.service_row_id}`}
           className={classes.routerLink}
         >
-          <ServiceListItem
-            key={card.service_id}
-            cardMedia={JSON.parse(card.assets_url).hero_image ? JSON.parse(card.assets_url).hero_image : CardImg}
-            cardTitle={card.org_id}
-            cardSubheader={card.display_name}
-            ratingGiven={card.service_rating}
-            totalRating={card.total_users_rated}
-            cardDescription={card.description}
+          <ServiceGridItem
+            cardMedia={JSON.parse(service.assets_url).hero_image ? JSON.parse(service.assets_url).hero_image : CardImg}
+            cardTitle={service.org_id}
+            cardSubheader={service.display_name}
+            ratingGiven={service.service_rating}
+            totalRating={service.total_users_rated}
+            cardDescription={service.description}
           />
         </Link>
       ))}
@@ -45,7 +68,7 @@ const CardGroup = ({ cards, loading }) => {
 };
 
 CardGroup.defaultProps = {
-  cards: [],
+  services: [],
 };
 
 const mapStateToProps = state => ({
