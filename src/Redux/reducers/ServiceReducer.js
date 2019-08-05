@@ -1,9 +1,13 @@
 import { serviceActions } from "../actionCreators";
-import { defaultPaginationFilterSortSearch } from "../../utility/constants/Pagination";
+import { defaultListingConfig, defaultActiveFilterItem } from "../../utility/constants/Pagination";
 
 const InitialServiceList = {
   services: [],
-  pagination: defaultPaginationFilterSortSearch,
+  pagination: { ...defaultListingConfig },
+  filterData: {
+    org_id: [],
+  },
+  activeFilterItem: { ...defaultActiveFilterItem },
   serviceMethodExecution: {
     response: {},
     isComplete: false,
@@ -31,6 +35,36 @@ const serviceReducer = (state = InitialServiceList, action) => {
         },
       };
     }
+    case serviceActions.UPDATE_FILTER_DATA: {
+      return {
+        ...state,
+        filterData: {
+          ...state.filterData,
+          ...action.payload,
+        },
+      };
+    }
+    case serviceActions.UPDATE_ACTIVE_FILTER_ITEM: {
+      return {
+        ...state,
+        activeFilterItem: { ...action.payload },
+      };
+    }
+    case serviceActions.RESET_FILTER_ITEM: {
+      return {
+        ...state,
+        activeFilterItem: { ...defaultActiveFilterItem },
+      };
+    }
+    case serviceActions.UPDATE_FEEDBACK: {
+      return {
+        ...state,
+        feedback: {
+          ...state.feedback,
+          ...action.payload,
+        },
+      };
+    }
     default: {
       return state;
     }
@@ -38,3 +72,7 @@ const serviceReducer = (state = InitialServiceList, action) => {
 };
 
 export default serviceReducer;
+
+export const serviceDetails = (state, serviceRowId) => {
+  return state.serviceReducer.services.find(service => service.service_row_id === Number(serviceRowId));
+};

@@ -17,6 +17,16 @@
     "prefer-arrow-callback": ["error", { "allowNamedFunctions": false, "allowUnboundThis": false }],
     "no-empty-function": ["error"],
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks/exhaustive-deps": "warn",
+    "react/self-closing-comp": [
+      "error",
+      {
+        "component": true,
+        "html": true
+      }
+    ],
+    "no-extra-boolean-cast": 0,
+    "no-unused-vars": "error",
+    "react/jsx-key": "error"
   }
 }

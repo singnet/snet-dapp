@@ -1,7 +1,6 @@
 import React from "react";
 import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import Select from "@material-ui/core/Select";
+import NativeSelect from "@material-ui/core/NativeSelect";
 import PropTypes from "prop-types";
 
 import { useStyles } from "./styles";
@@ -11,24 +10,14 @@ const StyledDropdown = ({ labelTxt, list, value, onChange }) => {
 
   return (
     <FormControl className={classes.formControl}>
-      <InputLabel htmlFor="featured-label">{labelTxt}</InputLabel>
-      <Select
-        native
-        value={value}
-        onChange={onChange}
-        inputProps={{
-          name: "featured",
-          id: "featured-label",
-          placeholder: "labelTxt",
-        }}
-      >
-        <option></option>
+      <NativeSelect value={value} onChange={onChange} name={labelTxt} className={classes.selectEmpty}>
+        <option value="">{labelTxt}</option>
         {list.map(item => (
           <option key={item.value} value={item.value}>
             {item.label}
           </option>
         ))}
-      </Select>
+      </NativeSelect>
     </FormControl>
   );
 };

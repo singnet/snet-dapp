@@ -4,35 +4,37 @@ import { connect } from "react-redux";
 
 import Authentication from "./Authentication";
 import TermsOfUse from "./TermsOfUse";
-import Session from "../../utility/constants/Session";
 import WalletKey from "./WalletKey";
 import { useStyles } from "./styles";
 import OnboardingContainer from "./OnboardingContainer";
-import Routes from "../../utility/constants/Routes";
 import { userActions } from "../../Redux/actionCreators";
+import Routes from "../../utility/constants/Routes";
 
 class Onboarding extends Component {
   state = {
     verificationCode: "",
-    activeSection: 1,
-    progressText: ["Authentication", "Terms of use", "Wallet key"],
+    activeSection: 2,
+    progressText: ["Authentication", "Terms of service", "Wallet Key Generator"],
   };
 
   componentDidMount = () => {
-    this.props.checkWalletStatus();
-    if (this.props.isWalletAssigned) {
-      this.props.history.push(Routes.AI_MARKETPLACE);
+    const { checkWalletStatus, username, isWalletAssigned, isEmailVerified, history } = this.props;
+    checkWalletStatus(username);
+    if (isWalletAssigned) {
+      history.push(`/${Routes.AI_MARKETPLACE}`);
     }
-    if (this.props.isEmailVerified) {
+    if (isEmailVerified) {
       this.setState({ activeSection: 2 });
     }
   };
 
   componentDidUpdate = () => {
-    if (this.props.isWalletAssigned) {
-      this.props.history.push(Routes.AI_MARKETPLACE);
+    const { checkWalletStatus, username, isWalletAssigned, isEmailVerified, history } = this.props;
+    checkWalletStatus(username);
+    if (isWalletAssigned) {
+      history.push(Routes.AI_MARKETPLACE);
     }
-    if (this.props.isEmailVerified && this.state.activeSection === 1) {
+    if (isEmailVerified && this.state.activeSection === 1) {
       this.setState({ activeSection: 2 });
     }
   };
@@ -44,9 +46,8 @@ class Onboarding extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, username, enforcedWalletCreation } = this.props;
     const { activeSection, progressText } = this.state;
-    const username = sessionStorage.getItem(Session.USERNAME);
 
     const OnboardingDetails = [
       {
@@ -60,24 +61,14 @@ class Onboarding extends Component {
         component: <Authentication handleNextSection={this.handleNextSection} />,
       },
       {
-        title: `Step 2`,
-        description: (
-          <p>
-            You have successfully logged into your singularitynet account. <br />
-            You are just steps away from completing your activation.
-          </p>
-        ),
+        title: `Step 2. Privacy and Terms of Service`,
+        description: <p>Just one more step and you’ll be all set!</p>,
         component: <TermsOfUse handleNextSection={this.handleNextSection} />,
       },
       {
-        title: `Step 3`,
-        description: (
-          <p>
-            You have successfully logged into your singularitynet account. <br />
-            You are just steps away from completing your activation.
-          </p>
-        ),
-        component: <WalletKey />,
+        title: `Step 3. Creating Your Account Wallet`,
+        description: <p>Final step!</p>,
+        component: <WalletKey enforcedWalletCreation={enforcedWalletCreation} />,
       },
     ];
 
@@ -101,10 +92,11 @@ class Onboarding extends Component {
 const mapStateToProps = state => ({
   isEmailVerified: state.userReducer.isEmailVerified,
   isWalletAssigned: state.userReducer.isWalletAssigned,
+  username: state.userReducer.username,
 });
 
 const mapDispatchToProps = dispatch => ({
-  checkWalletStatus: () => dispatch(userActions.checkWalletStatus),
+  checkWalletStatus: username => dispatch(userActions.checkWalletStatus(username)),
 });
 
 export default connect(

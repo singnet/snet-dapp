@@ -27,3 +27,11 @@ code {
 }
 
 h1, h2 { margin: 0; }
+
+
+.hide-overflow { 
+  height: 100vh; 
+  overflow: hidden;
+}
+
+

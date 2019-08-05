@@ -7,37 +7,27 @@ import TitleCard from "./TitleCard";
 import PricingDetails from "./PricingDetails";
 import StyledTabs from "./StyledTabs";
 import AboutService from "./AboutService";
+import InstallAndRunService from "./InstallAndRunService";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../Redux/actionCreators";
+import { serviceDetails } from "../../Redux/reducers/ServiceReducer";
 
 class ServiceDetails extends Component {
   state = {
-    service_row_id: "",
-    service: {},
     activeTab: 0,
   };
 
-  componentDidMount = async () => {
-    if (!this.props.services || this.props.services.length === 0) {
-      this.populateServiceData(this.props.pagination);
-      await this.props.fetchService(this.props.pagination);
+  componentDidMount() {
+    this.fetchServices();
+  }
+
+  fetchServices = () => {
+    const { service, pagination, fetchServices } = this.props;
+    if (service) {
       return;
     }
-    this.populateServiceData();
-  };
 
-  componentDidUpdate = async () => {
-    const { service } = this.state;
-    if (!service || (Object.entries(service).length === 0 && service.constructor === Object)) {
-      await this.props.fetchService(this.props.pagination);
-      this.populateServiceData();
-    }
-  };
-
-  populateServiceData = () => {
-    const { service_row_id } = this.props.match.params;
-    const service = this.props.services.filter(el => el.service_row_id === Number(service_row_id))[0];
-    this.setState({ service_row_id, service });
+    fetchServices(pagination);
   };
 
   handleTabChange = activeTab => {
@@ -45,35 +35,42 @@ class ServiceDetails extends Component {
   };
 
   render() {
-    const { classes } = this.props;
-    const { service, activeTab } = this.state;
-
-    const tabs = [{ name: "About", activeIndex: 0, component: <AboutService service={service} /> }];
+    const { classes, service } = this.props;
 
     if (!service) {
       return null;
     }
+
+    const { activeTab } = this.state;
+
+    const tabs = [
+      { name: "About", activeIndex: 0, component: <AboutService service={service} /> },
+      { name: "Install and Run", activeIndex: 1, component: <InstallAndRunService /> },
+    ];
+
     return (
       <Grid container spacing={24} className={classes.serviceDetailContainer}>
-        <TitleCard org_id={service.org_id} display_name={service.display_name} />
-        <PricingDetails price_model={service.price_model} />
+        <TitleCard
+          org_id={service.org_id}
+          display_name={service.display_name}
+          img_url={JSON.parse(service.assets_url).hero_image}
+          star_rating={service.service_rating}
+          totalRating={service.total_users_rated}
+        />
+        <PricingDetails price_strategy={service.pricing_strategy} />
         <StyledTabs tabs={tabs} activeTab={activeTab} onTabChange={this.handleTabChange} />
       </Grid>
     );
   }
 }
 
-ServiceDetails.defaultProps = {
-  services: [],
-};
-
-const mapStateToProps = state => ({
-  services: state.serviceReducer.services,
+const mapStateToProps = (state, ownProps) => ({
+  service: serviceDetails(state, ownProps.match.params.service_row_id),
   pagination: state.serviceReducer.pagination,
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchService: pagination => dispatch(serviceActions.fetchService(pagination)),
+  fetchServices: pagination => dispatch(serviceActions.fetchService(pagination)),
 });
 
 export default connect(

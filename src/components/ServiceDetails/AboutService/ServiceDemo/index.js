@@ -1,36 +1,33 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
+import { connect } from "react-redux";
 
 import ProgressBar from "../../../common/ProgressBar";
 import { useStyles } from "./styles";
-import ServiceProvider from "./ThirdPartyAIService";
+import ThirdPartyAIService from "./ThirdPartyAIService";
 
 class ServiceDemo extends Component {
   state = {
-    activeSection: 1,
     error: "error state message",
-    progressText: ["Configure", "Purchase", "Results"],
-    protoSpec: undefined,
-    serviceSpecJSON: undefined,
-    grpcResponse: undefined,
+    progressText: ["Configure", "Results"],
   };
 
   render() {
-    const { classes, service } = this.props;
-    const { activeSection, progressText } = this.state;
+    const { classes, service, isComplete } = this.props;
+    const { progressText } = this.state;
     return (
       <div className={classes.demoExampleContainer}>
         <h4>Process</h4>
-        <ProgressBar activeSection={activeSection} progressText={progressText} />
+        <ProgressBar activeSection={isComplete ? 2 : 1} progressText={progressText} />
         <p>{this.props.tutorial}</p>
-        <ServiceProvider service_id={service.service_id} org_id={service.org_id} />
+        <ThirdPartyAIService service_id={service.service_id} org_id={service.org_id} />
       </div>
     );
   }
 }
 
-ServiceDemo.defaultProps = {
-  tutorial: "",
-};
+const mapStateToProps = state => ({
+  isComplete: state.serviceReducer.serviceMethodExecution.isComplete,
+});
 
-export default withStyles(useStyles)(ServiceDemo);
+export default connect(mapStateToProps)(withStyles(useStyles)(ServiceDemo));

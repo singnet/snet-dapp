@@ -13,7 +13,19 @@ const tabs = [
   },
 ];
 
-const dropdowns = [];
+const dropdowns = [
+  {
+    label: "Resources",
+    list: [
+      { value: "", label: "Documentation" },
+      { value: "", label: "Dataset Download" },
+      { value: "", label: "API Library" },
+      { value: "", label: "Telegram" },
+      { value: "", label: "Forum" },
+      { value: "", label: "Blog" },
+    ],
+  },
+];
 
 export const NavData = {
   tabs,

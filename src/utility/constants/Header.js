@@ -9,7 +9,7 @@ export const headerData = {
   LOGIN: {
     headerTitle: "New to singularityNET?",
     linkPath: Routes.SIGNUP,
-    headerText: "SignUp",
+    headerText: "Sign Up",
   },
   FORGOT_PASSWORD: {
     headerTitle: "Switch to another account?",
@@ -26,4 +26,38 @@ export const headerData = {
     linkPath: Routes.SIGNUP,
     headerText: "Log Out",
   },
+};
+
+const tabs = [
+  {
+    title: "AI Marketplace",
+    active: true,
+    link: `/${Routes.AI_MARKETPLACE}`,
+    openInNewTab: false,
+  },
+  {
+    title: "Get Started",
+    active: false,
+    link: `/${Routes.GET_STARTED}`,
+    openInNewTab: true,
+  },
+];
+
+const dropdowns = [
+  {
+    label: "Resources",
+    list: [
+      { value: "", label: "Documentation" },
+      { value: "", label: "Dataset Download" },
+      { value: "", label: "API Library" },
+      { value: "", label: "Telegram" },
+      { value: "", label: "Forum" },
+      { value: "", label: "Blog" },
+    ],
+  },
+];
+
+export const NavData = {
+  tabs,
+  dropdowns,
 };
