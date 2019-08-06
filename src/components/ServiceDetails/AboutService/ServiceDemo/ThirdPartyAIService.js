@@ -8,6 +8,7 @@ import { serviceActions } from "../../../../Redux/actionCreators";
 import { APIEndpoints } from "../../../../config/APIEndpoints";
 import CompletedActions from "./CompletedActions";
 import { createServiceClient } from "../../../../utility/sdk";
+import ThirdPartyServiceErrorBoundary from "./ThirdPartyServiceErrorBoundary";
 
 class ThirdPartyAIService extends Component {
   state = {
@@ -95,15 +96,17 @@ class ThirdPartyAIService extends Component {
     return (
       <div className={classes.serviceDetailsTab}>
         <Suspense fallback={<div>Loading Service...</div>}>
-          <AIServiceCustomComponent
-            serviceClient={serviceClient}
-            callApiCallback={this.handleServiceInvokation}
-            protoSpec={protoSpec}
-            serviceSpec={serviceSpecJSON}
-            isComplete={isComplete}
-            response={grpcResponse}
-            sliderWidth={"550px"}
-          />
+          <ThirdPartyServiceErrorBoundary>
+            <AIServiceCustomComponent
+              serviceClient={serviceClient}
+              callApiCallback={this.handleServiceInvokation}
+              protoSpec={protoSpec}
+              serviceSpec={serviceSpecJSON}
+              isComplete={isComplete}
+              response={grpcResponse}
+              sliderWidth={"550px"}
+            />
+          </ThirdPartyServiceErrorBoundary>
         </Suspense>
         <CompletedActions
           isComplete={isComplete || serviceRequestComplete}
