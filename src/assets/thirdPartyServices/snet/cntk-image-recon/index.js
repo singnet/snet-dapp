@@ -2,9 +2,9 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 
 import { Recognizer } from "./image_recon_pb_service";
-import { getMethodNames } from "../../../utility/sdk";
-import MethodNamesDropDown from "../common/MethodNamesDropDown";
-import SNETImageUpload from "../standardComponents/SNETImageUpload";
+import { getMethodNames } from "../../../../utility/sdk";
+import MethodNamesDropDown from "../../common/MethodNamesDropDown";
+import SNETImageUpload from "../../standardComponents/SNETImageUpload";
 
 export default class CNTKImageRecognition extends React.Component {
   constructor(props) {
