@@ -10,6 +10,9 @@ const alertBoxColor = "rgba(0,0,0,0.6)";
 const alertBoxBorder = "#E67381";
 const alertBoxBackgroundColor = "#FDE5E8";
 
+const warningBoxBg = "#FDF3E5";
+const warningBoxBorder = "#F18D5A;";
+
 const userProfileIconColor = "#757575";
 
 const purple = "#220D3A";
@@ -51,6 +54,7 @@ const aqua = "#00C48C";
 
 const errorRed = "#B00020";
 const redBtnText = "#D0021B";
+const redBtnBg = "#E67381";
 
 const verticalTabLeftBorder = "#e2e2e2";
 
@@ -93,6 +97,9 @@ const theme = createMuiTheme({
       alertBoxColor,
       alertBoxBackgroundColor,
       verticalTabLeftBorder,
+      redBtnBg,
+      warningBoxBorder,
+      warningBoxBg,
     },
   },
   typography: {

@@ -20,4 +20,8 @@ export const useStyles = theme => ({
     borderColor: theme.palette.text.successBoxBorder,
     backgroundColor: theme.backgroundColor.succesBoxBg,
   },
+  warning: {
+    borderColor: theme.palette.text.warningBoxBorder,
+    backgroundColor: theme.palette.text.warningBoxBg,
+  },
 });

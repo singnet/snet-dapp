@@ -1,12 +1,13 @@
-import React, { Component, lazy } from "react";
-import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import React, { Component, lazy, Suspense } from "react";
+import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
 import { ThemeProvider } from "@material-ui/styles";
 import { connect } from "react-redux";
 
 import Routes from "../utility/constants/Routes";
 import theme from "../assets/Theme";
 import withInAppWrapper from "../components/HOC/WithInAppHeader";
-import ServiceDetails from "../components/ServiceDetails";
+
+const ServiceDetails = lazy(() => import("../components/ServiceDetails"));
 
 class SandboxApp extends Component {
   render() {
@@ -15,14 +16,16 @@ class SandboxApp extends Component {
       <ThemeProvider theme={theme}>
         <div className={hamburgerMenu ? "hide-overflow" : null}>
           <Router>
-            <Switch>
-              <Route
-                path={`/${Routes.SERVICE_DETAILS}/:service_row_id`}
-                {...this.props}
-                component={withInAppWrapper(ServiceDetails)}
-              />
-              <Redirect exact from="/" to={`/${Routes.SERVICE_DETAILS}/1`} />
-            </Switch>
+            <Suspense fallback={<div>Loading...</div>}>
+              <Switch>
+                <Route
+                  path={`/${Routes.SERVICE_DETAILS}/:service_row_id`}
+                  {...this.props}
+                  component={withInAppWrapper(ServiceDetails)}
+                />
+                <Redirect exact from="/" to={`/${Routes.SERVICE_DETAILS}/1`} />
+              </Switch>
+            </Suspense>
           </Router>
         </div>
       </ThemeProvider>
