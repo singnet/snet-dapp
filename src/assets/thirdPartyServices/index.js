@@ -1,7 +1,7 @@
 import React, { lazy } from "react";
 
 const ExampleService = lazy(() => import("./snet/example_service"));
-const CNTKImageRecognition = lazy(() => import("./CNTKImageRecognition.js"));
+const CNTKImageRecognition = lazy(() => import("./snet/cntk-image-recon"));
 const CNTKNextDayTrend = lazy(() => import("./CNTKNextDayTrend.js"));
 const CNTKLSTMForecast = lazy(() => import("./CNTKLSTMForecast.js"));
 const CNTKLanguageUnderstanding = lazy(() => import("./CNTKLanguageUnderstanding.js"));

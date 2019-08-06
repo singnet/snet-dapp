@@ -74,10 +74,10 @@ export const createServiceClient = async (
     options
   );
   const onEnd = props => (...args) => {
+    props.onEnd(...args);
     if (serviceRequestCompleteHandler) {
       serviceRequestCompleteHandler();
     }
-    props.onEnd(...args);
   };
 
   const requestStartHandler = () => {
