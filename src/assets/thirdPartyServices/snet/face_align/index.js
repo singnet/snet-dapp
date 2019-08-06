@@ -1,5 +1,5 @@
 import React from "react";
-import SNETImageUpload from "./standardComponents/SNETImageUpload";
+import SNETImageUpload from "../../standardComponents/SNETImageUpload";
 
 export default class FaceAlignService extends React.Component {
   constructor(props) {
