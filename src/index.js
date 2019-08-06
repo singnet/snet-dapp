@@ -4,7 +4,6 @@ import { Provider as ReduxProvider } from "react-redux";
 
 import "./index.css";
 import "./assets/icomoon.css";
-<<<<<<< HEAD
 import App from "./App";
 import configureStore from "./Redux/Store";
 import SnetApp from "./SnetApp";
