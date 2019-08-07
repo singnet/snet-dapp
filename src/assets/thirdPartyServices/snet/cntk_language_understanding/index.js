@@ -5,6 +5,18 @@ import { LanguageUnderstanding } from "./language_understanding_pb_service";
 import { getMethodNames } from "../../../../utility/sdk";
 import MethodNamesDropDown from "../../common/MethodNamesDropDown";
 
+const initialUserInput = {
+  methodName: "Select a method",
+  train_ctf_url: "",
+  test_ctf_url: "",
+  query_wl_url: "",
+  slots_wl_url: "",
+  intent_wl_url: "",
+  vocab_size: 943,
+  num_labels: 129,
+  num_intents: 26,
+  sentences_url: "",
+};
 export default class CNTKLanguageUnderstanding extends React.Component {
   constructor(props) {
     super(props);
@@ -12,26 +24,13 @@ export default class CNTKLanguageUnderstanding extends React.Component {
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
 
     this.state = {
+      ...initialUserInput,
       users_guide:
         "https://github.com/singnet/nlp-services/blob/master/docs/users_guide/cntk-language-understanding.md",
       code_repo: "https://github.com/singnet/nlp-services/blob/master/cntk-language-understanding",
       reference: "https://cntk.ai/pythondocs/CNTK_202_Language_Understanding.html",
 
-      serviceName: "LanguageUnderstanding",
-      methodName: "Select a method",
-
-      train_ctf_url: "",
-      test_ctf_url: "",
-      query_wl_url: "",
-      slots_wl_url: "",
-      intent_wl_url: "",
-      vocab_size: 943,
-      num_labels: 129,
-      num_intents: 26,
-      sentences_url: "",
-
       response: undefined,
-      isComplete: false,
     };
   }
 
@@ -87,8 +86,8 @@ export default class CNTKLanguageUnderstanding extends React.Component {
           throw new Error(statusMessage);
         }
         this.setState({
+          ...initialUserInput,
           response: { status: "success", model_url: message.getModelUrl(), output_url: message.getOutputUrl() },
-          isComplete: true,
         });
       },
     };
@@ -293,7 +292,7 @@ export default class CNTKLanguageUnderstanding extends React.Component {
   }
 
   render() {
-    if (this.state.isComplete) return <div>{this.renderComplete()}</div>;
+    if (this.props.isComplete) return <div>{this.renderComplete()}</div>;
     else {
       return <div>{this.renderForm()}</div>;
     }
