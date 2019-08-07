@@ -23,9 +23,7 @@ export default class CNTKImageRecognition extends React.Component {
       users_guide: "https://github.com/singnet/dnn-model-services/blob/master/docs/users_guide/cntk-image-recon.md",
       code_repo: "https://github.com/singnet/dnn-model-services/blob/master/Services/gRPC/cntk-image-recon",
       reference: "https://cntk.ai/pythondocs/CNTK_301_Image_Recognition_with_Deep_Transfer_Learning.html",
-
       model: "ResNet152",
-
       response: undefined,
     };
   }
