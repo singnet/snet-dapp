@@ -4,11 +4,12 @@ import { withStyles } from "@material-ui/styles";
 
 import thirdPartyCustomUIComponents from "../../../../assets/thirdPartyServices";
 import { useStyles } from "./styles";
-import { serviceActions } from "../../../../Redux/actionCreators";
+import { serviceActions, loaderActions } from "../../../../Redux/actionCreators";
 import { APIEndpoints } from "../../../../config/APIEndpoints";
 import CompletedActions from "./CompletedActions";
 import { createServiceClient } from "../../../../utility/sdk";
 import ThirdPartyServiceErrorBoundary from "./ThirdPartyServiceErrorBoundary";
+import { LoaderContent } from "../../../../utility/constants/LoaderContent";
 
 class ThirdPartyAIService extends Component {
   state = {
@@ -45,11 +46,13 @@ class ThirdPartyAIService extends Component {
   };
 
   serviceRequestStartHandler = () => {
+    this.props.startLoader();
     this.setState({ serviceRequestComplete: false });
   };
 
   serviceRequestCompleteHandler = () => {
     this.setState({ serviceRequestComplete: true });
+    this.props.stopLoader();
   };
 
   fetchUserFeedback = async () => {
@@ -82,6 +85,15 @@ class ThirdPartyAIService extends Component {
     this.props.invokeServiceMethod(data);
   };
 
+  handleResetAndRun = () => {
+    const { isComplete, resetServiceExecution } = this.props;
+    if (isComplete) {
+      resetServiceExecution();
+      return;
+    }
+    this.setState({ serviceRequestComplete: false });
+  };
+
   render() {
     const { loading } = this.state;
     if (loading) {
@@ -102,7 +114,7 @@ class ThirdPartyAIService extends Component {
               callApiCallback={this.handleServiceInvokation}
               protoSpec={protoSpec}
               serviceSpec={serviceSpecJSON}
-              isComplete={isComplete}
+              isComplete={isComplete | serviceRequestComplete}
               response={grpcResponse}
               sliderWidth={"550px"}
             />
@@ -114,6 +126,7 @@ class ThirdPartyAIService extends Component {
           orgId={org_id}
           serviceId={service_id}
           refetchFeedback={this.fetchUserFeedback}
+          handleResetAndRun={this.handleResetAndRun}
         />
       </div>
     );
@@ -128,6 +141,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   fetchProtoSpec: servicebufURL => dispatch(serviceActions.fetchProtoSpec(servicebufURL)),
   invokeServiceMethod: data => dispatch(serviceActions.invokeServiceMethod(data)),
+  startLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.SERVICE_INVOKATION)),
+  stopLoader: () => dispatch(loaderActions.stopAppLoader),
+  resetServiceExecution: () => dispatch(serviceActions.resetServiceExecution),
   fetchFeedback: (orgId, serviceId) => dispatch(serviceActions.fetchFeedback(orgId, serviceId)),
 });
 
