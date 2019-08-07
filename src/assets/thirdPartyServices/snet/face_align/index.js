@@ -4,6 +4,11 @@ import SNETImageUpload from "../../standardComponents/SNETImageUpload";
 import { FaceAlignment } from "./face_alignment_pb_service";
 import { FaceAlignmentHeader, ImageRGB } from "./face_alignment_pb";
 
+const initialUserInput = {
+  imageData: undefined,
+  imgsrc: undefined,
+};
+
 export default class FaceAlignService extends React.Component {
   constructor(props) {
     super(props);
@@ -11,13 +16,9 @@ export default class FaceAlignService extends React.Component {
     this.getData = this.getData.bind(this);
 
     this.state = {
-      serviceName: "FaceAlignment",
+      ...initialUserInput,
       methodName: "AlignFace",
-      imageData: undefined,
-      imgsrc: undefined,
       facesString: '[{"x":10,"y":10,"w":100,"h":100}]',
-
-      isComplete: false,
       response: undefined,
     };
   }
@@ -57,7 +58,10 @@ export default class FaceAlignService extends React.Component {
         if (status !== 0) {
           throw new Error(statusMessage);
         }
-        this.setState({ isComplete: true, response: { image_chunk: message.getImageChunkList() } });
+        this.setState({
+          ...initialUserInput,
+          response: { image_chunk: message.getImageChunkList() },
+        });
       },
     };
 
