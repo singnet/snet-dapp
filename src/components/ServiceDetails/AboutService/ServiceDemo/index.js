@@ -38,7 +38,7 @@ class ServiceDemo extends Component {
   computeActiveSection = () => {
     const { purchaseCompleted } = this.state;
     const { isComplete } = this.props;
-    return purchaseCompleted ? 1 : isComplete ? 2 : 1;
+    return purchaseCompleted ? (isComplete ? 3 : 2) : 1;
   };
 
   handlePurchaseComplete = () => {
