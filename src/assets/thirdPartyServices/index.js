@@ -9,7 +9,7 @@ const I3DActionRecognition = lazy(() => import("./I3DActionRecognition.js"));
 const OpenNMTRomanceTranslator = lazy(() => import("./OpenNMTRomanceTranslator.js"));
 const S2VTVideoCaptioning = lazy(() => import("./S2VTVideoCaptioning.js"));
 const YOLOv3ObjectDetection = lazy(() => import("./YOLOv3ObjectDetection.js"));
-const Zeta36ChessAlphaZero = lazy(() => import("./Zeta36ChessAlphaZero.js"));
+const Zeta36ChessAlphaZero = lazy(() => import("./snet/zeta36_chess_alpha_zero"));
 const AutomaticSpeechRecognition = lazy(() => import("./AutomaticSpeechRecognition.js"));
 const NeuralSpeechSynthesis = lazy(() => import("./NeuralSpeechSynthesis.js"));
 const LongQuestionAsnswering = lazy(() => import("./LongQuestionAsnswering.js"));
