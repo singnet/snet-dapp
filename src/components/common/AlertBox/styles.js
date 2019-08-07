@@ -23,6 +23,10 @@ export const useStyles = theme => ({
   warning: {
     borderColor: theme.palette.text.warningBoxBorder,
     backgroundColor: theme.palette.text.warningBoxBg,
+    '& a': { 
+      color: theme.palette.text.infoBoxLink,
+      fontWeight: 600
+    }
   },
   info: {
     borderColor: theme.palette.text.primary,
