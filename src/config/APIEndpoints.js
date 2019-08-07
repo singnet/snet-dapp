@@ -17,7 +17,7 @@ export const APIEndpoints = {
   },
   METERING_SERVICE: {
     name: "Metering Service",
-    enpoint: process.env.REACT_APP_METERING_SERVICE_ENDPOINT,
+    endpoint: process.env.REACT_APP_METERING_SERVICE_ENDPOINT,
   },
 };
 
