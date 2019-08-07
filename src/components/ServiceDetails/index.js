@@ -54,8 +54,8 @@ class ServiceDetails extends Component {
           org_id={service.org_id}
           display_name={service.display_name}
           img_url={JSON.parse(service.assets_url).hero_image}
-          star_rating={service.service_rating}
-          totalRating={service.total_users_rated}
+          star_rating={JSON.parse(service.service_rating).rating}
+          totalRating={JSON.parse(service.service_rating).total_users_rated}
         />
         <PricingDetails price_strategy={service.pricing_strategy} />
         <StyledTabs tabs={tabs} activeTab={activeTab} onTabChange={this.handleTabChange} />
