@@ -1,5 +1,8 @@
 import React from "react";
+
 import SNETImageUpload from "../../standardComponents/SNETImageUpload";
+import { FaceAlignment } from "./face_alignment_pb_service";
+import { FaceAlignmentHeader, ImageRGB } from "./face_alignment_pb";
 
 export default class FaceAlignService extends React.Component {
   constructor(props) {
@@ -13,9 +16,10 @@ export default class FaceAlignService extends React.Component {
       imageData: undefined,
       imgsrc: undefined,
       facesString: '[{"x":10,"y":10,"w":100,"h":100}]',
-    };
 
-    this.isComplete = false;
+      isComplete: false,
+      response: undefined,
+    };
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -37,14 +41,27 @@ export default class FaceAlignService extends React.Component {
   }
 
   submitAction() {
-    this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
-      header: {
-        source_bboxes: JSON.parse(this.state.facesString),
+    const methodDescriptor = FaceAlignment.AlignFace;
+    const request = new methodDescriptor.requestType();
+   
+    const header = new FaceAlignmentHeader(JSON.parse(this.state.facesString)[0]);
+    request.setHeader(header);
+    const imageChunk = new ImageRGB();    
+    imageChunk.setContent(this.state.imageData);
+    request.setImageChunk(imageChunk);
+
+    const props = {
+      request,
+      onEnd: response => {
+        const { message, status, statusMessage } = response;
+        if (status !== 0) {
+          throw new Error(statusMessage);
+        }
+        this.setState({ isComplete: true, response: { image_chunk: message.getImageChunk() } });
       },
-      image_chunk: {
-        content: this.state.imageData,
-      },
-    });
+    };
+
+    this.props.serviceClient.unary(methodDescriptor, props);
   }
 
   checkValid() {
@@ -123,7 +140,9 @@ export default class FaceAlignService extends React.Component {
   }
 
   renderComplete() {
-    var alignedFaceImgList = this.props.response.image_chunk.map((item, idx) => {
+    const { image_chunk } = this.state.response;
+
+    const alignedFaceImgList = image_chunk.map((item, idx) => {
       // Of course this is how JS requires you to convert a uint8array to base64,
       // because everything in JS has to be 10x harder than other languages...
       return (
