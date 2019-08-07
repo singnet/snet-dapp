@@ -4,8 +4,6 @@ import { connect } from "react-redux";
 
 import ProgressBar from "../../../common/ProgressBar";
 import { useStyles } from "./styles";
-import ThirdPartyAIService from "./ThirdPartyAIService";
-import Purchase from "./Purchase";
 import { serviceActions } from "../../../../Redux/actionCreators";
 import PurchaseToggler from "./PurchaseToggler";
 
@@ -14,7 +12,7 @@ class ServiceDemo extends Component {
     error: "error state message",
     progressText: ["Purchase", "Configure", "Results"],
     purchaseCompleted: false,
-    freeCallsRemaining: 0,
+    freeCallsRemaining: 1,
   };
 
   componentDidMount = () => {
@@ -30,6 +28,8 @@ class ServiceDemo extends Component {
         username: "n.vin95@gmail.com",
       });
       console.log("usage data", usageData);
+      const freeCallsRemaining = usageData.free_calls_allowed - usageData.total_calls_made;
+      this.setState({ freeCallsRemaining });
     } catch (err) {
       console.log("errrrrrrrrrrrrrr", err);
     }
@@ -47,14 +47,14 @@ class ServiceDemo extends Component {
 
   render() {
     const { classes, service } = this.props;
-    const { progressText, purchaseCompleted } = this.state;
+    const { progressText, purchaseCompleted, freeCallsRemaining } = this.state;
     return (
       <div className={classes.demoExampleContainer}>
         <h4>Process</h4>
         <ProgressBar activeSection={this.computeActiveSection()} progressText={progressText} />
         <PurchaseToggler
           purchaseCompleted={purchaseCompleted}
-          purchaseProps={{ handleComplete: this.handlePurchaseComplete }}
+          purchaseProps={{ handleComplete: this.handlePurchaseComplete, freeCallsRemaining }}
           thirdPartyProps={{ service_id: service.service_id, org_id: service.org_id }}
         />
       </div>

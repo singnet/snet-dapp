@@ -4,11 +4,17 @@ import { withStyles } from "@material-ui/styles";
 import FreeApiCalls from "./FreeApiCalls";
 import { useStyles } from "./styles";
 
-const Purchase = ({ classes, handleComplete }) => {
+const Purchase = ({ classes, handleComplete, freeCallsRemaining }) => {
   const handleClick = () => {
     handleComplete();
   };
-
+  if (freeCallsRemaining < 1) {
+    return (
+      <p className={classes.PurchaseDescription} onClick={handleClick}>
+        Free calls limit expired.{" "}
+      </p>
+    );
+  }
   return (
     <div>
       <p className={classes.PurchaseDescription} onClick={handleClick}>
@@ -16,7 +22,7 @@ const Purchase = ({ classes, handleComplete }) => {
         file from your computer, URL, or select image from the gallery. You can specify additional parameters in the
         panel below. “Mouse over” for tool tips.{" "}
       </p>
-      <FreeApiCalls />
+      <FreeApiCalls freeCallsRemaining={freeCallsRemaining} />
     </div>
   );
 };
