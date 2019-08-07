@@ -5,11 +5,12 @@ import { connect } from "react-redux";
 import ProgressBar from "../../../common/ProgressBar";
 import { useStyles } from "./styles";
 import ThirdPartyAIService from "./ThirdPartyAIService";
+import Purchase from "./Purchase";
 
 class ServiceDemo extends Component {
   state = {
     error: "error state message",
-    progressText: ["Configure", "Results"],
+    progressText: ["Purchase", "Configure", "Results"],
   };
 
   render() {
@@ -19,6 +20,7 @@ class ServiceDemo extends Component {
       <div className={classes.demoExampleContainer}>
         <h4>Process</h4>
         <ProgressBar activeSection={isComplete ? 2 : 1} progressText={progressText} />
+        <Purchase />
         <p>{this.props.tutorial}</p>
         <ThirdPartyAIService service_id={service.service_id} org_id={service.org_id} />
       </div>
