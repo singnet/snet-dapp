@@ -43,10 +43,10 @@ export default class FaceAlignService extends React.Component {
   submitAction() {
     const methodDescriptor = FaceAlignment.AlignFace;
     const request = new methodDescriptor.requestType();
-   
+
     const header = new FaceAlignmentHeader(JSON.parse(this.state.facesString)[0]);
     request.setHeader(header);
-    const imageChunk = new ImageRGB();    
+    const imageChunk = new ImageRGB();
     imageChunk.setContent(this.state.imageData);
     request.setImageChunk(imageChunk);
 
@@ -57,7 +57,7 @@ export default class FaceAlignService extends React.Component {
         if (status !== 0) {
           throw new Error(statusMessage);
         }
-        this.setState({ isComplete: true, response: { image_chunk: message.getImageChunk() } });
+        this.setState({ isComplete: true, response: { image_chunk: message.getImageChunkList() } });
       },
     };
 
