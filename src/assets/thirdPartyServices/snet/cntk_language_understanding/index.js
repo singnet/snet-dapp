@@ -81,7 +81,11 @@ export default class CNTKLanguageUnderstanding extends React.Component {
 
     const props = {
       request,
-      onEnd: ({ message }) => {
+      onEnd: resp => {
+        const { message, status, statusMessage } = resp;
+        if (status !== 0) {
+          throw new Error(statusMessage);
+        }
         this.setState({
           response: { status: "success", model_url: message.getModelUrl(), output_url: message.getOutputUrl() },
           isComplete: true,
