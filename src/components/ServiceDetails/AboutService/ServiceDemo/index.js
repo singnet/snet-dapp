@@ -5,11 +5,31 @@ import { connect } from "react-redux";
 import ProgressBar from "../../../common/ProgressBar";
 import { useStyles } from "./styles";
 import ThirdPartyAIService from "./ThirdPartyAIService";
+import { serviceActions } from "../../../../Redux/actionCreators";
 
 class ServiceDemo extends Component {
   state = {
     error: "error state message",
     progressText: ["Configure", "Results"],
+    freeCallsRemaining: 0,
+  };
+
+  componentDidMount = () => {
+    this.fetchFreeCallsUsage();
+  };
+
+  fetchFreeCallsUsage = async () => {
+    const { service, fetchMeteringData } = this.props;
+    try {
+      const usageData = await fetchMeteringData({
+        orgId: service.org_id,
+        serviceId: service.service_id,
+        username: "n.vin95@gmail.com",
+      });
+      console.log("usage data", usageData);
+    } catch (err) {
+      console.log("errrrrrrrrrrrrrr", err);
+    }
   };
 
   render() {
@@ -29,4 +49,11 @@ const mapStateToProps = state => ({
   isComplete: state.serviceReducer.serviceMethodExecution.isComplete,
 });
 
-export default connect(mapStateToProps)(withStyles(useStyles)(ServiceDemo));
+const mapDispatchToProps = dispatch => ({
+  fetchMeteringData: args => dispatch(serviceActions.fetchMeteringData({ ...args })),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(useStyles)(ServiceDemo));
