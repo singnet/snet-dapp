@@ -15,6 +15,10 @@ export const APIEndpoints = {
     name: "Invoke service",
     endpoint: process.env.REACT_APP_SERVICE_EXECUTION_ENDPOINT,
   },
+  METERING_SERVICE: {
+    name: "Metering Service",
+    enpoint: process.env.REACT_APP_METERING_SERVICE_ENDPOINT,
+  },
 };
 
 export const APIPaths = {
@@ -28,4 +32,5 @@ export const APIPaths = {
   FEEDBACK: "/feedback",
   GET_SIGNATURE: "/sign-call",
   DELETE_USER: "/delete-user",
+  GET_FREE_CALL: "/usage/freecall",
 };
