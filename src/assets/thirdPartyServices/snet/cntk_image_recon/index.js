@@ -6,6 +6,11 @@ import { getMethodNames } from "../../../../utility/sdk";
 import MethodNamesDropDown from "../../common/MethodNamesDropDown";
 import SNETImageUpload from "../../standardComponents/SNETImageUpload";
 
+const initialUserInput = {
+  methodName: "Select a method",
+  img_path: undefined,
+};
+
 export default class CNTKImageRecognition extends React.Component {
   constructor(props) {
     super(props);
@@ -14,18 +19,12 @@ export default class CNTKImageRecognition extends React.Component {
     this.getImageURL = this.getImageURL.bind(this);
 
     this.state = {
+      ...initialUserInput,
       users_guide: "https://github.com/singnet/dnn-model-services/blob/master/docs/users_guide/cntk-image-recon.md",
       code_repo: "https://github.com/singnet/dnn-model-services/blob/master/Services/gRPC/cntk-image-recon",
       reference: "https://cntk.ai/pythondocs/CNTK_301_Image_Recognition_with_Deep_Transfer_Learning.html",
-
-      serviceName: "Recognizer",
-      methodName: "Select a method",
-
-      img_path: undefined,
       model: "ResNet152",
-
       response: undefined,
-      isComplete: false,
     };
   }
 
@@ -53,7 +52,7 @@ export default class CNTKImageRecognition extends React.Component {
       request,
       onEnd: ({ message }) => {
         this.setState({
-          isComplete: true,
+          ...initialUserInput,
           response: { status: "success", top_5: message.getTop5(), delta_time: message.getDeltaTime() },
         });
       },
@@ -134,7 +133,7 @@ export default class CNTKImageRecognition extends React.Component {
   }
 
   render() {
-    if (this.state.isComplete) return <div>{this.renderComplete()}</div>;
+    if (this.props.isComplete) return <div>{this.renderComplete()}</div>;
     else {
       return <div>{this.renderForm()}</div>;
     }
