@@ -132,7 +132,7 @@ export const createServiceClient = async (
   };
 };
 
-export const getMethodNames = service => {
+const getMethodNames = service => {
   const ownProperties = Object.getOwnPropertyNames(service);
   return ownProperties.filter(property => {
     if (service[property] && typeof service[property] === typeof {}) {

@@ -1,7 +1,6 @@
 import React from "react";
 
 import { Calculator } from "./example_service_pb_service";
-import { getMethodNames } from "../../../../utility/sdk";
 
 export default class ExampleService extends React.Component {
   constructor(props) {
@@ -62,7 +61,7 @@ export default class ExampleService extends React.Component {
   }
 
   renderForm() {
-    const serviceMethodNames = getMethodNames(Calculator);
+    const serviceMethodNames = this.props.serviceClient.getMethodNames(Calculator);
     return (
       <React.Fragment>
         <div className="row">
