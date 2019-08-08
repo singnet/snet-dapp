@@ -9,19 +9,30 @@ export const alertTypes = {
   ERROR: "error",
   SUCCESS: "success",
   WARNING: "warning",
-  INFO: "info"
+  INFO: "info",
 };
 
 const backgroundColor = {
   error: alertTypes.ERROR,
   success: alertTypes.SUCCESS,
   warning: alertTypes.WARNING,
-  info: alertTypes.INFO
+  info: alertTypes.INFO,
 };
 
 const AlertBox = ({ classes, message, type, link }) => {
   if (message) {
-    return <p className={clsx(classes.messageBox, classes[backgroundColor[type]])}>{message} {link ? <a href='#' title="demo" >{link}</a> : '' } </p>;
+    return (
+      <p className={clsx(classes.messageBox, classes[backgroundColor[type]])}>
+        {message}{" "}
+        {link ? (
+          <a href="#" title="demo">
+            {link}
+          </a>
+        ) : (
+          ""
+        )}
+      </p>
+    );
   }
   return null;
 };
