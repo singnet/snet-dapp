@@ -4,8 +4,6 @@ import { connect } from "react-redux";
 
 import ProgressBar from "../../../common/ProgressBar";
 import { useStyles } from "./styles";
-import ThirdPartyAIService from "./ThirdPartyAIService";
-import Purchase from "./Purchase";
 import { serviceActions } from "../../../../Redux/actionCreators";
 import PurchaseToggler from "./PurchaseToggler";
 
@@ -13,7 +11,8 @@ class ServiceDemo extends Component {
   state = {
     error: "error state message",
     progressText: ["Purchase", "Configure", "Results"],
-    purchaseCompleted: false,
+    //set it to false
+    purchaseCompleted: true,
     freeCallsRemaining: 1,
   };
 

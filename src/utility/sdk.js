@@ -11,29 +11,26 @@ export const callTypes = {
 
 const parseRegularCallMetadata = (metadata, response) => {
   const { data } = response;
-  // const channelId = data["snet-payment-channel-id"];
-  const nonce = data["snet-payment-channel-nonce"];
-  const signingAmount = data["snet-payment-channel-amount"];
   const hexSignature = data["snet-payment-channel-signature-bin"];
   const signatureBytes = Buffer.from(hexSignature, "hex");
-
   metadata.append("snet-payment-type", "escrow");
   metadata.append("snet-payment-channel-id", data["snet-payment-channel-id"]);
-  metadata.append("snet-payment-channel-nonce", `${nonce}`);
-  metadata.append("snet-payment-channel-amount", `${signingAmount}`);
-  metadata.append("snet-payment-channel-signature-bin", signatureBytes.toString("base64"));
+  metadata.append("snet-payment-channel-nonce", data["snet-payment-channel-nonce"]);
+  metadata.append("snet-payment-channel-amount", data["snet-payment-channel-amount"]);
+  metadata.append("snet-payment-channel-signature-bin", signatureBytes);
   return metadata;
 };
 
 const parseFreeCallMetadata = (metadata, response) => {
   const { data } = response;
-  const currentBlockNumber = data["snet-current-block-number"];
-  const userId = data["snet-free-call-user-id"];
   const hexSignature = data["snet-payment-channel-signature-bin"];
   const signatureBytes = Buffer.from(hexSignature, "hex");
-  // Append the appropriate metadata
-  metadata.append("");
-  return { currentBlockNumber, userId, signatureBytes };
+
+  metadata.append("snet-current-block-number", data["snet-current-block-number"]);
+  metadata.append("snet-free-call-user-id", data["snet-free-call-user-id"]);
+  metadata.append("snet-payment-channel-signature-bin", signatureBytes);
+  metadata.append("snet-payment-type", data["snet-payment-type"]);
+  return metadata;
 };
 
 const metadataAPI = (callType, token, payload) => {
@@ -66,7 +63,8 @@ const parseServiceMetadata = response => {
   const { data: groups } = response;
   const endpoints = groups.map(({ group_name, endpoints }) => ({ group_name, ...endpoints[0] }));
   const defaultGroup = groups.find(group => group.group_name === "default_group");
-
+  //Get rid of the hardcoded endpoint once happy path demo is done
+  endpoints[0].endpoint = "https://example-service-a.singularitynet.io:8089";
   return { defaultGroup, groups, endpoints };
 };
 

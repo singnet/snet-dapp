@@ -44,9 +44,12 @@ export default class ExampleService extends React.Component {
 
     const props = {
       request,
-      onEnd: ({ code, statusMessage, headers, message, trailers }) => {
-        this.setState({ isComplete: true, response: { value: message.getValue() }});
-      }
+      onEnd: ({ code, status, statusMessage, headers, message, trailers }) => {
+        if (status !== 0) {
+          throw new Error(statusMessage);
+        }
+        this.setState({ isComplete: true, response: { value: message.getValue() } });
+      },
     };
     this.props.serviceClient.unary(methodDescriptor, props);
   }

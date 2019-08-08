@@ -36,7 +36,7 @@ export const APIPaths = {
   FEEDBACK: "/feedback",
   GET_SIGNATURE: "/sign-call",
   DELETE_USER: "/delete-user",
-  GET_FREE_CALL: "/usage/freecall",
+  FREE_CALL_USAGE: "/usage/freecalls",
   SIGNER_FREE_CALL: "/free-call",
   SIGNER_REGULAR_CALL: "/regular-call",
 };
