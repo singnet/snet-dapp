@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import UserProfileSettings from "./UserProfileSettings";
 import UserProfileHeader from "./UserProfileHeader";
 import { useStyles } from "./styles";
+import UserProfileAccount from "./UserProfileAccount";
 
 class UserProfile extends Component {
   state = {
@@ -22,7 +23,10 @@ class UserProfile extends Component {
     const { classes, history, username } = this.props;
     const { activeTab } = this.state;
 
-    const tabs = [{ name: "Settings", activeIndex: 0, component: <UserProfileSettings history={history} /> }];
+    const tabs = [
+      { name: "Account", activeIndex: 0, component: <UserProfileAccount /> },
+      { name: "Settings", activeIndex: 1, component: <UserProfileSettings history={history} /> },
+    ];
     const activeComponent = tabs.filter(el => el.activeIndex === activeTab)[0].component;
     return (
       <div className={classes.UserProfileContainer}>

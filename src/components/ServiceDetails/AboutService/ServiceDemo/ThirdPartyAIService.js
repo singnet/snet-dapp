@@ -7,7 +7,7 @@ import { useStyles } from "./styles";
 import { serviceActions, loaderActions } from "../../../../Redux/actionCreators";
 import { APIEndpoints } from "../../../../config/APIEndpoints";
 import CompletedActions from "./CompletedActions";
-import { createServiceClient } from "../../../../utility/sdk";
+import { createServiceClient, callTypes } from "../../../../utility/sdk";
 import ThirdPartyServiceErrorBoundary from "./ThirdPartyServiceErrorBoundary";
 import { LoaderContent } from "../../../../utility/constants/LoaderContent";
 
@@ -22,13 +22,15 @@ class ThirdPartyAIService extends Component {
   };
 
   componentDidMount = async () => {
-    const { org_id, service_id, username } = this.props;
+    const { org_id, service_id, username, freeCallsRemaining } = this.props;
+    const callType = freeCallsRemaining > 0 ? callTypes.FREE : callTypes.REGULAR;
     this.serviceClient = await createServiceClient(
       org_id,
       service_id,
       username,
       this.serviceRequestStartHandler,
-      this.serviceRequestCompleteHandler
+      this.serviceRequestCompleteHandler,
+      callType
     );
     await this.setupComponent();
     this.setState({ loading: false });
