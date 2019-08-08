@@ -9,51 +9,47 @@ export const callTypes = {
   REGULAR: "REGULAR",
 };
 
-const parseRegularCallMetadata = (metadata, response) => {
-  const { data } = response;
+const parseSignature = (data) => {
   const hexSignature = data["snet-payment-channel-signature-bin"];
-  const signatureBytes = Buffer.from(hexSignature, "hex");
-  metadata.append("snet-payment-type", "escrow");
-  metadata.append("snet-payment-channel-id", data["snet-payment-channel-id"]);
-  metadata.append("snet-payment-channel-nonce", data["snet-payment-channel-nonce"]);
-  metadata.append("snet-payment-channel-amount", data["snet-payment-channel-amount"]);
-  metadata.append("snet-payment-channel-signature-bin", signatureBytes);
-  return metadata;
+  return Buffer.from(hexSignature, "hex");
 };
 
-const parseFreeCallMetadata = (metadata, response) => {
-  const { data } = response;
-  const hexSignature = data["snet-payment-channel-signature-bin"];
-  const signatureBytes = Buffer.from(hexSignature, "hex");
-
-  metadata.append("snet-current-block-number", data["snet-current-block-number"]);
-  metadata.append("snet-free-call-user-id", data["snet-free-call-user-id"]);
-  metadata.append("snet-payment-channel-signature-bin", signatureBytes);
-  metadata.append("snet-payment-type", data["snet-payment-type"]);
-  return metadata;
+const parseRegularCallMetadata = ({ data }) => {
+  return {
+    ["snet-payment-type"]: "escrow",
+    ["snet-payment-channel-id"]: data["snet-payment-channel-id"],
+    ["snet-payment-channel-nonce"]: data["snet-payment-channel-nonce"],
+    ["snet-payment-channel-amount"]: data["snet-payment-channel-amount"],
+    ["snet-payment-channel-signature-bin"]: parseSignature(data),
+  };
 };
 
-const metadataAPI = (callType, token, payload) => {
-  const apiName = APIEndpoints.SIGNER_SERVICE.name;
-  let apiPath = APIPaths.SIGNER_FREE_CALL;
-  if (callType === callTypes.REGULAR) {
-    apiPath = APIPaths.SIGNER_REGULAR_CALL;
+const parseFreeCallMetadata = ({ data }) => {
+  return {
+    ["snet-payment-type"]: data["snet-payment-type"],
+    ["snet-free-call-user-id"]: data["snet-free-call-user-id"],
+    ["snet-current-block-number"]: data["snet-current-block-number"],
+    ["snet-payment-channel-signature-bin"]: parseSignature(data),
   }
-  const apiOptions = initializeAPIOptions(token, payload);
-  return API.post(apiName, apiPath, apiOptions);
 };
 
-const metadataGenerator = (username, callType) => async (serviceClient, metadata, serviceName, method) => {
+const fetchAuthToke = async () => {
+  const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
+  return currentUser.signInUserSession.idToken.jwtToken;
+};
+
+const metadataGenerator = (username, callType) => async (serviceClient, serviceName, method) => {
   try {
     const { orgId: org_id, serviceId: service_id } = serviceClient.metadata;
     const payload = { org_id, service_id, service_name: serviceName, method, username: "n.vin95@gmail.com" };
-    const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
-    return await metadataAPI(callType, currentUser.signInUserSession.idToken.jwtToken, payload).then(response => {
-      if (callType === callTypes.REGULAR) {
-        return parseRegularCallMetadata(metadata, response);
-      }
-      return parseFreeCallMetadata(metadata, response);
-    });
+    const apiName = APIEndpoints.SIGNER_SERVICE.name;
+    const token = await fetchAuthToke();
+    const apiOptions = initializeAPIOptions(token, payload);
+
+    if (callType === callTypes.REGULAR) {
+      return API.post(apiName, APIPaths.SIGNER_REGULAR_CALL, apiOptions).then(parseRegularCallMetadata);
+    }
+    return API.post(apiName, APIPaths.SIGNER_FREE_CALL, apiOptions).then(parseFreeCallMetadata);
   } catch (err) {
     throw err;
   }
