@@ -33,10 +33,6 @@ class App extends Component {
     this.props.fetchUserDetails();
   };
 
-  componentDidMount = () => {
-    this.props.fetchUserDetails();
-  };
-
   render() {
     const { hamburgerMenu, isInitialized, isLoggedIn } = this.props;
     if (!isInitialized) {
