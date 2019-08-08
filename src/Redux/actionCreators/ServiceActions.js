@@ -158,9 +158,14 @@ export const submitFeedback = (orgId, serviceId, feedback) => async () => {
   return submitFeedbackAPI(feedbackObj, currentUser.signInUserSession.idToken.jwtToken);
 };
 
-export const fetchMeteringData = ({ orgId, serviceId, username }) => dispatch => {
-  const url = `${APIEndpoints.METERING_SERVICE.endpoint}${APIPaths.GET_FREE_CALL}?org_id=${orgId}&service_id=${serviceId}`;
-  return fetch(url)
-    .then(res => res.json())
-    .then(data => new Promise(resolve => resolve(data)));
+const meteringAPI = (token, orgId, serviceId, userId) => {
+  const apiName = APIEndpoints.METERING_SERVICE.name;
+  const apiPath = `${APIPaths.FREE_CALL_USAGE}?organization_id=${orgId}&service_id=${serviceId}&user_id=${userId}`;
+  const apiOptions = initializeAPIOptions(token);
+  return API.get(apiName, apiPath, apiOptions);
+};
+
+export const fetchMeteringData = ({ orgId, serviceId, username }) => async () => {
+  const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
+  return meteringAPI(currentUser.signInUserSession.idToken.jwtToken, orgId, serviceId, currentUser.attributes.email);
 };
