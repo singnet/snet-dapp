@@ -16,23 +16,19 @@ class ServiceDemo extends Component {
   };
 
   componentDidMount = () => {
-    this.fetchFreeCallsUsage();
+    // UNDO once metering service is deployed
+    // this.fetchFreeCallsUsage();
   };
 
   fetchFreeCallsUsage = async () => {
     const { service, fetchMeteringData } = this.props;
-    try {
-      const usageData = await fetchMeteringData({
-        orgId: service.org_id,
-        serviceId: service.service_id,
-        username: "n.vin95@gmail.com",
-      });
-      console.log("usage data", usageData);
-      const freeCallsRemaining = usageData.free_calls_allowed - usageData.total_calls_made;
-      this.setState({ freeCallsRemaining });
-    } catch (err) {
-      console.log("errrrrrrrrrrrrrr", err);
-    }
+    const usageData = await fetchMeteringData({
+      orgId: service.org_id,
+      serviceId: service.service_id,
+      username: "n.vin95@gmail.com",
+    });
+    const freeCallsRemaining = usageData.free_calls_allowed - usageData.total_calls_made;
+    this.setState({ freeCallsRemaining });
   };
 
   computeActiveSection = () => {
@@ -55,7 +51,7 @@ class ServiceDemo extends Component {
         <PurchaseToggler
           purchaseCompleted={purchaseCompleted}
           purchaseProps={{ handleComplete: this.handlePurchaseComplete, freeCallsRemaining }}
-          thirdPartyProps={{ service_id: service.service_id, org_id: service.org_id }}
+          thirdPartyProps={{ service_id: service.service_id, org_id: service.org_id, freeCallsRemaining }}
         />
       </div>
     );

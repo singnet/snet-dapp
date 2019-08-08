@@ -1,8 +1,15 @@
 import { WebServiceClient as ServiceClient } from "snet-sdk-web";
+import { API, Auth } from "aws-amplify";
 
 import { APIEndpoints, APIPaths } from "../config/APIEndpoints";
+import { initializeAPIOptions } from "./API";
 
-const parseMetadata = response => {
+export const callTypes = {
+  FREE: "FREE",
+  REGULAR: "REGULAR",
+};
+
+const parseRegularCallMetadata = response => {
   const { data } = response;
   const channelId = data["snet-payment-channel-id"];
   const nonce = data["snet-payment-channel-nonce"];
@@ -13,15 +20,40 @@ const parseMetadata = response => {
   return { channelId, nonce, signingAmount, signatureBytes };
 };
 
-const metadataGenerator = username => async (serviceClient, serviceName, method) => {
-  const { orgId: org_id, serviceId: service_id } = serviceClient.metadata;
-  const payload = { org_id, service_id, service_name: serviceName, method, username };
-  return fetch(`${APIEndpoints.CONTRACT.endpoint}${APIPaths.GET_SIGNATURE}`, {
-    method: "POST",
-    body: JSON.stringify(payload),
-  })
-    .then(res => res.json())
-    .then(parseMetadata);
+const parseFreeCallMetadata = response => {
+  const { data } = response;
+  const currentBlockNumber = data["snet-current-block-number"];
+  const userId = data["snet-free-call-user-id"];
+  const hexSignature = data["snet-payment-channel-signature-bin"];
+  const signatureBytes = Buffer.from(hexSignature, "hex");
+  return { currentBlockNumber, userId, signatureBytes };
+};
+
+const metadataAPI = (callType, token, payload) => {
+  const apiName = APIEndpoints.SIGNER_SERVICE.name;
+  let apiPath = APIPaths.SIGNER_FREE_CALL;
+  if (callType === callTypes.REGULAR) {
+    apiPath = APIPaths.SIGNER_REGULAR_CALL;
+  }
+  const apiOptions = initializeAPIOptions(token, payload);
+  return API.post(apiName, apiPath, apiOptions);
+};
+
+const metadataGenerator = (username, callType) => async (serviceClient, serviceName, method) => {
+  try {
+    const { orgId: org_id, serviceId: service_id } = serviceClient.metadata;
+    const payload = { org_id, service_id, service_name: serviceName, method, username: "n.vin95@gmail.com" };
+    const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
+    return await metadataAPI(currentUser.signInUserSession.idToken.jwtToken, payload).then(response => {
+      if (callType === callTypes.REGULAR) {
+        parseRegularCallMetadata(response);
+        return;
+      }
+      parseFreeCallMetadata(response);
+    });
+  } catch (err) {
+    throw err;
+  }
 };
 
 const parseServiceMetadata = response => {
@@ -43,7 +75,7 @@ const fetchServiceMetadata = async (org_id, service_id) => {
     .then(parseServiceMetadata);
 };
 
-const generateOptions = username => {
+const generateOptions = (username, callType) => {
   if (process.env.REACT_APP_SANDBOX) {
     return {
       endpoint: process.env.REACT_APP_SANDBOX_SERVICE_ENDPOINT,
@@ -51,7 +83,7 @@ const generateOptions = username => {
     };
   }
 
-  return { metadataGenerator: metadataGenerator(username) };
+  return { metadataGenerator: metadataGenerator(username, callType) };
 };
 
 export const createServiceClient = async (
@@ -59,9 +91,10 @@ export const createServiceClient = async (
   service_id,
   username,
   serviceRequestStartHandler,
-  serviceRequestCompleteHandler
+  serviceRequestCompleteHandler,
+  callType
 ) => {
-  const options = generateOptions(username);
+  const options = generateOptions(username, callType);
   const metadata = await fetchServiceMetadata(org_id, service_id);
   const serviceClient = new ServiceClient(
     undefined,
@@ -95,6 +128,7 @@ export const createServiceClient = async (
       requestStartHandler();
       serviceClient.unary(methodDescriptor, { ...props, onEnd: onEnd(props) });
     },
+    getMethodNames,
   };
 };
 

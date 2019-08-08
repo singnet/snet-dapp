@@ -19,6 +19,10 @@ export const APIEndpoints = {
     name: "Metering Service",
     endpoint: process.env.REACT_APP_METERING_SERVICE_ENDPOINT,
   },
+  SIGNER_SERVICE: {
+    name: "Signer Service",
+    endpoint: process.env.REACT_APP_SIGNER_ENDPOINT,
+  },
 };
 
 export const APIPaths = {
@@ -33,4 +37,6 @@ export const APIPaths = {
   GET_SIGNATURE: "/sign-call",
   DELETE_USER: "/delete-user",
   GET_FREE_CALL: "/usage/freecall",
+  SIGNER_FREE_CALL: "/free-call",
+  SIGNER_REGULAR_CALL: "/regular-call",
 };
