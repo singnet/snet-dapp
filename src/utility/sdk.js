@@ -9,23 +9,30 @@ export const callTypes = {
   REGULAR: "REGULAR",
 };
 
-const parseRegularCallMetadata = response => {
+const parseRegularCallMetadata = (metadata, response) => {
   const { data } = response;
-  const channelId = data["snet-payment-channel-id"];
+  // const channelId = data["snet-payment-channel-id"];
   const nonce = data["snet-payment-channel-nonce"];
   const signingAmount = data["snet-payment-channel-amount"];
   const hexSignature = data["snet-payment-channel-signature-bin"];
   const signatureBytes = Buffer.from(hexSignature, "hex");
 
-  return { channelId, nonce, signingAmount, signatureBytes };
+  metadata.append("snet-payment-type", "escrow");
+  metadata.append("snet-payment-channel-id", data["snet-payment-channel-id"]);
+  metadata.append("snet-payment-channel-nonce", `${nonce}`);
+  metadata.append("snet-payment-channel-amount", `${signingAmount}`);
+  metadata.append("snet-payment-channel-signature-bin", signatureBytes.toString("base64"));
+  return metadata;
 };
 
-const parseFreeCallMetadata = response => {
+const parseFreeCallMetadata = (metadata, response) => {
   const { data } = response;
   const currentBlockNumber = data["snet-current-block-number"];
   const userId = data["snet-free-call-user-id"];
   const hexSignature = data["snet-payment-channel-signature-bin"];
   const signatureBytes = Buffer.from(hexSignature, "hex");
+  // Append the appropriate metadata
+  metadata.append("");
   return { currentBlockNumber, userId, signatureBytes };
 };
 
@@ -39,17 +46,16 @@ const metadataAPI = (callType, token, payload) => {
   return API.post(apiName, apiPath, apiOptions);
 };
 
-const metadataGenerator = (username, callType) => async (serviceClient, serviceName, method) => {
+const metadataGenerator = (username, callType) => async (serviceClient, metadata, serviceName, method) => {
   try {
     const { orgId: org_id, serviceId: service_id } = serviceClient.metadata;
     const payload = { org_id, service_id, service_name: serviceName, method, username: "n.vin95@gmail.com" };
     const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
-    return await metadataAPI(currentUser.signInUserSession.idToken.jwtToken, payload).then(response => {
+    return await metadataAPI(callType, currentUser.signInUserSession.idToken.jwtToken, payload).then(response => {
       if (callType === callTypes.REGULAR) {
-        parseRegularCallMetadata(response);
-        return;
+        return parseRegularCallMetadata(metadata, response);
       }
-      parseFreeCallMetadata(response);
+      return parseFreeCallMetadata(metadata, response);
     });
   } catch (err) {
     throw err;
