@@ -1,5 +1,8 @@
 export const useStyles = theme => ({
-  settingMainContainer: {
+  accountMainContainer: {
+    margin: "10px 0 50px",
+  },
+  accountContainer: {
     margin: "30px 0 50px",
     borderRadius: 4,
     backgroundColor: theme.palette.text.white,
