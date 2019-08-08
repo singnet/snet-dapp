@@ -7,12 +7,14 @@ import { useStyles } from "./styles";
 import ThirdPartyAIService from "./ThirdPartyAIService";
 import Purchase from "./Purchase";
 import { serviceActions } from "../../../../Redux/actionCreators";
+import PurchaseToggler from "./PurchaseToggler";
 
 class ServiceDemo extends Component {
   state = {
     error: "error state message",
     progressText: ["Purchase", "Configure", "Results"],
-    freeCallsRemaining: 0,
+    purchaseCompleted: false,
+    freeCallsRemaining: 1,
   };
 
   componentDidMount = () => {
@@ -28,20 +30,35 @@ class ServiceDemo extends Component {
         username: "n.vin95@gmail.com",
       });
       console.log("usage data", usageData);
+      const freeCallsRemaining = usageData.free_calls_allowed - usageData.total_calls_made;
+      this.setState({ freeCallsRemaining });
     } catch (err) {
       console.log("errrrrrrrrrrrrrr", err);
     }
   };
 
+  computeActiveSection = () => {
+    const { purchaseCompleted } = this.state;
+    const { isComplete } = this.props;
+    return purchaseCompleted ? (isComplete ? 3 : 2) : 1;
+  };
+
+  handlePurchaseComplete = () => {
+    this.setState({ purchaseCompleted: true });
+  };
+
   render() {
-    const { classes, service, isComplete } = this.props;
-    const { progressText } = this.state;
+    const { classes, service } = this.props;
+    const { progressText, purchaseCompleted, freeCallsRemaining } = this.state;
     return (
       <div className={classes.demoExampleContainer}>
         <h4>Process</h4>
-        <ProgressBar activeSection={isComplete ? 2 : 1} progressText={progressText} />
-        <Purchase />
-        <ThirdPartyAIService service_id={service.service_id} org_id={service.org_id} />
+        <ProgressBar activeSection={this.computeActiveSection()} progressText={progressText} />
+        <PurchaseToggler
+          purchaseCompleted={purchaseCompleted}
+          purchaseProps={{ handleComplete: this.handlePurchaseComplete, freeCallsRemaining }}
+          thirdPartyProps={{ service_id: service.service_id, org_id: service.org_id }}
+        />
       </div>
     );
   }
