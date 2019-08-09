@@ -17,20 +17,20 @@ const parseSignature = data => {
 
 const parseRegularCallMetadata = ({ data }) => {
   return {
-    ["snet-payment-type"]: "escrow",
-    ["snet-payment-channel-id"]: data["snet-payment-channel-id"],
-    ["snet-payment-channel-nonce"]: data["snet-payment-channel-nonce"],
-    ["snet-payment-channel-amount"]: data["snet-payment-channel-amount"],
-    ["snet-payment-channel-signature-bin"]: parseSignature(data),
+    "snet-payment-type": "escrow",
+    "snet-payment-channel-id": data["snet-payment-channel-id"],
+    "snet-payment-channel-nonce": data["snet-payment-channel-nonce"],
+    "snet-payment-channel-amount": data["snet-payment-channel-amount"],
+    "snet-payment-channel-signature-bin": parseSignature(data),
   };
 };
 
 const parseFreeCallMetadata = ({ data }) => {
   return {
-    ["snet-payment-type"]: data["snet-payment-type"],
-    ["snet-free-call-user-id"]: data["snet-free-call-user-id"],
-    ["snet-current-block-number"]: `${data["snet-current-block-number"]}`,
-    ["snet-payment-channel-signature-bin"]: parseSignature(data),
+    "snet-payment-type": data["snet-payment-type"],
+    "snet-free-call-user-id": data["snet-free-call-user-id"],
+    "snet-current-block-number": `${data["snet-current-block-number"]}`,
+    "snet-payment-channel-signature-bin": parseSignature(data),
   };
 };
 
