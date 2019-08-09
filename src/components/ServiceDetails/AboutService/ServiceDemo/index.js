@@ -20,11 +20,11 @@ class ServiceDemo extends Component {
   };
 
   fetchFreeCallsUsage = async () => {
-    const { service, fetchMeteringData } = this.props;
+    const { service, fetchMeteringData, email } = this.props;
     const usageData = await fetchMeteringData({
       orgId: service.org_id,
       serviceId: service.service_id,
-      username: "n.vin95@gmail.com",
+      username: email,
     });
     const freeCallsRemaining = usageData.free_calls_allowed - usageData.total_calls_made;
     this.setState({ freeCallsRemaining });
@@ -59,6 +59,7 @@ class ServiceDemo extends Component {
 
 const mapStateToProps = state => ({
   isComplete: state.serviceReducer.serviceMethodExecution.isComplete,
+  email: state.userReducer.email,
 });
 
 const mapDispatchToProps = dispatch => ({
