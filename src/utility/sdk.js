@@ -9,9 +9,10 @@ export const callTypes = {
   REGULAR: "REGULAR",
 };
 
-const parseSignature = (data) => {
+const parseSignature = data => {
   const hexSignature = data["snet-payment-channel-signature-bin"];
-  return Buffer.from(hexSignature, "hex");
+  const signatureBuffer = Buffer.from(hexSignature.slice(2), "hex");
+  return signatureBuffer.toString("base64");
 };
 
 const parseRegularCallMetadata = ({ data }) => {
@@ -28,9 +29,9 @@ const parseFreeCallMetadata = ({ data }) => {
   return {
     ["snet-payment-type"]: data["snet-payment-type"],
     ["snet-free-call-user-id"]: data["snet-free-call-user-id"],
-    ["snet-current-block-number"]: data["snet-current-block-number"],
+    ["snet-current-block-number"]: `${data["snet-current-block-number"]}`,
     ["snet-payment-channel-signature-bin"]: parseSignature(data),
-  }
+  };
 };
 
 const fetchAuthToken = async () => {
