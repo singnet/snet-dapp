@@ -11,14 +11,12 @@ class ServiceDemo extends Component {
   state = {
     error: "error state message",
     progressText: ["Purchase", "Configure", "Results"],
-    //set it to false
-    purchaseCompleted: true,
+    purchaseCompleted: false,
     freeCallsRemaining: 1,
   };
 
   componentDidMount = () => {
-    // UNDO once metering service is deployed
-    // this.fetchFreeCallsUsage();
+    this.fetchFreeCallsUsage();
   };
 
   fetchFreeCallsUsage = async () => {
