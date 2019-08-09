@@ -34,17 +34,17 @@ const parseFreeCallMetadata = ({ data }) => {
   };
 };
 
-const fetchAuthToken = async () => {
+const fetchAuthUser = async () => {
   const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
-  return currentUser.signInUserSession.idToken.jwtToken;
+  return { email: currentUser.attributes.email, token: currentUser.signInUserSession.idToken.jwtToken };
 };
 
-const metadataGenerator = (username, callType) => async (serviceClient, serviceName, method) => {
+const metadataGenerator = callType => async (serviceClient, serviceName, method) => {
   try {
     const { orgId: org_id, serviceId: service_id } = serviceClient.metadata;
-    const payload = { org_id, service_id, service_name: serviceName, method, username: "n.vin95@gmail.com" };
+    const { email, token } = await fetchAuthUser();
+    const payload = { org_id, service_id, service_name: serviceName, method, username: email };
     const apiName = APIEndpoints.SIGNER_SERVICE.name;
-    const token = await fetchAuthToken();
     const apiOptions = initializeAPIOptions(token, payload);
 
     if (callType === callTypes.REGULAR) {
@@ -84,7 +84,7 @@ const generateOptions = (username, callType) => {
     };
   }
 
-  return { metadataGenerator: metadataGenerator(username, callType) };
+  return { metadataGenerator: metadataGenerator(callType) };
 };
 
 export const createServiceClient = async (
