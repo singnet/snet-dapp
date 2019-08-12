@@ -12,7 +12,6 @@ class ServiceDemo extends Component {
     error: "error state message",
     progressText: ["Purchase", "Configure", "Results"],
     purchaseCompleted: false,
-    freeCallsRemaining: 1,
   };
 
   componentDidMount = () => {
@@ -21,13 +20,11 @@ class ServiceDemo extends Component {
 
   fetchFreeCallsUsage = async () => {
     const { service, fetchMeteringData, email } = this.props;
-    const usageData = await fetchMeteringData({
+    fetchMeteringData({
       orgId: service.org_id,
       serviceId: service.service_id,
       username: email,
     });
-    const freeCallsRemaining = usageData.free_calls_allowed - usageData.total_calls_made;
-    this.setState({ freeCallsRemaining });
   };
 
   computeActiveSection = () => {
@@ -41,8 +38,8 @@ class ServiceDemo extends Component {
   };
 
   render() {
-    const { classes, service } = this.props;
-    const { progressText, purchaseCompleted, freeCallsRemaining } = this.state;
+    const { classes, service, freeCallsRemaining } = this.props;
+    const { progressText, purchaseCompleted } = this.state;
     return (
       <div className={classes.demoExampleContainer}>
         <h4>Process</h4>
@@ -59,6 +56,7 @@ class ServiceDemo extends Component {
 
 const mapStateToProps = state => ({
   isComplete: state.serviceReducer.serviceMethodExecution.isComplete,
+  freeCallsRemaining: state.serviceReducer.freeCallsRemaining,
   email: state.userReducer.email,
 });
 

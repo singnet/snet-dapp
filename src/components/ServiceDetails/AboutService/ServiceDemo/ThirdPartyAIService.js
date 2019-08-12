@@ -53,6 +53,10 @@ class ThirdPartyAIService extends Component {
   };
 
   serviceRequestCompleteHandler = () => {
+    const { org_id, service_id, fetchMeteringData, freeCallsRemaining } = this.props;
+    if (freeCallsRemaining > 0) {
+      fetchMeteringData({ orgId: org_id, serviceId: service_id });
+    }
     this.setState({ serviceRequestComplete: true });
     this.props.stopLoader();
   };
@@ -148,6 +152,7 @@ const mapDispatchToProps = dispatch => ({
   stopLoader: () => dispatch(loaderActions.stopAppLoader),
   resetServiceExecution: () => dispatch(serviceActions.resetServiceExecution),
   fetchFeedback: (orgId, serviceId) => dispatch(serviceActions.fetchFeedback(orgId, serviceId)),
+  fetchMeteringData: args => dispatch(serviceActions.fetchMeteringData({ ...args })),
 });
 
 export default connect(

@@ -13,6 +13,7 @@ const InitialServiceList = {
     response: {},
     isComplete: false,
   },
+  freeCallsRemaining: 0,
 };
 
 const serviceReducer = (state = InitialServiceList, action) => {
@@ -72,6 +73,9 @@ const serviceReducer = (state = InitialServiceList, action) => {
           ...action.payload,
         },
       };
+    }
+    case serviceActions.UPDATE_FREE_CALLS_REMAINING: {
+      return { ...state, freeCallsRemaining: action.payload };
     }
     default: {
       return state;
