@@ -11,6 +11,7 @@ import { initializeAPIOptions } from "../../utility/API";
 export const UPDATE_SERVICE_LIST = "SET_SERVICE_LIST";
 export const UPDATE_PAGINATION_DETAILS = "SET_PAGINATION_DETAILS";
 export const UPDATE_SERVICE_EXECUTION_RESPONSE = "UPDATE_SERVICE_EXECUTION_RESPONSE";
+export const RESET_SERVICE_EXECUTION = "RESET_SERVICE_EXECUTION";
 export const UPDATE_SPEC_DETAILS = "UPDATE_SPEC_DETAILS";
 export const UPDATE_FILTER_DATA = "UPDATE_FILTER_DATA";
 export const UPDATE_ACTIVE_FILTER_ITEM = "UPDATE_ACTIVE_FILTER_ITEM";
@@ -72,6 +73,10 @@ export const invokeServiceMethod = data => dispatch => {
       });
     })
     .catch(() => dispatch(loaderActions.stopAppLoader));
+};
+
+export const resetServiceExecution = dispatch => {
+  dispatch({ type: RESET_SERVICE_EXECUTION });
 };
 
 export const fetchProtoSpec = servicebufURL => dispatch => {

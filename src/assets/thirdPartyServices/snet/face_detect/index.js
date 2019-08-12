@@ -1,5 +1,5 @@
 import React from "react";
-import SNETImageUpload from "./standardComponents/SNETImageUpload";
+import SNETImageUpload from "../../standardComponents/SNETImageUpload";
 
 const outsideWrapper = {
   width: "256px",

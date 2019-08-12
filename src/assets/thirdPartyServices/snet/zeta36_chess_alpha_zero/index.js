@@ -1,5 +1,5 @@
 import React from "react";
-import { hasOwnDefinedProperty } from "../../utility/JSHelper";
+import { hasOwnDefinedProperty } from "../../../../utility/JSHelper";
 import Button from "@material-ui/core/Button";
 
 export default class Zeta36ChessAlphaZero extends React.Component {
@@ -25,66 +25,7 @@ export default class Zeta36ChessAlphaZero extends React.Component {
 
       response: undefined,
     };
-    this.isComplete = false;
-    this.serviceMethods = [];
-    this.allServices = [];
-    this.methodsForAllServices = [];
     this.parseProps(props);
-  }
-
-  parseProps(nextProps) {
-    this.isComplete = nextProps.isComplete;
-    if (!this.isComplete) {
-      this.parseServiceSpec(nextProps.serviceSpec);
-    } else {
-      console.log(nextProps.response);
-      if (typeof nextProps.response !== "undefined") {
-        this.state.response = nextProps.response;
-      }
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.isComplete !== nextProps.isComplete) {
-      this.parseProps(nextProps);
-    }
-  }
-
-  parseServiceSpec(serviceSpec) {
-    const packageName = Object.keys(serviceSpec.nested).find(
-      key => typeof serviceSpec.nested[key] === "object" && hasOwnDefinedProperty(serviceSpec.nested[key], "nested")
-    );
-
-    var objects = undefined;
-    var items = undefined;
-    if (typeof packageName !== "undefined") {
-      items = serviceSpec.lookup(packageName);
-      objects = Object.keys(items);
-    } else {
-      items = serviceSpec.nested;
-      objects = Object.keys(serviceSpec.nested);
-    }
-
-    this.methodsForAllServices = [];
-    objects.map(rr => {
-      if (typeof items[rr] === "object" && items[rr] !== null && items[rr].hasOwnProperty("methods")) {
-        this.allServices.push(rr);
-        this.methodsForAllServices.push(rr);
-        this.methodsForAllServices[rr] = Object.keys(items[rr]["methods"]);
-      }
-    });
-    this.getServiceMethods(this.allServices[0]);
-  }
-
-  getServiceMethods(strService) {
-    this.setState({
-      serviceName: strService,
-    });
-    var data = this.methodsForAllServices[strService];
-    if (typeof data === "undefined") {
-      data = [];
-    }
-    this.serviceMethods = data;
   }
 
   canBeInvoked() {
@@ -101,18 +42,6 @@ export default class Zeta36ChessAlphaZero extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   }
 
-  handleServiceName(event) {
-    var strService = event.target.value;
-    this.setState({
-      serviceName: strService,
-    });
-    console.log("Selected service is " + strService);
-    var data = this.methodsForAllServices[strService];
-    if (typeof data === "undefined") {
-      data = [];
-    }
-    this.serviceMethods = data;
-  }
 
   submitAction() {
     this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
