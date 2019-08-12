@@ -38,7 +38,7 @@ class ServiceDemo extends Component {
   };
 
   render() {
-    const { classes, service, freeCallsRemaining } = this.props;
+    const { classes, service, freeCallsRemaining, freeCallsAllowed } = this.props;
     const { progressText, purchaseCompleted } = this.state;
     return (
       <div className={classes.demoExampleContainer}>
@@ -46,7 +46,7 @@ class ServiceDemo extends Component {
         <ProgressBar activeSection={this.computeActiveSection()} progressText={progressText} />
         <PurchaseToggler
           purchaseCompleted={purchaseCompleted}
-          purchaseProps={{ handleComplete: this.handlePurchaseComplete, freeCallsRemaining }}
+          purchaseProps={{ handleComplete: this.handlePurchaseComplete, freeCallsRemaining, freeCallsAllowed }}
           thirdPartyProps={{ service_id: service.service_id, org_id: service.org_id, freeCallsRemaining }}
         />
       </div>
@@ -57,6 +57,7 @@ class ServiceDemo extends Component {
 const mapStateToProps = state => ({
   isComplete: state.serviceReducer.serviceMethodExecution.isComplete,
   freeCallsRemaining: state.serviceReducer.freeCallsRemaining,
+  freeCallsAllowed: state.serviceReducer.freeCallsAllowed,
   email: state.userReducer.email,
 });
 

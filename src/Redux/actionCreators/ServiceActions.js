@@ -19,6 +19,7 @@ export const UPDATE_ACTIVE_FILTER_ITEM = "UPDATE_ACTIVE_FILTER_ITEM";
 export const RESET_FILTER_ITEM = "RESET_FILTER_ITEM";
 export const UPDATE_FEEDBACK = "UPDATE_FEEDBACK";
 export const UPDATE_SERVICE_METADATA = "UPDATE_SERVICE_METADATA";
+export const UPDATE_FREE_CALLS_ALLOWED = "UPDATE_FREE_CALLS_ALLOWED";
 export const UPDATE_FREE_CALLS_REMAINING = "UPDATE_FREE_CALLS_REMAINING";
 
 export const updateActiveFilterItem = activeFilterItem => dispatch => {
@@ -182,6 +183,7 @@ export const submitFeedback = (orgId, serviceId, feedback) => async () => {
 
 const fetchMeteringDataSuccess = usageData => dispatch => {
   const freeCallsRemaining = usageData.free_calls_allowed - usageData.total_calls_made;
+  dispatch({ type: UPDATE_FREE_CALLS_ALLOWED, payload: usageData.free_calls_allowed });
   dispatch({ type: UPDATE_FREE_CALLS_REMAINING, payload: freeCallsRemaining });
 };
 

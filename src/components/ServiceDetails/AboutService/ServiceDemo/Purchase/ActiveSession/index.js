@@ -6,7 +6,9 @@ import StyledButton from "../../../../../common/StyledButton";
 import StyledLinearProgress from "../../../../../common/StyledLinearProgress";
 import { useStyles } from "./styles";
 
-const ActiveSession = ({ classes, freeCallsRemaining, handleComplete }) => {
+const ActiveSession = ({ classes, freeCallsRemaining, handleComplete, freeCallsAllowed }) => {
+  const progressValue = () => (freeCallsRemaining / freeCallsAllowed) * 100;
+
   return (
     <div>
       <AlertBox
@@ -18,7 +20,7 @@ const ActiveSession = ({ classes, freeCallsRemaining, handleComplete }) => {
       <div className={classes.FreeApiCallsData}>
         <span className={classes.FreeApiCallsText}>Free API Calls</span>
         <span className={classes.ReaminaingCallsNo}>{freeCallsRemaining}</span>
-        <StyledLinearProgress value={freeCallsRemaining} />
+        <StyledLinearProgress value={progressValue()} />
         <StyledButton type="blue" btnText="run for free" onClick={handleComplete} />
       </div>
     </div>
