@@ -73,7 +73,7 @@ class App extends Component {
                   component={withInAppWrapper(AiMarketplace)}
                 />
                 <WalletReqdRoute
-                  path={`/${Routes.SERVICE_DETAILS}/:service_row_id`}
+                  path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId`}
                   {...this.props}
                   component={withInAppWrapper(ServiceDetails)}
                 />
