@@ -160,7 +160,7 @@ export const submitFeedback = (orgId, serviceId, feedback) => async () => {
 
 const meteringAPI = (token, orgId, serviceId, userId) => {
   const apiName = APIEndpoints.METERING_SERVICE.name;
-  const apiPath = `${APIPaths.FREE_CALL_USAGE}?organization_id=${orgId}&service_id=${serviceId}&user_id=${userId}`;
+  const apiPath = `${APIPaths.FREE_CALL_USAGE}?organization_id=${orgId}&service_id=${serviceId}&username=${userId}`;
   const apiOptions = initializeAPIOptions(token);
   return API.get(apiName, apiPath, apiOptions);
 };
