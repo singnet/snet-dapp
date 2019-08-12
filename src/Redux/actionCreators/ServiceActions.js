@@ -188,7 +188,7 @@ const fetchMeteringDataSuccess = usageData => dispatch => {
 };
 
 const meteringAPI = (token, orgId, serviceId, userId) => {
-  const apiName = APIEndpoints.METERING_SERVICE.name;
+  const apiName = APIEndpoints.USER.name;
   const apiPath = `${APIPaths.FREE_CALL_USAGE}?organization_id=${orgId}&service_id=${serviceId}&username=${userId}`;
   const apiOptions = initializeAPIOptions(token);
   return API.get(apiName, apiPath, apiOptions);
