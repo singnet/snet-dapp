@@ -2,6 +2,7 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 import StarRatingComponent from "react-star-rating-component";
+import Avatar from '@material-ui/core/Avatar';
 
 import { useStyles } from "./styles";
 import RatingsCount from "../../common/RatingsCount";
@@ -13,6 +14,7 @@ const TitleCard = ({ classes, org_id, display_name, star_rating, api_calls, img_
         <img src={img_url ? img_url : "http://placehold.it/229x129"} alt="service" width={229} height={129} />
       </div>
       <div className={classes.computerVisionContent}>
+        <Avatar alt="Singularity" src="/static/images/avatar/1.jpg" className={classes.avatar} />
         <span>{org_id}</span>
         <h2>{display_name}</h2>
         <div>
