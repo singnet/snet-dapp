@@ -33,19 +33,19 @@ const ServiceListItem = props => {
               </Avatar>
             }
             classes={{ title: classes.cardTitle, subheader: classes.cardSubheader }}
-            title={props.cardTitle}
+            title={
+              <div className={classes.ratingSection}>
+              <h4>{props.cardTitle}</h4>
+              <StarRatingComponent
+                name="rate1"
+                starCount={5}
+                value={Number(props.ratingGiven)}
+                className={classes.ratingStars}
+              />
+              <RatingsCount ratingGiven={props.ratingGiven} totalRating={props.totalRating} />
+            </div>
+            }
             subheader={props.cardSubheader}
-            // component={
-            //   <div className={classes.ratingSection}>
-            //   <StarRatingComponent
-            //     name="rate1"
-            //     starCount={5}
-            //     value={Number(props.ratingGiven)}
-            //     className={classes.ratingStars}
-            //   />
-            //   <RatingsCount ratingGiven={props.ratingGiven} totalRating={props.totalRating} />
-            // </div>
-            // }
             action={
               <StyledButton type="transparent" btnText="demo" />
             }
@@ -55,15 +55,6 @@ const ServiceListItem = props => {
             <Typography className={classes.cardTypograpy} component="p">
               {props.cardDescription}
             </Typography>
-            <div className={classes.ratingSection}>
-              <StarRatingComponent
-                name="rate1"
-                starCount={5}
-                value={Number(props.ratingGiven)}
-                className={classes.ratingStars}
-              />
-              <RatingsCount ratingGiven={props.ratingGiven} totalRating={props.totalRating} />
-            </div>
           </CardContent>
 
         </Grid>

@@ -48,6 +48,7 @@ export const useStyles = makeStyles(theme => ({
     fontFamily: theme.typography.primary.main,
     padding: "0px 9px 8px 0px",
     textAlign: "left",
+    '& h4': { margin: '0 76px 0 0' },
     "@media(max-width: 768px)": { width: "100%" },
   },
   cardSubheader: {
