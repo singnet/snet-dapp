@@ -19,6 +19,11 @@ export const UNSUBSCRIBE_TO_EMAIL_ALERTS = "UNSUBSCRIBE_TO_EMAIL_ALERTS";
 export const WALLET_CREATION_SUCCESS = "WALLET_CREATION_SUCCESS";
 export const APP_INITIALIZATION_SUCCESS = "APP_INITIALIZATION_SUCCESS";
 
+export const fetchAuthUser = async () => {
+  const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
+  return { email: currentUser.attributes.email, token: currentUser.signInUserSession.idToken.jwtToken };
+};
+
 export const appInitializationSuccess = dispatch => {
   dispatch({ type: APP_INITIALIZATION_SUCCESS, payload: { isInitialized: true } });
 };
