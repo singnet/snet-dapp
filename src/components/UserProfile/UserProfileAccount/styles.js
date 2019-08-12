@@ -13,82 +13,82 @@ export const useStyles = theme => ({
       margin: 0,
       color: theme.palette.text.darkShadedGray,
       fontSize: 20,
-      lineHeight: '50px'
-    }
+      lineHeight: "50px",
+    },
   },
-  accountWrapper:{ 
-    padding: '0 22px',
-    display: 'flex',
-    flexDirection: 'column',
-    '& button': { alignSelf: 'center'}
+  accountWrapper: {
+    padding: "0 22px",
+    display: "flex",
+    flexDirection: "column",
+    "& button": { alignSelf: "center" },
   },
-  dropDown:{    
-    padding: '11px 18px',
+  dropDown: {
+    padding: "11px 18px",
     borderWidth: 1,
-    borderStyle: 'solid',
-    borderColor: 'rgba(25,25,25,0.32)',
-    borderRadius: 4,    
+    borderStyle: "solid",
+    borderColor: "rgba(25,25,25,0.32)",
+    borderRadius: 4,
     marginTop: 26,
-    position: 'relative',
-    '& > div':{ 
-      width: '100%',
-      '& select': { color: theme.palette.text.alertBoxColor }
-    }
+    position: "relative",
+    "& > div": {
+      width: "100%",
+      "& select": { color: theme.palette.text.alertBoxColor },
+    },
   },
-  dropDownTitle:{
-    padding: '0 5px',
-    position: 'absolute',
-    top: '-10px',
+  dropDownTitle: {
+    padding: "0 5px",
+    position: "absolute",
+    top: "-10px",
     left: 10,
     background: theme.palette.text.white,
     color: theme.palette.text.black1,
     fontSize: 12,
-    letterSpacing: 0.4    
+    letterSpacing: 0.4,
   },
-  accountDetails: { 
+  accountDetails: {
     marginTop: 32,
-    '& div':{
-      display: 'flex',
-      margin: '7px 0',
-      '& div':{
-        width: '56%',
-        display: 'inline-block',
-        '& svg':{
+    "& div": {
+      display: "flex",
+      margin: "7px 0",
+      "& div": {
+        width: "56%",
+        display: "inline-block",
+        "& svg": {
           color: theme.palette.text.lightShadedGray,
           fontSize: 20,
           marginRight: 11,
-          verticalAlign: 'middle'
+          verticalAlign: "middle",
         },
-        '& span': {
-          width: 'auto',
-          display: 'inline-block',
+        "& span": {
+          width: "auto",
+          display: "inline-block",
           color: theme.palette.text.mediumShadeGray,
           fontSize: 16,
-          lineHeight: '22px',          
+          lineHeight: "22px",
         },
       },
-      '& span':{
-        width: '44%',
-        display: 'inline-block',
+      "& span": {
+        width: "44%",
+        display: "inline-block",
         color: theme.palette.text.darkShadedGray,
         fontSize: 16,
-      }
-    }
+      },
+    },
   },
-  walletId:{ 
-    fontSize: '14px !important',
-    wordBreak: 'break-all'
+  walletId: {
+    fontSize: "14px !important",
+    wordBreak: "break-all",
   },
   bgBox: {
-    alignItems: 'center',
-    '& > span':{
-      padding: '14px 20px',
+    alignItems: "center",
+    "& > span": {
+      padding: "14px 20px",
       borderWidth: 1,
-      borderStyle: 'solid',
+      borderStyle: "solid",
       borderColor: theme.palette.text.verticalTabLeftBorder,
       borderRadius: 4,
-      backgroundColor: theme.palette.text.cardBackground
-    }
+      backgroundColor: theme.palette.text.cardBackground,
+    },
   },
   tabsHeader: {
     backgroundColor: "transparent",

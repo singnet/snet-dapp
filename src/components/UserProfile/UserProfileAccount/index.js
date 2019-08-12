@@ -12,18 +12,15 @@ import StyledButton from "../../common/StyledButton";
 import { useStyles } from "./styles";
 
 class UserProfileAccount extends Component {
-   state = {
+  state = {
     activeTab: 0,
   };
 
-  render(){
+  render() {
     const { classes } = this.props;
     const { activeTab } = this.state;
 
-    const tabs = [
-      { name: "Deposit", activeIndex: 0, component: <Deposit /> },
-      { name: "Withdraw", activeIndex: 1 },
-    ];
+    const tabs = [{ name: "Deposit", activeIndex: 0, component: <Deposit /> }, { name: "Withdraw", activeIndex: 1 }];
     const activeComponent = tabs.filter(el => el.activeIndex === activeTab)[0].component;
 
     return (
@@ -35,10 +32,10 @@ class UserProfileAccount extends Component {
               <span className={classes.dropDownTitle}>Wallet</span>
               <StyledDropdown labelTxt={"MetaMask"} />
             </div>
-            <div className={classes.accountDetails}>            
+            <div className={classes.accountDetails}>
               <div>
                 <div className={classes.label}>
-                  <InfoIcon />  
+                  <InfoIcon />
                   <span>Current Network</span>
                 </div>
                 <span>Ropsten Test Network</span>
@@ -80,7 +77,7 @@ class UserProfileAccount extends Component {
         </Grid>
       </Grid>
     );
-  }  
-};
+  }
+}
 
 export default withStyles(useStyles)(UserProfileAccount);
