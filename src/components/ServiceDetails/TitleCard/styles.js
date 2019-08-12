@@ -4,6 +4,7 @@ export const useStyles = theme => ({
   },
   computerVisionContent: {
     marginLeft: 25,
+    '& .MuiAvatar-root':{ display: 'inline'},
     "& > span": {
       color: theme.palette.text.primary,
       fontSize: 14,
