@@ -23,11 +23,8 @@ class ServiceDetails extends Component {
   }
 
   fetchServices = () => {
-    const { service, pagination, fetchServices, fetchServiceMetadata, match } = this.props;
+    const { pagination, fetchServices, fetchServiceMetadata, match } = this.props;
     const { orgId, serviceId } = match.params;
-    if (service) {
-      return;
-    }
     const filterData = generateFilterObject({ org_id: [orgId], service_id: [serviceId] });
     fetchServiceMetadata({ orgId, serviceId });
     fetchServices(pagination, filterData);
