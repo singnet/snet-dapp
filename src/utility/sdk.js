@@ -3,7 +3,7 @@ import { API } from "aws-amplify";
 
 import { APIEndpoints, APIPaths } from "../config/APIEndpoints";
 import { initializeAPIOptions } from "./API";
-import { fetchAuthUser } from "../Redux/actionCreators/UserActions";
+import { fetchAuthenticatedUser } from "../Redux/actionCreators/UserActions";
 
 export const callTypes = {
   FREE: "FREE",
@@ -38,7 +38,7 @@ const parseFreeCallMetadata = ({ data }) => {
 const metadataGenerator = callType => async (serviceClient, serviceName, method) => {
   try {
     const { orgId: org_id, serviceId: service_id } = serviceClient.metadata;
-    const { email, token } = await fetchAuthUser();
+    const { email, token } = await fetchAuthenticatedUser();
     const payload = { org_id, service_id, service_name: serviceName, method, username: email };
     const apiName = APIEndpoints.SIGNER_SERVICE.name;
     const apiOptions = initializeAPIOptions(token, payload);

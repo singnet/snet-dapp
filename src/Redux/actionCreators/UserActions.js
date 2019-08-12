@@ -19,7 +19,7 @@ export const UNSUBSCRIBE_TO_EMAIL_ALERTS = "UNSUBSCRIBE_TO_EMAIL_ALERTS";
 export const WALLET_CREATION_SUCCESS = "WALLET_CREATION_SUCCESS";
 export const APP_INITIALIZATION_SUCCESS = "APP_INITIALIZATION_SUCCESS";
 
-export const fetchAuthUser = async () => {
+export const fetchAuthenticatedUser = async () => {
   const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
   return {
     username: currentUser.username,
@@ -100,7 +100,7 @@ const fetchUserDetailsError = err => dispatch => {
 
 export const fetchUserDetails = async dispatch => {
   try {
-    const { username, token, email, email_verified } = await fetchAuthUser();
+    const { username, token, email, email_verified } = await fetchAuthenticatedUser();
     const wallet = await fetchWalletStatus(username, token);
     dispatch(fetchUserProfile(username, token));
     if (username === null || username === undefined) {
@@ -139,7 +139,7 @@ const updateUserProfileFailure = err => dispatch => {
 export const updateUserProfile = updatedUserData => async dispatch => {
   dispatch(loaderActions.startAppLoader(LoaderContent.UPDATE_PROFILE));
   try {
-    const { token } = await fetchAuthUser();
+    const { token } = await fetchAuthenticatedUser();
     const response = await updateUserProfileInit(token, updatedUserData);
     if (response.status === "success") {
       return dispatch(updateUserProfileSuccess(updatedUserData));
@@ -201,7 +201,7 @@ const registrationAPI = token => {
 };
 
 export const registerInMarketplace = async dispatch => {
-  const { token } = await fetchAuthUser();
+  const { token } = await fetchAuthenticatedUser();
   return registrationAPI(token);
 };
 

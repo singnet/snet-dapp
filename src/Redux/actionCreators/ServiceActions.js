@@ -7,7 +7,7 @@ import { loaderActions } from "./";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
 // import { PricingStrategy } from "../../utility/PricingStrategy.js";
 import { initializeAPIOptions } from "../../utility/API";
-import { fetchAuthUser } from "./UserActions";
+import { fetchAuthenticatedUser } from "./UserActions";
 
 export const UPDATE_SERVICE_LIST = "SET_SERVICE_LIST";
 export const UPDATE_PAGINATION_DETAILS = "SET_PAGINATION_DETAILS";
@@ -195,7 +195,7 @@ const meteringAPI = (token, orgId, serviceId, userId) => {
 };
 
 export const fetchMeteringData = ({ orgId, serviceId }) => async dispatch => {
-  const { email, token } = await fetchAuthUser();
+  const { email, token } = await fetchAuthenticatedUser();
   const usageData = await meteringAPI(token, orgId, serviceId, email);
   dispatch(fetchMeteringDataSuccess(usageData));
 };
