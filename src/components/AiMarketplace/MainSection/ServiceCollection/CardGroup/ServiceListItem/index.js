@@ -34,6 +34,7 @@ const ServiceListItem = props => {
             title={props.cardTitle}
             subheader={
               <Subheader
+                classes={classes}
                 cardSubheader={props.cardSubheader}
                 ratingGiven={props.ratingGiven}
                 totalRating={props.totalRating}
