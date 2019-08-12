@@ -22,12 +22,12 @@ class ThirdPartyAIService extends Component {
   };
 
   componentDidMount = async () => {
-    const { org_id, service_id, username, freeCallsRemaining } = this.props;
+    const { org_id, service_id, freeCallsRemaining, serviceMetadata } = this.props;
     const callType = freeCallsRemaining > 0 ? callTypes.FREE : callTypes.REGULAR;
     this.serviceClient = await createServiceClient(
       org_id,
       service_id,
-      username,
+      serviceMetadata,
       this.serviceRequestStartHandler,
       this.serviceRequestCompleteHandler,
       callType
@@ -53,6 +53,10 @@ class ThirdPartyAIService extends Component {
   };
 
   serviceRequestCompleteHandler = () => {
+    const { org_id, service_id, fetchMeteringData, freeCallsRemaining } = this.props;
+    if (freeCallsRemaining > 0) {
+      fetchMeteringData({ orgId: org_id, serviceId: service_id });
+    }
     this.setState({ serviceRequestComplete: true });
     this.props.stopLoader();
   };
@@ -139,6 +143,7 @@ const mapStateToProps = state => ({
   grpcResponse: state.serviceReducer.serviceMethodExecution.response,
   isComplete: state.serviceReducer.serviceMethodExecution.isComplete,
   username: state.userReducer.username,
+  serviceMetadata: state.serviceReducer.serviceMetadata,
 });
 const mapDispatchToProps = dispatch => ({
   fetchProtoSpec: servicebufURL => dispatch(serviceActions.fetchProtoSpec(servicebufURL)),
@@ -147,6 +152,7 @@ const mapDispatchToProps = dispatch => ({
   stopLoader: () => dispatch(loaderActions.stopAppLoader),
   resetServiceExecution: () => dispatch(serviceActions.resetServiceExecution),
   fetchFeedback: (orgId, serviceId) => dispatch(serviceActions.fetchFeedback(orgId, serviceId)),
+  fetchMeteringData: args => dispatch(serviceActions.fetchMeteringData({ ...args })),
 });
 
 export default connect(

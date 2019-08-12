@@ -5,8 +5,9 @@ import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import GRPCProtoV3Spec from "../../assets/models/GRPCProtoV3Spec";
 import { loaderActions } from "./";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
-import { PricingStrategy } from "../../utility/PricingStrategy.js";
+// import { PricingStrategy } from "../../utility/PricingStrategy.js";
 import { initializeAPIOptions } from "../../utility/API";
+import { fetchAuthUser } from "./UserActions";
 
 export const UPDATE_SERVICE_LIST = "SET_SERVICE_LIST";
 export const UPDATE_PAGINATION_DETAILS = "SET_PAGINATION_DETAILS";
@@ -17,6 +18,9 @@ export const UPDATE_FILTER_DATA = "UPDATE_FILTER_DATA";
 export const UPDATE_ACTIVE_FILTER_ITEM = "UPDATE_ACTIVE_FILTER_ITEM";
 export const RESET_FILTER_ITEM = "RESET_FILTER_ITEM";
 export const UPDATE_FEEDBACK = "UPDATE_FEEDBACK";
+export const UPDATE_SERVICE_METADATA = "UPDATE_SERVICE_METADATA";
+export const UPDATE_FREE_CALLS_ALLOWED = "UPDATE_FREE_CALLS_ALLOWED";
+export const UPDATE_FREE_CALLS_REMAINING = "UPDATE_FREE_CALLS_REMAINING";
 
 export const updateActiveFilterItem = activeFilterItem => dispatch => {
   dispatch({ type: UPDATE_ACTIVE_FILTER_ITEM, payload: { ...activeFilterItem } });
@@ -33,13 +37,13 @@ export const fetchServiceSuccess = res => dispatch => {
       total_count: res.data.total_count,
     },
   });
-  if (res.data.total_count > 0) {
-    res.data.result.map(service => {
-      const pricing = service["pricing"];
-      let pricingJSON = typeof pricing === "undefined" || pricing === null ? JSON.stringify(service) : pricing;
-      service.pricing_strategy = new PricingStrategy(pricingJSON);
-    });
-  }
+  // if (res.data.total_count > 0) {
+  //   res.data.result.map(service => {
+  //     const pricing = service["pricing"];
+  //     let pricingJSON = typeof pricing === "undefined" || pricing === null ? JSON.stringify(service) : pricing;
+  //     service.pricing_strategy = new PricingStrategy(pricingJSON);
+  //   });
+  // }
   dispatch({ type: UPDATE_SERVICE_LIST, payload: res.data.result });
   dispatch(loaderActions.stopAIServiceListLoader);
 };
@@ -54,6 +58,25 @@ export const fetchService = (pagination, filters = []) => async dispatch => {
     .then(res => res.json())
     .then(res => dispatch(fetchServiceSuccess(res)))
     .catch(() => dispatch(loaderActions.stopAIServiceListLoader));
+};
+
+const fetchServiceMetadataSuccess = serviceMetadata => dispatch => {
+  dispatch({ type: UPDATE_SERVICE_METADATA, payload: serviceMetadata });
+};
+
+const fetchServiceMetadataAPI = async ({ orgId, serviceId }) => {
+  const url = `${APIEndpoints.CONTRACT.endpoint}/org/${orgId}/service/${serviceId}/group`;
+  const response = await fetch(url);
+  return response.json();
+};
+
+export const fetchServiceMetadata = ({ orgId, serviceId }) => async dispatch => {
+  if (process.env.REACT_APP_SANDBOX) {
+    return {};
+  }
+
+  const serviceMetadata = await fetchServiceMetadataAPI({ orgId, serviceId });
+  dispatch(fetchServiceMetadataSuccess(serviceMetadata));
 };
 
 export const invokeServiceMethod = data => dispatch => {
@@ -158,9 +181,21 @@ export const submitFeedback = (orgId, serviceId, feedback) => async () => {
   return submitFeedbackAPI(feedbackObj, currentUser.signInUserSession.idToken.jwtToken);
 };
 
-export const fetchMeteringData = ({ orgId, serviceId, username }) => dispatch => {
-  const url = `${APIEndpoints.METERING_SERVICE.endpoint}${APIPaths.GET_FREE_CALL}?org_id=${orgId}&service_id=${serviceId}`;
-  return fetch(url)
-    .then(res => res.json())
-    .then(data => new Promise(resolve => resolve(data)));
+const fetchMeteringDataSuccess = usageData => dispatch => {
+  const freeCallsRemaining = usageData.free_calls_allowed - usageData.total_calls_made;
+  dispatch({ type: UPDATE_FREE_CALLS_ALLOWED, payload: usageData.free_calls_allowed });
+  dispatch({ type: UPDATE_FREE_CALLS_REMAINING, payload: freeCallsRemaining });
+};
+
+const meteringAPI = (token, orgId, serviceId, userId) => {
+  const apiName = APIEndpoints.METERING_SERVICE.name;
+  const apiPath = `${APIPaths.FREE_CALL_USAGE}?organization_id=${orgId}&service_id=${serviceId}&username=${userId}`;
+  const apiOptions = initializeAPIOptions(token);
+  return API.get(apiName, apiPath, apiOptions);
+};
+
+export const fetchMeteringData = ({ orgId, serviceId }) => async dispatch => {
+  const { email, token } = await fetchAuthUser();
+  const usageData = await meteringAPI(token, orgId, serviceId, email);
+  dispatch(fetchMeteringDataSuccess(usageData));
 };

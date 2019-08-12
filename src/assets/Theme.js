@@ -104,7 +104,7 @@ const theme = createMuiTheme({
       warningBoxBorder,
       warningBoxBg,
       infoBoxBg,
-      infoBoxLink
+      infoBoxLink,
     },
   },
   typography: {

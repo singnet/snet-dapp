@@ -4,8 +4,6 @@ import { connect } from "react-redux";
 
 import ProgressBar from "../../../common/ProgressBar";
 import { useStyles } from "./styles";
-import ThirdPartyAIService from "./ThirdPartyAIService";
-import Purchase from "./Purchase";
 import { serviceActions } from "../../../../Redux/actionCreators";
 import PurchaseToggler from "./PurchaseToggler";
 
@@ -14,23 +12,19 @@ class ServiceDemo extends Component {
     error: "error state message",
     progressText: ["Purchase", "Configure", "Results"],
     purchaseCompleted: false,
-    freeCallsRemaining: 1,
   };
 
   componentDidMount = () => {
-    // UNDO once metering service is deployed
-    // this.fetchFreeCallsUsage();
+    this.fetchFreeCallsUsage();
   };
 
   fetchFreeCallsUsage = async () => {
-    const { service, fetchMeteringData } = this.props;
-    const usageData = await fetchMeteringData({
+    const { service, fetchMeteringData, email } = this.props;
+    fetchMeteringData({
       orgId: service.org_id,
       serviceId: service.service_id,
-      username: "n.vin95@gmail.com",
+      username: email,
     });
-    const freeCallsRemaining = usageData.free_calls_allowed - usageData.total_calls_made;
-    this.setState({ freeCallsRemaining });
   };
 
   computeActiveSection = () => {
@@ -44,15 +38,15 @@ class ServiceDemo extends Component {
   };
 
   render() {
-    const { classes, service } = this.props;
-    const { progressText, purchaseCompleted, freeCallsRemaining } = this.state;
+    const { classes, service, freeCallsRemaining, freeCallsAllowed } = this.props;
+    const { progressText, purchaseCompleted } = this.state;
     return (
       <div className={classes.demoExampleContainer}>
         <h4>Process</h4>
         <ProgressBar activeSection={this.computeActiveSection()} progressText={progressText} />
         <PurchaseToggler
           purchaseCompleted={purchaseCompleted}
-          purchaseProps={{ handleComplete: this.handlePurchaseComplete, freeCallsRemaining }}
+          purchaseProps={{ handleComplete: this.handlePurchaseComplete, freeCallsRemaining, freeCallsAllowed }}
           thirdPartyProps={{ service_id: service.service_id, org_id: service.org_id, freeCallsRemaining }}
         />
       </div>
@@ -62,6 +56,9 @@ class ServiceDemo extends Component {
 
 const mapStateToProps = state => ({
   isComplete: state.serviceReducer.serviceMethodExecution.isComplete,
+  freeCallsRemaining: state.serviceReducer.freeCallsRemaining,
+  freeCallsAllowed: state.serviceReducer.freeCallsAllowed,
+  email: state.userReducer.email,
 });
 
 const mapDispatchToProps = dispatch => ({

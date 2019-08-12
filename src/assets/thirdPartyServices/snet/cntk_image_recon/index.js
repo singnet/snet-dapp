@@ -49,7 +49,11 @@ export default class CNTKImageRecognition extends React.Component {
 
     const props = {
       request,
-      onEnd: ({ message }) => {
+      onEnd: response => {
+        const { message, status, statusMessage } = response;
+        if (status !== 0) {
+          throw new Error(statusMessage);
+        }
         this.setState({
           ...initialUserInput,
           response: { status: "success", top_5: message.getTop5(), delta_time: message.getDeltaTime() },
