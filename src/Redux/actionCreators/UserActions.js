@@ -21,7 +21,12 @@ export const APP_INITIALIZATION_SUCCESS = "APP_INITIALIZATION_SUCCESS";
 
 export const fetchAuthUser = async () => {
   const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
-  return { email: currentUser.attributes.email, token: currentUser.signInUserSession.idToken.jwtToken };
+  return {
+    username: currentUser.username,
+    email: currentUser.attributes.email,
+    email_verified: currentUser.attributes.email_verified,
+    token: currentUser.signInUserSession.idToken.jwtToken,
+  };
 };
 
 export const appInitializationSuccess = dispatch => {
@@ -95,32 +100,25 @@ const fetchUserDetailsError = err => dispatch => {
 
 export const fetchUserDetails = async dispatch => {
   try {
-    const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
-    const wallet = await fetchWalletStatus(currentUser.username, currentUser.signInUserSession.idToken.jwtToken);
-    dispatch(fetchUserProfile(currentUser.username, currentUser.signInUserSession.idToken.jwtToken));
-    if (currentUser === null || currentUser === undefined) {
+    const { username, token, email, email_verified } = await fetchAuthUser();
+    const wallet = await fetchWalletStatus(username, token);
+    dispatch(fetchUserProfile(username, token));
+    if (username === null || username === undefined) {
       dispatch(noAuthenticatedUser);
       return;
     }
-    if (currentUser.attributes && currentUser.attributes.email_verified) {
-      dispatch(
-        fetchUserDetailsSuccess(
-          currentUser.attributes.email_verified,
-          currentUser.attributes.email,
-          currentUser.username,
-          wallet.data.length > 0
-        )
-      );
+    if (email_verified) {
+      dispatch(fetchUserDetailsSuccess(email_verified, email, username, wallet.data.length > 0));
     }
   } catch (err) {
     dispatch(fetchUserDetailsError(err));
   }
 };
 
-export const updateUserProfileInit = (currentUser, updatedUserData) => {
+export const updateUserProfileInit = (token, updatedUserData) => {
   const apiName = APIEndpoints.USER.name;
   const path = APIPaths.UPDATE_USER_PROFILE;
-  const apiOptions = initializeAPIOptions(currentUser.signInUserSession.idToken.jwtToken, updatedUserData);
+  const apiOptions = initializeAPIOptions(token, updatedUserData);
   return API.post(apiName, path, apiOptions);
 };
 
@@ -141,8 +139,8 @@ const updateUserProfileFailure = err => dispatch => {
 export const updateUserProfile = updatedUserData => async dispatch => {
   dispatch(loaderActions.startAppLoader(LoaderContent.UPDATE_PROFILE));
   try {
-    const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
-    const response = await updateUserProfileInit(currentUser, updatedUserData);
+    const { token } = await fetchAuthUser();
+    const response = await updateUserProfileInit(token, updatedUserData);
     if (response.status === "success") {
       return dispatch(updateUserProfileSuccess(updatedUserData));
     }
@@ -203,8 +201,8 @@ const registrationAPI = token => {
 };
 
 export const registerInMarketplace = async dispatch => {
-  const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
-  return registrationAPI(currentUser.signInUserSession.idToken.jwtToken);
+  const { token } = await fetchAuthUser();
+  return registrationAPI(token);
 };
 
 export const signOut = dispatch => {
@@ -232,6 +230,7 @@ export const signOut = dispatch => {
       dispatch(loaderActions.stopAppLoader);
     });
 };
+
 export const walletCreationSuccess = dispatch => {
   dispatch({ type: WALLET_CREATION_SUCCESS, payload: { isWalletAssigned: true } });
 };
