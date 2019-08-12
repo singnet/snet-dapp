@@ -11,6 +11,7 @@ import InstallAndRunService from "./InstallAndRunService";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../Redux/actionCreators";
 import { serviceDetails } from "../../Redux/reducers/ServiceReducer";
+import { generateFilterObject } from "../../utility/constants/Pagination";
 
 class ServiceDetails extends Component {
   state = {
@@ -22,12 +23,14 @@ class ServiceDetails extends Component {
   }
 
   fetchServices = () => {
-    const { service, pagination, fetchServices } = this.props;
+    const { service, pagination, fetchServices, fetchServiceMetadata, match } = this.props;
+    const { orgId, serviceId } = match.params;
     if (service) {
       return;
     }
-
-    fetchServices(pagination);
+    const filterData = generateFilterObject({ org_id: [orgId], service_id: [serviceId] });
+    fetchServiceMetadata({ orgId, serviceId });
+    fetchServices(pagination, filterData);
   };
 
   handleTabChange = activeTab => {
@@ -44,7 +47,11 @@ class ServiceDetails extends Component {
     const { activeTab } = this.state;
 
     const tabs = [
-      { name: "About", activeIndex: 0, component: <AboutService service={service} /> },
+      {
+        name: "About",
+        activeIndex: 0,
+        component: <AboutService service={service} />,
+      },
       { name: "Install and Run", activeIndex: 1, component: <InstallAndRunService /> },
     ];
 
@@ -54,8 +61,8 @@ class ServiceDetails extends Component {
           org_id={service.org_id}
           display_name={service.display_name}
           img_url={JSON.parse(service.assets_url).hero_image}
-          star_rating={JSON.parse(service.service_rating).rating}
-          totalRating={JSON.parse(service.service_rating).total_users_rated}
+          star_rating={service.service_rating ? JSON.parse(service.service_rating).rating : 0}
+          totalRating={service.service_rating ? JSON.parse(service.service_rating).total_users_rated : 0}
         />
         <PricingDetails price_strategy={service.pricing_strategy} />
         <StyledTabs tabs={tabs} activeTab={activeTab} onTabChange={this.handleTabChange} />
@@ -65,12 +72,13 @@ class ServiceDetails extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  service: serviceDetails(state, ownProps.match.params.service_row_id),
+  service: serviceDetails(state, ownProps.match.params),
   pagination: state.serviceReducer.pagination,
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchServices: pagination => dispatch(serviceActions.fetchService(pagination)),
+  fetchServiceMetadata: args => dispatch(serviceActions.fetchServiceMetadata({ ...args })),
+  fetchServices: (pagination, filterData) => dispatch(serviceActions.fetchService(pagination, filterData)),
 });
 
 export default connect(

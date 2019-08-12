@@ -17,6 +17,7 @@ export const UPDATE_FILTER_DATA = "UPDATE_FILTER_DATA";
 export const UPDATE_ACTIVE_FILTER_ITEM = "UPDATE_ACTIVE_FILTER_ITEM";
 export const RESET_FILTER_ITEM = "RESET_FILTER_ITEM";
 export const UPDATE_FEEDBACK = "UPDATE_FEEDBACK";
+export const UPDATE_SERVICE_METADATA = "UPDATE_SERVICE_METADATA";
 
 export const updateActiveFilterItem = activeFilterItem => dispatch => {
   dispatch({ type: UPDATE_ACTIVE_FILTER_ITEM, payload: { ...activeFilterItem } });
@@ -54,6 +55,29 @@ export const fetchService = (pagination, filters = []) => async dispatch => {
     .then(res => res.json())
     .then(res => dispatch(fetchServiceSuccess(res)))
     .catch(() => dispatch(loaderActions.stopAIServiceListLoader));
+};
+
+const fetchServiceMetadataSuccess = serviceMetadata => dispatch => {
+  dispatch({ type: UPDATE_SERVICE_METADATA, payload: serviceMetadata });
+};
+
+const fetchServiceMetadataAPI = async ({ orgId, serviceId }) => {
+  try {
+    const url = `${APIEndpoints.CONTRACT.endpoint}/org/${orgId}/service/${serviceId}/group`;
+    const response = await fetch(url);
+    return response.json();
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const fetchServiceMetadata = ({ orgId, serviceId }) => async dispatch => {
+  if (process.env.REACT_APP_SANDBOX) {
+    return {};
+  }
+
+  const serviceMetadata = await fetchServiceMetadataAPI({ orgId, serviceId });
+  dispatch(fetchServiceMetadataSuccess(serviceMetadata));
 };
 
 export const invokeServiceMethod = data => dispatch => {
