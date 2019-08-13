@@ -42,7 +42,7 @@ const ConfirmDelete = ({ open, handleClose, handleSubmit, error }) => {
             <h2>Are you sure?</h2>
             <p>
               Deleting your account will go in affect immediately and you will not longer have access to your account
-              data.{" "}
+              data.
             </p>
             <div className={classes.BeforeYouGoContent}>
               <h2>Before you go...</h2>
