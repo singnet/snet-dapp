@@ -47,9 +47,14 @@ export const useStyles = theme => ({
 		},
 		'& span':{
 			color: theme.palette.text.lightShadedGray,
-			fontSize: 12,
 			lineHeight: '17px'
 		}
+	},
+	value: { fontSize: 18 },
+	unit: { 
+		marginLeft: 5,
+		display: 'inline-block',
+		fontSize: 12,
 	},
 	selectionBoxDescription:{
 		padding: '14px 8px',

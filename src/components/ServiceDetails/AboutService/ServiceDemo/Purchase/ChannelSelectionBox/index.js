@@ -5,7 +5,7 @@ import { withStyles } from "@material-ui/styles";
 
 import { useStyles } from './styles';
 
-const ChannelSelectionBox = ({ classes, checked, title, description, hasInput }) => {
+const ChannelSelectionBox = ({ classes, checked, title, description, hasInput, disabled }) => {
   return(
   	<Grid container spacing={24} className={classes.ChannelSelectionBoxContainer}>
   		<Grid item xs={4} sm={4} md={4} lg={4} className={classes.LeftSideSection}>
@@ -17,8 +17,9 @@ const ChannelSelectionBox = ({ classes, checked, title, description, hasInput })
           {
             hasInput ?
               <div>
-  				      <input type="text" />
-  				      <span>0.000002 AGI</span>
+  				      <input type="text" disabled={disabled} />
+  				      <span className={classes.value}>0.000002</span>
+                <span className={classes.unit}>AGI</span>
               </div>
             :
               ''

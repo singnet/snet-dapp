@@ -45,6 +45,7 @@ const ExpiredSession = ({ classes, handleComplete, metamask }) => {
               description = "Tokens are purchsed for a single call. The tokens are purchsed from the available escrow balance." 
               checked = {false}
               hasInput
+              disabled={true}
             />
           </div>
         </div>
