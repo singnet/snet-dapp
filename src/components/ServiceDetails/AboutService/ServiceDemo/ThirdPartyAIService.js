@@ -143,8 +143,9 @@ const mapStateToProps = state => ({
   grpcResponse: state.serviceReducer.serviceMethodExecution.response,
   isComplete: state.serviceReducer.serviceMethodExecution.isComplete,
   username: state.userReducer.username,
-  serviceMetadata: state.serviceReducer.serviceMetadata,
+  serviceMetadata: state.serviceDetailsReducer.serviceMetadata,
 });
+
 const mapDispatchToProps = dispatch => ({
   fetchProtoSpec: servicebufURL => dispatch(serviceActions.fetchProtoSpec(servicebufURL)),
   invokeServiceMethod: data => dispatch(serviceActions.invokeServiceMethod(data)),

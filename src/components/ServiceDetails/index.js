@@ -9,7 +9,7 @@ import StyledTabs from "./StyledTabs";
 import AboutService from "./AboutService";
 import InstallAndRunService from "./InstallAndRunService";
 import { useStyles } from "./styles";
-import { serviceActions } from "../../Redux/actionCreators";
+import { serviceActions, serviceDetailsActions } from "../../Redux/actionCreators";
 import { serviceDetails } from "../../Redux/reducers/ServiceReducer";
 import { generateFilterObject } from "../../utility/constants/Pagination";
 
@@ -74,7 +74,7 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchServiceMetadata: args => dispatch(serviceActions.fetchServiceMetadata({ ...args })),
+  fetchServiceMetadata: args => dispatch(serviceDetailsActions.fetchServiceMetadata({ ...args })),
   fetchServices: (pagination, filterData) => dispatch(serviceActions.fetchService(pagination, filterData)),
 });
 
