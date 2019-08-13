@@ -18,7 +18,8 @@ export const SUBSCRIBE_TO_EMAIL_ALERTS = "SUBSCRIBE_TO_EMAIL_ALERTS";
 export const UNSUBSCRIBE_TO_EMAIL_ALERTS = "UNSUBSCRIBE_TO_EMAIL_ALERTS";
 export const WALLET_CREATION_SUCCESS = "WALLET_CREATION_SUCCESS";
 export const APP_INITIALIZATION_SUCCESS = "APP_INITIALIZATION_SUCCESS";
-export const UPDATE_TERMS_ACCEPTED = "UPDATE_TERMS_ACCEPTED";
+export const TERMS_ACCEPTED = "TERMS_ACCEPTED";
+export const TERMS_NOT_ACCEPTED = "TERMS_NOT_ACCEPTED";
 
 export const fetchAuthenticatedUser = async () => {
   const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
@@ -50,7 +51,15 @@ export const unsubsrcibeToEmailAlerts = dispatch => {
   dispatch({ type: UNSUBSCRIBE_TO_EMAIL_ALERTS });
 };
 
-export const fetchUserProfile = (username, token) => dispatch => {
+const userAcceptedTheTerms = dispatch => {
+  dispatch({ type: TERMS_ACCEPTED });
+};
+
+const userNotAcceptedTheTerms = dispatch => {
+  dispatch({ type: TERMS_NOT_ACCEPTED });
+};
+
+export const fetchUserProfile = token => dispatch => {
   const apiName = APIEndpoints.USER.name;
   const path = APIPaths.GET_USER_PROFILE;
   const apiOptions = initializeAPIOptions(token);
@@ -103,7 +112,7 @@ export const fetchUserDetails = async dispatch => {
   try {
     const { username, token, email, email_verified } = await fetchAuthenticatedUser();
     const wallet = await fetchWalletStatus(username, token);
-    dispatch(fetchUserProfile(username, token));
+    dispatch(fetchUserProfile(token));
     if (username === null || username === undefined) {
       dispatch(noAuthenticatedUser);
       return;

@@ -91,8 +91,11 @@ const userReducer = (state = InitialUserDetails, action) => {
     case userActions.UNSUBSCRIBE_TO_EMAIL_ALERTS: {
       return { ...state, emailAlerts: false };
     }
-    case userActions.UPDATE_TERMS_ACCEPTED: {
-      return { ...state, isTermsAccepted: action.payload };
+    case userActions.TERMS_ACCEPTED: {
+      return { ...state, isTermsAccepted: true };
+    }
+    case userActions.TERMS_NOT_ACCEPTED: {
+      return { ...state, isTermsAccepted: false };
     }
     default: {
       return state;
