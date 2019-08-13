@@ -23,5 +23,12 @@ export const useStyles = theme => ({
   buttonContainer: { 
   	marginTop: 35,
   	textAlign: 'center' 
+  },
+  channelSelectionTitle:{
+    marginBottom: 5,
+    display: 'inline-block',
+    color: theme.palette.text.mediumShadeGray,
+    fontSize: 16,
+    fontWeight: 600
   }
 });

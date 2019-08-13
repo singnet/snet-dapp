@@ -4,6 +4,7 @@ export const useStyles = theme => ({
 		borderStyle: 'solid',
 		borderColor: theme.palette.text.verticalTabLeftBorder,
 		borderRadius: 4,
+		marginBottom: 20,
 		backgroundColor: theme.palette.text.cardBackground,
 		'&:hover':{
 			borderColor: theme.palette.text.primary,
@@ -17,7 +18,7 @@ export const useStyles = theme => ({
 		backgroundColor: '#fefefe',
 	},
 	LeftSideSection:{
-		padding: '14px 28px',
+		padding: '14px 8px 14px 28px',
 		display: 'flex',
 		alignItems: 'center'
 	},

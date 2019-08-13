@@ -23,7 +23,31 @@ const ExpiredSession = ({ classes, handleComplete, metamask }) => {
             />
           ))}        
         </div>
-        <ChannelSelectionBox />
+        <div className={classes.ChannelSelectionBoxMainContainer}>
+          <div>
+            <span className={classes.channelSelectionTitle}>Recommended</span>
+            <ChannelSelectionBox 
+              title = "Channel Balance"
+              description = "You have 0.065627 tokens in you channel. This can be used for running demos across all the services from this vendor." 
+              checked = {true}
+            />
+          </div>
+          <div>
+            <span className={classes.channelSelectionTitle}>Best Value</span>
+            <ChannelSelectionBox 
+              title = "Multiple Calls"
+              description = "Select the no of calls you want to make. The tokens are purchased from the available escrow balance. This  option helps save the gas cost." 
+              checked = {false}
+              hasInput
+            />
+            <ChannelSelectionBox 
+              title = "Single Call"
+              description = "Tokens are purchsed for a single call. The tokens are purchsed from the available escrow balance." 
+              checked = {false}
+              hasInput
+            />
+          </div>
+        </div>
         <div className={classes.buttonContainer}>
           <StyledButton type="transparent" btnText="Deposit into Escrow" />
           <StyledButton type="blue" btnText="Continue" />
