@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 
 import ProgressBar from "../../../common/ProgressBar";
 import { useStyles } from "./styles";
-import { serviceActions } from "../../../../Redux/actionCreators";
+import { serviceDetailsActions } from "../../../../Redux/actionCreators";
 import PurchaseToggler from "./PurchaseToggler";
 
 class ServiceDemo extends Component {
@@ -14,13 +14,13 @@ class ServiceDemo extends Component {
     purchaseCompleted: false,
   };
 
-  componentDidMount = () => {
-    this.fetchFreeCallsUsage();
+  componentDidMount = async () => {
+    await this.fetchFreeCallsUsage();
   };
 
-  fetchFreeCallsUsage = async () => {
+  fetchFreeCallsUsage = () => {
     const { service, fetchMeteringData, email } = this.props;
-    fetchMeteringData({
+    return fetchMeteringData({
       orgId: service.org_id,
       serviceId: service.service_id,
       username: email,
@@ -56,13 +56,13 @@ class ServiceDemo extends Component {
 
 const mapStateToProps = state => ({
   isComplete: state.serviceReducer.serviceMethodExecution.isComplete,
-  freeCallsRemaining: state.serviceReducer.freeCallsRemaining,
-  freeCallsAllowed: state.serviceReducer.freeCallsAllowed,
+  freeCallsRemaining: state.serviceDetailsReducer.freeCallsRemaining,
+  freeCallsAllowed: state.serviceDetailsReducer.freeCallsAllowed,
   email: state.userReducer.email,
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchMeteringData: args => dispatch(serviceActions.fetchMeteringData({ ...args })),
+  fetchMeteringData: args => dispatch(serviceDetailsActions.fetchMeteringData({ ...args })),
 });
 
 export default connect(
