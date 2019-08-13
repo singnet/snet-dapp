@@ -9,7 +9,6 @@ import { useStyles } from "./styles";
 const UserProfileAccount = ({ classes }) => {
   return (
     <div>
-      {" "}
       <Grid container spacing={10} className={classes.accountMainContainer}>
         <Grid xs={12} sm={12} md={3} lg={3} className={classes.accountContainer}>
           <h3>Payment / Transfer Method</h3>
