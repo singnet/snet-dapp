@@ -64,8 +64,13 @@ export const fetchUserProfile = token => dispatch => {
   const path = APIPaths.GET_USER_PROFILE;
   const apiOptions = initializeAPIOptions(token);
   API.get(apiName, path, apiOptions).then(res => {
-    if (res.data.data.length > 0 && Boolean(res.data.data[0].email_alerts)) {
-      dispatch(subscribeToEmailAlerts);
+    if (res.data.data.length > 0) {
+      if (Boolean(res.data.data[0].email_alerts)) {
+        dispatch(subscribeToEmailAlerts);
+      }
+      if (!Boolean(res.data.data[0].terms_accepted)) {
+        dispatch(userNotAcceptedTheTerms);
+      }
     }
   });
 };
