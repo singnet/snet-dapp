@@ -24,6 +24,10 @@ const ExpiredSession = ({ classes, handleComplete, metamask }) => {
           ))}        
         </div>
         <ChannelSelectionBox />
+        <div className={classes.buttonContainer}>
+          <StyledButton type="transparent" btnText="Deposit into Escrow" />
+          <StyledButton type="blue" btnText="Continue" />
+        </div>
       </div>
     )
   }

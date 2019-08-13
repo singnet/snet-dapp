@@ -19,5 +19,9 @@ export const useStyles = theme => ({
   	marginBottom: 25,
   	display: 'flex',
   	justifyContent: 'space-between'
+  },
+  buttonContainer: { 
+  	marginTop: 35,
+  	textAlign: 'center' 
   }
 });
