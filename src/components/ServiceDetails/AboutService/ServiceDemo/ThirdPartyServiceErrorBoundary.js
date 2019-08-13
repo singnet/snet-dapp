@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 
+import AlertBox, { alertTypes } from "../../../common/AlertBox";
 class ThirdPartyServiceErrorBoundary extends Component {
   state = {
     error: undefined,
@@ -15,15 +16,10 @@ class ThirdPartyServiceErrorBoundary extends Component {
   };
 
   render() {
-    const { error, info } = this.state;
+    const { error } = this.state;
 
     if (error) {
-      return (
-        <p>
-          <strong>Err:</strong>
-          {info}
-        </p>
-      );
+      return <AlertBox type={alertTypes.ERROR} message={error.message} />;
     }
 
     return this.props.children;

@@ -2,7 +2,6 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 
 import { Recognizer } from "./image_recon_pb_service";
-import { getMethodNames } from "../../../../utility/sdk";
 import MethodNamesDropDown from "../../common/MethodNamesDropDown";
 import SNETImageUpload from "../../standardComponents/SNETImageUpload";
 
@@ -50,7 +49,11 @@ export default class CNTKImageRecognition extends React.Component {
 
     const props = {
       request,
-      onEnd: ({ message }) => {
+      onEnd: response => {
+        const { message, status, statusMessage } = response;
+        if (status !== 0) {
+          throw new Error(statusMessage);
+        }
         this.setState({
           ...initialUserInput,
           response: { status: "success", top_5: message.getTop5(), delta_time: message.getDeltaTime() },
@@ -62,7 +65,7 @@ export default class CNTKImageRecognition extends React.Component {
   }
 
   renderForm() {
-    const serviceNameOptions = ["Select a method", ...getMethodNames(Recognizer)];
+    const serviceNameOptions = ["Select a method", ...this.props.serviceClient.getMethodNames(Recognizer)];
 
     return (
       <React.Fragment>

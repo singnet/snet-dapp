@@ -1,7 +1,8 @@
 import React from "react";
 
 import { Calculator } from "./example_service_pb_service";
-import { getMethodNames } from "../../../../utility/sdk";
+
+const initialUserInput = { methodName: "Select a method", a: 0, b: 0 };
 
 export default class ExampleService extends React.Component {
   constructor(props) {
@@ -9,11 +10,7 @@ export default class ExampleService extends React.Component {
     this.submitAction = this.submitAction.bind(this);
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
 
-    this.state = {
-      methodName: "Select a method",
-      a: 0,
-      b: 0,
-    };
+    this.state = { ...initialUserInput };
   }
 
   canBeInvoked() {
@@ -44,9 +41,12 @@ export default class ExampleService extends React.Component {
 
     const props = {
       request,
-      onEnd: ({ code, statusMessage, headers, message, trailers }) => {
-        this.setState({ isComplete: true, response: { value: message.getValue() }});
-      }
+      onEnd: ({ status, statusMessage, message }) => {
+        if (status !== 0) {
+          throw new Error(statusMessage);
+        }
+        this.setState({ ...initialUserInput, response: { value: message.getValue() } });
+      },
     };
     this.props.serviceClient.unary(methodDescriptor, props);
   }
@@ -59,7 +59,7 @@ export default class ExampleService extends React.Component {
   }
 
   renderForm() {
-    const serviceMethodNames = getMethodNames(Calculator);
+    const serviceMethodNames = this.props.serviceClient.getMethodNames(Calculator);
     return (
       <React.Fragment>
         <div className="row">
@@ -144,7 +144,7 @@ export default class ExampleService extends React.Component {
   }
 
   render() {
-    if (this.state.isComplete) return <div>{this.renderComplete()}</div>;
+    if (this.props.isComplete) return <div>{this.renderComplete()}</div>;
     else {
       return <div>{this.renderForm()}</div>;
     }

@@ -2,7 +2,6 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 
 import { LanguageUnderstanding } from "./language_understanding_pb_service";
-import { getMethodNames } from "../../../../utility/sdk";
 import MethodNamesDropDown from "../../common/MethodNamesDropDown";
 
 const initialUserInput = {
@@ -80,8 +79,8 @@ export default class CNTKLanguageUnderstanding extends React.Component {
 
     const props = {
       request,
-      onEnd: resp => {
-        const { message, status, statusMessage } = resp;
+      onEnd: response => {
+        const { message, status, statusMessage } = response;
         if (status !== 0) {
           throw new Error(statusMessage);
         }
@@ -95,7 +94,7 @@ export default class CNTKLanguageUnderstanding extends React.Component {
   }
 
   renderForm() {
-    const serviceNameOptions = ["select a method", ...getMethodNames(LanguageUnderstanding)];
+    const serviceNameOptions = ["select a method", ...this.props.serviceClient.getMethodNames(LanguageUnderstanding)];
     return (
       <React.Fragment>
         <div className="row">

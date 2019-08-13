@@ -11,7 +11,10 @@ const alertBoxBorder = "#E67381";
 const alertBoxBackgroundColor = "#FDE5E8";
 
 const warningBoxBg = "#FDF3E5";
-const warningBoxBorder = "#F18D5A;";
+const warningBoxBorder = "#F18D5A";
+
+const infoBoxBg = "#DEEAFF";
+const infoBoxLink = "#067AD7";
 
 const userProfileIconColor = "#757575";
 
@@ -100,6 +103,8 @@ const theme = createMuiTheme({
       redBtnBg,
       warningBoxBorder,
       warningBoxBg,
+      infoBoxBg,
+      infoBoxLink,
     },
   },
   typography: {

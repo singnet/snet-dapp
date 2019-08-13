@@ -25,9 +25,8 @@ const RenderForm = ({
       <Grid item xs={12} sm={12} md={6} lg={6} className={classes.signupInfo}>
         <h2>Sign up now to get a free account!</h2>
         <p>
-          {" "}
           Gain instant access to an ever-growing collection of unique, privacy-preserving AI services for your company
-          or personal use.{" "}
+          or personal use.
         </p>
         <ul>
           <li>
