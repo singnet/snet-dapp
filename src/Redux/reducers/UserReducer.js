@@ -8,7 +8,7 @@ const InitialUserDetails = {
   },
   isInitialized: false,
   isEmailVerified: false,
-  isWalletAssigned: false,
+  walletAddress: undefined,
   email: "",
   username: "",
   emailAlerts: false,
@@ -70,14 +70,11 @@ const userReducer = (state = InitialUserDetails, action) => {
           ...state.login,
           ...action.payload.login,
         },
-        isWalletAssigned: false,
+        walletAddress: undefined,
       };
     }
-    case userActions.UPDATE_IS_WALLET_ASSIGNED: {
-      return { ...state, isWalletAssigned: action.payload };
-    }
-    case userActions.WALLET_CREATION_SUCCESS: {
-      return { ...state, ...action.payload };
+    case userActions.UPDATE_WALLET_ADDRESS: {
+      return { ...state, walletAddress: action.payload };
     }
     case userActions.UPDATE_USERNAME: {
       return { ...state, ...action.payload };

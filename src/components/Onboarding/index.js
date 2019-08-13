@@ -6,7 +6,6 @@ import Authentication from "./Authentication";
 import TermsOfUse from "./TermsOfUse";
 import { useStyles } from "./styles";
 import OnboardingContainer from "./OnboardingContainer";
-import { userActions } from "../../Redux/actionCreators";
 
 class Onboarding extends Component {
   state = {
@@ -16,16 +15,14 @@ class Onboarding extends Component {
   };
 
   componentDidMount = () => {
-    const { checkWalletStatus, username, isEmailVerified } = this.props;
-    checkWalletStatus(username);
+    const { isEmailVerified } = this.props;
     if (isEmailVerified) {
       this.setState({ activeSection: 2 });
     }
   };
 
   componentDidUpdate = () => {
-    const { checkWalletStatus, username, isEmailVerified } = this.props;
-    checkWalletStatus(username);
+    const { isEmailVerified } = this.props;
     if (isEmailVerified && this.state.activeSection === 1) {
       this.setState({ activeSection: 2 });
     }
@@ -81,11 +78,4 @@ const mapStateToProps = state => ({
   username: state.userReducer.username,
 });
 
-const mapDispatchToProps = dispatch => ({
-  checkWalletStatus: username => dispatch(userActions.checkWalletStatus(username)),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(useStyles)(Onboarding));
+export default connect(mapStateToProps)(withStyles(useStyles)(Onboarding));

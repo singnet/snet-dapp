@@ -11,8 +11,7 @@ export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_LOADING = "LOGIN_LOADING";
 export const LOGIN_ERROR = "LOGIN_ERROR";
 export const SIGN_OUT = "SIGN_OUT";
-export const CHECK_WALLET_STATUS = "CHECK_WALLET_STATUS";
-export const UPDATE_IS_WALLET_ASSIGNED = "SET_WALLET_ASSIGNED";
+export const UPDATE_WALLET_ADDRESS = "UPDATE_WALLET_ADDRESS";
 export const UPDATE_USERNAME = "UPDATE_USERNAME";
 export const UPDATE_EMAIL_VERIFIED = "UPDATE_EMAIL_VERIFIED";
 export const UPDATE_EMAIL_ALERTS_SUBSCRIPTION = "UPDATE_EMAIL_ALERTS_SUBSCRIPTION";
@@ -64,12 +63,16 @@ export const fetchUserProfile = token => dispatch => {
   });
 };
 
-const updateIsWalletAssigned = isWalletAssigned => dispatch => {
-  dispatch({ type: UPDATE_IS_WALLET_ASSIGNED, payload: isWalletAssigned });
+const updateWalletAddress = walletAddress => dispatch => {
+  dispatch({ type: UPDATE_WALLET_ADDRESS, payload: walletAddress });
 };
 
-const fetchWalletStatusSuccess = isWalletAssigned => dispatch => {
-  dispatch(updateIsWalletAssigned(isWalletAssigned));
+const fetchWalletStatusSuccess = response => dispatch => {
+  if (response.data[0]) {
+    dispatch(updateWalletAddress(response.data[0].address));
+    return;
+  }
+  dispatch(updateWalletAddress(undefined));
 };
 
 const fetchWalletStatusAPI = token => {
@@ -79,9 +82,9 @@ const fetchWalletStatusAPI = token => {
   return API.get(apiName, path, apiOptions);
 };
 
-const fetchWalletStatus = token => async () => {
-  const wallet = await fetchWalletStatusAPI(token);
-  fetchWalletStatusSuccess(wallet.data.length > 0);
+const fetchWalletStatus = token => async dispatch => {
+  const response = await fetchWalletStatusAPI(token);
+  dispatch(fetchWalletStatusSuccess(response));
 };
 
 const noAuthenticatedUser = dispatch => {
@@ -244,34 +247,6 @@ export const signOut = dispatch => {
     });
 };
 
-export const walletCreationSuccess = dispatch => {
-  dispatch({ type: WALLET_CREATION_SUCCESS, payload: { isWalletAssigned: true } });
-};
-
-export const checkWalletStatus = username => (dispatch, getState) => {
-  Auth.currentSession({ bypassCache: true })
-    .then(currentSession => {
-      const apiName = APIEndpoints.USER.name;
-      const path = `${APIPaths.WALLET}`;
-      const apiOptions = initializeAPIOptions(currentSession.idToken.jwtToken);
-      dispatch(updateEmailVerified(currentSession.idToken.payload.email_verified));
-      API.get(apiName, path, apiOptions).then(res => {
-        dispatch({
-          type: CHECK_WALLET_STATUS,
-          payload: { isWalletAssigned: res.data.length > 0 },
-        });
-      });
-    })
-    .catch(err => {
-      if (err === "No current user") {
-        dispatch({
-          type: CHECK_WALLET_STATUS,
-          payload: { login: { ...getState().userReducer.login, isLoggedIn: false } },
-        });
-      }
-    });
-};
-
 const userDeleted = ({ history, route }) => dispatch => {
   dispatch({
     type: SET_USER_DETAILS,
@@ -280,7 +255,7 @@ const userDeleted = ({ history, route }) => dispatch => {
         isLoggedIn: false,
       },
       isEmailVerified: false,
-      isWalletAssigned: false,
+      walletAddress: undefined,
       email: "",
     },
   });
