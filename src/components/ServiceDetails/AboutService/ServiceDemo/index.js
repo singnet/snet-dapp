@@ -7,6 +7,12 @@ import { useStyles } from "./styles";
 import { serviceDetailsActions } from "../../../../Redux/actionCreators";
 import PurchaseToggler from "./PurchaseToggler";
 
+const demoProgressStatus = {
+  purchasing: 1,
+  executingAIservice: 2,
+  displayingResponse: 3,
+};
+
 class ServiceDemo extends Component {
   state = {
     error: "error state message",
@@ -29,8 +35,10 @@ class ServiceDemo extends Component {
 
   computeActiveSection = () => {
     const { purchaseCompleted } = this.state;
-    const { isComplete } = this.props;
-    return purchaseCompleted ? (isComplete ? 3 : 2) : 1;
+    const { isServiceExecutionComplete } = this.props;
+    const { purchasing, executingAIservice, displayingResponse } = demoProgressStatus;
+
+    return purchaseCompleted ? (isServiceExecutionComplete ? displayingResponse : executingAIservice) : purchasing;
   };
 
   handlePurchaseComplete = () => {
@@ -55,7 +63,7 @@ class ServiceDemo extends Component {
 }
 
 const mapStateToProps = state => ({
-  isComplete: state.serviceReducer.serviceMethodExecution.isComplete,
+  isServiceExecutionComplete: state.serviceReducer.serviceMethodExecution.isComplete,
   freeCallsRemaining: state.serviceDetailsReducer.freeCallsRemaining,
   freeCallsAllowed: state.serviceDetailsReducer.freeCallsAllowed,
   email: state.userReducer.email,
