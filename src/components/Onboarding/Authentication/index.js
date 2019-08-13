@@ -69,7 +69,7 @@ class Authentication extends Component {
           <br /> <br />
           Please enter the verification code below to confirm your email address. Check your spam, or junk folders if
           you encounter any delays. The email should be from otp@singularitynet.io. The code will be valid for 5
-          minutes.{" "}
+          minutes.
         </p>
         <InlineLoader loading={loading} />
         <TextField

@@ -5,12 +5,18 @@ import PropTypes from "prop-types";
 
 import { useStyles } from "./styles";
 
-const StyledDropdown = ({ labelTxt, list, value, onChange }) => {
+const StyledDropdown = ({ labelTxt, list, value, onChange, formControlProps, nativeSelectProps }) => {
   const classes = useStyles();
 
   return (
-    <FormControl className={classes.formControl}>
-      <NativeSelect value={value} onChange={onChange} name={labelTxt} className={classes.selectEmpty}>
+    <FormControl className={classes.formControl} {...formControlProps}>
+      <NativeSelect
+        value={value}
+        onChange={onChange}
+        name={labelTxt}
+        className={classes.selectEmpty}
+        {...nativeSelectProps}
+      >
         <option value="">{labelTxt}</option>
         {list.map(item => (
           <option key={item.value} value={item.value}>

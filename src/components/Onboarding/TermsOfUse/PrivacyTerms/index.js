@@ -12,7 +12,7 @@ const PrivacyTerms = () => {
           </span>
           <span>
             &nbsp;website and all content, services and products available at or through the website, including, but not
-            limited to,{" "}
+            limited to,
           </span>
           <span>
             <a href="http://singularitynet.io/&amp;sa=D&amp;ust=1563446694791000">SingularityNET.io</a>
@@ -29,7 +29,7 @@ const PrivacyTerms = () => {
             &nbsp;Hosting service (&ldquo;Hosting&rdquo;), (taken together, the Website). The Website is owned and
             operated by Stichting SingularityNET (&ldquo;SingularityNET&rdquo;). The Website is offered subject to your
             acceptance without modification of all of the terms and conditions contained herein and all other operating
-            rules, policies (including, without limitation,{" "}
+            rules, policies (including, without limitation,
           </span>
           <span>
             <a href="http://singularitynet.io/&amp;sa=D&amp;ust=1563446694793000">SingularityNET.io</a>
@@ -248,7 +248,7 @@ const PrivacyTerms = () => {
         <p>
           <span>
             We have not reviewed, and cannot review, all of the material, including computer software, made available
-            through the websites and webpages to which{" "}
+            through the websites and webpages to which
           </span>
           <span>
             <a href="http://singularitynet.io/&amp;sa=D&amp;ust=1563446694803000">SingularityNET.io</a>
@@ -262,7 +262,7 @@ const PrivacyTerms = () => {
             <a href="http://singularitynet.io/&amp;sa=D&amp;ust=1563446694804000">SingularityNET.io</a>
           </span>
           <span>
-            websites and webpages, and is not responsible for their contents or their use. By linking to a non -{" "}
+            websites and webpages, and is not responsible for their contents or their use. By linking to a non -
           </span>
           <span>
             <a href="http://singularitynet.io/&amp;sa=D&amp;ust=1563446694804000">SingularityNET.io</a>
@@ -271,7 +271,7 @@ const PrivacyTerms = () => {
             &nbsp;website or webpage, SingularityNET does not represent or imply that it endorses such website or
             webpage. You are responsible for taking precautions as necessary to protect yourself and your computer
             systems from viruses, worms, Trojan horses, and other harmful or destructive content. SingularityNET
-            disclaims any responsibility for any harm resulting from your use of{" "}
+            disclaims any responsibility for any harm resulting from your use of
           </span>
           <span>
             <a href="http://non-singularitynet.io/&amp;sa=D&amp;ust=1563446694805000">non-SingularityNET.io</a>
@@ -286,14 +286,14 @@ const PrivacyTerms = () => {
         <p>
           <span>
             As SingularityNET asks others to respect its intellectual property rights, it respects the intellectual
-            property rights of others. If you believe that material located on or linked to by{" "}
+            property rights of others. If you believe that material located on or linked to by
           </span>
           <span>
             <a href="http://singularitynet.io/&amp;sa=D&amp;ust=1563446694806000">SingularityNET.io</a>
           </span>
           <span>
             violates your copyright, and if this website resides in the USA, you are encouraged to notify SingularityNET
-            in accordance with SingularityNET&rsquo;s{" "}
+            in accordance with SingularityNET&rsquo;s
           </span>
           <span>
             <a href="http://en.wikipedia.org/wiki/Digital_Millennium_Copyright_Act&amp;sa=D&amp;ust=1563446694806000">
@@ -318,7 +318,7 @@ const PrivacyTerms = () => {
           <span>
             This Agreement does not transfer from SingularityNET to you any SingularityNET or third party intellectual
             property, and all right, title and interest in and to such property will remain (as between the parties)
-            solely with SingularityNET. SingularityNET,{" "}
+            solely with SingularityNET. SingularityNET,
           </span>
           <span>
             <a href="http://singularitynet.io/&amp;sa=D&amp;ust=1563446694807000">SingularityNET.io</a>
@@ -367,7 +367,7 @@ const PrivacyTerms = () => {
         <p>
           <span>
             SingularityNET may terminate your access to all or any part of the Website at any time, with or without
-            cause, with or without notice, effective immediately. If you wish to terminate this Agreement or your{" "}
+            cause, with or without notice, effective immediately. If you wish to terminate this Agreement or your
           </span>
           <span>
             <a href="http://singularitynet.io/&amp;sa=D&amp;ust=1563446694811000">SingularityNET.io</a>
@@ -389,7 +389,7 @@ const PrivacyTerms = () => {
             all warranties of any kind, express or implied, including, without limitation, the warranties of
             merchantability, fitness for a particular purpose and non-infringement. Neither SingularityNET nor its
             suppliers and licensors, makes any warranty that the Website will be error free or that access thereto will
-            be continuous or uninterrupted. If you&rsquo;re actually reading this, here&rsquo;s{" "}
+            be continuous or uninterrupted. If you&rsquo;re actually reading this, here&rsquo;s
           </span>
           <span>
             <a href="http://www.newyorker.com/online/blogs/shouts/2012/12/the-hundred-best-lists-of-all-time.html&amp;sa=D&amp;ust=1563446694812000">
@@ -425,7 +425,7 @@ const PrivacyTerms = () => {
         <p>
           <span>
             You represent and warrant that (i) your use of the Website will be in strict accordance with the
-            SingularityNET{" "}
+            SingularityNET
           </span>
           <span>
             <a href="https://community.singularitynet.io/privacy&amp;sa=D&amp;ust=1563446694814000">Privacy Policy</a>
