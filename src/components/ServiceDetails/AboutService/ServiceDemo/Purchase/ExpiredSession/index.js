@@ -3,9 +3,13 @@ import { withStyles } from "@material-ui/styles";
 
 import AlertBox from "../../../../../common/AlertBox";
 import StyledButton from "../../../../../common/StyledButton";
+import ChannelSelectionBox from "../ChannelSelectionBox";
 import { useStyles } from "./styles";
 
-const ExpiredSession = ({ classes, handleComplete }) => {
+const ExpiredSession = ({ classes, handleComplete, metamask }) => {
+  if(metamask){
+    return <ChannelSelectionBox />
+  }
   return (
     <div className={classes.ExpiredSessionContainer}>
       <AlertBox
