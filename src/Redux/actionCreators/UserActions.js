@@ -15,8 +15,7 @@ export const CHECK_WALLET_STATUS = "CHECK_WALLET_STATUS";
 export const UPDATE_IS_WALLET_ASSIGNED = "SET_WALLET_ASSIGNED";
 export const UPDATE_USERNAME = "UPDATE_USERNAME";
 export const UPDATE_EMAIL_VERIFIED = "UPDATE_EMAIL_VERIFIED";
-export const SUBSCRIBE_TO_EMAIL_ALERTS = "SUBSCRIBE_TO_EMAIL_ALERTS";
-export const UNSUBSCRIBE_TO_EMAIL_ALERTS = "UNSUBSCRIBE_TO_EMAIL_ALERTS";
+export const UPDATE_EMAIL_ALERTS_SUBSCRIPTION = "UPDATE_EMAIL_ALERTS_SUBSCRIPTION";
 export const WALLET_CREATION_SUCCESS = "WALLET_CREATION_SUCCESS";
 export const APP_INITIALIZATION_SUCCESS = "APP_INITIALIZATION_SUCCESS";
 export const UPDATE_IS_TERMS_ACCEPTED = "UPDATE_IS_TERMS_ACCEPTED";
@@ -43,12 +42,8 @@ export const updateEmailVerified = value => dispatch => {
   dispatch({ type: UPDATE_EMAIL_VERIFIED, payload: { isEmailVerified: value } });
 };
 
-export const subscribeToEmailAlerts = dispatch => {
-  dispatch({ type: SUBSCRIBE_TO_EMAIL_ALERTS });
-};
-
-export const unsubsrcibeToEmailAlerts = dispatch => {
-  dispatch({ type: UNSUBSCRIBE_TO_EMAIL_ALERTS });
+const updateEmailAlertsSubscription = emailAlerts => dispatch => {
+  dispatch({ type: UPDATE_EMAIL_ALERTS_SUBSCRIPTION, payload: emailAlerts });
 };
 
 const updateIsTermsAccepted = isTermsAccepted => dispatch => {
@@ -60,12 +55,12 @@ export const fetchUserProfile = token => dispatch => {
   const path = APIPaths.GET_USER_PROFILE;
   const apiOptions = initializeAPIOptions(token);
   API.get(apiName, path, apiOptions).then(res => {
-    if (res.data.data.length > 0) {
-      if (Boolean(res.data.data[0].email_alerts)) {
-        dispatch(subscribeToEmailAlerts);
-      }
-      dispatch(updateIsTermsAccepted(res.data.data[0].terms_accepted));
+    if (res.data.data.length === 0) {
+      dispatch(registerInMarketplace(token));
+      return;
     }
+    dispatch(updateEmailAlertsSubscription(Boolean(res.data.data[0].email_alerts)));
+    dispatch(updateIsTermsAccepted(Boolean(res.data.data[0].is_terms_accepted)));
   });
 };
 
@@ -143,12 +138,8 @@ export const updateUserProfileInit = (token, updatedUserData) => {
   return API.post(apiName, path, apiOptions);
 };
 
-const updateUserProfileSuccess = updatedUserData => dispatch => {
-  if (updatedUserData.email_alerts) {
-    dispatch(subscribeToEmailAlerts);
-  } else {
-    dispatch(unsubsrcibeToEmailAlerts);
-  }
+const updateUserProfileSuccess = token => dispatch => {
+  dispatch(fetchUserProfile(token));
   dispatch(loaderActions.stopAppLoader);
 };
 
@@ -163,7 +154,7 @@ export const updateUserProfile = updatedUserData => async dispatch => {
     const { token } = await fetchAuthenticatedUser();
     const response = await updateUserProfileInit(token, updatedUserData);
     if (response.status === "success") {
-      return dispatch(updateUserProfileSuccess(updatedUserData));
+      return dispatch(updateUserProfileSuccess(token));
     }
   } catch (err) {
     dispatch(updateUserProfileFailure(err));
@@ -220,9 +211,11 @@ const registrationAPI = token => {
   return API.get(apiName, apiPath, apiOptions);
 };
 
-export const registerInMarketplace = async dispatch => {
-  const { token } = await fetchAuthenticatedUser();
-  return registrationAPI(token);
+const registerInMarketplace = token => async dispatch => {
+  const response = await registrationAPI(token);
+  if (response.data === "success") {
+    dispatch(fetchUserProfile(token));
+  }
 };
 
 export const signOut = dispatch => {

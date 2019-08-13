@@ -10,14 +10,12 @@ import { useStyles } from "./styles";
 import PrivacyTerms from "./PrivacyTerms";
 import { userActions } from "../../../Redux/actionCreators";
 import Routes from "../../../utility/constants/Routes";
+import AlertBox, { alertTypes } from "../../common/AlertBox";
 
 class TermsOfUse extends Component {
   state = {
     isTermsAccepted: false,
-  };
-
-  componentDidMount = () => {
-    this.setState({ isTermsAccepted: this.props.isTermsAccepted });
+    alertMessage: undefined,
   };
 
   handleChange = event => {
@@ -25,19 +23,29 @@ class TermsOfUse extends Component {
   };
 
   handleSubmit = async () => {
+    this.setState({ alertMessage: undefined });
     const { updateUserProfile, history } = this.props;
-    const updatedUserData = { terms_accepted: this.state.isTermsAccepted };
-    await updateUserProfile(updatedUserData);
-    if (history.location.state && history.location.state.sourcePath) {
-      history.push(history.location.state.sourcePath);
-      return;
+    const updatedUserData = { is_terms_accepted: this.state.isTermsAccepted };
+    try {
+      await updateUserProfile(updatedUserData);
+      if (history.location.state && history.location.state.sourcePath) {
+        history.push(history.location.state.sourcePath);
+        return;
+      }
+      history.push(`/${Routes.AI_MARKETPLACE}`);
+    } catch (error) {
+      if (error.response && error.response.data && error.response.data.error) {
+        this.setState({ alertMessage: error.response.data.error });
+        return;
+      }
+
+      this.setState({ alertMessage: String(error) });
     }
-    history.push(`/${Routes.AI_MARKETPLACE}`);
   };
 
   render() {
-    const { classes, handleNextSection } = this.props;
-    const { isTermsAccepted } = this.state;
+    const { classes } = this.props;
+    const { isTermsAccepted, alertMessage } = this.state;
     return (
       <div className={classes.onboardingContainer}>
         <div className={classes.termsOfUseContainer}>
@@ -50,23 +58,20 @@ class TermsOfUse extends Component {
               control={<Checkbox checked={isTermsAccepted} onChange={this.handleChange} color="primary" />}
               label="I agree to the Terms of Service"
             />
-            <StyledButton btnText="accept" disabled={!isTermsAccepted} onClick={handleNextSection} />
+            <StyledButton btnText="accept" disabled={!isTermsAccepted} onClick={this.handleSubmit} />
           </div>
+          <AlertBox type={alertTypes.ERROR} message={alertMessage} />
         </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  isTermsAccepted: state.userReducer.isTermsAccepted,
-});
-
 const mapDispatchToProps = dispatch => ({
   updateUserProfile: updatedUserData => dispatch(userActions.updateUserProfile(updatedUserData)),
 });
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(withStyles(useStyles)(withRouter(TermsOfUse)));
