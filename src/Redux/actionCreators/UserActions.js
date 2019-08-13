@@ -12,14 +12,14 @@ export const LOGIN_LOADING = "LOGIN_LOADING";
 export const LOGIN_ERROR = "LOGIN_ERROR";
 export const SIGN_OUT = "SIGN_OUT";
 export const CHECK_WALLET_STATUS = "CHECK_WALLET_STATUS";
+export const UPDATE_IS_WALLET_ASSIGNED = "SET_WALLET_ASSIGNED";
 export const UPDATE_USERNAME = "UPDATE_USERNAME";
 export const UPDATE_EMAIL_VERIFIED = "UPDATE_EMAIL_VERIFIED";
 export const SUBSCRIBE_TO_EMAIL_ALERTS = "SUBSCRIBE_TO_EMAIL_ALERTS";
 export const UNSUBSCRIBE_TO_EMAIL_ALERTS = "UNSUBSCRIBE_TO_EMAIL_ALERTS";
 export const WALLET_CREATION_SUCCESS = "WALLET_CREATION_SUCCESS";
 export const APP_INITIALIZATION_SUCCESS = "APP_INITIALIZATION_SUCCESS";
-export const TERMS_ACCEPTED = "TERMS_ACCEPTED";
-export const TERMS_NOT_ACCEPTED = "TERMS_NOT_ACCEPTED";
+export const UPDATE_IS_TERMS_ACCEPTED = "UPDATE_IS_TERMS_ACCEPTED";
 
 export const fetchAuthenticatedUser = async () => {
   const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
@@ -51,12 +51,8 @@ export const unsubsrcibeToEmailAlerts = dispatch => {
   dispatch({ type: UNSUBSCRIBE_TO_EMAIL_ALERTS });
 };
 
-const userAcceptedTheTerms = dispatch => {
-  dispatch({ type: TERMS_ACCEPTED });
-};
-
-const userNotAcceptedTheTerms = dispatch => {
-  dispatch({ type: TERMS_NOT_ACCEPTED });
+const updateIsTermsAccepted = isTermsAccepted => dispatch => {
+  dispatch({ type: UPDATE_IS_TERMS_ACCEPTED, payload: isTermsAccepted });
 };
 
 export const fetchUserProfile = token => dispatch => {
@@ -68,18 +64,29 @@ export const fetchUserProfile = token => dispatch => {
       if (Boolean(res.data.data[0].email_alerts)) {
         dispatch(subscribeToEmailAlerts);
       }
-      if (!Boolean(res.data.data[0].terms_accepted)) {
-        dispatch(userNotAcceptedTheTerms);
-      }
+      dispatch(updateIsTermsAccepted(res.data.data[0].terms_accepted));
     }
   });
 };
 
-const fetchWalletStatus = (username, token) => {
+const updateIsWalletAssigned = isWalletAssigned => dispatch => {
+  dispatch({ type: UPDATE_IS_WALLET_ASSIGNED, payload: isWalletAssigned });
+};
+
+const fetchWalletStatusSuccess = isWalletAssigned => dispatch => {
+  dispatch(updateIsWalletAssigned(isWalletAssigned));
+};
+
+const fetchWalletStatusAPI = token => {
   const apiName = APIEndpoints.USER.name;
   const path = `${APIPaths.WALLET}`;
   const apiOptions = initializeAPIOptions(token);
   return API.get(apiName, path, apiOptions);
+};
+
+const fetchWalletStatus = token => async () => {
+  const wallet = await fetchWalletStatusAPI(token);
+  fetchWalletStatusSuccess(wallet.data.length > 0);
 };
 
 const noAuthenticatedUser = dispatch => {
@@ -92,7 +99,7 @@ const noAuthenticatedUser = dispatch => {
   });
 };
 
-const fetchUserDetailsSuccess = (isEmailVerified, email, username, isWalletAssigned) => dispatch => {
+const fetchUserDetailsSuccess = (isEmailVerified, email, username) => dispatch => {
   dispatch({
     type: SET_USER_DETAILS,
     payload: {
@@ -101,7 +108,6 @@ const fetchUserDetailsSuccess = (isEmailVerified, email, username, isWalletAssig
       isEmailVerified,
       email,
       username,
-      isWalletAssigned,
     },
   });
 };
@@ -116,14 +122,14 @@ const fetchUserDetailsError = err => dispatch => {
 export const fetchUserDetails = async dispatch => {
   try {
     const { username, token, email, email_verified } = await fetchAuthenticatedUser();
-    const wallet = await fetchWalletStatus(username, token);
+    dispatch(fetchWalletStatus(token));
     dispatch(fetchUserProfile(token));
     if (username === null || username === undefined) {
       dispatch(noAuthenticatedUser);
       return;
     }
     if (email_verified) {
-      dispatch(fetchUserDetailsSuccess(email_verified, email, username, wallet.data.length > 0));
+      dispatch(fetchUserDetailsSuccess(email_verified, email, username));
     }
   } catch (err) {
     dispatch(fetchUserDetailsError(err));
@@ -165,12 +171,11 @@ export const updateUserProfile = updatedUserData => async dispatch => {
   }
 };
 
-export const loginSuccess = ({ res, history, route, wallet }) => dispatch => {
+export const loginSuccess = ({ res, history, route }) => dispatch => {
   const userDetails = {
     type: userActions.LOGIN_SUCCESS,
     payload: {
       login: { isLoggedIn: true },
-      isWalletAssigned: wallet.data.length > 0,
       username: res.attributes.name,
       isEmailVerified: res.attributes.email_verified,
     },
@@ -184,8 +189,8 @@ export const login = ({ username, password, history, route }) => async dispatch 
   let userDetails = {};
   return Auth.signIn(username, password)
     .then(async res => {
-      const wallet = await fetchWalletStatus(res.username, res.signInUserSession.idToken.jwtToken);
-      dispatch(loginSuccess({ res, history, route, wallet }));
+      dispatch(fetchWalletStatus(res.signInUserSession.idToken.jwtToken));
+      dispatch(loginSuccess({ res, history, route }));
     })
     .catch(err => {
       if (err.code === "UserNotConfirmedException") {

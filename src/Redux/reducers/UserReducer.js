@@ -73,8 +73,8 @@ const userReducer = (state = InitialUserDetails, action) => {
         isWalletAssigned: false,
       };
     }
-    case userActions.CHECK_WALLET_STATUS: {
-      return { ...state, isWalletAssigned: action.payload.isWalletAssigned };
+    case userActions.UPDATE_IS_WALLET_ASSIGNED: {
+      return { ...state, isWalletAssigned: action.payload };
     }
     case userActions.WALLET_CREATION_SUCCESS: {
       return { ...state, ...action.payload };
@@ -91,11 +91,8 @@ const userReducer = (state = InitialUserDetails, action) => {
     case userActions.UNSUBSCRIBE_TO_EMAIL_ALERTS: {
       return { ...state, emailAlerts: false };
     }
-    case userActions.TERMS_ACCEPTED: {
-      return { ...state, isTermsAccepted: true };
-    }
-    case userActions.TERMS_NOT_ACCEPTED: {
-      return { ...state, isTermsAccepted: false };
+    case userActions.UPDATE_IS_TERMS_ACCEPTED: {
+      return { ...state, isTermsAccepted: action.payload };
     }
     default: {
       return state;
