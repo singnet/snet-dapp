@@ -18,6 +18,7 @@ export const SUBSCRIBE_TO_EMAIL_ALERTS = "SUBSCRIBE_TO_EMAIL_ALERTS";
 export const UNSUBSCRIBE_TO_EMAIL_ALERTS = "UNSUBSCRIBE_TO_EMAIL_ALERTS";
 export const WALLET_CREATION_SUCCESS = "WALLET_CREATION_SUCCESS";
 export const APP_INITIALIZATION_SUCCESS = "APP_INITIALIZATION_SUCCESS";
+export const UPDATE_TERMS_ACCEPTED = "UPDATE_TERMS_ACCEPTED";
 
 export const fetchAuthenticatedUser = async () => {
   const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });

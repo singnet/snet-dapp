@@ -12,6 +12,7 @@ const InitialUserDetails = {
   email: "",
   username: "",
   emailAlerts: false,
+  isTermsAccepted: true,
 };
 
 const userReducer = (state = InitialUserDetails, action) => {
@@ -90,7 +91,9 @@ const userReducer = (state = InitialUserDetails, action) => {
     case userActions.UNSUBSCRIBE_TO_EMAIL_ALERTS: {
       return { ...state, emailAlerts: false };
     }
-
+    case userActions.UPDATE_TERMS_ACCEPTED: {
+      return { ...state, isTermsAccepted: action.payload };
+    }
     default: {
       return state;
     }
