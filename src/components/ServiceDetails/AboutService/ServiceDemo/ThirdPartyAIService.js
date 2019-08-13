@@ -4,7 +4,7 @@ import { withStyles } from "@material-ui/styles";
 
 import thirdPartyCustomUIComponents from "../../../../assets/thirdPartyServices";
 import { useStyles } from "./styles";
-import { serviceActions, loaderActions } from "../../../../Redux/actionCreators";
+import { serviceActions, serviceDetailsActions, loaderActions } from "../../../../Redux/actionCreators";
 import { APIEndpoints } from "../../../../config/APIEndpoints";
 import CompletedActions from "./CompletedActions";
 import { createServiceClient, callTypes } from "../../../../utility/sdk";
@@ -153,7 +153,7 @@ const mapDispatchToProps = dispatch => ({
   stopLoader: () => dispatch(loaderActions.stopAppLoader),
   resetServiceExecution: () => dispatch(serviceActions.resetServiceExecution),
   fetchFeedback: (orgId, serviceId) => dispatch(serviceActions.fetchFeedback(orgId, serviceId)),
-  fetchMeteringData: args => dispatch(serviceActions.fetchMeteringData({ ...args })),
+  fetchMeteringData: args => dispatch(serviceDetailsActions.fetchMeteringData({ ...args })),
 });
 
 export default connect(

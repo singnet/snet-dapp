@@ -7,7 +7,6 @@ import { loaderActions } from "./";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
 // import { PricingStrategy } from "../../utility/PricingStrategy.js";
 import { initializeAPIOptions } from "../../utility/API";
-import { fetchAuthenticatedUser } from "./UserActions";
 
 export const UPDATE_SERVICE_LIST = "SET_SERVICE_LIST";
 export const UPDATE_PAGINATION_DETAILS = "SET_PAGINATION_DETAILS";
@@ -18,8 +17,6 @@ export const UPDATE_FILTER_DATA = "UPDATE_FILTER_DATA";
 export const UPDATE_ACTIVE_FILTER_ITEM = "UPDATE_ACTIVE_FILTER_ITEM";
 export const RESET_FILTER_ITEM = "RESET_FILTER_ITEM";
 export const UPDATE_FEEDBACK = "UPDATE_FEEDBACK";
-export const UPDATE_FREE_CALLS_ALLOWED = "UPDATE_FREE_CALLS_ALLOWED";
-export const UPDATE_FREE_CALLS_REMAINING = "UPDATE_FREE_CALLS_REMAINING";
 
 export const updateActiveFilterItem = activeFilterItem => dispatch => {
   dispatch({ type: UPDATE_ACTIVE_FILTER_ITEM, payload: { ...activeFilterItem } });
@@ -159,23 +156,4 @@ export const submitFeedback = (orgId, serviceId, feedback) => async () => {
     },
   };
   return submitFeedbackAPI(feedbackObj, currentUser.signInUserSession.idToken.jwtToken);
-};
-
-const fetchMeteringDataSuccess = usageData => dispatch => {
-  const freeCallsRemaining = usageData.free_calls_allowed - usageData.total_calls_made;
-  dispatch({ type: UPDATE_FREE_CALLS_ALLOWED, payload: usageData.free_calls_allowed });
-  dispatch({ type: UPDATE_FREE_CALLS_REMAINING, payload: freeCallsRemaining });
-};
-
-const meteringAPI = (token, orgId, serviceId, userId) => {
-  const apiName = APIEndpoints.USER.name;
-  const apiPath = `${APIPaths.FREE_CALL_USAGE}?organization_id=${orgId}&service_id=${serviceId}&username=${userId}`;
-  const apiOptions = initializeAPIOptions(token);
-  return API.get(apiName, apiPath, apiOptions);
-};
-
-export const fetchMeteringData = ({ orgId, serviceId }) => async dispatch => {
-  const { email, token } = await fetchAuthenticatedUser();
-  const usageData = await meteringAPI(token, orgId, serviceId, email);
-  dispatch(fetchMeteringDataSuccess(usageData));
 };
