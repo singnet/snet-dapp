@@ -10,6 +10,12 @@ export const useStyles = theme => ({
 			backgroundColor: 'rgba(64,134,255,0.03)'
 		},
 	},
+	disabledChannelBox:{
+		borderWidth: 1,
+		borderStyle: 'solid',
+		borderColor: '#eee',
+		backgroundColor: '#fefefe',
+	},
 	LeftSideSection:{
 		padding: '14px 28px',
 		display: 'flex',

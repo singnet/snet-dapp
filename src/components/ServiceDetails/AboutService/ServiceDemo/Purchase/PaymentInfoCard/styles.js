@@ -16,7 +16,7 @@ export const useStyles = theme => ({
 		},
 		'& h3':{
 			padding: '0 !important',
-			borderbottomWidth: '0 !important',
+			borderBottomWidth: '0 !important',
 			margin: 0,
 			display: 'inline-block',
 			color: theme.palette.text.darkShadedGray,
