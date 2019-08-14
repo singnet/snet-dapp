@@ -30,7 +30,7 @@ const HolisticEdgeDetectionService = lazy(() => import("./HolisticEdgeDetectionS
 const ImageRetrievalService = lazy(() => import("./ImageRetrievalService"));
 const GeneAnnotationService = lazy(() => import("./GeneAnnotationService"));
 const TranslationService = lazy(() => import("./TranslationService"));
-const NewsSummaryService = lazy(() => import("./NewsSummaryService"));
+const NewsSummaryService = lazy(() => import("./snet/news_summary/"));
 const StyleTransfer = lazy(() => import("./StyleTransfer"));
 const LanguageDetectionService = lazy(() => import("./LanguageDetectionService"));
 const CoreferenceResolutionService = lazy(() => import("./snet/coreference_resolution_service"));
