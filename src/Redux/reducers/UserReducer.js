@@ -1,4 +1,5 @@
 import { userActions } from "../actionCreators";
+import { walletTypes } from "../actionCreators/UserActions";
 
 const InitialUserDetails = {
   login: {
@@ -8,7 +9,7 @@ const InitialUserDetails = {
   },
   isInitialized: false,
   isEmailVerified: false,
-  walletAddress: undefined,
+  wallet: { type: walletTypes.SNET },
   email: "",
   username: "",
   emailAlerts: false,
@@ -70,11 +71,11 @@ const userReducer = (state = InitialUserDetails, action) => {
           ...state.login,
           ...action.payload.login,
         },
-        walletAddress: undefined,
+        wallet: { type: walletTypes.SNET },
       };
     }
-    case userActions.UPDATE_WALLET_ADDRESS: {
-      return { ...state, walletAddress: action.payload };
+    case userActions.UPDATE_WALLET: {
+      return { ...state, wallet: action.payload };
     }
     case userActions.UPDATE_USERNAME: {
       return { ...state, ...action.payload };

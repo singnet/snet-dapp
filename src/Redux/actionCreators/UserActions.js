@@ -11,13 +11,17 @@ export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_LOADING = "LOGIN_LOADING";
 export const LOGIN_ERROR = "LOGIN_ERROR";
 export const SIGN_OUT = "SIGN_OUT";
-export const UPDATE_WALLET_ADDRESS = "UPDATE_WALLET_ADDRESS";
 export const UPDATE_USERNAME = "UPDATE_USERNAME";
 export const UPDATE_EMAIL_VERIFIED = "UPDATE_EMAIL_VERIFIED";
 export const UPDATE_EMAIL_ALERTS_SUBSCRIPTION = "UPDATE_EMAIL_ALERTS_SUBSCRIPTION";
-export const WALLET_CREATION_SUCCESS = "WALLET_CREATION_SUCCESS";
+export const UPDATE_WALLET = "UPDATE_WALLET";
 export const APP_INITIALIZATION_SUCCESS = "APP_INITIALIZATION_SUCCESS";
 export const UPDATE_IS_TERMS_ACCEPTED = "UPDATE_IS_TERMS_ACCEPTED";
+
+export const walletTypes = {
+  SNET: "SNET",
+  METAMASK: "METAMASK",
+};
 
 export const fetchAuthenticatedUser = async () => {
   const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
@@ -63,28 +67,12 @@ export const fetchUserProfile = token => dispatch => {
   });
 };
 
-const updateWalletAddress = walletAddress => dispatch => {
-  dispatch({ type: UPDATE_WALLET_ADDRESS, payload: walletAddress });
-};
-
-const fetchWalletStatusSuccess = response => dispatch => {
-  if (response.data[0]) {
-    dispatch(updateWalletAddress(response.data[0].address));
+export const updateWallet = ({ type, address }) => dispatch => {
+  if (address) {
+    dispatch({ type: UPDATE_WALLET, payload: { type, address } });
     return;
   }
-  dispatch(updateWalletAddress(undefined));
-};
-
-const fetchWalletStatusAPI = token => {
-  const apiName = APIEndpoints.USER.name;
-  const path = `${APIPaths.WALLET}`;
-  const apiOptions = initializeAPIOptions(token);
-  return API.get(apiName, path, apiOptions);
-};
-
-const fetchWalletStatus = token => async dispatch => {
-  const response = await fetchWalletStatusAPI(token);
-  dispatch(fetchWalletStatusSuccess(response));
+  dispatch({ type: UPDATE_WALLET, payload: { type } });
 };
 
 const noAuthenticatedUser = dispatch => {
@@ -120,7 +108,6 @@ const fetchUserDetailsError = err => dispatch => {
 export const fetchUserDetails = async dispatch => {
   try {
     const { username, token, email, email_verified } = await fetchAuthenticatedUser();
-    dispatch(fetchWalletStatus(token));
     dispatch(fetchUserProfile(token));
     if (username === null || username === undefined) {
       dispatch(noAuthenticatedUser);
@@ -183,7 +170,6 @@ export const login = ({ username, password, history, route }) => async dispatch 
   let userDetails = {};
   return Auth.signIn(username, password)
     .then(async res => {
-      dispatch(fetchWalletStatus(res.signInUserSession.idToken.jwtToken));
       dispatch(loginSuccess({ res, history, route }));
     })
     .catch(err => {
