@@ -63,6 +63,8 @@ const verticalTabLeftBorder = "#e2e2e2";
 
 const inputBoxBorder = "#979797";
 
+const dialogTitle = "rgba(0,0,0,0.87)";
+
 const h2 = { size: 32, color: darkShadedGray };
 
 const theme = createMuiTheme({
@@ -107,7 +109,8 @@ const theme = createMuiTheme({
       warningBoxBg,
       infoBoxBg,
       infoBoxLink,
-      inputBoxBorder
+      inputBoxBorder,
+      dialogTitle
     },
   },
   typography: {

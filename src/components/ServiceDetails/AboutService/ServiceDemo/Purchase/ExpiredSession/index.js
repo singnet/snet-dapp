@@ -6,6 +6,7 @@ import { PaymentInfoCardData } from "../../../../../../utility/constants/Purchas
 import AlertBox from "../../../../../common/AlertBox";
 import StyledButton from "../../../../../common/StyledButton";
 import PaymentInfoCard from "../PaymentInfoCard";
+import PurchaseDialog from "../PurchaseDialog";
 import ChannelSelectionBox from "../ChannelSelectionBox";
 import { useStyles } from "./styles";
 
@@ -13,7 +14,8 @@ const ExpiredSession = ({ classes, handleComplete, metamask }) => {
   if (metamask) {
     return (
       <div className={classes.PurchaseFlowContainer}>
-      <p className={classes.PurchaseFlowDescription}>Transfer the style of a “style Image” to a “content image” by choosing them in the boxes below.  You can upload a a file from your computer, URL, or select image from the gallery.  You can specify additional parameters in the panel below.  “Mouse over” for tool tips.</p>
+        <PurchaseDialog />
+        <p className={classes.PurchaseFlowDescription}>Transfer the style of a “style Image” to a “content image” by choosing them in the boxes below.  You can upload a a file from your computer, URL, or select image from the gallery.  You can specify additional parameters in the panel below.  “Mouse over” for tool tips.</p>
         <div className={classes.paymentInfoCard}>
           {PaymentInfoCardData.map(item => (          
             <PaymentInfoCard
