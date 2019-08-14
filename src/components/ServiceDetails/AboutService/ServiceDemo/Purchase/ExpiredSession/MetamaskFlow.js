@@ -15,12 +15,24 @@ const payTypes = {
 export const MetamaskFlow = ({ classes, handleContinue }) => {
   const [selectedPayType, setSelectedPayType] = useState(payTypes.CHANNEL_BALANCE);
   const [showPurchaseDialog, setShowPurchaseDialog] = useState(false);
+  const [noOfCalls, setNoOfCalls] = useState(1);
+  const [totalPrice, setTotalPrice] = useState(0.00000002);
+
   const handlePayTypeChange = value => {
     setSelectedPayType(value);
   };
+
   const handlePurchaseDialogClose = () => {
     setShowPurchaseDialog(false);
   };
+
+  const handleNoOfCallsChange = event => {
+    const noOfCalls = event.target.value;
+    const totalPrice = noOfCalls * 2 * 0.00000001;
+    setNoOfCalls(noOfCalls);
+    setTotalPrice(totalPrice);
+  };
+
   return (
     <div className={classes.PurchaseFlowContainer}>
       <PurchaseDialog show={showPurchaseDialog} onClose={handlePurchaseDialogClose} />
@@ -50,10 +62,15 @@ export const MetamaskFlow = ({ classes, handleContinue }) => {
           <ChannelSelectionBox
             title="Multiple Calls"
             description="Select the no of calls you want to make. The tokens are purchased from the available escrow balance. This  option helps save the gas cost."
-            hasInput
             checked={selectedPayType === payTypes.MULTIPLE_CALLS}
             value={payTypes.MULTIPLE_CALLS}
             onClick={() => handlePayTypeChange(payTypes.MULTIPLE_CALLS)}
+            inputProps={{
+              noOfCalls,
+              onChange: handleNoOfCallsChange,
+              totalPrice,
+              unit: "AGI",
+            }}
           />
           <ChannelSelectionBox
             title="Single Call"
@@ -61,7 +78,11 @@ export const MetamaskFlow = ({ classes, handleContinue }) => {
             checked={selectedPayType === payTypes.SINGLE_CALL}
             value={payTypes.SINGLE_CALL}
             onClick={() => handlePayTypeChange(payTypes.SINGLE_CALL)}
-            hasInput
+            inputProps={{
+              noOfCalls: 1,
+              totalPrice: 0.000002,
+              unit: "AGI",
+            }}
             disabled
           />
         </div>
