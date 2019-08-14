@@ -25,7 +25,7 @@ class TermsOfUse extends Component {
   handleSubmit = async () => {
     this.setState({ alertMessage: undefined });
     const { updateUserProfile, history } = this.props;
-    const updatedUserData = { is_terms_accepted: this.state.isTermsAccepted };
+    const updatedUserData = { is_terms_accepted: this.state.isTermsAccepted, email_alerts: false };
     try {
       await updateUserProfile(updatedUserData);
       if (history.location.state && history.location.state.sourcePath) {
