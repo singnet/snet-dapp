@@ -12,6 +12,7 @@ const ServiceDetails = lazy(() => import("../components/ServiceDetails"));
 class SandboxApp extends Component {
   render() {
     const { hamburgerMenu } = this.props;
+    const serviceDetailsPath =`/${Routes.SERVICE_DETAILS}/org/${process.env.REACT_APP_SANDBOX_ORG_ID}/service/${process.env.REACT_APP_SANDBOX_SERVICE_ID}`;
     return (
       <ThemeProvider theme={theme}>
         <div className={hamburgerMenu ? "hide-overflow" : null}>
@@ -19,11 +20,11 @@ class SandboxApp extends Component {
             <Suspense fallback={<div>Loading...</div>}>
               <Switch>
                 <Route
-                  path={`/${Routes.SERVICE_DETAILS}/:service_row_id`}
+                  path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId`}
                   {...this.props}
                   component={withInAppWrapper(ServiceDetails)}
                 />
-                <Redirect exact from="/" to={`/${Routes.SERVICE_DETAILS}/1`} />
+                <Redirect exact from="/" to={serviceDetailsPath} />
               </Switch>
             </Suspense>
           </Router>
