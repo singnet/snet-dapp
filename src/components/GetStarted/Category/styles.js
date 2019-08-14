@@ -10,6 +10,7 @@ export const useStyles = theme => ({
       "& span": { fontWeight: 600 },
     },
   },
+  reverseDirection:{ flexDirection: 'row-reverse' },
   Title: {
     "& svg": {
       marginRight: 11,
