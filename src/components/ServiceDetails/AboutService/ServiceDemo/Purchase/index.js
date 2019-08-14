@@ -13,7 +13,7 @@ const Purchase = ({ handleComplete, freeCallsRemaining, freeCallsAllowed }) => {
       />
     );
   }
-  return <ExpiredSession handleComplete={handleComplete} metamask /> 
+  return <ExpiredSession handleComplete={handleComplete} metamask />;
 };
 
 export default Purchase;
