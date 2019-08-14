@@ -77,13 +77,13 @@ const generateOptions = callType => {
 export const createServiceClient = (
   org_id,
   service_id,
-  serviceMetadata,
+  groupInfo,
   serviceRequestStartHandler,
   serviceRequestCompleteHandler,
   callType
 ) => {
   const options = generateOptions(callType);
-  const metadata = parseServiceMetadata(serviceMetadata);
+  const metadata = parseServiceMetadata(groupInfo);
   const serviceClient = new ServiceClient(
     undefined,
     org_id,

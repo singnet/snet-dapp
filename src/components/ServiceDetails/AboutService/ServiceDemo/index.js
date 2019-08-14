@@ -6,6 +6,7 @@ import ProgressBar from "../../../common/ProgressBar";
 import { useStyles } from "./styles";
 import { serviceDetailsActions } from "../../../../Redux/actionCreators";
 import PurchaseToggler from "./PurchaseToggler";
+import { groupInfo } from '../../../../Redux/reducers/ServiceDetailsReducer';
 
 const demoProgressStatus = {
   purchasing: 1,
@@ -50,13 +51,14 @@ class ServiceDemo extends Component {
   };
 
   render() {
-    const { classes, service, freeCallsRemaining, freeCallsAllowed } = this.props;
+    const { classes, service, freeCallsRemaining, freeCallsAllowed, groupInfo } = this.props;
     const { progressText, purchaseCompleted } = this.state;
     return (
       <div className={classes.demoExampleContainer}>
         <h4>Process</h4>
         <ProgressBar activeSection={this.computeActiveSection()} progressText={progressText} />
         <PurchaseToggler
+          groupInfo={groupInfo}
           purchaseCompleted={purchaseCompleted}
           purchaseProps={{ handleComplete: this.handlePurchaseComplete, freeCallsRemaining, freeCallsAllowed }}
           thirdPartyProps={{ service_id: service.service_id, org_id: service.org_id, freeCallsRemaining }}
@@ -70,6 +72,7 @@ const mapStateToProps = state => ({
   isServiceExecutionComplete: state.serviceReducer.serviceMethodExecution.isComplete,
   freeCallsRemaining: state.serviceDetailsReducer.freeCallsRemaining,
   freeCallsAllowed: state.serviceDetailsReducer.freeCallsAllowed,
+  groupInfo: groupInfo(state),
   email: state.userReducer.email,
 });
 
