@@ -15,7 +15,7 @@ import DialogTitle from "./DialogTitle";
 
 const tabs = [
   { name: "Deposit", icon: <InfoIcon />, activeIndex: 0, component: <Deposit /> },
-  { name: "Withdraw", icon: <InfoIcon />, activeIndex: 1 },
+  // { name: "Withdraw", icon: <InfoIcon />, activeIndex: 1, component: <Deposit /> },
 ];
 
 const PurchaseDialog = ({ classes, show, handleClose: onClose }) => {

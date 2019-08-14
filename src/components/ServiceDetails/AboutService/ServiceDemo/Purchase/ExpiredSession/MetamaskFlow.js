@@ -23,7 +23,7 @@ const PaymentInfoCardData = [
   },
   {
     title: "Channel Balance",
-    value: ".065627",
+    value: "0.065627",
     unit: "AGI",
   },
 ];
@@ -40,6 +40,10 @@ export const MetamaskFlow = ({ classes, handleContinue }) => {
       return;
     }
     setSelectedPayType(value);
+  };
+
+  const handlePurchaseDialogOpen = () => {
+    setShowPurchaseDialog(true);
   };
 
   const handlePurchaseDialogClose = () => {
@@ -110,7 +114,7 @@ export const MetamaskFlow = ({ classes, handleContinue }) => {
         </div>
       </div>
       <div className={classes.buttonContainer}>
-        <StyledButton type="transparent" btnText="Deposit into Escrow" />
+        <StyledButton type="transparent" btnText="Deposit into Escrow" onClick={handlePurchaseDialogOpen} />
         <StyledButton type="blue" btnText="Continue" onClick={handleContinue} />
       </div>
     </div>
