@@ -31,7 +31,7 @@ const ExpiredSession = ({ classes, handleComplete, metamask }) => {
             <ChannelSelectionBox
               title="Channel Balance"
               description="You have 0.065627 tokens in you channel. This can be used for running demos across all the services from this vendor."
-              checked={true}
+              checked
             />
           </div>
           <div>
@@ -39,7 +39,6 @@ const ExpiredSession = ({ classes, handleComplete, metamask }) => {
             <ChannelSelectionBox
               title="Multiple Calls"
               description="Select the no of calls you want to make. The tokens are purchased from the available escrow balance. This  option helps save the gas cost."
-              checked={false}
               hasInput
             />
             <ChannelSelectionBox
@@ -47,7 +46,7 @@ const ExpiredSession = ({ classes, handleComplete, metamask }) => {
               description="Tokens are purchsed for a single call. The tokens are purchsed from the available escrow balance."
               checked={false}
               hasInput
-              disabled={true}
+              disabled
             />
           </div>
         </div>
