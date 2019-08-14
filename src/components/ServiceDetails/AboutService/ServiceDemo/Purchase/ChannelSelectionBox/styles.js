@@ -1,5 +1,6 @@
 export const useStyles = theme => ({
   ChannelSelectionBoxContainer: {
+    cursor: "pointer",
     borderWidth: 1,
     borderStyle: "solid",
     borderColor: theme.palette.text.verticalTabLeftBorder,
