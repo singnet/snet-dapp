@@ -36,9 +36,9 @@ class PurchaseDialog extends Component {
     activeTab: 0,
   };
 
-  handleClose() {
+  handleClose = () => {
     this.setState({ dialogOpen: false });
-  }
+  };
 
   render() {
     const { classes } = this.props;
