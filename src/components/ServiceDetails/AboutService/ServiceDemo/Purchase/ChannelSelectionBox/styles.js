@@ -22,7 +22,7 @@ export const useStyles = theme => ({
     borderWidth: 1,
     borderStyle: "solid",
     borderColor: theme.palette.text.primary,
-    backgroundColor:  theme.palette.text.cardBackground,
+    backgroundColor: theme.palette.text.cardBackground,
   },
   LeftSideSection: {
     padding: "14px 8px 14px 28px",
