@@ -30,7 +30,7 @@ const ChannelSelectionBox = ({
     >
       <Grid item xs={4} sm={4} md={4} lg={4} className={classes.LeftSideSection}>
         <div className={classes.RadioButtonContainer}>
-          <Radio checked={checked} color="primary" name="radio-button" {...restProps} />
+          <Radio checked={checked} color="primary" name="radio-button" disabled={disabled} {...restProps} />
         </div>
         <div className={classes.InputDataContainer}>
           <h2>{title}</h2>

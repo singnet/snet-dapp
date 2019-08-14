@@ -14,11 +14,15 @@ const payTypes = {
 
 export const MetamaskFlow = ({ classes, handleContinue }) => {
   const [selectedPayType, setSelectedPayType] = useState(payTypes.CHANNEL_BALANCE);
+  const [disabledPayTypes, setDisablePayTypes] = useState([payTypes.SINGLE_CALL]);
   const [showPurchaseDialog, setShowPurchaseDialog] = useState(false);
   const [noOfCalls, setNoOfCalls] = useState(1);
-  const [totalPrice, setTotalPrice] = useState(0.00000002);
+  const [totalPrice, setTotalPrice] = useState("0.00000002");
 
   const handlePayTypeChange = value => {
+    if (disabledPayTypes.includes(value)) {
+      return;
+    }
     setSelectedPayType(value);
   };
 
@@ -28,7 +32,7 @@ export const MetamaskFlow = ({ classes, handleContinue }) => {
 
   const handleNoOfCallsChange = event => {
     const noOfCalls = event.target.value;
-    const totalPrice = noOfCalls * 2 * 0.00000001;
+    const totalPrice = String(((noOfCalls * 2) / 100000000).toFixed(8));
     setNoOfCalls(noOfCalls);
     setTotalPrice(totalPrice);
   };
@@ -55,6 +59,7 @@ export const MetamaskFlow = ({ classes, handleContinue }) => {
             checked={selectedPayType === payTypes.CHANNEL_BALANCE}
             value={payTypes.CHANNEL_BALANCE}
             onClick={() => handlePayTypeChange(payTypes.CHANNEL_BALANCE)}
+            disabled={disabledPayTypes.includes(payTypes.CHANNEL_BALANCEx)}
           />
         </div>
         <div>
@@ -71,6 +76,7 @@ export const MetamaskFlow = ({ classes, handleContinue }) => {
               totalPrice,
               unit: "AGI",
             }}
+            disabled={disabledPayTypes.includes(payTypes.MULTIPLE_CALLS)}
           />
           <ChannelSelectionBox
             title="Single Call"
@@ -83,7 +89,7 @@ export const MetamaskFlow = ({ classes, handleContinue }) => {
               totalPrice: 0.000002,
               unit: "AGI",
             }}
-            disabled
+            disabled={disabledPayTypes.includes(payTypes.SINGLE_CALL)}
           />
         </div>
       </div>
