@@ -15,37 +15,37 @@ const ExpiredSession = ({ classes, handleComplete, metamask }) => {
     return (
       <div className={classes.PurchaseFlowContainer}>
         <PurchaseDialog />
-        <p className={classes.PurchaseFlowDescription}>Transfer the style of a “style Image” to a “content image” by choosing them in the boxes below.  You can upload a a file from your computer, URL, or select image from the gallery.  You can specify additional parameters in the panel below.  “Mouse over” for tool tips.</p>
+        <p className={classes.PurchaseFlowDescription}>
+          Transfer the style of a “style Image” to a “content image” by choosing them in the boxes below. You can upload
+          a a file from your computer, URL, or select image from the gallery. You can specify additional parameters in
+          the panel below. “Mouse over” for tool tips.
+        </p>
         <div className={classes.paymentInfoCard}>
-          {PaymentInfoCardData.map(item => (          
-            <PaymentInfoCard
-              title = {item.title}
-              value = {item.value}
-              unit = {item.unit}
-            />
-          ))}        
+          {PaymentInfoCardData.map(item => (
+            <PaymentInfoCard key={item.title} title={item.title} value={item.value} unit={item.unit} />
+          ))}
         </div>
         <div className={classes.ChannelSelectionBoxMainContainer}>
           <div>
             <span className={classes.channelSelectionTitle}>Recommended</span>
-            <ChannelSelectionBox 
-              title = "Channel Balance"
-              description = "You have 0.065627 tokens in you channel. This can be used for running demos across all the services from this vendor." 
-              checked = {true}
+            <ChannelSelectionBox
+              title="Channel Balance"
+              description="You have 0.065627 tokens in you channel. This can be used for running demos across all the services from this vendor."
+              checked={true}
             />
           </div>
           <div>
             <span className={classes.channelSelectionTitle}>Best Value</span>
-            <ChannelSelectionBox 
-              title = "Multiple Calls"
-              description = "Select the no of calls you want to make. The tokens are purchased from the available escrow balance. This  option helps save the gas cost." 
-              checked = {false}
+            <ChannelSelectionBox
+              title="Multiple Calls"
+              description="Select the no of calls you want to make. The tokens are purchased from the available escrow balance. This  option helps save the gas cost."
+              checked={false}
               hasInput
             />
-            <ChannelSelectionBox 
-              title = "Single Call"
-              description = "Tokens are purchsed for a single call. The tokens are purchsed from the available escrow balance." 
-              checked = {false}
+            <ChannelSelectionBox
+              title="Single Call"
+              description="Tokens are purchsed for a single call. The tokens are purchsed from the available escrow balance."
+              checked={false}
               hasInput
               disabled={true}
             />
@@ -56,7 +56,7 @@ const ExpiredSession = ({ classes, handleComplete, metamask }) => {
           <StyledButton type="blue" btnText="Continue" />
         </div>
       </div>
-    )
+    );
   }
   return (
     <div className={classes.ExpiredSessionContainer}>

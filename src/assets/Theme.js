@@ -110,7 +110,7 @@ const theme = createMuiTheme({
       infoBoxBg,
       infoBoxLink,
       inputBoxBorder,
-      dialogTitle
+      dialogTitle,
     },
   },
   typography: {

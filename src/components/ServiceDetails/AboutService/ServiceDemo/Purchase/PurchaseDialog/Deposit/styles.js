@@ -1,3 +1,1 @@
-export const useStyles = theme => ({
-	
-})
+export const useStyles = theme => ({});
