@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import { PaymentInfoCardData } from "../../../../../../utility/constants/PurchaseFlow.js";
 import StyledButton from "../../../../../common/StyledButton";
 import PaymentInfoCard from "../PaymentInfoCard";
 import PurchaseDialog from "../PurchaseDialog";
@@ -11,6 +10,23 @@ const payTypes = {
   MULTIPLE_CALLS: "MULTIPLE_CALLS",
   SINGLE_CALL: "SINGLE_CALL",
 };
+
+const PaymentInfoCardData = [
+  {
+    title: "Payment Channel",
+    value: "Metamask",
+  },
+  {
+    title: "Escrow Balance ",
+    value: "1.065627",
+    unit: "AGI",
+  },
+  {
+    title: "Channel Balance",
+    value: ".065627",
+    unit: "AGI",
+  },
+];
 
 export const MetamaskFlow = ({ classes, handleContinue }) => {
   const [selectedPayType, setSelectedPayType] = useState(payTypes.CHANNEL_BALANCE);
