@@ -19,6 +19,10 @@ class ServiceDetails extends Component {
   };
 
   componentDidMount() {
+    if (process.env.REACT_APP_SANDBOX) {
+      return;
+    }
+
     this.fetchServices();
   }
 
