@@ -70,7 +70,7 @@ const generateOptions = callType => {
   return { metadataGenerator: metadataGenerator(callType) };
 };
 
-export const createServiceClient = async (
+export const createServiceClient = (
   org_id,
   service_id,
   serviceMetadata,
