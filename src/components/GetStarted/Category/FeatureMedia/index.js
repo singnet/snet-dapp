@@ -13,7 +13,7 @@ const FeatureMedia = ({ media }) => {
   if (media.type === "gif") {
     return <GifContainer content={media.content} />;
   }
-  if (media.type == "img") {
+  if (media.type === "img") {
     return <ImgContainer content={media.content} />;
   }
   return null;
