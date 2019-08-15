@@ -20,7 +20,7 @@ const SentimentAnalysisService = lazy(() => import("./SentimentAnalysisService")
 const TimeSeriesAnomalyDiscoveryService = lazy(() => import("./TimeSeriesAnomalyDiscoveryService.js"));
 const VisualQAOpencog = lazy(() => import("./VisualQAOpencog.js"));
 const MosesService = lazy(() => import("./MosesService"));
-const SemanticSegmentationService = lazy(() => import("./SemanticSegmentation.js"));
+const SemanticSegmentationService = lazy(() => import("./snet/semantic_segmentation"));
 const FaceDetectService = lazy(() => import("./snet/face_detect"));
 const FaceLandmarksService = lazy(() => import("./FaceLandmarksService"));
 const FaceAlignService = lazy(() => import("./snet/face_align"));

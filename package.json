@@ -33,6 +33,7 @@
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "snet-sdk-web": "^1.0.0-beta.2",
+    "split2": "^3.1.1",
     "utf8": "^3.0.0"
   },
   "scripts": {
@@ -43,7 +44,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "deploy": "node scripts/deploy.js enhanced-marketplace us-east-1",
-    "sandbox": "REACT_APP_SANDBOX=true npm start"
+    "sandbox": "npm start"
   },
   "lint-staged": {
     "*.js": [
