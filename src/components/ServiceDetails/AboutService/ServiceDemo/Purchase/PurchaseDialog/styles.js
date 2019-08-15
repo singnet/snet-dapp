@@ -35,12 +35,11 @@ export const useStyles = theme => ({
         fontSize: 20,
       },
     },
-    "& .MuiDialogActions-root": {
-      padding: "0 0 30px",
-      justifyContent: "center",
-      "& button": {
-        "&:disabled": { color: "rgba(0,0,0,0.38) !important" },
-      },
+  },
+  dialogActions: {
+    justifyContent: "center",
+    "& button": {
+      "&:disabled": { color: "rgba(0,0,0,0.38) !important" },
     },
   },
   closeButton: {
