@@ -11,29 +11,49 @@ const payTypes = {
   SINGLE_CALL: "SINGLE_CALL",
 };
 
-const PaymentInfoCardData = [
-  {
-    title: "Payment Channel",
-    value: "Metamask",
-  },
-  {
-    title: "Escrow Balance ",
-    value: "1.065627",
-    unit: "AGI",
-  },
-  {
-    title: "Channel Balance",
-    value: "0.065627",
-    unit: "AGI",
-  },
-];
-
-export const MetamaskFlow = ({ classes, handleContinue }) => {
+export const MetamaskFlow = async ({ classes, handleContinue }) => {
   const [selectedPayType, setSelectedPayType] = useState(payTypes.CHANNEL_BALANCE);
   const [disabledPayTypes, setDisablePayTypes] = useState([payTypes.SINGLE_CALL]);
   const [showPurchaseDialog, setShowPurchaseDialog] = useState(false);
   const [noOfCalls, setNoOfCalls] = useState(1);
   const [totalPrice, setTotalPrice] = useState("0.00000002");
+
+  const PaymentInfoCardData = [
+    {
+      title: "Payment Channel",
+      value: "Metamask",
+    },
+    {
+      title: "Escrow Balance",
+      value: "1.065627",
+      unit: "AGI",
+    },
+    {
+      title: "Channel Balance",
+      value: "0.065627",
+      unit: "AGI",
+    },
+  ];
+
+  //const channelBalance = await retrieve channel balance;
+  // if (channelBalance <= 0) {
+  //   const disabledPayTypes = [...disabledPayTypes];
+  //   if (!disabledPayTypes.includes(payTypes.channelBalance)) {
+  //     disabledPayTypes.push(payTypes.CHANNEL_BALANCE);
+  //   }
+  //   setDisablePayTypes(disabledPayTypes);
+  // }
+
+  //const escrowBalance = await retrieve escrow balance;
+  // PaymentInfoCardData.map(el => {
+  //   if (el.title === "Escrow Balance") {
+  //     el.value = escrowBalance;
+  //   }
+  //   if (el.title === "Channel Balance") {
+  //     el.value = channelBalance;
+  //   }
+  //   return el;
+  // });
 
   const handlePayTypeChange = value => {
     if (disabledPayTypes.includes(value)) {
