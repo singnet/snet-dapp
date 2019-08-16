@@ -27,7 +27,7 @@ const GetStarted = ({ classes }) => {
           title={item.categoryTitle}
           description={item.categoryDescription}
           tabs={item.categoryTabs}
-          rightAlign={(index+1)%2 === 0}
+          rightAlign={(index + 1) % 2 === 0}
         />
       ))}
       <Grid item xs={12} sm={12} md={12} lg={12} className={classes.SignUpFree}>
