@@ -81,8 +81,8 @@ class App extends Component {
                   component={withInAppWrapper(ServiceDetails)}
                 />
                 <PrivateRoute
-                  isAllowed={isLoggedIn}
-                  redirectTo={`/${Routes.LOGIN}`}
+                  isAllowed={isLoggedIn && isTermsAccepted}
+                  redirectTo={isLoggedIn ? `/${Routes.ONBOARDING}` : `/${Routes.LOGIN}`}
                   path={`/${Routes.USER_PROFILE}`}
                   {...this.props}
                   component={withInAppWrapper(UserProfile)}
