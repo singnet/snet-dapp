@@ -4,7 +4,9 @@ import first from 'lodash/first';
 import some from 'lodash/some';
 
 const InitialServiceDetails = {
-  serviceMetadata: {},
+  serviceMetadata: {
+    groups: []
+  },
   freeCallsRemaining: 0,
   freeCallsAllowed: 0,
 };
@@ -44,8 +46,10 @@ export const groupInfo = (state) => {
 };
 
 export const pricing = (state) => {
-  const groupInfo = groupInfo(state);
-  return find(groupInfo.pricing, (price) => price.default === true);
+  const group = groupInfo(state);
+  if(!group) return {};
+
+  return find(group.pricing, (price) => price.default === true);
 };
 
 export default serviceDetailsReducer;

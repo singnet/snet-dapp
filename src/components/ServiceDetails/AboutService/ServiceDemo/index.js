@@ -51,7 +51,7 @@ class ServiceDemo extends Component {
   };
 
   render() {
-    const { classes, service, freeCallsRemaining, freeCallsAllowed, groupInfo } = this.props;
+    const { classes, service, freeCallsRemaining, freeCallsAllowed, groupInfo, wallet } = this.props;
     const { progressText, purchaseCompleted } = this.state;
     return (
       <div className={classes.demoExampleContainer}>
@@ -60,7 +60,7 @@ class ServiceDemo extends Component {
         <PurchaseToggler
           groupInfo={groupInfo}
           purchaseCompleted={purchaseCompleted}
-          purchaseProps={{ handleComplete: this.handlePurchaseComplete, freeCallsRemaining, freeCallsAllowed }}
+          purchaseProps={{ handleComplete: this.handlePurchaseComplete, freeCallsRemaining, freeCallsAllowed, wallet }}
           thirdPartyProps={{ service_id: service.service_id, org_id: service.org_id, freeCallsRemaining }}
         />
       </div>
@@ -74,6 +74,7 @@ const mapStateToProps = state => ({
   freeCallsAllowed: state.serviceDetailsReducer.freeCallsAllowed,
   groupInfo: groupInfo(state),
   email: state.userReducer.email,
+  wallet: state.userReducer.wallet,
 });
 
 const mapDispatchToProps = dispatch => ({
