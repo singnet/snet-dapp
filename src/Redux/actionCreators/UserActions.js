@@ -33,6 +33,16 @@ export const fetchAuthenticatedUser = async () => {
   };
 };
 
+export const fetchAuthenticatedUser = async () => {
+  const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
+  return {
+    username: currentUser.username,
+    email: currentUser.attributes.email,
+    email_verified: currentUser.attributes.email_verified,
+    token: currentUser.signInUserSession.idToken.jwtToken,
+  };
+};
+
 export const appInitializationSuccess = dispatch => {
   dispatch({ type: APP_INITIALIZATION_SUCCESS, payload: { isInitialized: true } });
 };
