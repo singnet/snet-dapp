@@ -24,8 +24,8 @@ class UserProfileAccount extends Component {
   };
 
   componentDidMount = () => {
-    retrieveTokenBalance();
-    retriveEscrowBalance();
+    this.retrieveTokenBalance();
+    this.retriveEscrowBalance();
   };
 
   handleWalletTypeChange = async event => {
