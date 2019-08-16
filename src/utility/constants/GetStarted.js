@@ -3,16 +3,15 @@ import DescriptionIcon from "@material-ui/icons/Description";
 import PlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
 import ThumbsUpDownIcon from "@material-ui/icons/ThumbsUpDown";
 import SettingsIcon from "@material-ui/icons/Settings";
-import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
 
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 
 export const GetStartedCategoriesData = [
   {
     categoryIcon: SeacrhIcon,
-    categoryTitle: "Browsing AI Marketplace",
+    categoryTitle: "Browsing the marketplace",
     categoryDescription:
-      "Exploring AI – Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
+      "Exploring AI - The SingularityNET AI Marketplace hosts a wide variety of AI services that range from Pneumonia Detection to Image Colorisation. You can view all of them by default as shown here but also search by name, organization and tags.",
     categoryTabs: [
       { title: "List or Card views", media: { type: "gif", content: "" } },
       { title: "Change Filter options", media: { type: "gif", content: "content2" } },
@@ -23,9 +22,9 @@ export const GetStartedCategoriesData = [
   },
   {
     categoryIcon: DescriptionIcon,
-    categoryTitle: "AI Profiles",
+    categoryTitle: "Choosing your AI",
     categoryDescription:
-      "Exploring AI – Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
+      "AI Services - Each AI service on this platform is unique. Click on any service you would like to use to find out more about its required input, expected output, cost, usage, developer’s note and much more!",
     categoryTabs: [
       { title: "About Details", media: { type: "video", content: "" } },
       { title: "Feature Label 2", media: { type: "gif", content: "content" } },
@@ -36,9 +35,9 @@ export const GetStartedCategoriesData = [
   },
   {
     categoryIcon: PlayCircleFilledIcon,
-    categoryTitle: "Demo AI Services",
+    categoryTitle: "Rate, Review, Improve",
     categoryDescription:
-      "Using your inputs  – Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
+      "Feedback - Democratizing AI requires collaboration, and not just between developers. Ratings and reviews help developers improve their algorithms as well as the design of their AI service. It’s also an opportunity for new teams to be born. ",
     categoryTabs: [
       { title: "Accessing the Demo", media: { type: "img", content: "" } },
       { title: "Change Filter options", media: { type: "gif", content: "content" } },
@@ -49,9 +48,9 @@ export const GetStartedCategoriesData = [
   },
   {
     categoryIcon: ThumbsUpDownIcon,
-    categoryTitle: "Rate & Review",
+    categoryTitle: "Using AGI",
     categoryDescription:
-      "Exploring AI  – Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
+      "Own your funds - Whether you want to use services, delete your account or use your funds outside of the platform, you are the sole controller of your funds. Your wallet, your cryptographic key, your AGI. ",
     categoryTabs: [
       { title: "About Details", media: { type: "video", content: "content" } },
       { title: "Tutorials", media: { type: "gif", content: "content" } },
@@ -62,27 +61,14 @@ export const GetStartedCategoriesData = [
   },
   {
     categoryIcon: SettingsIcon,
-    categoryTitle: "Install & Run AI Services",
+    categoryTitle: "Make it your AI",
     categoryDescription:
-      "Using your inputs  – Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
+      "Install & run it - It has never been easier to find and integrate AI algorithms. You can now seamlessly integrate a service to your website, app or other product via the SingularityNET SDK. ",
     categoryTabs: [
       { title: "Accessing the Demo", media: { type: "video", content: "content" } },
       { title: "Change Filter options", media: { type: "gif", content: "content" } },
       { title: "Sort options", media: { type: "gif", content: "content" } },
       { title: "Rating Ranking", media: { type: "gif", content: "content" } },
-      { title: "Feature Label 5", media: { type: "gif", content: "content" } },
-    ],
-  },
-  {
-    categoryIcon: MonetizationOnIcon,
-    categoryTitle: "Use Credits or AGI tokens",
-    categoryDescription:
-      "Exploring AI  – Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
-    categoryTabs: [
-      { title: "Managing your credits", media: { type: "video", content: "content" } },
-      { title: "Wallet Support", media: { type: "gif", content: "content" } },
-      { title: "Reviews", media: { type: "gif", content: "content" } },
-      { title: "Feature Label 4", media: { type: "gif", content: "content" } },
       { title: "Feature Label 5", media: { type: "gif", content: "content" } },
     ],
   },
