@@ -12,7 +12,7 @@ import StyledButton from "../../../../../common/StyledButton";
 import { useStyles } from "./styles";
 import RatingsCount from "../../../../../common/RatingsCount";
 import Subheader from "./Subheader";
-import { Avatar } from "../../../../../../assets/images/avatar.png";
+import SingularityLogo from "../../../../../../assets/images/avatar.png";
 
 const ServiceListItem = props => {
   const classes = useStyles();
@@ -27,7 +27,7 @@ const ServiceListItem = props => {
           <CardHeader
             className={classes.cardHeader}
             avatar={
-              <Avatar aria-label="recipe" className={classes.avatar} src={Avatar} />
+              <Avatar aria-label="recipe" className={classes.avatar} src={SingularityLogo} />
             }
             classes={{ title: classes.cardTitle, subheader: classes.cardSubheader }}
             title={
