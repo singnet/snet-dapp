@@ -20,14 +20,12 @@ export const useStyles = makeStyles(theme => ({
     color: theme.palette.text.lightShadedGray,
     textTransform: "uppercase",
     letterSpacing: 2,
-    fontFamily: theme.typography.primary.main,
   },
   cardSubheader: {
     color: theme.palette.text.darkShadedGray,
     fontWeight: theme.typography.fontweight,
     fontSize: 18,
     letterSpacing: 0.23,
-    fontFamily: theme.typography.primary.main,
     lineHeight: "23px",
     "& h4": { margin: "7px 0" },
   },
@@ -38,7 +36,6 @@ export const useStyles = makeStyles(theme => ({
   cardContent: { padding: "0 13px" },
   cardTypograpy: {
     color: theme.palette.text.mediumShadeGray,
-    fontFamily: theme.typography.secondary.main,
     fontSize: 14,
     lineHeight: "20px",
   },

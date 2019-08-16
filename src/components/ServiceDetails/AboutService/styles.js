@@ -23,7 +23,6 @@ export const useStyles = theme => ({
       margin: 0,
       fontSize: 14,
       color: theme.palette.text.mediumShadeGray,
-      fontFamily: theme.typography.secondary.main,
       letterSpacing: "0.25px",
       lineHeight: "20px",
     },
@@ -43,7 +42,6 @@ export const useStyles = theme => ({
       "& li": {
         display: "flex",
         color: theme.palette.text.mediumShadeGray,
-        fontFamily: theme.typography.secondary.main,
         fontSize: 14,
         lineHeight: "24px",
         letterSpacing: "0.25px",
@@ -165,7 +163,6 @@ export const useStyles = theme => ({
         display: "block",
         color: theme.palette.text.primary,
         fontSize: 14,
-        fontFamily: theme.typography.secondary.main,
         fontWeight: 600,
         textDecoration: "none",
       },

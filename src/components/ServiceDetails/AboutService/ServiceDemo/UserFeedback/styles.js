@@ -12,7 +12,6 @@ export const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.text.offWhiteColor,
     "& h2": {
       color: theme.palette.text.darkShadedGray,
-      fontFamily: theme.typography.tertiary.main,
       fontSize: 24,
       lineHeight: "28px",
     },

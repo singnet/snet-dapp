@@ -24,7 +24,6 @@ export const useStyles = theme => ({
         display: "block",
         color: theme.palette.text.primary,
         fontSize: 14,
-        fontFamily: theme.typography.secondary.main,
         fontWeight: 600,
         textDecoration: "none",
       },

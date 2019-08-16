@@ -28,7 +28,6 @@ export const useStyles = theme => ({
     margin: 0,
     color: theme.palette.text.mediumShadeGray,
     fontSize: 14,
-    fontFamily: theme.typography.secondary.main,
     lineHeight: "21px",
     textAlign: "left",
     "& span": {

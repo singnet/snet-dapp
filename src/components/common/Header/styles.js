@@ -68,6 +68,7 @@ export const useStyles = makeStyles(theme => ({
     borderBottomStyle: "solid",
     borderBottomColor: theme.palette.text.white,
     color: theme.palette.text.white,
+    fontWeight: 600
   },
   loginBtnsSection: {
     width: "30%",

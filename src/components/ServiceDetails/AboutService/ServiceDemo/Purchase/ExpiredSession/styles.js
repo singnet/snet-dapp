@@ -11,7 +11,6 @@ export const useStyles = theme => ({
   PurchaseFlowDescription: {
     margin: "33px 0 45px",
     color: theme.palette.text.alertBoxColor,
-    fontFamily: theme.typography.secondary.main,
     fontSize: 14,
     letterSpacing: 0.25,
     lineHeight: "21px",

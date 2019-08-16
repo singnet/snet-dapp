@@ -8,7 +8,6 @@ export const useStyles = makeStyles(theme => ({
     padding: "13px 28px 11px",
     color: theme.palette.text.white,
     textTransform: "uppercase",
-    fontFamily: theme.typography.primary.main,
     fontWeight: theme.typography.fontweight,
     letterSpacing: "1.25px",
     lineHeight: "16px",
