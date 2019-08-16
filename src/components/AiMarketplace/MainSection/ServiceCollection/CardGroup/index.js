@@ -26,12 +26,12 @@ const CardGroup = ({ cards, loading }) => {
       {cards.map(card => (
         <Link
           key={card.service_row_id}
-          to={`/${Routes.SERVICE_DETAILS}/${card.service_row_id}`}
+          to={`/${Routes.SERVICE_DETAILS}/org/${card.org_id}/service/${card.service_id}`}
           className={classes.routerLink}
         >
           <ServiceListItem
             key={card.service_id}
-            cardMedia={card.hero_image ? card.hero_image : CardImg}
+            cardMedia={JSON.parse(card.assets_url).hero_image ? JSON.parse(card.assets_url).hero_image : CardImg}
             cardTitle={card.org_id}
             cardSubheader={card.display_name}
             ratingGiven={card.service_rating}

@@ -1,172 +1,118 @@
-import React from "react";
+import React, { lazy } from "react";
 
-import ExampleService from "./ExampleService.js";
-import CNTKImageRecognition from "./CNTKImageRecognition.js";
-import CNTKNextDayTrend from "./CNTKNextDayTrend.js";
-import CNTKLSTMForecast from "./CNTKLSTMForecast.js";
-import CNTKLanguageUnderstanding from "./CNTKLanguageUnderstanding.js";
-import I3DActionRecognition from "./I3DActionRecognition.js";
-import OpenNMTRomanceTranslator from "./OpenNMTRomanceTranslator.js";
-import S2VTVideoCaptioning from "./S2VTVideoCaptioning.js";
-import YOLOv3ObjectDetection from "./YOLOv3ObjectDetection.js";
-import Zeta36ChessAlphaZero from "./Zeta36ChessAlphaZero.js";
-import AutomaticSpeechRecognition from "./AutomaticSpeechRecognition.js";
-import NeuralSpeechSynthesis from "./NeuralSpeechSynthesis.js";
-import LongQuestionAsnswering from "./LongQuestionAsnswering.js";
-import ShortQuestionAnswering from "./ShortQuestionAnswering.js";
-import BinarySemanticSimilarity from "./BinarySemanticSimilarity.js";
-import NamedEntityRecognitionService from "./NamedEntityRecognitionService.js";
-import SentimentAnalysisService from "./SentimentAnalysisService";
-import TimeSeriesAnomalyDiscoveryService from "./TimeSeriesAnomalyDiscoveryService.js";
-import VisualQAOpencog from "./VisualQAOpencog.js";
-import MosesService from "./MosesService";
-import SemanticSegmentationService from "./SemanticSegmentation.js";
-import FaceDetectService from "./FaceDetectService";
-import FaceLandmarksService from "./FaceLandmarksService";
-import FaceAlignService from "./FaceAlignService";
-import FaceIdentityService from "./FaceIdentityService";
-import EmotionRecognitionService from "./EmotionRecognitionService";
-import HolisticEdgeDetectionService from "./HolisticEdgeDetectionService";
-import ImageRetrievalService from "./ImageRetrievalService";
-import GeneAnnotationService from "./GeneAnnotationService";
-import TranslationService from "./TranslationService";
-import NewsSummaryService from "./NewsSummaryService";
-import StyleTransfer from "./StyleTransfer";
-import LanguageDetectionService from "./LanguageDetectionService";
-import CoreferenceResolutionService from "./CoreferenceResolutionService";
-import NamedEntityDisambiguation from "./NamedEntityDisambiguation";
-import NetworkAnalysisBipartite from "./NetworkAnalysisBipartite";
-import NetworkAnalysisRobustness from "./NetworkAnalysisRobustness";
-import TopicAnalysis from "./TopicAnalysisService";
-import Places365SceneRecognition from "./Places365SceneRecognition";
-import SuperResolution from "./SuperResolution";
-import SemanticSegmentationAerial from "./SemanticSegmentationAerial";
-import SiggraphColorization from "./SiggraphColorization";
-import AlertBox from "../../components/common/AlertBox";
+const ExampleService = lazy(() => import("./snet/example_service"));
+const CNTKImageRecognition = lazy(() => import("./snet/cntk_image_recon"));
+const CNTKNextDayTrend = lazy(() => import("./snet/cntk_next_day_trend"));
+const CNTKLSTMForecast = lazy(() => import("./snet/cntk_lstm_forecast"));
+const CNTKLanguageUnderstanding = lazy(() => import("./snet/cntk_language_understanding"));
+const I3DActionRecognition = lazy(() => import("./snet/i3d_video_action_recognition"));
+const OpenNMTRomanceTranslator = lazy(() => import("./snet/opennmt_romance_translator"));
+const S2VTVideoCaptioning = lazy(() => import("./snet/s2vt_video_captioning"));
+const YOLOv3ObjectDetection = lazy(() => import("./snet/yolov3_object_detection"));
+const Zeta36ChessAlphaZero = lazy(() => import("./snet/zeta36_chess_alpha_zero"));
+const AutomaticSpeechRecognition = lazy(() => import("./snet/speech_recognition"));
+const NeuralSpeechSynthesis = lazy(() => import("./snet/speech_synthesis"));
+const LongQuestionAsnswering = lazy(() => import("./snet/question_answering_long_seq"));
+const ShortQuestionAnswering = lazy(() => import("./snet/question_answering_short_seq"));
+const BinarySemanticSimilarity = lazy(() => import("./snet/semantic_similarity_binary"));
+const NamedEntityRecognitionService = lazy(() => import("./snet/named_entity_recognition"));
+const SentimentAnalysisService = lazy(() => import("./snet/sentiment_analysis"));
+const TimeSeriesAnomalyDiscoveryService = lazy(() => import("./snet/time_series_anomaly_discovery"));
+const VisualQAOpencog = lazy(() => import("./snet/opencog_vqa"));
+const MosesService = lazy(() => import("./snet/moses_service"));
+const SemanticSegmentationService = lazy(() => import("./snet/semantic_segmentation"));
+const FaceDetectService = lazy(() => import("./snet/face_detect"));
+const FaceLandmarksService = lazy(() => import("./snet/face_landmarks"));
+const FaceAlignService = lazy(() => import("./snet/face_align"));
+const FaceIdentityService = lazy(() => import("./snet/face_identity"));
+const EmotionRecognitionService = lazy(() => import("./snet/emotion_recognition_service"));
+const HolisticEdgeDetectionService = lazy(() => import("./snet/holistic_edge_detection_service"));
+const ImageRetrievalService = lazy(() => import("./snet/image_retrieval_service"));
+const GeneAnnotationService = lazy(() => import("./snet/gene_annotation_service"));
+const TranslationService = lazy(() => import("./snet/translation"));
+const NewsSummaryService = lazy(() => import("./NewsSummaryService"));
+const StyleTransfer = lazy(() => import("./snet/style_transfer"));
+const LanguageDetectionService = lazy(() => import("./snet/language_detection"));
+const CoreferenceResolutionService = lazy(() => import("./snet/coreference_resolution_service"));
+const NamedEntityDisambiguation = lazy(() => import("./snet/named_entity_disambiguation"));
+const NetworkAnalysisBipartite = lazy(() => import("./snet/network_analytics_bipartite"));
+const NetworkAnalysisRobustness = lazy(() => import("./snet/network_analytics_robustness"));
+const TopicAnalysis = lazy(() => import("./snet/topic_analysis"));
+const Places365SceneRecognition = lazy(() => import("./snet/places365_scene_recognition"));
+const SuperResolution = lazy(() => import("./snet/super_resolution"));
+const SemanticSegmentationAerial = lazy(() => import("./snet/semantic_segmentation_aerial"));
+const SiggraphColorization = lazy(() => import("./snet/siggraph_colorization"));
+const AlertBox = lazy(() => import("../../components/common/AlertBox"));
 
-const defaultChainId = -1;
-
-export default class SampleServices {
+class ThirdPartyCustomUIComponents {
   constructor() {
-    this.serviceOrgIDToComponent = {};
-    this.serviceOrgIDToComponent[this.generateUniqueID("snet", "example-service", defaultChainId)] = ExampleService;
-    this.serviceOrgIDToComponent[
-      this.generateUniqueID("snet", "cntk-image-recon", defaultChainId)
-    ] = CNTKImageRecognition;
-    this.serviceOrgIDToComponent[
-      this.generateUniqueID("snet", "cntk-next-day-trend", defaultChainId)
-    ] = CNTKNextDayTrend;
-    this.serviceOrgIDToComponent[
-      this.generateUniqueID("snet", "cntk-lstm-forecast", defaultChainId)
-    ] = CNTKLSTMForecast;
-    this.serviceOrgIDToComponent[
-      this.generateUniqueID("snet", "cntk-language-understanding", defaultChainId)
-    ] = CNTKLanguageUnderstanding;
-    this.serviceOrgIDToComponent[
-      this.generateUniqueID("snet", "i3d-video-action-recognition", defaultChainId)
-    ] = I3DActionRecognition;
-    this.serviceOrgIDToComponent[
-      this.generateUniqueID("snet", "opennmt-romance-translator", defaultChainId)
-    ] = OpenNMTRomanceTranslator;
-    this.serviceOrgIDToComponent[
-      this.generateUniqueID("snet", "s2vt-video-captioning", defaultChainId)
-    ] = S2VTVideoCaptioning;
-    this.serviceOrgIDToComponent[
-      this.generateUniqueID("snet", "yolov3-object-detection", defaultChainId)
-    ] = YOLOv3ObjectDetection;
-    this.serviceOrgIDToComponent[
-      this.generateUniqueID("snet", "zeta36-chess-alpha-zero", defaultChainId)
-    ] = Zeta36ChessAlphaZero;
-    this.serviceOrgIDToComponent[
-      this.generateUniqueID("snet", "speech-recognition", defaultChainId)
-    ] = AutomaticSpeechRecognition;
-    this.serviceOrgIDToComponent[
-      this.generateUniqueID("snet", "speech-synthesis", defaultChainId)
-    ] = NeuralSpeechSynthesis;
-    this.serviceOrgIDToComponent[
-      this.generateUniqueID("snet", "question-answering-long-seq", defaultChainId)
-    ] = LongQuestionAsnswering;
-    this.serviceOrgIDToComponent[
-      this.generateUniqueID("snet", "question-answering-short-seq", defaultChainId)
-    ] = ShortQuestionAnswering;
-    this.serviceOrgIDToComponent[
-      this.generateUniqueID("snet", "semantic-similarity-binary", defaultChainId)
-    ] = BinarySemanticSimilarity;
-    this.serviceOrgIDToComponent[this.generateUniqueID("snet", "opencog-vqa", defaultChainId)] = VisualQAOpencog;
-    this.serviceOrgIDToComponent[
-      this.generateUniqueID("snet", "named-entity-recognition", defaultChainId)
-    ] = NamedEntityRecognitionService;
-    this.serviceOrgIDToComponent[
-      this.generateUniqueID("snet", "sentiment-analysis", defaultChainId)
-    ] = SentimentAnalysisService;
-    this.serviceOrgIDToComponent[
-      this.generateUniqueID("snet", "time-series-anomaly-discovery", defaultChainId)
-    ] = TimeSeriesAnomalyDiscoveryService;
-    this.serviceOrgIDToComponent[this.generateUniqueID("snet", "moses-service", defaultChainId)] = MosesService;
-    this.serviceOrgIDToComponent[
-      this.generateUniqueID("snet", "semantic-segmentation", defaultChainId)
-    ] = SemanticSegmentationService;
-    this.serviceOrgIDToComponent[this.generateUniqueID("snet", "face-detect", defaultChainId)] = FaceDetectService;
-    this.serviceOrgIDToComponent[
-      this.generateUniqueID("snet", "face-landmarks", defaultChainId)
-    ] = FaceLandmarksService;
-    this.serviceOrgIDToComponent[this.generateUniqueID("snet", "face-align", defaultChainId)] = FaceAlignService;
-    this.serviceOrgIDToComponent[this.generateUniqueID("snet", "face-identity", defaultChainId)] = FaceIdentityService;
-    this.serviceOrgIDToComponent[
-      this.generateUniqueID("snet", "emotion-recognition-service", defaultChainId)
-    ] = EmotionRecognitionService;
-    this.serviceOrgIDToComponent[
-      this.generateUniqueID("snet", "holistic-edge-detection-service", defaultChainId)
-    ] = HolisticEdgeDetectionService;
-    this.serviceOrgIDToComponent[
-      this.generateUniqueID("snet", "image-retrieval-service", defaultChainId)
-    ] = ImageRetrievalService;
-    this.serviceOrgIDToComponent[
-      this.generateUniqueID("snet", "gene-annotation-service", defaultChainId)
-    ] = GeneAnnotationService;
-    this.serviceOrgIDToComponent[this.generateUniqueID("snet", "translation", defaultChainId)] = TranslationService;
-    this.serviceOrgIDToComponent[this.generateUniqueID("snet", "news-summary", defaultChainId)] = NewsSummaryService;
-    this.serviceOrgIDToComponent[this.generateUniqueID("snet", "style-transfer", defaultChainId)] = StyleTransfer;
-    this.serviceOrgIDToComponent[
-      this.generateUniqueID("snet", "language-detection", defaultChainId)
-    ] = LanguageDetectionService;
-    this.serviceOrgIDToComponent[
-      this.generateUniqueID("snet", "coreference-resolution-service", defaultChainId)
-    ] = CoreferenceResolutionService;
-    this.serviceOrgIDToComponent[
-      this.generateUniqueID("snet", "named-entity-disambiguation", defaultChainId)
-    ] = NamedEntityDisambiguation;
-    this.serviceOrgIDToComponent[
-      this.generateUniqueID("snet", "network-analytics-robustness", defaultChainId)
-    ] = NetworkAnalysisRobustness;
-    this.serviceOrgIDToComponent[
-      this.generateUniqueID("snet", "network-analytics-bipartite", defaultChainId)
-    ] = NetworkAnalysisBipartite;
-    this.serviceOrgIDToComponent[this.generateUniqueID("snet", "topic-analysis", defaultChainId)] = TopicAnalysis;
-    this.serviceOrgIDToComponent[
-      this.generateUniqueID("snet", "places365-scene-recognition", defaultChainId)
-    ] = Places365SceneRecognition;
-    this.serviceOrgIDToComponent[this.generateUniqueID("snet", "super-resolution", defaultChainId)] = SuperResolution;
-    this.serviceOrgIDToComponent[
-      this.generateUniqueID("snet", "semantic-segmentation-aerial", defaultChainId)
-    ] = SemanticSegmentationAerial;
-    this.serviceOrgIDToComponent[
-      this.generateUniqueID("snet", "siggraph-colorization", defaultChainId)
-    ] = SiggraphColorization;
+    this.customUIComponents = {};
   }
 
-  generateUniqueID(orgId, serviceId, chainId) {
-    return orgId + "__$%^^%$__" + serviceId + "__$%^^%$__" + chainId;
-  }
+  addCustomUIComponent = (ordId, serviceId, CustomUIComponent) => {
+    const key = this._generateUniqueID(ordId, serviceId);
+    this.customUIComponents[key] = CustomUIComponent;
+  };
 
-  getComponent(orgId, serviceId, chainId) {
-    let component = this.serviceOrgIDToComponent[this.generateUniqueID(orgId, serviceId, chainId)];
-    if (typeof component === "undefined") {
-      component = this.serviceOrgIDToComponent[this.generateUniqueID(orgId, serviceId, defaultChainId)];
-      if (typeof component === "undefined") {
-        component = <AlertBox type="error" message="No Component matched" />;
-      }
+  componentFor = (orgId, serviceId) => {
+    const CustomUIComponent = this.customUIComponents[this._generateUniqueID(orgId, serviceId)];
+    if (!CustomUIComponent) {
+      return <AlertBox type="error" message="No Component matched" />;
     }
-    return component;
-  }
+
+    return CustomUIComponent;
+  };
+
+  _generateUniqueID = (ordId, serviceId) => `${ordId}__$%^^%$__${serviceId}`;
 }
+
+const thirdPartyCustomUIComponents = new ThirdPartyCustomUIComponents();
+
+const addSnetCustomUI = (serviceId, CustomUIComponent) => {
+  thirdPartyCustomUIComponents.addCustomUIComponent("snet", serviceId, CustomUIComponent);
+};
+
+addSnetCustomUI("example-service", ExampleService);
+addSnetCustomUI("cntk-image-recon", CNTKImageRecognition);
+addSnetCustomUI("cntk-next-day-trend", CNTKNextDayTrend);
+addSnetCustomUI("cntk-lstm-forecast", CNTKLSTMForecast);
+addSnetCustomUI("cntk-language-understanding", CNTKLanguageUnderstanding);
+addSnetCustomUI("i3d-video-action-recognition", I3DActionRecognition);
+addSnetCustomUI("opennmt-romance-translator", OpenNMTRomanceTranslator);
+addSnetCustomUI("s2vt-video-captioning", S2VTVideoCaptioning);
+addSnetCustomUI("yolov3-object-detection", YOLOv3ObjectDetection);
+addSnetCustomUI("zeta36-chess-alpha-zero", Zeta36ChessAlphaZero);
+addSnetCustomUI("speech-recognition", AutomaticSpeechRecognition);
+addSnetCustomUI("speech-synthesis", NeuralSpeechSynthesis);
+addSnetCustomUI("question-answering-long-seq", LongQuestionAsnswering);
+addSnetCustomUI("question-answering-short-seq", ShortQuestionAnswering);
+addSnetCustomUI("semantic-similarity-binary", BinarySemanticSimilarity);
+addSnetCustomUI("opencog-vqa", VisualQAOpencog);
+addSnetCustomUI("named-entity-recognition", NamedEntityRecognitionService);
+addSnetCustomUI("sentiment-analysis", SentimentAnalysisService);
+addSnetCustomUI("time-series-anomaly-discovery", TimeSeriesAnomalyDiscoveryService);
+addSnetCustomUI("moses-service", MosesService);
+addSnetCustomUI("semantic-segmentation", SemanticSegmentationService);
+addSnetCustomUI("face-detect", FaceDetectService);
+addSnetCustomUI("face-landmarks", FaceLandmarksService);
+addSnetCustomUI("face-align", FaceAlignService);
+addSnetCustomUI("face-identity", FaceIdentityService);
+addSnetCustomUI("emotion-recognition-service", EmotionRecognitionService);
+addSnetCustomUI("holistic-edge-detection-service", HolisticEdgeDetectionService);
+addSnetCustomUI("image-retrieval-service", ImageRetrievalService);
+addSnetCustomUI("gene-annotation-service", GeneAnnotationService);
+addSnetCustomUI("translation", TranslationService);
+addSnetCustomUI("news-summary", NewsSummaryService);
+addSnetCustomUI("style-transfer", StyleTransfer);
+addSnetCustomUI("language-detection", LanguageDetectionService);
+addSnetCustomUI("coreference-resolution-service", CoreferenceResolutionService);
+addSnetCustomUI("named-entity-disambiguation", NamedEntityDisambiguation);
+addSnetCustomUI("network-analytics-robustness", NetworkAnalysisRobustness);
+addSnetCustomUI("network-analytics-bipartite", NetworkAnalysisBipartite);
+addSnetCustomUI("topic-analysis", TopicAnalysis);
+addSnetCustomUI("places365-scene-recognition", Places365SceneRecognition);
+addSnetCustomUI("super-resolution", SuperResolution);
+addSnetCustomUI("semantic-segmentation-aerial", SemanticSegmentationAerial);
+addSnetCustomUI("siggraph-colorization", SiggraphColorization);
+
+export default thirdPartyCustomUIComponents;

@@ -13,7 +13,7 @@ export const LoaderContent = {
   },
   SERVICE_INVOKATION: {
     loaderHeader: "Invoking Third Party Service",
-    loaderText: "User profile will be deleted completely and all the records will be removed",
+    loaderText: "Please wait, the AI service is computing the result",
   },
   SIGN_OUT: {
     loaderHeader: "Signing Out",
