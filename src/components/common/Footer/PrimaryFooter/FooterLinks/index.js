@@ -13,7 +13,13 @@ const FooterLinks = ({ data }) => {
         <ul key={item.title} className={classes.footerLinksList}>
           <FooterLinkTitle title={item.title} />
           {item.children.map(child => (
-            <FooterLink key={child.label} image={child.image} link={child.link} label={child.label} />
+            <FooterLink
+              key={child.label}
+              image={child.image}
+              link={child.link}
+              label={child.label}
+              internalLink={child.internalLink}
+            />
           ))}
         </ul>
       ))}
