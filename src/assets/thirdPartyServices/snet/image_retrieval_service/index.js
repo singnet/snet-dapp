@@ -3,6 +3,14 @@ import { Grid } from "@material-ui/core";
 import SNETImageUpload from "../../standardComponents/SNETImageUpload";
 import { ImageGridViewer } from "../image-viewer-helpers/ImageGridViewer";
 
+import MethodNamesDropDown from "../../common/MethodNamesDropDown";
+import {SimilarImage} from "./image_retrival_pb_service"
+
+const initialUserInput = {
+  uploadedImage: null,
+};
+
+
 export default class ImageRetrievalService extends React.Component {
   constructor(props) {
     super(props);
@@ -18,6 +26,19 @@ export default class ImageRetrievalService extends React.Component {
       uploadedImage: null,
       similarityMeasure: "CosineDistance",
     };
+
+    this.state = {
+      ...initialUserInput,
+      users_guide: "",
+      code_repo: "",
+      reference: "",
+      serviceName: "SimilarImage",
+      methodName: "Select a method",
+      uploadedImage: null,
+      similarityMeasure: "CosineDistance",
+      response: undefined,
+    };
+
   }
 
   canBeInvoked() {
@@ -55,18 +76,46 @@ export default class ImageRetrievalService extends React.Component {
     });
   }
 
+  // TODO: Check for the need
+  /*
   renderServiceMethodNames(serviceMethodNames) {
     const serviceNameOptions = ["Select a method", ...serviceMethodNames];
     return serviceNameOptions.map((serviceMethodName, index) => {
       return <option key={index}>{serviceMethodName}</option>;
     });
   }
+  */
 
   renderSimilarityMeasures() {
     const similarityMeasures = ["CosineDistance", "EuclideanDistance"];
     return similarityMeasures.map((similarityMeasure, index) => {
       return <option key={index}>{similarityMeasure}</option>;
     });
+  }
+
+  submitAction() {
+    const { methodName, uploadedImage, similarityMeasure } = this.state;
+    const methodDescriptor = SimilarImage[methodName];
+    const request = new methodDescriptor.requestType();
+
+    request.setImage(uploadedImage);
+    request.setSimilarity(similarityMeasure);
+
+    const props = {
+      request,
+      onEnd: response => {
+        const { message, status, statusMessage } = response;
+        if (status !== 0) {
+          throw new Error(statusMessage);
+        }
+        this.setState({
+          ...initialUserInput,
+          response: { status: "success", imageout1: message.getImageout1(), imageout2: message.getImageout2(), imageout3: message.getImageout3(), imageout4: message.getImageout4(), imageout5: message.getImageout5() },
+        });
+      },
+    };
+
+    this.props.serviceClient.unary(methodDescriptor, props);
   }
 
   submitAction() {
@@ -77,8 +126,12 @@ export default class ImageRetrievalService extends React.Component {
   }
 
   renderForm() {
-    const service = this.props.protoSpec.findServiceByName(this.state.serviceName);
-    const serviceMethodNames = service.methodNames;
+
+    //TODO: Check for the need
+    //const service = this.props.protoSpec.findServiceByName(this.state.serviceName);
+    //const serviceMethodNames = service.methodNames;
+
+    const serviceNameOptions = ["Select a method", ...this.props.serviceClient.getMethodNames(SimilarImage)];
 
     return (
       <React.Fragment>
@@ -87,14 +140,11 @@ export default class ImageRetrievalService extends React.Component {
             Method Name:
           </div>
           <div className="col-md-3 col-lg-3">
-            <select
-              name="methodName"
+          <MethodNamesDropDown
+              list={serviceNameOptions}
               value={this.state.methodName}
-              style={{ height: "30px", width: "250px", fontSize: "13px", marginBottom: "5px" }}
               onChange={this.handleFormUpdate}
-            >
-              {this.renderServiceMethodNames(serviceMethodNames)}
-            </select>
+            />
           </div>
         </div>
         <div className="row">
@@ -125,7 +175,7 @@ export default class ImageRetrievalService extends React.Component {
   }
 
   parseResponse() {
-    const { response } = this.props;
+    const { response } = this.state;
     if (typeof response !== "undefined") {
       if (typeof response === "string") {
         return response;
