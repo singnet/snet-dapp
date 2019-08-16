@@ -27,7 +27,6 @@ const HeaderActions = ({ isLoggedIn, history }) => {
               className={`${classes.loginBtnsAnchor} ${classes.UppercaseText} ${classes.signupBtnText}`}
               onClick={() => handleRedirection(`/${Routes.SIGNUP}`)}
             >
-              {" "}
               Sign Up Free
             </span>
           </li>

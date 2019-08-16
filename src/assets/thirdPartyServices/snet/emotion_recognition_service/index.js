@@ -1,6 +1,6 @@
 import React from "react";
 import SNETImageUpload from "../../standardComponents/SNETImageUpload";
-import EmotionVisualizer from "../../emotion-recognition-service/EmotionVisualizer";
+import EmotionVisualizer from "./EmotionVisualizer";
 
 export default class EmotionRecognitionService extends React.Component {
   constructor(props) {

@@ -15,10 +15,6 @@ export const APIEndpoints = {
     name: "Invoke service",
     endpoint: process.env.REACT_APP_SERVICE_EXECUTION_ENDPOINT,
   },
-  METERING_SERVICE: {
-    name: "Metering Service",
-    endpoint: process.env.REACT_APP_METERING_SERVICE_ENDPOINT,
-  },
   SIGNER_SERVICE: {
     name: "Signer Service",
     endpoint: process.env.REACT_APP_SIGNER_ENDPOINT,

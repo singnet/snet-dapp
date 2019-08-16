@@ -1,8 +1,9 @@
 import { WebServiceClient as ServiceClient } from "snet-sdk-web";
-import { API, Auth } from "aws-amplify";
+import { API } from "aws-amplify";
 
 import { APIEndpoints, APIPaths } from "../config/APIEndpoints";
 import { initializeAPIOptions } from "./API";
+import { fetchAuthenticatedUser } from "../Redux/actionCreators/UserActions";
 
 export const callTypes = {
   FREE: "FREE",
@@ -34,15 +35,10 @@ const parseFreeCallMetadata = ({ data }) => {
   };
 };
 
-const fetchAuthUser = async () => {
-  const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
-  return { email: currentUser.attributes.email, token: currentUser.signInUserSession.idToken.jwtToken };
-};
-
 const metadataGenerator = callType => async (serviceClient, serviceName, method) => {
   try {
     const { orgId: org_id, serviceId: service_id } = serviceClient.metadata;
-    const { email, token } = await fetchAuthUser();
+    const { email, token } = await fetchAuthenticatedUser();
     const payload = { org_id, service_id, service_name: serviceName, method, username: email };
     const apiName = APIEndpoints.SIGNER_SERVICE.name;
     const apiOptions = initializeAPIOptions(token, payload);
@@ -57,26 +53,17 @@ const metadataGenerator = callType => async (serviceClient, serviceName, method)
 };
 
 const parseServiceMetadata = response => {
-  const { data: groups } = response;
-  const endpoints = groups.map(({ group_name, endpoints }) => ({ group_name, ...endpoints[0] }));
-  const defaultGroup = groups.find(group => group.group_name === "default_group");
-  //Get rid of the hardcoded endpoint once happy path demo is done
-  endpoints[0].endpoint = "https://example-service-a.singularitynet.io:8089";
-  return { defaultGroup, groups, endpoints };
-};
-
-const fetchServiceMetadata = async (org_id, service_id) => {
   if (process.env.REACT_APP_SANDBOX) {
     return {};
   }
 
-  const apiEndpoint = `${APIEndpoints.CONTRACT.endpoint}/org/${org_id}/service/${service_id}/group`;
-  return fetch(apiEndpoint)
-    .then(res => res.json())
-    .then(parseServiceMetadata);
+  const { data: groups } = response;
+  const endpoints = groups.map(({ group_name, endpoints }) => ({ group_name, ...endpoints[0] }));
+  const defaultGroup = groups[0];
+  return { defaultGroup, groups, endpoints };
 };
 
-const generateOptions = (username, callType) => {
+const generateOptions = callType => {
   if (process.env.REACT_APP_SANDBOX) {
     return {
       endpoint: process.env.REACT_APP_SANDBOX_SERVICE_ENDPOINT,
@@ -87,16 +74,16 @@ const generateOptions = (username, callType) => {
   return { metadataGenerator: metadataGenerator(callType) };
 };
 
-export const createServiceClient = async (
+export const createServiceClient = (
   org_id,
   service_id,
-  username,
+  groupInfo,
   serviceRequestStartHandler,
   serviceRequestCompleteHandler,
   callType
 ) => {
-  const options = generateOptions(username, callType);
-  const metadata = await fetchServiceMetadata(org_id, service_id);
+  const options = generateOptions(callType);
+  const metadata = parseServiceMetadata(groupInfo);
   const serviceClient = new ServiceClient(
     undefined,
     org_id,

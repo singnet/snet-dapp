@@ -41,6 +41,8 @@ export const useStyles = theme => ({
     fontFamily: theme.typography.secondary.main,
     fontSize: 22,
     lineHeight: "30px",
+    "& span": { fontWeight: 600 },
+    "& p": { margin: "5px 0 0" },
     "@media(max-width: 1279px)": { paddingRight: 0 },
     "@media(max-width: 1023px)": { paddingTop: 0 },
   },

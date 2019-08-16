@@ -26,7 +26,7 @@ const CardGroup = ({ cards, loading }) => {
       {cards.map(card => (
         <Link
           key={card.service_row_id}
-          to={`/${Routes.SERVICE_DETAILS}/${card.service_row_id}`}
+          to={`/${Routes.SERVICE_DETAILS}/org/${card.org_id}/service/${card.service_id}`}
           className={classes.routerLink}
         >
           <ServiceListItem

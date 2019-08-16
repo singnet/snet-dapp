@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/styles";
 
 import { useStyles } from "./styles";
+import AlertLink from "./AlertLink";
 
 export const alertTypes = {
   ERROR: "error",
@@ -23,14 +24,7 @@ const AlertBox = ({ classes, message, type, link }) => {
   if (message) {
     return (
       <p className={clsx(classes.messageBox, classes[backgroundColor[type]])}>
-        {message}{" "}
-        {link ? (
-          <a href="#" title="demo">
-            {link}
-          </a>
-        ) : (
-          ""
-        )}
+        {message} <AlertLink link={link} />
       </p>
     );
   }

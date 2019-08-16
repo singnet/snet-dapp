@@ -4,7 +4,7 @@ import { withStyles } from "@material-ui/styles";
 
 import thirdPartyCustomUIComponents from "../../../../assets/thirdPartyServices";
 import { useStyles } from "./styles";
-import { serviceActions, loaderActions } from "../../../../Redux/actionCreators";
+import { serviceActions, serviceDetailsActions, loaderActions } from "../../../../Redux/actionCreators";
 import { APIEndpoints } from "../../../../config/APIEndpoints";
 import CompletedActions from "./CompletedActions";
 import { createServiceClient, callTypes } from "../../../../utility/sdk";
@@ -22,12 +22,12 @@ class ThirdPartyAIService extends Component {
   };
 
   componentDidMount = async () => {
-    const { org_id, service_id, username, freeCallsRemaining } = this.props;
+    const { org_id, service_id, freeCallsRemaining, groupInfo } = this.props;
     const callType = freeCallsRemaining > 0 ? callTypes.FREE : callTypes.REGULAR;
     this.serviceClient = await createServiceClient(
       org_id,
       service_id,
-      username,
+      groupInfo,
       this.serviceRequestStartHandler,
       this.serviceRequestCompleteHandler,
       callType
@@ -53,6 +53,10 @@ class ThirdPartyAIService extends Component {
   };
 
   serviceRequestCompleteHandler = () => {
+    const { org_id, service_id, fetchMeteringData, freeCallsRemaining } = this.props;
+    if (freeCallsRemaining > 0) {
+      fetchMeteringData({ orgId: org_id, serviceId: service_id });
+    }
     this.setState({ serviceRequestComplete: true });
     this.props.stopLoader();
   };
@@ -66,7 +70,7 @@ class ThirdPartyAIService extends Component {
     this.setState({ feedback: { comment: feedback.data[0].comment[0], rating: feedback.data[0].rating } });
   };
 
-  fetchServiceSpec = async () => {
+  fetchServiceSpec = () => {
     const { org_id, service_id } = this.props;
     const servicebufURL = `${APIEndpoints.SERVICE_BUF.endpoint}/${org_id}/${service_id}`;
     return this.props.fetchProtoSpec(servicebufURL);
@@ -140,6 +144,7 @@ const mapStateToProps = state => ({
   isComplete: state.serviceReducer.serviceMethodExecution.isComplete,
   username: state.userReducer.username,
 });
+
 const mapDispatchToProps = dispatch => ({
   fetchProtoSpec: servicebufURL => dispatch(serviceActions.fetchProtoSpec(servicebufURL)),
   invokeServiceMethod: data => dispatch(serviceActions.invokeServiceMethod(data)),
@@ -147,6 +152,7 @@ const mapDispatchToProps = dispatch => ({
   stopLoader: () => dispatch(loaderActions.stopAppLoader),
   resetServiceExecution: () => dispatch(serviceActions.resetServiceExecution),
   fetchFeedback: (orgId, serviceId) => dispatch(serviceActions.fetchFeedback(orgId, serviceId)),
+  fetchMeteringData: args => dispatch(serviceDetailsActions.fetchMeteringData({ ...args })),
 });
 
 export default connect(
