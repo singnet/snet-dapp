@@ -17,6 +17,10 @@ export const useStyles = theme => ({
       fontSize: 20,
       lineHeight: "30px",
     },
+    "& a": {
+      cursor: "pointer",
+      color: theme.palette.text.primary,
+    },
   },
   forgotPwdContent: {
     textAlign: "center",
