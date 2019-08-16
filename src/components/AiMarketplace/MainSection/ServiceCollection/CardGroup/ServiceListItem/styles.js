@@ -29,7 +29,7 @@ export const useStyles = makeStyles(theme => ({
   },
   cardHeader: {
     padding: "6px 10px 0",
-    alignItems: 'center',
+    alignItems: "center",
     textAlign: "left",
     "& button": {
       color: theme.palette.text.primary,
@@ -37,7 +37,7 @@ export const useStyles = makeStyles(theme => ({
       fontWeight: 600,
       letterSpacing: 1.25,
     },
-    '& .MuiCardHeader-avatar': { marginRight: 10 }
+    "& .MuiCardHeader-avatar": { marginRight: 10 },
   },
   cardTitle: {
     display: "inline-block",
@@ -48,7 +48,7 @@ export const useStyles = makeStyles(theme => ({
     fontFamily: theme.typography.primary.main,
     padding: "0px 9px 8px 0px",
     textAlign: "left",
-    '& h4': { margin: '0 76px 0 0' },
+    "& h4": { margin: "0 76px 0 0" },
     "@media(max-width: 768px)": { width: "100%" },
   },
   cardSubheader: {
@@ -57,7 +57,7 @@ export const useStyles = makeStyles(theme => ({
     color: theme.palette.text.lightShadedGray,
     textTransform: "uppercase",
     letterSpacing: 2,
-    fontFamily: theme.typography.primary.main   
+    fontFamily: theme.typography.primary.main,
   },
   cardContent: {
     padding: "8px 10px 0",

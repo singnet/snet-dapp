@@ -8,7 +8,7 @@ import CardActions from "@material-ui/core/CardActions";
 import Typography from "@material-ui/core/Typography";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import IconButton from "@material-ui/core/IconButton";
-import Avatar from '@material-ui/core/Avatar';
+import Avatar from "@material-ui/core/Avatar";
 
 import StyledButton from "../../../../../common/StyledButton";
 import RatingsCount from "../../../../../common/RatingsCount";
@@ -21,9 +21,7 @@ const StyledCard = props => {
     <Card className={classes.card}>
       <CardHeader
         className={classes.cardHeader}
-        avatar={
-          <Avatar aria-label="recipe" className={classes.avatar} src={SingularityLogo} />
-        }
+        avatar={<Avatar aria-label="recipe" className={classes.avatar} src={SingularityLogo} />}
         classes={{
           title: classes.cardTitle,
           subheader: classes.cardSubheader,

@@ -2,7 +2,7 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 import StarRatingComponent from "react-star-rating-component";
-import Avatar from '@material-ui/core/Avatar';
+import Avatar from "@material-ui/core/Avatar";
 
 import { useStyles } from "./styles";
 import RatingsCount from "../../common/RatingsCount";

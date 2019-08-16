@@ -34,21 +34,21 @@ export const useStyles = theme => ({
     letterSpacing: 2,
     verticalAlign: "super",
   },
-  avatar:{
+  avatar: {
     marginRight: 12,
-    display: 'inline-block',
-    '& img': {
+    display: "inline-block",
+    "& img": {
       width: 40,
-      height: 40
-    }
+      height: 40,
+    },
   },
-  serviceCreatorDetails:{
-    display: 'flex',
-    alignItems: 'center',
-    '& span': {
+  serviceCreatorDetails: {
+    display: "flex",
+    alignItems: "center",
+    "& span": {
       color: theme.palette.text.primary,
       fontSize: 14,
       textTransform: "uppercase",
     },
-  }
+  },
 });

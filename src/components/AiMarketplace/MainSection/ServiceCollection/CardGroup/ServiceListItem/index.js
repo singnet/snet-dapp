@@ -11,7 +11,6 @@ import Avatar from "@material-ui/core/Avatar";
 import StyledButton from "../../../../../common/StyledButton";
 import { useStyles } from "./styles";
 import RatingsCount from "../../../../../common/RatingsCount";
-import Subheader from "./Subheader";
 import SingularityLogo from "../../../../../../assets/images/avatar.png";
 
 const ServiceListItem = props => {
@@ -26,26 +25,22 @@ const ServiceListItem = props => {
         <Grid item xs={12} sm={10} md={10} lg={10}>
           <CardHeader
             className={classes.cardHeader}
-            avatar={
-              <Avatar aria-label="recipe" className={classes.avatar} src={SingularityLogo} />
-            }
+            avatar={<Avatar aria-label="recipe" className={classes.avatar} src={SingularityLogo} />}
             classes={{ title: classes.cardTitle, subheader: classes.cardSubheader }}
             title={
               <div className={classes.ratingSection}>
-              <h4>{props.cardTitle}</h4>
-              <StarRatingComponent
-                name="rate1"
-                starCount={5}
-                value={Number(props.ratingGiven)}
-                className={classes.ratingStars}
-              />
-              <RatingsCount ratingGiven={props.ratingGiven} totalRating={props.totalRating} />
-            </div>
+                <h4>{props.cardTitle}</h4>
+                <StarRatingComponent
+                  name="rate1"
+                  starCount={5}
+                  value={Number(props.ratingGiven)}
+                  className={classes.ratingStars}
+                />
+                <RatingsCount ratingGiven={props.ratingGiven} totalRating={props.totalRating} />
+              </div>
             }
             subheader={props.cardSubheader}
-            action={
-              <StyledButton type="transparent" btnText="demo" />
-            }
+            action={<StyledButton type="transparent" btnText="demo" />}
           />
 
           <CardContent className={classes.cardContent}>
