@@ -19,6 +19,13 @@ const walletDropdownList = Object.entries(walletTypes).map(([key, value]) => ({ 
 class UserProfileAccount extends Component {
   state = {
     activeTab: 0,
+    tokenBalance: "",
+    escrowBalance: "",
+  };
+
+  componentDidMount = () => {
+    retrieveTokenBalance();
+    retriveEscrowBalance();
   };
 
   handleWalletTypeChange = async event => {
@@ -32,9 +39,21 @@ class UserProfileAccount extends Component {
     updateWallet({ type: value });
   };
 
+  retrieveTokenBalance = async () => {
+    //retrive from sdk
+    //await and return the value
+    // this.setState({tokenBalance:value})
+  };
+
+  retriveEscrowBalance = async () => {
+    //retrive from sdk
+    //and return the value
+    // this.setState({escrowBalance:value})
+  };
+
   render() {
     const { classes, wallet } = this.props;
-    const { activeTab } = this.state;
+    const { activeTab, tokenBalance, escrowBalance } = this.state;
 
     const tabs = [{ name: "Deposit", activeIndex: 0, component: <Deposit /> }, { name: "Withdraw", activeIndex: 1 }];
     const activeComponent = tabs.filter(el => el.activeIndex === activeTab)[0].component;
@@ -66,21 +85,21 @@ class UserProfileAccount extends Component {
                   <InfoIcon />
                   <span>Wallet ID</span>
                 </div>
-                <span className={classes.walletId}>0x1287af35e217682ea79e60a68b5568a752677</span>
+                <span className={classes.walletId}>{wallet.address}</span>
               </div>
               <div className={classes.bgBox}>
                 <div className={classes.label}>
                   <InfoIcon />
                   <span>Total Tokens</span>
                 </div>
-                <span>1.12345689 AGI</span>
+                <span>{tokenBalance}</span>
               </div>
               <div className={classes.bgBox}>
                 <div className={classes.label}>
                   <InfoIcon />
                   <span>Escrow Balance</span>
                 </div>
-                <span>5.000123 AGI</span>
+                <span>{escrowBalance}</span>
               </div>
             </div>
             <div className={classes.tabsContainer}>
@@ -106,7 +125,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  updateWallet: args => userActions.updateWallet({ ...args }),
+  updateWallet: args => dispatch(userActions.updateWallet({ ...args })),
 });
 
 export default connect(
