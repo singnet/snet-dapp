@@ -1,4 +1,5 @@
 import { userActions } from "../actionCreators";
+import { walletTypes } from "../actionCreators/UserActions";
 
 const InitialUserDetails = {
   login: {
@@ -8,10 +9,11 @@ const InitialUserDetails = {
   },
   isInitialized: false,
   isEmailVerified: false,
-  isWalletAssigned: false,
+  wallet: { type: walletTypes.SNET },
   email: "",
   username: "",
   emailAlerts: false,
+  isTermsAccepted: true,
 };
 
 const userReducer = (state = InitialUserDetails, action) => {
@@ -69,14 +71,11 @@ const userReducer = (state = InitialUserDetails, action) => {
           ...state.login,
           ...action.payload.login,
         },
-        isWalletAssigned: false,
+        wallet: { type: walletTypes.SNET },
       };
     }
-    case userActions.CHECK_WALLET_STATUS: {
-      return { ...state, isWalletAssigned: action.payload.isWalletAssigned };
-    }
-    case userActions.WALLET_CREATION_SUCCESS: {
-      return { ...state, ...action.payload };
+    case userActions.UPDATE_WALLET: {
+      return { ...state, wallet: action.payload };
     }
     case userActions.UPDATE_USERNAME: {
       return { ...state, ...action.payload };
@@ -84,13 +83,12 @@ const userReducer = (state = InitialUserDetails, action) => {
     case userActions.UPDATE_EMAIL_VERIFIED: {
       return { ...state, isEmailVerified: action.payload.isEmailVerified };
     }
-    case userActions.SUBSCRIBE_TO_EMAIL_ALERTS: {
-      return { ...state, emailAlerts: true };
+    case userActions.UPDATE_EMAIL_ALERTS_SUBSCRIPTION: {
+      return { ...state, emailAlerts: action.payload };
     }
-    case userActions.UNSUBSCRIBE_TO_EMAIL_ALERTS: {
-      return { ...state, emailAlerts: false };
+    case userActions.UPDATE_IS_TERMS_ACCEPTED: {
+      return { ...state, isTermsAccepted: action.payload };
     }
-
     default: {
       return state;
     }
