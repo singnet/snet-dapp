@@ -83,7 +83,6 @@ export const initSdk = async () => {
       defaultGasLimit: DEFAULT_GAS_LIMIT,
     };
     sdk = new SnetSDK(config);
-    // sdk.paymentChannelManagementStrategy = new SingleChannelPaymentChannelManagementStrategy(sdk);
   };
 
   const hasEth = typeof window.ethereum !== "undefined";

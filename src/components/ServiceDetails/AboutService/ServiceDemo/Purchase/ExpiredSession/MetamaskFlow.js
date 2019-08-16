@@ -9,6 +9,8 @@ import AlertBox from "../../../../../common/AlertBox";
 import { initSdk } from "../../../../../../utility/sdk";
 import { cogsToAgi } from "../../../../../../utility/PricingStrategy";
 import { pricing } from "../../../../../../Redux/reducers/ServiceDetailsReducer";
+import { WebServiceClient as ServiceClient } from "snet-sdk-web";
+import PaymentChannelManagement from '../../../../../../utility/PaymentChannelManagement';
 
 const payTypes = {
   CHANNEL_BALANCE: "CHANNEL_BALANCE",
@@ -43,23 +45,35 @@ class MetamaskFlow extends Component {
     },
   ];
 
-  sdk;
-
   handleConnectMM = async () => {
-    if (!this.sdk) {
-      this.sdk = await initSdk();
+    const { groupInfo } = this.props;
+    const sdk = await initSdk();
+    const mpeBal = await sdk.account.escrowBalance();
+    const serviceClient = new ServiceClient(
+      sdk,
+      'snet',
+      'example-service',
+      sdk._mpeContract,
+      {},
+      groupInfo,
+      undefined
+    );
+    const paymentChannelManagement = new PaymentChannelManagement(sdk, serviceClient);
+    await paymentChannelManagement.updateChannelInfo();
+    if (!paymentChannelManagement.channel) {
+      await paymentChannelManagement.openChannel();
     }
-    const mpeBal = await this.sdk.account.escrowBalance();
+
     this.PaymentInfoCardData.map(el => {
       if (el.title === "Escrow Balance") {
         el.value = cogsToAgi(mpeBal);
       }
-      // if (el.title === "Channel Balance") {
-      //   el.value = channelBalance;
-      // }
+      if (el.title === "Channel Balance") {
+        el.value = cogsToAgi(paymentChannelManagement.channel.state.availableAmount);
+      }
       return el;
     });
-    console.log(`Escrow Balance: ${mpeBal} Cogs`);
+
     this.setState({ MMconnected: true });
   };
 
@@ -85,7 +99,7 @@ class MetamaskFlow extends Component {
   };
 
   render() {
-    const { classes, handleContinue, groupInfo } = this.props;
+    const { classes, handleContinue } = this.props;
     const { MMconnected, showPurchaseDialog, selectedPayType, disabledPayTypes, noOfCalls, totalPrice } = this.state;
     if (!MMconnected) {
       return (
