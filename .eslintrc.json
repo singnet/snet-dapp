@@ -28,6 +28,7 @@
     "no-extra-boolean-cast": "off",
     "no-unused-vars": "error",
     "react/jsx-key": "error",
-    "no-useless-computed-key": "error"
+    "no-useless-computed-key": "error",
+    "object-shorthand": "error"
   }
 }
