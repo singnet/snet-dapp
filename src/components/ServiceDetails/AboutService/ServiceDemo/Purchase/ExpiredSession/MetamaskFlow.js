@@ -89,8 +89,7 @@ export const MetamaskFlow = ({ classes, handleContinue }) => {
         <AlertBox
           type="warning"
           message={`Please Login or Install to your Metamask wallet account and connect to SingularityNet. 
-
-        Click here to install and learn more about how to use Metamask and your AGI credits with SinguarlityNet AI Marketplace.`}
+Click here to install and learn more about how to use Metamask and your AGI credits with SinguarlityNet AI Marketplace.`}
         />
         <StyledButton type="blue" btnText="connect metamsask" onClick={handleConnectMM} />
       </div>
