@@ -12,11 +12,14 @@ import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
+import SentimentAnalysis from './sentiment_analysis_rpc_pb_service';
+
 export default class NamedEntityRecognitionService extends React.Component {
   constructor(props) {
     super(props);
     this.submitAction = this.submitAction.bind(this);
-    this.handleServiceName = this.handleServiceName.bind(this);
+    // TODO: Check for the need
+    //this.handleServiceName = this.handleServiceName.bind(this);
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
     this.handleChange = this.handleChange.bind(this);
 
@@ -41,9 +44,13 @@ export default class NamedEntityRecognitionService extends React.Component {
     this.serviceMethods = [];
     this.allServices = [];
     this.methodsForAllServices = [];
-    this.parseProps(props);
+
+    // TODO: Check for the need
+    //this.parseProps(props);
   }
 
+  // TODO: Check for the need
+  /*
   parseProps(nextProps) {
     this.isComplete = nextProps.isComplete;
     if (!this.isComplete) {
@@ -91,11 +98,6 @@ export default class NamedEntityRecognitionService extends React.Component {
     });
   }
 
-  handleFormUpdate(event) {
-    console.log(event.target);
-    this.setState({ [event.target.name]: event.target.value });
-  }
-
   handleServiceName(event) {
     var strService = event.target.value;
     this.setState({ serviceName: strService });
@@ -106,12 +108,46 @@ export default class NamedEntityRecognitionService extends React.Component {
       this.serviceMethods = data;
     }
   }
+  */
 
+ handleFormUpdate(event) {
+  console.log(event.target);
+  this.setState({ [event.target.name]: event.target.value });
+}
+
+  // TODO: To be deleted. Kept to check the btoa func
+  /*
   submitAction() {
     this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
       value: btoa(this.state.message),
     });
   }
+*/
+
+  submitAction() {
+    const { methodName, value } = this.state;
+    const methodDescriptor = SentimentAnalysis[methodName];
+    const request = new methodDescriptor.requestType();
+
+    request.setValue(btoa(this.state.message));
+
+    const props = {
+      request,
+      onEnd: response => {
+        const { message, status, statusMessage } = response;
+        if (status !== 0) {
+          throw new Error(statusMessage);
+        }
+        this.setState({
+          response: { status: "success", value: message.getValue() },
+        });
+      },
+    };
+
+    this.props.serviceClient.unary(methodDescriptor, props);
+  }
+
+
 
   handleChange(event) {
     this.setState({ [event.target.name]: event.target.value });
@@ -162,7 +198,9 @@ export default class NamedEntityRecognitionService extends React.Component {
         <Grid item xs={12}>
           <br />
           <br />
-          <FormControl style={{ minWidth: "100%" }}>
+          {
+            /* TODO: Check for the need */
+            /* <FormControl style={{ minWidth: "100%" }}>
             <Select
               value={this.state.serviceName}
               onChange={this.handleServiceName}
@@ -201,7 +239,7 @@ export default class NamedEntityRecognitionService extends React.Component {
               ;
             </Select>
           </FormControl>
-          <br />
+          <br /> */}
           <TextField
             id="standard-multiline-static"
             label="Input sentence"
@@ -281,7 +319,10 @@ export default class NamedEntityRecognitionService extends React.Component {
   }
 
   renderComplete() {
-    const result = this.parseResponse(this.props.response.value);
+
+    const {response} = this.state;
+
+    const result = this.parseResponse(response.value);
     return (
       <React.Fragment>
         <Grid item xs={12} style={{ textAlign: "center" }}>

@@ -1,16 +1,26 @@
 import React from "react";
 import { hasOwnDefinedProperty } from "../../../../utility/JSHelper";
 import Button from "@material-ui/core/Button";
+import { Zeta6AlphaZero } from "./alpha_zero_pb_service";
+
+
+const initialUserInput = {
+  uid: "",
+  move: "",
+  cmd: "",
+};
+
 
 export default class Zeta36ChessAlphaZero extends React.Component {
   constructor(props) {
     super(props);
     this.submitAction = this.submitAction.bind(this);
-    this.handleServiceName = this.handleServiceName.bind(this);
+    //this.handleServiceName = this.handleServiceName.bind(this);
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
-    this.getServiceMethods = this.getServiceMethods.bind(this);
+    //this.getServiceMethods = this.getServiceMethods.bind(this);
 
     this.state = {
+      ...initialUserInput,
       users_guide:
         "https://github.com/singnet/dnn-model-services/blob/master/docs/users_guide/zeta36-chess-alpha-zero.md",
       code_repo: "https://github.com/singnet/dnn-model-services/blob/master/Services/gRPC/zeta36-chess-alpha-zero",
@@ -18,14 +28,9 @@ export default class Zeta36ChessAlphaZero extends React.Component {
 
       serviceName: "AlphaZero",
       methodName: "play",
-
-      uid: "",
-      move: "",
-      cmd: "",
-
       response: undefined,
     };
-    this.parseProps(props);
+    //this.parseProps(props);
   }
 
   canBeInvoked() {
@@ -42,13 +47,29 @@ export default class Zeta36ChessAlphaZero extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   }
 
-
   submitAction() {
-    this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
-      uid: this.state.uid,
-      move: this.state.move,
-      cmd: this.state.cmd,
-    });
+    const { methodName, uid, move, cmd } = this.state;
+    const methodDescriptor = Zeta6AlphaZero[methodName];
+    const request = new methodDescriptor.requestType();
+
+    request.setUid(uid);
+    request.setMove(move);
+    request.setCmd(cmd);
+
+    const props = {
+      request,
+      onEnd: response => {
+        const { message, status, statusMessage } = response;
+        if (status !== 0) {
+          throw new Error(statusMessage);
+        }
+        this.setState({
+          ...initialUserInput,
+          response: { status: "success", uid: message.getUid(), board: message.getBoard(), status: message.getStatus()},
+        });
+      },
+    };
+    this.props.serviceClient.unary(methodDescriptor, props);
   }
 
   renderForm() {

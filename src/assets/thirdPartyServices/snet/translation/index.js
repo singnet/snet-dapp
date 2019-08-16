@@ -1,4 +1,12 @@
 import React from "react";
+import { Translation } from "./translate_pb_service";
+
+const initialUserInput = {
+  methodName: "Select a method",
+  source_language: undefined,
+  target_language: undefined,
+  text: undefined,
+};
 
 export default class TranslationService extends React.Component {
   constructor(props) {
@@ -26,12 +34,32 @@ export default class TranslationService extends React.Component {
   }
 
   submitAction() {
-    this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
-      source_language: this.state.source_language,
-      target_language: this.state.target_language,
-      text: this.state.text,
-    });
+    const { methodName, source_language, target_language, text } = this.state;
+    const methodDescriptor = Translation[methodName];
+    const request = new methodDescriptor.requestType();
+
+    request.setSourceLanguage(source_language);
+    request.setTargetLanguage(target_language);
+    request.setText(text)
+
+    const props = {
+      request,
+      onEnd: response => {
+        const { message, status, statusMessage } = response;
+        if (status !== 0) {
+          throw new Error(statusMessage);
+        }
+        this.setState({
+          ...initialUserInput,
+          response: { status: "success", translation: message.getTranslation(), },
+        });
+      },
+    };
+
+    this.props.serviceClient.unary(methodDescriptor, props);
   }
+
+
 
   renderForm() {
     // One day this should come from the service when free method calls are allowed.
@@ -96,7 +124,7 @@ export default class TranslationService extends React.Component {
   }
 
   renderComplete() {
-    const response = this.props.response;
+    const { response } = this.state;
 
     return (
       <div>

@@ -4,40 +4,50 @@ import Button from "@material-ui/core/Button";
 import Slider from "@material-ui/lab/Slider";
 
 import SNETImageUpload from "../../standardComponents/SNETImageUpload";
+import { Detector } from "./object_detection_pb_service";
+
+
+const initialUserInput = {
+  methodName: "Select a method",
+  img_path: undefined,
+  confidence: 0.5,
+  img_path: "",
+  methodName: "detect",
+};
 
 export default class YOLOv3ObjectDetection extends React.Component {
   constructor(props) {
     super(props);
     this.submitAction = this.submitAction.bind(this);
-    this.handleServiceName = this.handleServiceName.bind(this);
+
+    //this.handleServiceName = this.handleServiceName.bind(this);
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
     this.getImageURL = this.getImageURL.bind(this);
-    this.getServiceMethods = this.getServiceMethods.bind(this);
+    //this.getServiceMethods = this.getServiceMethods.bind(this);
     this.handleSliderChange = this.handleSliderChange.bind(this);
 
     this.state = {
-      users_guide:
-        "https://github.com/singnet/dnn-model-services/blob/master/docs/users_guide/yolov3-object-detection.md",
+      ...initialUserInput,
+      users_guide: "https://github.com/singnet/dnn-model-services/blob/master/docs/users_guide/yolov3-object-detection.md",
       code_repo: "https://github.com/singnet/dnn-model-services/blob/master/Services/gRPC/yolov3-object-detection",
       reference: "https://pjreddie.com/darknet/yolo/",
-
       serviceName: "Detect",
-      methodName: "detect",
-
       model: "yolov3",
-      img_path: "",
-      confidence: 0.5,
-
       response: undefined,
     };
 
+    // TODO: Validate and Delete
+    /*
     this.isComplete = false;
     this.serviceMethods = [];
     this.allServices = [];
     this.methodsForAllServices = [];
     this.parseProps(props);
+    */
   }
 
+  // TODO: Validate and Delete
+  /*
   parseProps(nextProps) {
     this.isComplete = nextProps.isComplete;
     if (!this.isComplete) {
@@ -92,6 +102,7 @@ export default class YOLOv3ObjectDetection extends React.Component {
     }
     this.serviceMethods = data;
   }
+  */
 
   getImageURL(data) {
     this.setState({ img_path: data });
@@ -109,6 +120,8 @@ export default class YOLOv3ObjectDetection extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   }
 
+  // TODO: Validate and Delete
+  /*
   handleServiceName(event) {
     var strService = event.target.value;
     this.setState({
@@ -121,13 +134,40 @@ export default class YOLOv3ObjectDetection extends React.Component {
     }
     this.serviceMethods = data;
   }
-
+  
   submitAction() {
     this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
       model: this.state.model,
       img_path: this.state.img_path,
       confidence: this.state.confidence.toFixed(2),
     });
+  }
+*/
+
+  submitAction() {
+    const { methodName, img_path, model, confidence } = this.state;
+    const methodDescriptor = Detector[methodName];
+    const request = new methodDescriptor.requestType();
+
+    request.setImgPath(img_path);
+    request.setModel(model);
+    request.setConfidence(confidence)
+
+    const props = {
+      request,
+      onEnd: response => {
+        const { message, status, statusMessage } = response;
+        if (status !== 0) {
+          throw new Error(statusMessage);
+        }
+        this.setState({
+          ...initialUserInput,
+          response: { status: "success", delta_time: message.getDeltaTime(), boxes: message.getBoxes(), class_ids: message.getClassIds(), confidences: message.getConfidences(), img_base64: message.getImgBase64() },
+        });
+      },
+    };
+
+    this.props.serviceClient.unary(methodDescriptor, props);
   }
 
   renderForm() {
@@ -188,6 +228,7 @@ export default class YOLOv3ObjectDetection extends React.Component {
   }
 
   renderComplete() {
+
     let status = "Ok\n";
     let delta_time = "\n";
     let boxes = "\n";

@@ -17,6 +17,8 @@ import Slider from "@material-ui/lab/Slider";
 import { Chart } from "react-google-charts";
 import Tooltip from "@material-ui/core/Tooltip";
 
+import { TSAnomalyDetection } from "./timeSeriesAnomalyDetection_pb_service";
+
 function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
@@ -124,7 +126,10 @@ export default class TimeSeriesAnomalyDiscoveryService extends React.Component {
     super(props);
 
     this.submitAction = this.submitAction.bind(this);
-    this.handleServiceName = this.handleServiceName.bind(this);
+
+    // TODO: Check for the need
+    //this.handleServiceName = this.handleServiceName.bind(this);
+    
     this.handleChangeUrl = this.handleChangeUrl.bind(this);
     this.handleChangeSlidingWindow = this.handleChangeSlidingWindow.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -177,7 +182,8 @@ export default class TimeSeriesAnomalyDiscoveryService extends React.Component {
     this.to_render_time_series = undefined;
     this.to_render_anomalies = undefined;
 
-    this.parseProps(props);
+    // TODO: Check for the need
+    //this.parseProps(props);
   }
 
   thresholdChange(event, value) {
@@ -272,6 +278,8 @@ export default class TimeSeriesAnomalyDiscoveryService extends React.Component {
     this.setState({ update: true });
   }
 
+  // TODO: Check for the need
+  /*
   parseProps(nextProps) {
     this.isComplete = nextProps.isComplete;
     if (!this.isComplete) {
@@ -332,6 +340,7 @@ export default class TimeSeriesAnomalyDiscoveryService extends React.Component {
       this.serviceMethods = data;
     }
   }
+  */
 
   submitAction() {
     if (this.UrlExists(this.state.timeseries)) {
@@ -350,6 +359,36 @@ export default class TimeSeriesAnomalyDiscoveryService extends React.Component {
       this.setState({ input_dialog: true });
     }
   }
+
+  submitAction() {
+    const { methodName, timeseries, slidingwindowsize, alphabet, paasize, debugflag } = this.state;
+    const methodDescriptor = TSAnomalyDetection[methodName];
+    const request = new methodDescriptor.requestType();
+
+    request.setTimeseries(timeseries);
+    request.setAlphabet(alphabet);
+    request.setSlidingwindowsize(slidingwindowsize);
+    request.setPaasize(paasize);
+    request.setDebugflag(debugflag);
+
+    const props = {
+      request,
+      onEnd: response => {
+        const { message, status, statusMessage } = response;
+        if (status !== 0) {
+          throw new Error(statusMessage);
+        }
+        this.setState({
+          response: { status: "success", timeseries: message.getTimeseries(), density: message.getDensity(), normalized: message.getNormalized(), inverted: message.getInverted()},
+        });
+
+      },
+    };
+
+    this.props.serviceClient.unary(methodDescriptor, props);
+  }
+
+
 
   renderForm() {
     return (

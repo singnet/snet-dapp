@@ -29,7 +29,7 @@ const coveringCanvas = {
 };
 
 const initialUserInput = {
-  methodName: "Select a method",
+  methodName: "segment",
   mimetype: undefined,
   imageData: undefined,
 };
@@ -48,7 +48,6 @@ export default class SemanticSegmentationService extends React.Component {
       code_repo: "",
       reference: "",
       model: "",
-      methodName: "segment",
       response: undefined,
       visualise: true,
     };
@@ -90,7 +89,7 @@ export default class SemanticSegmentationService extends React.Component {
     const request = new methodDescriptor.requestType();
 
     // Setting the Proto Message Img
-    var imgProto = request.getImage();
+    var imgProto = request.Image();
     imgProto.setMimetype(mimetype);
     imgProto.setContent(imageData);
 
@@ -116,7 +115,8 @@ export default class SemanticSegmentationService extends React.Component {
 
   renderForm() {
 
-    const serviceNameOptions = ["Select a method", ...this.props.serviceClient.getMethodNames(SemanticSegmentation)];
+    // Looks like there two methods might need this functionality if the user selects the methods.
+    //const serviceNameOptions = ["Select a method", ...this.props.serviceClient.getMethodNames(SemanticSegmentation)];
 
     return (
       <React.Fragment>
@@ -147,7 +147,7 @@ export default class SemanticSegmentationService extends React.Component {
   }
 
   renderComplete() {
-    const response = this.props.response;
+    const {response} = this.state;
 
     return (
       <React.Fragment>

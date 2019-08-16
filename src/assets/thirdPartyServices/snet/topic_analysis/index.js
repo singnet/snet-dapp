@@ -3,6 +3,8 @@ import DatasetUpload from "../analysis-helpers/DatasetUploaderHelper";
 import ReactJson from "react-json-view";
 import { Grid, Card, CardContent } from "@material-ui/core";
 import { CheckCircle, Cancel } from "@material-ui/icons";
+import MethodNamesDropDown from "../../common/MethodNamesDropDown";
+import { TopicAnalysis } from "./topic_analysis_pb_service";
 
 const InputView = { File: "File Upload", Text: "Textual Input" };
 const SampleInput = {
@@ -121,14 +123,43 @@ export default class TopicAnalysisService extends React.Component {
   }
 
   submitAction() {
-    this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
-      docs: this.state.dataset["docs"],
-      num_topics: this.state.dataset["num_topics"],
-      topic_divider: this.state.dataset["topic_divider"],
-      maxiter: this.state.dataset["maxiter"] === undefined ? "2" : this.state.dataset["maxiter"],
-      beta: this.state.dataset["beta"] === undefined ? "1" : this.state.dataset["beta"],
-    });
+    const {methodName} = this.state;
+    const methodDescriptor = TopicAnalysis[methodName];
+    const request = new methodDescriptor.requestType();
+
+    let docs = this.state.dataset["docs"]
+    let num_topics = this.state.dataset["num_topics"]
+    let topic_divider = this.state.dataset["topic_divider"]
+    let maxiter = this.state.dataset["maxiter"] === undefined ? "2" : this.state.dataset["maxiter"]
+    let beta = this.state.dataset["beta"] === undefined ? "1" : this.state.dataset["beta"]
+
+    request.setDocsList(docs);
+    request.setNumTopics(num_topics);
+    request.setTopicDivider(topic_divider);
+    request.setMaxiter(maxiter);
+    request.setBeta(beta);
+
+    const props = {
+      request,
+      onEnd: response => {
+        const { message, status, statusMessage } = response;
+        if (status !== 0) {
+          throw new Error(statusMessage);
+        }
+
+        // Check whether we need for the initial set of values
+        // this.state = this.getInitialState();
+
+        this.setState({
+          response: { status: "success", status: message.getStatus(), message: message.getMessage(), handle: message.getHandle() },
+        });
+      },
+    };
+
+    this.props.serviceClient.unary(methodDescriptor, props);
   }
+
+
 
   download() {
     const link = document.createElement("a");
@@ -221,8 +252,10 @@ export default class TopicAnalysisService extends React.Component {
   }
 
   renderForm() {
-    const service = this.props.protoSpec.findServiceByName(this.state.serviceName);
-    const serviceMethodNames = service.methodNames;
+
+    const serviceNameOptions = ["Select a method", ...this.props.serviceClient.getMethodNames(TopicAnalysis)];
+    // const service = this.props.protoSpec.findServiceByName(this.state.serviceName);
+    // const serviceMethodNames = service.methodNames;
 
     return (
       <React.Fragment>
@@ -231,14 +264,11 @@ export default class TopicAnalysisService extends React.Component {
             Method Name:
           </div>
           <div className="col-md-3 col-lg-3">
-            <select
-              name="methodName"
+          <MethodNamesDropDown
+              list={serviceNameOptions}
               value={this.state.methodName}
-              style={{ height: "30px", width: "250px", fontSize: "13px", marginBottom: "5px" }}
               onChange={this.handleFormUpdate}
-            >
-              {this.renderServiceMethodNames(serviceMethodNames)}
-            </select>
+            />
           </div>
         </div>
         <div className="row">

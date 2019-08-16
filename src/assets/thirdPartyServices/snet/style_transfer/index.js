@@ -14,27 +14,34 @@ import Switch from "@material-ui/core/Switch";
 import Slider from "@material-ui/lab/Slider";
 import HoverIcon from "../../standardComponents/HoverIcon";
 
+import { Style_Transfer } from "./style_transfer_pb_service";
+
+const initialUserInput = {
+  // Actual inputs
+  content: "",
+  style: "",
+  contentSize: 640,
+  styleSize: 640,
+  preserveColor: false,
+  alpha: 1.0, // 0 to 1
+  crop: false,
+  saveExt: "",
+};
+
+
 export default class StyleTransfer extends React.Component {
   constructor(props) {
     super(props);
 
-    this.initialState = {
+    this.state = {
+      ...initialUserInput,
       // From .proto file
       // Single option for both service and method names
       serviceName: "StyleTransfer",
       methodName: "transfer_image_style",
-      // Actual inputs
-      content: "",
-      style: "",
-      contentSize: 640,
-      styleSize: 640,
-      preserveColor: false,
-      alpha: 1.0, // 0 to 1
-      crop: false,
-      saveExt: "",
-    };
+      response: undefined,
 
-    this.state = this.initialState;
+    };
 
     this.mainFont = "Muli";
     this.mainFontSize = 14;
@@ -93,16 +100,36 @@ export default class StyleTransfer extends React.Component {
   }
 
   submitAction() {
-    this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
-      content: this.state.content,
-      style: this.state.style,
-      contentSize: this.state.contentSize,
-      styleSize: this.state.styleSize,
-      preserveColor: this.state.preserveColor,
-      alpha: this.state.alpha,
-      crop: this.state.crop,
-      saveExt: this.state.saveExt,
-    });
+    const { methodName, content, style, contentSize, styleSize, preserveColor, alpha, crop, saveExt } = this.state;
+    const methodDescriptor = Style_Transfer[methodName];
+    const request = new methodDescriptor.requestType();
+
+
+
+    request.setContent(content);
+    request.setStyle(style);
+    request.setContentsize(contentSize);
+    request.setStylesize(styleSize);
+    request.setPreservecolor(preserveColor);
+    request.setAlpha(alpha);
+    request.setCrop(crop);
+    request.setSaveext(saveExt);
+
+    const props = {
+      request,
+      onEnd: response => {
+        const { message, status, statusMessage } = response;
+        if (status !== 0) {
+          throw new Error(statusMessage);
+        }
+        this.setState({
+          ...initialUserInput,
+          response: { status: "success", data: message.getData() },
+        });
+      },
+    };
+
+    this.props.serviceClient.unary(methodDescriptor, props);
   }
 
   getContentImageData(data) {
@@ -235,7 +262,10 @@ export default class StyleTransfer extends React.Component {
   }
 
   parseResponse() {
-    const { response, isComplete } = this.props;
+
+    const { response} = this.state;
+    const { isComplete } = this.props;
+
     if (isComplete) {
       if (typeof response !== "undefined") {
         if (typeof response === "string") {
