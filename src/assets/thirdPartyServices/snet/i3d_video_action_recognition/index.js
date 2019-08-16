@@ -2,15 +2,29 @@ import React from "react";
 import { hasOwnDefinedProperty } from "../../../../utility/JSHelper";
 import Button from "@material-ui/core/Button";
 
+import VideoActionRecognition from './video_action_recon_pb_service'
+
+const initialUserInput = {
+  model: "400",
+  url: "",
+};
+
+
+
 export default class I3DActionRecognition extends React.Component {
   constructor(props) {
     super(props);
     this.submitAction = this.submitAction.bind(this);
-    this.handleServiceName = this.handleServiceName.bind(this);
+
+    // TODO: Check for the need
+    //this.handleServiceName = this.handleServiceName.bind(this);
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
-    this.getServiceMethods = this.getServiceMethods.bind(this);
+
+    // TODO: Check for the need
+    //this.getServiceMethods = this.getServiceMethods.bind(this);
 
     this.state = {
+      ...initialUserInput,
       users_guide:
         "https://github.com/singnet/dnn-model-services/blob/master/docs/users_guide/i3d-video-action-recognition.md",
       code_repo: "https://github.com/singnet/dnn-model-services/blob/master/Services/gRPC/i3d-video-action-recognition",
@@ -18,20 +32,21 @@ export default class I3DActionRecognition extends React.Component {
 
       serviceName: "VideoActionRecognition",
       methodName: "video_action_recon",
-
-      model: "400",
-      url: "",
-
       response: undefined,
     };
+
     this.modelOptions = ["400", "600"];
     this.isComplete = false;
     this.serviceMethods = [];
     this.allServices = [];
     this.methodsForAllServices = [];
-    this.parseProps(props);
+
+    //TODO: Check for the need
+    //this.parseProps(props);
   }
 
+  // TODO: CHeck for the need
+  /*
   parseProps(nextProps) {
     this.isComplete = nextProps.isComplete;
     if (!this.isComplete) {
@@ -86,6 +101,7 @@ export default class I3DActionRecognition extends React.Component {
     }
     this.serviceMethods = data;
   }
+*/
 
   isValidVideoURL(str) {
     return (str.startsWith("http://") || str.startsWith("https://")) && (str.endsWith(".avi") || str.endsWith(".mp4"));
@@ -99,6 +115,8 @@ export default class I3DActionRecognition extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   }
 
+  // TODO: Check for the need
+  /*
   handleServiceName(event) {
     var strService = event.target.value;
     this.setState({
@@ -111,12 +129,38 @@ export default class I3DActionRecognition extends React.Component {
     }
     this.serviceMethods = data;
   }
+  */
 
   submitAction() {
     this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
       model: this.state.model,
       url: this.state.url,
     });
+  }
+
+  submitAction() {
+    const { methodName, model, url } = this.state;
+    const methodDescriptor = VideoActionRecognition[methodName];
+    const request = new methodDescriptor.requestType();
+
+    request.setModel(model);
+    request.setUrl(url);
+
+    const props = {
+      request,
+      onEnd: response => {
+        const { message, status, statusMessage } = response;
+        if (status !== 0) {
+          throw new Error(statusMessage);
+        }
+        this.setState({
+          ...initialUserInput,
+          response: { status: "success", value: message.getValue() },
+        });
+      },
+    };
+
+    this.props.serviceClient.unary(methodDescriptor, props);
   }
 
   renderForm() {
