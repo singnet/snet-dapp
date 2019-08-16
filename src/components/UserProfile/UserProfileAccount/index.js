@@ -27,6 +27,7 @@ class UserProfileAccount extends Component {
     // if (value === walletTypes.METAMASK) {
     //   // const address = await; //sdk funtion;
     //   updateWallet({type:value, address});
+    //   return
     // }
     updateWallet({ type: value });
   };
