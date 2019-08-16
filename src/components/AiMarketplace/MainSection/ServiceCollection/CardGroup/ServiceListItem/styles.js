@@ -29,7 +29,7 @@ export const useStyles = makeStyles(theme => ({
   },
   cardHeader: {
     padding: "6px 10px 0",
-    alignItems: 'flex-start',
+    alignItems: 'center',
     textAlign: "left",
     "& button": {
       color: theme.palette.text.primary,
