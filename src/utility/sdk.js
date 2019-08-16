@@ -53,6 +53,10 @@ const metadataGenerator = callType => async (serviceClient, serviceName, method)
 };
 
 const parseServiceMetadata = response => {
+  if (process.env.REACT_APP_SANDBOX) {
+    return {};
+  }
+
   const { data: groups } = response;
   const endpoints = groups.map(({ group_name, endpoints }) => ({ group_name, ...endpoints[0] }));
   const defaultGroup = groups[0];
