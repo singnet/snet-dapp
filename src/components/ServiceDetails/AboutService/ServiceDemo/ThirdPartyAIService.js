@@ -22,7 +22,7 @@ class ThirdPartyAIService extends Component {
   };
 
   componentDidMount = async () => {
-    const { org_id, service_id, freeCallsRemaining, groupInfo } = this.props;
+    const { org_id, service_id, freeCallsRemaining, groupInfo, wallet } = this.props;
     const callType = freeCallsRemaining > 0 ? callTypes.FREE : callTypes.REGULAR;
     this.serviceClient = await createServiceClient(
       org_id,
@@ -30,7 +30,8 @@ class ThirdPartyAIService extends Component {
       groupInfo,
       this.serviceRequestStartHandler,
       this.serviceRequestCompleteHandler,
-      callType
+      callType,
+      wallet
     );
     await this.setupComponent();
     this.setState({ loading: false });
@@ -143,6 +144,7 @@ const mapStateToProps = state => ({
   grpcResponse: state.serviceReducer.serviceMethodExecution.response,
   isComplete: state.serviceReducer.serviceMethodExecution.isComplete,
   username: state.userReducer.username,
+  wallet: state.userReducer.wallet,
 });
 
 const mapDispatchToProps = dispatch => ({

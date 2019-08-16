@@ -3,7 +3,7 @@ import { API } from "aws-amplify";
 
 import { APIEndpoints, APIPaths } from "../config/APIEndpoints";
 import { initializeAPIOptions } from "./API";
-import { fetchAuthenticatedUser } from "../Redux/actionCreators/UserActions";
+import { fetchAuthenticatedUser, walletTypes } from "../Redux/actionCreators/UserActions";
 
 const DEFAULT_GAS_PRICE = 4700000;
 const DEFAULT_GAS_LIMIT = 210000;
@@ -58,12 +58,16 @@ const metadataGenerator = callType => async (serviceClient, serviceName, method)
   }
 };
 
-const generateOptions = callType => {
+const generateOptions = (callType, wallet) => {
   if (process.env.REACT_APP_SANDBOX) {
     return {
       endpoint: process.env.REACT_APP_SANDBOX_SERVICE_ENDPOINT,
       disableBlockchainOperations: true,
     };
+  }
+
+  if (wallet && wallet.type === walletTypes.METAMASK) {
+    return {};
   }
 
   return { metadataGenerator: metadataGenerator(callType) };
@@ -110,10 +114,20 @@ export const createServiceClient = async (
   groupInfo,
   serviceRequestStartHandler,
   serviceRequestCompleteHandler,
-  callType
+  callType,
+  wallet
 ) => {
-  const options = generateOptions(callType);
-  const serviceClient = new ServiceClient(undefined, org_id, service_id, undefined, {}, groupInfo, undefined, options);
+  const options = generateOptions(callType, wallet);
+  const serviceClient = new ServiceClient(
+    sdk,
+    org_id,
+    service_id,
+    sdk && sdk._mpeContract,
+    {},
+    groupInfo,
+    undefined,
+    options
+  );
 
   const onEnd = props => (...args) => {
     props.onEnd(...args);
