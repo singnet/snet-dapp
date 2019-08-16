@@ -1,10 +1,10 @@
 export const useStyles = theme => ({
-  CategoryWrapper: { 
+  CategoryWrapper: {
     marginBottom: 60,
-    justifyContent: 'space-between'
+    justifyContent: "space-between",
   },
   CategoryContent: {
-    maxWidth: '45%',
+    maxWidth: "45%",
     paddingTop: 25,
     "& p": {
       margin: "10px 0 27px",
@@ -15,11 +15,11 @@ export const useStyles = theme => ({
       "& span": { fontWeight: 600 },
     },
   },
-  reverseDirection: { 
+  reverseDirection: {
     flexDirection: "row-reverse",
-    '& div': { 
-      '&:last-of-type':{ justifyContent: 'flex-start' }
-    }
+    "& div": {
+      "&:last-of-type": { justifyContent: "flex-start" },
+    },
   },
   Title: {
     "& svg": {
@@ -37,8 +37,8 @@ export const useStyles = theme => ({
       lineHeight: "33px",
     },
   },
-  CategoryMedia:{
-    display: 'flex',
-    justifyContent: 'flex-end'
-  }
+  CategoryMedia: {
+    display: "flex",
+    justifyContent: "flex-end",
+  },
 });

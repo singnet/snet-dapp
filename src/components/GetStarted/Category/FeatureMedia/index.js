@@ -7,7 +7,6 @@ import GifContainer from "./GifContainer";
 import ImgContainer from "./ImgContainer";
 
 const FeatureMedia = ({ media }) => {
-  console.log('media',media)
   if (media.type === "video") {
     return <VideoContainer content={media.content} />;
   }
