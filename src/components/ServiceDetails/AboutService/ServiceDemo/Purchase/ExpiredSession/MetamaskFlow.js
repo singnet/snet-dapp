@@ -4,6 +4,7 @@ import StyledButton from "../../../../../common/StyledButton";
 import PaymentInfoCard from "../PaymentInfoCard";
 import PurchaseDialog from "../PurchaseDialog";
 import ChannelSelectionBox from "../ChannelSelectionBox";
+import AlertBox from "../../../../../common/AlertBox";
 
 const payTypes = {
   CHANNEL_BALANCE: "CHANNEL_BALANCE",
@@ -12,6 +13,7 @@ const payTypes = {
 };
 
 export const MetamaskFlow = ({ classes, handleContinue }) => {
+  const [MMconnected, setMMconnected] = useState(false);
   const [selectedPayType, setSelectedPayType] = useState(payTypes.CHANNEL_BALANCE);
   const [disabledPayTypes, setDisablePayTypes] = useState([payTypes.SINGLE_CALL]);
   const [showPurchaseDialog, setShowPurchaseDialog] = useState(false);
@@ -34,6 +36,10 @@ export const MetamaskFlow = ({ classes, handleContinue }) => {
       unit: "AGI",
     },
   ];
+
+  const handleConnectMM = () => {
+    setMMconnected(true);
+  };
 
   //const channelBalance = await retrieve channel balance;
   // if (channelBalance <= 0) {
@@ -76,6 +82,19 @@ export const MetamaskFlow = ({ classes, handleContinue }) => {
     setNoOfCalls(noOfCalls);
     setTotalPrice(totalPrice);
   };
+
+  if (!MMconnected) {
+    return (
+      <div className={classes.ExpiredSessionContainer}>
+        <AlertBox
+          type="warning"
+          message={`Please Login or Install to your Metamask wallet account and connect to SingularityNet. 
+Click here to install and learn more about how to use Metamask and your AGI credits with SinguarlityNet AI Marketplace.`}
+        />
+        <StyledButton type="blue" btnText="connect metamsask" onClick={handleConnectMM} />
+      </div>
+    );
+  }
 
   return (
     <div className={classes.PurchaseFlowContainer}>

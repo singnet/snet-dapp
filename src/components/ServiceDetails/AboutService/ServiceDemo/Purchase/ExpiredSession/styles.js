@@ -4,6 +4,7 @@ export const useStyles = theme => ({
     "& button": {
       marginTop: 36,
       marginRight: "0 !important",
+      paddingBottomg: 15,
     },
   },
   PurchaseFlowContainer: { padding: "0 50px 50px" },
