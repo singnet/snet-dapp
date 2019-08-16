@@ -6,7 +6,7 @@ import InfoIcon from "@material-ui/icons/Info";
 import StyledButton from "../../common/StyledButton";
 import { useStyles } from "./styles";
 import Price from "./Price";
-import { PricingStrategy } from '../../../utility/PricingStrategy';
+import { PricingStrategy } from "../../../utility/PricingStrategy";
 
 const PricingDetails = ({ classes, pricing }) => {
   const price_strategy = new PricingStrategy(pricing);

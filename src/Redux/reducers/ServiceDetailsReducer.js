@@ -1,11 +1,11 @@
 import { serviceDetailsActions } from "../actionCreators";
-import find from 'lodash/find';
-import first from 'lodash/first';
-import some from 'lodash/some';
+import find from "lodash/find";
+import first from "lodash/first";
+import some from "lodash/some";
 
 const InitialServiceDetails = {
   serviceMetadata: {
-    groups: []
+    groups: [],
   },
   freeCallsRemaining: 0,
   freeCallsAllowed: 0,
@@ -31,25 +31,27 @@ const serviceDetailsReducer = (state = InitialServiceDetails, action) => {
   }
 };
 
-const groups = (state) => {
+const groups = state => {
   return state.serviceDetailsReducer.serviceMetadata.groups;
 };
 
-export const groupInfo = (state) => {
+export const groupInfo = state => {
   const serviceGroups = groups(state);
-  const availableGroup = find(serviceGroups, ({ endpoints }) => some(endpoints, (endpoint) => endpoint.is_available === 1));
-  if(availableGroup) {
+  const availableGroup = find(serviceGroups, ({ endpoints }) =>
+    some(endpoints, endpoint => endpoint.is_available === 1)
+  );
+  if (availableGroup) {
     return availableGroup;
   }
 
   return first(serviceGroups);
 };
 
-export const pricing = (state) => {
+export const pricing = state => {
   const group = groupInfo(state);
-  if(!group) return {};
+  if (!group) return {};
 
-  return find(group.pricing, (price) => price.default === true);
+  return find(group.pricing, price => price.default === true);
 };
 
 export default serviceDetailsReducer;

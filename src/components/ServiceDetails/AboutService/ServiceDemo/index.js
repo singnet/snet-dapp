@@ -6,7 +6,7 @@ import ProgressBar from "../../../common/ProgressBar";
 import { useStyles } from "./styles";
 import { serviceDetailsActions } from "../../../../Redux/actionCreators";
 import PurchaseToggler from "./PurchaseToggler";
-import { groupInfo } from '../../../../Redux/reducers/ServiceDetailsReducer';
+import { groupInfo } from "../../../../Redux/reducers/ServiceDetailsReducer";
 
 const demoProgressStatus = {
   purchasing: 1,
