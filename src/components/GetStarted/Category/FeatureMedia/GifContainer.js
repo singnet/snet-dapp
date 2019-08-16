@@ -6,7 +6,7 @@ import { useStyles } from "./styles";
 const GifContainer = ({ classes, content }) => {
   return (
     <img
-      src="https://media.giphy.com/media/pLLLNpJWp6jjW/giphy.gif"
+      src={content || "https://media.giphy.com/media/pLLLNpJWp6jjW/giphy.gif"}
       alt="Demo Gif File"
       className={classes.FullWidth}
     />
