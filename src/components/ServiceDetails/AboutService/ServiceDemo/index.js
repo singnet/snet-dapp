@@ -21,6 +21,10 @@ class ServiceDemo extends Component {
   };
 
   componentDidMount = async () => {
+    if (process.env.REACT_APP_SANDBOX) {
+      return;
+    }
+
     await this.fetchFreeCallsUsage();
   };
 

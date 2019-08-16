@@ -42,4 +42,8 @@ export default {
     },
     services: [service],
   },
+  serviceDetailsReducer: {
+    freeCallsRemaining: 10,
+    freeCallsAllowed: 10,
+  },
 };

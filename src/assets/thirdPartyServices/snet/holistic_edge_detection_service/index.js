@@ -1,8 +1,9 @@
 import React from "react";
+import { Grid } from "@material-ui/core";
 import SNETImageUpload from "../../standardComponents/SNETImageUpload";
-import EmotionVisualizer from "./EmotionVisualizer";
+import { ImageGridViewer } from "../image-viewer-helpers/ImageGridViewer";
 
-export default class EmotionRecognitionService extends React.Component {
+export default class HolisticEdgeDetectionService extends React.Component {
   constructor(props) {
     super(props);
     this.handleImageUpload = this.handleImageUpload.bind(this);
@@ -11,7 +12,7 @@ export default class EmotionRecognitionService extends React.Component {
     this.submitAction = this.submitAction.bind(this);
 
     this.state = {
-      serviceName: "EmotionRecognition",
+      serviceName: "Edgedetect",
       methodName: "Select a method",
       uploadedImage: null,
       uploadedImageType: null,
@@ -83,7 +84,7 @@ export default class EmotionRecognitionService extends React.Component {
         </div>
         <div className="row" align="center">
           <button type="button" className="btn btn-primary" disabled={!this.canBeInvoked()} onClick={this.submitAction}>
-            Call Emotion Recognizer
+            Call Edge Detection Algorithm
           </button>
         </div>
       </React.Fragment>
@@ -103,12 +104,11 @@ export default class EmotionRecognitionService extends React.Component {
   renderComplete() {
     const response = this.parseResponse();
     return (
-      <EmotionVisualizer
-        jobResult={response}
-        inputImage={this.state.uploadedImage}
-        inputImageType={this.state.uploadedImageType}
-        sliderWidth={this.props.sliderWidth}
-      />
+      <Grid container>
+        <Grid item xs={12}>
+          <ImageGridViewer result={[response]} />
+        </Grid>
+      </Grid>
     );
   }
 
