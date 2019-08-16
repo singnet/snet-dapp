@@ -4,7 +4,7 @@ import ActiveSession from "./ActiveSession";
 import ExpiredSession from "./ExpiredSession";
 import { walletTypes } from "../../../../../Redux/actionCreators/UserActions";
 
-const Purchase = ({ handleComplete, freeCallsRemaining, freeCallsAllowed, wallet }) => {
+const Purchase = ({ handleComplete, freeCallsRemaining, freeCallsAllowed, wallet, groupInfo }) => {
   const isMetamaskAvailable = () => {
     return wallet.type === walletTypes.METAMASK;
   };
@@ -18,7 +18,7 @@ const Purchase = ({ handleComplete, freeCallsRemaining, freeCallsAllowed, wallet
       />
     );
   }
-  return <ExpiredSession handleComplete={handleComplete} metamask={isMetamaskAvailable()} />;
+  return <ExpiredSession handleComplete={handleComplete} metamask={isMetamaskAvailable()} groupInfo={groupInfo} />;
 };
 
 export default Purchase;

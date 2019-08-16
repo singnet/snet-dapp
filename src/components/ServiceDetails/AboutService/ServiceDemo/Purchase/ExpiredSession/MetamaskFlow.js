@@ -5,6 +5,7 @@ import PaymentInfoCard from "../PaymentInfoCard";
 import PurchaseDialog from "../PurchaseDialog";
 import ChannelSelectionBox from "../ChannelSelectionBox";
 import AlertBox from "../../../../../common/AlertBox";
+import { initSdk } from '../../../../../../utility/sdk';
 
 const payTypes = {
   CHANNEL_BALANCE: "CHANNEL_BALANCE",
@@ -12,7 +13,7 @@ const payTypes = {
   SINGLE_CALL: "SINGLE_CALL",
 };
 
-export const MetamaskFlow = ({ classes, handleContinue }) => {
+export const MetamaskFlow = ({ classes, handleContinue, groupInfo }) => {
   const [MMconnected, setMMconnected] = useState(false);
   const [selectedPayType, setSelectedPayType] = useState(payTypes.CHANNEL_BALANCE);
   const [disabledPayTypes, setDisablePayTypes] = useState([payTypes.SINGLE_CALL]);
@@ -37,10 +38,6 @@ export const MetamaskFlow = ({ classes, handleContinue }) => {
     },
   ];
 
-  const handleConnectMM = () => {
-    setMMconnected(true);
-  };
-
   //const channelBalance = await retrieve channel balance;
   // if (channelBalance <= 0) {
   //   const disabledPayTypes = [...disabledPayTypes];
@@ -60,6 +57,13 @@ export const MetamaskFlow = ({ classes, handleContinue }) => {
   //   }
   //   return el;
   // });
+
+  const handleConnectMM = async () => {
+    const sdk = await initSdk();
+    const mpeBal = await sdk.account.escrowBalance();
+    console.log(`Escrow Balance: ${mpeBal} Cogs`);
+    setMMconnected(true);
+  };
 
   const handlePayTypeChange = value => {
     if (disabledPayTypes.includes(value)) {
