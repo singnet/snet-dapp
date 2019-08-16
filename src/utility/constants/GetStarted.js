@@ -14,7 +14,7 @@ export const GetStartedCategoriesData = [
     categoryDescription:
       "Exploring AI – Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
     categoryTabs: [
-      { title: "List or Card views", media: { type: "video", content: "content1" } },
+      { title: "List or Card views", media: { type: "gif", content: "" } },
       { title: "Change Filter options", media: { type: "gif", content: "content2" } },
       { title: "Sort options", media: { type: "gif", content: "content3" } },
       { title: "Rating Ranking", media: { type: "gif", content: "content4" } },
@@ -27,7 +27,7 @@ export const GetStartedCategoriesData = [
     categoryDescription:
       "Exploring AI – Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
     categoryTabs: [
-      { title: "About Details", media: { type: "video", content: "content" } },
+      { title: "About Details", media: { type: "video", content: "" } },
       { title: "Feature Label 2", media: { type: "gif", content: "content" } },
       { title: "Feature Label 3", media: { type: "gif", content: "content" } },
       { title: "Feature Label 4", media: { type: "gif", content: "content" } },
@@ -40,7 +40,7 @@ export const GetStartedCategoriesData = [
     categoryDescription:
       "Using your inputs  – Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
     categoryTabs: [
-      { title: "Accessing the Demo", media: { type: "video", content: "content" } },
+      { title: "Accessing the Demo", media: { type: "img", content: "" } },
       { title: "Change Filter options", media: { type: "gif", content: "content" } },
       { title: "Sort options", media: { type: "gif", content: "content" } },
       { title: "Rating Ranking", media: { type: "gif", content: "content" } },

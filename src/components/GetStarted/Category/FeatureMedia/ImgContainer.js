@@ -1,7 +1,11 @@
 import React from "react";
+import { withStyles } from "@material-ui/styles";
 
-const ImgContainer = ({ content }) => {
-  return <div>{content}</div>;
+import { useStyles } from "./styles";
+import DummyGetStarted from "../../../../assets/images/DummyGetStarted.png";
+
+const ImgContainer = ({ content, classes }) => {
+  return <img src={content || DummyGetStarted} alt="DummyImage" className={classes.FullWidth} />;
 };
 
-export default ImgContainer;
+export default withStyles(useStyles)(ImgContainer);
