@@ -1,6 +1,11 @@
 export const useStyles = theme => ({
-  CategoryWrapper: { marginBottom: 60 },
+  CategoryWrapper: { 
+    marginBottom: 60,
+    justifyContent: 'space-between'
+  },
   CategoryContent: {
+    maxWidth: '45%',
+    paddingTop: 25,
     "& p": {
       margin: "10px 0 27px",
       color: theme.palette.text.mediumShadeGray,
@@ -10,7 +15,12 @@ export const useStyles = theme => ({
       "& span": { fontWeight: 600 },
     },
   },
-  reverseDirection: { flexDirection: "row-reverse" },
+  reverseDirection: { 
+    flexDirection: "row-reverse",
+    '& div': { 
+      '&:last-of-type':{ justifyContent: 'flex-start' }
+    }
+  },
   Title: {
     "& svg": {
       marginRight: 11,
@@ -27,4 +37,8 @@ export const useStyles = theme => ({
       lineHeight: "33px",
     },
   },
+  CategoryMedia:{
+    display: 'flex',
+    justifyContent: 'flex-end'
+  }
 });
