@@ -12,6 +12,7 @@ import Avatar from '@material-ui/core/Avatar';
 
 import StyledButton from "../../../../../common/StyledButton";
 import RatingsCount from "../../../../../common/RatingsCount";
+import SingularityLogo from "../../../../../../assets/images/avatar.png";
 import { useStyles } from "./styles";
 
 const StyledCard = props => {
@@ -21,9 +22,7 @@ const StyledCard = props => {
       <CardHeader
         className={classes.cardHeader}
         avatar={
-          <Avatar aria-label="recipe" className={classes.avatar}>
-            R
-          </Avatar>
+          <Avatar aria-label="recipe" className={classes.avatar} src={SingularityLogo} />
         }
         classes={{
           title: classes.cardTitle,

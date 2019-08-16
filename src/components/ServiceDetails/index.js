@@ -4,7 +4,7 @@ import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
 
 import TitleCard from "./TitleCard";
-import PricingDetails from "./PricingDetails";
+// import PricingDetails from "./PricingDetails";
 import StyledTabs from "./StyledTabs";
 import AboutService from "./AboutService";
 import InstallAndRunService from "./InstallAndRunService";
@@ -57,7 +57,6 @@ class ServiceDetails extends Component {
           star_rating={JSON.parse(service.service_rating).rating}
           totalRating={JSON.parse(service.service_rating).total_users_rated}
         />
-        <PricingDetails price_strategy={service.pricing_strategy} />
         <StyledTabs tabs={tabs} activeTab={activeTab} onTabChange={this.handleTabChange} />
       </Grid>
     );

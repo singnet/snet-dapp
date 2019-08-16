@@ -6,6 +6,7 @@ import Avatar from '@material-ui/core/Avatar';
 
 import { useStyles } from "./styles";
 import RatingsCount from "../../common/RatingsCount";
+import SingularityLogo from "../../../assets/images/avatar.png";
 
 const TitleCard = ({ classes, org_id, display_name, star_rating, api_calls, img_url, totalRating }) => {
   return (
@@ -14,8 +15,10 @@ const TitleCard = ({ classes, org_id, display_name, star_rating, api_calls, img_
         <img src={img_url ? img_url : "http://placehold.it/229x129"} alt="service" width={229} height={129} />
       </div>
       <div className={classes.computerVisionContent}>
-        <Avatar alt="Singularity" src="/static/images/avatar/1.jpg" className={classes.avatar} />
-        <span>{org_id}</span>
+        <div className={classes.serviceCreatorDetails}>
+          <Avatar alt="Singularity" src={SingularityLogo} className={classes.avatar} />
+          <span>{org_id}</span>
+        </div>
         <h2>{display_name}</h2>
         <div>
           <StarRatingComponent name="rate1" starCount={5} value={star_rating} className={classes.ratingStars} />
