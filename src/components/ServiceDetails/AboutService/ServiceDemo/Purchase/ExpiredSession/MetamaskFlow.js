@@ -11,7 +11,7 @@ const payTypes = {
   SINGLE_CALL: "SINGLE_CALL",
 };
 
-export const MetamaskFlow = async ({ classes, handleContinue }) => {
+export const MetamaskFlow = ({ classes, handleContinue }) => {
   const [selectedPayType, setSelectedPayType] = useState(payTypes.CHANNEL_BALANCE);
   const [disabledPayTypes, setDisablePayTypes] = useState([payTypes.SINGLE_CALL]);
   const [showPurchaseDialog, setShowPurchaseDialog] = useState(false);
