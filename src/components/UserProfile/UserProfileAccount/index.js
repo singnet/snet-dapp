@@ -5,19 +5,34 @@ import InfoIcon from "@material-ui/icons/Info";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import { connect } from "react-redux";
 
 import Deposit from "./Deposit";
 import StyledDropdown from "../../common/StyledDropdown";
 import StyledButton from "../../common/StyledButton";
 import { useStyles } from "./styles";
+import { walletTypes } from "../../../Redux/actionCreators/UserActions";
+import { userActions } from "../../../Redux/actionCreators";
+
+const walletDropdownList = Object.entries(walletTypes).map(([key, value]) => ({ value, label: key }));
 
 class UserProfileAccount extends Component {
   state = {
     activeTab: 0,
   };
 
+  handleWalletTypeChange = async event => {
+    const { value } = event.target;
+    const { updateWallet } = this.props;
+    // if (value === walletTypes.METAMASK) {
+    //   // const address = await; //sdk funtion;
+    //   updateWallet({type:value, address});
+    // }
+    updateWallet({ type: value });
+  };
+
   render() {
-    const { classes } = this.props;
+    const { classes, wallet } = this.props;
     const { activeTab } = this.state;
 
     const tabs = [{ name: "Deposit", activeIndex: 0, component: <Deposit /> }, { name: "Withdraw", activeIndex: 1 }];
@@ -30,7 +45,12 @@ class UserProfileAccount extends Component {
           <div className={classes.accountWrapper}>
             <div className={classes.dropDown}>
               <span className={classes.dropDownTitle}>Wallet</span>
-              <StyledDropdown labelTxt={"MetaMask"} />
+              <StyledDropdown
+                labelTxt={"Select a Wallet"}
+                list={walletDropdownList}
+                value={wallet.type}
+                onChange={this.handleWalletTypeChange}
+              />
             </div>
             <div className={classes.accountDetails}>
               <div>
@@ -80,4 +100,15 @@ class UserProfileAccount extends Component {
   }
 }
 
-export default withStyles(useStyles)(UserProfileAccount);
+const mapStateToProps = state => ({
+  wallet: state.userReducer.wallet,
+});
+
+const mapDispatchToProps = dispatch => ({
+  updateWallet: args => userActions.updateWallet({ ...args }),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(useStyles)(UserProfileAccount));
