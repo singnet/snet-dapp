@@ -26,6 +26,7 @@ export default class PaymentChannelManagement {
     }
 
     this._channel = minBy(channels, ({ channelId }) => channelId);
+    this._sdkContext.currentChannel = this._channel;
     await this._channel.syncState();
   }
 
@@ -33,8 +34,16 @@ export default class PaymentChannelManagement {
     const serviceCallPrice = this._pricePerServiceCall();
     const defaultExpiration = await this._defaultChannelExpiration();
 
-    await this.serviceClient.openChannel(serviceCallPrice, defaultExpiration);
+    this._channel = await this.serviceClient.openChannel(serviceCallPrice, defaultExpiration);
   }
+
+  async extendAndAddFunds() {
+    const serviceCallPrice = this._pricePerServiceCall();
+    const defaultExpiration = await this._defaultChannelExpiration();
+
+    await this._channel.extendAndAddFunds(defaultExpiration, serviceCallPrice);
+    await this._channel.syncState();
+  };
 
   _pricePerServiceCall() {
     const { pricing } = this.serviceClient.group;

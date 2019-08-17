@@ -117,6 +117,9 @@ export const createServiceClient = async (
   callType,
   wallet
 ) => {
+  if(sdk && sdk.currentChannel) {
+    sdk.paymentChannelManagementStrategy = new ProxyPaymentChannelManagementStrategy(sdk.currentChannel);
+  }
   const options = generateOptions(callType, wallet);
   const serviceClient = new ServiceClient(
     sdk,
@@ -125,7 +128,7 @@ export const createServiceClient = async (
     sdk && sdk._mpeContract,
     {},
     groupInfo,
-    undefined,
+    sdk && sdk._paymentChannelManagementStrategy,
     options
   );
 

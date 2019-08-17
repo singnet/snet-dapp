@@ -48,7 +48,7 @@ class MetamaskFlow extends Component {
   handleConnectMM = async () => {
     const { groupInfo } = this.props;
     const sdk = await initSdk();
-    const mpeBal = await sdk.account.escrowBalance();
+    let mpeBal = await sdk.account.escrowBalance();
     const serviceClient = new ServiceClient(
       sdk,
       'snet',
@@ -62,6 +62,7 @@ class MetamaskFlow extends Component {
     await paymentChannelManagement.updateChannelInfo();
     if (!paymentChannelManagement.channel) {
       await paymentChannelManagement.openChannel();
+      mpeBal = await sdk.account.escrowBalance();
     }
 
     this.PaymentInfoCardData.map(el => {
