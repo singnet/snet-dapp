@@ -13,11 +13,10 @@ import DialogTitle from "./DialogTitle";
 import AlertBox, { alertTypes } from "../../../../../common/AlertBox";
 import StyledTextField from "../../../../../common/StyledTextField";
 import StyledButton from "../../../../../common/StyledButton";
+import { txnTypes, agiToCogs } from "../../../../../../utility/PricingStrategy";
+import { initSdk } from "../../../../../../utility/sdk";
 
-const txnTypes = {
-  DEPOSIT: "deposit",
-  WITHDRAW: "withdraw",
-};
+let sdk = undefined;
 
 const PurchaseDialog = ({ classes, show, onClose }) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -36,19 +35,27 @@ const PurchaseDialog = ({ classes, show, onClose }) => {
     setAmount({ ...amount, [txnTypes.WITHDRAW]: event.target.value });
   };
 
-  const handleDepositSubmit = async () => {
-    //deposit the amount into the escrow and increment escrow balance
-    // await deposit action
-    //onSuccess
+  const handleDeposit = async () => {
+    if (!sdk) {
+      sdk = await initSdk();
+    }
+    const amountInAGI = amount[txnTypes.DEPOSIT];
+    const amountInCogs = agiToCogs(amountInAGI);
+    const response = await this.sdk.account.depositToEscrowAccount(amountInCogs);
     setAmount({});
     setAlert({ type: alertTypes.SUCCESS, message: "Successfully deposited" });
     //onFailure
     setAlert({ type: alertTypes.ERROR, message: "Unable to deposit amount" });
   };
 
-  const handleWithdrawSubmit = async () => {
-    //withdraw the amount from the escrow and decrement escrow balance
-    // await withdraw action
+  const handleWithdraw = async () => {
+    if (!sdk) {
+      sdk = await initSdk();
+    }
+    const amountInAGI = amount[txnTypes.WITHDRAW];
+    const amountInCogs = agiToCogs(amountInAGI);
+    const response = await this.sdk.account.withdrawFromEscrowAccount(amountInCogs);
+
     //onSuccess
     setAmount({});
     setAlert({ type: alertTypes.SUCCESS, message: "Successfully withdrawn" });
@@ -62,7 +69,7 @@ const PurchaseDialog = ({ classes, show, onClose }) => {
       name: "Deposit",
       title: "Deposit Into Escrow",
       icon: <InfoIcon />,
-      submitAction: handleDepositSubmit,
+      submitAction: handleDeposit,
       component: (
         <StyledTextField label="AGI Token Amount" value={amount[txnTypes.DEPOSIT]} onChange={handleDepositAmtChange} />
       ),
@@ -72,7 +79,7 @@ const PurchaseDialog = ({ classes, show, onClose }) => {
       name: "Withdraw",
       title: "Withdraw From Escrow",
       icon: <InfoIcon />,
-      submitAction: handleWithdrawSubmit,
+      submitAction: handleWithdraw,
       component: (
         <StyledTextField
           label="AGI Token Amount"
@@ -105,7 +112,7 @@ const PurchaseDialog = ({ classes, show, onClose }) => {
       </MuiDialogContent>
       <MuiDialogActions className={classes.dialogActions}>
         <StyledButton type="transparent" btnText="cancel" />
-        <StyledButton type="blue" disabled btnText="deposit" onClick={activeComponent.submitAction} />
+        <StyledButton type="blue" disabled btnText={activeComponent.name} onClick={activeComponent.submitAction} />
       </MuiDialogActions>
     </Dialog>
   );

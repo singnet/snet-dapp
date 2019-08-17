@@ -95,3 +95,12 @@ class MethodPricing {
     return this.maxPriceInCogs;
   }
 }
+
+export const cogsToAgi = cogs => (cogs / priceData.agi_precision).toFixed(priceData.agi_divisibility);
+
+export const agiToCogs = agi => agi * priceData.agi_precision;
+
+export const txnTypes = {
+  DEPOSIT: "deposit",
+  WITHDRAW: "withdraw",
+};

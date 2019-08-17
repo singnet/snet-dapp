@@ -7,12 +7,14 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import { connect } from "react-redux";
 
-import Deposit from "./Deposit";
 import StyledDropdown from "../../common/StyledDropdown";
 import StyledButton from "../../common/StyledButton";
 import { useStyles } from "./styles";
 import { walletTypes } from "../../../Redux/actionCreators/UserActions";
 import { userActions } from "../../../Redux/actionCreators";
+import { initSdk } from "../../../utility/sdk";
+import { cogsToAgi, txnTypes, agiToCogs } from "../../../utility/PricingStrategy";
+import StyledTextField from "../../common/StyledTextField";
 
 const walletDropdownList = Object.entries(walletTypes).map(([key, value]) => ({ value, label: key }));
 
@@ -21,7 +23,10 @@ class UserProfileAccount extends Component {
     activeTab: 0,
     tokenBalance: "",
     escrowBalance: "",
+    amount: {},
   };
+
+  sdk;
 
   componentDidMount = () => {
     this.retrieveTokenBalance();
@@ -40,23 +45,87 @@ class UserProfileAccount extends Component {
   };
 
   retrieveTokenBalance = async () => {
-    //retrive from sdk
-    //await and return the value
-    // this.setState({tokenBalance:value})
+    if (!this.sdk) {
+      this.sdk = await initSdk();
+    }
+    const escrowBalance = await this.sdk.account.escrowBalance();
+    const AGI = cogsToAgi(escrowBalance);
+    this.setState({ escrowBalance: AGI });
   };
 
   retriveEscrowBalance = async () => {
-    //retrive from sdk
-    //and return the value
-    // this.setState({escrowBalance:value})
+    if (!this.sdk) {
+      this.sdk = await initSdk();
+    }
+    const tokenBalance = await this.sdk.account.balance();
+    const AGI = cogsToAgi(tokenBalance);
+    this.setState({ tokenBalance: AGI });
+  };
+
+  onTabChange = (...args) => {
+    this.setState({ activeTab: args[1] });
+  };
+
+  handleAmountChange = (event, txnType) => {
+    const { value } = event.target;
+    this.setState(prevState => ({ amount: { ...prevState.amount, [txnType]: value } }));
+  };
+
+  handleDeposit = async event => {
+    if (!this.sdk) {
+      this.sdk = await initSdk();
+    }
+    const amountInAGI = this.state.amount[txnTypes.DEPOSIT];
+    const amountInCogs = agiToCogs(amountInAGI);
+    const response = await this.sdk.account.depositToEscrowAccount(amountInCogs);
+    console.log(response);
+    this.retrieveTokenBalance();
+    this.retriveEscrowBalance();
+  };
+
+  handleWithDraw = async event => {
+    if (!this.sdk) {
+      this.sdk = await initSdk();
+    }
+    const amountInAGI = this.state.amount[txnTypes.WITHDRAW];
+    const amountInCogs = agiToCogs(amountInAGI);
+    const response = await this.sdk.account.withdrawFromEscrowAccount(amountInCogs);
+    console.log(response);
+    this.retrieveTokenBalance();
+    this.retriveEscrowBalance();
   };
 
   render() {
     const { classes, wallet } = this.props;
-    const { activeTab, tokenBalance, escrowBalance } = this.state;
+    const { activeTab, tokenBalance, escrowBalance, amount } = this.state;
 
-    const tabs = [{ name: "Deposit", activeIndex: 0, component: <Deposit /> }, { name: "Withdraw", activeIndex: 1 }];
-    const activeComponent = tabs.filter(el => el.activeIndex === activeTab)[0].component;
+    const tabs = [
+      {
+        name: "Deposit",
+        activeIndex: 0,
+        submitAction: this.handleDeposit,
+        component: (
+          <StyledTextField
+            label="AGI Token Amount"
+            value={amount[txnTypes.DEPOSIT]}
+            onChange={event => this.handleAmountChange(event, txnTypes.DEPOSIT)}
+          />
+        ),
+      },
+      {
+        name: "Withdraw",
+        activeIndex: 1,
+        submitAction: this.handleWithDraw,
+        component: (
+          <StyledTextField
+            label="AGI Token Amount"
+            value={amount[txnTypes.WITHDRAW]}
+            onChange={event => this.handleAmountChange(event, txnTypes.WITHDRAW)}
+          />
+        ),
+      },
+    ];
+    const activeComponent = tabs.filter(el => el.activeIndex === activeTab)[0];
 
     return (
       <Grid container spacing={10} className={classes.accountMainContainer}>
@@ -92,27 +161,27 @@ class UserProfileAccount extends Component {
                   <InfoIcon />
                   <span>Total Tokens</span>
                 </div>
-                <span>{tokenBalance}</span>
+                <span>{tokenBalance} AGI</span>
               </div>
               <div className={classes.bgBox}>
                 <div className={classes.label}>
                   <InfoIcon />
                   <span>Escrow Balance</span>
                 </div>
-                <span>{escrowBalance}</span>
+                <span>{escrowBalance} AGI</span>
               </div>
             </div>
             <div className={classes.tabsContainer}>
               <AppBar position="static" className={classes.tabsHeader}>
-                <Tabs value={activeTab}>
+                <Tabs value={activeTab} onChange={this.onTabChange}>
                   {tabs.map(value => (
-                    <Tab key={value.name} label={value.name} onClick={() => this.onTabChange(value.activeIndex)} />
+                    <Tab key={value.name} label={value.name} />
                   ))}
                 </Tabs>
               </AppBar>
-              {activeComponent}
+              {activeComponent.component}
             </div>
-            <StyledButton type="blue" disabled btnText="deposit" />
+            <StyledButton type="blue" btnText={activeComponent.name} onClick={activeComponent.submitAction} />
           </div>
         </Grid>
       </Grid>

@@ -70,7 +70,7 @@ const generateOptions = callType => {
 };
 
 export const initSdk = async () => {
-  if(sdk) {
+  if (sdk) {
     return sdk;
   }
 
@@ -83,12 +83,12 @@ export const initSdk = async () => {
       defaultGasLimit: DEFAULT_GAS_LIMIT,
     };
     sdk = new SnetSDK(config);
-    sdk.paymentChannelManagementStrategy = new SingleChannelPaymentChannelManagementStrategy(sdk);
+    // sdk.paymentChannelManagementStrategy = new SingleChannelPaymentChannelManagementStrategy(sdk);
   };
 
-  const hasEth = typeof window.ethereum !== 'undefined';
-  const hasWeb3 = typeof window.web3 !== 'undefined';
-  if(hasEth && hasWeb3) {
+  const hasEth = typeof window.ethereum !== "undefined";
+  const hasWeb3 = typeof window.web3 !== "undefined";
+  if (hasEth && hasWeb3) {
     web3Provider = window.ethereum;
     await web3Provider.enable();
     updateSDK();
@@ -114,16 +114,7 @@ export const createServiceClient = async (
   callType
 ) => {
   const options = generateOptions(callType);
-  const serviceClient = new ServiceClient(
-    undefined,
-    org_id,
-    service_id,
-    undefined,
-    {},
-    groupInfo,
-    undefined,
-    options
-  );
+  const serviceClient = new ServiceClient(undefined, org_id, service_id, undefined, {}, groupInfo, undefined, options);
 
   const onEnd = props => (...args) => {
     props.onEnd(...args);
