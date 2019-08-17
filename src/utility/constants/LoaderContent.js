@@ -24,4 +24,12 @@ export const LoaderContent = {
     loaderText: "Filtering the services",
   },
   UPDATE_PROFILE: { loaderHeader: "Updating", loaderText: "Filtering the services" },
+  DEPOSIT: {
+    loaderHeader: "Deposit",
+    loaderText: "Depositing AGI tokens to Multi-party Escrow account",
+  },
+  WITHDRAW: {
+    loaderHeader: "Withdraw",
+    loaderText: "Withdrawing AGI tokens from Multi-party Escrow account",
+  },
 };

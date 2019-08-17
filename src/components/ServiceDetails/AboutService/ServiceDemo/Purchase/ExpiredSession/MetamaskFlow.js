@@ -7,7 +7,7 @@ import PurchaseDialog from "../PurchaseDialog";
 import ChannelSelectionBox from "../ChannelSelectionBox";
 import AlertBox from "../../../../../common/AlertBox";
 import { initSdk } from "../../../../../../utility/sdk";
-import { PricingStrategy, AGIUtils, cogsToAgi } from "../../../../../../utility/PricingStrategy";
+import { cogsToAgi } from "../../../../../../utility/PricingStrategy";
 import { pricing } from "../../../../../../Redux/reducers/ServiceDetailsReducer";
 
 const payTypes = {
@@ -43,9 +43,13 @@ class MetamaskFlow extends Component {
     },
   ];
 
+  sdk;
+
   handleConnectMM = async () => {
-    const sdk = await initSdk();
-    const mpeBal = await sdk.account.escrowBalance();
+    if (!this.sdk) {
+      this.sdk = await initSdk();
+    }
+    const mpeBal = await this.sdk.account.escrowBalance();
     this.PaymentInfoCardData.map(el => {
       if (el.title === "Escrow Balance") {
         el.value = cogsToAgi(mpeBal);
@@ -97,7 +101,11 @@ Click here to install and learn more about how to use Metamask and your AGI cred
     }
     return (
       <div className={classes.PurchaseFlowContainer}>
-        <PurchaseDialog show={showPurchaseDialog} onClose={this.handlePurchaseDialogClose} />
+        <PurchaseDialog
+          show={showPurchaseDialog}
+          onClose={this.handlePurchaseDialogClose}
+          refetchAccBalance={this.handleConnectMM}
+        />
         <p className={classes.PurchaseFlowDescription}>
           Transfer the style of a “style Image” to a “content image” by choosing them in the boxes below. You can upload
           a a file from your computer, URL, or select image from the gallery. You can specify additional parameters in

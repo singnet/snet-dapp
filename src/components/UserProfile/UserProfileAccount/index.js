@@ -11,10 +11,12 @@ import StyledDropdown from "../../common/StyledDropdown";
 import StyledButton from "../../common/StyledButton";
 import { useStyles } from "./styles";
 import { walletTypes } from "../../../Redux/actionCreators/UserActions";
-import { userActions } from "../../../Redux/actionCreators";
+import { userActions, loaderActions } from "../../../Redux/actionCreators";
 import { initSdk } from "../../../utility/sdk";
 import { cogsToAgi, txnTypes, agiToCogs } from "../../../utility/PricingStrategy";
 import StyledTextField from "../../common/StyledTextField";
+import { LoaderContent } from "../../../utility/constants/LoaderContent";
+import AlertBox, { alertTypes } from "../../common/AlertBox";
 
 const walletDropdownList = Object.entries(walletTypes).map(([key, value]) => ({ value, label: key }));
 
@@ -24,6 +26,7 @@ class UserProfileAccount extends Component {
     tokenBalance: "",
     escrowBalance: "",
     amount: {},
+    alert: {},
   };
 
   sdk;
@@ -71,33 +74,47 @@ class UserProfileAccount extends Component {
     this.setState(prevState => ({ amount: { ...prevState.amount, [txnType]: value } }));
   };
 
-  handleDeposit = async event => {
+  handleDeposit = async () => {
+    this.props.startDepositLoader();
     if (!this.sdk) {
       this.sdk = await initSdk();
     }
-    const amountInAGI = this.state.amount[txnTypes.DEPOSIT];
-    const amountInCogs = agiToCogs(amountInAGI);
-    const response = await this.sdk.account.depositToEscrowAccount(amountInCogs);
-    console.log(response);
-    this.retrieveTokenBalance();
-    this.retriveEscrowBalance();
+    try {
+      const amountInAGI = this.state.amount[txnTypes.DEPOSIT];
+      const amountInCogs = agiToCogs(amountInAGI);
+      const response = await this.sdk.account.depositToEscrowAccount(amountInCogs);
+      console.log(response);
+      this.retrieveTokenBalance();
+      this.retriveEscrowBalance();
+      this.setState({ alert: { type: alertTypes.SUCCESS, message: "Successfully deposited" } });
+    } catch (err) {
+      this.setState({ alert: { type: alertTypes.ERROR, message: `Unable to deposit amount: ${err}` } });
+    }
+    this.props.stopLoader();
   };
 
-  handleWithDraw = async event => {
+  handleWithDraw = async () => {
+    this.props.startWithdrawLoader();
     if (!this.sdk) {
       this.sdk = await initSdk();
     }
-    const amountInAGI = this.state.amount[txnTypes.WITHDRAW];
-    const amountInCogs = agiToCogs(amountInAGI);
-    const response = await this.sdk.account.withdrawFromEscrowAccount(amountInCogs);
-    console.log(response);
-    this.retrieveTokenBalance();
-    this.retriveEscrowBalance();
+    try {
+      const amountInAGI = this.state.amount[txnTypes.WITHDRAW];
+      const amountInCogs = agiToCogs(amountInAGI);
+      const response = await this.sdk.account.withdrawFromEscrowAccount(amountInCogs);
+      console.log(response);
+      this.retrieveTokenBalance();
+      this.retriveEscrowBalance();
+      this.setState({ alert: { type: alertTypes.SUCCESS, message: "Successfully withdrawn" } });
+    } catch (err) {
+      this.setState({ alert: { type: alertTypes.ERROR, message: `Unable to withdraw amount: ${err}` } });
+    }
+    this.props.stopLoader();
   };
 
   render() {
     const { classes, wallet } = this.props;
-    const { activeTab, tokenBalance, escrowBalance, amount } = this.state;
+    const { activeTab, tokenBalance, escrowBalance, amount, alert } = this.state;
 
     const tabs = [
       {
@@ -180,6 +197,7 @@ class UserProfileAccount extends Component {
                 </Tabs>
               </AppBar>
               {activeComponent.component}
+              <AlertBox type={alert.type} message={alert.message} />
             </div>
             <StyledButton type="blue" btnText={activeComponent.name} onClick={activeComponent.submitAction} />
           </div>
@@ -195,6 +213,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   updateWallet: args => dispatch(userActions.updateWallet({ ...args })),
+  startDepositLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.DEPOSIT)),
+  startWithdrawLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.WITHDRAW)),
+  stopLoader: () => dispatch(loaderActions.stopAppLoader),
 });
 
 export default connect(

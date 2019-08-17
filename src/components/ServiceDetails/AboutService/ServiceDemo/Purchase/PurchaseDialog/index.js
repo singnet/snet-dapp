@@ -7,6 +7,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import InfoIcon from "@material-ui/icons/Info";
+import { connect } from "react-redux";
 
 import { useStyles } from "./styles";
 import DialogTitle from "./DialogTitle";
@@ -15,13 +16,15 @@ import StyledTextField from "../../../../../common/StyledTextField";
 import StyledButton from "../../../../../common/StyledButton";
 import { txnTypes, agiToCogs } from "../../../../../../utility/PricingStrategy";
 import { initSdk } from "../../../../../../utility/sdk";
+import { loaderActions } from "../../../../../../Redux/actionCreators";
+import { LoaderContent } from "../../../../../../utility/constants/LoaderContent";
 
 let sdk = undefined;
 
-const PurchaseDialog = ({ classes, show, onClose }) => {
+const PurchaseDialog = ({ classes, show, onClose, startDepositLoader, startWithdrawLoader, stopLoader }) => {
   const [activeTab, setActiveTab] = useState(0);
   const [amount, setAmount] = useState({});
-  const [alert, setAlert] = useState({ type: alertTypes.ERROR, message: "" });
+  const [alert, setAlert] = useState({});
 
   const handleTabChange = (...args) => {
     setActiveTab(args[1]);
@@ -36,31 +39,42 @@ const PurchaseDialog = ({ classes, show, onClose }) => {
   };
 
   const handleDeposit = async () => {
+    startDepositLoader();
     if (!sdk) {
       sdk = await initSdk();
     }
-    const amountInAGI = amount[txnTypes.DEPOSIT];
-    const amountInCogs = agiToCogs(amountInAGI);
-    const response = await this.sdk.account.depositToEscrowAccount(amountInCogs);
-    setAmount({});
-    setAlert({ type: alertTypes.SUCCESS, message: "Successfully deposited" });
-    //onFailure
-    setAlert({ type: alertTypes.ERROR, message: "Unable to deposit amount" });
+    try {
+      const amountInAGI = amount[txnTypes.DEPOSIT];
+      const amountInCogs = agiToCogs(amountInAGI);
+      const response = await sdk.account.depositToEscrowAccount(amountInCogs);
+      console.log(response);
+      setAmount({});
+      setAlert({ type: alertTypes.SUCCESS, message: "Successfully deposited" });
+      this.props.refetchAccBalance();
+    } catch (err) {
+      //onFailure
+      setAlert({ type: alertTypes.ERROR, message: `Unable to deposit amount: ${err}` });
+    }
+    stopLoader();
   };
 
   const handleWithdraw = async () => {
+    startWithdrawLoader();
     if (!sdk) {
       sdk = await initSdk();
     }
-    const amountInAGI = amount[txnTypes.WITHDRAW];
-    const amountInCogs = agiToCogs(amountInAGI);
-    const response = await this.sdk.account.withdrawFromEscrowAccount(amountInCogs);
-
-    //onSuccess
-    setAmount({});
-    setAlert({ type: alertTypes.SUCCESS, message: "Successfully withdrawn" });
-    //onFailure
-    setAlert({ type: alertTypes.ERROR, message: "Unable to withdraw amount" });
+    try {
+      const amountInAGI = amount[txnTypes.WITHDRAW];
+      const amountInCogs = agiToCogs(amountInAGI);
+      const response = await sdk.account.withdrawFromEscrowAccount(amountInCogs);
+      console.log(response);
+      setAmount({});
+      setAlert({ type: alertTypes.SUCCESS, message: "Successfully withdrawn" });
+      this.props.refetchAccBalance();
+    } catch (err) {
+      setAlert({ type: alertTypes.ERROR, message: `Unable to withdraw amount: ${err}` });
+    }
+    stopLoader();
   };
 
   const tabs = [
@@ -112,10 +126,19 @@ const PurchaseDialog = ({ classes, show, onClose }) => {
       </MuiDialogContent>
       <MuiDialogActions className={classes.dialogActions}>
         <StyledButton type="transparent" btnText="cancel" />
-        <StyledButton type="blue" disabled btnText={activeComponent.name} onClick={activeComponent.submitAction} />
+        <StyledButton type="blue" btnText={activeComponent.name} onClick={activeComponent.submitAction} />
       </MuiDialogActions>
     </Dialog>
   );
 };
 
-export default withStyles(useStyles)(PurchaseDialog);
+const mapDispatchToProps = dispatch => ({
+  startDepositLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.DEPOSIT)),
+  startWithdrawLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.WITHDRAW)),
+  stopLoader: () => dispatch(loaderActions.stopAppLoader),
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(withStyles(useStyles)(PurchaseDialog));
