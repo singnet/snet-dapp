@@ -4,6 +4,7 @@ import { API } from "aws-amplify";
 import { APIEndpoints, APIPaths } from "../config/APIEndpoints";
 import { initializeAPIOptions } from "./API";
 import { fetchAuthenticatedUser, walletTypes } from "../Redux/actionCreators/UserActions";
+import ProxyPaymentChannelManagementStrategy from './ProxyPaymentChannelManagementStrategy';
 
 const DEFAULT_GAS_PRICE = 4700000;
 const DEFAULT_GAS_LIMIT = 210000;
