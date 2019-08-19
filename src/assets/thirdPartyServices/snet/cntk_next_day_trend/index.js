@@ -3,15 +3,29 @@ import { hasOwnDefinedProperty } from "../../../../utility/JSHelper";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 
+import {NextDayTrend} from "./next_day_trend_pb_service"
+
+const initialUserInput = {
+  source: "",
+  contract: "",
+  start: "2010-01-01",
+  end: "2018-02-11",
+  target_date: "2019-02-11",
+};
+
+
 export default class CNTKNextDayTrend extends React.Component {
   constructor(props) {
     super(props);
     this.submitAction = this.submitAction.bind(this);
-    this.handleServiceName = this.handleServiceName.bind(this);
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
-    this.getServiceMethods = this.getServiceMethods.bind(this);
+
+    // TODO: Check for the need
+    //this.handleServiceName = this.handleServiceName.bind(this);
+    ///this.getServiceMethods = this.getServiceMethods.bind(this);
 
     this.state = {
+      ...initialUserInput,
       users_guide:
         "https://github.com/singnet/time-series-analysis/blob/master/docs/users_guide/finance/cntk-next-day-trend.md",
       code_repo: "https://github.com/singnet/time-series-analysis/blob/master/finance/cntk-next-day-trend",
@@ -19,22 +33,19 @@ export default class CNTKNextDayTrend extends React.Component {
 
       serviceName: "NextDayTrend",
       methodName: "trend",
-
-      source: "",
-      contract: "",
-      start: "2010-01-01",
-      end: "2018-02-11",
-      target_date: "2019-02-11",
-
       response: undefined,
     };
     this.isComplete = false;
     this.serviceMethods = [];
     this.allServices = [];
     this.methodsForAllServices = [];
-    this.parseProps(props);
+    
+    //TODO: Check for the need
+    //this.parseProps(props);
   }
 
+  // TODO: Check for the need
+  /*
   parseProps(nextProps) {
     this.isComplete = nextProps.isComplete;
     if (!this.isComplete) {
@@ -90,15 +101,7 @@ export default class CNTKNextDayTrend extends React.Component {
     this.serviceMethods = data;
   }
 
-  canBeInvoked() {
-    return this.state.source && this.state.contract && this.state.start < this.state.end;
-  }
-
-  handleFormUpdate(event) {
-    this.setState({ [event.target.name]: event.target.value });
-  }
-
-  handleServiceName(event) {
+    handleServiceName(event) {
     var strService = event.target.value;
     this.setState({
       serviceName: strService,
@@ -111,6 +114,16 @@ export default class CNTKNextDayTrend extends React.Component {
     this.serviceMethods = data;
   }
 
+  */
+
+  canBeInvoked() {
+    return this.state.source && this.state.contract && this.state.start < this.state.end;
+  }
+
+  handleFormUpdate(event) {
+    this.setState({ [event.target.name]: event.target.value });
+  }
+
   submitAction() {
     this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
       source: this.state.source,
@@ -119,6 +132,35 @@ export default class CNTKNextDayTrend extends React.Component {
       end: this.state.end,
       target_date: this.state.target_date,
     });
+  }
+
+  submitAction() {
+    const { methodName, source, contract, start, end, target_date } = this.state;
+    const methodDescriptor = NextDayTrend[methodName];
+    const request = new methodDescriptor.requestType();
+
+
+    request.setSource(source);
+    request.setContract(contract);
+    request.setStart(start);
+    request.setEnd(end);
+    request.setTargetDate(target_date);
+
+    const props = {
+      request,
+      onEnd: response => {
+        const { message, status, statusMessage } = response;
+        if (status !== 0) {
+          throw new Error(statusMessage);
+        }
+        this.setState({
+          ...initialUserInput,
+          response: { status: "success", response: message.getResponse() },
+        });
+      },
+    };
+
+    this.props.serviceClient.unary(methodDescriptor, props);
   }
 
   renderForm() {

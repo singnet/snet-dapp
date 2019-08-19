@@ -3,15 +3,34 @@ import { hasOwnDefinedProperty } from "../../../../utility/JSHelper";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 
+import {Forecast} from "./time_series_forecast_pb_service"
+
+const initialUserInput = {
+  window_len: 1,
+  word_len: 1,
+  alphabet_size: 1,
+
+  source_type: "csv",
+  source: "",
+  contract: "",
+
+  start_date: "2010-01-01",
+  end_date: "2019-02-11",
+};
+
+
 export default class CNTKLSTMForecast extends React.Component {
   constructor(props) {
     super(props);
     this.submitAction = this.submitAction.bind(this);
-    this.handleServiceName = this.handleServiceName.bind(this);
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
-    this.getServiceMethods = this.getServiceMethods.bind(this);
+
+    //TODO: Check for the need
+    //this.handleServiceName = this.handleServiceName.bind(this);
+    //this.getServiceMethods = this.getServiceMethods.bind(this);
 
     this.state = {
+      ...initialUserInput,
       users_guide:
         "https://github.com/singnet/time-series-analysis/blob/master/docs/users_guide/generic/cntk-lstm-forecast.md",
       code_repo: "https://github.com/singnet/time-series-analysis/blob/master/generic/cntk-lstm-forecast",
@@ -19,18 +38,6 @@ export default class CNTKLSTMForecast extends React.Component {
 
       serviceName: "Forecast",
       methodName: "forecast",
-
-      window_len: 1,
-      word_len: 1,
-      alphabet_size: 1,
-
-      source_type: "csv",
-      source: "",
-      contract: "",
-
-      start_date: "2010-01-01",
-      end_date: "2019-02-11",
-
       response: undefined,
     };
     this.sourceTypes = ["csv", "financial"];
@@ -38,9 +45,13 @@ export default class CNTKLSTMForecast extends React.Component {
     this.serviceMethods = [];
     this.allServices = [];
     this.methodsForAllServices = [];
-    this.parseProps(props);
+
+    // TODO: Check for the need
+    //this.parseProps(props);
   }
 
+  // TODO: Check for the need
+  /*
   parseProps(nextProps) {
     this.isComplete = nextProps.isComplete;
     if (!this.isComplete) {
@@ -95,6 +106,7 @@ export default class CNTKLSTMForecast extends React.Component {
     }
     this.serviceMethods = data;
   }
+*/
 
   isValidCSVURL(str) {
     return (str.startsWith("http://") || str.startsWith("https://")) && str.endsWith(".csv");
@@ -114,6 +126,8 @@ export default class CNTKLSTMForecast extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   }
 
+  // TODO: Check for the need
+  /*
   handleServiceName(event) {
     var strService = event.target.value;
     this.setState({
@@ -126,7 +140,9 @@ export default class CNTKLSTMForecast extends React.Component {
     }
     this.serviceMethods = data;
   }
+  */
 
+  /*
   submitAction() {
     this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
       window_len: this.state.window_len,
@@ -139,6 +155,39 @@ export default class CNTKLSTMForecast extends React.Component {
       end_date: this.state.end_date,
     });
   }
+  */
+
+ submitAction() {
+  const { methodName, window_len, word_len, alphabet_size, source_type, source, contract, start_date, end_date} = this.state;
+  const methodDescriptor = Forecast[methodName];
+  const request = new methodDescriptor.requestType();
+
+  request.setWindowLen(window_len);
+  request.setWordLen(word_len);
+  request.setAlphabetSize(alphabet_size);
+  request.setSourceType(source_type);
+  request.setSource(source);
+  request.setContract(contract);
+  request.setStartDate(start_date);
+  request.setEndDate(end_date);
+
+  const props = {
+    request,
+    onEnd: response => {
+      const { message, status, statusMessage } = response;
+      if (status !== 0) {
+        throw new Error(statusMessage);
+      }
+      this.setState({
+        ...initialUserInput,
+        response: { status: "success", last_sax_word: message.getLastSaxWord(), forecast_sax_letter: message.getForecastSaxLetter(), position_in_sax_interval: message.getPositionInSaxInterval() },
+      });
+    },
+  };
+  
+  this.props.serviceClient.unary(methodDescriptor, props);
+}
+
 
   renderForm() {
     return (
