@@ -11,14 +11,15 @@ import { useStyles } from "./styles";
 import StyledButton from "../../common/StyledButton";
 
 const ForgotPasswordSubmit = ({ classes, history, error, username, forgotPasswordSubmit, updateError }) => {
-  const [showEmailSentAlert] = useState(true);
+  const [showEmailSentAlert, setShowEmailSentAlert] = useState(true);
   const [code, setCode] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  // const handleShowEmailSentAlert = () => {
-  //   setShowEmailSentAlert(false);
-  // };
+  const handleEnterOtp = event => {
+    event.preventDefault();
+    setShowEmailSentAlert(false);
+  };
 
   const handleCode = event => {
     setCode(event.currentTarget.value);
@@ -46,7 +47,9 @@ const ForgotPasswordSubmit = ({ classes, history, error, username, forgotPasswor
     return (
       <section className={classes.resetPasswordContainer}>
         <span>Reset Password Email Sent.</span>
-        <p>Check your email for instructions. </p>
+        <p>
+          Click <a onClick={handleEnterOtp}>here</a> to enter the verification code.
+        </p>
       </section>
     );
   }

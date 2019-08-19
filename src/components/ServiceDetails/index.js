@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
+import isEmpty from "lodash/isEmpty";
 
 import TitleCard from "./TitleCard";
 import PricingDetails from "./PricingDetails";
@@ -12,6 +13,7 @@ import { useStyles } from "./styles";
 import { serviceActions, serviceDetailsActions } from "../../Redux/actionCreators";
 import { serviceDetails } from "../../Redux/reducers/ServiceReducer";
 import { generateFilterObject } from "../../utility/constants/Pagination";
+import { pricing } from "../../Redux/reducers/ServiceDetailsReducer";
 
 class ServiceDetails extends Component {
   state = {
@@ -23,15 +25,15 @@ class ServiceDetails extends Component {
       return;
     }
 
-    this.fetchServices();
+    this.fetchServiceDetails();
   }
 
-  fetchServices = () => {
+  fetchServiceDetails = async () => {
     const { pagination, fetchServices, fetchServiceMetadata, match } = this.props;
     const { orgId, serviceId } = match.params;
     const filterData = generateFilterObject({ org_id: [orgId], service_id: [serviceId] });
-    fetchServiceMetadata({ orgId, serviceId });
-    fetchServices(pagination, filterData);
+    await fetchServiceMetadata({ orgId, serviceId });
+    await fetchServices(pagination, filterData);
   };
 
   handleTabChange = activeTab => {
@@ -39,9 +41,9 @@ class ServiceDetails extends Component {
   };
 
   render() {
-    const { classes, service } = this.props;
+    const { classes, service, pricing } = this.props;
 
-    if (!service) {
+    if (!service || isEmpty(pricing)) {
       return null;
     }
 
@@ -65,7 +67,7 @@ class ServiceDetails extends Component {
           star_rating={service.service_rating ? JSON.parse(service.service_rating).rating : 0}
           totalRating={service.service_rating ? JSON.parse(service.service_rating).total_users_rated : 0}
         />
-        <PricingDetails price_strategy={service.pricing_strategy} />
+        <PricingDetails pricing={pricing} />
         <StyledTabs tabs={tabs} activeTab={activeTab} onTabChange={this.handleTabChange} />
       </Grid>
     );
@@ -75,6 +77,7 @@ class ServiceDetails extends Component {
 const mapStateToProps = (state, ownProps) => ({
   service: serviceDetails(state, ownProps.match.params),
   pagination: state.serviceReducer.pagination,
+  pricing: pricing(state),
 });
 
 const mapDispatchToProps = dispatch => ({
