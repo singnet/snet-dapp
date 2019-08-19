@@ -13,9 +13,9 @@ import BulletPoint from "../../../common/BulletPoint";
 import AlertBox, { alertTypes } from "../../../common/AlertBox";
 
 const warningMessage = [
-  "Your wallet or any wallets you have used are always yours.  We do not have any connection to your wallet and cannot help you recover wallet keys for you. ",
-  "Your remaining AGI tokens will remain in your wallet for you manage with your  3rd party wallet service.",
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit.  ermentum dictum placerat nec",
+  "Your wallet or any wallets you have used will remain in your possession. We do not have any access to your wallet and cannot help you recover wallet keys.",
+  "Any remaining AGI tokens on your SingularityNET account will remain yours. Your account balance is linked to your wallet and can thus be accessed directly via the third party wallet service you have been using.",
+  "All personal data associated with your account will be deleted from our records.",
 ];
 
 const ConfirmDelete = ({ open, handleClose, handleSubmit, error }) => {
@@ -31,7 +31,7 @@ const ConfirmDelete = ({ open, handleClose, handleSubmit, error }) => {
         <Card className={classes.card}>
           <CardHeader
             className={classes.CardHeader}
-            title="Delete User"
+            title="Deleting Your Account"
             action={
               <IconButton onClick={handleCancel}>
                 <CloseIcon />
@@ -39,10 +39,10 @@ const ConfirmDelete = ({ open, handleClose, handleSubmit, error }) => {
             }
           />
           <CardContent className={classes.CardContent}>
-            <h2>Are you sure?</h2>
+            <h2>We are sad to see you go</h2>
             <p>
-              Deleting your account will go in affect immediately and you will not longer have access to your account
-              data.
+              You are about to delete your account forever. Are you sure that is what you want to do? Once you click on
+              DELETE MY ACCOUNT you will immediately loose access to all of your account data.
             </p>
             <div className={classes.BeforeYouGoContent}>
               <h2>Before you go...</h2>
