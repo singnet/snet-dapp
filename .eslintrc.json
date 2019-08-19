@@ -29,6 +29,8 @@
     "no-unused-vars": "error",
     "react/jsx-key": "error",
     "no-useless-computed-key": "error",
-    "object-shorthand": "error"
+    "object-shorthand": "error",
+    "require-await": "warn",
+    "eqeqeq": "warn"
   }
 }

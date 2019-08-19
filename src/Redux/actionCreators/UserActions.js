@@ -165,11 +165,11 @@ export const loginSuccess = ({ res, history, route }) => dispatch => {
   history.push(route);
 };
 
-export const login = ({ username, password, history, route }) => async dispatch => {
+export const login = ({ username, password, history, route }) => dispatch => {
   dispatch({ type: LOGIN_LOADING });
   let userDetails = {};
   return Auth.signIn(username, password)
-    .then(async res => {
+    .then(res => {
       dispatch(loginSuccess({ res, history, route }));
     })
     .catch(err => {

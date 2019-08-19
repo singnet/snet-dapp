@@ -44,7 +44,7 @@ export const fetchServiceSuccess = res => dispatch => {
   dispatch(loaderActions.stopAIServiceListLoader);
 };
 
-export const fetchService = (pagination, filters = []) => async dispatch => {
+export const fetchService = (pagination, filters = []) => dispatch => {
   dispatch(loaderActions.startAIServiceListLoader);
   const url = new URL(`${APIEndpoints.CONTRACT.endpoint}/service`);
   return fetch(url, {

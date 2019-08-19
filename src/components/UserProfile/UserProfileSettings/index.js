@@ -36,7 +36,7 @@ class UserProfileSettings extends Component {
     this.setState(prevState => ({ emailAlerts: !prevState.emailAlerts }));
   };
 
-  handleDelete = async () => {
+  handleDelete = () => {
     this.setState({ showConfirmDelete: true });
   };
 
