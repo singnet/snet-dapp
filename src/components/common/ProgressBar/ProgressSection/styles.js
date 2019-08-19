@@ -11,7 +11,6 @@ export const useStyles = makeStyles(theme => ({
   TabTitle: {
     color: theme.palette.text.lightShadedGray,
     fontSize: 14,
-    fontFamily: theme.typography.secondary.main,
   },
   completedIcon: {
     "& span": {

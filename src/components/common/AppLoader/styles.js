@@ -16,7 +16,6 @@ export const useStyles = makeStyles(theme => ({
     "& p": {
       paddingTop: 5,
       color: theme.palette.text.mediumShadeGray,
-      fontFamily: theme.typography.secondary.main,
       fontSize: 14,
       letterSpacing: 0.25,
       lineHeight: "20px",

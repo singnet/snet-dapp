@@ -28,9 +28,7 @@ export const useStyles = makeStyles(theme => ({
   },
   logoAnchor: {
     display: "inline-block",
-    "& img": {
-      width: 172,
-    },
+    "& img": { width: 172 },
   },
   logoIcon: { width: "100%" },
   navigationSection: {
@@ -63,11 +61,11 @@ export const useStyles = makeStyles(theme => ({
   },
   activeTab: {
     paddingBottom: 4,
-    fontWeight: theme.typography.fontweight,
     borderBottomWidth: "2px",
     borderBottomStyle: "solid",
     borderBottomColor: theme.palette.text.white,
     color: theme.palette.text.white,
+    fontWeight: 600,
   },
   loginBtnsSection: {
     width: "30%",
@@ -110,7 +108,7 @@ export const useStyles = makeStyles(theme => ({
     cursor: "pointer",
   },
   signupBtnText: {
-    fontWeight: theme.typography.fontweight,
+    fontWeight: 600,
     letterSpacing: 1.79,
     lineHeight: "16px",
   },

@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import ServiceListItem from "./ServiceListItem";
-import CardImg from "../../../../../assets/images/dummy-card.png";
+import CardImg from "../../../../../assets/images/SnetDefaultServiceImage.png";
 import { useStyles } from "./styles";
 import Routes from "../../../../../utility/constants/Routes";
 

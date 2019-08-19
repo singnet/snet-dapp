@@ -12,7 +12,6 @@ export const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.text.offWhiteColor,
     "& h2": {
       color: theme.palette.text.black1,
-      fontFamily: theme.typography.tertiary.main,
       fontSize: 20,
       lineHeight: "24px",
       fontWeight: 600,
@@ -28,7 +27,6 @@ export const useStyles = makeStyles(theme => ({
     "& p": {
       margin: "16px 0 0",
       color: theme.palette.text.mediumShadeGray,
-      fontFamily: theme.typography.secondary.main,
       fontSize: 14,
       letterSpacing: 0.25,
       lineHeight: "20px",

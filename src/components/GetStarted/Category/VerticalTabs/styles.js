@@ -8,7 +8,6 @@ export const useStyles = theme => ({
       borderLeftStyle: "solid",
       borderLeftColor: theme.palette.text.verticalTabLeftBorder,
       color: theme.palette.text.lightShadedGray,
-      fontFamily: theme.typography.primary.main,
       fontSize: 16,
       lineHeight: "22px",
       textTransform: "initial",

@@ -113,18 +113,6 @@ const theme = createMuiTheme({
       dialogTitle,
     },
   },
-  typography: {
-    primary: {
-      main: ["OpenSans"],
-    },
-    secondary: {
-      main: ["Raleway"],
-    },
-    tertiary: {
-      main: ["Roboto"],
-    },
-    fontweight: 600,
-  },
   backgroundColor: {
     blue: customBlue,
     red: errorBgColor,
@@ -135,6 +123,11 @@ const theme = createMuiTheme({
   },
   font: {
     h2,
+  },
+  typography: {
+    primary: {
+      main: "Muli, sans-serif",
+    },
   },
 });
 

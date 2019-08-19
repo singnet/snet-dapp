@@ -6,7 +6,7 @@ export const useStyles = makeStyles(theme => ({
     display: "inline-block",
     color: theme.palette.text.lightShadedGray,
     fontSize: 12,
-    fontWeight: theme.typography.fontweight,
+    fontWeight: 600,
     letterSpacing: 2,
     verticalAlign: "super",
   },

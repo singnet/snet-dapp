@@ -13,7 +13,7 @@ import withInAppWrapper from "./components/HOC/WithInAppHeader";
 import { userActions } from "./Redux/actionCreators";
 import PrivateRoute from "./components/common/PrivateRoute";
 import AppLoader from "./components/common/AppLoader";
-import { initSdk } from './utility/sdk';
+import { initSdk } from "./utility/sdk";
 
 const ForgotPassword = lazy(() => import("./components/Login/ForgotPassword"));
 const ForgotPasswordSubmit = lazy(() => import("./components/Login/ForgotPasswordSubmit"));
@@ -100,7 +100,7 @@ class App extends Component {
                   {...this.props}
                   component={withInAppWrapper(AiMarketplace)}
                 />
-                <Route path={`/${Routes.GET_STARTED}`} component={GetStarted} />
+                <Route path={`/${Routes.GET_STARTED}`} component={withInAppWrapper(GetStarted)} />
                 <Route component={PageNotFound} />
               </Switch>
             </Suspense>
