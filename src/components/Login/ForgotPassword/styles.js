@@ -11,7 +11,6 @@ export const useStyles = theme => ({
       margin: "17px 0 0",
       color: theme.palette.text.mediumShadeGray,
       fontSize: "22px",
-      fontFamily: theme.typography.secondary.main,
     },
     "@media (max-width:527px)": {
       width: "75%",

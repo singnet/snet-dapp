@@ -74,7 +74,6 @@ export const useStyles = theme => ({
       paddingLeft: 22,
       margin: 0,
       color: theme.palette.text.mediumShadeGray,
-      fontFamily: theme.typography.secondary.main,
       fontSize: 14,
       lineHeight: "21px",
     },

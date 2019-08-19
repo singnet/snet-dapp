@@ -22,7 +22,7 @@ export const useStyles = theme => ({
     "& span": {
       display: "inline-block",
       color: theme.palette.text.primary,
-      fontWeight: theme.typography.fontweight,
+      fontWeight: 600,
       textDecoration: "none",
     },
     "@media (max-width:750px)": { width: "75%" },
