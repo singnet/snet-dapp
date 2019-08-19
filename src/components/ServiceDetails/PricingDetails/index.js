@@ -22,8 +22,6 @@ const PricingDetails = ({ classes, pricing }) => {
   return (
     <Grid item xs={12} sm={12} md={4} lg={4} className={classes.creditsContainer}>
       <div className={classes.creditsAndToken}>
-        <Price unit="credits" value="1" />
-        <span>=</span>
         <Price unit="agi tokens" value={priceInAGI} />
       </div>
       <p>
