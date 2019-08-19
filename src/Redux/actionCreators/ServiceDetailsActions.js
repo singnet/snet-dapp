@@ -23,9 +23,6 @@ const fetchServiceMetadataAPI = async ({ orgId, serviceId }) => {
 };
 
 export const fetchServiceMetadata = ({ orgId, serviceId }) => async dispatch => {
-  if (process.env.REACT_APP_SANDBOX) {
-    return {};
-  }
   dispatch(resetServiceMetadata);
   const serviceMetadata = await fetchServiceMetadataAPI({ orgId, serviceId });
   dispatch(fetchServiceMetadataSuccess(serviceMetadata));

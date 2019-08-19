@@ -12,7 +12,7 @@ const ServiceDetails = lazy(() => import("../components/ServiceDetails"));
 class SandboxApp extends Component {
   render() {
     const { hamburgerMenu } = this.props;
-    const serviceDetailsPath =`/${Routes.SERVICE_DETAILS}/org/${process.env.REACT_APP_SANDBOX_ORG_ID}/service/${process.env.REACT_APP_SANDBOX_SERVICE_ID}`;
+    const serviceDetailsPath = `/${Routes.SERVICE_DETAILS}/org/${process.env.REACT_APP_SANDBOX_ORG_ID}/service/${process.env.REACT_APP_SANDBOX_SERVICE_ID}`;
     return (
       <ThemeProvider theme={theme}>
         <div className={hamburgerMenu ? "hide-overflow" : null}>

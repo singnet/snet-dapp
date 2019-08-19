@@ -17,7 +17,7 @@ const Filter = ({ activeFilterItem, pagination, filterDataProps, handleFilterCha
     ([key, items]) => (filterData[key] = { title: filterTitles[key], name: key, items })
   );
 
-  const handleActiveFilterItemChange = async event => {
+  const handleActiveFilterItemChange = event => {
     const name = event.currentTarget.name;
     const value = event.currentTarget.value;
     const currentFilterItem = [...activeFilterItem[name]];
@@ -38,7 +38,7 @@ const Filter = ({ activeFilterItem, pagination, filterDataProps, handleFilterCha
     handleFilterChange({ pagination: latestPagination, filterObj, currentActiveFilterData });
   };
 
-  const handleFilterReset = async () => {
+  const handleFilterReset = () => {
     const latestPagination = { ...pagination, ...defaultPaginationParameters };
     resetFilter({ pagination: latestPagination });
   };
