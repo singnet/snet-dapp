@@ -26,19 +26,19 @@ export const useStyles = makeStyles(theme => ({
       fontSize: 14,
     },
   },
-  styledPagination:{
-    '& button': { color: theme.palette.text.grayTitleText },
-    '& .MuiFlatPagination-rootCurrent':{ 
-      padding: '0 8px',
+  styledPagination: {
+    "& button": { color: theme.palette.text.grayTitleText },
+    "& .MuiFlatPagination-rootCurrent": {
+      padding: "0 8px",
       backgroundColor: theme.palette.text.primary,
-      color: '#fff !important'
+      color: "#fff !important",
     },
-    '& .MuiFlatPageButton-rootEnd':{ 
+    "& .MuiFlatPageButton-rootEnd": {
       color: theme.palette.text.grayTitleText,
-      fontWeight: 600
+      fontWeight: 600,
     },
-    '& .MuiFlatPageButton-rootEnd.Mui-disabled' :{
-      color: 'rgba(155,155,155,0.5) !important'
-    }
-  }
+    "& .MuiFlatPageButton-rootEnd.Mui-disabled": {
+      color: "rgba(155,155,155,0.5) !important",
+    },
+  },
 }));

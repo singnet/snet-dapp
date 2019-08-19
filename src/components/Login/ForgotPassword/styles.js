@@ -1,9 +1,9 @@
 export const useStyles = theme => ({
-  forgotPwdMainContainer:{
-    height: 'calc(100vh - 126px)',
+  forgotPwdMainContainer: {
+    height: "calc(100vh - 126px)",
     backgroundColor: theme.palette.text.offWhiteColor,
   },
-  forgotPwdContent: {    
+  forgotPwdContent: {
     textAlign: "center",
     "& h2": {
       margin: 0,

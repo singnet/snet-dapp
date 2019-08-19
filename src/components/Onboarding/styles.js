@@ -2,12 +2,12 @@ export const useStyles = theme => ({
   onboardingContainer: {
     paddingBottom: 40,
     backgroundColor: theme.palette.text.offWhiteColor,
-    '& ul': { 
-      justifyContent: 'center',
-      '& li':{
-        '&:before':{ marginLeft: 16 }
-      }
-    }
+    "& ul": {
+      justifyContent: "center",
+      "& li": {
+        "&:before": { marginLeft: 16 },
+      },
+    },
   },
   topSection: {
     textAlign: "center",
