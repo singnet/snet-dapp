@@ -32,4 +32,8 @@ export const LoaderContent = {
     loaderHeader: "Withdraw",
     loaderText: "Withdrawing AGI tokens from Multi-party Escrow account",
   },
+  CONNECT_METAMASK: {
+    loaderHeader: "Connecting Metask",
+    loaderText: "Please sign in using Metamask to proceed",
+  },
 };

@@ -93,12 +93,13 @@ class ThirdPartyAIService extends Component {
   };
 
   handleResetAndRun = () => {
-    const { isComplete, resetServiceExecution } = this.props;
+    const { isComplete, resetServiceExecution, returnToPurchase } = this.props;
     if (isComplete) {
       resetServiceExecution();
       return;
     }
     this.setState({ serviceRequestComplete: false });
+    returnToPurchase();
   };
 
   render() {

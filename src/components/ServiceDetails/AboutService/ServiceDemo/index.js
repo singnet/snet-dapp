@@ -50,6 +50,10 @@ class ServiceDemo extends Component {
     this.setState({ purchaseCompleted: true });
   };
 
+  handleReturnToPurchase = () => {
+    this.setState({ purchaseCompleted: false });
+  };
+
   render() {
     const { classes, service, freeCallsRemaining, freeCallsAllowed, groupInfo, wallet } = this.props;
     const { progressText, purchaseCompleted } = this.state;
@@ -61,7 +65,12 @@ class ServiceDemo extends Component {
           groupInfo={groupInfo}
           purchaseCompleted={purchaseCompleted}
           purchaseProps={{ handleComplete: this.handlePurchaseComplete, freeCallsRemaining, freeCallsAllowed, wallet }}
-          thirdPartyProps={{ service_id: service.service_id, org_id: service.org_id, freeCallsRemaining }}
+          thirdPartyProps={{
+            service_id: service.service_id,
+            org_id: service.org_id,
+            freeCallsRemaining,
+            returnToPurchase: this.handleReturnToPurchase,
+          }}
         />
       </div>
     );
