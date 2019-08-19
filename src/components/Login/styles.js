@@ -78,13 +78,8 @@ export const useStyles = theme => ({
       fontSize: 14,
       letterSpacing: "0.25px",
       textDecoration: "none",
-      "&:hover": {
-        color: theme.palette.text.primary,
-        textDecoration: "underline",
-      },
+      "&:hover": { color: theme.palette.text.primary },
     },
-    "@media (max-width:400px)": {
-      flexDirection: "column",
-    },
+    "@media (max-width:400px)": { flexDirection: "column" },
   },
 });
