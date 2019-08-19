@@ -5,12 +5,14 @@ import StyledButton from "../../../../../common/StyledButton";
 import PaymentInfoCard from "../PaymentInfoCard";
 import PurchaseDialog from "../PurchaseDialog";
 import ChannelSelectionBox from "../ChannelSelectionBox";
-import AlertBox from "../../../../../common/AlertBox";
+import AlertBox, { alertTypes } from "../../../../../common/AlertBox";
 import { initSdk } from "../../../../../../utility/sdk";
 import { cogsToAgi } from "../../../../../../utility/PricingStrategy";
 import { pricing } from "../../../../../../Redux/reducers/ServiceDetailsReducer";
 import { WebServiceClient as ServiceClient } from "snet-sdk-web";
 import PaymentChannelManagement from "../../../../../../utility/PaymentChannelManagement";
+import { loaderActions } from "../../../../../../Redux/actionCreators";
+import { LoaderContent } from "../../../../../../utility/constants/LoaderContent";
 
 const payTypes = {
   CHANNEL_BALANCE: "CHANNEL_BALANCE",
@@ -18,14 +20,22 @@ const payTypes = {
   SINGLE_CALL: "SINGLE_CALL",
 };
 
+const connectMMinfo = {
+  type: alertTypes.WARNING,
+  message: `Please Login or Install to your Metamask wallet account and connect to SingularityNet. 
+Click here to install and learn more about how to use Metamask and your AGI credits with SinguarlityNet AI Marketplace.`,
+};
+
 class MetamaskFlow extends Component {
   state = {
     MMconnected: false,
     selectedPayType: payTypes.CHANNEL_BALANCE,
-    disabledPayTypes: [payTypes.SINGLE_CALL],
+    disabledPayTypes: [],
     showPurchaseDialog: false,
-    noOfCalls: 1,
-    totalPrice: "0.00000002",
+    noOfServiceCalls: 1,
+    totalPrice: cogsToAgi(this.props.pricing.price_in_cogs),
+
+    alert: {},
   };
 
   PaymentInfoCardData = [
@@ -46,44 +56,50 @@ class MetamaskFlow extends Component {
   ];
 
   handleConnectMM = async () => {
-    const { groupInfo } = this.props;
-    const sdk = await initSdk();
-    let mpeBal = await sdk.account.escrowBalance();
-    const serviceClientOptions = { endpoint: "https://example-service-a.singularitynet.io:8088" };
-    const serviceClient = new ServiceClient(
-      sdk,
-      "snet",
-      "example-service",
-      sdk._mpeContract,
-      {},
-      groupInfo,
-      undefined,
-      serviceClientOptions
-    );
-    const paymentChannelManagement = new PaymentChannelManagement(sdk, serviceClient);
-    await paymentChannelManagement.updateChannelInfo();
-    if (!paymentChannelManagement.channel) {
-      await paymentChannelManagement.openChannel();
-      mpeBal = await sdk.account.escrowBalance();
+    const { groupInfo, startMMconnectLoader, stopLoader } = this.props;
+    try {
+      startMMconnectLoader();
+      const sdk = await initSdk();
+      let mpeBal = await sdk.account.escrowBalance();
+      const serviceClientOptions = { endpoint: "https://example-service-a.singularitynet.io:8088" };
+      const serviceClient = new ServiceClient(
+        sdk,
+        "snet",
+        "example-service",
+        sdk._mpeContract,
+        {},
+        groupInfo,
+        undefined,
+        serviceClientOptions
+      );
+      const paymentChannelManagement = new PaymentChannelManagement(sdk, serviceClient);
+      await paymentChannelManagement.updateChannelInfo();
+      if (!paymentChannelManagement.channel) {
+        await paymentChannelManagement.openChannel();
+        mpeBal = await sdk.account.escrowBalance();
+      }
+      this.PaymentInfoCardData.map(el => {
+        if (el.title === "Escrow Balance") {
+          el.value = cogsToAgi(mpeBal);
+        }
+        if (el.title === "Channel Balance") {
+          el.value = cogsToAgi(paymentChannelManagement.channel.state.availableAmount);
+        }
+        return el;
+      });
+      this.setState({ MMconnected: true });
+    } catch (error) {
+      this.setState({ alert: { type: alertTypes.ERROR, message: `Unable to connect to metamask ${error}` } });
     }
-    this.PaymentInfoCardData.map(el => {
-      if (el.title === "Escrow Balance") {
-        el.value = cogsToAgi(mpeBal);
-      }
-      if (el.title === "Channel Balance") {
-        el.value = cogsToAgi(paymentChannelManagement.channel.state.availableAmount);
-      }
-      return el;
-    });
-
-    this.setState({ MMconnected: true });
+    stopLoader();
   };
 
   handlePayTypeChange = value => {
-    if (this.state.disabledPayTypes.includes(value)) {
+    const { disabledPayTypes, selectedPayType } = this.state;
+    if (disabledPayTypes.includes(value) || selectedPayType === value) {
       return;
     }
-    this.setState({ disabledPayTypes: value });
+    this.setState({ selectedPayType: value });
   };
 
   handlePurchaseDialogOpen = () => {
@@ -95,23 +111,56 @@ class MetamaskFlow extends Component {
   };
 
   handleNoOfCallsChange = event => {
-    const noOfCalls = event.target.value;
-    const totalPrice = String(((noOfCalls * 2) / 100000000).toFixed(8));
-    this.setState({ noOfCalls, totalPrice });
+    const noOfServiceCalls = event.target.value;
+    const totalPrice = String(((noOfServiceCalls * 2) / 100000000).toFixed(8));
+    this.setState({ noOfServiceCalls, totalPrice });
+  };
+
+  handleSubmit = async () => {
+    try {
+      const { groupInfo } = this.props;
+      let { noOfServiceCalls, selectedPayType } = this.state;
+      const sdk = await initSdk();
+      const serviceClientOptions = { endpoint: "https://example-service-a.singularitynet.io:8088" };
+      const serviceClient = new ServiceClient(
+        sdk,
+        "snet",
+        "example-service",
+        sdk._mpeContract,
+        {},
+        groupInfo,
+        undefined,
+        serviceClientOptions
+      );
+      const paymentChannelManagement = new PaymentChannelManagement(sdk, serviceClient);
+      if (selectedPayType === payTypes.SINGLE_CALL) {
+        noOfServiceCalls = 1;
+      }
+      await paymentChannelManagement.extendAndAddFunds(noOfServiceCalls);
+      this.props.handleContinue();
+    } catch (error) {
+      console.log("Error", error);
+      this.setState({ alert: { type: alertTypes.ERROR, message: `Unable to execute the call: ${error}` } });
+    }
   };
 
   render() {
-    const { classes, handleContinue } = this.props;
-    const { MMconnected, showPurchaseDialog, selectedPayType, disabledPayTypes, noOfCalls, totalPrice } = this.state;
+    const { classes } = this.props;
+    const {
+      MMconnected,
+      showPurchaseDialog,
+      selectedPayType,
+      disabledPayTypes,
+      noOfServiceCalls,
+      totalPrice,
+      alert,
+    } = this.state;
     if (!MMconnected) {
       return (
         <div className={classes.ExpiredSessionContainer}>
-          <AlertBox
-            type="warning"
-            message={`Please Login or Install to your Metamask wallet account and connect to SingularityNet. 
-Click here to install and learn more about how to use Metamask and your AGI credits with SinguarlityNet AI Marketplace.`}
-          />
-          <StyledButton type="blue" btnText="connect metamsask" onClick={this.handleConnectMM} />
+          <AlertBox type={connectMMinfo.type} message={connectMMinfo.message} />
+          <AlertBox type={alert.type} message={alert.message} />
+          <StyledButton type="blue" btnText="connect metamask" onClick={this.handleConnectMM} />
         </div>
       );
     }
@@ -153,7 +202,7 @@ Click here to install and learn more about how to use Metamask and your AGI cred
               value={payTypes.MULTIPLE_CALLS}
               onClick={() => this.handlePayTypeChange(payTypes.MULTIPLE_CALLS)}
               inputProps={{
-                noOfCalls,
+                noOfServiceCalls,
                 onChange: this.handleNoOfCallsChange,
                 totalPrice,
                 unit: "AGI",
@@ -167,17 +216,19 @@ Click here to install and learn more about how to use Metamask and your AGI cred
               value={payTypes.SINGLE_CALL}
               onClick={() => this.handlePayTypeChange(payTypes.SINGLE_CALL)}
               inputProps={{
-                noOfCalls: 1,
-                totalPrice: 0.000002,
+                noOfServiceCalls: 1,
+                totalPrice: cogsToAgi(this.props.pricing.price_in_cogs),
                 unit: "AGI",
+                disabled: true,
               }}
               disabled={disabledPayTypes.includes(payTypes.SINGLE_CALL)}
             />
           </div>
         </div>
+        <AlertBox type={alert.type} message={alert.message} />
         <div className={classes.buttonContainer}>
           <StyledButton type="transparent" btnText="Deposit into Escrow" onClick={this.handlePurchaseDialogOpen} />
-          <StyledButton type="blue" btnText="Continue" onClick={handleContinue} />
+          <StyledButton type="blue" btnText="Continue" onClick={this.handleSubmit} />
         </div>
       </div>
     );
@@ -188,4 +239,12 @@ const mapStateToProps = state => ({
   pricing: pricing(state),
 });
 
-export default connect(mapStateToProps)(MetamaskFlow);
+const mapDispatchToProps = dispatch => ({
+  startMMconnectLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.CONNECT_METAMASK)),
+  stopLoader: () => dispatch(loaderActions.stopAppLoader),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MetamaskFlow);
