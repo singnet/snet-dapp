@@ -44,7 +44,8 @@ export const useStyles = makeStyles(theme => ({
     color: theme.palette.text.darkShadedGray,
     fontSize: 20,
     letterSpacing: 0.25,
-    padding: "0px 9px 8px 0px",
+    fontFamily: theme.typography.primary.main,
+    padding: "0px 9px 4px 0px",
     textAlign: "left",
     fontFamily: theme.typography.primary.main,
     "& h4": { margin: "0 76px 0 0" },
@@ -59,10 +60,11 @@ export const useStyles = makeStyles(theme => ({
     fontWeight: 600
   },
   cardContent: {
-    padding: "8px 10px 0",
+    padding: "0 10px",
     "&:last-of-type": { paddingBottom: 0 },
   },
   cardTypograpy: {
+    marginTop: 16,
     color: theme.palette.text.mediumShadeGray,
     fontFamily: theme.typography.primary.main,
     fontSize: 14,
