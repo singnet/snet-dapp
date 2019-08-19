@@ -2,13 +2,13 @@ import { makeStyles } from "@material-ui/styles";
 
 export const useStyles = makeStyles(theme => ({
   footer: {
-    padding: "15px 0 20px",
+    padding: "23px 0 20px",
     backgroundColor: theme.backgroundColor.footerBgColor,
     color: theme.palette.text.offWhite,
     "@media (max-width:767px)": { padding: "21px 0 52px" },
   },
   footerWrapper: {
-    width: "89%",
+    width: "83%",
     margin: "0 auto",
     "@media (max-width:1279px) and (min-width:1024px)": { width: "98%" },
     "@media (max-width:1023px)": { width: "100%" },

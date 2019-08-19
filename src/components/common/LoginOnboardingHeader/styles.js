@@ -9,10 +9,12 @@ export const useStyles = theme => ({
     margin: "0 auto",
     padding: "30px 0",
     "& h1": {
+      width: 230,
       margin: 0,
       "& span": {
         "&:before": { color: theme.palette.text.purple },
       },
+      '& img':{ width: '100%' }
     },
     "& p": {
       margin: 0,
