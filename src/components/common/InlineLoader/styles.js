@@ -7,7 +7,7 @@ export const useStyles = makeStyles(theme => ({
     justifyContent: "center",
     marginBottom: 20,
     color: theme.palette.text.orange,
-    fontWeight: theme.typography.fontweight,
+    fontWeight: 600,
     "& span": {
       "&::before": {
         fontSize: 14,

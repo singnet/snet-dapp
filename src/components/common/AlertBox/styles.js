@@ -7,7 +7,6 @@ export const useStyles = theme => ({
     marginTop: "20px ",
     color: theme.palette.text.alertBoxColor,
     fontSize: "14px ",
-    fontFamily: theme.typography.secondary.main,
     lineHeight: "20px",
     letterSpacing: 0.25,
     textAlign: "left",

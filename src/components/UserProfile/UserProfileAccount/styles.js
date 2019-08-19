@@ -13,6 +13,7 @@ export const useStyles = theme => ({
       margin: 0,
       color: theme.palette.text.darkShadedGray,
       fontSize: 20,
+      fontWeight: 600,
       lineHeight: "50px",
     },
   },
@@ -101,7 +102,7 @@ export const useStyles = theme => ({
       fontSize: 18,
       textTransform: "none",
       color: theme.palette.text.lightShadedGray,
-      fontFamily: "sans-serif",
+      fontFamily: theme.typography.primary.main
     },
     "& .Mui-selected": {
       color: theme.palette.text.primary,

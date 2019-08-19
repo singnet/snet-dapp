@@ -8,7 +8,7 @@ export const useStyles = makeStyles(theme => ({
     "@media (max-width:767px)": { padding: "21px 0 52px" },
   },
   footerWrapper: {
-    width: "89%",
+    width: "83%",
     margin: "0 auto",
     "@media (max-width:1279px) and (min-width:1024px)": { width: "98%" },
     "@media (max-width:1023px)": { width: "100%" },
@@ -27,7 +27,7 @@ export const useStyles = makeStyles(theme => ({
     display: "inline-block",
     color: theme.palette.text.white,
     fontSize: 20,
-    fontWeight: theme.typography.fontweight,
+    fontWeight: 600,
     "@media (max-width:1023px) and (min-width:768px)": {
       fontSize: 18,
     },

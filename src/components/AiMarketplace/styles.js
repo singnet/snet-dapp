@@ -38,11 +38,13 @@ export const useStyles = theme => ({
     padding: "41px 40px 20px 0",
     margin: 0,
     color: theme.palette.text.darkShadedGray,
-    fontFamily: theme.typography.secondary.main,
     fontSize: 22,
     lineHeight: "30px",
     "& span": { fontWeight: 600 },
-    "& p": { margin: "5px 0 0" },
+    "& p": { 
+      margin: "5px 0 0",
+      fontWeight: 200
+    },
     "@media(max-width: 1279px)": { paddingRight: 0 },
     "@media(max-width: 1023px)": { paddingTop: 0 },
   },
