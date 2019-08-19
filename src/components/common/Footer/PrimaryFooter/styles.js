@@ -49,7 +49,7 @@ export const useStyles = makeStyles(theme => ({
     },
   },
   FooterLogo:{
-    '& h1': { width: 167 },
+    '& h1': { width: 240 },
     '& img': { width: '100%' }
   }
 }));
