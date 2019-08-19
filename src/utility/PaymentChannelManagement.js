@@ -1,6 +1,6 @@
-import find from 'lodash/find';
-import minBy from 'lodash/minBy';
-import isEmpty from 'lodash/isEmpty';
+import find from "lodash/find";
+import minBy from "lodash/minBy";
+import isEmpty from "lodash/isEmpty";
 
 const ONE_YEAR_BLOCKS = 2102400;
 
@@ -21,7 +21,7 @@ export default class PaymentChannelManagement {
 
   async updateChannelInfo() {
     const channels = await this.serviceClient.loadOpenChannels();
-    if(isEmpty(channels)) {
+    if (isEmpty(channels)) {
       return;
     }
 
@@ -35,6 +35,7 @@ export default class PaymentChannelManagement {
     const defaultExpiration = await this._defaultChannelExpiration();
 
     this._channel = await this.serviceClient.openChannel(serviceCallPrice, defaultExpiration);
+    this._sdkContext.currentChannel = this._channel;
   }
 
   async extendAndAddFunds() {
@@ -43,11 +44,11 @@ export default class PaymentChannelManagement {
 
     await this._channel.extendAndAddFunds(defaultExpiration, serviceCallPrice);
     await this._channel.syncState();
-  };
+  }
 
   _pricePerServiceCall() {
     const { pricing } = this.serviceClient.group;
-    const fixedPricing = find(pricing, ({ price_model }) => 'fixed_price' === price_model);
+    const fixedPricing = find(pricing, ({ price_model }) => "fixed_price" === price_model);
 
     return fixedPricing.price_in_cogs;
   }

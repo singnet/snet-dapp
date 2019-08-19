@@ -4,7 +4,7 @@ import { API } from "aws-amplify";
 import { APIEndpoints, APIPaths } from "../config/APIEndpoints";
 import { initializeAPIOptions } from "./API";
 import { fetchAuthenticatedUser, walletTypes } from "../Redux/actionCreators/UserActions";
-import ProxyPaymentChannelManagementStrategy from './ProxyPaymentChannelManagementStrategy';
+import ProxyPaymentChannelManagementStrategy from "./ProxyPaymentChannelManagementStrategy";
 
 const DEFAULT_GAS_PRICE = 4700000;
 const DEFAULT_GAS_LIMIT = 210000;
@@ -68,7 +68,9 @@ const generateOptions = (callType, wallet) => {
   }
 
   if (wallet && wallet.type === walletTypes.METAMASK) {
-    return {};
+    return {
+      endpoint: "https://example-service-a.singularitynet.io:8088",
+    };
   }
 
   return { metadataGenerator: metadataGenerator(callType) };
@@ -109,7 +111,7 @@ const getMethodNames = service => {
   });
 };
 
-export const createServiceClient = async (
+export const createServiceClient = (
   org_id,
   service_id,
   groupInfo,
@@ -118,7 +120,7 @@ export const createServiceClient = async (
   callType,
   wallet
 ) => {
-  if(sdk && sdk.currentChannel) {
+  if (sdk && sdk.currentChannel) {
     sdk.paymentChannelManagementStrategy = new ProxyPaymentChannelManagementStrategy(sdk.currentChannel);
   }
   const options = generateOptions(callType, wallet);

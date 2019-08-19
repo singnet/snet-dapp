@@ -10,7 +10,7 @@ import { initSdk } from "../../../../../../utility/sdk";
 import { cogsToAgi } from "../../../../../../utility/PricingStrategy";
 import { pricing } from "../../../../../../Redux/reducers/ServiceDetailsReducer";
 import { WebServiceClient as ServiceClient } from "snet-sdk-web";
-import PaymentChannelManagement from '../../../../../../utility/PaymentChannelManagement';
+import PaymentChannelManagement from "../../../../../../utility/PaymentChannelManagement";
 
 const payTypes = {
   CHANNEL_BALANCE: "CHANNEL_BALANCE",
@@ -49,14 +49,16 @@ class MetamaskFlow extends Component {
     const { groupInfo } = this.props;
     const sdk = await initSdk();
     let mpeBal = await sdk.account.escrowBalance();
+    const serviceClientOptions = { endpoint: "https://example-service-a.singularitynet.io:8088" };
     const serviceClient = new ServiceClient(
       sdk,
-      'snet',
-      'example-service',
+      "snet",
+      "example-service",
       sdk._mpeContract,
       {},
       groupInfo,
-      undefined
+      undefined,
+      serviceClientOptions
     );
     const paymentChannelManagement = new PaymentChannelManagement(sdk, serviceClient);
     await paymentChannelManagement.updateChannelInfo();
@@ -64,7 +66,6 @@ class MetamaskFlow extends Component {
       await paymentChannelManagement.openChannel();
       mpeBal = await sdk.account.escrowBalance();
     }
-
     this.PaymentInfoCardData.map(el => {
       if (el.title === "Escrow Balance") {
         el.value = cogsToAgi(mpeBal);
