@@ -79,6 +79,7 @@ export const useStyles = theme => ({
       letterSpacing: "0.25px",
       textDecoration: "none",
       "&:hover": {
+        color: theme.palette.text.primary,
         textDecoration: "underline",
       },
     },
