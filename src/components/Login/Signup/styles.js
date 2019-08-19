@@ -20,11 +20,11 @@ export const useStyles = theme => ({
       fontSize: 32,
       letterSpacing: -0.5,
       lineHeight: "48px",
+      fontWeight: 600
     },
     "& p": {
       margin: "23px 0 24px",
       color: theme.palette.text.mediumShadeGray,
-      fontFamily: theme.typography.secondary.main,
       fontSize: 20,
       lineHeight: "30px",
     },
@@ -45,7 +45,6 @@ export const useStyles = theme => ({
       },
       "& p": {
         color: theme.palette.text.mediumShadeGray,
-        fontFamily: theme.typography.secondary.main,
         fontSize: 16,
         letterSpacing: "0.29px",
         display: "inline-block",
@@ -101,19 +100,16 @@ export const useStyles = theme => ({
   },
   charCount: {
     color: theme.palette.text.mediumShadeGray,
-    fontFamily: theme.typography.secondary.main,
     fontSize: "12.17px",
     letterSpacing: "0.4px",
   },
   usernameError: {
     color: theme.palette.text.errorRed,
-    fontFamily: theme.typography.secondary.main,
     fontSize: "12.17px",
     letterSpacing: "0.4px",
   },
   passwordTxt: {
     color: theme.palette.text.mediumShadeGray,
-    fontFamily: theme.typography.secondary.main,
     fontSize: "12.17px",
     letterSpacing: "0.4px",
   },

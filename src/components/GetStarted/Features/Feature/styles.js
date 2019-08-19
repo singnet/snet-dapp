@@ -19,7 +19,6 @@ export const useStyles = theme => ({
     "& p": {
       color: theme.palette.text.mediumShadeGray,
       margin: "7px 0 0",
-      fontFamily: theme.typography.secondary.main,
       fontSize: 16,
       letterSpacing: 0.29,
       lineHeight: "20px",

@@ -9,7 +9,6 @@ export const useStyles = theme => ({
     "& p": {
       margin: "10px 0 27px",
       color: theme.palette.text.mediumShadeGray,
-      fontFamily: theme.typography.secondary.main,
       fontSize: 16,
       lineHeight: "24px",
       "& span": { fontWeight: 600 },
