@@ -6,7 +6,7 @@ const RatingsCount = ({ ratingGiven, totalRating }) => {
   const classes = useStyles();
   return (
     <span className={classes.ratedCount}>
-      {parseFloat(ratingGiven).toFixed(1)} {totalRating ? `(${totalRating})` : null}
+      {parseFloat(ratingGiven).toFixed(1)} ({totalRating ? `(${totalRating})` : 0})
     </span>
   );
 };
