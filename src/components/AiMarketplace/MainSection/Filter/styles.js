@@ -16,7 +16,7 @@ export const useStyles = theme =>
     h2: {
       color: theme.palette.text.darkShadedGray,
       fontSize: 20,
-      fontWeight: 'normal'
+      fontWeight: "normal",
     },
     resetBtn: {
       border: "none",

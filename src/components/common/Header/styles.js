@@ -61,12 +61,11 @@ export const useStyles = makeStyles(theme => ({
   },
   activeTab: {
     paddingBottom: 4,
-    fontWeight: 600,
     borderBottomWidth: "2px",
     borderBottomStyle: "solid",
     borderBottomColor: theme.palette.text.white,
     color: theme.palette.text.white,
-    fontWeight: 600
+    fontWeight: 600,
   },
   loginBtnsSection: {
     width: "30%",

@@ -14,12 +14,12 @@ export const useStyles = theme => ({
       fontSize: 20,
       textTransform: "none",
       color: theme.palette.text.lightShadedGray,
-      fontFamily: theme.typography.primary.main
+      fontFamily: theme.typography.primary.main,
     },
-    "& .Mui-selected": { 
-        color: theme.palette.text.primary,
-        fontWeight: 600
-      },
+    "& .Mui-selected": {
+      color: theme.palette.text.primary,
+      fontWeight: 600,
+    },
     "& .MuiTabs-indicator": { backgroundColor: theme.palette.text.primary },
   },
 });

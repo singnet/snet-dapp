@@ -102,7 +102,7 @@ export const useStyles = theme => ({
       fontSize: 18,
       textTransform: "none",
       color: theme.palette.text.lightShadedGray,
-      fontFamily: theme.typography.primary.main
+      fontFamily: theme.typography.primary.main,
     },
     "& .Mui-selected": {
       color: theme.palette.text.primary,

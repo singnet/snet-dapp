@@ -14,7 +14,7 @@ export const useStyles = theme => ({
     },
     "& h2": {
       color: theme.palette.text.darkShadedGray,
-      fontSize: 38
+      fontSize: 38,
     },
   },
   ratingStars: {
