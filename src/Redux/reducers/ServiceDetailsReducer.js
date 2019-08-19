@@ -17,7 +17,7 @@ const serviceDetailsReducer = (state = InitialServiceDetails, action) => {
       return { ...state, serviceMetadata: {} };
     }
     case serviceDetailsActions.UPDATE_SERVICE_METADATA: {
-      return { ...state, serviceMetadata: { groups: action.payload.data } };
+      return { ...state, serviceMetadata: { groups: action.payload.data.groups } };
     }
     case serviceDetailsActions.UPDATE_FREE_CALLS_ALLOWED: {
       return { ...state, freeCallsAllowed: action.payload };
