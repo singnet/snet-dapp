@@ -1,7 +1,7 @@
 export const LoaderContent = {
   DELETE_USER: {
-    loaderHeader: "Deleting User profile",
-    loaderText: "User profile will be deleted completely and all the records will be removed",
+    loaderHeader: "Deleting your Account",
+    loaderText: "Your user profile will be deleted",
   },
   FORGOT_PASSWORD: {
     loaderHeader: "Forgot Password",

@@ -16,6 +16,7 @@ export const useStyles = theme =>
     h2: {
       color: theme.palette.text.darkShadedGray,
       fontSize: 20,
+      fontWeight: 'normal'
     },
     resetBtn: {
       border: "none",
@@ -25,7 +26,6 @@ export const useStyles = theme =>
       fontSize: 14,
       outline: "none",
       textTransform: "uppercase",
-      fontFamily: theme.typography.primary.main,
     },
     filterExpansionPanel: {
       marginTop: 0,
@@ -43,7 +43,6 @@ export const useStyles = theme =>
     filtersHeadingTitle: {
       color: theme.palette.text.darkShadedGray,
       fontSize: 16,
-      fontFamily: theme.typography.primary.main,
     },
     filterDetails: {
       backgroundColor: theme.palette.text.white,
@@ -59,11 +58,9 @@ export const useStyles = theme =>
     },
     count: {
       color: theme.palette.text.mediumShadeGray,
-      fontFamily: theme.typography.tertiary.main,
       fontSize: 14,
     },
     checkboxLabel: {
-      fontFamily: theme.typography.primary.main,
       fontSize: 14,
       letterSpacing: "0.25px",
       color: theme.palette.text.mediumShadeGray,
