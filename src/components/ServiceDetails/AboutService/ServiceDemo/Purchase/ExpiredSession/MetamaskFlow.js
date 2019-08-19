@@ -34,7 +34,6 @@ class MetamaskFlow extends Component {
     showPurchaseDialog: false,
     noOfServiceCalls: 1,
     totalPrice: cogsToAgi(this.props.pricing.price_in_cogs),
-
     alert: {},
   };
 
@@ -54,6 +53,14 @@ class MetamaskFlow extends Component {
       unit: "AGI",
     },
   ];
+
+  handleDisabledPaytypes = ({ channelBalance }) => {
+    const { disabledPayTypes } = this.state;
+    if (channelBalance <= 0 && !disabledPayTypes.includes(payTypes.CHANNEL_BALANCE)) {
+      disabledPayTypes.push(payTypes.CHANNEL_BALANCE);
+    }
+    this.setState({ disabledPayTypes, selectedPayType: payTypes.SINGLE_CALL });
+  };
 
   handleConnectMM = async () => {
     const { groupInfo, startMMconnectLoader, stopLoader } = this.props;
@@ -78,6 +85,7 @@ class MetamaskFlow extends Component {
         await paymentChannelManagement.openChannel();
         mpeBal = await sdk.account.escrowBalance();
       }
+
       this.PaymentInfoCardData.map(el => {
         if (el.title === "Escrow Balance") {
           el.value = cogsToAgi(mpeBal);
@@ -87,6 +95,9 @@ class MetamaskFlow extends Component {
         }
         return el;
       });
+
+      this.handleDisabledPaytypes({ channelBalance: paymentChannelManagement.channel.state.availableAmount });
+
       this.setState({ MMconnected: true });
     } catch (error) {
       this.setState({ alert: { type: alertTypes.ERROR, message: `Unable to connect to metamask ${error}` } });
@@ -139,7 +150,6 @@ class MetamaskFlow extends Component {
       await paymentChannelManagement.extendAndAddFunds(noOfServiceCalls);
       this.props.handleContinue();
     } catch (error) {
-      console.log("Error", error);
       this.setState({ alert: { type: alertTypes.ERROR, message: `Unable to execute the call: ${error}` } });
     }
   };
