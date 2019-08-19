@@ -43,7 +43,6 @@ const PurchaseDialog = ({ classes, show, onClose, startDepositLoader, startWithd
       const amountInAGI = amount[txnTypes.DEPOSIT];
       const amountInCogs = agiToCogs(amountInAGI);
       const response = await sdk.account.depositToEscrowAccount(amountInCogs);
-      console.log(response);
       setAmount({});
       setAlert({ type: alertTypes.SUCCESS, message: "Successfully deposited" });
       this.props.refetchAccBalance();
@@ -61,7 +60,6 @@ const PurchaseDialog = ({ classes, show, onClose, startDepositLoader, startWithd
       const amountInAGI = amount[txnTypes.WITHDRAW];
       const amountInCogs = agiToCogs(amountInAGI);
       const response = await sdk.account.withdrawFromEscrowAccount(amountInCogs);
-      console.log(response);
       setAmount({});
       setAlert({ type: alertTypes.SUCCESS, message: "Successfully withdrawn" });
       this.props.refetchAccBalance();

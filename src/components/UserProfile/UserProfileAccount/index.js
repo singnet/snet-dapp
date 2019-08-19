@@ -83,7 +83,6 @@ class UserProfileAccount extends Component {
       const amountInAGI = this.state.amount[txnTypes.DEPOSIT];
       const amountInCogs = agiToCogs(amountInAGI);
       const response = await this.sdk.account.depositToEscrowAccount(amountInCogs);
-      console.log(response);
       this.retrieveTokenBalance();
       this.retriveEscrowBalance();
       this.setState({ alert: { type: alertTypes.SUCCESS, message: "Successfully deposited" } });
@@ -102,7 +101,6 @@ class UserProfileAccount extends Component {
       const amountInAGI = this.state.amount[txnTypes.WITHDRAW];
       const amountInCogs = agiToCogs(amountInAGI);
       const response = await this.sdk.account.withdrawFromEscrowAccount(amountInCogs);
-      console.log(response);
       this.retrieveTokenBalance();
       this.retriveEscrowBalance();
       this.setState({ alert: { type: alertTypes.SUCCESS, message: "Successfully withdrawn" } });

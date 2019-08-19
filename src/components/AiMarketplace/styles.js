@@ -41,9 +41,9 @@ export const useStyles = theme => ({
     fontSize: 22,
     lineHeight: "30px",
     "& span": { fontWeight: 600 },
-    "& p": { 
+    "& p": {
       margin: "5px 0 0",
-      fontWeight: 200
+      fontWeight: 200,
     },
     "@media(max-width: 1279px)": { paddingRight: 0 },
     "@media(max-width: 1023px)": { paddingTop: 0 },

@@ -14,7 +14,7 @@ export const useStyles = theme => ({
       "& span": {
         "&:before": { color: theme.palette.text.purple },
       },
-      '& img':{ width: '100%' }
+      "& img": { width: "100%" },
     },
     "& p": {
       margin: 0,

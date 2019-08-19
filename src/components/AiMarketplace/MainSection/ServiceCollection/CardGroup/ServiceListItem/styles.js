@@ -16,7 +16,7 @@ export const useStyles = makeStyles(theme => ({
     borderBottomStyle: "solid",
     borderBottomColor: theme.palette.text.cardSeparator,
     borderRadius: 4,
-    backgroundColor: theme.palette.text.white,    
+    backgroundColor: theme.palette.text.white,
     "&:hover": {
       backgroundColor: theme.palette.text.offWhiteColor,
       "& .MuiCardHeader-title": { color: theme.palette.text.primary },
@@ -44,7 +44,6 @@ export const useStyles = makeStyles(theme => ({
     color: theme.palette.text.darkShadedGray,
     fontSize: 20,
     letterSpacing: 0.25,
-    fontFamily: theme.typography.primary.main,
     padding: "0px 9px 4px 0px",
     textAlign: "left",
     fontFamily: theme.typography.primary.main,
@@ -57,7 +56,7 @@ export const useStyles = makeStyles(theme => ({
     textTransform: "uppercase",
     letterSpacing: 2,
     fontFamily: theme.typography.primary.main,
-    fontWeight: 600
+    fontWeight: 600,
   },
   cardContent: {
     padding: "0 10px",
