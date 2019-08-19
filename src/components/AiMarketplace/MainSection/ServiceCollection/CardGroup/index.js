@@ -31,7 +31,7 @@ const CardGroup = ({ cards, loading }) => {
         >
           <ServiceListItem
             key={card.service_id}
-            cardMedia={JSON.parse(card.assets_url).hero_image ? JSON.parse(card.assets_url).hero_image : CardImg}
+            cardMedia={card.assets_url.hero_image ? card.assets_url.hero_image : CardImg}
             cardSubheader={card.org_id}
             cardTitle={card.display_name}
             ratingGiven={card.service_rating}

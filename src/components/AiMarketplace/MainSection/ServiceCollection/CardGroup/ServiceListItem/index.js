@@ -14,6 +14,7 @@ import RatingsCount from "../../../../../common/RatingsCount";
 import SingularityLogo from "../../../../../../assets/images/avatar.png";
 
 const ServiceListItem = props => {
+  console.log(" Rating " + props.ratingGiven.rating + " totalRating " + props.ratingGiven.total_users_rated);
   const classes = useStyles();
   return (
     <Card className={classes.card}>
@@ -36,7 +37,10 @@ const ServiceListItem = props => {
                   value={Number(props.ratingGiven)}
                   className={classes.ratingStars}
                 />
-                <RatingsCount ratingGiven={props.ratingGiven} totalRating={props.totalRating} />
+                <RatingsCount
+                  ratingGiven={props.ratingGiven.rating}
+                  totalRating={props.ratingGiven.total_users_rated}
+                />
               </div>
             }
             subheader={props.cardSubheader}
