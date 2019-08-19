@@ -37,6 +37,31 @@ class MetamaskFlow extends Component {
     alert: {},
   };
 
+  serviceClient;
+
+  paymentChannelManagement;
+
+  componentDidMount = () => {
+    this.initializePaymentChannel();
+  };
+
+  initializePaymentChannel = async () => {
+    const { groupInfo } = this.props;
+    const sdk = await initSdk();
+    const serviceClientOptions = { endpoint: "https://example-service-a.singularitynet.io:8088" };
+    this.serviceClient = new ServiceClient(
+      sdk,
+      "snet",
+      "example-service",
+      sdk._mpeContract,
+      {},
+      groupInfo,
+      undefined,
+      serviceClientOptions
+    );
+    this.paymentChannelManagement = new PaymentChannelManagement(sdk, this.serviceClient);
+  };
+
   PaymentInfoCardData = [
     {
       title: "Payment Channel",
@@ -63,26 +88,14 @@ class MetamaskFlow extends Component {
   };
 
   handleConnectMM = async () => {
-    const { groupInfo, startMMconnectLoader, stopLoader } = this.props;
+    const { startMMconnectLoader, stopLoader } = this.props;
     try {
       startMMconnectLoader();
       const sdk = await initSdk();
       let mpeBal = await sdk.account.escrowBalance();
-      const serviceClientOptions = { endpoint: "https://example-service-a.singularitynet.io:8088" };
-      const serviceClient = new ServiceClient(
-        sdk,
-        "snet",
-        "example-service",
-        sdk._mpeContract,
-        {},
-        groupInfo,
-        undefined,
-        serviceClientOptions
-      );
-      const paymentChannelManagement = new PaymentChannelManagement(sdk, serviceClient);
-      await paymentChannelManagement.updateChannelInfo();
-      if (!paymentChannelManagement.channel) {
-        await paymentChannelManagement.openChannel();
+      await this.paymentChannelManagement.updateChannelInfo();
+      if (!this.paymentChannelManagement.channel) {
+        await this.paymentChannelManagement.openChannel();
         mpeBal = await sdk.account.escrowBalance();
       }
 
@@ -91,12 +104,12 @@ class MetamaskFlow extends Component {
           el.value = cogsToAgi(mpeBal);
         }
         if (el.title === "Channel Balance") {
-          el.value = cogsToAgi(paymentChannelManagement.channel.state.availableAmount);
+          el.value = cogsToAgi(this.paymentChannelManagement.channel.state.availableAmount);
         }
         return el;
       });
 
-      this.handleDisabledPaytypes({ channelBalance: paymentChannelManagement.channel.state.availableAmount });
+      this.handleDisabledPaytypes({ channelBalance: this.paymentChannelManagement.channel.state.availableAmount });
 
       this.setState({ MMconnected: true });
     } catch (error) {
@@ -128,26 +141,12 @@ class MetamaskFlow extends Component {
   };
 
   handleSubmit = async () => {
+    let { noOfServiceCalls, selectedPayType } = this.state;
     try {
-      const { groupInfo } = this.props;
-      let { noOfServiceCalls, selectedPayType } = this.state;
-      const sdk = await initSdk();
-      const serviceClientOptions = { endpoint: "https://example-service-a.singularitynet.io:8088" };
-      const serviceClient = new ServiceClient(
-        sdk,
-        "snet",
-        "example-service",
-        sdk._mpeContract,
-        {},
-        groupInfo,
-        undefined,
-        serviceClientOptions
-      );
-      const paymentChannelManagement = new PaymentChannelManagement(sdk, serviceClient);
       if (selectedPayType === payTypes.SINGLE_CALL) {
         noOfServiceCalls = 1;
       }
-      await paymentChannelManagement.extendAndAddFunds(noOfServiceCalls);
+      await this.paymentChannelManagement.extendAndAddFunds(noOfServiceCalls);
       this.props.handleContinue();
     } catch (error) {
       this.setState({ alert: { type: alertTypes.ERROR, message: `Unable to execute the call: ${error}` } });
