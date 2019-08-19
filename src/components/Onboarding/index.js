@@ -6,25 +6,34 @@ import Authentication from "./Authentication";
 import TermsOfUse from "./TermsOfUse";
 import { useStyles } from "./styles";
 import OnboardingContainer from "./OnboardingContainer";
+import Routes from "../../utility/constants/Routes";
 
 class Onboarding extends Component {
   state = {
     verificationCode: "",
-    activeSection: 2,
+    activeSection: 1,
     progressText: ["Authentication", "Terms of service"],
   };
 
   componentDidMount = () => {
-    const { isEmailVerified } = this.props;
-    if (isEmailVerified) {
-      this.setState({ activeSection: 2 });
-    }
+    this.initialChecks();
   };
 
   componentDidUpdate = () => {
-    const { isEmailVerified } = this.props;
+    this.initialChecks();
+  };
+
+  initialChecks = () => {
+    const { isEmailVerified, isTermsAccepted, history } = this.props;
     if (isEmailVerified && this.state.activeSection === 1) {
       this.setState({ activeSection: 2 });
+    }
+    if (isTermsAccepted) {
+      if (history.location.state && history.location.state.sourcePath) {
+        history.push(history.location.state.sourcePath);
+        return;
+      }
+      history.push(`/${Routes.AI_MARKETPLACE}`);
     }
   };
 
@@ -75,6 +84,7 @@ class Onboarding extends Component {
 
 const mapStateToProps = state => ({
   isEmailVerified: state.userReducer.isEmailVerified,
+  isTermsAccepted: state.userReducer.isTermsAccepted,
   username: state.userReducer.username,
 });
 
