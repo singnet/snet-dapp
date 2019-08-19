@@ -9,7 +9,7 @@ const InitialUserDetails = {
   },
   isInitialized: false,
   isEmailVerified: false,
-  wallet: { type: walletTypes.SNET },
+  wallet: {},
   email: "",
   username: "",
   emailAlerts: false,

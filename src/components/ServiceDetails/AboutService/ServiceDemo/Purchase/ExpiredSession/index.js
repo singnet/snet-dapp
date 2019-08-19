@@ -4,15 +4,15 @@ import { withStyles } from "@material-ui/styles";
 import AlertBox from "../../../../../common/AlertBox";
 import StyledButton from "../../../../../common/StyledButton";
 import { useStyles } from "./styles";
-import { MetamaskFlow } from "./MetamaskFlow";
+import MetamaskFlow from "./MetamaskFlow";
 
-const ExpiredSession = ({ classes, handleComplete, metamask }) => {
+const ExpiredSession = ({ classes, handleComplete, metamask, groupInfo }) => {
   const handleContinue = () => {
     handleComplete();
   };
 
   if (metamask) {
-    return <MetamaskFlow handleContinue={handleContinue} classes={classes} />;
+    return <MetamaskFlow handleContinue={handleContinue} classes={classes} groupInfo={groupInfo} />;
   }
   return (
     <div className={classes.ExpiredSessionContainer}>

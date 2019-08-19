@@ -1,9 +1,16 @@
-import { WebServiceClient as ServiceClient } from "snet-sdk-web";
+import SnetSDK, { WebServiceClient as ServiceClient } from "snet-sdk-web";
 import { API } from "aws-amplify";
 
 import { APIEndpoints, APIPaths } from "../config/APIEndpoints";
 import { initializeAPIOptions } from "./API";
-import { fetchAuthenticatedUser } from "../Redux/actionCreators/UserActions";
+import { fetchAuthenticatedUser, walletTypes } from "../Redux/actionCreators/UserActions";
+import ProxyPaymentChannelManagementStrategy from "./ProxyPaymentChannelManagementStrategy";
+
+const DEFAULT_GAS_PRICE = 4700000;
+const DEFAULT_GAS_LIMIT = 210000;
+
+let sdk;
+let web3Provider;
 
 export const callTypes = {
   FREE: "FREE",
@@ -52,18 +59,7 @@ const metadataGenerator = callType => async (serviceClient, serviceName, method)
   }
 };
 
-const parseServiceMetadata = response => {
-  if (process.env.REACT_APP_SANDBOX) {
-    return {};
-  }
-
-  const { data: groups } = response;
-  const endpoints = groups.map(({ group_name, endpoints }) => ({ group_name, ...endpoints[0] }));
-  const defaultGroup = groups[0];
-  return { defaultGroup, groups, endpoints };
-};
-
-const generateOptions = callType => {
+const generateOptions = (callType, wallet) => {
   if (process.env.REACT_APP_SANDBOX) {
     return {
       endpoint: process.env.REACT_APP_SANDBOX_SERVICE_ENDPOINT,
@@ -71,7 +67,48 @@ const generateOptions = callType => {
     };
   }
 
+  if (wallet && wallet.type === walletTypes.METAMASK) {
+    return {
+      endpoint: "https://example-service-a.singularitynet.io:8088",
+    };
+  }
+
   return { metadataGenerator: metadataGenerator(callType) };
+};
+
+export const initSdk = async () => {
+  if (sdk) {
+    return sdk;
+  }
+
+  const updateSDK = () => {
+    const networkId = web3Provider.networkVersion;
+    const config = {
+      networkId,
+      web3Provider,
+      defaultGasPrice: DEFAULT_GAS_PRICE,
+      defaultGasLimit: DEFAULT_GAS_LIMIT,
+    };
+    sdk = new SnetSDK(config);
+  };
+
+  const hasEth = typeof window.ethereum !== "undefined";
+  const hasWeb3 = typeof window.web3 !== "undefined";
+  if (hasEth && hasWeb3) {
+    web3Provider = window.ethereum;
+    await web3Provider.enable();
+    updateSDK();
+  }
+  return sdk;
+};
+
+const getMethodNames = service => {
+  const ownProperties = Object.getOwnPropertyNames(service);
+  return ownProperties.filter(property => {
+    if (service[property] && typeof service[property] === typeof {}) {
+      return !!service[property].methodName;
+    }
+  });
 };
 
 export const createServiceClient = (
@@ -80,20 +117,24 @@ export const createServiceClient = (
   groupInfo,
   serviceRequestStartHandler,
   serviceRequestCompleteHandler,
-  callType
+  callType,
+  wallet
 ) => {
-  const options = generateOptions(callType);
-  const metadata = parseServiceMetadata(groupInfo);
+  if (sdk && sdk.currentChannel) {
+    sdk.paymentChannelManagementStrategy = new ProxyPaymentChannelManagementStrategy(sdk.currentChannel);
+  }
+  const options = generateOptions(callType, wallet);
   const serviceClient = new ServiceClient(
-    undefined,
+    sdk,
     org_id,
     service_id,
-    undefined,
-    metadata,
-    metadata.defaultGroup,
-    undefined,
+    sdk && sdk._mpeContract,
+    {},
+    groupInfo,
+    sdk && sdk._paymentChannelManagementStrategy,
     options
   );
+
   const onEnd = props => (...args) => {
     props.onEnd(...args);
     if (serviceRequestCompleteHandler) {
@@ -120,11 +161,4 @@ export const createServiceClient = (
   };
 };
 
-const getMethodNames = service => {
-  const ownProperties = Object.getOwnPropertyNames(service);
-  return ownProperties.filter(property => {
-    if (service[property] && typeof service[property] === typeof {}) {
-      return !!service[property].methodName;
-    }
-  });
-};
+export default sdk;
