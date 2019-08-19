@@ -15,7 +15,6 @@ export const useStyles = makeStyles(theme => ({
     padding: "0 18px",
   },
   cardTitle: {
-    fontWeight: theme.typography.fontweight,
     fontSize: 10,
     color: theme.palette.text.lightShadedGray,
     textTransform: "uppercase",
@@ -23,7 +22,7 @@ export const useStyles = makeStyles(theme => ({
   },
   cardSubheader: {
     color: theme.palette.text.darkShadedGray,
-    fontWeight: theme.typography.fontweight,
+    fontWeight: 600,
     fontSize: 18,
     letterSpacing: 0.23,
     lineHeight: "23px",

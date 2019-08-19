@@ -8,7 +8,6 @@ export const useStyles = theme => ({
     "& h2": {
       color: theme.palette.text.darkShadedGray,
       fontSize: 32,
-      fontWeight: theme.typography.fontweight,
     },
     "& p": {
       margin: "20px 0 0",

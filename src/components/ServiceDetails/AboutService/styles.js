@@ -10,6 +10,7 @@ export const useStyles = theme => ({
       margin: 0,
       color: theme.palette.text.darkShadedGray,
       fontSize: 20,
+      fontWeight: 600
     },
   },
   leftSideSection: { paddingRight: 25 },

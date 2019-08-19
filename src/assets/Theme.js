@@ -124,6 +124,11 @@ const theme = createMuiTheme({
   font: {
     h2,
   },
+  typography:{
+    primary:{
+      main: 'Muli, sans-serif'
+    }
+  }
 });
 
 export default theme;

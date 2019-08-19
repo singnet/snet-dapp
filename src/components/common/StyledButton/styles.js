@@ -8,7 +8,8 @@ export const useStyles = makeStyles(theme => ({
     padding: "13px 28px 11px",
     color: theme.palette.text.white,
     textTransform: "uppercase",
-    fontWeight: theme.typography.fontweight,
+    fontFamily: theme.typography.primary.main,
+    fontWeight: 400,
     letterSpacing: "1.25px",
     lineHeight: "16px",
     "&:disabled": {

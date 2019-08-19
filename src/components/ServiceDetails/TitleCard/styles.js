@@ -7,13 +7,12 @@ export const useStyles = theme => ({
     "& h2": {
       color: theme.palette.text.darkShadedGray,
       fontSize: 38,
+      fontWeight: 200
     },
   },
   ratingStars: {
     "& .dv-star-rating-empty-star": {
-      "& i": {
-        color: theme.palette.text.disabledBtnBg,
-      },
+      "& i": { color: theme.palette.text.disabledBtnBg },
     },
     "& i": {
       color: theme.palette.text.RatingStarColor,

@@ -32,7 +32,7 @@ export const useStyles = theme => ({
     textAlign: "left",
     "& span": {
       color: theme.palette.text.darkShadedGray,
-      fontWeight: theme.typography.fontweight,
+      fontWeight: 600,
     },
   },
   textField: {

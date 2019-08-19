@@ -16,7 +16,7 @@ export const useStyles = makeStyles(theme => ({
     borderBottomStyle: "solid",
     borderBottomColor: theme.palette.text.cardSeparator,
     borderRadius: 4,
-    backgroundColor: theme.palette.text.white,
+    backgroundColor: theme.palette.text.white,    
     "&:hover": {
       backgroundColor: theme.palette.text.offWhiteColor,
       "& .MuiCardHeader-title": { color: theme.palette.text.primary },
@@ -42,20 +42,20 @@ export const useStyles = makeStyles(theme => ({
   cardTitle: {
     display: "inline-block",
     color: theme.palette.text.darkShadedGray,
-    fontWeight: theme.typography.fontweight,
     fontSize: 20,
     letterSpacing: 0.25,
     padding: "0px 9px 8px 0px",
     textAlign: "left",
+    fontFamily: theme.typography.primary.main,
     "& h4": { margin: "0 76px 0 0" },
     "@media(max-width: 768px)": { width: "100%" },
   },
   cardSubheader: {
-    fontWeight: theme.typography.fontweight,
     fontSize: 12,
     color: theme.palette.text.lightShadedGray,
     textTransform: "uppercase",
     letterSpacing: 2,
+    fontFamily: theme.typography.primary.main,
     fontWeight: 600
   },
   cardContent: {
@@ -64,6 +64,7 @@ export const useStyles = makeStyles(theme => ({
   },
   cardTypograpy: {
     color: theme.palette.text.mediumShadeGray,
+    fontFamily: theme.typography.primary.main,
     fontSize: 14,
     lineHeight: "20px",
   },

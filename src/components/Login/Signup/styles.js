@@ -20,6 +20,7 @@ export const useStyles = theme => ({
       fontSize: 32,
       letterSpacing: -0.5,
       lineHeight: "48px",
+      fontWeight: 600
     },
     "& p": {
       margin: "23px 0 24px",
