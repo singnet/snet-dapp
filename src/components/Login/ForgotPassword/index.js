@@ -25,7 +25,7 @@ const ForgotPassword = ({ classes, username, error, handleForgotPassword, histor
   };
 
   return (
-    <Grid container spacing={24}>
+    <Grid container spacing={24} className={classes.forgotPwdMainContainer}>
       <Grid item xs={12} sm={12} md={12} lg={12} className={classes.forgotPwdContent}>
         <h2>Forgot your pasword?</h2>
         <p>We'll email you instructions on how to reset it.</p>
