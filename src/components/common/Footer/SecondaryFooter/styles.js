@@ -7,9 +7,7 @@ export const useStyles = makeStyles(theme => ({
     borderTopStyle: "solid",
     marginTop: 11,
     "& div": {
-      "@media (max-width:1023px) and (min-width:768px)": {
-        maxWidth: "50%",
-      },
+      "@media (max-width:1023px) and (min-width:768px)": { maxWidth: "50%" },
     },
     "@media (max-width:1023px) and (min-width:768px)": {
       padding: "15px 15px 0",
@@ -27,12 +25,8 @@ export const useStyles = makeStyles(theme => ({
     opacity: 0.6,
     fontSize: 12,
     lineHeight: "17px",
-    "@media (max-width:1023px) and (min-width:768px)": {
-      width: 353,
-    },
-    "@media (max-width:767px)": {
-      textAlign: "center",
-    },
+    "@media (max-width:1023px) and (min-width:768px)": { width: 353 },
+    "@media (max-width:767px)": { textAlign: "center" },
   },
   socialIconsList: {
     padding: 0,
@@ -41,9 +35,7 @@ export const useStyles = makeStyles(theme => ({
     justifyContent: "flex-end",
     "& li": {
       "&:first-of-type": {
-        "@media (max-width:767px)": {
-          marginLeft: 0,
-        },
+        "@media (max-width:767px)": { marginLeft: 0 },
       },
     },
     "@media (max-width:767px)": {

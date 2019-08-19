@@ -27,23 +27,21 @@ const ServiceListItem = props => {
             className={classes.cardHeader}
             avatar={<Avatar aria-label="recipe" className={classes.avatar} src={SingularityLogo} />}
             classes={{ title: classes.cardTitle, subheader: classes.cardSubheader }}
-            title={
-              <div className={classes.ratingSection}>
-                <h4>{props.cardTitle}</h4>
-                <StarRatingComponent
-                  name="rate1"
-                  starCount={5}
-                  value={Number(props.ratingGiven)}
-                  className={classes.ratingStars}
-                />
-                <RatingsCount ratingGiven={props.ratingGiven} totalRating={props.totalRating} />
-              </div>
-            }
-            subheader={props.cardSubheader}
+            title={<h4>{props.cardTitle}</h4>}
+            subheader={"By " + props.cardSubheader}
             action={<StyledButton type="transparent" btnText="demo" />}
           />
 
           <CardContent className={classes.cardContent}>
+            <div className={classes.ratingSection}>
+              <StarRatingComponent
+                name="rate1"
+                starCount={5}
+                value={Number(props.ratingGiven)}
+                className={classes.ratingStars}
+              />
+              <RatingsCount ratingGiven={props.ratingGiven} totalRating={props.totalRating} />
+            </div>
             <Typography className={classes.cardTypograpy} component="p">
               {props.cardDescription}
             </Typography>

@@ -41,6 +41,7 @@ const StyledPagination = ({ limit, offset, total_count, handleChange }) => {
           total={total_count}
           reduced={true}
           onClick={(e, offset) => handlePageChange(offset)}
+          className={classes.styledPagination}
         />
       </Grid>
       <Grid item xs={12} sm={6} md={6} lg={6} className={classes.pageCountSection}>

@@ -100,7 +100,7 @@ class App extends Component {
                   {...this.props}
                   component={withInAppWrapper(AiMarketplace)}
                 />
-                <Route path={`/${Routes.GET_STARTED}`} component={GetStarted} />
+                <Route path={`/${Routes.GET_STARTED}`} component={withInAppWrapper(GetStarted)} />
                 <Route component={PageNotFound} />
               </Switch>
             </Suspense>

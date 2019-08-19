@@ -1,5 +1,9 @@
 export const useStyles = theme => ({
-  signupMainContainer: { backgroundColor: theme.palette.text.offWhiteColor },
+  signupMainContainer: {
+    height: "calc(100vh - 126px)",
+    backgroundColor: theme.palette.text.offWhiteColor,
+    "@media(max-width: 960px)": { height: "auto" },
+  },
   signupMainContent: {
     width: "71%",
     paddingBottom: 50,
@@ -20,7 +24,7 @@ export const useStyles = theme => ({
       fontSize: 32,
       letterSpacing: -0.5,
       lineHeight: "48px",
-      fontWeight: 600
+      fontWeight: 600,
     },
     "& p": {
       margin: "23px 0 24px",
