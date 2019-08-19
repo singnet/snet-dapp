@@ -19,8 +19,6 @@ import { initSdk } from "../../../../../../utility/sdk";
 import { loaderActions } from "../../../../../../Redux/actionCreators";
 import { LoaderContent } from "../../../../../../utility/constants/LoaderContent";
 
-let sdk = undefined;
-
 const PurchaseDialog = ({ classes, show, onClose, startDepositLoader, startWithdrawLoader, stopLoader }) => {
   const [activeTab, setActiveTab] = useState(0);
   const [amount, setAmount] = useState({});
@@ -40,9 +38,7 @@ const PurchaseDialog = ({ classes, show, onClose, startDepositLoader, startWithd
 
   const handleDeposit = async () => {
     startDepositLoader();
-    if (!sdk) {
-      sdk = await initSdk();
-    }
+    const sdk = await initSdk();
     try {
       const amountInAGI = amount[txnTypes.DEPOSIT];
       const amountInCogs = agiToCogs(amountInAGI);
@@ -60,9 +56,7 @@ const PurchaseDialog = ({ classes, show, onClose, startDepositLoader, startWithd
 
   const handleWithdraw = async () => {
     startWithdrawLoader();
-    if (!sdk) {
-      sdk = await initSdk();
-    }
+    const sdk = await initSdk();
     try {
       const amountInAGI = amount[txnTypes.WITHDRAW];
       const amountInCogs = agiToCogs(amountInAGI);
