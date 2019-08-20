@@ -5,7 +5,6 @@ import { withStyles } from "@material-ui/styles";
 import thirdPartyCustomUIComponents from "../../../../assets/thirdPartyServices";
 import { useStyles } from "./styles";
 import { serviceActions, serviceDetailsActions, loaderActions } from "../../../../Redux/actionCreators";
-import { APIEndpoints } from "../../../../config/APIEndpoints";
 import CompletedActions from "./CompletedActions";
 import { createServiceClient, callTypes } from "../../../../utility/sdk";
 import ThirdPartyServiceErrorBoundary from "./ThirdPartyServiceErrorBoundary";
@@ -37,14 +36,11 @@ class ThirdPartyAIService extends Component {
     this.setState({ loading: false });
   };
 
-  setupComponent = async () => {
+  setupComponent = () => {
     if (process.env.REACT_APP_SANDBOX) {
       return;
     }
 
-    const { serviceSpecJSON, protoSpec } = await this.fetchServiceSpec();
-    this.serviceSpecJSON = serviceSpecJSON;
-    this.protoSpec = protoSpec;
     this.fetchUserFeedback();
   };
 
@@ -71,27 +67,6 @@ class ThirdPartyAIService extends Component {
     this.setState({ feedback: { comment: feedback.data[0].comment[0], rating: feedback.data[0].rating } });
   };
 
-  fetchServiceSpec = () => {
-    const { org_id, service_id } = this.props;
-    const servicebufURL = `${APIEndpoints.SERVICE_BUF.endpoint}/${org_id}/${service_id}`;
-    return this.props.fetchProtoSpec(servicebufURL);
-  };
-
-  handleServiceInvokation = (serviceName, methodName, requestObject) => {
-    const { org_id, service_id, username } = this.props;
-    const data = {
-      org_id,
-      service_id,
-      method: methodName,
-      service_name: serviceName,
-      input: JSON.stringify(requestObject),
-      user_address: "",
-      username,
-      isBase64Encoded: true,
-    };
-    this.props.invokeServiceMethod(data);
-  };
-
   handleResetAndRun = () => {
     const { isComplete, resetServiceExecution, returnToPurchase } = this.props;
     if (isComplete) {
@@ -108,28 +83,25 @@ class ThirdPartyAIService extends Component {
       return null;
     }
 
-    const { org_id, service_id, classes, grpcResponse, isComplete } = this.props;
-    const { feedback, serviceRequestComplete } = this.state;
-    const { serviceClient, serviceSpecJSON, protoSpec } = this;
+    const { org_id, service_id, classes, grpcResponse, isComplete, stopLoader } = this.props;
+    const { feedback } = this.state;
+    const { serviceClient } = this;
     const AIServiceCustomComponent = thirdPartyCustomUIComponents.componentFor(org_id, service_id);
 
     return (
       <div className={classes.serviceDetailsTab}>
         <Suspense fallback={<div>Loading Service...</div>}>
-          <ThirdPartyServiceErrorBoundary>
+          <ThirdPartyServiceErrorBoundary stopLoader={stopLoader}>
             <AIServiceCustomComponent
               serviceClient={serviceClient}
-              callApiCallback={this.handleServiceInvokation}
-              protoSpec={protoSpec}
-              serviceSpec={serviceSpecJSON}
-              isComplete={isComplete | serviceRequestComplete}
+              isComplete={isComplete}
               response={grpcResponse}
               sliderWidth={"550px"}
             />
           </ThirdPartyServiceErrorBoundary>
         </Suspense>
         <CompletedActions
-          isComplete={isComplete || serviceRequestComplete}
+          isComplete={isComplete}
           feedback={feedback}
           orgId={org_id}
           serviceId={service_id}
@@ -149,11 +121,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchProtoSpec: servicebufURL => dispatch(serviceActions.fetchProtoSpec(servicebufURL)),
-  invokeServiceMethod: data => dispatch(serviceActions.invokeServiceMethod(data)),
   startLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.SERVICE_INVOKATION)),
   stopLoader: () => dispatch(loaderActions.stopAppLoader),
-  resetServiceExecution: () => dispatch(serviceActions.resetServiceExecution),
   fetchFeedback: (orgId, serviceId) => dispatch(serviceActions.fetchFeedback(orgId, serviceId)),
   fetchMeteringData: args => dispatch(serviceDetailsActions.fetchMeteringData({ ...args })),
 });

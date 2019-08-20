@@ -73,6 +73,7 @@ const addSnetCustomUI = (serviceId, CustomUIComponent) => {
 };
 
 addSnetCustomUI("example-service", ExampleService);
+addSnetCustomUI("freecall", ExampleService);
 addSnetCustomUI("cntk-image-recon", CNTKImageRecognition);
 addSnetCustomUI("cntk-next-day-trend", CNTKNextDayTrend);
 addSnetCustomUI("cntk-lstm-forecast", CNTKLSTMForecast);

@@ -36,29 +36,14 @@ const groups = state => {
 };
 
 export const groupInfo = state => {
-  // //hardcoded-data
-  // const payment = {
-  //   payment_address: "0xBEEC34186ed77F1CEbb92fd1C11cDD2F9789Dbe5",
-  //   payment_channel_storage_type: "etcd",
-  //   payment_expiration_threshold: 100,
-  //   payment_channel_storage_client: {
-  //     endpoints: ["https://snet-etcd.singularitynet.io:2379"],
-  //     request_timeout: "8s",
-  //     connection_timeout: "100s",
-  //   },
-  // };
-  // // till here
   const serviceGroups = groups(state);
   const availableGroup = find(serviceGroups, ({ endpoints }) =>
     some(endpoints, endpoint => endpoint.is_available === 1)
   );
   if (availableGroup) {
-    // return { ...availableGroup, payment };
     return { ...availableGroup };
   }
-
   const firstGroup = first(serviceGroups);
-  // return firstGroup && { ...firstGroup, payment };
   return firstGroup && { ...firstGroup };
 };
 
