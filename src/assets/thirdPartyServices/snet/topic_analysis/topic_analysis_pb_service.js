@@ -1,36 +1,36 @@
 // package: 
-// file: ProtoFiles/alpha_zero.proto
+// file: ProtoFiles/topic_analysis.proto
 
-var ProtoFiles_alpha_zero_pb = require("./alpha_zero_pb");
+var ProtoFiles_topic_analysis_pb = require("./topic_analysis_pb");
 var grpc = require("@improbable-eng/grpc-web").grpc;
 
-var AlphaZero = (function () {
-  function AlphaZero() {}
-  AlphaZero.serviceName = "AlphaZero";
-  return AlphaZero;
+var TopicAnalysis = (function () {
+  function TopicAnalysis() {}
+  TopicAnalysis.serviceName = "TopicAnalysis";
+  return TopicAnalysis;
 }());
 
-AlphaZero.play = {
-  methodName: "play",
-  service: AlphaZero,
+TopicAnalysis.PLSA = {
+  methodName: "PLSA",
+  service: TopicAnalysis,
   requestStream: false,
   responseStream: false,
-  requestType: ProtoFiles_alpha_zero_pb.Input,
-  responseType: ProtoFiles_alpha_zero_pb.Output
+  requestType: ProtoFiles_topic_analysis_pb.PLSARequest,
+  responseType: ProtoFiles_topic_analysis_pb.PLSAResponse
 };
 
-exports.AlphaZero = AlphaZero;
+exports.TopicAnalysis = TopicAnalysis;
 
-function AlphaZeroClient(serviceHost, options) {
+function TopicAnalysisClient(serviceHost, options) {
   this.serviceHost = serviceHost;
   this.options = options || {};
 }
 
-AlphaZeroClient.prototype.play = function play(requestMessage, metadata, callback) {
+TopicAnalysisClient.prototype.pLSA = function pLSA(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
-  var client = grpc.unary(AlphaZero.play, {
+  var client = grpc.unary(TopicAnalysis.PLSA, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
@@ -57,5 +57,5 @@ AlphaZeroClient.prototype.play = function play(requestMessage, metadata, callbac
   };
 };
 
-exports.AlphaZeroClient = AlphaZeroClient;
+exports.TopicAnalysisClient = TopicAnalysisClient;
 

@@ -18,26 +18,30 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import HoverIcon from "../../standardComponents/HoverIcon";
 
+import { Super_Resolution } from "./super_resolution_pb_service";
+
+const initialUserInput = {
+  // Actual inputs
+  input: null,
+  model: "",
+  scale: "",
+};
+
+
 export default class SuperResolution extends React.Component {
   constructor(props) {
     super(props);
 
-    this.initialState = {
+    this.state = {
+      ...initialUserInput,
       // From .proto file
       // Single option for both service and method names
       serviceName: "SuperResolution",
       methodName: "increase_image_resolution",
-      // Actual inputs
-      input: null,
-      model: "",
-      scale: "",
-
       // For the outlined select components
       modelLabelWidth: 0,
       scaleLabelWidth: 0,
     };
-
-    this.state = this.initialState;
 
     this.mainFont = "Muli";
     this.mainFontSize = 14;
@@ -95,6 +99,32 @@ export default class SuperResolution extends React.Component {
       model: this.state.model,
       scale: this.state.scale,
     });
+  }
+
+  submitAction() {
+    const { methodName, input, model, scale } = this.state;
+    const methodDescriptor = Super_Resolution[methodName];
+    const request = new methodDescriptor.requestType();
+
+    request.setInput(input);
+    request.setModel(model);
+    request.setScale(scale);
+
+    const props = {
+      request,
+      onEnd: response => {
+        const { message, status, statusMessage } = response;
+        if (status !== 0) {
+          throw new Error(statusMessage);
+        }
+        this.setState({
+          ...initialUserInput,
+          response: { status: "success", data: message.getData() },
+        });
+      },
+    };
+
+    this.props.serviceClient.unary(methodDescriptor, props);
   }
 
   handleFormUpdate(event) {
@@ -217,7 +247,10 @@ export default class SuperResolution extends React.Component {
   }
 
   parseResponse() {
-    const { response, isComplete } = this.props;
+
+    const { response} = this.state;
+    const { isComplete } = this.props;
+    
     if (isComplete) {
       if (typeof response !== "undefined") {
         if (typeof response === "string") {
