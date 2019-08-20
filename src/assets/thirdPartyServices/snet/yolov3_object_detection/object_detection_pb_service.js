@@ -1,36 +1,36 @@
 // package: 
-// file: ProtoFiles/alpha_zero.proto
+// file: ProtoFiles/object_detection.proto
 
-var ProtoFiles_alpha_zero_pb = require("./alpha_zero_pb");
+var ProtoFiles_object_detection_pb = require("./object_detection_pb");
 var grpc = require("@improbable-eng/grpc-web").grpc;
 
-var AlphaZero = (function () {
-  function AlphaZero() {}
-  AlphaZero.serviceName = "AlphaZero";
-  return AlphaZero;
+var Detect = (function () {
+  function Detect() {}
+  Detect.serviceName = "Detect";
+  return Detect;
 }());
 
-AlphaZero.play = {
-  methodName: "play",
-  service: AlphaZero,
+Detect.detect = {
+  methodName: "detect",
+  service: Detect,
   requestStream: false,
   responseStream: false,
-  requestType: ProtoFiles_alpha_zero_pb.Input,
-  responseType: ProtoFiles_alpha_zero_pb.Output
+  requestType: ProtoFiles_object_detection_pb.Input,
+  responseType: ProtoFiles_object_detection_pb.Output
 };
 
-exports.AlphaZero = AlphaZero;
+exports.Detect = Detect;
 
-function AlphaZeroClient(serviceHost, options) {
+function DetectClient(serviceHost, options) {
   this.serviceHost = serviceHost;
   this.options = options || {};
 }
 
-AlphaZeroClient.prototype.play = function play(requestMessage, metadata, callback) {
+DetectClient.prototype.detect = function detect(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
-  var client = grpc.unary(AlphaZero.play, {
+  var client = grpc.unary(Detect.detect, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
@@ -57,5 +57,5 @@ AlphaZeroClient.prototype.play = function play(requestMessage, metadata, callbac
   };
 };
 
-exports.AlphaZeroClient = AlphaZeroClient;
+exports.DetectClient = DetectClient;
 

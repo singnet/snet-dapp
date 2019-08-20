@@ -68,9 +68,7 @@ const generateOptions = (callType, wallet) => {
   }
 
   if (wallet && wallet.type === walletTypes.METAMASK) {
-    return {
-      endpoint: "https://example-service-a.singularitynet.io:8088",
-    };
+    return {};
   }
 
   return { metadataGenerator: metadataGenerator(callType) };

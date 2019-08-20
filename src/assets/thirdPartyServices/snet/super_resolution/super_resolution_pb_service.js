@@ -1,36 +1,36 @@
 // package: 
-// file: ProtoFiles/alpha_zero.proto
+// file: ProtoFiles/super_resolution.proto
 
-var ProtoFiles_alpha_zero_pb = require("./alpha_zero_pb");
+var ProtoFiles_super_resolution_pb = require("./super_resolution_pb");
 var grpc = require("@improbable-eng/grpc-web").grpc;
 
-var AlphaZero = (function () {
-  function AlphaZero() {}
-  AlphaZero.serviceName = "AlphaZero";
-  return AlphaZero;
+var SuperResolution = (function () {
+  function SuperResolution() {}
+  SuperResolution.serviceName = "SuperResolution";
+  return SuperResolution;
 }());
 
-AlphaZero.play = {
-  methodName: "play",
-  service: AlphaZero,
+SuperResolution.increase_image_resolution = {
+  methodName: "increase_image_resolution",
+  service: SuperResolution,
   requestStream: false,
   responseStream: false,
-  requestType: ProtoFiles_alpha_zero_pb.Input,
-  responseType: ProtoFiles_alpha_zero_pb.Output
+  requestType: ProtoFiles_super_resolution_pb.SuperResolutionRequest,
+  responseType: ProtoFiles_super_resolution_pb.Image
 };
 
-exports.AlphaZero = AlphaZero;
+exports.SuperResolution = SuperResolution;
 
-function AlphaZeroClient(serviceHost, options) {
+function SuperResolutionClient(serviceHost, options) {
   this.serviceHost = serviceHost;
   this.options = options || {};
 }
 
-AlphaZeroClient.prototype.play = function play(requestMessage, metadata, callback) {
+SuperResolutionClient.prototype.increase_image_resolution = function increase_image_resolution(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
-  var client = grpc.unary(AlphaZero.play, {
+  var client = grpc.unary(SuperResolution.increase_image_resolution, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
@@ -57,5 +57,5 @@ AlphaZeroClient.prototype.play = function play(requestMessage, metadata, callbac
   };
 };
 
-exports.AlphaZeroClient = AlphaZeroClient;
+exports.SuperResolutionClient = SuperResolutionClient;
 

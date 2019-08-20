@@ -1,36 +1,36 @@
 // package: 
-// file: ProtoFiles/alpha_zero.proto
+// file: ProtoFiles/style_transfer.proto
 
-var ProtoFiles_alpha_zero_pb = require("./alpha_zero_pb");
+var ProtoFiles_style_transfer_pb = require("./style_transfer_pb");
 var grpc = require("@improbable-eng/grpc-web").grpc;
 
-var AlphaZero = (function () {
-  function AlphaZero() {}
-  AlphaZero.serviceName = "AlphaZero";
-  return AlphaZero;
+var StyleTransfer = (function () {
+  function StyleTransfer() {}
+  StyleTransfer.serviceName = "StyleTransfer";
+  return StyleTransfer;
 }());
 
-AlphaZero.play = {
-  methodName: "play",
-  service: AlphaZero,
+StyleTransfer.transfer_image_style = {
+  methodName: "transfer_image_style",
+  service: StyleTransfer,
   requestStream: false,
   responseStream: false,
-  requestType: ProtoFiles_alpha_zero_pb.Input,
-  responseType: ProtoFiles_alpha_zero_pb.Output
+  requestType: ProtoFiles_style_transfer_pb.TransferImageStyleRequest,
+  responseType: ProtoFiles_style_transfer_pb.Image
 };
 
-exports.AlphaZero = AlphaZero;
+exports.StyleTransfer = StyleTransfer;
 
-function AlphaZeroClient(serviceHost, options) {
+function StyleTransferClient(serviceHost, options) {
   this.serviceHost = serviceHost;
   this.options = options || {};
 }
 
-AlphaZeroClient.prototype.play = function play(requestMessage, metadata, callback) {
+StyleTransferClient.prototype.transfer_image_style = function transfer_image_style(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
-  var client = grpc.unary(AlphaZero.play, {
+  var client = grpc.unary(StyleTransfer.transfer_image_style, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
@@ -57,5 +57,5 @@ AlphaZeroClient.prototype.play = function play(requestMessage, metadata, callbac
   };
 };
 
-exports.AlphaZeroClient = AlphaZeroClient;
+exports.StyleTransferClient = StyleTransferClient;
 

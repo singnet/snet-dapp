@@ -3,7 +3,6 @@ import { defaultListingConfig, defaultActiveFilterItem } from "../../utility/con
 
 const InitialServiceList = {
   services: [],
-  serviceMetadata: {},
   pagination: { ...defaultListingConfig },
   filterData: {
     org_id: [],
@@ -22,9 +21,6 @@ const serviceReducer = (state = InitialServiceList, action) => {
     }
     case serviceActions.UPDATE_SERVICE_LIST: {
       return { ...state, services: action.payload };
-    }
-    case serviceActions.UPDATE_SERVICE_METADATA: {
-      return { ...state, serviceMetadata: { ...action.payload } };
     }
     case serviceActions.UPDATE_SERVICE_EXECUTION_RESPONSE: {
       return { ...state, serviceMethodExecution: { ...state.serviceMethodExecution, ...action.payload } };
@@ -80,7 +76,3 @@ const serviceReducer = (state = InitialServiceList, action) => {
 };
 
 export default serviceReducer;
-
-export const serviceDetails = (state, { orgId, serviceId }) => {
-  return state.serviceReducer.services.find(service => service.org_id === orgId && service.service_id === serviceId);
-};

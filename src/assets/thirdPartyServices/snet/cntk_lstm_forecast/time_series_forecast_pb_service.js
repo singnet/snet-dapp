@@ -1,36 +1,36 @@
 // package: 
-// file: ProtoFiles/alpha_zero.proto
+// file: ProtoFiles/time_series_forecast.proto
 
-var ProtoFiles_alpha_zero_pb = require("./alpha_zero_pb");
+var ProtoFiles_time_series_forecast_pb = require("./time_series_forecast_pb");
 var grpc = require("@improbable-eng/grpc-web").grpc;
 
-var AlphaZero = (function () {
-  function AlphaZero() {}
-  AlphaZero.serviceName = "AlphaZero";
-  return AlphaZero;
+var Forecast = (function () {
+  function Forecast() {}
+  Forecast.serviceName = "Forecast";
+  return Forecast;
 }());
 
-AlphaZero.play = {
-  methodName: "play",
-  service: AlphaZero,
+Forecast.forecast = {
+  methodName: "forecast",
+  service: Forecast,
   requestStream: false,
   responseStream: false,
-  requestType: ProtoFiles_alpha_zero_pb.Input,
-  responseType: ProtoFiles_alpha_zero_pb.Output
+  requestType: ProtoFiles_time_series_forecast_pb.Input,
+  responseType: ProtoFiles_time_series_forecast_pb.Output
 };
 
-exports.AlphaZero = AlphaZero;
+exports.Forecast = Forecast;
 
-function AlphaZeroClient(serviceHost, options) {
+function ForecastClient(serviceHost, options) {
   this.serviceHost = serviceHost;
   this.options = options || {};
 }
 
-AlphaZeroClient.prototype.play = function play(requestMessage, metadata, callback) {
+ForecastClient.prototype.forecast = function forecast(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
-  var client = grpc.unary(AlphaZero.play, {
+  var client = grpc.unary(Forecast.forecast, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
@@ -57,5 +57,5 @@ AlphaZeroClient.prototype.play = function play(requestMessage, metadata, callbac
   };
 };
 
-exports.AlphaZeroClient = AlphaZeroClient;
+exports.ForecastClient = ForecastClient;
 
