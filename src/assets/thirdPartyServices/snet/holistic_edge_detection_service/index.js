@@ -16,8 +16,6 @@ export default class HolisticEdgeDetectionService extends React.Component {
   constructor(props) {
     super(props);
     this.handleImageUpload = this.handleImageUpload.bind(this);
-    // TODO: check for the need
-    //this.handleServiceName = this.handleServiceName.bind(this);
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
     this.submitAction = this.submitAction.bind(this);
 
@@ -45,23 +43,6 @@ export default class HolisticEdgeDetectionService extends React.Component {
       uploadedImageType: mimeType,
     });
   }
-
-  // TODO: Check for the need
-  /*
-  handleServiceName(event) {
-    let strService = event.target.value;
-    this.setState({
-      serviceName: strService,
-    });
-  }
-
-  renderServiceMethodNames(serviceMethodNames) {
-    const serviceNameOptions = ["Select a method", ...serviceMethodNames];
-    return serviceNameOptions.map((serviceMethodName, index) => {
-      return <option key={index}>{serviceMethodName}</option>;
-    });
-  }
-*/
 
   submitAction() {
     const { methodName, uploadedImage, uploadedImageType } = this.state;
@@ -91,10 +72,6 @@ export default class HolisticEdgeDetectionService extends React.Component {
   renderForm() {
 
     const serviceNameOptions = ["Select a method", ...this.props.serviceClient.getMethodNames(Edgedetect)];
-
-    // TODO: Check for the need
-    //const service = this.props.protoSpec.findServiceByName(this.state.serviceName);
-    //const serviceMethodNames = service.methodNames;
 
     return (
       <React.Fragment>

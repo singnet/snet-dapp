@@ -15,9 +15,7 @@ export default class Zeta36ChessAlphaZero extends React.Component {
   constructor(props) {
     super(props);
     this.submitAction = this.submitAction.bind(this);
-    //this.handleServiceName = this.handleServiceName.bind(this);
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
-    //this.getServiceMethods = this.getServiceMethods.bind(this);
 
     this.state = {
       ...initialUserInput,
@@ -30,7 +28,6 @@ export default class Zeta36ChessAlphaZero extends React.Component {
       methodName: "play",
       response: undefined,
     };
-    //this.parseProps(props);
   }
 
   canBeInvoked() {
@@ -65,7 +62,7 @@ export default class Zeta36ChessAlphaZero extends React.Component {
         }
         this.setState({
           ...initialUserInput,
-          response: { status: "success", uid: message.getUid(), board: message.getBoard(), status: message.getStatus()},
+          response: { status: "success", uid: message.getUid(), board: message.getBoard(), resStatus: message.getStatus()},
         });
       },
     };
@@ -162,7 +159,7 @@ export default class Zeta36ChessAlphaZero extends React.Component {
     let board = "\n";
 
     if (typeof this.state.response === "object") {
-      status = this.state.response.status + "\n";
+      status = this.state.response.resStatus + "\n";
       uid = this.state.response.uid + "\n";
       board = "\n" + this.state.response.board;
     } else {

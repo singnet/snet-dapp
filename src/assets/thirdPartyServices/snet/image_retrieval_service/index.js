@@ -21,13 +21,6 @@ export default class ImageRetrievalService extends React.Component {
     this.submitAction = this.submitAction.bind(this);
 
     this.state = {
-      serviceName: "SimilarImage",
-      methodName: "Select a method",
-      uploadedImage: null,
-      similarityMeasure: "CosineDistance",
-    };
-
-    this.state = {
       ...initialUserInput,
       users_guide: "",
       code_repo: "",
@@ -76,16 +69,6 @@ export default class ImageRetrievalService extends React.Component {
     });
   }
 
-  // TODO: Check for the need
-  /*
-  renderServiceMethodNames(serviceMethodNames) {
-    const serviceNameOptions = ["Select a method", ...serviceMethodNames];
-    return serviceNameOptions.map((serviceMethodName, index) => {
-      return <option key={index}>{serviceMethodName}</option>;
-    });
-  }
-  */
-
   renderSimilarityMeasures() {
     const similarityMeasures = ["CosineDistance", "EuclideanDistance"];
     return similarityMeasures.map((similarityMeasure, index) => {
@@ -126,10 +109,6 @@ export default class ImageRetrievalService extends React.Component {
   }
 
   renderForm() {
-
-    //TODO: Check for the need
-    //const service = this.props.protoSpec.findServiceByName(this.state.serviceName);
-    //const serviceMethodNames = service.methodNames;
 
     const serviceNameOptions = ["Select a method", ...this.props.serviceClient.getMethodNames(SimilarImage)];
 

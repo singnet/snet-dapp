@@ -35,16 +35,6 @@ export default class LanguageDetectionService extends React.Component {
     return this.state.methodName !== "Select a method" && this.state.sentence !== "";
   }
 
-  // TODO: Check for the need
-  /*
-  renderServiceMethodNames(serviceMethodNames) {
-    const serviceNameOptions = ["Select a method", ...serviceMethodNames];
-    return serviceNameOptions.map((serviceMethodName, index) => {
-      return <option key={index}>{serviceMethodName}</option>;
-    });
-  }
-  */
-
   renderFormInput() {
     const inputOptions = [
       "Ich bin das Singularität.",
@@ -96,10 +86,6 @@ export default class LanguageDetectionService extends React.Component {
   renderForm() {
 
     const serviceNameOptions = ["Select a method", ...this.props.serviceClient.getMethodNames(LanguageDetect)];
-
-    // TODO: Check for the need
-    //const service = this.props.protoSpec.findServiceByName(this.state.serviceName);
-    //const serviceMethodNames = service.methodNames;
 
     return (
       <React.Fragment>

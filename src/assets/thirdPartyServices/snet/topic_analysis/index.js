@@ -108,13 +108,6 @@ export default class TopicAnalysisService extends React.Component {
     }
   }
 
-  renderServiceMethodNames(serviceMethodNames) {
-    const serviceNameOptions = ["Select a method", ...serviceMethodNames];
-    return serviceNameOptions.map((serviceMethodName, index) => {
-      return <option key={index}>{serviceMethodName}</option>;
-    });
-  }
-
   renderFormInput() {
     const inputOptions = ["File Upload", "Textual Input"];
     return inputOptions.map((inputOption, index) => {
@@ -151,7 +144,7 @@ export default class TopicAnalysisService extends React.Component {
         // this.state = this.getInitialState();
 
         this.setState({
-          response: { status: "success", status: message.getStatus(), message: message.getMessage(), handle: message.getHandle() },
+          response: { status: "success", resStatus: message.getStatus(), message: message.getMessage(), handle: message.getHandle() },
         });
       },
     };
@@ -254,8 +247,6 @@ export default class TopicAnalysisService extends React.Component {
   renderForm() {
 
     const serviceNameOptions = ["Select a method", ...this.props.serviceClient.getMethodNames(TopicAnalysis)];
-    // const service = this.props.protoSpec.findServiceByName(this.state.serviceName);
-    // const serviceMethodNames = service.methodNames;
 
     return (
       <React.Fragment>
@@ -347,10 +338,11 @@ export default class TopicAnalysisService extends React.Component {
   }
 
   renderComplete() {
-    let response = [this.props.response];
 
-    response["handle"] =
-      "https://tz-services-1.snet.sh:2298/topic-analysis/api/v1.0/results?handle=" + response["handle"];
+    var response = this.state.response;
+
+    response.handle =
+      "https://tz-services-1.snet.sh:2298/topic-analysis/api/v1.0/results?handle=" + response.handle;
     return (
       <React.Fragment>
         <Card
@@ -380,11 +372,11 @@ export default class TopicAnalysisService extends React.Component {
                 target="_blank"
                 href={
                   "https://tz-services-1.snet.sh:2298/topic-analysis/api/v1.0/results?handle=" +
-                  this.props.response["handle"]
+                  response.handle
                 }
               >
                 {"https://tz-services-1.snet.sh:2298/topic-analysis/api/v1.0/results?handle=" +
-                  this.props.response["handle"]}
+                  response.handle}
               </a>
             </p>
           </CardContent>

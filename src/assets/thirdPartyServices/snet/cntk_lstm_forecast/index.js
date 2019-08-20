@@ -25,10 +25,6 @@ export default class CNTKLSTMForecast extends React.Component {
     this.submitAction = this.submitAction.bind(this);
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
 
-    //TODO: Check for the need
-    //this.handleServiceName = this.handleServiceName.bind(this);
-    //this.getServiceMethods = this.getServiceMethods.bind(this);
-
     this.state = {
       ...initialUserInput,
       users_guide:
@@ -46,67 +42,7 @@ export default class CNTKLSTMForecast extends React.Component {
     this.allServices = [];
     this.methodsForAllServices = [];
 
-    // TODO: Check for the need
-    //this.parseProps(props);
   }
-
-  // TODO: Check for the need
-  /*
-  parseProps(nextProps) {
-    this.isComplete = nextProps.isComplete;
-    if (!this.isComplete) {
-      this.parseServiceSpec(nextProps.serviceSpec);
-    } else {
-      console.log(nextProps.response);
-      if (typeof nextProps.response !== "undefined") {
-        this.state.response = nextProps.response;
-      }
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.isComplete !== nextProps.isComplete) {
-      this.parseProps(nextProps);
-    }
-  }
-
-  parseServiceSpec(serviceSpec) {
-    const packageName = Object.keys(serviceSpec.nested).find(
-      key => typeof serviceSpec.nested[key] === "object" && hasOwnDefinedProperty(serviceSpec.nested[key], "nested")
-    );
-
-    var objects = undefined;
-    var items = undefined;
-    if (typeof packageName !== "undefined") {
-      items = serviceSpec.lookup(packageName);
-      objects = Object.keys(items);
-    } else {
-      items = serviceSpec.nested;
-      objects = Object.keys(serviceSpec.nested);
-    }
-
-    this.methodsForAllServices = [];
-    objects.map(rr => {
-      if (typeof items[rr] === "object" && items[rr] !== null && items[rr].hasOwnProperty("methods")) {
-        this.allServices.push(rr);
-        this.methodsForAllServices.push(rr);
-        this.methodsForAllServices[rr] = Object.keys(items[rr]["methods"]);
-      }
-    });
-    this.getServiceMethods(this.allServices[0]);
-  }
-
-  getServiceMethods(strService) {
-    this.setState({
-      serviceName: strService,
-    });
-    var data = this.methodsForAllServices[strService];
-    if (typeof data === "undefined") {
-      data = [];
-    }
-    this.serviceMethods = data;
-  }
-*/
 
   isValidCSVURL(str) {
     return (str.startsWith("http://") || str.startsWith("https://")) && str.endsWith(".csv");
@@ -126,37 +62,7 @@ export default class CNTKLSTMForecast extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   }
 
-  // TODO: Check for the need
-  /*
-  handleServiceName(event) {
-    var strService = event.target.value;
-    this.setState({
-      serviceName: strService,
-    });
-    console.log("Selected service is " + strService);
-    var data = this.methodsForAllServices[strService];
-    if (typeof data === "undefined") {
-      data = [];
-    }
-    this.serviceMethods = data;
-  }
-  */
-
-  /*
-  submitAction() {
-    this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
-      window_len: this.state.window_len,
-      word_len: this.state.word_len,
-      alphabet_size: this.state.alphabet_size,
-      source_type: this.state.source_type,
-      source: this.state.source,
-      contract: this.state.contract,
-      start_date: this.state.start_date,
-      end_date: this.state.end_date,
-    });
-  }
-  */
-
+  
  submitAction() {
   const { methodName, window_len, word_len, alphabet_size, source_type, source, contract, start_date, end_date} = this.state;
   const methodDescriptor = Forecast[methodName];

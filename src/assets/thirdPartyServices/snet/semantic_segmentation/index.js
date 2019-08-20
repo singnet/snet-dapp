@@ -115,9 +115,6 @@ export default class SemanticSegmentationService extends React.Component {
 
   renderForm() {
 
-    // Looks like there two methods might need this functionality if the user selects the methods.
-    //const serviceNameOptions = ["Select a method", ...this.props.serviceClient.getMethodNames(SemanticSegmentation)];
-
     return (
       <React.Fragment>
         <div className="row">

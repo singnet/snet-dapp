@@ -127,9 +127,6 @@ export default class TimeSeriesAnomalyDiscoveryService extends React.Component {
 
     this.submitAction = this.submitAction.bind(this);
 
-    // TODO: Check for the need
-    //this.handleServiceName = this.handleServiceName.bind(this);
-    
     this.handleChangeUrl = this.handleChangeUrl.bind(this);
     this.handleChangeSlidingWindow = this.handleChangeSlidingWindow.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -182,8 +179,6 @@ export default class TimeSeriesAnomalyDiscoveryService extends React.Component {
     this.to_render_time_series = undefined;
     this.to_render_anomalies = undefined;
 
-    // TODO: Check for the need
-    //this.parseProps(props);
   }
 
   thresholdChange(event, value) {
@@ -276,88 +271,6 @@ export default class TimeSeriesAnomalyDiscoveryService extends React.Component {
 
     // force render
     this.setState({ update: true });
-  }
-
-  // TODO: Check for the need
-  /*
-  parseProps(nextProps) {
-    this.isComplete = nextProps.isComplete;
-    if (!this.isComplete) {
-      this.parseServiceSpec(nextProps.serviceSpec);
-    } else {
-      if (typeof nextProps.response !== "undefined") {
-        if (typeof nextProps.response === "string") {
-          this.setState({ response: nextProps.response });
-        } else {
-          this.setState({ response: nextProps.response.value });
-        }
-
-        this.state.timeSeriesJson = JSON.parse(this.props.response.timeseries);
-        this.state.invertedDensityCurveJson = JSON.parse(this.props.response.inverted);
-      }
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.isComplete !== nextProps.isComplete) {
-      this.parseProps(nextProps);
-    }
-  }
-
-  parseServiceSpec(serviceSpec) {
-    const packageName = Object.keys(serviceSpec.nested).find(
-      key => typeof serviceSpec.nested[key] === "object" && hasOwnDefinedProperty(serviceSpec.nested[key], "nested")
-    );
-
-    var objects = undefined;
-    var items = undefined;
-    if (typeof packageName !== "undefined") {
-      items = serviceSpec.lookup(packageName);
-      objects = Object.keys(items);
-    } else {
-      items = serviceSpec.nested;
-      objects = Object.keys(serviceSpec.nested);
-    }
-
-    this.methodsForAllServices = [];
-    objects.map(rr => {
-      if (typeof items[rr] === "object" && items[rr] !== null && items[rr].hasOwnProperty("methods")) {
-        this.allServices.push(rr);
-        this.methodsForAllServices.push(rr);
-        var methods = Object.keys(items[rr]["methods"]);
-        this.methodsForAllServices[rr] = methods;
-      }
-    });
-  }
-
-  handleServiceName(event) {
-    var strService = event.target.value;
-    this.setState({ serviceName: strService });
-    this.serviceMethods.length = 0;
-    var data = Object.values(this.methodsForAllServices[strService]);
-    if (typeof data !== "undefined") {
-      console.log("typeof data !== 'undefined'");
-      this.serviceMethods = data;
-    }
-  }
-  */
-
-  submitAction() {
-    if (this.UrlExists(this.state.timeseries)) {
-      // need to be reset to ensure redrawing first time
-      this.resetFirstRender();
-
-      // call for service
-      this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
-        timeseries: this.state.timeseries,
-        slidingwindowsize: this.state.slidingwindowsize,
-        alphabet: this.state.alphabet,
-        paasize: this.state.paasize,
-        debugflag: this.state.debugflag,
-      });
-    } else {
-      this.setState({ input_dialog: true });
-    }
   }
 
   submitAction() {

@@ -18,8 +18,6 @@ export default class NamedEntityRecognitionService extends React.Component {
   constructor(props) {
     super(props);
     this.submitAction = this.submitAction.bind(this);
-    // TODO: Check for the need
-    //this.handleServiceName = this.handleServiceName.bind(this);
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
     this.handleChange = this.handleChange.bind(this);
 
@@ -45,84 +43,14 @@ export default class NamedEntityRecognitionService extends React.Component {
     this.allServices = [];
     this.methodsForAllServices = [];
 
-    // TODO: Check for the need
-    //this.parseProps(props);
   }
 
-  // TODO: Check for the need
-  /*
-  parseProps(nextProps) {
-    this.isComplete = nextProps.isComplete;
-    if (!this.isComplete) {
-      this.parseServiceSpec(nextProps.serviceSpec);
-    } else {
-      if (typeof nextProps.response !== "undefined") {
-        if (typeof nextProps.response === "string") {
-          this.setState({ response: nextProps.response });
-        } else {
-          this.setState({ response: nextProps.response.value });
-        }
-      }
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.isComplete !== nextProps.isComplete) {
-      this.parseProps(nextProps);
-    }
-  }
-
-  parseServiceSpec(serviceSpec) {
-    const packageName = Object.keys(serviceSpec.nested).find(
-      key => typeof serviceSpec.nested[key] === "object" && hasOwnDefinedProperty(serviceSpec.nested[key], "nested")
-    );
-
-    var objects = undefined;
-    var items = undefined;
-    if (typeof packageName !== "undefined") {
-      items = serviceSpec.lookup(packageName);
-      objects = Object.keys(items);
-    } else {
-      items = serviceSpec.nested;
-      objects = Object.keys(serviceSpec.nested);
-    }
-
-    this.methodsForAllServices = [];
-    objects.map(rr => {
-      if (typeof items[rr] === "object" && items[rr] !== null && items[rr].hasOwnProperty("methods")) {
-        this.allServices.push(rr);
-        this.methodsForAllServices.push(rr);
-        var methods = Object.keys(items[rr]["methods"]);
-        this.methodsForAllServices[rr] = methods;
-      }
-    });
-  }
-
-  handleServiceName(event) {
-    var strService = event.target.value;
-    this.setState({ serviceName: strService });
-    this.serviceMethods.length = 0;
-    var data = Object.values(this.methodsForAllServices[strService]);
-    if (typeof data !== "undefined") {
-      console.log("typeof data !== 'undefined'");
-      this.serviceMethods = data;
-    }
-  }
-  */
+  
 
  handleFormUpdate(event) {
   console.log(event.target);
   this.setState({ [event.target.name]: event.target.value });
 }
-
-  // TODO: To be deleted. Kept to check the btoa func
-  /*
-  submitAction() {
-    this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
-      value: btoa(this.state.message),
-    });
-  }
-*/
 
   submitAction() {
     const { methodName, value } = this.state;
