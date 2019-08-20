@@ -1,10 +1,11 @@
 export const useStyles = theme => ({
   demoExampleContainer: {
-    padding: "0 22px !important",
+    padding: "14px 22px 38px !important",
     textAlign: "left !important",
     "& h4": {
-      margin: "16px 0 0 0",
+      margin: 0,
       color: theme.palette.text.black1,
+      fontWeight: 400,
       fontSize: 18,
       textAlign: "left",
     },

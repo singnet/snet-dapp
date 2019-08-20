@@ -40,7 +40,7 @@ const RenderForm = ({
         </ul>
       </Grid>
 
-      <Grid item xs={12} sm={12} md={6} lg={6}>
+      <Grid item xs={12} sm={12} md={6} lg={6} className={classes.signupFormWrapper}>
         <form noValidate autoComplete="off" className={classes.signupForm}>
           <TextField
             id="outlined-user-name"

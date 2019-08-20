@@ -12,6 +12,8 @@ import { Snackbar, SnackbarContent, CircularProgress } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import red from "@material-ui/core/colors/red";
 
+import {Annotate} from "./annotation_pb_service"
+
 const ErrorSnackbarContent = withStyles({
   root: { background: red[600] },
   message: { color: "#fff" },
@@ -84,6 +86,8 @@ export default class GeneAnnotationService extends React.Component {
       geneList: null,
       selectedAnnotations: [],
       notification: null,
+      methodName: "Annotate",
+      response: undefined,
     };
     // bind functions
     this.handleGeneAdded = this.handleGeneAdded.bind(this);
@@ -102,7 +106,7 @@ export default class GeneAnnotationService extends React.Component {
   }
 
   parseResponse() {
-    const { response } = this.props;
+    const { response } = this.state;
     if (typeof response !== "undefined") {
       const r = {
         graph: JSON.parse(response.graph),
@@ -214,6 +218,8 @@ export default class GeneAnnotationService extends React.Component {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
+  // TODO: Existsing code for the reference and need to modify once the Daemon is ready
+  /*
   handleSubmit() {
     const annotationResult = {};
     annotationResult.annotations = this.state.selectedAnnotations.map(sa => {
@@ -241,6 +247,73 @@ export default class GeneAnnotationService extends React.Component {
       notification: { message: "Fetching annotation results ...", busy: true },
     });
   }
+  */
+
+ // TODO: Need to update the code after validating with the Daemon Service
+ // Did an attempt to get the code for Proto TS based on the Proto Definition
+ handleSubmit() {
+
+  const {methodName} = this.state;
+
+  const methodDescriptor = Annotate[methodName];
+  const request = new methodDescriptor.requestType();
+
+  var annotations = this.state.selectedAnnotations.map(sa => {
+
+    var annotation = request.Annotate;
+
+    annotation.setFunctionname(sa.name)
+
+    var filters  = sa.filter
+      ? Object.keys(sa.filter).map(k => {
+          var filter = request.Filter;
+          filter.setFilter(k)
+          var val = Array.isArray(sa.filter[k])
+            ? sa.filter[k]
+                .reduce((acc, value) => {
+                  return acc + " " + value;
+                }, "")
+                .trim()
+            : this.capitalizeFirstLetter(sa.filter[k].toString());
+          filter.setValue(val);
+          return filter;
+        })
+      : [];
+    annotation.setFiltersList(filters);
+    return annotation;
+  });
+
+  var genes = this.state.genes.map(g => {
+    var gene = request.Gene;
+    gene.setGenename(g);
+    return gene;
+  });
+  
+  request.setAnnotationsList(annotations);
+  request.setGenesList(genes);
+
+  const props = {
+    request,
+    onEnd: response => {
+      const { message, status, statusMessage } = response;
+      if (status !== 0) {
+        throw new Error(statusMessage);
+      }
+      this.setState({
+        response: { status: "success", graph: message.getGraph(), scm: message.getScm() },
+      });
+    },
+  };
+
+  this.props.serviceClient.unary(methodDescriptor, props);
+
+  this.setState({
+    notification: { message: "Fetching annotation results ...", busy: true },
+  });
+}
+
+
+
 
   renderForm() {
     return (
