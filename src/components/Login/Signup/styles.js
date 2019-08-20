@@ -8,6 +8,7 @@ export const useStyles = theme => ({
     width: "71%",
     paddingBottom: 50,
     margin: "0 auto",
+    justifyContent: 'space-between'
   },
   signupContent: {
     width: "71%",
@@ -58,12 +59,11 @@ export const useStyles = theme => ({
       },
     },
   },
+  signupFormWrapper:{ maxWidth: 410 },
   signupForm: {
     boxSizing: "border-box",
-    width: 410,
     padding: "20px 20px 30px",
     borderRadius: 4,
-    margin: "0 auto",
     backgroundColor: theme.palette.text.white,
     boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
     "& button": { width: "100%" },
