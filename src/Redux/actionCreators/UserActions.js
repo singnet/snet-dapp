@@ -163,10 +163,11 @@ export const loginSuccess = ({ res, history, route }) => dispatch => {
   };
   dispatch(userDetails);
   history.push(route);
+  dispatch(loaderActions.stopAppLoader);
 };
 
 export const login = ({ username, password, history, route }) => dispatch => {
-  dispatch({ type: LOGIN_LOADING });
+  dispatch(loaderActions.startAppLoader(LoaderContent.LOGIN));
   let userDetails = {};
   return Auth.signIn(username, password)
     .then(res => {
@@ -189,6 +190,7 @@ export const login = ({ username, password, history, route }) => dispatch => {
         payload: { login: { error } },
       };
       dispatch(userDetails);
+      dispatch(loaderActions.stopAppLoader);
       throw err;
     });
 };
@@ -286,8 +288,8 @@ const forgotPasswordInit = dispatch => {
 
 const forgotPasswordSuccessfull = ({ username, history, route }) => dispatch => {
   dispatch(updateUsername(username));
-  dispatch(loaderActions.stopAppLoader);
   history.push(route);
+  dispatch(loaderActions.stopAppLoader);
 };
 
 const forgotPasswordFailure = error => dispatch => {

@@ -1,4 +1,12 @@
 export const LoaderContent = {
+  SIGNUP: {
+    loaderHeader: "Signing Up",
+    loaderText: "Please wait. we are creating an account for you",
+  },
+  LOGIN: {
+    loaderHeader: "Logging In",
+    loaderText: "Please wait while we log you in to the portal",
+  },
   DELETE_USER: {
     loaderHeader: "Deleting your Account",
     loaderText: "Your user profile will be deleted",

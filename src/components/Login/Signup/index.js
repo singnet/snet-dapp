@@ -10,7 +10,8 @@ import { parseError } from "../../../utility/ErrorHandling";
 import { useStyles } from "./styles";
 import RenderForm from "./RenderForm";
 import RenderOTP from "./RenderOTP";
-import { userActions } from "../../../Redux/actionCreators";
+import { userActions, loaderActions } from "../../../Redux/actionCreators";
+import { LoaderContent } from "../../../utility/constants/LoaderContent";
 
 class SignUp extends Component {
   state = {
@@ -41,6 +42,7 @@ class SignUp extends Component {
   handleSubmit = event => {
     event.preventDefault();
     const { username, password, email } = this.state;
+    const { startSignupLoader, stopLoader } = this.props;
     this.setState({ error: undefined });
     if (username === "") {
       this.setState({ error: "Please enter a username" });
@@ -58,7 +60,7 @@ class SignUp extends Component {
       this.setState({ error: "Password cannot be left blank" });
       return;
     }
-
+    startSignupLoader();
     Auth.signUp({
       username,
       password,
@@ -67,11 +69,15 @@ class SignUp extends Component {
         name: username,
       },
     })
-      .then(user => {
+      .then(() => {
         this.props.updateUsername(username);
         this.setState({ toBeConfirmed: true });
+        stopLoader();
       })
-      .catch(err => this.setState({ error: err.message }));
+      .catch(err => {
+        this.setState({ error: err.message });
+        stopLoader();
+      });
   };
 
   handleConfirmSignup = event => {
@@ -141,6 +147,8 @@ class SignUp extends Component {
 
 const mapDispatchToProps = dispatch => ({
   updateUsername: username => dispatch(userActions.updateUsername(username)),
+  startSignupLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.SIGNUP)),
+  stopLoader: () => dispatch(loaderActions.stopAppLoader),
 });
 
 export default connect(
