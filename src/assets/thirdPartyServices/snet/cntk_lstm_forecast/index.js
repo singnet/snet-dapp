@@ -3,15 +3,30 @@ import { hasOwnDefinedProperty } from "../../../../utility/JSHelper";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 
+import {Forecast} from "./time_series_forecast_pb_service"
+
+const initialUserInput = {
+  window_len: 1,
+  word_len: 1,
+  alphabet_size: 1,
+
+  source_type: "csv",
+  source: "",
+  contract: "",
+
+  start_date: "2010-01-01",
+  end_date: "2019-02-11",
+};
+
+
 export default class CNTKLSTMForecast extends React.Component {
   constructor(props) {
     super(props);
     this.submitAction = this.submitAction.bind(this);
-    this.handleServiceName = this.handleServiceName.bind(this);
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
-    this.getServiceMethods = this.getServiceMethods.bind(this);
 
     this.state = {
+      ...initialUserInput,
       users_guide:
         "https://github.com/singnet/time-series-analysis/blob/master/docs/users_guide/generic/cntk-lstm-forecast.md",
       code_repo: "https://github.com/singnet/time-series-analysis/blob/master/generic/cntk-lstm-forecast",
@@ -19,18 +34,6 @@ export default class CNTKLSTMForecast extends React.Component {
 
       serviceName: "Forecast",
       methodName: "forecast",
-
-      window_len: 1,
-      word_len: 1,
-      alphabet_size: 1,
-
-      source_type: "csv",
-      source: "",
-      contract: "",
-
-      start_date: "2010-01-01",
-      end_date: "2019-02-11",
-
       response: undefined,
     };
     this.sourceTypes = ["csv", "financial"];
@@ -38,62 +41,7 @@ export default class CNTKLSTMForecast extends React.Component {
     this.serviceMethods = [];
     this.allServices = [];
     this.methodsForAllServices = [];
-    this.parseProps(props);
-  }
 
-  parseProps(nextProps) {
-    this.isComplete = nextProps.isComplete;
-    if (!this.isComplete) {
-      this.parseServiceSpec(nextProps.serviceSpec);
-    } else {
-      console.log(nextProps.response);
-      if (typeof nextProps.response !== "undefined") {
-        this.state.response = nextProps.response;
-      }
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.isComplete !== nextProps.isComplete) {
-      this.parseProps(nextProps);
-    }
-  }
-
-  parseServiceSpec(serviceSpec) {
-    const packageName = Object.keys(serviceSpec.nested).find(
-      key => typeof serviceSpec.nested[key] === "object" && hasOwnDefinedProperty(serviceSpec.nested[key], "nested")
-    );
-
-    var objects = undefined;
-    var items = undefined;
-    if (typeof packageName !== "undefined") {
-      items = serviceSpec.lookup(packageName);
-      objects = Object.keys(items);
-    } else {
-      items = serviceSpec.nested;
-      objects = Object.keys(serviceSpec.nested);
-    }
-
-    this.methodsForAllServices = [];
-    objects.map(rr => {
-      if (typeof items[rr] === "object" && items[rr] !== null && items[rr].hasOwnProperty("methods")) {
-        this.allServices.push(rr);
-        this.methodsForAllServices.push(rr);
-        this.methodsForAllServices[rr] = Object.keys(items[rr]["methods"]);
-      }
-    });
-    this.getServiceMethods(this.allServices[0]);
-  }
-
-  getServiceMethods(strService) {
-    this.setState({
-      serviceName: strService,
-    });
-    var data = this.methodsForAllServices[strService];
-    if (typeof data === "undefined") {
-      data = [];
-    }
-    this.serviceMethods = data;
   }
 
   isValidCSVURL(str) {
@@ -114,31 +62,38 @@ export default class CNTKLSTMForecast extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   }
 
-  handleServiceName(event) {
-    var strService = event.target.value;
-    this.setState({
-      serviceName: strService,
-    });
-    console.log("Selected service is " + strService);
-    var data = this.methodsForAllServices[strService];
-    if (typeof data === "undefined") {
-      data = [];
-    }
-    this.serviceMethods = data;
-  }
+  
+ submitAction() {
+  const { methodName, window_len, word_len, alphabet_size, source_type, source, contract, start_date, end_date} = this.state;
+  const methodDescriptor = Forecast[methodName];
+  const request = new methodDescriptor.requestType();
 
-  submitAction() {
-    this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
-      window_len: this.state.window_len,
-      word_len: this.state.word_len,
-      alphabet_size: this.state.alphabet_size,
-      source_type: this.state.source_type,
-      source: this.state.source,
-      contract: this.state.contract,
-      start_date: this.state.start_date,
-      end_date: this.state.end_date,
-    });
-  }
+  request.setWindowLen(window_len);
+  request.setWordLen(word_len);
+  request.setAlphabetSize(alphabet_size);
+  request.setSourceType(source_type);
+  request.setSource(source);
+  request.setContract(contract);
+  request.setStartDate(start_date);
+  request.setEndDate(end_date);
+
+  const props = {
+    request,
+    onEnd: response => {
+      const { message, status, statusMessage } = response;
+      if (status !== 0) {
+        throw new Error(statusMessage);
+      }
+      this.setState({
+        ...initialUserInput,
+        response: { status: "success", last_sax_word: message.getLastSaxWord(), forecast_sax_letter: message.getForecastSaxLetter(), position_in_sax_interval: message.getPositionInSaxInterval() },
+      });
+    },
+  };
+  
+  this.props.serviceClient.unary(methodDescriptor, props);
+}
+
 
   renderForm() {
     return (

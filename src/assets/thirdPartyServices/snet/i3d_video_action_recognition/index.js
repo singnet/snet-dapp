@@ -2,15 +2,24 @@ import React from "react";
 import { hasOwnDefinedProperty } from "../../../../utility/JSHelper";
 import Button from "@material-ui/core/Button";
 
+import VideoActionRecognition from './video_action_recon_pb_service'
+
+const initialUserInput = {
+  model: "400",
+  url: "",
+};
+
+
+
 export default class I3DActionRecognition extends React.Component {
   constructor(props) {
     super(props);
     this.submitAction = this.submitAction.bind(this);
-    this.handleServiceName = this.handleServiceName.bind(this);
+
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
-    this.getServiceMethods = this.getServiceMethods.bind(this);
 
     this.state = {
+      ...initialUserInput,
       users_guide:
         "https://github.com/singnet/dnn-model-services/blob/master/docs/users_guide/i3d-video-action-recognition.md",
       code_repo: "https://github.com/singnet/dnn-model-services/blob/master/Services/gRPC/i3d-video-action-recognition",
@@ -18,73 +27,15 @@ export default class I3DActionRecognition extends React.Component {
 
       serviceName: "VideoActionRecognition",
       methodName: "video_action_recon",
-
-      model: "400",
-      url: "",
-
       response: undefined,
     };
+
     this.modelOptions = ["400", "600"];
     this.isComplete = false;
     this.serviceMethods = [];
     this.allServices = [];
     this.methodsForAllServices = [];
-    this.parseProps(props);
-  }
 
-  parseProps(nextProps) {
-    this.isComplete = nextProps.isComplete;
-    if (!this.isComplete) {
-      this.parseServiceSpec(nextProps.serviceSpec);
-    } else {
-      console.log(nextProps.response);
-      if (typeof nextProps.response !== "undefined") {
-        this.state.response = nextProps.response;
-      }
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.isComplete !== nextProps.isComplete) {
-      this.parseProps(nextProps);
-    }
-  }
-
-  parseServiceSpec(serviceSpec) {
-    const packageName = Object.keys(serviceSpec.nested).find(
-      key => typeof serviceSpec.nested[key] === "object" && hasOwnDefinedProperty(serviceSpec.nested[key], "nested")
-    );
-
-    var objects = undefined;
-    var items = undefined;
-    if (typeof packageName !== "undefined") {
-      items = serviceSpec.lookup(packageName);
-      objects = Object.keys(items);
-    } else {
-      items = serviceSpec.nested;
-      objects = Object.keys(serviceSpec.nested);
-    }
-
-    this.methodsForAllServices = [];
-    objects.map(rr => {
-      if (typeof items[rr] === "object" && items[rr] !== null && items[rr].hasOwnProperty("methods")) {
-        this.allServices.push(rr);
-        this.methodsForAllServices.push(rr);
-        this.methodsForAllServices[rr] = Object.keys(items[rr]["methods"]);
-      }
-    });
-    this.getServiceMethods(this.allServices[0]);
-  }
-
-  getServiceMethods(strService) {
-    this.setState({
-      serviceName: strService,
-    });
-    var data = this.methodsForAllServices[strService];
-    if (typeof data === "undefined") {
-      data = [];
-    }
-    this.serviceMethods = data;
   }
 
   isValidVideoURL(str) {
@@ -99,24 +50,29 @@ export default class I3DActionRecognition extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   }
 
-  handleServiceName(event) {
-    var strService = event.target.value;
-    this.setState({
-      serviceName: strService,
-    });
-    console.log("Selected service is " + strService);
-    var data = this.methodsForAllServices[strService];
-    if (typeof data === "undefined") {
-      data = [];
-    }
-    this.serviceMethods = data;
-  }
-
   submitAction() {
-    this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
-      model: this.state.model,
-      url: this.state.url,
-    });
+    const { methodName, model, url } = this.state;
+    const methodDescriptor = VideoActionRecognition[methodName];
+    const request = new methodDescriptor.requestType();
+
+    request.setModel(model);
+    request.setUrl(url);
+
+    const props = {
+      request,
+      onEnd: response => {
+        const { message, status, statusMessage } = response;
+        if (status !== 0) {
+          throw new Error(statusMessage);
+        }
+        this.setState({
+          ...initialUserInput,
+          response: { status: "success", value: message.getValue() },
+        });
+      },
+    };
+
+    this.props.serviceClient.unary(methodDescriptor, props);
   }
 
   renderForm() {
