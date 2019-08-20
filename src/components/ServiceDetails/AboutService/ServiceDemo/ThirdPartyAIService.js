@@ -83,8 +83,8 @@ class ThirdPartyAIService extends Component {
       return null;
     }
 
-    const { org_id, service_id, classes, grpcResponse, isComplete, stopLoader } = this.props;
-    const { feedback } = this.state;
+    const { org_id, service_id, classes, grpcResponse, stopLoader } = this.props;
+    const { feedback, serviceRequestComplete } = this.state;
     const { serviceClient } = this;
     const AIServiceCustomComponent = thirdPartyCustomUIComponents.componentFor(org_id, service_id);
 
@@ -94,14 +94,14 @@ class ThirdPartyAIService extends Component {
           <ThirdPartyServiceErrorBoundary stopLoader={stopLoader}>
             <AIServiceCustomComponent
               serviceClient={serviceClient}
-              isComplete={isComplete}
+              isComplete={serviceRequestComplete}
               response={grpcResponse}
               sliderWidth={"550px"}
             />
           </ThirdPartyServiceErrorBoundary>
         </Suspense>
         <CompletedActions
-          isComplete={isComplete}
+          isComplete={serviceRequestComplete}
           feedback={feedback}
           orgId={org_id}
           serviceId={service_id}
