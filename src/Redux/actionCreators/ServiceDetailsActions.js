@@ -4,28 +4,28 @@ import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { initializeAPIOptions } from "../../utility/API";
 import { fetchAuthenticatedUser } from "./UserActions";
 
-export const UPDATE_SERVICE_METADATA = "UPDATE_SERVICE_METADATA";
-export const RESET_SERVICE_METADATA = "RESET_SERVICE_METADATA";
+export const UPDATE_SERVICE_DETAILS = "UPDATE_SERVICE_DETAILS";
+export const RESET_SERVICE_DETAILS = "RESET_SERVICE_DETAILS";
 export const UPDATE_FREE_CALLS_ALLOWED = "UPDATE_FREE_CALLS_ALLOWED";
 export const UPDATE_FREE_CALLS_REMAINING = "UPDATE_FREE_CALLS_REMAINING";
 
-const resetServiceMetadata = dispatch => {
-  dispatch({ type: RESET_SERVICE_METADATA });
+const resetServiceDetails = dispatch => {
+  dispatch({ type: RESET_SERVICE_DETAILS });
 };
-const fetchServiceMetadataSuccess = serviceMetadata => dispatch => {
-  dispatch({ type: UPDATE_SERVICE_METADATA, payload: serviceMetadata });
+const fetchServiceDetailsSuccess = serviceDetails => dispatch => {
+  dispatch({ type: UPDATE_SERVICE_DETAILS, payload: serviceDetails });
 };
 
-const fetchServiceMetadataAPI = async ({ orgId, serviceId }) => {
+const fetchServiceDetailsAPI = async ({ orgId, serviceId }) => {
   const url = `${APIEndpoints.CONTRACT.endpoint}/org/${orgId}/service/${serviceId}`;
   const response = await fetch(url);
   return response.json();
 };
 
-export const fetchServiceMetadata = ({ orgId, serviceId }) => async dispatch => {
-  dispatch(resetServiceMetadata);
-  const serviceMetadata = await fetchServiceMetadataAPI({ orgId, serviceId });
-  dispatch(fetchServiceMetadataSuccess(serviceMetadata));
+export const fetchServiceDetails = ({ orgId, serviceId }) => async dispatch => {
+  dispatch(resetServiceDetails);
+  const serviceDetails = await fetchServiceDetailsAPI({ orgId, serviceId });
+  dispatch(fetchServiceDetailsSuccess(serviceDetails));
 };
 
 const fetchMeteringDataSuccess = usageData => dispatch => {

@@ -10,9 +10,7 @@ import StyledTabs from "./StyledTabs";
 import AboutService from "./AboutService";
 import InstallAndRunService from "./InstallAndRunService";
 import { useStyles } from "./styles";
-import { serviceActions, serviceDetailsActions } from "../../Redux/actionCreators";
-import { serviceDetails } from "../../Redux/reducers/ServiceReducer";
-import { generateFilterObject } from "../../utility/constants/Pagination";
+import { serviceDetailsActions } from "../../Redux/actionCreators";
 import { pricing } from "../../Redux/reducers/ServiceDetailsReducer";
 
 class ServiceDetails extends Component {
@@ -29,11 +27,9 @@ class ServiceDetails extends Component {
   }
 
   fetchServiceDetails = async () => {
-    const { pagination, fetchServices, fetchServiceMetadata, match } = this.props;
+    const { fetchServiceDetails, match } = this.props;
     const { orgId, serviceId } = match.params;
-    const filterData = generateFilterObject({ org_id: [orgId], service_id: [serviceId] });
-    await fetchServiceMetadata({ orgId, serviceId });
-    await fetchServices(pagination, filterData);
+    await fetchServiceDetails({ orgId, serviceId });
   };
 
   handleTabChange = activeTab => {
@@ -75,14 +71,13 @@ class ServiceDetails extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  service: serviceDetails(state, ownProps.match.params),
+  service: state.serviceDetailsReducer,
   pagination: state.serviceReducer.pagination,
   pricing: pricing(state),
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchServiceMetadata: args => dispatch(serviceDetailsActions.fetchServiceMetadata({ ...args })),
-  fetchServices: (pagination, filterData) => dispatch(serviceActions.fetchService(pagination, filterData)),
+  fetchServiceDetails: args => dispatch(serviceDetailsActions.fetchServiceDetails({ ...args })),
 });
 
 export default connect(
