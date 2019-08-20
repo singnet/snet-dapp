@@ -1,10 +1,12 @@
 import React from "react";
+import { withStyles } from "@material-ui/styles";
 
 import { Calculator } from "./example_service_pb_service";
+import { useStyles } from "./styles";
 
 const initialUserInput = { methodName: "Select a method", a: 0, b: 0 };
 
-export default class ExampleService extends React.Component {
+class ExampleService extends React.Component {
   constructor(props) {
     super(props);
     this.submitAction = this.submitAction.bind(this);
@@ -59,9 +61,11 @@ export default class ExampleService extends React.Component {
   }
 
   renderForm() {
+    const { classes } = this.props;
     const serviceMethodNames = this.props.serviceClient.getMethodNames(Calculator);
     return (
       <React.Fragment>
+      <div className={classes.exampleServiceMainContainer}>
         <div className="row">
           <div className="col-md-3 col-lg-3" style={{ padding: "10px", fontSize: "13px", marginLeft: "10px" }}>
             Method Name:{" "}
@@ -119,6 +123,7 @@ export default class ExampleService extends React.Component {
             </button>
           </div>
         </div>
+        </div>
       </React.Fragment>
     );
   }
@@ -150,3 +155,5 @@ export default class ExampleService extends React.Component {
     }
   }
 }
+
+export default withStyles(useStyles)(ExampleService);
