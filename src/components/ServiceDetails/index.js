@@ -43,7 +43,7 @@ class ServiceDetails extends Component {
   render() {
     const { classes, service, pricing } = this.props;
 
-    if (!service || isEmpty(pricing)) {
+    if (isEmpty(service)) {
       return null;
     }
 
@@ -74,9 +74,8 @@ class ServiceDetails extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = state => ({
   service: state.serviceDetailsReducer,
-  pagination: state.serviceReducer.pagination,
   pricing: pricing(state),
 });
 
