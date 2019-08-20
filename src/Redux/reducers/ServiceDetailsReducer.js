@@ -41,10 +41,10 @@ export const groupInfo = state => {
     some(endpoints, endpoint => endpoint.is_available === 1)
   );
   if (availableGroup) {
-    return { ...availableGroup };
+    return availableGroup;
   }
   const firstGroup = first(serviceGroups);
-  return firstGroup && { ...firstGroup };
+  return firstGroup;
 };
 
 export const pricing = state => {
