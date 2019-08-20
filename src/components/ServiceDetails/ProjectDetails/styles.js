@@ -11,14 +11,11 @@ export const useStyles = theme => ({
       marginBottom: 30,
       display: "flex",
       "& h5": {
-        width: 150,
+        width: "50%",
         margin: 0,
         color: theme.palette.text.darkShadedGray,
         fontSize: 16,
         lineHeight: "22px",
-      },
-      "& div": {
-        marginLeft: 20,
       },
       "& a": {
         display: "block",
@@ -40,7 +37,15 @@ export const useStyles = theme => ({
       marginLeft: "30px !important",
     },
   },
-  projectDetailsContent: {
-    paddingTop: 10,
+  projectDetailsContent: { paddingTop: 10 },
+  projectURLContainer: {
+    width: "100%",
+    display: "flex",
+    "& svg": {
+      paddingTop: 3,
+      marginRight: 5,
+      color: theme.palette.text.primary,
+      fontSize: 14,
+    },
   },
 });
