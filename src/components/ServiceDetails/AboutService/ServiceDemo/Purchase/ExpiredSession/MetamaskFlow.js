@@ -48,17 +48,7 @@ class MetamaskFlow extends Component {
   initializePaymentChannel = async () => {
     const { groupInfo } = this.props;
     const sdk = await initSdk();
-    const serviceClientOptions = { endpoint: "https://example-service-a.singularitynet.io:8088" };
-    this.serviceClient = new ServiceClient(
-      sdk,
-      "snet",
-      "example-service",
-      sdk._mpeContract,
-      {},
-      groupInfo,
-      undefined,
-      serviceClientOptions
-    );
+    this.serviceClient = new ServiceClient(sdk, "snet", "example-service", sdk._mpeContract, {}, groupInfo);
     this.paymentChannelManagement = new PaymentChannelManagement(sdk, this.serviceClient);
   };
 
