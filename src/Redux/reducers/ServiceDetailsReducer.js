@@ -3,10 +3,7 @@ import find from "lodash/find";
 import first from "lodash/first";
 import some from "lodash/some";
 
-const InitialServiceDetails = {
-  freeCallsRemaining: 0,
-  freeCallsAllowed: 0,
-};
+const InitialServiceDetails = {};
 
 const serviceDetailsReducer = (state = InitialServiceDetails, action) => {
   switch (action.type) {
