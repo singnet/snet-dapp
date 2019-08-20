@@ -2,7 +2,8 @@ import { API } from "aws-amplify";
 
 import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { initializeAPIOptions } from "../../utility/API";
-import { fetchAuthenticatedUser } from "./UserActions";
+import { fetchAuthenticatedUser, walletTypes } from "./UserActions";
+import { userActions } from ".";
 
 export const UPDATE_SERVICE_DETAILS = "UPDATE_SERVICE_DETAILS";
 export const RESET_SERVICE_DETAILS = "RESET_SERVICE_DETAILS";
@@ -32,6 +33,9 @@ const fetchMeteringDataSuccess = usageData => dispatch => {
   const freeCallsRemaining = usageData.free_calls_allowed - usageData.total_calls_made;
   dispatch({ type: UPDATE_FREE_CALLS_ALLOWED, payload: usageData.free_calls_allowed });
   dispatch({ type: UPDATE_FREE_CALLS_REMAINING, payload: freeCallsRemaining });
+  if (freeCallsRemaining <= 0) {
+    dispatch(userActions.updateWallet({ type: walletTypes.METAMASK }));
+  }
 };
 
 const meteringAPI = (token, orgId, serviceId, userId) => {
