@@ -10,7 +10,7 @@ export const useStyles = theme => ({
       margin: 0,
       color: theme.palette.text.darkShadedGray,
       fontSize: 20,
-      fontWeight: 600,
+      fontWeight: 400,
     },
   },
   leftSideSection: { paddingRight: 25 },
@@ -114,8 +114,9 @@ export const useStyles = theme => ({
     "& h4": {
       margin: 0,
       color: theme.palette.text.primary,
+      fontWeight: 600,
       fontSize: 18,
-      letterSpacing: "0.23px",
+      letterSpacing: "0.25px",
       lineHeight: "24px",
     },
     "& span": {
@@ -156,6 +157,7 @@ export const useStyles = theme => ({
         width: 150,
         margin: 0,
         color: theme.palette.text.darkShadedGray,
+        fontWeight: 400,
         fontSize: 16,
         lineHeight: "22px",
       },
@@ -164,7 +166,8 @@ export const useStyles = theme => ({
         display: "block",
         color: theme.palette.text.primary,
         fontSize: 14,
-        fontWeight: 600,
+        fontWeight: 400,
+        letterSpacing: '0.25px',
         textDecoration: "none",
       },
       "& p": {

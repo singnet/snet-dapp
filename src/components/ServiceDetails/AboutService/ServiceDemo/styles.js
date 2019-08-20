@@ -5,6 +5,7 @@ export const useStyles = theme => ({
     "& h4": {
       margin: "16px 0 0 0",
       color: theme.palette.text.black1,
+      fontWeight: 400,
       fontSize: 18,
       textAlign: "left",
     },
