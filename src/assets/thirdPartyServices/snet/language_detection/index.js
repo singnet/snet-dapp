@@ -7,6 +7,15 @@ import TableRow from "@material-ui/core/TableRow";
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 
+import MethodNamesDropDown from "../../common/MethodNamesDropDown";
+import {LanguageDetect} from "./LanguageDetection_pb_service"
+
+const initialUserInput = {
+  methodName: "Select a method",
+  sentence: "Enter sample text here!",
+};
+
+
 export default class LanguageDetectionService extends React.Component {
   constructor(props) {
     super(props);
@@ -15,22 +24,15 @@ export default class LanguageDetectionService extends React.Component {
     this.handleInputUpdate = this.handleInputUpdate.bind(this);
 
     this.state = {
+      ...initialUserInput,
       serviceName: "LanguageDetect",
-      methodName: "Select a method",
-      sentence: "Enter sample text here!",
+      response: undefined,
     };
   }
 
   canBeInvoked() {
     // When the image isn't uploaded yet and when function name isn't yet given.
     return this.state.methodName !== "Select a method" && this.state.sentence !== "";
-  }
-
-  renderServiceMethodNames(serviceMethodNames) {
-    const serviceNameOptions = ["Select a method", ...serviceMethodNames];
-    return serviceNameOptions.map((serviceMethodName, index) => {
-      return <option key={index}>{serviceMethodName}</option>;
-    });
   }
 
   renderFormInput() {
@@ -53,18 +55,37 @@ export default class LanguageDetectionService extends React.Component {
   }
 
   submitAction() {
-    this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
-      input: this.state.sentence,
-    });
+    const { methodName, sentence} = this.state;
+    const methodDescriptor = LanguageDetect[methodName];
+    const request = new methodDescriptor.requestType();
+
+    request.setInput(sentence);
+
+    const props = {
+      request,
+      onEnd: response => {
+        const { message, status, statusMessage } = response;
+        if (status !== 0) {
+          throw new Error(statusMessage);
+        }
+        this.setState({
+          ...initialUserInput,
+          response: { status: "success", language: message.getLanguageList() },
+        });
+      },
+    };
+
+    this.props.serviceClient.unary(methodDescriptor, props);
   }
+
 
   handleInputUpdate(event) {
     this.setState({ sentence: event.target.value });
   }
 
   renderForm() {
-    const service = this.props.protoSpec.findServiceByName(this.state.serviceName);
-    const serviceMethodNames = service.methodNames;
+
+    const serviceNameOptions = ["Select a method", ...this.props.serviceClient.getMethodNames(LanguageDetect)];
 
     return (
       <React.Fragment>
@@ -73,14 +94,11 @@ export default class LanguageDetectionService extends React.Component {
             Method Name:
           </div>
           <div className="col-md-3 col-lg-3">
-            <select
-              name="methodName"
-              value={this.state.methodName}
-              style={{ height: "30px", width: "250px", fontSize: "13px", marginBottom: "5px" }}
-              onChange={this.handleFormUpdate}
-            >
-              {this.renderServiceMethodNames(serviceMethodNames)}
-            </select>
+            <MethodNamesDropDown
+                list={serviceNameOptions}
+                value={this.state.methodName}
+                onChange={this.handleFormUpdate}
+              />
           </div>
         </div>
         <div className="row">
@@ -123,7 +141,7 @@ export default class LanguageDetectionService extends React.Component {
   }
 
   renderComplete() {
-    const response = this.props.response;
+    const response = this.state.response;
     const CustomTableCell = withStyles(theme => ({
       head: {
         backgroundColor: theme.palette.common.black,
@@ -149,7 +167,7 @@ export default class LanguageDetectionService extends React.Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {response["language"].map((row, index) => (
+              {response.language.map((row, index) => (
                 <TableRow key={index}>
                   <CustomTableCell component="th" scope="row">
                     {row["sentence"]}

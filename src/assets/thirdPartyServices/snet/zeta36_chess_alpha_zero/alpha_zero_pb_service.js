@@ -1,7 +1,7 @@
 // package: 
 // file: ProtoFiles/alpha_zero.proto
 
-var ProtoFiles_alpha_zero_pb = require("../ProtoFiles/alpha_zero_pb");
+var ProtoFiles_alpha_zero_pb = require("./alpha_zero_pb");
 var grpc = require("@improbable-eng/grpc-web").grpc;
 
 var AlphaZero = (function () {

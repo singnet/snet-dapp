@@ -1,7 +1,5 @@
 export const useStyles = theme => ({
-  computerVisionContainer: {
-    display: "flex",
-  },
+  computerVisionContainer: { display: "flex" },
   computerVisionContent: {
     marginLeft: 25,
     "& h2": {
@@ -49,5 +47,9 @@ export const useStyles = theme => ({
       fontSize: 14,
       textTransform: "uppercase",
     },
+  },
+  titleImg: {
+    width: 234,
+    "& img": { width: "100%" },
   },
 });
