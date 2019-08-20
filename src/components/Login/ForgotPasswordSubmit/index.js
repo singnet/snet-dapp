@@ -48,7 +48,7 @@ const ForgotPasswordSubmit = ({ classes, history, error, email, forgotPasswordSu
       <section className={classes.resetPasswordContainer}>
         <span>Reset Password Email Sent.</span>
         <p>
-          Click <strong onClick={handleEnterOtp}>here</strong> to enter the verification code.
+          Click <a onClick={handleEnterOtp}>here</a> to enter the verification code.
         </p>
       </section>
     );
