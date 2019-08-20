@@ -27,7 +27,6 @@ export const walletTypes = {
 export const fetchAuthenticatedUser = async () => {
   const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
   return {
-    //nickname: currentUser.nickname,
     nickname: currentUser.attributes.nickname,
     email: currentUser.attributes.email,
     email_verified: currentUser.attributes.email_verified,
