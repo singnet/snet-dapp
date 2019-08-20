@@ -12,9 +12,6 @@ export const useStyles = makeStyles(theme => ({
     borderTop: 1,
     borderTopStyle: "solid",
     borderTopColor: theme.palette.text.cardSeparator,
-    borderBottom: 1,
-    borderBottomStyle: "solid",
-    borderBottomColor: theme.palette.text.cardSeparator,
     borderRadius: 4,
     backgroundColor: theme.palette.text.white,
     "&:hover": {
