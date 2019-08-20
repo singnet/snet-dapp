@@ -126,16 +126,17 @@ export const resetFilter = ({ pagination }) => dispatch => {
     .catch(() => dispatch(loaderActions.stopAIServiceListLoader));
 };
 
-const fetchFeedbackAPI = (username, orgId, serviceId, token) => {
+const fetchFeedbackAPI = (email, orgId, serviceId, token) => {
   const apiName = APIEndpoints.USER.name;
   const path = `${APIPaths.FEEDBACK}?org_id=${orgId}&service_id=${serviceId}`;
   const apiOptions = initializeAPIOptions(token);
   return API.get(apiName, path, apiOptions);
 };
 
+//Username review
 export const fetchFeedback = (orgId, serviceId) => async () => {
   const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
-  return fetchFeedbackAPI(currentUser.username, orgId, serviceId, currentUser.signInUserSession.idToken.jwtToken);
+  return fetchFeedbackAPI(currentUser.email, orgId, serviceId, currentUser.signInUserSession.idToken.jwtToken);
 };
 
 const submitFeedbackAPI = (feedbackObj, token) => {

@@ -11,8 +11,8 @@ import { useStyles } from "./styles";
 
 const RenderForm = ({
   classes,
-  username,
-  handleUsername,
+  nickname,
+  handleNickname,
   email,
   handleEmail,
   password,
@@ -44,10 +44,10 @@ const RenderForm = ({
         <form noValidate autoComplete="off" className={classes.signupForm}>
           <TextField
             id="outlined-user-name"
-            label="Username"
+            label="Nickname"
             className={classes.textField}
-            value={username}
-            onChange={handleUsername}
+            value={nickname}
+            onChange={handleNickname}
             margin="normal"
             variant="outlined"
             autoFocus

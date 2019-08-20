@@ -78,7 +78,7 @@ class ThirdPartyAIService extends Component {
   };
 
   handleServiceInvokation = (serviceName, methodName, requestObject) => {
-    const { org_id, service_id, username } = this.props;
+    const { org_id, service_id, email } = this.props;
     const data = {
       org_id,
       service_id,
@@ -86,7 +86,7 @@ class ThirdPartyAIService extends Component {
       service_name: serviceName,
       input: JSON.stringify(requestObject),
       user_address: "",
-      username,
+      email,
       isBase64Encoded: true,
     };
     this.props.invokeServiceMethod(data);
@@ -144,7 +144,7 @@ class ThirdPartyAIService extends Component {
 const mapStateToProps = state => ({
   grpcResponse: state.serviceReducer.serviceMethodExecution.response,
   isComplete: state.serviceReducer.serviceMethodExecution.isComplete,
-  username: state.userReducer.username,
+  email: state.userReducer.email,
   wallet: state.userReducer.wallet,
 });
 
