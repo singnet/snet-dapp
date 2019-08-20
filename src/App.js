@@ -14,6 +14,7 @@ import { userActions } from "./Redux/actionCreators";
 import PrivateRoute from "./components/common/PrivateRoute";
 import AppLoader from "./components/common/AppLoader";
 import { initSdk } from "./utility/sdk";
+import { CircularProgress } from "@material-ui/core";
 
 const ForgotPassword = lazy(() => import("./components/Login/ForgotPassword"));
 const ForgotPasswordSubmit = lazy(() => import("./components/Login/ForgotPasswordSubmit"));
@@ -33,20 +34,20 @@ class App extends Component {
     this.props.fetchUserDetails();
   };
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
+  componentDidUpdate = () => {
     initSdk();
-  }
+  };
 
   render() {
     const { hamburgerMenu, isInitialized, isLoggedIn, isTermsAccepted } = this.props;
     if (!isInitialized) {
-      return <h2>Loading</h2>;
+      return <CircularProgress />;
     }
     return (
       <ThemeProvider theme={theme}>
         <div className={hamburgerMenu ? "hide-overflow" : null}>
           <Router>
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<AppLoader />}>
               <Switch>
                 <Route path={`/${Routes.SIGNUP}`} component={withRegistrationHeader(SignUp, headerData.SIGNUP)} />
                 <Route

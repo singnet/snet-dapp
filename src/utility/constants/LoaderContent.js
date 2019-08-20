@@ -1,4 +1,8 @@
 export const LoaderContent = {
+  APP_INIT: {
+    loaderHeader: "Initializing application",
+    loaderText: "Initializing the application",
+  },
   SIGNUP: {
     loaderHeader: "Signing Up",
     loaderText: "Please wait. we are creating an account for you",

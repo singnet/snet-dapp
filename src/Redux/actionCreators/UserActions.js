@@ -96,16 +96,19 @@ const fetchUserDetailsSuccess = (isEmailVerified, email, username) => dispatch =
       username,
     },
   });
+  dispatch(loaderActions.stopAppLoader);
 };
 
 const fetchUserDetailsError = err => dispatch => {
   if (err === "No current user") {
     dispatch(noAuthenticatedUser);
+    dispatch(loaderActions.stopAppLoader);
   }
   dispatch(appInitializationSuccess);
 };
 
 export const fetchUserDetails = async dispatch => {
+  dispatch(loaderActions.startAppLoader(LoaderContent.APP_INIT));
   try {
     const { username, token, email, email_verified } = await fetchAuthenticatedUser();
     dispatch(fetchUserProfile(token));
