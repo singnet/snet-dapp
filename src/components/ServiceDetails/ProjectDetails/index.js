@@ -12,7 +12,9 @@ const ProjectDetails = ({ classes, projectURL }) => {
         <h5>Project URL</h5>
         <div className={classes.projectURLContainer}>
           <LaunchIcon />
-          <a href={projectURL} target="_blank" rel="noopener noreferrer" alt="URL">{projectURL}</a>
+          <a href={projectURL} target="_blank" rel="noopener noreferrer" alt="URL">
+            {projectURL}
+          </a>
         </div>
       </div>
     </div>

@@ -53,7 +53,7 @@ export const useStyles = makeStyles(theme => ({
     fontSize: 16,
     color: theme.palette.text.lightShadedGray,
     lineHeight: "22px",
-    '&:hover':{ color: theme.palette.text.white }
+    "&:hover": { color: theme.palette.text.white },
   },
   navLinksDropDown: {
     listStyle: "none",

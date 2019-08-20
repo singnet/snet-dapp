@@ -48,8 +48,8 @@ export const useStyles = theme => ({
       textTransform: "uppercase",
     },
   },
-  titleImg:{
+  titleImg: {
     width: 234,
-    '& img': { width: '100%'}
-  }
+    "& img": { width: "100%" },
+  },
 });

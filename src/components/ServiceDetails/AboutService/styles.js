@@ -167,7 +167,7 @@ export const useStyles = theme => ({
         color: theme.palette.text.primary,
         fontSize: 14,
         fontWeight: 400,
-        letterSpacing: '0.25px',
+        letterSpacing: "0.25px",
         textDecoration: "none",
       },
       "& p": {
@@ -178,7 +178,7 @@ export const useStyles = theme => ({
       "&:last-of-type": { marginBottom: 0 },
     },
   },
-  contributors: { 
+  contributors: {
     "& p": { marginLeft: "30px !important" },
   },
   demoToggler: {

@@ -34,7 +34,7 @@ export const useStyles = theme =>
       boxShadow: "none",
       backgroundColor: theme.palette.text.gray,
       "&::before": { position: "static" },
-      "&.Mui-expanded": { 
+      "&.Mui-expanded": {
         marginTop: 0,
         backgroundColor: theme.palette.text.white,
       },

@@ -11,7 +11,7 @@ export const useStyles = theme => ({
       marginBottom: 30,
       display: "flex",
       "& h5": {
-        width: '50%',
+        width: "50%",
         margin: 0,
         color: theme.palette.text.darkShadedGray,
         fontSize: 16,
@@ -38,14 +38,14 @@ export const useStyles = theme => ({
     },
   },
   projectDetailsContent: { paddingTop: 10 },
-  projectURLContainer:{
-    width: '100%',
-    display:'flex',
-    '& svg':{
+  projectURLContainer: {
+    width: "100%",
+    display: "flex",
+    "& svg": {
       paddingTop: 3,
       marginRight: 5,
       color: theme.palette.text.primary,
-      fontSize: 14
-    }
-  }
+      fontSize: 14,
+    },
+  },
 });
