@@ -23,6 +23,7 @@ export const useStyles = theme =>
       backgroundColor: "transparent",
       color: theme.palette.text.primary,
       cursor: "pointer",
+      fontFamily: theme.typography.primary.main,
       fontSize: 14,
       outline: "none",
       textTransform: "uppercase",
@@ -32,16 +33,15 @@ export const useStyles = theme =>
       marginBottom: 1,
       boxShadow: "none",
       backgroundColor: theme.palette.text.gray,
-      "&::before": {
-        position: "static",
-      },
-      "&.Mui-expanded": {
+      "&::before": { position: "static" },
+      "&.Mui-expanded": { 
         marginTop: 0,
         backgroundColor: theme.palette.text.white,
       },
     },
     filtersHeadingTitle: {
       color: theme.palette.text.darkShadedGray,
+      fontFamily: theme.typography.primary.main,
       fontSize: 16,
     },
     filterDetails: {
@@ -61,6 +61,7 @@ export const useStyles = theme =>
       fontSize: 14,
     },
     checkboxLabel: {
+      fontFamily: theme.typography.primary.main,
       fontSize: 14,
       letterSpacing: "0.25px",
       color: theme.palette.text.mediumShadeGray,
