@@ -48,17 +48,7 @@ class MetamaskFlow extends Component {
   initializePaymentChannel = async () => {
     const { groupInfo } = this.props;
     const sdk = await initSdk();
-    const serviceClientOptions = { endpoint: "https://example-service-a.singularitynet.io:8088" };
-    this.serviceClient = new ServiceClient(
-      sdk,
-      "snet",
-      "example-service",
-      sdk._mpeContract,
-      {},
-      groupInfo,
-      undefined,
-      serviceClientOptions
-    );
+    this.serviceClient = new ServiceClient(sdk, "snet", "example-service", sdk._mpeContract, {}, groupInfo);
     this.paymentChannelManagement = new PaymentChannelManagement(sdk, this.serviceClient);
   };
 
@@ -69,12 +59,12 @@ class MetamaskFlow extends Component {
     },
     {
       title: "Escrow Balance",
-      value: "1.065627",
+      value: "",
       unit: "AGI",
     },
     {
       title: "Channel Balance",
-      value: "0.065627",
+      value: "",
       unit: "AGI",
     },
   ];
@@ -153,6 +143,10 @@ class MetamaskFlow extends Component {
     }
   };
 
+  parseChannelBalFromPaymentCard = () => {
+    return this.PaymentInfoCardData.find(el => el.title === "Channel Balance")[0].value;
+  };
+
   render() {
     const { classes } = this.props;
     const {
@@ -195,7 +189,7 @@ class MetamaskFlow extends Component {
             <span className={classes.channelSelectionTitle}>Recommended</span>
             <ChannelSelectionBox
               title="Channel Balance"
-              description="You have 0.065627 tokens in you channel. This can be used for running demos across all the services from this vendor."
+              description={`You have ${this.parseChannelBalFromPaymentCard()} AGI in you channel. This can be used for running demos across all the services from this vendor.`}
               checked={selectedPayType === payTypes.CHANNEL_BALANCE}
               value={payTypes.CHANNEL_BALANCE}
               onClick={() => this.handlePayTypeChange(payTypes.CHANNEL_BALANCE)}
