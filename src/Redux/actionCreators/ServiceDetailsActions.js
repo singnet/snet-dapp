@@ -17,7 +17,7 @@ const fetchServiceMetadataSuccess = serviceMetadata => dispatch => {
 };
 
 const fetchServiceMetadataAPI = async ({ orgId, serviceId }) => {
-  const url = `${APIEndpoints.CONTRACT.endpoint}/org/${orgId}/service/${serviceId}/group`;
+  const url = `${APIEndpoints.CONTRACT.endpoint}/org/${orgId}/service/${serviceId}`;
   const response = await fetch(url);
   return response.json();
 };

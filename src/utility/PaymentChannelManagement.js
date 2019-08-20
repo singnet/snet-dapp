@@ -38,8 +38,8 @@ export default class PaymentChannelManagement {
     this._sdkContext.currentChannel = this._channel;
   }
 
-  async extendAndAddFunds() {
-    const serviceCallPrice = this._pricePerServiceCall();
+  async extendAndAddFunds(noOfServiceCalls = 1) {
+    const serviceCallPrice = this._pricePerServiceCall() * noOfServiceCalls;
     const defaultExpiration = await this._defaultChannelExpiration();
 
     await this._channel.extendAndAddFunds(defaultExpiration, serviceCallPrice);
