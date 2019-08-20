@@ -17,7 +17,7 @@ import Slider from "@material-ui/lab/Slider";
 import { Chart } from "react-google-charts";
 import Tooltip from "@material-ui/core/Tooltip";
 
-import { TSAnomalyDetection } from "./timeSeriesAnomalyDetection_pb_service";
+import { EfficientRuleDensityBasedAnomalyDetection } from "./timeSeriesAnomalyDetection_pb_service";
 
 function Transition(props) {
   return <Slide direction="up" {...props} />;
@@ -275,7 +275,7 @@ export default class TimeSeriesAnomalyDiscoveryService extends React.Component {
 
   submitAction() {
     const { methodName, timeseries, slidingwindowsize, alphabet, paasize, debugflag } = this.state;
-    const methodDescriptor = TSAnomalyDetection[methodName];
+    const methodDescriptor = EfficientRuleDensityBasedAnomalyDetection[methodName];
     const request = new methodDescriptor.requestType();
 
     request.setTimeseries(timeseries);
