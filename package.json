@@ -14,11 +14,11 @@
     "cytoscape-cola": "^2.3.0",
     "google-protobuf": "^3.8.0",
     "html2canvas": "^1.0.0-alpha.12",
+    "lodash": "latest",
     "material-design-icons": "^3.0.1",
     "material-ui": "^1.0.0-beta.47",
     "material-ui-flat-pagination": "^3.2.0",
     "material-ui-rating": "^3.1.1",
-    "protobufjs": "^6.8.8",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-dropzone": "^8.0.4",
@@ -33,8 +33,7 @@
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "snet-sdk-web": "^1.0.0-beta.3",
-    "utf8": "^3.0.0",
-    "lodash": "latest"
+    "utf8": "^3.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
