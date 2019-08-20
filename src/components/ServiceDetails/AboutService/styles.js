@@ -178,7 +178,7 @@ export const useStyles = theme => ({
       "&:last-of-type": { marginBottom: 0 },
     },
   },
-  contributors: {
+  contributors: { 
     "& p": { marginLeft: "30px !important" },
   },
   demoToggler: {
