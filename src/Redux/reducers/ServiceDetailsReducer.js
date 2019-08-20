@@ -36,6 +36,7 @@ const groups = state => {
 };
 
 export const groupInfo = state => {
+
   const serviceGroups = groups(state);
   const availableGroup = find(serviceGroups, ({ endpoints }) =>
     some(endpoints, endpoint => endpoint.is_available === 1)
