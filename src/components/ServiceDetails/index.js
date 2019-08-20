@@ -26,6 +26,10 @@ class ServiceDetails extends Component {
     this.fetchServiceDetails();
   }
 
+  componentWillUnmount = () => {
+    this.props.resetServiceDetails();
+  };
+
   fetchServiceDetails = async () => {
     const { fetchServiceDetails, match } = this.props;
     const { orgId, serviceId } = match.params;
@@ -78,6 +82,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchServiceDetails: args => dispatch(serviceDetailsActions.fetchServiceDetails({ ...args })),
+  resetServiceDetails: () => dispatch(serviceDetailsActions.resetServiceDetails),
 });
 
 export default connect(
