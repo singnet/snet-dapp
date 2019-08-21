@@ -10,7 +10,7 @@ export const RESET_SERVICE_DETAILS = "RESET_SERVICE_DETAILS";
 export const UPDATE_FREE_CALLS_ALLOWED = "UPDATE_FREE_CALLS_ALLOWED";
 export const UPDATE_FREE_CALLS_REMAINING = "UPDATE_FREE_CALLS_REMAINING";
 
-export const resetServiceDetails = dispatch => {
+const resetServiceDetails = dispatch => {
   dispatch({ type: RESET_SERVICE_DETAILS });
 };
 const fetchServiceDetailsSuccess = serviceDetails => dispatch => {
