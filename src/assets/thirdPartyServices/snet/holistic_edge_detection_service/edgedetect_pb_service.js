@@ -1,36 +1,36 @@
 // package: 
-// file: ProtoFiles/alpha_zero.proto
+// file: ProtoFiles/edgedetect.proto
 
-var ProtoFiles_alpha_zero_pb = require("./alpha_zero_pb");
+var ProtoFiles_edgedetect_pb = require("./edgedetect_pb");
 var grpc = require("@improbable-eng/grpc-web").grpc;
 
-var AlphaZero = (function () {
-  function AlphaZero() {}
-  AlphaZero.serviceName = "AlphaZero";
-  return AlphaZero;
+var Edgedetect = (function () {
+  function Edgedetect() {}
+  Edgedetect.serviceName = "Edgedetect";
+  return Edgedetect;
 }());
 
-AlphaZero.play = {
-  methodName: "play",
-  service: AlphaZero,
+Edgedetect.DetectEdge = {
+  methodName: "DetectEdge",
+  service: Edgedetect,
   requestStream: false,
   responseStream: false,
-  requestType: ProtoFiles_alpha_zero_pb.Input,
-  responseType: ProtoFiles_alpha_zero_pb.Output
+  requestType: ProtoFiles_edgedetect_pb.ImageFile,
+  responseType: ProtoFiles_edgedetect_pb.ImageFile
 };
 
-exports.AlphaZero = AlphaZero;
+exports.Edgedetect = Edgedetect;
 
-function AlphaZeroClient(serviceHost, options) {
+function EdgedetectClient(serviceHost, options) {
   this.serviceHost = serviceHost;
   this.options = options || {};
 }
 
-AlphaZeroClient.prototype.play = function play(requestMessage, metadata, callback) {
+EdgedetectClient.prototype.detectEdge = function detectEdge(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
-  var client = grpc.unary(AlphaZero.play, {
+  var client = grpc.unary(Edgedetect.DetectEdge, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
@@ -57,5 +57,5 @@ AlphaZeroClient.prototype.play = function play(requestMessage, metadata, callbac
   };
 };
 
-exports.AlphaZeroClient = AlphaZeroClient;
+exports.EdgedetectClient = EdgedetectClient;
 

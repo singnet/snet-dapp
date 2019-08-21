@@ -1,36 +1,36 @@
 // package: 
-// file: ProtoFiles/alpha_zero.proto
+// file: ProtoFiles/LanguageDetection.proto
 
-var ProtoFiles_alpha_zero_pb = require("./alpha_zero_pb");
+var ProtoFiles_LanguageDetection_pb = require("./LanguageDetection_pb");
 var grpc = require("@improbable-eng/grpc-web").grpc;
 
-var AlphaZero = (function () {
-  function AlphaZero() {}
-  AlphaZero.serviceName = "AlphaZero";
-  return AlphaZero;
+var LanguageDetect = (function () {
+  function LanguageDetect() {}
+  LanguageDetect.serviceName = "LanguageDetect";
+  return LanguageDetect;
 }());
 
-AlphaZero.play = {
-  methodName: "play",
-  service: AlphaZero,
+LanguageDetect.infer = {
+  methodName: "infer",
+  service: LanguageDetect,
   requestStream: false,
   responseStream: false,
-  requestType: ProtoFiles_alpha_zero_pb.Input,
-  responseType: ProtoFiles_alpha_zero_pb.Output
+  requestType: ProtoFiles_LanguageDetection_pb.Input,
+  responseType: ProtoFiles_LanguageDetection_pb.Output
 };
 
-exports.AlphaZero = AlphaZero;
+exports.LanguageDetect = LanguageDetect;
 
-function AlphaZeroClient(serviceHost, options) {
+function LanguageDetectClient(serviceHost, options) {
   this.serviceHost = serviceHost;
   this.options = options || {};
 }
 
-AlphaZeroClient.prototype.play = function play(requestMessage, metadata, callback) {
+LanguageDetectClient.prototype.infer = function infer(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
-  var client = grpc.unary(AlphaZero.play, {
+  var client = grpc.unary(LanguageDetect.infer, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
@@ -57,5 +57,5 @@ AlphaZeroClient.prototype.play = function play(requestMessage, metadata, callbac
   };
 };
 
-exports.AlphaZeroClient = AlphaZeroClient;
+exports.LanguageDetectClient = LanguageDetectClient;
 

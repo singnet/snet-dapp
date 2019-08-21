@@ -1,5 +1,6 @@
 import React from "react";
 import SNETImageUpload from "../../standardComponents/SNETImageUpload";
+import { SemanticSegmentation } from "./segmentation_pb_service";
 
 const outsideWrapper = {
   width: "256px",
@@ -27,6 +28,12 @@ const coveringCanvas = {
   left: "0px",
 };
 
+const initialUserInput = {
+  methodName: "segment",
+  mimetype: undefined,
+  imageData: undefined,
+};
+
 export default class SemanticSegmentationService extends React.Component {
   constructor(props) {
     super(props);
@@ -36,11 +43,15 @@ export default class SemanticSegmentationService extends React.Component {
     this.canBeInvoked = this.canBeInvoked.bind(this);
 
     this.state = {
-      serviceName: "SemanticSegmentation",
-      methodName: "segment",
-      imgsrc: undefined,
-      imageData: undefined,
+      ...initialUserInput,
+      users_guide: "",
+      code_repo: "",
+      reference: "",
+      model: "",
+      response: undefined,
+      visualise: true,
     };
+
   }
 
   handleFormUpdate(event) {
@@ -73,13 +84,37 @@ export default class SemanticSegmentationService extends React.Component {
   }
 
   submitAction() {
-    this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
-      img: { content: this.state.imageData, mimetype: this.state.mimetype },
-      visualise: true,
-    });
+    const { methodName, imageData, mimetype, visualise, model } = this.state;
+    const methodDescriptor = SemanticSegmentation[methodName];
+    const request = new methodDescriptor.requestType();
+
+    // Setting the Proto Message Img
+    var imgProto = request.Image();
+    imgProto.setMimetype(mimetype);
+    imgProto.setContent(imageData);
+
+    request.setVisualise(visualise)
+    request.setImg(imgProto);
+    
+    const props = {
+      request,
+      onEnd: response => {
+        const { message, status, statusMessage } = response;
+        if (status !== 0) {
+          throw new Error(statusMessage);
+        }
+        this.setState({
+          ...initialUserInput,
+          response: { status: "success", debug_img: message.getImg() },
+        });
+      },
+    };
+
+    this.props.serviceClient.unary(methodDescriptor, props);
   }
 
   renderForm() {
+
     return (
       <React.Fragment>
         <div className="row">
@@ -109,7 +144,7 @@ export default class SemanticSegmentationService extends React.Component {
   }
 
   renderComplete() {
-    const response = this.props.response;
+    const {response} = this.state;
 
     return (
       <React.Fragment>
@@ -125,7 +160,7 @@ export default class SemanticSegmentationService extends React.Component {
               src={
                 "data:image/png;base64," +
                 btoa(
-                  response.debug_img.content.reduce((data, byte) => {
+                  response.debug_img.getContent().reduce((data, byte) => {
                     return data + String.fromCharCode(byte);
                   }, "")
                 )

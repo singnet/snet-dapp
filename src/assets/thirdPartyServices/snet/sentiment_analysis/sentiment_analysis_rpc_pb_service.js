@@ -1,36 +1,36 @@
 // package: 
-// file: ProtoFiles/alpha_zero.proto
+// file: ProtoFiles/sentiment_analysis_rpc.proto
 
-var ProtoFiles_alpha_zero_pb = require("./alpha_zero_pb");
+var ProtoFiles_sentiment_analysis_rpc_pb = require("./sentiment_analysis_rpc_pb");
 var grpc = require("@improbable-eng/grpc-web").grpc;
 
-var AlphaZero = (function () {
-  function AlphaZero() {}
-  AlphaZero.serviceName = "AlphaZero";
-  return AlphaZero;
+var SentimentAnalysis = (function () {
+  function SentimentAnalysis() {}
+  SentimentAnalysis.serviceName = "SentimentAnalysis";
+  return SentimentAnalysis;
 }());
 
-AlphaZero.play = {
-  methodName: "play",
-  service: AlphaZero,
+SentimentAnalysis.Analyze = {
+  methodName: "Analyze",
+  service: SentimentAnalysis,
   requestStream: false,
   responseStream: false,
-  requestType: ProtoFiles_alpha_zero_pb.Input,
-  responseType: ProtoFiles_alpha_zero_pb.Output
+  requestType: ProtoFiles_sentiment_analysis_rpc_pb.InputMessage,
+  responseType: ProtoFiles_sentiment_analysis_rpc_pb.OutputMessage
 };
 
-exports.AlphaZero = AlphaZero;
+exports.SentimentAnalysis = SentimentAnalysis;
 
-function AlphaZeroClient(serviceHost, options) {
+function SentimentAnalysisClient(serviceHost, options) {
   this.serviceHost = serviceHost;
   this.options = options || {};
 }
 
-AlphaZeroClient.prototype.play = function play(requestMessage, metadata, callback) {
+SentimentAnalysisClient.prototype.analyze = function analyze(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
-  var client = grpc.unary(AlphaZero.play, {
+  var client = grpc.unary(SentimentAnalysis.Analyze, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
@@ -57,5 +57,5 @@ AlphaZeroClient.prototype.play = function play(requestMessage, metadata, callbac
   };
 };
 
-exports.AlphaZeroClient = AlphaZeroClient;
+exports.SentimentAnalysisClient = SentimentAnalysisClient;
 

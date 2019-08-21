@@ -1,36 +1,36 @@
 // package: 
-// file: ProtoFiles/alpha_zero.proto
+// file: ProtoFiles/translate.proto
 
-var ProtoFiles_alpha_zero_pb = require("./alpha_zero_pb");
+var ProtoFiles_translate_pb = require("./translate_pb");
 var grpc = require("@improbable-eng/grpc-web").grpc;
 
-var AlphaZero = (function () {
-  function AlphaZero() {}
-  AlphaZero.serviceName = "AlphaZero";
-  return AlphaZero;
+var Translation = (function () {
+  function Translation() {}
+  Translation.serviceName = "Translation";
+  return Translation;
 }());
 
-AlphaZero.play = {
-  methodName: "play",
-  service: AlphaZero,
+Translation.translate = {
+  methodName: "translate",
+  service: Translation,
   requestStream: false,
   responseStream: false,
-  requestType: ProtoFiles_alpha_zero_pb.Input,
-  responseType: ProtoFiles_alpha_zero_pb.Output
+  requestType: ProtoFiles_translate_pb.Request,
+  responseType: ProtoFiles_translate_pb.Result
 };
 
-exports.AlphaZero = AlphaZero;
+exports.Translation = Translation;
 
-function AlphaZeroClient(serviceHost, options) {
+function TranslationClient(serviceHost, options) {
   this.serviceHost = serviceHost;
   this.options = options || {};
 }
 
-AlphaZeroClient.prototype.play = function play(requestMessage, metadata, callback) {
+TranslationClient.prototype.translate = function translate(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
-  var client = grpc.unary(AlphaZero.play, {
+  var client = grpc.unary(Translation.translate, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
@@ -57,5 +57,5 @@ AlphaZeroClient.prototype.play = function play(requestMessage, metadata, callbac
   };
 };
 
-exports.AlphaZeroClient = AlphaZeroClient;
+exports.TranslationClient = TranslationClient;
 
