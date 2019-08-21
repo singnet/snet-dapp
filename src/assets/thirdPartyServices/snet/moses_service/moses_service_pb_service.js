@@ -1,7 +1,7 @@
 // package: 
 // file: ProtoFiles/moses_service.proto
 
-var ProtoFiles_moses_service_pb = require("../ProtoFiles/moses_service_pb");
+var ProtoFiles_moses_service_pb = require("./moses_service_pb");
 var grpc = require("@improbable-eng/grpc-web").grpc;
 
 var MosesService = (function () {
