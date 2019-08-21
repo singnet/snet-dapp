@@ -1,5 +1,5 @@
 import React from "react";
-import { hasOwnDefinedProperty } from "../../utility/JSHelper";
+import { hasOwnDefinedProperty } from "../../../../utility/JSHelper";
 import Grid from "@material-ui/core/Grid";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
