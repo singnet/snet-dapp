@@ -2,7 +2,7 @@ import React from "react";
 import { hasOwnDefinedProperty } from "../../../../utility/JSHelper";
 import Button from "@material-ui/core/Button";
 
-import VideoActionRecognition from './video_action_recon_pb_service'
+import { VideoActionRecognition } from './video_action_recon_pb_service'
 
 const initialUserInput = {
   model: "400",
@@ -52,6 +52,7 @@ export default class I3DActionRecognition extends React.Component {
 
   submitAction() {
     const { methodName, model, url } = this.state;
+console.log("methodName - " + methodName);    
     const methodDescriptor = VideoActionRecognition[methodName];
     const request = new methodDescriptor.requestType();
 
@@ -168,7 +169,7 @@ export default class I3DActionRecognition extends React.Component {
   }
 
   render() {
-    if (this.isComplete) return <div>{this.renderComplete()}</div>;
+    if (this.props.isComplete) return <div>{this.renderComplete()}</div>;
     else {
       return <div>{this.renderForm()}</div>;
     }

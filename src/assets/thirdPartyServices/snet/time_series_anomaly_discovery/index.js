@@ -447,7 +447,7 @@ export default class TimeSeriesAnomalyDiscoveryService extends React.Component {
     // allow to get the expand event
     this.updateParentExansion();
 
-    if (this.isComplete) {
+    if (this.props.isComplete) {
       if (this.state.first_render === true) {
         this.state.first_render = false;
         this.updateRenderTimeSeries();
