@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
+import isEmpty from "lodash/isEmpty";
 
 import ProgressBar from "../../../common/ProgressBar";
 import { useStyles } from "./styles";
 import { serviceDetailsActions } from "../../../../Redux/actionCreators";
 import PurchaseToggler from "./PurchaseToggler";
 import { groupInfo } from "../../../../Redux/reducers/ServiceDetailsReducer";
+import AlertBox, { alertTypes } from "../../../common/AlertBox";
 
 const demoProgressStatus = {
   purchasing: 1,
@@ -16,7 +18,6 @@ const demoProgressStatus = {
 
 class ServiceDemo extends Component {
   state = {
-    error: "error state message",
     progressText: ["Purchase", "Configure", "Results"],
     purchaseCompleted: false,
   };
@@ -26,7 +27,7 @@ class ServiceDemo extends Component {
       return;
     }
 
-    // await this.fetchFreeCallsUsage();
+    await this.fetchFreeCallsUsage();
   };
 
   // Username review
@@ -58,6 +59,7 @@ class ServiceDemo extends Component {
   render() {
     const { classes, service, freeCallsRemaining, freeCallsAllowed, groupInfo, wallet } = this.props;
     const { progressText, purchaseCompleted } = this.state;
+
     return (
       <div className={classes.demoExampleContainer}>
         <h4>Process</h4>
