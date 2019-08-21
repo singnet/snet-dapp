@@ -6,6 +6,7 @@ export const useStyles = theme => ({
     backgroundColor: "#1F1F1F",
     padding: "0 0 0 10px",
     color: theme.palette.text.white,
+    fontFamily: "'Space Mono', monospace;"
   },
   codeSnippet: { padding: 10 },
 });

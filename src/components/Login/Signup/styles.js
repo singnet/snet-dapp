@@ -121,9 +121,11 @@ export const useStyles = theme => ({
   },
   buttonsContainer: {
     marginTop: 10,
+    display: 'flex',
     "& button": {
       padding: " 13px 60px 11px",
       marginTop: 10,
+      '&:first-of-type': { marginRight: 10 }
     },
   },
   confirmOtp: {
