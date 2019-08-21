@@ -20,7 +20,7 @@ class UserProfile extends Component {
   };
 
   render() {
-    const { classes, history, username } = this.props;
+    const { classes, history, nickname } = this.props;
     const { activeTab } = this.state;
 
     const tabs = [
@@ -30,7 +30,7 @@ class UserProfile extends Component {
     const activeComponent = tabs.filter(el => el.activeIndex === activeTab)[0].component;
     return (
       <div className={classes.UserProfileContainer}>
-        <UserProfileHeader username={username} />
+        <UserProfileHeader nickname={nickname} />
         <div>
           <AppBar position="static" className={classes.tabsHeader}>
             <Tabs value={activeTab}>
@@ -47,7 +47,7 @@ class UserProfile extends Component {
 }
 
 const mapStateToProps = state => ({
-  username: state.userReducer.username,
+  nickname: state.userReducer.nickname,
 });
 
 export default connect(mapStateToProps)(withStyles(useStyles)(UserProfile));

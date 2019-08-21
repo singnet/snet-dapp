@@ -18,7 +18,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import HoverIcon from "../../standardComponents/HoverIcon";
 
-import { Super_Resolution } from "./super_resolution_pb_service";
+import { SuperResolution } from "./super_resolution_pb_service";
 
 const initialUserInput = {
   // Actual inputs
@@ -28,7 +28,7 @@ const initialUserInput = {
 };
 
 
-export default class SuperResolution extends React.Component {
+export default class SuperResolutionService extends React.Component {
   constructor(props) {
     super(props);
 
@@ -103,7 +103,7 @@ export default class SuperResolution extends React.Component {
 
   submitAction() {
     const { methodName, input, model, scale } = this.state;
-    const methodDescriptor = Super_Resolution[methodName];
+    const methodDescriptor = SuperResolution[methodName];
     const request = new methodDescriptor.requestType();
 
     request.setInput(input);

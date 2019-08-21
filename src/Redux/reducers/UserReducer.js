@@ -11,7 +11,7 @@ const InitialUserDetails = {
   isEmailVerified: false,
   wallet: {},
   email: "",
-  username: "",
+  nickname: "",
   emailAlerts: false,
   isTermsAccepted: true,
 };
@@ -77,7 +77,10 @@ const userReducer = (state = InitialUserDetails, action) => {
     case userActions.UPDATE_WALLET: {
       return { ...state, wallet: action.payload };
     }
-    case userActions.UPDATE_USERNAME: {
+    case userActions.UPDATE_NICKNAME: {
+      return { ...state, ...action.payload };
+    }
+    case userActions.UPDATE_EMAIL: {
       return { ...state, ...action.payload };
     }
     case userActions.UPDATE_EMAIL_VERIFIED: {
