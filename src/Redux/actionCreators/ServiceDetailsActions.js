@@ -47,7 +47,11 @@ const fetchMeteringDataError = error => dispatch => {
 
 const fetchMeteringDataSuccess = usageData => dispatch => {
   const freeCallsRemaining = usageData.free_calls_allowed - usageData.total_calls_made;
-  dispatch({ type: UPDATE_FREE_CALLS_INFO, payload: { allowed: usageData.free_calls_allowed, remaining: freeCallsRemaining }});
+  dispatch({
+    type: UPDATE_FREE_CALLS_INFO,
+    payload: { allowed: usageData.free_calls_allowed, remaining: freeCallsRemaining },
+  });
+  dispatch(loaderActions.stopAppLoader);
 };
 
 const meteringAPI = (token, orgId, serviceId, userId) => {
