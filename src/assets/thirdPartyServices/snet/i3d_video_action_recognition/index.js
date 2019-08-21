@@ -52,7 +52,6 @@ export default class I3DActionRecognition extends React.Component {
 
   submitAction() {
     const { methodName, model, url } = this.state;
-console.log("methodName - " + methodName);    
     const methodDescriptor = VideoActionRecognition[methodName];
     const request = new methodDescriptor.requestType();
 
