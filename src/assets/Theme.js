@@ -61,6 +61,10 @@ const redBtnBg = "#E67381";
 
 const verticalTabLeftBorder = "#e2e2e2";
 
+const inputBoxBorder = "#979797";
+
+const dialogTitle = "rgba(0,0,0,0.87)";
+
 const h2 = { size: 32, color: darkShadedGray };
 
 const theme = createMuiTheme({
@@ -105,19 +109,9 @@ const theme = createMuiTheme({
       warningBoxBg,
       infoBoxBg,
       infoBoxLink,
+      inputBoxBorder,
+      dialogTitle,
     },
-  },
-  typography: {
-    primary: {
-      main: ["OpenSans"],
-    },
-    secondary: {
-      main: ["Raleway"],
-    },
-    tertiary: {
-      main: ["Roboto"],
-    },
-    fontweight: 600,
   },
   backgroundColor: {
     blue: customBlue,
@@ -129,6 +123,11 @@ const theme = createMuiTheme({
   },
   font: {
     h2,
+  },
+  typography: {
+    primary: {
+      main: "Muli, sans-serif",
+    },
   },
 });
 

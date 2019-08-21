@@ -36,7 +36,7 @@ class UserProfileSettings extends Component {
     this.setState(prevState => ({ emailAlerts: !prevState.emailAlerts }));
   };
 
-  handleDelete = async () => {
+  handleDelete = () => {
     this.setState({ showConfirmDelete: true });
   };
 
@@ -46,8 +46,8 @@ class UserProfileSettings extends Component {
 
   handleSubmit = async () => {
     this.setState({ alertMessage: undefined });
-    const { updateUserProfile } = this.props;
-    const updatedUserData = { email_alerts: this.state.emailAlerts };
+    const { updateUserProfile, isTermsAccepted } = this.props;
+    const updatedUserData = { email_alerts: this.state.emailAlerts, is_terms_accepted: isTermsAccepted };
     try {
       await updateUserProfile(updatedUserData);
       this.setState({ alertType: alertTypes.SUCCESS, alertMessage: "Changes saved successfully" });
@@ -163,6 +163,7 @@ const mapStateToProps = state => ({
   userEmail: state.userReducer.email,
   username: state.userReducer.username,
   emailAlerts: state.userReducer.emailAlerts,
+  isTermsAccepted: state.userReducer.isTermsAccepted,
 });
 
 const mapDispatchToProps = dispatch => ({

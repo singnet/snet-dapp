@@ -13,7 +13,13 @@ const PrimaryFooter = ({ leftData, mainData }) => {
         <FooterLogo />
         <ul className={classes.footerLogoSection}>
           {leftData.map(item => (
-            <FooterLink key={item.label} image={item.image} link={item.link} label={item.label} />
+            <FooterLink
+              key={item.label}
+              image={item.image}
+              link={item.link}
+              label={item.label}
+              internalLink={item.internalLink}
+            />
           ))}
         </ul>
       </div>

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
+import isEmpty from "lodash/isEmpty";
 
 import TitleCard from "./TitleCard";
 import PricingDetails from "./PricingDetails";
@@ -9,9 +10,8 @@ import StyledTabs from "./StyledTabs";
 import AboutService from "./AboutService";
 import InstallAndRunService from "./InstallAndRunService";
 import { useStyles } from "./styles";
-import { serviceActions, serviceDetailsActions } from "../../Redux/actionCreators";
-import { serviceDetails } from "../../Redux/reducers/ServiceReducer";
-import { generateFilterObject } from "../../utility/constants/Pagination";
+import { serviceDetailsActions } from "../../Redux/actionCreators";
+import { pricing } from "../../Redux/reducers/ServiceDetailsReducer";
 
 class ServiceDetails extends Component {
   state = {
@@ -23,15 +23,17 @@ class ServiceDetails extends Component {
       return;
     }
 
-    this.fetchServices();
+    this.fetchServiceDetails();
   }
 
-  fetchServices = () => {
-    const { pagination, fetchServices, fetchServiceMetadata, match } = this.props;
+  componentWillUnmount = () => {
+    this.props.resetServiceDetails();
+  };
+
+  fetchServiceDetails = async () => {
+    const { fetchServiceDetails, match } = this.props;
     const { orgId, serviceId } = match.params;
-    const filterData = generateFilterObject({ org_id: [orgId], service_id: [serviceId] });
-    fetchServiceMetadata({ orgId, serviceId });
-    fetchServices(pagination, filterData);
+    await fetchServiceDetails({ orgId, serviceId });
   };
 
   handleTabChange = activeTab => {
@@ -39,9 +41,9 @@ class ServiceDetails extends Component {
   };
 
   render() {
-    const { classes, service } = this.props;
+    const { classes, service, pricing } = this.props;
 
-    if (!service) {
+    if (isEmpty(service)) {
       return null;
     }
 
@@ -61,25 +63,25 @@ class ServiceDetails extends Component {
         <TitleCard
           org_id={service.org_id}
           display_name={service.display_name}
-          img_url={JSON.parse(service.assets_url).hero_image}
-          star_rating={service.service_rating ? JSON.parse(service.service_rating).rating : 0}
-          totalRating={service.service_rating ? JSON.parse(service.service_rating).total_users_rated : 0}
+          img_url={service.assets_url.hero_image}
+          star_rating={service.service_rating ? service.service_rating.rating : 0}
+          totalRating={service.service_rating ? service.service_rating.total_users_rated : 0}
         />
-        <PricingDetails price_strategy={service.pricing_strategy} />
+        <PricingDetails pricing={pricing} />
         <StyledTabs tabs={tabs} activeTab={activeTab} onTabChange={this.handleTabChange} />
       </Grid>
     );
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  service: serviceDetails(state, ownProps.match.params),
-  pagination: state.serviceReducer.pagination,
+const mapStateToProps = state => ({
+  service: state.serviceDetailsReducer,
+  pricing: pricing(state),
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchServiceMetadata: args => dispatch(serviceDetailsActions.fetchServiceMetadata({ ...args })),
-  fetchServices: (pagination, filterData) => dispatch(serviceActions.fetchService(pagination, filterData)),
+  fetchServiceDetails: args => dispatch(serviceDetailsActions.fetchServiceDetails({ ...args })),
+  resetServiceDetails: () => dispatch(serviceDetailsActions.resetServiceDetails),
 });
 
 export default connect(

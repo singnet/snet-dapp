@@ -13,7 +13,7 @@ import withInAppWrapper from "./components/HOC/WithInAppHeader";
 import { userActions } from "./Redux/actionCreators";
 import PrivateRoute from "./components/common/PrivateRoute";
 import AppLoader from "./components/common/AppLoader";
-import WalletReqdRoute from "./components/common/WalletReqdRoute";
+import { initSdk } from "./utility/sdk";
 
 const ForgotPassword = lazy(() => import("./components/Login/ForgotPassword"));
 const ForgotPasswordSubmit = lazy(() => import("./components/Login/ForgotPasswordSubmit"));
@@ -33,8 +33,12 @@ class App extends Component {
     this.props.fetchUserDetails();
   };
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    initSdk();
+  }
+
   render() {
-    const { hamburgerMenu, isInitialized, isLoggedIn } = this.props;
+    const { hamburgerMenu, isInitialized, isLoggedIn, isTermsAccepted } = this.props;
     if (!isInitialized) {
       return <h2>Loading</h2>;
     }
@@ -67,25 +71,36 @@ class App extends Component {
                   {...this.props}
                   component={withRegistrationHeader(Onboarding, headerData.ONBOARDING)}
                 />
-                <WalletReqdRoute
+                <PrivateRoute
+                  isAllowed={isTermsAccepted}
+                  redirectTo={`/${Routes.ONBOARDING}`}
                   path={`/${Routes.AI_MARKETPLACE}`}
                   {...this.props}
                   component={withInAppWrapper(AiMarketplace)}
                 />
-                <WalletReqdRoute
+                <PrivateRoute
+                  isAllowed={isTermsAccepted}
+                  redirectTo={`/${Routes.ONBOARDING}`}
                   path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId`}
                   {...this.props}
                   component={withInAppWrapper(ServiceDetails)}
                 />
-                <WalletReqdRoute
-                  loginReqd
-                  redirectTo={`/${Routes.LOGIN}`}
+                <PrivateRoute
+                  isAllowed={isLoggedIn && isTermsAccepted}
+                  redirectTo={isLoggedIn ? `/${Routes.ONBOARDING}` : `/${Routes.LOGIN}`}
                   path={`/${Routes.USER_PROFILE}`}
                   {...this.props}
                   component={withInAppWrapper(UserProfile)}
                 />
-                <WalletReqdRoute path="/" exact {...this.props} component={withInAppWrapper(AiMarketplace)} />
-                <Route path={`/${Routes.GET_STARTED}`} component={GetStarted} />
+                <PrivateRoute
+                  isAllowed={isTermsAccepted}
+                  redirectTo={`/${Routes.ONBOARDING}`}
+                  path="/"
+                  exact
+                  {...this.props}
+                  component={withInAppWrapper(AiMarketplace)}
+                />
+                <Route path={`/${Routes.GET_STARTED}`} component={withInAppWrapper(GetStarted)} />
                 <Route component={PageNotFound} />
               </Switch>
             </Suspense>
@@ -99,7 +114,8 @@ class App extends Component {
 
 const mapStateToProps = state => ({
   isLoggedIn: state.userReducer.login.isLoggedIn,
-  isWalletAssigned: state.userReducer.isWalletAssigned,
+  isTermsAccepted: state.userReducer.isTermsAccepted,
+  wallet: state.userReducer.wallet,
   isInitialized: state.userReducer.isInitialized,
   hamburgerMenu: state.stylesReducer.hamburgerMenu,
 });

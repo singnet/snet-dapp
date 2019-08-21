@@ -13,9 +13,12 @@ export const useStyles = theme => ({
     "& p": {
       margin: "20px 0 0",
       color: theme.palette.text.mediumShadeGray,
-      fontFamily: theme.typography.secondary.main,
       fontSize: 20,
       lineHeight: "30px",
+    },
+    "& a": {
+      cursor: "pointer",
+      color: theme.palette.text.primary,
     },
   },
   forgotPwdContent: {
@@ -29,7 +32,6 @@ export const useStyles = theme => ({
       margin: "17px 0 0",
       color: theme.palette.text.mediumShadeGray,
       fontSize: "22px",
-      fontFamily: theme.typography.secondary.main,
     },
     "@media (max-width:527px)": {
       width: "75%",

@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import ServiceListItem from "./ServiceListItem";
-import CardImg from "../../../../../assets/images/dummy-card.png";
+import CardImg from "../../../../../assets/images/SnetDefaultServiceImage.png";
 import { useStyles } from "./styles";
 import Routes from "../../../../../utility/constants/Routes";
 
@@ -31,9 +31,9 @@ const CardGroup = ({ cards, loading }) => {
         >
           <ServiceListItem
             key={card.service_id}
-            cardMedia={JSON.parse(card.assets_url).hero_image ? JSON.parse(card.assets_url).hero_image : CardImg}
-            cardTitle={card.org_id}
-            cardSubheader={card.display_name}
+            cardMedia={card.assets_url.hero_image ? card.assets_url.hero_image : CardImg}
+            cardSubheader={card.org_id}
+            cardTitle={card.display_name}
             ratingGiven={card.service_rating}
             totalRating={card.total_users_rated}
             cardDescription={card.description}

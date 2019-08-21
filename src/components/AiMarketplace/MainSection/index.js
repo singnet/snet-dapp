@@ -59,7 +59,7 @@ class MainSection extends Component {
               handleChange: this.handlePaginationChange,
             }}
             toolbarProps={{
-              listView: listView,
+              listView,
               total_count: pagination.total_count,
               handleSearchChange: this.handlePaginationChange,
               toggleView: this.toggleView,

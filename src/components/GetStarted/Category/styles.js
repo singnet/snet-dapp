@@ -1,13 +1,23 @@
 export const useStyles = theme => ({
-  CategoryWrapper: { marginBottom: 60 },
+  CategoryWrapper: {
+    marginBottom: 60,
+    justifyContent: "space-between",
+  },
   CategoryContent: {
+    maxWidth: "45%",
+    paddingTop: 25,
     "& p": {
       margin: "10px 0 27px",
       color: theme.palette.text.mediumShadeGray,
-      fontFamily: theme.typography.secondary.main,
       fontSize: 16,
       lineHeight: "24px",
       "& span": { fontWeight: 600 },
+    },
+  },
+  reverseDirection: {
+    flexDirection: "row-reverse",
+    "& div": {
+      "&:last-of-type": { justifyContent: "flex-start" },
     },
   },
   Title: {
@@ -25,5 +35,9 @@ export const useStyles = theme => ({
       fontWeight: 600,
       lineHeight: "33px",
     },
+  },
+  CategoryMedia: {
+    display: "flex",
+    justifyContent: "flex-end",
   },
 });

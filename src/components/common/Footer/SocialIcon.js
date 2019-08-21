@@ -7,7 +7,7 @@ const SocialIcon = ({ item }) => {
   const classes = useStyles();
   return (
     <li className={classes.socialIconsLink}>
-      <a href="/" title={item.title} className={classes.socialIcon}>
+      <a href={item.link} title={item.title} className={classes.socialIcon} target="_blank" rel="noopener noreferrer">
         <Icon className={item.className} fontSize="large" />
       </a>
     </li>

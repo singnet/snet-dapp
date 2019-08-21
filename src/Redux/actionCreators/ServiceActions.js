@@ -1,11 +1,7 @@
-import { Root } from "protobufjs";
 import { Auth, API } from "aws-amplify";
 
 import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
-import GRPCProtoV3Spec from "../../assets/models/GRPCProtoV3Spec";
 import { loaderActions } from "./";
-import { LoaderContent } from "../../utility/constants/LoaderContent";
-// import { PricingStrategy } from "../../utility/PricingStrategy.js";
 import { initializeAPIOptions } from "../../utility/API";
 
 export const UPDATE_SERVICE_LIST = "SET_SERVICE_LIST";
@@ -33,18 +29,11 @@ export const fetchServiceSuccess = res => dispatch => {
       total_count: res.data.total_count,
     },
   });
-  // if (res.data.total_count > 0) {
-  //   res.data.result.map(service => {
-  //     const pricing = service["pricing"];
-  //     let pricingJSON = typeof pricing === "undefined" || pricing === null ? JSON.stringify(service) : pricing;
-  //     service.pricing_strategy = new PricingStrategy(pricingJSON);
-  //   });
-  // }
   dispatch({ type: UPDATE_SERVICE_LIST, payload: res.data.result });
   dispatch(loaderActions.stopAIServiceListLoader);
 };
 
-export const fetchService = (pagination, filters = []) => async dispatch => {
+export const fetchService = (pagination, filters = []) => dispatch => {
   dispatch(loaderActions.startAIServiceListLoader);
   const url = new URL(`${APIEndpoints.CONTRACT.endpoint}/service`);
   return fetch(url, {
@@ -54,42 +43,6 @@ export const fetchService = (pagination, filters = []) => async dispatch => {
     .then(res => res.json())
     .then(res => dispatch(fetchServiceSuccess(res)))
     .catch(() => dispatch(loaderActions.stopAIServiceListLoader));
-};
-
-export const invokeServiceMethod = data => dispatch => {
-  dispatch(loaderActions.startAppLoader(LoaderContent.SERVICE_INVOKATION));
-  Auth.currentSession({ bypassCache: true })
-    .then(currentSession => {
-      const apiName = APIEndpoints.INVOKE_SERVICE.name;
-      const path = APIPaths.INVOKE_SERVICE;
-      const apiOptions = initializeAPIOptions(currentSession.idToken.jwtToken, data);
-      return API.post(apiName, path, apiOptions);
-    })
-    .then(response => {
-      dispatch(loaderActions.stopAppLoader);
-      dispatch({
-        type: UPDATE_SERVICE_EXECUTION_RESPONSE,
-        payload: { response: JSON.parse(response.data), isComplete: true },
-      });
-    })
-    .catch(() => dispatch(loaderActions.stopAppLoader));
-};
-
-export const resetServiceExecution = dispatch => {
-  dispatch({ type: RESET_SERVICE_EXECUTION });
-};
-
-export const fetchProtoSpec = servicebufURL => dispatch => {
-  return fetch(encodeURI(servicebufURL))
-    .then(serviceSpecResponse => serviceSpecResponse.json())
-    .then(
-      serviceSpec =>
-        new Promise(resolve => {
-          const serviceSpecJSON = Root.fromJSON(serviceSpec[0]);
-          const protoSpec = new GRPCProtoV3Spec(serviceSpecJSON);
-          resolve({ serviceSpecJSON, protoSpec });
-        })
-    );
 };
 
 export const updatePagination = pagination => dispatch => {

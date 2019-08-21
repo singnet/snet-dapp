@@ -39,7 +39,7 @@ const tabs = [
     title: "Get Started",
     active: false,
     link: `/${Routes.GET_STARTED}`,
-    openInNewTab: true,
+    openInNewTab: false,
   },
 ];
 
