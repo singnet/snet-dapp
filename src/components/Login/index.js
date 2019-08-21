@@ -25,7 +25,7 @@ class Login extends Component {
     this.setState({ password: event.currentTarget.value });
   };
 
-  handleSubmit = event => {
+  handleSubmit = async event => {
     const { history } = this.props;
     let route = `/${Routes.ONBOARDING}`;
     if (history.location.state && history.location.state.sourcePath) {
@@ -35,7 +35,7 @@ class Login extends Component {
     const { email, password } = this.state;
     event.preventDefault();
     event.stopPropagation();
-    this.props.login({ email, password, history, route });
+    await this.props.login({ email, password, history, route });
   };
 
   render() {

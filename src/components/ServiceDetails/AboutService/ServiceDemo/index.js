@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
-import isEmpty from "lodash/isEmpty";
 
 import ProgressBar from "../../../common/ProgressBar";
 import { useStyles } from "./styles";
@@ -56,7 +55,13 @@ class ServiceDemo extends Component {
   };
 
   render() {
-    const { classes, service, freeCalls: { remaining: freeCallsRemaining, allowed: freeCallsAllowed }, groupInfo, wallet } = this.props;
+    const {
+      classes,
+      service,
+      freeCalls: { remaining: freeCallsRemaining, allowed: freeCallsAllowed },
+      groupInfo,
+      wallet,
+    } = this.props;
     const { progressText, purchaseCompleted } = this.state;
 
     return (
