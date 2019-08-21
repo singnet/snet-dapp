@@ -44,12 +44,12 @@ class Onboarding extends Component {
   };
 
   render() {
-    const { classes, username } = this.props;
+    const { classes, nickname } = this.props;
     const { activeSection, progressText } = this.state;
 
     const OnboardingDetails = [
       {
-        title: `Welcome ${username}`,
+        title: `Welcome ${nickname}`,
         description: (
           <p>
             You have successfully logged into your singularitynet account. <br />
@@ -85,7 +85,7 @@ class Onboarding extends Component {
 const mapStateToProps = state => ({
   isEmailVerified: state.userReducer.isEmailVerified,
   isTermsAccepted: state.userReducer.isTermsAccepted,
-  username: state.userReducer.username,
+  nickname: state.userReducer.nickname,
 });
 
 export default connect(mapStateToProps)(withStyles(useStyles)(Onboarding));

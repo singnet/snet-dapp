@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
+import isEmpty from "lodash/isEmpty";
 
 import ProgressBar from "../../../common/ProgressBar";
 import { useStyles } from "./styles";
 import { serviceDetailsActions } from "../../../../Redux/actionCreators";
 import PurchaseToggler from "./PurchaseToggler";
-import { groupInfo } from "../../../../Redux/reducers/ServiceDetailsReducer";
+import { freeCalls, groupInfo } from "../../../../Redux/reducers/ServiceDetailsReducer";
 
 const demoProgressStatus = {
   purchasing: 1,
@@ -16,7 +17,6 @@ const demoProgressStatus = {
 
 class ServiceDemo extends Component {
   state = {
-    error: "error state message",
     progressText: ["Purchase", "Configure", "Results"],
     purchaseCompleted: false,
   };
@@ -29,6 +29,7 @@ class ServiceDemo extends Component {
     await this.fetchFreeCallsUsage();
   };
 
+  // Username review
   fetchFreeCallsUsage = () => {
     const { service, fetchMeteringData, email } = this.props;
     return fetchMeteringData({
@@ -55,8 +56,9 @@ class ServiceDemo extends Component {
   };
 
   render() {
-    const { classes, service, freeCallsRemaining, freeCallsAllowed, groupInfo, wallet } = this.props;
+    const { classes, service, freeCalls: { remaining: freeCallsRemaining, allowed: freeCallsAllowed }, groupInfo, wallet } = this.props;
     const { progressText, purchaseCompleted } = this.state;
+
     return (
       <div className={classes.demoExampleContainer}>
         <h4>Process</h4>
@@ -79,8 +81,7 @@ class ServiceDemo extends Component {
 
 const mapStateToProps = state => ({
   isServiceExecutionComplete: state.serviceReducer.serviceMethodExecution.isComplete,
-  freeCallsRemaining: state.serviceDetailsReducer.freeCallsRemaining,
-  freeCallsAllowed: state.serviceDetailsReducer.freeCallsAllowed,
+  freeCalls: freeCalls(state),
   groupInfo: groupInfo(state),
   email: state.userReducer.email,
   wallet: state.userReducer.wallet,
