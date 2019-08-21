@@ -1,7 +1,7 @@
 // package: 
 // file: ProtoFiles/named_entity_recognition_rpc.proto
 
-var ProtoFiles_named_entity_recognition_rpc_pb = require("../ProtoFiles/named_entity_recognition_rpc_pb");
+var ProtoFiles_named_entity_recognition_rpc_pb = require("./named_entity_recognition_rpc_pb");
 var grpc = require("@improbable-eng/grpc-web").grpc;
 
 var ShowMessage = (function () {

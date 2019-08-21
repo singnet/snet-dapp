@@ -1,7 +1,7 @@
 // package: 
 // file: ProtoFiles/video_cap.proto
 
-var ProtoFiles_video_cap_pb = require("../ProtoFiles/video_cap_pb");
+var ProtoFiles_video_cap_pb = require("./video_cap_pb");
 var grpc = require("@improbable-eng/grpc-web").grpc;
 
 var VideoCaptioning = (function () {
