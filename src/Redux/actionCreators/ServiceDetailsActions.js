@@ -38,6 +38,7 @@ export const fetchServiceDetails = ({ orgId, serviceId }) => async dispatch => {
     dispatch(fetchServiceDetailsSuccess(serviceDetails));
   } catch (error) {
     dispatch(fetchServiceDetailsFailure(error));
+    throw error;
   }
 };
 

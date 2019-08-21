@@ -12,10 +12,12 @@ import InstallAndRunService from "./InstallAndRunService";
 import { useStyles } from "./styles";
 import { serviceDetailsActions } from "../../Redux/actionCreators";
 import { pricing, serviceDetails } from "../../Redux/reducers/ServiceDetailsReducer";
+import AlertBox, { alertTypes } from "../common/AlertBox";
 
 class ServiceDetails extends Component {
   state = {
     activeTab: 0,
+    alert: {},
   };
 
   componentDidMount() {
@@ -34,7 +36,11 @@ class ServiceDetails extends Component {
         params: { orgId, serviceId },
       },
     } = this.props;
-    await fetchServiceDetails({ orgId, serviceId });
+    try {
+      await fetchServiceDetails({ orgId, serviceId });
+    } catch (error) {
+      this.setState({ alert: { type: alertTypes.ERROR, message: "unable to fetch service Details. Please reload" } });
+    }
   };
 
   handleTabChange = activeTab => {
@@ -43,9 +49,14 @@ class ServiceDetails extends Component {
 
   render() {
     const { classes, service, pricing } = this.props;
+    const { alert } = this.state;
 
     if (isEmpty(service)) {
-      return null;
+      return (
+        <Grid container spacing={24} className={classes.serviceDetailContainer}>
+          <AlertBox type={alert.type} message={alert.message} />
+        </Grid>
+      );
     }
 
     const { activeTab } = this.state;
@@ -87,7 +98,6 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => ({
   fetchServiceDetails: args => dispatch(serviceDetailsActions.fetchServiceDetails({ ...args })),
-  resetServiceDetails: () => dispatch(serviceDetailsActions.resetServiceDetails),
   fetchMeteringData: args => dispatch(serviceDetailsActions.fetchMeteringData({ ...args })),
 });
 

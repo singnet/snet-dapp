@@ -26,7 +26,7 @@ class ServiceDemo extends Component {
       return;
     }
 
-    await this.fetchFreeCallsUsage();
+    // await this.fetchFreeCallsUsage();
   };
 
   // Username review
