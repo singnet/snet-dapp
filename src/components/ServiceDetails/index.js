@@ -37,7 +37,7 @@ class ServiceDetails extends Component {
       },
     } = this.props;
     try {
-      await fetchServiceDetails({ orgId, serviceId });
+      await fetchServiceDetails(orgId, serviceId);
     } catch (error) {
       this.setState({ alert: { type: alertTypes.ERROR, message: "unable to fetch service Details. Please reload" } });
     }
@@ -97,7 +97,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  fetchServiceDetails: args => dispatch(serviceDetailsActions.fetchServiceDetails({ ...args })),
+  fetchServiceDetails: (orgId, serviceId) => dispatch(serviceDetailsActions.fetchServiceDetails(orgId, serviceId)),
   fetchMeteringData: args => dispatch(serviceDetailsActions.fetchMeteringData({ ...args })),
 });
 

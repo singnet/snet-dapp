@@ -24,17 +24,17 @@ const fetchServiceDetailsSuccess = serviceDetails => dispatch => {
   dispatch(loaderActions.stopAppLoader);
 };
 
-const fetchServiceDetailsAPI = async ({ orgId, serviceId }) => {
+const fetchServiceDetailsAPI = async (orgId, serviceId) => {
   const url = `${APIEndpoints.CONTRACT.endpoint}/org/${orgId}/service/${serviceId}`;
   const response = await fetch(url);
   return response.json();
 };
 
-export const fetchServiceDetails = ({ orgId, serviceId }) => async dispatch => {
+export const fetchServiceDetails = (orgId, serviceId) => async dispatch => {
   try {
     dispatch(loaderActions.startAppLoader(LoaderContent.FETCH_SERVICE_DETAILS));
     dispatch(resetServiceDetails);
-    const serviceDetails = await fetchServiceDetailsAPI({ orgId, serviceId });
+    const serviceDetails = await fetchServiceDetailsAPI(orgId, serviceId);
     dispatch(fetchServiceDetailsSuccess(serviceDetails));
   } catch (error) {
     dispatch(fetchServiceDetailsFailure(error));
