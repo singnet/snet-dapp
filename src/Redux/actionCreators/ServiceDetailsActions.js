@@ -41,13 +41,19 @@ export const fetchServiceDetails = ({ orgId, serviceId }) => async dispatch => {
   }
 };
 
+const fetchMeteringDataError = error => dispatch => {
+  dispatch(loaderActions.stopAppLoader);
+};
+
 const fetchMeteringDataSuccess = usageData => dispatch => {
   const freeCallsRemaining = usageData.free_calls_allowed - usageData.total_calls_made;
   dispatch({ type: UPDATE_FREE_CALLS_ALLOWED, payload: usageData.free_calls_allowed });
   dispatch({ type: UPDATE_FREE_CALLS_REMAINING, payload: freeCallsRemaining });
   if (freeCallsRemaining <= 0) {
     dispatch(userActions.updateWallet({ type: walletTypes.METAMASK }));
+    return;
   }
+  dispatch(userActions.updateWallet({ type: walletTypes.SNET }));
 };
 
 const meteringAPI = (token, orgId, serviceId, userId) => {
@@ -58,7 +64,12 @@ const meteringAPI = (token, orgId, serviceId, userId) => {
 };
 
 export const fetchMeteringData = ({ orgId, serviceId }) => async dispatch => {
-  const { email, token } = await fetchAuthenticatedUser();
-  const usageData = await meteringAPI(token, orgId, serviceId, email);
-  return dispatch(fetchMeteringDataSuccess(usageData));
+  try {
+    dispatch(loaderActions.startAppLoader(LoaderContent.FETCH_METERING_DATA));
+    const { email, token } = await fetchAuthenticatedUser();
+    const usageData = await meteringAPI(token, orgId, serviceId, email);
+    return dispatch(fetchMeteringDataSuccess(usageData));
+  } catch (error) {
+    return dispatch(fetchMeteringDataError(error));
+  }
 };

@@ -27,6 +27,10 @@ export const LoaderContent = {
     loaderHeader: "Fetching Service Details",
     loaderText: "Please wait while we fetch the service details",
   },
+  FETCH_METERING_DATA: {
+    loaderHeader: "Fetching usage data",
+    loaderText: "Keep calm, we're checking your usage data",
+  },
   SERVICE_INVOKATION: {
     loaderHeader: "Invoking Third Party Service",
     loaderText: "Please wait, the AI service is computing the result",

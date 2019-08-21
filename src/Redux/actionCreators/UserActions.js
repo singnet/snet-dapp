@@ -36,6 +36,7 @@ export const fetchAuthenticatedUser = async () => {
 
 export const appInitializationSuccess = dispatch => {
   dispatch({ type: APP_INITIALIZATION_SUCCESS, payload: { isInitialized: true } });
+  dispatch(loaderActions.stopAppLoader);
 };
 
 export const updateNickname = nickname => dispatch => {
