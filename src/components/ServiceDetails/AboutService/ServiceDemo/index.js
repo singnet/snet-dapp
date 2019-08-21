@@ -29,6 +29,7 @@ class ServiceDemo extends Component {
     await this.fetchFreeCallsUsage();
   };
 
+  // Username review
   fetchFreeCallsUsage = () => {
     const { service, fetchMeteringData, email } = this.props;
     return fetchMeteringData({

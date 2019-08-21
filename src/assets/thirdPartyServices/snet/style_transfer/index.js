@@ -14,7 +14,7 @@ import Switch from "@material-ui/core/Switch";
 import Slider from "@material-ui/lab/Slider";
 import HoverIcon from "../../standardComponents/HoverIcon";
 
-import { Style_Transfer } from "./style_transfer_pb_service";
+import { StyleTransfer } from "./style_transfer_pb_service";
 
 const initialUserInput = {
   // Actual inputs
@@ -29,7 +29,7 @@ const initialUserInput = {
 };
 
 
-export default class StyleTransfer extends React.Component {
+export default class StyleTransferService extends React.Component {
   constructor(props) {
     super(props);
 
@@ -101,7 +101,7 @@ export default class StyleTransfer extends React.Component {
 
   submitAction() {
     const { methodName, content, style, contentSize, styleSize, preserveColor, alpha, crop, saveExt } = this.state;
-    const methodDescriptor = Style_Transfer[methodName];
+    const methodDescriptor = StyleTransfer[methodName];
     const request = new methodDescriptor.requestType();
 
 
