@@ -3,7 +3,10 @@ import find from "lodash/find";
 import first from "lodash/first";
 import some from "lodash/some";
 
-const InitialServiceDetails = {};
+const InitialServiceDetails = {
+  details: {},
+  freeCalls: {},
+};
 
 const serviceDetailsReducer = (state = InitialServiceDetails, action) => {
   switch (action.type) {
@@ -11,13 +14,10 @@ const serviceDetailsReducer = (state = InitialServiceDetails, action) => {
       return InitialServiceDetails;
     }
     case serviceDetailsActions.UPDATE_SERVICE_DETAILS: {
-      return { ...state, ...action.payload.data };
+      return { ...state, details: action.payload.data };
     }
-    case serviceDetailsActions.UPDATE_FREE_CALLS_ALLOWED: {
-      return { ...state, freeCallsAllowed: action.payload };
-    }
-    case serviceDetailsActions.UPDATE_FREE_CALLS_REMAINING: {
-      return { ...state, freeCallsRemaining: action.payload };
+    case serviceDetailsActions.UPDATE_FREE_CALLS_INFO: {
+      return { ...state, freeCalls: action.payload };
     }
     default: {
       return state;
@@ -25,16 +25,20 @@ const serviceDetailsReducer = (state = InitialServiceDetails, action) => {
   }
 };
 
+export const freeCalls = (state) => {
+  return state.serviceDetailsReducer.freeCalls;
+};
 export const serviceDetails = (state, orgId, serviceId) => {
-  const { org_id, service_id } = state.serviceDetailsReducer;
+  const { org_id, service_id } = state.serviceDetailsReducer.details;
   if (org_id !== orgId || service_id !== serviceId) {
     return undefined;
   }
 
-  return state.serviceDetailsReducer;
+  return state.serviceDetailsReducer.details;
 };
+
 const groups = state => {
-  return state.serviceDetailsReducer.groups;
+  return state.serviceDetailsReducer.details.groups;
 };
 
 export const groupInfo = state => {

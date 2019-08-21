@@ -7,8 +7,7 @@ import ProgressBar from "../../../common/ProgressBar";
 import { useStyles } from "./styles";
 import { serviceDetailsActions } from "../../../../Redux/actionCreators";
 import PurchaseToggler from "./PurchaseToggler";
-import { groupInfo } from "../../../../Redux/reducers/ServiceDetailsReducer";
-import AlertBox, { alertTypes } from "../../../common/AlertBox";
+import { freeCalls, groupInfo } from "../../../../Redux/reducers/ServiceDetailsReducer";
 
 const demoProgressStatus = {
   purchasing: 1,
@@ -57,7 +56,7 @@ class ServiceDemo extends Component {
   };
 
   render() {
-    const { classes, service, freeCallsRemaining, freeCallsAllowed, groupInfo, wallet } = this.props;
+    const { classes, service, freeCalls: { remaining: freeCallsRemaining, allowed: freeCallsAllowed }, groupInfo, wallet } = this.props;
     const { progressText, purchaseCompleted } = this.state;
 
     return (
@@ -82,8 +81,7 @@ class ServiceDemo extends Component {
 
 const mapStateToProps = state => ({
   isServiceExecutionComplete: state.serviceReducer.serviceMethodExecution.isComplete,
-  freeCallsRemaining: state.serviceDetailsReducer.freeCallsRemaining,
-  freeCallsAllowed: state.serviceDetailsReducer.freeCallsAllowed,
+  freeCalls: freeCalls(state),
   groupInfo: groupInfo(state),
   email: state.userReducer.email,
   wallet: state.userReducer.wallet,
