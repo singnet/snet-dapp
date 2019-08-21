@@ -3,7 +3,8 @@ import { API } from "aws-amplify";
 import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { initializeAPIOptions } from "../../utility/API";
 import { fetchAuthenticatedUser, walletTypes } from "./UserActions";
-import { userActions } from ".";
+import { userActions, loaderActions } from ".";
+import { LoaderContent } from "../../utility/constants/LoaderContent";
 
 export const UPDATE_SERVICE_DETAILS = "UPDATE_SERVICE_DETAILS";
 export const RESET_SERVICE_DETAILS = "RESET_SERVICE_DETAILS";
@@ -13,8 +14,14 @@ export const UPDATE_FREE_CALLS_REMAINING = "UPDATE_FREE_CALLS_REMAINING";
 const resetServiceDetails = dispatch => {
   dispatch({ type: RESET_SERVICE_DETAILS });
 };
+
+const fetchServiceDetailsFailure = err => dispatch => {
+  dispatch(loaderActions.stopAppLoader);
+};
+
 const fetchServiceDetailsSuccess = serviceDetails => dispatch => {
   dispatch({ type: UPDATE_SERVICE_DETAILS, payload: serviceDetails });
+  dispatch(loaderActions.stopAppLoader);
 };
 
 const fetchServiceDetailsAPI = async ({ orgId, serviceId }) => {
@@ -24,9 +31,14 @@ const fetchServiceDetailsAPI = async ({ orgId, serviceId }) => {
 };
 
 export const fetchServiceDetails = ({ orgId, serviceId }) => async dispatch => {
-  dispatch(resetServiceDetails);
-  const serviceDetails = await fetchServiceDetailsAPI({ orgId, serviceId });
-  dispatch(fetchServiceDetailsSuccess(serviceDetails));
+  try {
+    dispatch(loaderActions.startAppLoader(LoaderContent.FETCH_SERVICE_DETAILS));
+    dispatch(resetServiceDetails);
+    const serviceDetails = await fetchServiceDetailsAPI({ orgId, serviceId });
+    dispatch(fetchServiceDetailsSuccess(serviceDetails));
+  } catch (error) {
+    dispatch(fetchServiceDetailsFailure(error));
+  }
 };
 
 const fetchMeteringDataSuccess = usageData => dispatch => {

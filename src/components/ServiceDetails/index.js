@@ -11,7 +11,7 @@ import AboutService from "./AboutService";
 import InstallAndRunService from "./InstallAndRunService";
 import { useStyles } from "./styles";
 import { serviceDetailsActions } from "../../Redux/actionCreators";
-import { pricing } from "../../Redux/reducers/ServiceDetailsReducer";
+import { pricing, serviceDetails } from "../../Redux/reducers/ServiceDetailsReducer";
 
 class ServiceDetails extends Component {
   state = {
@@ -22,16 +22,33 @@ class ServiceDetails extends Component {
     if (process.env.REACT_APP_SANDBOX) {
       return;
     }
-    if (this.props.match.params.orgId !== this.props.service.org_id) {
+    if (isEmpty(this.props.service)) {
       this.fetchServiceDetails();
     }
   }
 
   fetchServiceDetails = async () => {
-    const { fetchServiceDetails, match } = this.props;
-    const { orgId, serviceId } = match.params;
+    const {
+      fetchServiceDetails,
+      match: {
+        params: { orgId, serviceId },
+      },
+    } = this.props;
+    // this.fetchFreeCallsUsage(orgId, serviceId);
     await fetchServiceDetails({ orgId, serviceId });
   };
+
+  // fetchFreeCallsUsage = (orgId, serviceId) => {
+  //   if (process.env.REACT_APP_SANDBOX) {
+  //     return;
+  //   }
+  //   const { fetchMeteringData, email } = this.props;
+  //   return fetchMeteringData({
+  //     orgId,
+  //     serviceId,
+  //     username: email,
+  //   });
+  // };
 
   handleTabChange = activeTab => {
     this.setState({ activeTab });
@@ -40,7 +57,7 @@ class ServiceDetails extends Component {
   render() {
     const { classes, service, pricing } = this.props;
 
-    if (isEmpty(service) || isEmpty(pricing)) {
+    if (isEmpty(service)) {
       return null;
     }
 
@@ -71,14 +88,20 @@ class ServiceDetails extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  service: state.serviceDetailsReducer,
-  pricing: pricing(state),
-});
+const mapStateToProps = (state, ownProps) => {
+  const {
+    match: {
+      params: { orgId, serviceId },
+    },
+  } = ownProps;
+
+  return { service: serviceDetails(state, orgId, serviceId), pricing: pricing(state) };
+};
 
 const mapDispatchToProps = dispatch => ({
   fetchServiceDetails: args => dispatch(serviceDetailsActions.fetchServiceDetails({ ...args })),
   resetServiceDetails: () => dispatch(serviceDetailsActions.resetServiceDetails),
+  fetchMeteringData: args => dispatch(serviceDetailsActions.fetchMeteringData({ ...args })),
 });
 
 export default connect(

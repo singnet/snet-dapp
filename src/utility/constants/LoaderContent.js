@@ -23,6 +23,10 @@ export const LoaderContent = {
     loaderHeader: "Forgot Password Submit",
     loaderText: "User profile will be deleted completely and all the records will be removed",
   },
+  FETCH_SERVICE_DETAILS: {
+    loaderHeader: "Fetching Service Details",
+    loaderText: "Please wait while we fetch the service details",
+  },
   SERVICE_INVOKATION: {
     loaderHeader: "Invoking Third Party Service",
     loaderText: "Please wait, the AI service is computing the result",

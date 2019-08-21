@@ -47,7 +47,7 @@ class App extends Component {
       <ThemeProvider theme={theme}>
         <div className={hamburgerMenu ? "hide-overflow" : null}>
           <Router>
-            <Suspense fallback={<AppLoader />}>
+            <Suspense fallback={<CircularProgress thickness={10} />}>
               <Switch>
                 <Route path={`/${Routes.SIGNUP}`} component={withRegistrationHeader(SignUp, headerData.SIGNUP)} />
                 <Route
