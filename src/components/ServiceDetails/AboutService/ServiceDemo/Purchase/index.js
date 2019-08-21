@@ -9,16 +9,16 @@ const Purchase = ({ handleComplete, freeCallsRemaining, freeCallsAllowed, wallet
     return wallet.type === walletTypes.METAMASK;
   };
 
-  if (freeCallsRemaining > 0) {
-    return (
-      <ActiveSession
-        freeCallsRemaining={freeCallsRemaining}
-        freeCallsAllowed={freeCallsAllowed}
-        handleComplete={handleComplete}
-      />
-    );
+  if (freeCallsRemaining <= 0) {
+    return <ExpiredSession handleComplete={handleComplete} metamask={isMetamaskAvailable()} groupInfo={groupInfo} />;
   }
-  return <ExpiredSession handleComplete={handleComplete} metamask={isMetamaskAvailable()} groupInfo={groupInfo} />;
+  return (
+    <ActiveSession
+      freeCallsRemaining={freeCallsRemaining}
+      freeCallsAllowed={freeCallsAllowed}
+      handleComplete={handleComplete}
+    />
+  );
 };
 
 export default Purchase;

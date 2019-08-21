@@ -36,14 +36,9 @@ class UserProfileAccount extends Component {
     this.retriveEscrowBalance();
   };
 
-  handleWalletTypeChange = async event => {
+  handleWalletTypeChange = event => {
     const { value } = event.target;
     const { updateWallet } = this.props;
-    // if (value === walletTypes.METAMASK) {
-    //   // const address = await; //sdk funtion;
-    //   updateWallet({type:value, address});
-    //   return
-    // }
     updateWallet({ type: value });
   };
 
@@ -82,7 +77,7 @@ class UserProfileAccount extends Component {
     try {
       const amountInAGI = this.state.amount[txnTypes.DEPOSIT];
       const amountInCogs = agiToCogs(amountInAGI);
-      const response = await this.sdk.account.depositToEscrowAccount(amountInCogs);
+      await this.sdk.account.depositToEscrowAccount(amountInCogs);
       this.retrieveTokenBalance();
       this.retriveEscrowBalance();
       this.setState({ alert: { type: alertTypes.SUCCESS, message: "Successfully deposited" } });
@@ -100,7 +95,7 @@ class UserProfileAccount extends Component {
     try {
       const amountInAGI = this.state.amount[txnTypes.WITHDRAW];
       const amountInCogs = agiToCogs(amountInAGI);
-      const response = await this.sdk.account.withdrawFromEscrowAccount(amountInCogs);
+      await this.sdk.account.withdrawFromEscrowAccount(amountInCogs);
       this.retrieveTokenBalance();
       this.retriveEscrowBalance();
       this.setState({ alert: { type: alertTypes.SUCCESS, message: "Successfully withdrawn" } });

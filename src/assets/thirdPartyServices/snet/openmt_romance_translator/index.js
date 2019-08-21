@@ -1,43 +1,38 @@
 import React from "react";
 import { hasOwnDefinedProperty } from "../../utility/JSHelper";
 import Button from "@material-ui/core/Button";
-import SNETImageUpload from "./standardComponents/SNETImageUpload";
-import {VqaService} from "./vqa_opencog_pb_service"
+import {RomanceTranslator} from "./romance_translator_pb_service" ;
 
-export default class VisualQAOpencog extends React.Component {
+
+export default class OpenNMTRomanceTranslator extends React.Component {
   constructor(props) {
     super(props);
     this.submitAction = this.submitAction.bind(this);
     this.handleServiceName = this.handleServiceName.bind(this);
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
-    this.getImageData = this.getImageData.bind(this);
+    this.getServiceMethods = this.getServiceMethods.bind(this);
 
     this.state = {
-      users_guide: "https://github.com/singnet/semantic-vision/tree/master/services/vqa-service",
-      code_repo: "https://github.com/singnet/semantic-vision/tree/master/services/vqa-service",
-      reference: "https://github.com/singnet/semantic-vision",
+      users_guide: "https://github.com/singnet/nlp-services/blob/master/docs/users_guide/opennmt-romance-translator.md",
+      code_repo: "https://github.com/singnet/nlp-services/blob/master/opennmt-romance-translator",
+      reference: "http://forum.opennmt.net/t/training-romance-multi-way-model/86",
 
-      serviceName: undefined,
-      methodName: undefined,
+      serviceName: "RomanceTranslator",
+      methodName: "translate",
 
-      imageData: undefined,
-      question: "",
-      use_pm: false,
+      source_lang: "es",
+      target_lang: "it",
+      sentences_url: "",
 
       response: undefined,
-      isComplete : false
+      isComplete : false 
     };
+    this.langOptions = ["es", "fr", "it", "pt", "ro"];
     this.isComplete = false;
     this.serviceMethods = [];
     this.allServices = [];
     this.methodsForAllServices = [];
     this.parseProps(props);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.isComplete !== nextProps.isComplete) {
-      this.parseProps(nextProps);
-    }
   }
 
   parseProps(nextProps) {
@@ -49,6 +44,12 @@ export default class VisualQAOpencog extends React.Component {
       if (typeof nextProps.response !== "undefined") {
         this.state.response = nextProps.response;
       }
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.isComplete !== nextProps.isComplete) {
+      this.parseProps(nextProps);
     }
   }
 
@@ -67,18 +68,30 @@ export default class VisualQAOpencog extends React.Component {
       objects = Object.keys(serviceSpec.nested);
     }
 
-    this.allServices.push("Select a service");
     this.methodsForAllServices = [];
     objects.map(rr => {
       if (typeof items[rr] === "object" && items[rr] !== null && items[rr].hasOwnProperty("methods")) {
         this.allServices.push(rr);
         this.methodsForAllServices.push(rr);
-
-        var methods = Object.keys(items[rr]["methods"]);
-        methods.unshift("Select a method");
-        this.methodsForAllServices[rr] = methods;
+        this.methodsForAllServices[rr] = Object.keys(items[rr]["methods"]);
       }
     });
+    this.getServiceMethods(this.allServices[0]);
+  }
+
+  getServiceMethods(strService) {
+    this.setState({
+      serviceName: strService,
+    });
+    var data = this.methodsForAllServices[strService];
+    if (typeof data === "undefined") {
+      data = [];
+    }
+    this.serviceMethods = data;
+  }
+
+  canBeInvoked() {
+    return this.state.source_lang !== this.state.target_lang && this.state.sentences_url !== "";
   }
 
   handleFormUpdate(event) {
@@ -98,24 +111,20 @@ export default class VisualQAOpencog extends React.Component {
     this.serviceMethods = data;
   }
 
-  getImageData(imgData) {
-    this.state.imageData = imgData;
-  }
-
   submitAction() {
-    const { methodName, question,use_pm,imageData } = this.state;
-    const methodDescriptor = VisualQAOpencog[methodName];
+    const { methodName, source_lang,target_lang,sentences_url } = this.state;
+    const methodDescriptor = RomanceTranslator[methodName];
     const request = new methodDescriptor.requestType();
 
-    request.setQuestion(question)
-    request.setUsePm(use_pm)
-    request.setImageData(imageData)
+    request.setSourceLang(source_lang)
+    request.setTargetLang(target_lang)
+    request.setSentencesUrl(sentences_url)
 
 
     const props = {
         request,
         onEnd: ({ message }) => {
-          this.setState({ isComplete: true, response: { answer: message.getAnswer(),ok:message.getOk(),error_message:message.getErrorMessage() } });
+          this.setState({ isComplete: true, response: { translation: message.getTranslation() } });
         },
       };
 
@@ -126,97 +135,86 @@ export default class VisualQAOpencog extends React.Component {
     return (
       <React.Fragment>
         <div className="row">
-          <div className="col-md-3 col-lg-3" style={{ fontSize: "13px", marginLeft: "10px" }}>
-            Service Name
+          <div className="col-md-4 col-lg-4" style={{ padding: "10px", fontSize: "13px", marginLeft: "10px" }}>
+            Source Language:{" "}
           </div>
           <div className="col-md-3 col-lg-3">
             <select
+              name="source_lang"
               style={{ height: "30px", width: "250px", fontSize: "13px", marginBottom: "5px" }}
-              onChange={this.handleServiceName}
+              value={this.state.source_lang}
+              onChange={this.handleFormUpdate}
             >
-              {this.allServices.map((row, index) => (
-                <option key={index}>{row}</option>
+              {this.langOptions.map((row, index) => (
+                <option value={row} key={index}>
+                  {row}
+                </option>
               ))}
             </select>
           </div>
         </div>
         <div className="row">
-          <div className="col-md-3 col-lg-3" style={{ fontSize: "13px", marginLeft: "10px" }}>
-            Method Name
+          <div className="col-md-4 col-lg-4" style={{ padding: "10px", fontSize: "13px", marginLeft: "10px" }}>
+            Target Language:{" "}
           </div>
           <div className="col-md-3 col-lg-3">
             <select
-              name="methodName"
+              name="target_lang"
               style={{ height: "30px", width: "250px", fontSize: "13px", marginBottom: "5px" }}
+              value={this.state.target_lang}
               onChange={this.handleFormUpdate}
             >
-              {this.serviceMethods.map((row, index) => (
-                <option key={index}>{row}</option>
+              {this.langOptions.map((row, index) => (
+                <option value={row} key={index}>
+                  {row}
+                </option>
               ))}
             </select>
           </div>
         </div>
         <div className="row">
-          <div className="col-md-3 col-lg-3" style={{ fontSize: "13px", marginLeft: "10px" }}>
-            Use pattern matcher or URE
+          <div className="col-md-4 col-lg-4" style={{ padding: "10px", fontSize: "13px", marginLeft: "10px" }}>
+            Sentences:{" "}
           </div>
           <div className="col-md-3 col-lg-3">
-            <select
-              name="use_pm"
-              style={{ height: "30px", width: "250px", fontSize: "13px", marginBottom: "5px" }}
-              onChange={this.handleFormUpdate}
-            >
-              <option value={true}>pattern matcher</option>
-              <option value={false}>URE</option>
-            </select>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-md-3 col-lg-3" style={{ fontSize: "13px", marginLeft: "10px" }}>
-            Image URL
-          </div>
-          <div className="col-md-3 col-lg-2">
-            <div>
-              <SNETImageUpload imageDataFunc={this.getImageData} disableUrlTab={true} returnByteArray={true} />
-            </div>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-md-3 col-lg-3" style={{ fontSize: "13px", marginLeft: "10px" }}>
-            Question
-          </div>
-          <div className="col-md-3 col-lg-2">
             <input
-              name="question"
+              name="sentences_url"
               type="text"
               style={{ height: "30px", width: "250px", fontSize: "13px", marginBottom: "5px" }}
+              placeholder={"or URL with text file"}
+              value={this.state.sentences_url}
               onChange={this.handleFormUpdate}
             ></input>
           </div>
         </div>
         <div className="row">
-          <div className="col-md-3 col-lg-3" style={{ fontSize: "13px", marginLeft: "10px" }}>
-            About
+          <div className="col-md-4 col-lg-4" style={{ padding: "10px", fontSize: "13px", marginLeft: "10px" }}>
+            About:{" "}
           </div>
           <div className="col-xs-3 col-xs-2">
-            <Button href={this.state.users_guide} style={{ fontSize: "13px", marginLeft: "10px" }}>
+            <Button target="_blank" href={this.state.users_guide} style={{ fontSize: "13px", marginLeft: "10px" }}>
               Guide
             </Button>
           </div>
           <div className="col-xs-3 col-xs-2">
-            <Button href={this.state.code_repo} style={{ fontSize: "13px", marginLeft: "10px" }}>
+            <Button target="_blank" href={this.state.code_repo} style={{ fontSize: "13px", marginLeft: "10px" }}>
               Code
             </Button>
           </div>
           <div className="col-xs-3 col-xs-2">
-            <Button href={this.state.reference} style={{ fontSize: "13px", marginLeft: "10px" }}>
+            <Button target="_blank" href={this.state.reference} style={{ fontSize: "13px", marginLeft: "10px" }}>
               Reference
             </Button>
           </div>
         </div>
         <div className="row">
           <div className="col-md-6 col-lg-6" style={{ textAlign: "right" }}>
-            <button type="button" className="btn btn-primary" onClick={this.submitAction}>
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={this.submitAction}
+              disabled={!this.canBeInvoked()}
+            >
               Invoke
             </button>
           </div>
@@ -227,16 +225,10 @@ export default class VisualQAOpencog extends React.Component {
 
   renderComplete() {
     let status = "Ok\n";
-    let top_5 = "\n";
-    let delta_time = "\n";
-    let answer = "\n";
+    let translation = "\n";
+
     if (typeof this.state.response === "object") {
-      delta_time = this.state.response.deltaTime + "s\n";
-      if (this.state.response.ok) {
-        answer = "answer " + this.state.response.answer;
-      } else {
-        answer = "Request failed with " + this.state.response.error_message;
-      }
+      translation = "\n" + this.state.response.translation;
     } else {
       status = this.state.response + "\n";
     }
@@ -245,8 +237,8 @@ export default class VisualQAOpencog extends React.Component {
         <p style={{ fontSize: "13px" }}>Response from service is: </p>
         <pre>
           Status : {status}
-          Time : {delta_time}
-          {answer}
+          Translation:
+          {translation}
         </pre>
       </div>
     );
