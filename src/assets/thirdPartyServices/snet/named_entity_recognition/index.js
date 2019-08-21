@@ -1,5 +1,5 @@
 import React from "react";
-import { hasOwnDefinedProperty } from "../../../../utility/JSHelper";
+import { hasOwnDefinedProperty } from "../../utility/JSHelper";
 import Grid from "@material-ui/core/Grid";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
@@ -11,6 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import {ShowMessage} from "./named_entity_recognition_rpc_pb_service"
 
 export default class NamedEntityRecognitionService extends React.Component {
   constructor(props) {
@@ -25,6 +26,7 @@ export default class NamedEntityRecognitionService extends React.Component {
       methodName: undefined,
       message: undefined,
       response: undefined,
+      isComplete : false,
       styles: {
         details: {
           fontSize: 14,
@@ -41,6 +43,7 @@ export default class NamedEntityRecognitionService extends React.Component {
     this.allServices = [];
     this.methodsForAllServices = [];
     this.parseProps(props);
+   
   }
 
   parseProps(nextProps) {
@@ -107,9 +110,21 @@ export default class NamedEntityRecognitionService extends React.Component {
   }
 
   submitAction() {
-    this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
-      value: btoa(this.state.message),
-    });
+    const { methodName, message } = this.state;
+    const methodDescriptor = ShowMessage[methodName];
+    const request = new methodDescriptor.requestType();
+
+    request.setValue(message)
+
+
+    const props = {
+        request,
+        onEnd: ({ message }) => {
+          this.setState({ isComplete: true, response: { value: message.getValue() } });
+        },
+      };
+
+    this.props.serviceClient.unary(methodDescriptor, props);
   }
 
   handleChange(event) {
@@ -306,7 +321,7 @@ export default class NamedEntityRecognitionService extends React.Component {
   }
 
   render() {
-    if (this.isComplete)
+    if (this.state.isComplete)
       return (
         <div style={{ flexGrow: 1 }}>
           <Grid
