@@ -31,7 +31,7 @@ const RenderForm = ({
         <ul>
           <li>
             <Icon className="fas fa-check-circle" />
-            <p>Get free credits to try out all the available AI services.</p>
+            <p>Use the free trial to try out all the available AI services.</p>
           </li>
           <li>
             <Icon className="fas fa-check-circle" />
