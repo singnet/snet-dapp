@@ -176,7 +176,7 @@ export const loginSuccess = ({ res, history, route }) => dispatch => {
   dispatch(loaderActions.stopAppLoader);
 };
 
-export const login = ({ username, password, history, route }) => dispatch => {
+export const login = ({ email, password, history, route }) => dispatch => {
   dispatch(loaderActions.startAppLoader(LoaderContent.LOGIN));
   let userDetails = {};
   return Auth.signIn(email, password)
