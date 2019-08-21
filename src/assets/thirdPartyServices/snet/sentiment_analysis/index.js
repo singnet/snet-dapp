@@ -273,7 +273,7 @@ export default class NamedEntityRecognitionService extends React.Component {
   }
 
   render() {
-    if (this.isComplete)
+    if (this.props.isComplete)
       return (
         <div style={{ flexGrow: 1 }}>
           <Grid
