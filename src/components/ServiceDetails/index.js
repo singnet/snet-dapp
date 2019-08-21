@@ -43,7 +43,7 @@ class ServiceDetails extends Component {
   render() {
     const { classes, service, pricing } = this.props;
 
-    if (isEmpty(service)) {
+    if (isEmpty(service) || isEmpty(pricing)) {
       return null;
     }
 
@@ -63,8 +63,8 @@ class ServiceDetails extends Component {
         <TitleCard
           org_id={service.org_id}
           display_name={service.display_name}
-          img_url={service.assets_url.hero_image}
-          star_rating={service.service_rating ? service.service_rating.rating : 0}
+          img_url={service.assets_url && service.assets_url.hero_image}
+          star_rating={service.service_rating && service.service_rating.rating}
           totalRating={service.service_rating ? service.service_rating.total_users_rated : 0}
         />
         <PricingDetails pricing={pricing} />
