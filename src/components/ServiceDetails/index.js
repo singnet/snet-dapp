@@ -34,21 +34,8 @@ class ServiceDetails extends Component {
         params: { orgId, serviceId },
       },
     } = this.props;
-    // this.fetchFreeCallsUsage(orgId, serviceId);
     await fetchServiceDetails({ orgId, serviceId });
   };
-
-  // fetchFreeCallsUsage = (orgId, serviceId) => {
-  //   if (process.env.REACT_APP_SANDBOX) {
-  //     return;
-  //   }
-  //   const { fetchMeteringData, email } = this.props;
-  //   return fetchMeteringData({
-  //     orgId,
-  //     serviceId,
-  //     username: email,
-  //   });
-  // };
 
   handleTabChange = activeTab => {
     this.setState({ activeTab });
