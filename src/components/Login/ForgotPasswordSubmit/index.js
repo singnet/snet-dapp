@@ -10,7 +10,7 @@ import AlertBox from "../../common/AlertBox";
 import { useStyles } from "./styles";
 import StyledButton from "../../common/StyledButton";
 
-const ForgotPasswordSubmit = ({ classes, history, error, username, forgotPasswordSubmit, updateError }) => {
+const ForgotPasswordSubmit = ({ classes, history, error, email, forgotPasswordSubmit, updateError }) => {
   const [showEmailSentAlert, setShowEmailSentAlert] = useState(true);
   const [code, setCode] = useState("");
   const [password, setPassword] = useState("");
@@ -40,7 +40,7 @@ const ForgotPasswordSubmit = ({ classes, history, error, username, forgotPasswor
       return;
     }
     const route = `/${Routes.AI_MARKETPLACE}`;
-    forgotPasswordSubmit({ username, code, password, history, error, route });
+    forgotPasswordSubmit({ email, code, password, history, error, route });
   };
 
   if (showEmailSentAlert) {
@@ -76,7 +76,7 @@ const ForgotPasswordSubmit = ({ classes, history, error, username, forgotPasswor
             label="New Password"
             className={classes.textField}
             type="password"
-            name="username"
+            name="email"
             margin="normal"
             variant="outlined"
             value={password}
@@ -87,7 +87,7 @@ const ForgotPasswordSubmit = ({ classes, history, error, username, forgotPasswor
             label="Confirm Password"
             className={classes.textField}
             type="password"
-            name="username"
+            name="email"
             margin="normal"
             variant="outlined"
             value={confirmPassword}
@@ -102,7 +102,7 @@ const ForgotPasswordSubmit = ({ classes, history, error, username, forgotPasswor
 };
 
 const mapStateToProps = state => ({
-  username: state.userReducer.username,
+  email: state.userReducer.email,
   error: state.errorReducer.forgotPasswordSubmit,
 });
 
