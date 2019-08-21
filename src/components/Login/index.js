@@ -13,12 +13,12 @@ import { userActions } from "../../Redux/actionCreators";
 
 class Login extends Component {
   state = {
-    username: "",
+    email: "",
     password: "",
   };
 
-  handleUsername = event => {
-    this.setState({ username: event.currentTarget.value });
+  handleEmail = event => {
+    this.setState({ email: event.currentTarget.value });
   };
 
   handlePassword = event => {
@@ -32,15 +32,15 @@ class Login extends Component {
       route = history.location.state.sourcePath;
     }
     this.setState({ error: undefined });
-    const { username, password } = this.state;
+    const { email, password } = this.state;
     event.preventDefault();
     event.stopPropagation();
-    this.props.login({ username, password, history, route });
+    this.props.login({ email, password, history, route });
   };
 
   render() {
     const { classes, loginError } = this.props;
-    const { username, password } = this.state;
+    const { email, password } = this.state;
     return (
       <Grid container spacing={24}>
         <Grid item xs={12} sm={12} md={12} lg={12} className={classes.loginDetails}>
@@ -48,13 +48,13 @@ class Login extends Component {
           <form noValidate autoComplete="off" className={classes.loginForm}>
             <TextField
               id="outlined-user-name"
-              label="Username or Email"
+              label="Email"
               className={classes.textField}
               margin="normal"
               variant="outlined"
-              value={username}
+              value={email}
               autoFocus
-              onChange={this.handleUsername}
+              onChange={this.handleEmail}
             />
             <TextField
               id="outlined-password-input"
