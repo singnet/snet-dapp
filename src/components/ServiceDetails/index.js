@@ -26,10 +26,6 @@ class ServiceDetails extends Component {
     this.fetchServiceDetails();
   }
 
-  componentWillUnmount = () => {
-    this.props.resetServiceDetails();
-  };
-
   fetchServiceDetails = async () => {
     const { fetchServiceDetails, match } = this.props;
     const { orgId, serviceId } = match.params;
