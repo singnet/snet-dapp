@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
-import SNETImageUpload from "./standardComponents/SNETImageUpload";
+import SNETImageUpload from "./../../standardComponents/SNETImageUpload";
 import { Grid, IconButton, MuiThemeProvider, Tooltip } from "@material-ui/core";
 import { blue } from "@material-ui/core/colors";
 import SvgIcon from "@material-ui/core/SvgIcon";
@@ -15,7 +15,7 @@ import TableHead from "@material-ui/core/TableHead";
 import Table from "@material-ui/core/Table";
 import TableRow from "@material-ui/core/TableRow";
 import TableBody from "@material-ui/core/TableBody";
-import HoverIcon from "./standardComponents/HoverIcon";
+import HoverIcon from "../../standardComponents/HoverIcon";
 import {SceneRecognition} from "./scene_recognition_pb_service"
 
 export default class Places365SceneRecognition extends React.Component {

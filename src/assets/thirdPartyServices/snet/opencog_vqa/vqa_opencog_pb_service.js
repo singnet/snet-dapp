@@ -1,6 +1,8 @@
 // package: 
 // file: vqa_opencog.proto
 
+
+
 var vqa_opencog_pb = require("./vqa_opencog_pb");
 var grpc = require("@improbable-eng/grpc-web").grpc;
 

@@ -1,7 +1,7 @@
 import React from "react";
-import { showNotification } from "./moses-service/utils";
-import MosesServiceForm from "./moses-service/MosesServiceForm";
-import MosesServiceResult from "./moses-service/MosesServiceResult";
+import { showNotification } from "./utils";
+import MosesServiceForm from "./MosesServiceForm";
+import MosesServiceResult from "./MosesServiceResult";
 
 export default class MosesService extends React.Component {
   constructor(props) {

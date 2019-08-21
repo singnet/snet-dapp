@@ -1,7 +1,8 @@
 import React from "react";
-import { hasOwnDefinedProperty } from "../../utility/JSHelper";
+
+import { hasOwnDefinedProperty } from  "../../../../utility/JSHelper";
 import Button from "@material-ui/core/Button";
-import SNETImageUpload from "./standardComponents/SNETImageUpload";
+import SNETImageUpload from "../../standardComponents/SNETImageUpload";
 import {VqaService} from "./vqa_opencog_pb_service"
 
 export default class VisualQAOpencog extends React.Component {
@@ -104,7 +105,7 @@ export default class VisualQAOpencog extends React.Component {
 
   submitAction() {
     const { methodName, question,use_pm,imageData } = this.state;
-    const methodDescriptor = VisualQAOpencog[methodName];
+    const methodDescriptor = VqaService[methodName];
     const request = new methodDescriptor.requestType();
 
     request.setQuestion(question)
