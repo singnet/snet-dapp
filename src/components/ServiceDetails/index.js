@@ -11,29 +11,36 @@ import AboutService from "./AboutService";
 import InstallAndRunService from "./InstallAndRunService";
 import { useStyles } from "./styles";
 import { serviceDetailsActions } from "../../Redux/actionCreators";
-import { pricing } from "../../Redux/reducers/ServiceDetailsReducer";
+import { pricing, serviceDetails } from "../../Redux/reducers/ServiceDetailsReducer";
+import AlertBox, { alertTypes } from "../common/AlertBox";
 
 class ServiceDetails extends Component {
   state = {
     activeTab: 0,
+    alert: {},
   };
 
   componentDidMount() {
     if (process.env.REACT_APP_SANDBOX) {
       return;
     }
-
-    this.fetchServiceDetails();
+    if (isEmpty(this.props.service)) {
+      this.fetchServiceDetails();
+    }
   }
 
-  componentWillUnmount = () => {
-    this.props.resetServiceDetails();
-  };
-
   fetchServiceDetails = async () => {
-    const { fetchServiceDetails, match } = this.props;
-    const { orgId, serviceId } = match.params;
-    await fetchServiceDetails({ orgId, serviceId });
+    const {
+      fetchServiceDetails,
+      match: {
+        params: { orgId, serviceId },
+      },
+    } = this.props;
+    try {
+      await fetchServiceDetails(orgId, serviceId);
+    } catch (error) {
+      this.setState({ alert: { type: alertTypes.ERROR, message: "unable to fetch service Details. Please reload" } });
+    }
   };
 
   handleTabChange = activeTab => {
@@ -42,9 +49,14 @@ class ServiceDetails extends Component {
 
   render() {
     const { classes, service, pricing } = this.props;
+    const { alert } = this.state;
 
     if (isEmpty(service)) {
-      return null;
+      return (
+        <Grid container spacing={24} className={classes.serviceDetailContainer}>
+          <AlertBox type={alert.type} message={alert.message} />
+        </Grid>
+      );
     }
 
     const { activeTab } = this.state;
@@ -63,8 +75,8 @@ class ServiceDetails extends Component {
         <TitleCard
           org_id={service.org_id}
           display_name={service.display_name}
-          img_url={service.assets_url.hero_image}
-          star_rating={service.service_rating ? service.service_rating.rating : 0}
+          img_url={service.assets_url && service.assets_url.hero_image}
+          star_rating={service.service_rating && service.service_rating.rating}
           totalRating={service.service_rating ? service.service_rating.total_users_rated : 0}
         />
         <PricingDetails pricing={pricing} />
@@ -74,14 +86,18 @@ class ServiceDetails extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  service: state.serviceDetailsReducer,
-  pricing: pricing(state),
-});
+const mapStateToProps = (state, ownProps) => {
+  const {
+    match: {
+      params: { orgId, serviceId },
+    },
+  } = ownProps;
+
+  return { service: serviceDetails(state, orgId, serviceId), pricing: pricing(state) };
+};
 
 const mapDispatchToProps = dispatch => ({
-  fetchServiceDetails: args => dispatch(serviceDetailsActions.fetchServiceDetails({ ...args })),
-  resetServiceDetails: () => dispatch(serviceDetailsActions.resetServiceDetails),
+  fetchServiceDetails: (orgId, serviceId) => dispatch(serviceDetailsActions.fetchServiceDetails(orgId, serviceId)),
 });
 
 export default connect(

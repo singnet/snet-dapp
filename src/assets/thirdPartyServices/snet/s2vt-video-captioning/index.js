@@ -1,29 +1,27 @@
 import React from "react";
-
-import { hasOwnDefinedProperty } from  "../../../../utility/JSHelper";
+import { hasOwnDefinedProperty } from "../../utility/JSHelper";
 import Button from "@material-ui/core/Button";
-import SNETImageUpload from "../../standardComponents/SNETImageUpload";
-import {VqaService} from "./vqa_opencog_pb_service"
-
-export default class VisualQAOpencog extends React.Component {
+import {VideoCaptioning} from "./video_cap_pb_service"
+export default class S2VTVideoCaptioning extends React.Component {
   constructor(props) {
     super(props);
     this.submitAction = this.submitAction.bind(this);
     this.handleServiceName = this.handleServiceName.bind(this);
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
-    this.getImageData = this.getImageData.bind(this);
+    this.getServiceMethods = this.getServiceMethods.bind(this);
 
     this.state = {
-      users_guide: "https://github.com/singnet/semantic-vision/tree/master/services/vqa-service",
-      code_repo: "https://github.com/singnet/semantic-vision/tree/master/services/vqa-service",
-      reference: "https://github.com/singnet/semantic-vision",
+      users_guide:
+        "https://github.com/singnet/dnn-model-services/blob/master/docs/users_guide/s2vt-video-captioning.md",
+      code_repo: "https://github.com/singnet/dnn-model-services/blob/master/Services/gRPC/s2vt-video-captioning",
+      reference: "https://vsubhashini.github.io/s2vt.html",
 
-      serviceName: undefined,
-      methodName: undefined,
+      serviceName: "VideoCaptioning",
+      methodName: "video_cap",
 
-      imageData: undefined,
-      question: "",
-      use_pm: false,
+      url: "",
+      start_time_sec: 0,
+      stop_time_sec: 0,
 
       response: undefined,
       isComplete : false
@@ -35,12 +33,6 @@ export default class VisualQAOpencog extends React.Component {
     this.parseProps(props);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.isComplete !== nextProps.isComplete) {
-      this.parseProps(nextProps);
-    }
-  }
-
   parseProps(nextProps) {
     this.isComplete = nextProps.isComplete;
     if (!this.isComplete) {
@@ -50,6 +42,12 @@ export default class VisualQAOpencog extends React.Component {
       if (typeof nextProps.response !== "undefined") {
         this.state.response = nextProps.response;
       }
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.isComplete !== nextProps.isComplete) {
+      this.parseProps(nextProps);
     }
   }
 
@@ -68,18 +66,34 @@ export default class VisualQAOpencog extends React.Component {
       objects = Object.keys(serviceSpec.nested);
     }
 
-    this.allServices.push("Select a service");
     this.methodsForAllServices = [];
     objects.map(rr => {
       if (typeof items[rr] === "object" && items[rr] !== null && items[rr].hasOwnProperty("methods")) {
         this.allServices.push(rr);
         this.methodsForAllServices.push(rr);
-
-        var methods = Object.keys(items[rr]["methods"]);
-        methods.unshift("Select a method");
-        this.methodsForAllServices[rr] = methods;
+        this.methodsForAllServices[rr] = Object.keys(items[rr]["methods"]);
       }
     });
+    this.getServiceMethods(this.allServices[0]);
+  }
+
+  getServiceMethods(strService) {
+    this.setState({
+      serviceName: strService,
+    });
+    var data = this.methodsForAllServices[strService];
+    if (typeof data === "undefined") {
+      data = [];
+    }
+    this.serviceMethods = data;
+  }
+
+  isValidVideoURL(str) {
+    return (str.startsWith("http://") || str.startsWith("https://")) && (str.endsWith(".avi") || str.endsWith(".mp4"));
+  }
+
+  canBeInvoked() {
+    return this.isValidVideoURL(this.state.url) && this.state.start_time_sec <= this.state.stop_time_sec;
   }
 
   handleFormUpdate(event) {
@@ -99,125 +113,102 @@ export default class VisualQAOpencog extends React.Component {
     this.serviceMethods = data;
   }
 
-  getImageData(imgData) {
-    this.state.imageData = imgData;
-  }
-
   submitAction() {
-    const { methodName, question,use_pm,imageData } = this.state;
-    const methodDescriptor = VqaService[methodName];
+    const { methodName, url,start_time_sec,stop_time_sec } = this.state;
+    const methodDescriptor = VideoCaptioning[methodName];
     const request = new methodDescriptor.requestType();
 
-    request.setQuestion(question)
-    request.setUsePm(use_pm)
-    request.setImageData(imageData)
+    request.setUrl(url)
+    request.setStartTimeSec(start_time_sec)
+    request.setStopTimeSec(stop_time_sec)
 
 
     const props = {
         request,
         onEnd: ({ message }) => {
-          this.setState({ isComplete: true, response: { answer: message.getAnswer(),ok:message.getOk(),error_message:message.getErrorMessage() } });
+          this.setState({ isComplete: true, response: { value: message.getValue() } });
         },
       };
 
     this.props.serviceClient.unary(methodDescriptor, props);
   }
 
+
   renderForm() {
     return (
       <React.Fragment>
         <div className="row">
-          <div className="col-md-3 col-lg-3" style={{ fontSize: "13px", marginLeft: "10px" }}>
-            Service Name
+          <div className="col-md-3 col-lg-3" style={{ padding: "10px", fontSize: "13px", marginLeft: "10px" }}>
+            Video (URL):{" "}
           </div>
           <div className="col-md-3 col-lg-3">
-            <select
-              style={{ height: "30px", width: "250px", fontSize: "13px", marginBottom: "5px" }}
-              onChange={this.handleServiceName}
-            >
-              {this.allServices.map((row, index) => (
-                <option key={index}>{row}</option>
-              ))}
-            </select>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-md-3 col-lg-3" style={{ fontSize: "13px", marginLeft: "10px" }}>
-            Method Name
-          </div>
-          <div className="col-md-3 col-lg-3">
-            <select
-              name="methodName"
-              style={{ height: "30px", width: "250px", fontSize: "13px", marginBottom: "5px" }}
-              onChange={this.handleFormUpdate}
-            >
-              {this.serviceMethods.map((row, index) => (
-                <option key={index}>{row}</option>
-              ))}
-            </select>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-md-3 col-lg-3" style={{ fontSize: "13px", marginLeft: "10px" }}>
-            Use pattern matcher or URE
-          </div>
-          <div className="col-md-3 col-lg-3">
-            <select
-              name="use_pm"
-              style={{ height: "30px", width: "250px", fontSize: "13px", marginBottom: "5px" }}
-              onChange={this.handleFormUpdate}
-            >
-              <option value={true}>pattern matcher</option>
-              <option value={false}>URE</option>
-            </select>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-md-3 col-lg-3" style={{ fontSize: "13px", marginLeft: "10px" }}>
-            Image URL
-          </div>
-          <div className="col-md-3 col-lg-2">
-            <div>
-              <SNETImageUpload imageDataFunc={this.getImageData} disableUrlTab={true} returnByteArray={true} />
-            </div>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-md-3 col-lg-3" style={{ fontSize: "13px", marginLeft: "10px" }}>
-            Question
-          </div>
-          <div className="col-md-3 col-lg-2">
             <input
-              name="question"
+              name="url"
               type="text"
               style={{ height: "30px", width: "250px", fontSize: "13px", marginBottom: "5px" }}
+              value={this.state.url}
               onChange={this.handleFormUpdate}
             ></input>
           </div>
         </div>
         <div className="row">
-          <div className="col-md-3 col-lg-3" style={{ fontSize: "13px", marginLeft: "10px" }}>
-            About
+          <div className="col-md-3 col-lg-3" style={{ padding: "10px", fontSize: "13px", marginLeft: "10px" }}>
+            StartTime (s):{" "}
+          </div>
+          <div className="col-md-3 col-lg-3">
+            <input
+              name="start_time_sec"
+              type="number"
+              min="0"
+              style={{ height: "30px", width: "250px", fontSize: "13px", marginBottom: "5px" }}
+              value={this.state.start_time_sec}
+              onChange={this.handleFormUpdate}
+            ></input>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-md-3 col-lg-3" style={{ padding: "10px", fontSize: "13px", marginLeft: "10px" }}>
+            StopTime (s):{" "}
+          </div>
+          <div className="col-md-3 col-lg-3">
+            <input
+              name="stop_time_sec"
+              type="number"
+              min={this.state.start_time_sec}
+              style={{ height: "30px", width: "250px", fontSize: "13px", marginBottom: "5px" }}
+              value={this.state.stop_time_sec}
+              onChange={this.handleFormUpdate}
+            ></input>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-md-3 col-lg-3" style={{ padding: "10px", fontSize: "13px", marginLeft: "10px" }}>
+            About:{" "}
           </div>
           <div className="col-xs-3 col-xs-2">
-            <Button href={this.state.users_guide} style={{ fontSize: "13px", marginLeft: "10px" }}>
+            <Button target="_blank" href={this.state.users_guide} style={{ fontSize: "13px", marginLeft: "10px" }}>
               Guide
             </Button>
           </div>
           <div className="col-xs-3 col-xs-2">
-            <Button href={this.state.code_repo} style={{ fontSize: "13px", marginLeft: "10px" }}>
+            <Button target="_blank" href={this.state.code_repo} style={{ fontSize: "13px", marginLeft: "10px" }}>
               Code
             </Button>
           </div>
           <div className="col-xs-3 col-xs-2">
-            <Button href={this.state.reference} style={{ fontSize: "13px", marginLeft: "10px" }}>
+            <Button target="_blank" href={this.state.reference} style={{ fontSize: "13px", marginLeft: "10px" }}>
               Reference
             </Button>
           </div>
         </div>
         <div className="row">
           <div className="col-md-6 col-lg-6" style={{ textAlign: "right" }}>
-            <button type="button" className="btn btn-primary" onClick={this.submitAction}>
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={this.submitAction}
+              disabled={!this.canBeInvoked()}
+            >
               Invoke
             </button>
           </div>
@@ -228,16 +219,10 @@ export default class VisualQAOpencog extends React.Component {
 
   renderComplete() {
     let status = "Ok\n";
-    let top_5 = "\n";
-    let delta_time = "\n";
-    let answer = "\n";
+    let value = "\n";
+
     if (typeof this.state.response === "object") {
-      delta_time = this.state.response.deltaTime + "s\n";
-      if (this.state.response.ok) {
-        answer = "answer " + this.state.response.answer;
-      } else {
-        answer = "Request failed with " + this.state.response.error_message;
-      }
+      value = "\n" + this.state.response.value;
     } else {
       status = this.state.response + "\n";
     }
@@ -246,8 +231,7 @@ export default class VisualQAOpencog extends React.Component {
         <p style={{ fontSize: "13px" }}>Response from service is: </p>
         <pre>
           Status : {status}
-          Time : {delta_time}
-          {answer}
+          Caption: {value}
         </pre>
       </div>
     );
