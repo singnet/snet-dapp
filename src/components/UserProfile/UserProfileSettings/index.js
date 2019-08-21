@@ -80,7 +80,7 @@ class UserProfileSettings extends Component {
   };
 
   render() {
-    const { classes, userEmail, username } = this.props;
+    const { classes, userEmail, nickname } = this.props;
     const { alertMessage, alertType, emailAlerts, showConfirmDelete, confirmDeleteError } = this.state;
     return (
       <Grid container spacing={24} className={classes.settingMainContainer}>
@@ -90,14 +90,14 @@ class UserProfileSettings extends Component {
             <div>
               <TextField
                 id="outlined-name"
-                label="User Name (20 char max)"
+                label="Nick Name (20 char max)"
                 className={classes.styledTextField}
-                value={username}
+                value={nickname}
                 margin="normal"
                 variant="outlined"
                 disabled
               />
-              <p>Your username will be visible to other users when you post comments.</p>
+              <p>Your nickname will be visible to other users when you post comments.</p>
             </div>
             <div>
               <TextField
@@ -161,7 +161,7 @@ class UserProfileSettings extends Component {
 
 const mapStateToProps = state => ({
   userEmail: state.userReducer.email,
-  username: state.userReducer.username,
+  nickname: state.userReducer.nickname,
   emailAlerts: state.userReducer.emailAlerts,
   isTermsAccepted: state.userReducer.isTermsAccepted,
 });

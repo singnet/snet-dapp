@@ -6,12 +6,12 @@ import CloseIcon from "@material-ui/icons/Close";
 
 import { useStyles } from "./styles";
 
-const UserProfileCard = ({ classes, userName }) => {
+const UserProfileCard = ({ classes, nickName }) => {
   return (
     <div className={classes.Userdetails}>
       <Icon className={clsx(classes.icon, "fas fa-user-circle")} />
       <div>
-        <h4>{userName}</h4>
+        <h4>{nickName}</h4>
       </div>
       <CloseIcon className={classes.closeIcon} />
     </div>
