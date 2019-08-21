@@ -1,7 +1,7 @@
 import React from "react";
 import { hasOwnDefinedProperty } from "../../../../utility/JSHelper";
 import Button from "@material-ui/core/Button";
-import { Zeta6AlphaZero } from "./alpha_zero_pb_service";
+import { AlphaZero } from "./alpha_zero_pb_service";
 
 
 const initialUserInput = {
@@ -46,7 +46,7 @@ export default class Zeta36ChessAlphaZero extends React.Component {
 
   submitAction() {
     const { methodName, uid, move, cmd } = this.state;
-    const methodDescriptor = Zeta6AlphaZero[methodName];
+    const methodDescriptor = AlphaZero[methodName];
     const request = new methodDescriptor.requestType();
 
     request.setUid(uid);
