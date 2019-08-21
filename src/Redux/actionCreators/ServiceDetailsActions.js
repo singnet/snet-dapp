@@ -3,39 +3,51 @@ import { API } from "aws-amplify";
 import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { initializeAPIOptions } from "../../utility/API";
 import { fetchAuthenticatedUser, walletTypes } from "./UserActions";
-import { userActions } from ".";
+import { userActions, loaderActions } from ".";
+import { LoaderContent } from "../../utility/constants/LoaderContent";
 
 export const UPDATE_SERVICE_DETAILS = "UPDATE_SERVICE_DETAILS";
 export const RESET_SERVICE_DETAILS = "RESET_SERVICE_DETAILS";
-export const UPDATE_FREE_CALLS_ALLOWED = "UPDATE_FREE_CALLS_ALLOWED";
-export const UPDATE_FREE_CALLS_REMAINING = "UPDATE_FREE_CALLS_REMAINING";
+export const UPDATE_FREE_CALLS_INFO = "UPDATE_FREE_CALLS_INFO";
 
 const resetServiceDetails = dispatch => {
   dispatch({ type: RESET_SERVICE_DETAILS });
 };
-const fetchServiceDetailsSuccess = serviceDetails => dispatch => {
-  dispatch({ type: UPDATE_SERVICE_DETAILS, payload: serviceDetails });
+
+const fetchServiceDetailsFailure = err => dispatch => {
+  dispatch(loaderActions.stopAppLoader);
 };
 
-const fetchServiceDetailsAPI = async ({ orgId, serviceId }) => {
+const fetchServiceDetailsSuccess = serviceDetails => dispatch => {
+  dispatch({ type: UPDATE_SERVICE_DETAILS, payload: serviceDetails });
+  dispatch(loaderActions.stopAppLoader);
+};
+
+const fetchServiceDetailsAPI = async (orgId, serviceId) => {
   const url = `${APIEndpoints.CONTRACT.endpoint}/org/${orgId}/service/${serviceId}`;
   const response = await fetch(url);
   return response.json();
 };
 
-export const fetchServiceDetails = ({ orgId, serviceId }) => async dispatch => {
-  dispatch(resetServiceDetails);
-  const serviceDetails = await fetchServiceDetailsAPI({ orgId, serviceId });
-  dispatch(fetchServiceDetailsSuccess(serviceDetails));
+export const fetchServiceDetails = (orgId, serviceId) => async dispatch => {
+  try {
+    dispatch(loaderActions.startAppLoader(LoaderContent.FETCH_SERVICE_DETAILS));
+    dispatch(resetServiceDetails);
+    const serviceDetails = await fetchServiceDetailsAPI(orgId, serviceId);
+    dispatch(fetchServiceDetailsSuccess(serviceDetails));
+  } catch (error) {
+    dispatch(fetchServiceDetailsFailure(error));
+    throw error;
+  }
+};
+
+const fetchMeteringDataError = error => dispatch => {
+  dispatch(loaderActions.stopAppLoader);
 };
 
 const fetchMeteringDataSuccess = usageData => dispatch => {
   const freeCallsRemaining = usageData.free_calls_allowed - usageData.total_calls_made;
-  dispatch({ type: UPDATE_FREE_CALLS_ALLOWED, payload: usageData.free_calls_allowed });
-  dispatch({ type: UPDATE_FREE_CALLS_REMAINING, payload: freeCallsRemaining });
-  if (freeCallsRemaining <= 0) {
-    dispatch(userActions.updateWallet({ type: walletTypes.METAMASK }));
-  }
+  dispatch({ type: UPDATE_FREE_CALLS_INFO, payload: { allowed: usageData.free_calls_allowed, remaining: freeCallsRemaining }});
 };
 
 const meteringAPI = (token, orgId, serviceId, userId) => {
@@ -46,7 +58,12 @@ const meteringAPI = (token, orgId, serviceId, userId) => {
 };
 
 export const fetchMeteringData = ({ orgId, serviceId }) => async dispatch => {
-  const { email, token } = await fetchAuthenticatedUser();
-  const usageData = await meteringAPI(token, orgId, serviceId, email);
-  return dispatch(fetchMeteringDataSuccess(usageData));
+  try {
+    dispatch(loaderActions.startAppLoader(LoaderContent.FETCH_METERING_DATA));
+    const { email, token } = await fetchAuthenticatedUser();
+    const usageData = await meteringAPI(token, orgId, serviceId, email);
+    return dispatch(fetchMeteringDataSuccess(usageData));
+  } catch (error) {
+    return dispatch(fetchMeteringDataError(error));
+  }
 };
