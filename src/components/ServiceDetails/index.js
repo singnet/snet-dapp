@@ -22,8 +22,9 @@ class ServiceDetails extends Component {
     if (process.env.REACT_APP_SANDBOX) {
       return;
     }
-
-    this.fetchServiceDetails();
+    if (this.props.match.params.orgId !== this.props.service.org_id) {
+      this.fetchServiceDetails();
+    }
   }
 
   fetchServiceDetails = async () => {
