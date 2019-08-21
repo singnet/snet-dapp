@@ -23,6 +23,7 @@ export const useStyles = theme => ({
         fontSize: 14,
         fontWeight: 600,
         textDecoration: "none",
+        '&:hover': { textDecoration: 'underline' }
       },
       "& p": {
         margin: 0,

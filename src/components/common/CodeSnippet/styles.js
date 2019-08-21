@@ -1,5 +1,6 @@
 export const useStyles = theme => ({
   codeSnippetContainer: {
+  	boxSizing: 'border-box',
     width: "100%",
     borderRadius: 4,
     backgroundColor: "#1F1F1F",
