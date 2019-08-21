@@ -1,7 +1,7 @@
 // package: 
 // file: ProtoFiles/scene_recognition.proto
 
-var ProtoFiles_scene_recognition_pb = require("../ProtoFiles/scene_recognition_pb");
+var ProtoFiles_scene_recognition_pb = require("./scene_recognition_pb");
 var grpc = require("@improbable-eng/grpc-web").grpc;
 
 var SceneRecognition = (function () {
