@@ -1,9 +1,14 @@
 export const useStyles = theme => ({
-  signupMainContainer: { backgroundColor: theme.palette.text.offWhiteColor },
+  signupMainContainer: {
+    height: "calc(100vh - 126px)",
+    backgroundColor: theme.palette.text.offWhiteColor,
+    "@media(max-width: 960px)": { height: "auto" },
+  },
   signupMainContent: {
     width: "71%",
     paddingBottom: 50,
     margin: "0 auto",
+    justifyContent: 'space-between'
   },
   signupContent: {
     width: "71%",
@@ -20,11 +25,11 @@ export const useStyles = theme => ({
       fontSize: 32,
       letterSpacing: -0.5,
       lineHeight: "48px",
+      fontWeight: 600,
     },
     "& p": {
       margin: "23px 0 24px",
       color: theme.palette.text.mediumShadeGray,
-      fontFamily: theme.typography.secondary.main,
       fontSize: 20,
       lineHeight: "30px",
     },
@@ -45,7 +50,6 @@ export const useStyles = theme => ({
       },
       "& p": {
         color: theme.palette.text.mediumShadeGray,
-        fontFamily: theme.typography.secondary.main,
         fontSize: 16,
         letterSpacing: "0.29px",
         display: "inline-block",
@@ -55,11 +59,12 @@ export const useStyles = theme => ({
       },
     },
   },
+  signupFormWrapper:{ maxWidth: 410 },
   signupForm: {
     boxSizing: "border-box",
-    width: 410,
     padding: "20px 20px 30px",
-    margin: "0 auto",
+    borderRadius: 4,
+    backgroundColor: theme.palette.text.white,
     boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
     "& button": { width: "100%" },
     "@media (max-width:960px)": {
@@ -101,19 +106,16 @@ export const useStyles = theme => ({
   },
   charCount: {
     color: theme.palette.text.mediumShadeGray,
-    fontFamily: theme.typography.secondary.main,
     fontSize: "12.17px",
     letterSpacing: "0.4px",
   },
   usernameError: {
     color: theme.palette.text.errorRed,
-    fontFamily: theme.typography.secondary.main,
     fontSize: "12.17px",
     letterSpacing: "0.4px",
   },
   passwordTxt: {
     color: theme.palette.text.mediumShadeGray,
-    fontFamily: theme.typography.secondary.main,
     fontSize: "12.17px",
     letterSpacing: "0.4px",
   },

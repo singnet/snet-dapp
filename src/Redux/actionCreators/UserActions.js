@@ -11,18 +11,23 @@ export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_LOADING = "LOGIN_LOADING";
 export const LOGIN_ERROR = "LOGIN_ERROR";
 export const SIGN_OUT = "SIGN_OUT";
-export const CHECK_WALLET_STATUS = "CHECK_WALLET_STATUS";
-export const UPDATE_USERNAME = "UPDATE_USERNAME";
+export const UPDATE_NICKNAME = "UPDATE_NICKNAME";
+export const UPDATE_EMAIL = "UPDATE_EMAIL";
 export const UPDATE_EMAIL_VERIFIED = "UPDATE_EMAIL_VERIFIED";
-export const SUBSCRIBE_TO_EMAIL_ALERTS = "SUBSCRIBE_TO_EMAIL_ALERTS";
-export const UNSUBSCRIBE_TO_EMAIL_ALERTS = "UNSUBSCRIBE_TO_EMAIL_ALERTS";
-export const WALLET_CREATION_SUCCESS = "WALLET_CREATION_SUCCESS";
+export const UPDATE_EMAIL_ALERTS_SUBSCRIPTION = "UPDATE_EMAIL_ALERTS_SUBSCRIPTION";
+export const UPDATE_WALLET = "UPDATE_WALLET";
 export const APP_INITIALIZATION_SUCCESS = "APP_INITIALIZATION_SUCCESS";
+export const UPDATE_IS_TERMS_ACCEPTED = "UPDATE_IS_TERMS_ACCEPTED";
+
+export const walletTypes = {
+  SNET: "SNET",
+  METAMASK: "METAMASK",
+};
 
 export const fetchAuthenticatedUser = async () => {
   const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
   return {
-    username: currentUser.username,
+    nickname: currentUser.attributes.nickname,
     email: currentUser.attributes.email,
     email_verified: currentUser.attributes.email_verified,
     token: currentUser.signInUserSession.idToken.jwtToken,
@@ -33,38 +38,46 @@ export const appInitializationSuccess = dispatch => {
   dispatch({ type: APP_INITIALIZATION_SUCCESS, payload: { isInitialized: true } });
 };
 
-export const updateUsername = username => dispatch => {
-  dispatch({ type: UPDATE_USERNAME, payload: { username } });
+export const updateNickname = nickname => dispatch => {
+  dispatch({ type: UPDATE_NICKNAME, payload: { nickname } });
+};
+
+export const updateEmail = email => dispatch => {
+  dispatch({ type: UPDATE_EMAIL, payload: { email } });
 };
 
 export const updateEmailVerified = value => dispatch => {
   dispatch({ type: UPDATE_EMAIL_VERIFIED, payload: { isEmailVerified: value } });
 };
 
-export const subscribeToEmailAlerts = dispatch => {
-  dispatch({ type: SUBSCRIBE_TO_EMAIL_ALERTS });
+const updateEmailAlertsSubscription = emailAlerts => dispatch => {
+  dispatch({ type: UPDATE_EMAIL_ALERTS_SUBSCRIPTION, payload: emailAlerts });
 };
 
-export const unsubsrcibeToEmailAlerts = dispatch => {
-  dispatch({ type: UNSUBSCRIBE_TO_EMAIL_ALERTS });
+const updateIsTermsAccepted = isTermsAccepted => dispatch => {
+  dispatch({ type: UPDATE_IS_TERMS_ACCEPTED, payload: isTermsAccepted });
 };
 
-export const fetchUserProfile = (username, token) => dispatch => {
+export const fetchUserProfile = token => dispatch => {
   const apiName = APIEndpoints.USER.name;
   const path = APIPaths.GET_USER_PROFILE;
   const apiOptions = initializeAPIOptions(token);
   API.get(apiName, path, apiOptions).then(res => {
-    if (res.data.data.length > 0 && Boolean(res.data.data[0].email_alerts)) {
-      dispatch(subscribeToEmailAlerts);
+    if (res.data.data.length === 0) {
+      dispatch(registerInMarketplace(token));
+      return;
     }
+    dispatch(updateEmailAlertsSubscription(Boolean(res.data.data[0].email_alerts)));
+    dispatch(updateIsTermsAccepted(Boolean(res.data.data[0].is_terms_accepted)));
   });
 };
 
-const fetchWalletStatus = (username, token) => {
-  const apiName = APIEndpoints.USER.name;
-  const path = `${APIPaths.WALLET}`;
-  const apiOptions = initializeAPIOptions(token);
-  return API.get(apiName, path, apiOptions);
+export const updateWallet = ({ type, address }) => dispatch => {
+  if (address) {
+    dispatch({ type: UPDATE_WALLET, payload: { type, address } });
+    return;
+  }
+  dispatch({ type: UPDATE_WALLET, payload: { type } });
 };
 
 const noAuthenticatedUser = dispatch => {
@@ -77,7 +90,7 @@ const noAuthenticatedUser = dispatch => {
   });
 };
 
-const fetchUserDetailsSuccess = (isEmailVerified, email, username, isWalletAssigned) => dispatch => {
+const fetchUserDetailsSuccess = (isEmailVerified, email, nickname) => dispatch => {
   dispatch({
     type: SET_USER_DETAILS,
     payload: {
@@ -85,8 +98,7 @@ const fetchUserDetailsSuccess = (isEmailVerified, email, username, isWalletAssig
       isInitialized: true,
       isEmailVerified,
       email,
-      username,
-      isWalletAssigned,
+      nickname,
     },
   });
 };
@@ -100,15 +112,15 @@ const fetchUserDetailsError = err => dispatch => {
 
 export const fetchUserDetails = async dispatch => {
   try {
-    const { username, token, email, email_verified } = await fetchAuthenticatedUser();
-    const wallet = await fetchWalletStatus(username, token);
-    dispatch(fetchUserProfile(username, token));
-    if (username === null || username === undefined) {
+    const { nickname, token, email, email_verified } = await fetchAuthenticatedUser();
+    dispatch(fetchUserProfile(token));
+    if (email === null || email === undefined) {
+      //Username review - test for no authernticated user
       dispatch(noAuthenticatedUser);
       return;
     }
     if (email_verified) {
-      dispatch(fetchUserDetailsSuccess(email_verified, email, username, wallet.data.length > 0));
+      dispatch(fetchUserDetailsSuccess(email_verified, email, nickname));
     }
   } catch (err) {
     dispatch(fetchUserDetailsError(err));
@@ -122,12 +134,8 @@ export const updateUserProfileInit = (token, updatedUserData) => {
   return API.post(apiName, path, apiOptions);
 };
 
-const updateUserProfileSuccess = updatedUserData => dispatch => {
-  if (updatedUserData.email_alerts) {
-    dispatch(subscribeToEmailAlerts);
-  } else {
-    dispatch(unsubsrcibeToEmailAlerts);
-  }
+const updateUserProfileSuccess = token => dispatch => {
+  dispatch(fetchUserProfile(token));
   dispatch(loaderActions.stopAppLoader);
 };
 
@@ -142,7 +150,7 @@ export const updateUserProfile = updatedUserData => async dispatch => {
     const { token } = await fetchAuthenticatedUser();
     const response = await updateUserProfileInit(token, updatedUserData);
     if (response.status === "success") {
-      return dispatch(updateUserProfileSuccess(updatedUserData));
+      return dispatch(updateUserProfileSuccess(token));
     }
   } catch (err) {
     dispatch(updateUserProfileFailure(err));
@@ -150,13 +158,13 @@ export const updateUserProfile = updatedUserData => async dispatch => {
   }
 };
 
-export const loginSuccess = ({ res, history, route, wallet }) => dispatch => {
+export const loginSuccess = ({ res, history, route }) => dispatch => {
   const userDetails = {
     type: userActions.LOGIN_SUCCESS,
     payload: {
       login: { isLoggedIn: true },
-      isWalletAssigned: wallet.data.length > 0,
-      username: res.attributes.name,
+      email: res.attributes.email,
+      nickname: res.attributes.nickname,
       isEmailVerified: res.attributes.email_verified,
     },
   };
@@ -164,17 +172,16 @@ export const loginSuccess = ({ res, history, route, wallet }) => dispatch => {
   history.push(route);
 };
 
-export const login = ({ username, password, history, route }) => async dispatch => {
+export const login = ({ email, password, history, route }) => dispatch => {
   dispatch({ type: LOGIN_LOADING });
   let userDetails = {};
-  return Auth.signIn(username, password)
-    .then(async res => {
-      const wallet = await fetchWalletStatus(res.username, res.signInUserSession.idToken.jwtToken);
-      dispatch(loginSuccess({ res, history, route, wallet }));
+  return Auth.signIn(email, password)
+    .then(res => {
+      dispatch(loginSuccess({ res, history, route }));
     })
     .catch(err => {
       if (err.code === "UserNotConfirmedException") {
-        dispatch(updateUsername(username));
+        dispatch(updateEmail(email));
         userDetails = {
           type: userActions.LOGIN_SUCCESS,
           payload: { login: { isLoggedIn: true } },
@@ -200,9 +207,11 @@ const registrationAPI = token => {
   return API.get(apiName, apiPath, apiOptions);
 };
 
-export const registerInMarketplace = async dispatch => {
-  const { token } = await fetchAuthenticatedUser();
-  return registrationAPI(token);
+const registerInMarketplace = token => async dispatch => {
+  const response = await registrationAPI(token);
+  if (response.data === "success") {
+    dispatch(fetchUserProfile(token));
+  }
 };
 
 export const signOut = dispatch => {
@@ -231,34 +240,6 @@ export const signOut = dispatch => {
     });
 };
 
-export const walletCreationSuccess = dispatch => {
-  dispatch({ type: WALLET_CREATION_SUCCESS, payload: { isWalletAssigned: true } });
-};
-
-export const checkWalletStatus = username => (dispatch, getState) => {
-  Auth.currentSession({ bypassCache: true })
-    .then(currentSession => {
-      const apiName = APIEndpoints.USER.name;
-      const path = `${APIPaths.WALLET}`;
-      const apiOptions = initializeAPIOptions(currentSession.idToken.jwtToken);
-      dispatch(updateEmailVerified(currentSession.idToken.payload.email_verified));
-      API.get(apiName, path, apiOptions).then(res => {
-        dispatch({
-          type: CHECK_WALLET_STATUS,
-          payload: { isWalletAssigned: res.data.length > 0 },
-        });
-      });
-    })
-    .catch(err => {
-      if (err === "No current user") {
-        dispatch({
-          type: CHECK_WALLET_STATUS,
-          payload: { login: { ...getState().userReducer.login, isLoggedIn: false } },
-        });
-      }
-    });
-};
-
 const userDeleted = ({ history, route }) => dispatch => {
   dispatch({
     type: SET_USER_DETAILS,
@@ -267,7 +248,7 @@ const userDeleted = ({ history, route }) => dispatch => {
         isLoggedIn: false,
       },
       isEmailVerified: false,
-      isWalletAssigned: false,
+      walletAddress: undefined,
       email: "",
     },
   });
@@ -310,8 +291,8 @@ const forgotPasswordInit = dispatch => {
   dispatch(errorActions.resetForgotPasswordError);
 };
 
-const forgotPasswordSuccessfull = ({ username, history, route }) => dispatch => {
-  dispatch(updateUsername(username));
+const forgotPasswordSuccessfull = ({ email, history, route }) => dispatch => {
+  dispatch(updateEmail(email));
   dispatch(loaderActions.stopAppLoader);
   history.push(route);
 };
@@ -321,9 +302,9 @@ const forgotPasswordFailure = error => dispatch => {
   dispatch(loaderActions.stopAppLoader);
 };
 
-export const forgotPassword = ({ username, history, route }) => dispatch => {
+export const forgotPassword = ({ email, history, route }) => dispatch => {
   dispatch(forgotPasswordInit);
-  Auth.forgotPassword(username)
+  Auth.forgotPassword(email)
     .then(() => {
       dispatch(forgotPasswordSuccessfull({ history, route }));
     })
@@ -337,8 +318,8 @@ const forgotPasswordSubmitInit = dispatch => {
   dispatch(errorActions.resetForgotPasswordSubmitError);
 };
 
-const forgotPasswordSubmitSuccessfull = ({ username, history, route }) => dispatch => {
-  dispatch(updateUsername(username));
+const forgotPasswordSubmitSuccessfull = ({ email, history, route }) => dispatch => {
+  dispatch(updateEmail(email));
   dispatch(loaderActions.stopAppLoader);
   history.push(route);
 };
@@ -348,11 +329,11 @@ const forgotPasswordSubmitFailure = error => dispatch => {
   dispatch(loaderActions.stopAppLoader);
 };
 
-export const forgotPasswordSubmit = ({ username, code, password, history, route }) => dispatch => {
+export const forgotPasswordSubmit = ({ email, code, password, history, route }) => dispatch => {
   dispatch(forgotPasswordSubmitInit);
-  Auth.forgotPasswordSubmit(username, code, password)
+  Auth.forgotPasswordSubmit(email, code, password)
     .then(() => {
-      dispatch(forgotPasswordSubmitSuccessfull({ username, history, route }));
+      dispatch(forgotPasswordSubmitSuccessfull({ email, history, route }));
     })
     .catch(err => {
       dispatch(forgotPasswordSubmitFailure(err.message));

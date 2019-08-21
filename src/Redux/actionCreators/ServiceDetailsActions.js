@@ -2,39 +2,40 @@ import { API } from "aws-amplify";
 
 import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { initializeAPIOptions } from "../../utility/API";
-import { fetchAuthenticatedUser } from "./UserActions";
+import { fetchAuthenticatedUser, walletTypes } from "./UserActions";
+import { userActions } from ".";
 
-export const UPDATE_SERVICE_METADATA = "UPDATE_SERVICE_METADATA";
-export const RESET_SERVICE_METADATA = "RESET_SERVICE_METADATA";
+export const UPDATE_SERVICE_DETAILS = "UPDATE_SERVICE_DETAILS";
+export const RESET_SERVICE_DETAILS = "RESET_SERVICE_DETAILS";
 export const UPDATE_FREE_CALLS_ALLOWED = "UPDATE_FREE_CALLS_ALLOWED";
 export const UPDATE_FREE_CALLS_REMAINING = "UPDATE_FREE_CALLS_REMAINING";
 
-const resetServiceMetadata = dispatch => {
-  dispatch({ type: RESET_SERVICE_METADATA });
+const resetServiceDetails = dispatch => {
+  dispatch({ type: RESET_SERVICE_DETAILS });
 };
-const fetchServiceMetadataSuccess = serviceMetadata => dispatch => {
-  dispatch({ type: UPDATE_SERVICE_METADATA, payload: serviceMetadata });
+const fetchServiceDetailsSuccess = serviceDetails => dispatch => {
+  dispatch({ type: UPDATE_SERVICE_DETAILS, payload: serviceDetails });
 };
 
-const fetchServiceMetadataAPI = async ({ orgId, serviceId }) => {
-  const url = `${APIEndpoints.CONTRACT.endpoint}/org/${orgId}/service/${serviceId}/group`;
+const fetchServiceDetailsAPI = async ({ orgId, serviceId }) => {
+  const url = `${APIEndpoints.CONTRACT.endpoint}/org/${orgId}/service/${serviceId}`;
   const response = await fetch(url);
   return response.json();
 };
 
-export const fetchServiceMetadata = ({ orgId, serviceId }) => async dispatch => {
-  if (process.env.REACT_APP_SANDBOX) {
-    return {};
-  }
-  dispatch(resetServiceMetadata);
-  const serviceMetadata = await fetchServiceMetadataAPI({ orgId, serviceId });
-  dispatch(fetchServiceMetadataSuccess(serviceMetadata));
+export const fetchServiceDetails = ({ orgId, serviceId }) => async dispatch => {
+  dispatch(resetServiceDetails);
+  const serviceDetails = await fetchServiceDetailsAPI({ orgId, serviceId });
+  dispatch(fetchServiceDetailsSuccess(serviceDetails));
 };
 
 const fetchMeteringDataSuccess = usageData => dispatch => {
   const freeCallsRemaining = usageData.free_calls_allowed - usageData.total_calls_made;
   dispatch({ type: UPDATE_FREE_CALLS_ALLOWED, payload: usageData.free_calls_allowed });
   dispatch({ type: UPDATE_FREE_CALLS_REMAINING, payload: freeCallsRemaining });
+  if (freeCallsRemaining <= 0) {
+    dispatch(userActions.updateWallet({ type: walletTypes.METAMASK }));
+  }
 };
 
 const meteringAPI = (token, orgId, serviceId, userId) => {

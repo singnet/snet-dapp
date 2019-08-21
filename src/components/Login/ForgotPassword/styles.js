@@ -1,6 +1,9 @@
 export const useStyles = theme => ({
-  forgotPwdContent: {
+  forgotPwdMainContainer: {
+    height: "calc(100vh - 126px)",
     backgroundColor: theme.palette.text.offWhiteColor,
+  },
+  forgotPwdContent: {
     textAlign: "center",
     "& h2": {
       margin: 0,
@@ -11,7 +14,6 @@ export const useStyles = theme => ({
       margin: "17px 0 0",
       color: theme.palette.text.mediumShadeGray,
       fontSize: "22px",
-      fontFamily: theme.typography.secondary.main,
     },
     "@media (max-width:527px)": {
       width: "75%",

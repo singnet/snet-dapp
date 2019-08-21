@@ -4,9 +4,7 @@ export const useStyles = theme => ({
     padding: "100px 60px 0",
     backgroundColor: theme.palette.text.offWhiteColor,
   },
-  computerVisionContainer: {
-    display: "flex",
-  },
+  computerVisionContainer: { display: "flex" },
   computerVisionContent: {
     marginLeft: 25,
     "& > span": {
@@ -21,9 +19,7 @@ export const useStyles = theme => ({
   },
   ratingStars: {
     "& .dv-star-rating-empty-star": {
-      "& i": {
-        color: theme.palette.text.disabledBtnBg,
-      },
+      "& i": { color: theme.palette.text.disabledBtnBg },
     },
     "& i": {
       color: theme.palette.text.RatingStarColor,
@@ -36,7 +32,7 @@ export const useStyles = theme => ({
     display: "inline-block",
     color: theme.palette.text.secondary,
     fontSize: 12,
-    fontWeight: theme.typography.fontweight,
+    fontWeight: 600,
     letterSpacing: 2,
     verticalAlign: "super",
   },

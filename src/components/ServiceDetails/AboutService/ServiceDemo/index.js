@@ -6,6 +6,7 @@ import ProgressBar from "../../../common/ProgressBar";
 import { useStyles } from "./styles";
 import { serviceDetailsActions } from "../../../../Redux/actionCreators";
 import PurchaseToggler from "./PurchaseToggler";
+import { groupInfo } from "../../../../Redux/reducers/ServiceDetailsReducer";
 
 const demoProgressStatus = {
   purchasing: 1,
@@ -21,9 +22,14 @@ class ServiceDemo extends Component {
   };
 
   componentDidMount = async () => {
+    if (process.env.REACT_APP_SANDBOX) {
+      return;
+    }
+
     await this.fetchFreeCallsUsage();
   };
 
+  // Username review
   fetchFreeCallsUsage = () => {
     const { service, fetchMeteringData, email } = this.props;
     return fetchMeteringData({
@@ -45,17 +51,27 @@ class ServiceDemo extends Component {
     this.setState({ purchaseCompleted: true });
   };
 
+  handleReturnToPurchase = () => {
+    this.setState({ purchaseCompleted: false });
+  };
+
   render() {
-    const { classes, service, freeCallsRemaining, freeCallsAllowed } = this.props;
+    const { classes, service, freeCallsRemaining, freeCallsAllowed, groupInfo, wallet } = this.props;
     const { progressText, purchaseCompleted } = this.state;
     return (
       <div className={classes.demoExampleContainer}>
         <h4>Process</h4>
         <ProgressBar activeSection={this.computeActiveSection()} progressText={progressText} />
         <PurchaseToggler
+          groupInfo={groupInfo}
           purchaseCompleted={purchaseCompleted}
-          purchaseProps={{ handleComplete: this.handlePurchaseComplete, freeCallsRemaining, freeCallsAllowed }}
-          thirdPartyProps={{ service_id: service.service_id, org_id: service.org_id, freeCallsRemaining }}
+          purchaseProps={{ handleComplete: this.handlePurchaseComplete, freeCallsRemaining, freeCallsAllowed, wallet }}
+          thirdPartyProps={{
+            service_id: service.service_id,
+            org_id: service.org_id,
+            freeCallsRemaining,
+            returnToPurchase: this.handleReturnToPurchase,
+          }}
         />
       </div>
     );
@@ -66,7 +82,9 @@ const mapStateToProps = state => ({
   isServiceExecutionComplete: state.serviceReducer.serviceMethodExecution.isComplete,
   freeCallsRemaining: state.serviceDetailsReducer.freeCallsRemaining,
   freeCallsAllowed: state.serviceDetailsReducer.freeCallsAllowed,
+  groupInfo: groupInfo(state),
   email: state.userReducer.email,
+  wallet: state.userReducer.wallet,
 });
 
 const mapDispatchToProps = dispatch => ({
