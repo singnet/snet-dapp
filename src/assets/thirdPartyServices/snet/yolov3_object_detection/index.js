@@ -9,7 +9,7 @@ import { Detect } from "./object_detection_pb_service";
 
 const initialUserInput = {
   img_path: undefined,
-  confidence: 0.5,
+  confidence: 0.7,
 };
 
 export default class YOLOv3ObjectDetection extends React.Component {
@@ -179,7 +179,7 @@ export default class YOLOv3ObjectDetection extends React.Component {
   }
 
   render() {
-    if (this.isComplete) return <div>{this.renderComplete()}</div>;
+    if (this.props.isComplete) return <div>{this.renderComplete()}</div>;
     else {
       return <div>{this.renderForm()}</div>;
     }

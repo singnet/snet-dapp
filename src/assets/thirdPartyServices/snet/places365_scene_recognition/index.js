@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
-import SNETImageUpload from "../../standardComponents/SNETImageUpload";
+import SNETImageUpload from "./../../standardComponents/SNETImageUpload";
 import { Grid, IconButton, MuiThemeProvider, Tooltip } from "@material-ui/core";
 import { blue } from "@material-ui/core/colors";
 import SvgIcon from "@material-ui/core/SvgIcon";
@@ -16,6 +16,7 @@ import Table from "@material-ui/core/Table";
 import TableRow from "@material-ui/core/TableRow";
 import TableBody from "@material-ui/core/TableBody";
 import HoverIcon from "../../standardComponents/HoverIcon";
+import {SceneRecognition} from "./scene_recognition_pb_service"
 
 export default class Places365SceneRecognition extends React.Component {
   constructor(props) {
@@ -29,6 +30,7 @@ export default class Places365SceneRecognition extends React.Component {
       // Actual inputs
       input_image: "",
       predict: "",
+      isComplete: false,
     };
 
     this.state = this.initialState;
@@ -86,10 +88,22 @@ export default class Places365SceneRecognition extends React.Component {
   }
 
   submitAction() {
-    this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
-      input_image: this.state.input_image,
-      predict: this.state.predict,
-    });
+    const { methodName, input_image,predict } = this.state;
+    const methodDescriptor = SceneRecognition[methodName];
+    const request = new methodDescriptor.requestType();
+
+    request.setInputImage(input_image)
+    request.setPredict(predict)
+
+
+    const props = {
+        request,
+        onEnd: ({ message }) => {
+          this.setState({ isComplete: true, response: { data: message.getData() } });
+        },
+      };
+
+    this.props.serviceClient.unary(methodDescriptor, props);
   }
 
   getImageData(data) {
@@ -259,7 +273,7 @@ export default class Places365SceneRecognition extends React.Component {
                   allowURL={true}
                 />
               </Grid>
-              {!this.props.isComplete && this.renderForm()}
+              {!this.state.isComplete && this.renderForm()}
             </Grid>
           </MuiThemeProvider>
         </Paper>

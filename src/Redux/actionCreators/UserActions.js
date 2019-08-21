@@ -11,7 +11,8 @@ export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_LOADING = "LOGIN_LOADING";
 export const LOGIN_ERROR = "LOGIN_ERROR";
 export const SIGN_OUT = "SIGN_OUT";
-export const UPDATE_USERNAME = "UPDATE_USERNAME";
+export const UPDATE_NICKNAME = "UPDATE_NICKNAME";
+export const UPDATE_EMAIL = "UPDATE_EMAIL";
 export const UPDATE_EMAIL_VERIFIED = "UPDATE_EMAIL_VERIFIED";
 export const UPDATE_EMAIL_ALERTS_SUBSCRIPTION = "UPDATE_EMAIL_ALERTS_SUBSCRIPTION";
 export const UPDATE_WALLET = "UPDATE_WALLET";
@@ -26,7 +27,7 @@ export const walletTypes = {
 export const fetchAuthenticatedUser = async () => {
   const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
   return {
-    username: currentUser.username,
+    nickname: currentUser.attributes.nickname,
     email: currentUser.attributes.email,
     email_verified: currentUser.attributes.email_verified,
     token: currentUser.signInUserSession.idToken.jwtToken,
@@ -35,10 +36,15 @@ export const fetchAuthenticatedUser = async () => {
 
 export const appInitializationSuccess = dispatch => {
   dispatch({ type: APP_INITIALIZATION_SUCCESS, payload: { isInitialized: true } });
+  dispatch(loaderActions.stopAppLoader);
 };
 
-export const updateUsername = username => dispatch => {
-  dispatch({ type: UPDATE_USERNAME, payload: { username } });
+export const updateNickname = nickname => dispatch => {
+  dispatch({ type: UPDATE_NICKNAME, payload: { nickname } });
+};
+
+export const updateEmail = email => dispatch => {
+  dispatch({ type: UPDATE_EMAIL, payload: { email } });
 };
 
 export const updateEmailVerified = value => dispatch => {
@@ -85,7 +91,7 @@ const noAuthenticatedUser = dispatch => {
   });
 };
 
-const fetchUserDetailsSuccess = (isEmailVerified, email, username) => dispatch => {
+const fetchUserDetailsSuccess = (isEmailVerified, email, nickname) => dispatch => {
   dispatch({
     type: SET_USER_DETAILS,
     payload: {
@@ -93,28 +99,32 @@ const fetchUserDetailsSuccess = (isEmailVerified, email, username) => dispatch =
       isInitialized: true,
       isEmailVerified,
       email,
-      username,
+      nickname,
     },
   });
+  dispatch(loaderActions.stopAppLoader);
 };
 
 const fetchUserDetailsError = err => dispatch => {
   if (err === "No current user") {
     dispatch(noAuthenticatedUser);
+    dispatch(loaderActions.stopAppLoader);
   }
   dispatch(appInitializationSuccess);
 };
 
 export const fetchUserDetails = async dispatch => {
+  dispatch(loaderActions.startAppLoader(LoaderContent.APP_INIT));
   try {
-    const { username, token, email, email_verified } = await fetchAuthenticatedUser();
+    const { nickname, token, email, email_verified } = await fetchAuthenticatedUser();
     dispatch(fetchUserProfile(token));
-    if (username === null || username === undefined) {
+    if (email === null || email === undefined) {
+      //Username review - test for no authernticated user
       dispatch(noAuthenticatedUser);
       return;
     }
     if (email_verified) {
-      dispatch(fetchUserDetailsSuccess(email_verified, email, username));
+      dispatch(fetchUserDetailsSuccess(email_verified, email, nickname));
     }
   } catch (err) {
     dispatch(fetchUserDetailsError(err));
@@ -157,24 +167,26 @@ export const loginSuccess = ({ res, history, route }) => dispatch => {
     type: userActions.LOGIN_SUCCESS,
     payload: {
       login: { isLoggedIn: true },
-      username: res.attributes.name,
+      email: res.attributes.email,
+      nickname: res.attributes.nickname,
       isEmailVerified: res.attributes.email_verified,
     },
   };
   dispatch(userDetails);
   history.push(route);
+  dispatch(loaderActions.stopAppLoader);
 };
 
-export const login = ({ username, password, history, route }) => dispatch => {
-  dispatch({ type: LOGIN_LOADING });
+export const login = ({ email, password, history, route }) => dispatch => {
+  dispatch(loaderActions.startAppLoader(LoaderContent.LOGIN));
   let userDetails = {};
-  return Auth.signIn(username, password)
+  return Auth.signIn(email, password)
     .then(res => {
       dispatch(loginSuccess({ res, history, route }));
     })
     .catch(err => {
       if (err.code === "UserNotConfirmedException") {
-        dispatch(updateUsername(username));
+        dispatch(updateEmail(email));
         userDetails = {
           type: userActions.LOGIN_SUCCESS,
           payload: { login: { isLoggedIn: true } },
@@ -189,6 +201,7 @@ export const login = ({ username, password, history, route }) => dispatch => {
         payload: { login: { error } },
       };
       dispatch(userDetails);
+      dispatch(loaderActions.stopAppLoader);
       throw err;
     });
 };
@@ -284,10 +297,10 @@ const forgotPasswordInit = dispatch => {
   dispatch(errorActions.resetForgotPasswordError);
 };
 
-const forgotPasswordSuccessfull = ({ username, history, route }) => dispatch => {
-  dispatch(updateUsername(username));
-  dispatch(loaderActions.stopAppLoader);
+const forgotPasswordSuccessfull = ({ email, history, route }) => dispatch => {
+  dispatch(updateEmail(email));
   history.push(route);
+  dispatch(loaderActions.stopAppLoader);
 };
 
 const forgotPasswordFailure = error => dispatch => {
@@ -295,9 +308,9 @@ const forgotPasswordFailure = error => dispatch => {
   dispatch(loaderActions.stopAppLoader);
 };
 
-export const forgotPassword = ({ username, history, route }) => dispatch => {
+export const forgotPassword = ({ email, history, route }) => dispatch => {
   dispatch(forgotPasswordInit);
-  Auth.forgotPassword(username)
+  Auth.forgotPassword(email)
     .then(() => {
       dispatch(forgotPasswordSuccessfull({ history, route }));
     })
@@ -311,8 +324,8 @@ const forgotPasswordSubmitInit = dispatch => {
   dispatch(errorActions.resetForgotPasswordSubmitError);
 };
 
-const forgotPasswordSubmitSuccessfull = ({ username, history, route }) => dispatch => {
-  dispatch(updateUsername(username));
+const forgotPasswordSubmitSuccessfull = ({ email, history, route }) => dispatch => {
+  dispatch(updateEmail(email));
   dispatch(loaderActions.stopAppLoader);
   history.push(route);
 };
@@ -322,11 +335,11 @@ const forgotPasswordSubmitFailure = error => dispatch => {
   dispatch(loaderActions.stopAppLoader);
 };
 
-export const forgotPasswordSubmit = ({ username, code, password, history, route }) => dispatch => {
+export const forgotPasswordSubmit = ({ email, code, password, history, route }) => dispatch => {
   dispatch(forgotPasswordSubmitInit);
-  Auth.forgotPasswordSubmit(username, code, password)
+  Auth.forgotPasswordSubmit(email, code, password)
     .then(() => {
-      dispatch(forgotPasswordSubmitSuccessfull({ username, history, route }));
+      dispatch(forgotPasswordSubmitSuccessfull({ email, history, route }));
     })
     .catch(err => {
       dispatch(forgotPasswordSubmitFailure(err.message));

@@ -11,8 +11,8 @@ import { useStyles } from "./styles";
 
 const RenderForm = ({
   classes,
-  username,
-  handleUsername,
+  nickname,
+  handleNickname,
   email,
   handleEmail,
   password,
@@ -31,7 +31,7 @@ const RenderForm = ({
         <ul>
           <li>
             <Icon className="fas fa-check-circle" />
-            <p>Get free credits to try out all the available AI services.</p>
+            <p>Use the free trial to try out all the available AI services.</p>
           </li>
           <li>
             <Icon className="fas fa-check-circle" />
@@ -44,10 +44,10 @@ const RenderForm = ({
         <form noValidate autoComplete="off" className={classes.signupForm}>
           <TextField
             id="outlined-user-name"
-            label="Username"
+            label="Nickname"
             className={classes.textField}
-            value={username}
-            onChange={handleUsername}
+            value={nickname}
+            onChange={handleNickname}
             margin="normal"
             variant="outlined"
             autoFocus

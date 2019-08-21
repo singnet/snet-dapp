@@ -26,7 +26,7 @@ const AiMarketplace = ({ classes, isLoggedIn }) => {
               </p>
             </div>
             <Link to={Routes.SIGNUP} className={classes.signupLink}>
-              {!isLoggedIn && <StyledButton type="blue" btnText="Sign up for free credits" />}
+              {!isLoggedIn && <StyledButton type="blue" btnText="Sign up for the free trial" />}
             </Link>
           </Grid>
         </Grid>
