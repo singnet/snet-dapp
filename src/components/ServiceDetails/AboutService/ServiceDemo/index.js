@@ -60,6 +60,10 @@ class ServiceDemo extends Component {
     this.fetchFreeCallsUsage();
   };
 
+  serviceRequestErrorHandler = err => {
+    console.log("serviceRequestErrorHandler", err);
+  };
+
   handlePurchaseComplete = () => {
     this.setState({ purchaseCompleted: true });
   };
@@ -72,8 +76,15 @@ class ServiceDemo extends Component {
       groupInfo,
       wallet,
     } = this.props;
+
     const { progressText, purchaseCompleted, isServiceExecutionComplete } = this.state;
-    const { handleResetAndRun, serviceRequestStartHandler, serviceRequestCompleteHandler } = this;
+
+    const {
+      handleResetAndRun,
+      serviceRequestStartHandler,
+      serviceRequestCompleteHandler,
+      serviceRequestErrorHandler,
+    } = this;
 
     return (
       <div className={classes.demoExampleContainer}>
@@ -91,6 +102,7 @@ class ServiceDemo extends Component {
             handleResetAndRun,
             serviceRequestStartHandler,
             serviceRequestCompleteHandler,
+            serviceRequestErrorHandler,
           }}
         />
       </div>
