@@ -111,8 +111,8 @@ class MetamaskDetails extends Component {
         submitAction: this.handleDeposit,
         component: (
           <StyledTextField
-            label="AGI Token Amount"
-            value={amount[txnTypes.DEPOSIT]}
+            label="Amount to be deposited in AGI"
+            value={amount[txnTypes.DEPOSIT] || ""}
             onChange={event => this.handleAmountChange(event, txnTypes.DEPOSIT)}
           />
         ),
@@ -123,8 +123,8 @@ class MetamaskDetails extends Component {
         submitAction: this.handleWithDraw,
         component: (
           <StyledTextField
-            label="AGI Token Amount"
-            value={amount[txnTypes.WITHDRAW]}
+            label="Amount to be withdrawn in AGI"
+            value={amount[txnTypes.WITHDRAW] || ""}
             onChange={event => this.handleAmountChange(event, txnTypes.WITHDRAW)}
           />
         ),
