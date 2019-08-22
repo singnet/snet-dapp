@@ -20,7 +20,7 @@ export const APP_INITIALIZATION_SUCCESS = "APP_INITIALIZATION_SUCCESS";
 export const UPDATE_IS_TERMS_ACCEPTED = "UPDATE_IS_TERMS_ACCEPTED";
 
 export const walletTypes = {
-  SNET: "SNET",
+  // SNET: "SNET",
   METAMASK: "METAMASK",
 };
 
@@ -92,6 +92,10 @@ const noAuthenticatedUser = dispatch => {
 };
 
 const fetchUserDetailsSuccess = (isEmailVerified, email, nickname) => dispatch => {
+  const wallet = sessionStorage.getItem("wallet");
+  if (wallet) {
+    dispatch(updateWallet(JSON.parse(wallet)));
+  }
   dispatch({
     type: SET_USER_DETAILS,
     payload: {
