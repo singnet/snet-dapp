@@ -7,7 +7,6 @@ export const useStyles = theme => ({
     marginTop: "20px ",
     color: theme.palette.text.alertBoxColor,
     fontSize: "14px ",
-    fontFamily: theme.typography.secondary.main,
     lineHeight: "20px",
     letterSpacing: 0.25,
     textAlign: "left",
@@ -20,12 +19,20 @@ export const useStyles = theme => ({
     borderColor: theme.palette.text.successBoxBorder,
     backgroundColor: theme.backgroundColor.succesBoxBg,
   },
+  warning: {
+    borderColor: theme.palette.text.warningBoxBorder,
+    backgroundColor: theme.palette.text.warningBoxBg,
+    "& a": {
+      color: theme.palette.text.infoBoxLink,
+      fontWeight: 600,
+    },
+  },
   info: {
     borderColor: theme.palette.text.primary,
-    backgroundColor: theme.palette.text.infoBg,
-  },
-  warning: {
-    border: theme.palette.text.warningBorder,
-    backgroundColor: theme.palette.text.warningBg,
+    backgroundColor: theme.palette.text.infoBoxBg,
+    "& a": {
+      color: theme.palette.text.infoBoxLink,
+      fontWeight: 600,
+    },
   },
 });

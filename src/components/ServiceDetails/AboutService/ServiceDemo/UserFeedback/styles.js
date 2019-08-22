@@ -12,7 +12,6 @@ export const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.text.offWhiteColor,
     "& h2": {
       color: theme.palette.text.darkShadedGray,
-      fontFamily: theme.typography.tertiary.main,
       fontSize: 24,
       lineHeight: "28px",
     },
@@ -40,4 +39,12 @@ export const useStyles = makeStyles(theme => ({
     justifyContent: "center",
   },
   ReviewTitle: { display: "none" },
+  buttonsContainer: {
+    marginTop: 10,
+    textAlign: "center",
+    "& button": {
+      padding: " 13px 60px 11px",
+      marginTop: 10,
+    },
+  },
 }));

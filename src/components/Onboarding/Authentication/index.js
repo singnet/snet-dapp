@@ -31,9 +31,9 @@ class Authentication extends Component {
 
   handleContinue = () => {
     const { verificationCode } = this.state;
-    const { username } = this.props;
+    const { email } = this.props;
     this.setState({ loading: true });
-    Auth.confirmSignUp(username, verificationCode)
+    Auth.confirmSignUp(email, verificationCode)
       .then(res => {
         this.setState({ loading: false });
         this.props.history.push(Routes.LOGIN);
@@ -46,8 +46,8 @@ class Authentication extends Component {
 
   handleResendCode = () => {
     this.setState({ loading: true });
-    const { username } = this.props;
-    Auth.resendSignUp(username)
+    const { email } = this.props;
+    Auth.resendSignUp(email)
       .then(res => {
         this.setState({ loading: false });
         this.props.handleNextSection();
@@ -69,7 +69,7 @@ class Authentication extends Component {
           <br /> <br />
           Please enter the verification code below to confirm your email address. Check your spam, or junk folders if
           you encounter any delays. The email should be from otp@singularitynet.io. The code will be valid for 5
-          minutes.{" "}
+          minutes.
         </p>
         <InlineLoader loading={loading} />
         <TextField
@@ -99,7 +99,7 @@ class Authentication extends Component {
 }
 
 const mapStateToProps = state => ({
-  username: state.userReducer.username,
+  email: state.userReducer.email,
 });
 
 export default connect(mapStateToProps)(withRouter(withStyles(useStyles)(Authentication)));

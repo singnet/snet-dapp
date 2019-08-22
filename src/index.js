@@ -4,14 +4,14 @@ import { Provider as ReduxProvider } from "react-redux";
 
 import "./index.css";
 import "./assets/icomoon.css";
-import App from "./App";
 import configureStore from "./Redux/Store";
+import SnetApp from "./SnetApp";
 
 const store = configureStore();
 
 ReactDOM.render(
   <ReduxProvider store={store}>
-    <App />
+    <SnetApp />
   </ReduxProvider>,
   document.getElementById("root")
 );

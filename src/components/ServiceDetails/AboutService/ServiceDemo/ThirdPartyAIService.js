@@ -1,120 +1,85 @@
-import React, { Component } from "react";
+import React, { Component, Suspense } from "react";
 import { connect } from "react-redux";
 import { withStyles } from "@material-ui/styles";
 
-import SampleServices from "../../../../assets/thirdPartyServices";
+import thirdPartyCustomUIComponents from "../../../../assets/thirdPartyServices";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../../../Redux/actionCreators";
-import { APIEndpoints } from "../../../../config/APIEndpoints";
 import CompletedActions from "./CompletedActions";
-import { createServiceClient } from "../../../../utility/sdk";
+import { createServiceClient, callTypes } from "../../../../utility/sdk";
+import ThirdPartyServiceErrorBoundary from "./ThirdPartyServiceErrorBoundary";
 
 class ThirdPartyAIService extends Component {
   state = {
-    AIServiceCustomComponent: undefined,
-    serviceSpecJSON: undefined,
-    protoSpec: undefined,
     feedback: {
       comment: "",
       rating: "",
     },
     loading: true,
-    serviceRequestComplete: false,
   };
 
-  sampleServices = new SampleServices();
-
   componentDidMount = async () => {
-    const { org_id, service_id, username } = this.props;
+    const { org_id, service_id, freeCallsRemaining, groupInfo, wallet } = this.props;
+    const callType = freeCallsRemaining > 0 ? callTypes.FREE : callTypes.REGULAR;
     this.serviceClient = await createServiceClient(
       org_id,
       service_id,
-      username,
-      this.serviceRequestStartHandler,
-      this.serviceRequestCompleteHandler
+      groupInfo,
+      this.props.serviceRequestStartHandler,
+      this.props.serviceRequestCompleteHandler,
+      callType,
+      wallet
     );
-    const { serviceSpecJSON, protoSpec } = await this.fetchServiceSpec(org_id, service_id);
-    this.fetchAIServiceComponent();
-    this.setState({ loading: false, serviceSpecJSON, protoSpec });
+    await this.setupComponent();
+    this.setState({ loading: false });
   };
 
-  serviceRequestStartHandler = () => {
-    this.setState({ serviceRequestComplete: false });
-  };
-
-  fetchAIServiceComponent = () => {
-    const { org_id, service_id } = this.props;
-    if (org_id && service_id && !this.state.AIServiceCustomComponent) {
-      this.fetchServiceSpec(org_id, service_id);
-      const AIServiceCustomComponent = this.sampleServices.getComponent(org_id, service_id);
-      this.setState({ AIServiceCustomComponent });
-      this.fetchUserFeedback();
+  setupComponent = () => {
+    if (process.env.REACT_APP_SANDBOX) {
+      return;
     }
-  };
 
-  serviceRequestCompleteHandler = () => {
-    this.setState({ serviceRequestComplete: true });
+    this.fetchUserFeedback();
   };
 
   fetchUserFeedback = async () => {
     const { org_id, service_id } = this.props;
     const feedback = await this.props.fetchFeedback(org_id, service_id);
-    this.setState(prevState => ({
-      ...prevState,
-      feedback: { comment: feedback.data[0].comment[0], rating: feedback.data[0].rating },
-    }));
-  };
-
-  fetchServiceSpec = async (org_id, service_id) => {
-    const servicebufURL = `${APIEndpoints.SERVICE_BUF.endpoint}/${org_id}/${service_id}`;
-    return this.props.fetchProtoSpec(servicebufURL);
-  };
-
-  handleServiceInvokation = (serviceName, methodName, requestObject) => {
-    const { org_id, service_id, username } = this.props;
-    const data = {
-      org_id,
-      service_id,
-      method: methodName,
-      service_name: serviceName,
-      input: JSON.stringify(requestObject),
-      user_address: "",
-      username,
-      isBase64Encoded: true,
-    };
-    this.props.invokeServiceMethod(data);
+    if (!feedback.data.length > 0) {
+      return;
+    }
+    this.setState({ feedback: { comment: feedback.data[0].comment[0], rating: feedback.data[0].rating } });
   };
 
   render() {
-    const { org_id, service_id, classes, grpcResponse, isComplete } = this.props;
-    const { AIServiceCustomComponent, serviceSpecJSON, protoSpec, feedback, serviceRequestComplete } = this.state;
-
-    if (!AIServiceCustomComponent || !serviceSpecJSON || !protoSpec) {
-      return null;
-    }
     const { loading } = this.state;
     if (loading) {
       return null;
     }
+
+    const { org_id, service_id, classes, stopLoader, isServiceExecutionComplete, handleResetAndRun } = this.props;
+    const { feedback } = this.state;
     const { serviceClient } = this;
+    const AIServiceCustomComponent = thirdPartyCustomUIComponents.componentFor(org_id, service_id);
 
     return (
       <div className={classes.serviceDetailsTab}>
-        <AIServiceCustomComponent
-          serviceClient={serviceClient}
-          callApiCallback={this.handleServiceInvokation}
-          protoSpec={protoSpec}
-          serviceSpec={serviceSpecJSON}
-          isComplete={isComplete}
-          response={grpcResponse}
-          sliderWidth={"550px"}
-        />
+        <Suspense fallback={<div>Loading Service...</div>}>
+          <ThirdPartyServiceErrorBoundary stopLoader={stopLoader}>
+            <AIServiceCustomComponent
+              serviceClient={serviceClient}
+              isComplete={isServiceExecutionComplete}
+              sliderWidth={"550px"}
+            />
+          </ThirdPartyServiceErrorBoundary>
+        </Suspense>
         <CompletedActions
-          isComplete={isComplete || serviceRequestComplete}
+          isComplete={isServiceExecutionComplete}
           feedback={feedback}
           orgId={org_id}
           serviceId={service_id}
           refetchFeedback={this.fetchUserFeedback}
+          handleResetAndRun={handleResetAndRun}
         />
       </div>
     );
@@ -122,13 +87,12 @@ class ThirdPartyAIService extends Component {
 }
 
 const mapStateToProps = state => ({
-  grpcResponse: state.serviceReducer.serviceMethodExecution.response,
   isComplete: state.serviceReducer.serviceMethodExecution.isComplete,
-  username: state.userReducer.username,
+  email: state.userReducer.email,
+  wallet: state.userReducer.wallet,
 });
+
 const mapDispatchToProps = dispatch => ({
-  fetchProtoSpec: servicebufURL => dispatch(serviceActions.fetchProtoSpec(servicebufURL)),
-  invokeServiceMethod: data => dispatch(serviceActions.invokeServiceMethod(data)),
   fetchFeedback: (orgId, serviceId) => dispatch(serviceActions.fetchFeedback(orgId, serviceId)),
 });
 

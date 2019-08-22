@@ -31,18 +31,15 @@ export const useStyles = theme => ({
     overflow: "auto",
     fontSize: 14,
     textAlign: "left",
-    fontFamily: theme.typography.secondary.main,
     borderColor: "#f1f1f1",
     borderStyle: "solid",
     borderWidth: 1,
     backgroundColor: theme.palette.text.offWhiteColor,
     "& p": {
-      fontFamily: theme.typography.secondary.main,
       color: theme.palette.text.lightShadedGray,
       lineHeight: "21px",
     },
     "& span": {
-      fontFamily: theme.typography.secondary.main,
       color: theme.palette.text.lightShadedGray,
     },
     "& a": {

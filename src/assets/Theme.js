@@ -10,6 +10,12 @@ const alertBoxColor = "rgba(0,0,0,0.6)";
 const alertBoxBorder = "#E67381";
 const alertBoxBackgroundColor = "#FDE5E8";
 
+const warningBoxBg = "#FDF3E5";
+const warningBoxBorder = "#F18D5A";
+
+const infoBoxBg = "#DEEAFF";
+const infoBoxLink = "#067AD7";
+
 const userProfileIconColor = "#757575";
 
 const purple = "#220D3A";
@@ -52,6 +58,12 @@ const aqua = "#00C48C";
 const errorRed = "#B00020";
 const redBtnText = "#D0021B";
 const redBtnBg = "#E67381";
+
+const verticalTabLeftBorder = "#e2e2e2";
+
+const inputBoxBorder = "#979797";
+
+const dialogTitle = "rgba(0,0,0,0.87)";
 
 const h2 = { size: 32, color: darkShadedGray };
 
@@ -102,18 +114,19 @@ const theme = createMuiTheme({
       alertBoxBorder,
       alertBoxColor,
       alertBoxBackgroundColor,
-      informationBarBg,
       infoBg,
-      redBtnBg,
       warningBg,
       warningBorder,
+      verticalTabLeftBorder,
+      redBtnBg,
+      warningBoxBorder,
+      warningBoxBg,
+      infoBoxBg,
+      infoBoxLink,
+      inputBoxBorder,
+      dialogTitle,
+      informationBarBg,
     },
-  },
-  typography: {
-    primary: { main: ["OpenSans"] },
-    secondary: { main: ["Raleway"] },
-    tertiary: { main: ["Roboto"] },
-    fontweight: 600,
   },
   backgroundColor: {
     blue: customBlue,
@@ -126,6 +139,11 @@ const theme = createMuiTheme({
   },
   font: {
     h2,
+  },
+  typography: {
+    primary: {
+      main: "Muli, sans-serif",
+    },
   },
 });
 
