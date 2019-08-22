@@ -1,8 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
-
 import Card from "@material-ui/core/Card";
+import CardHeader from "@material-ui/core/CardHeader";
+import CardContent from "@material-ui/core/CardContent";
 import Modal from "@material-ui/core/Modal";
+import Divider from "@material-ui/core/Divider";
+
 import { networks } from "../../../config/Network";
 import AlertBox, { alertTypes } from "../AlertBox";
 import { useStyles } from "./styles";
@@ -21,7 +24,11 @@ const NetworkChangeOverlay = ({ freeCallsRemaining }) => {
   return (
     <Modal disableBackdropClick open={shouldOverlayBeOpened()}>
       <Card className={classes.card}>
-        <AlertBox type={alertTypes.INFO} message="Please switch to mainnet to proceed." />
+        <CardHeader title={<h4>Incorrect Metamask Channel</h4>} />
+        <Divider />
+        <CardContent>
+          <AlertBox type="warning" message="Kindly check the channel which you have set on Metamask. Please switch it to {{channelname}} to continue using the services." />
+        </CardContent>
       </Card>
     </Modal>
   );
