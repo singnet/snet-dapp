@@ -118,7 +118,6 @@ class App extends Component {
 const mapStateToProps = state => ({
   isLoggedIn: state.userReducer.login.isLoggedIn,
   isTermsAccepted: state.userReducer.isTermsAccepted,
-  wallet: state.userReducer.wallet,
   isInitialized: state.userReducer.isInitialized,
   hamburgerMenu: state.stylesReducer.hamburgerMenu,
 });
