@@ -44,6 +44,10 @@ export const LoaderContent = {
     loaderText: "Filtering the services",
   },
   UPDATE_PROFILE: { loaderHeader: "Updating", loaderText: "Filtering the services" },
+  FETCH_MM_ACC_DETAILS: {
+    loaderHeader: "Fetching Metamask Account",
+    loaderText: "Please wait while we retrieve your account details from Metamask",
+  },
   DEPOSIT: {
     loaderHeader: "Deposit",
     loaderText: "Depositing AGI tokens to Multi-party Escrow account",
