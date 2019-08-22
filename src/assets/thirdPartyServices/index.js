@@ -6,7 +6,7 @@ const CNTKNextDayTrend = lazy(() => import("./snet/cntk_next_day_trend"));
 const CNTKLSTMForecast = lazy(() => import("./snet/cntk_lstm_forecast"));
 const CNTKLanguageUnderstanding = lazy(() => import("./snet/cntk_language_understanding"));
 const I3DActionRecognition = lazy(() => import("./snet/i3d_video_action_recognition"));
-const OpenNMTRomanceTranslator = lazy(() => import("./snet/opennmt_romance_translator"));
+const OpenNMTRomanceTranslator = lazy(() => import("./snet/openmt_romance_translator"));
 const S2VTVideoCaptioning = lazy(() => import("./snet/s2vt_video_captioning"));
 const YOLOv3ObjectDetection = lazy(() => import("./snet/yolov3_object_detection"));
 const Zeta36ChessAlphaZero = lazy(() => import("./snet/zeta36_chess_alpha_zero"));
