@@ -31,10 +31,10 @@ export const LoaderContent = {
     loaderHeader: "Fetching usage data",
     loaderText: "Please wait,we're checking your usage data",
   },
-  SERVICE_INVOKATION: {
-    loaderHeader: "Invoking Third Party Service",
+  SERVICE_INVOKATION: displayName => ({
+    loaderHeader: `Invoking ${displayName}`,
     loaderText: "Please wait, the AI service is computing the result",
-  },
+  }),
   SIGN_OUT: {
     loaderHeader: "Signing Out",
     loaderText: "You will be signed out of the portal",
