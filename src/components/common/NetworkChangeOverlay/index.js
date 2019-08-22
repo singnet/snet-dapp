@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -6,13 +6,23 @@ import CardContent from "@material-ui/core/CardContent";
 import Modal from "@material-ui/core/Modal";
 import Divider from "@material-ui/core/Divider";
 
-import { networks } from "../../../config/Network";
-import AlertBox, { alertTypes } from "../AlertBox";
+import AlertBox from "../AlertBox";
 import { useStyles } from "./styles";
-import { freeCalls } from "../../../Redux/reducers/ServiceDetailsReducer";
 
-const NetworkChangeOverlay = ({ freeCallsRemaining }) => {
-  const classes = useStyles();
+class NetworkChangeOverlay extends Component {
+  state = {
+    show: false,
+  };
+
+  componentDidMount() {
+    window.addEndListener('snetMMAccountChanged', this.handleMetaMaskChange);
+    window.addEndListener('snetMMNetworkChanged', this.handleMetaMaskChange);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('snetMMAccountChanged', this.handleMetaMaskChange);
+    window.removeEventListener('snetMMNetworkChanged', this.handleMetaMaskChange);
+  }
 
   const shouldOverlayBeOpened = async () => {
     return true;
