@@ -4,9 +4,10 @@ import { connect } from "react-redux";
 
 import ProgressBar from "../../../common/ProgressBar";
 import { useStyles } from "./styles";
-import { serviceDetailsActions } from "../../../../Redux/actionCreators";
+import { serviceDetailsActions, loaderActions } from "../../../../Redux/actionCreators";
 import PurchaseToggler from "./PurchaseToggler";
 import { freeCalls, groupInfo } from "../../../../Redux/reducers/ServiceDetailsReducer";
+import { LoaderContent } from "../../../../utility/constants/LoaderContent";
 
 const demoProgressStatus = {
   purchasing: 1,
@@ -18,6 +19,7 @@ class ServiceDemo extends Component {
   state = {
     progressText: ["Purchase", "Configure", "Results"],
     purchaseCompleted: false,
+    isServiceExecutionComplete: false,
   };
 
   componentDidMount = async () => {
@@ -28,7 +30,6 @@ class ServiceDemo extends Component {
     await this.fetchFreeCallsUsage();
   };
 
-  // Username review
   fetchFreeCallsUsage = () => {
     const { service, fetchMeteringData, email } = this.props;
     return fetchMeteringData({
@@ -39,19 +40,28 @@ class ServiceDemo extends Component {
   };
 
   computeActiveSection = () => {
-    const { purchaseCompleted } = this.state;
-    const { isServiceExecutionComplete } = this.props;
+    const { purchaseCompleted, isServiceExecutionComplete } = this.state;
     const { purchasing, executingAIservice, displayingResponse } = demoProgressStatus;
 
     return purchaseCompleted ? (isServiceExecutionComplete ? displayingResponse : executingAIservice) : purchasing;
   };
 
-  handlePurchaseComplete = () => {
-    this.setState({ purchaseCompleted: true });
+  serviceRequestStartHandler = () => {
+    this.props.startLoader();
   };
 
-  handleReturnToPurchase = () => {
-    this.setState({ purchaseCompleted: false });
+  serviceRequestCompleteHandler = () => {
+    this.setState({ isServiceExecutionComplete: true });
+    this.props.stopLoader();
+  };
+
+  handleResetAndRun = () => {
+    this.setState({ purchaseCompleted: false, isServiceExecutionComplete: false });
+    this.fetchFreeCallsUsage();
+  };
+
+  handlePurchaseComplete = () => {
+    this.setState({ purchaseCompleted: true });
   };
 
   render() {
@@ -62,7 +72,8 @@ class ServiceDemo extends Component {
       groupInfo,
       wallet,
     } = this.props;
-    const { progressText, purchaseCompleted } = this.state;
+    const { progressText, purchaseCompleted, isServiceExecutionComplete } = this.state;
+    const { handleResetAndRun, serviceRequestStartHandler, serviceRequestCompleteHandler } = this;
 
     return (
       <div className={classes.demoExampleContainer}>
@@ -76,7 +87,10 @@ class ServiceDemo extends Component {
             service_id: service.service_id,
             org_id: service.org_id,
             freeCallsRemaining,
-            returnToPurchase: this.handleReturnToPurchase,
+            isServiceExecutionComplete,
+            handleResetAndRun,
+            serviceRequestStartHandler,
+            serviceRequestCompleteHandler,
           }}
         />
       </div>
@@ -85,7 +99,6 @@ class ServiceDemo extends Component {
 }
 
 const mapStateToProps = state => ({
-  isServiceExecutionComplete: state.serviceReducer.serviceMethodExecution.isComplete,
   freeCalls: freeCalls(state),
   groupInfo: groupInfo(state),
   email: state.userReducer.email,
@@ -93,6 +106,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  startLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.SERVICE_INVOKATION)),
+  stopLoader: () => dispatch(loaderActions.stopAppLoader),
   fetchMeteringData: args => dispatch(serviceDetailsActions.fetchMeteringData({ ...args })),
 });
 

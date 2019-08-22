@@ -51,6 +51,7 @@ const fetchMeteringDataSuccess = usageData => dispatch => {
     type: UPDATE_FREE_CALLS_INFO,
     payload: { allowed: usageData.free_calls_allowed, remaining: freeCallsRemaining },
   });
+  dispatch(loaderActions.stopAppLoader);
 };
 
 const meteringAPI = (token, orgId, serviceId, userId) => {
