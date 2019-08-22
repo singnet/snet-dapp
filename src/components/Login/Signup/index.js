@@ -10,11 +10,12 @@ import { parseError } from "../../../utility/ErrorHandling";
 import { useStyles } from "./styles";
 import RenderForm from "./RenderForm";
 import RenderOTP from "./RenderOTP";
-import { userActions } from "../../../Redux/actionCreators";
+import { userActions, loaderActions } from "../../../Redux/actionCreators";
+import { LoaderContent } from "../../../utility/constants/LoaderContent";
 
 class SignUp extends Component {
   state = {
-    username: "",
+    nickname: "",
     email: "",
     password: "",
     error: undefined,
@@ -22,8 +23,8 @@ class SignUp extends Component {
     otp: "",
   };
 
-  handleUsername = event => {
-    this.setState({ username: event.currentTarget.value });
+  handleNickname = event => {
+    this.setState({ nickname: event.currentTarget.value });
   };
 
   handleEmail = event => {
@@ -40,10 +41,11 @@ class SignUp extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    const { username, password, email } = this.state;
+    const { nickname, password, email } = this.state;
+    const { startSignupLoader, stopLoader } = this.props;
     this.setState({ error: undefined });
-    if (username === "") {
-      this.setState({ error: "Please enter a username" });
+    if (nickname === "") {
+      this.setState({ error: "Please enter a nickname" });
       return;
     }
     if (email === "") {
@@ -58,34 +60,36 @@ class SignUp extends Component {
       this.setState({ error: "Password cannot be left blank" });
       return;
     }
-
+    startSignupLoader();
     Auth.signUp({
-      username,
+      username: email,
       password,
       attributes: {
         email,
-        name: username,
+        nickname,
       },
     })
       .then(user => {
-        this.props.updateUsername(username);
+        this.props.updateNickname(nickname);
         this.setState({ toBeConfirmed: true });
+        stopLoader();
       })
-      .catch(err => this.setState({ error: err.message }));
+      .catch(err => {
+        this.setState({ error: err.message });
+        stopLoader();
+      });
   };
 
   handleConfirmSignup = event => {
-    const { username, otp } = this.state;
-    const { history, updateUsername } = this.props;
+    const { email, otp } = this.state;
+    const { history, updateEmail } = this.props;
     event.preventDefault();
     event.stopPropagation();
     let route = `/${Routes.LOGIN}`;
-    if (history.location.state && history.location.state.sourcePath) {
-      route = history.location.state.sourcePath;
-    }
-    Auth.confirmSignUp(username, otp)
+
+    Auth.confirmSignUp(email, otp)
       .then(() => {
-        updateUsername(username);
+        updateEmail(email);
         history.push(route);
       })
       .catch(err => {
@@ -96,8 +100,8 @@ class SignUp extends Component {
 
   handleResendOTP = () => {
     this.setState({ error: undefined });
-    const { username } = this.state;
-    Auth.resendSignUp(username)
+    const { email } = this.state;
+    Auth.resendSignUp(email)
       .then(() => {
         this.setState({ error: "code resent successfully" });
       })
@@ -107,7 +111,7 @@ class SignUp extends Component {
   };
 
   render() {
-    const { username, email, password, otp, error, toBeConfirmed } = this.state;
+    const { nickname, email, password, otp, error, toBeConfirmed } = this.state;
     const { classes } = this.props;
 
     return (
@@ -123,8 +127,8 @@ class SignUp extends Component {
             />
           ) : (
             <RenderForm
-              username={username}
-              handleUsername={this.handleUsername}
+              nickname={nickname}
+              handleNickname={this.handleNickname}
               email={email}
               handleEmail={this.handleEmail}
               password={password}
@@ -140,7 +144,10 @@ class SignUp extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  updateUsername: username => dispatch(userActions.updateUsername(username)),
+  startSignupLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.SIGNUP)),
+  stopLoader: () => dispatch(loaderActions.stopAppLoader),
+  updateNickname: nickname => dispatch(userActions.updateNickname(nickname)),
+  updateEmail: email => dispatch(userActions.updateEmail(email)),
 });
 
 export default connect(

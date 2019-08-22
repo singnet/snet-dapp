@@ -9,7 +9,6 @@ export const useStyles = theme => ({
     alignItems: "center",
     justifyContent: 'center',
     "& span": {      
-      fontFamily: theme.typography.secondary.main,
       fontSize: 14.2,
       letterSpacing: 0.25,
       lineHeight: "20px"

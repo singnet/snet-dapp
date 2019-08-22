@@ -1,6 +1,6 @@
 import React from "react";
 
-import Logo from "./../../../../assets/images/Logo.png";
+import Logo from "./../../../../assets/images/WhiteLogo.svg";
 
 import { useStyles } from "./styles";
 
@@ -9,7 +9,7 @@ const FooterLogo = () => {
   return (
     <div className={classes.FooterLogo}>
       <h1>
-        <a href="#" title="SingularityNET">
+        <a href="/" title="SingularityNET">
           <img src={Logo} alt="SingularityNET" />
         </a>
       </h1>

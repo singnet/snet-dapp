@@ -8,10 +8,12 @@ import CardActions from "@material-ui/core/CardActions";
 import Typography from "@material-ui/core/Typography";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import IconButton from "@material-ui/core/IconButton";
+import Avatar from "@material-ui/core/Avatar";
 
 import OfflineIndicator from "../../../../../common/OfflineIndicator";
 import StyledButton from "../../../../../common/StyledButton";
 import RatingsCount from "../../../../../common/RatingsCount";
+import SingularityLogo from "../../../../../../assets/images/avatar.png";
 import { useStyles } from "./styles";
 
 const StyledCard = props => {
@@ -20,6 +22,7 @@ const StyledCard = props => {
     <Card className={classes.card}>
       <CardHeader
         className={classes.cardHeader}
+        avatar={<Avatar aria-label="recipe" className={classes.avatar} src={SingularityLogo} />}
         classes={{
           title: classes.cardTitle,
           subheader: classes.cardSubheader,

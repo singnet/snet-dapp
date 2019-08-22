@@ -13,7 +13,8 @@ import withInAppWrapper from "./components/HOC/WithInAppHeader";
 import { userActions } from "./Redux/actionCreators";
 import PrivateRoute from "./components/common/PrivateRoute";
 import AppLoader from "./components/common/AppLoader";
-import WalletReqdRoute from "./components/common/WalletReqdRoute";
+import { initSdk } from "./utility/sdk";
+import { CircularProgress } from "@material-ui/core";
 
 const ForgotPassword = lazy(() => import("./components/Login/ForgotPassword"));
 const ForgotPasswordSubmit = lazy(() => import("./components/Login/ForgotPasswordSubmit"));
@@ -24,6 +25,7 @@ const SignUp = lazy(() => import("./components/Login/Signup"));
 const Login = lazy(() => import("./components/Login"));
 const ServiceDetails = lazy(() => import("./components/ServiceDetails"));
 const UserProfile = lazy(() => import("./components/UserProfile"));
+const GetStarted = lazy(() => import("./components/GetStarted"));
 
 Amplify.configure(aws_config);
 
@@ -32,20 +34,20 @@ class App extends Component {
     this.props.fetchUserDetails();
   };
 
-  componentDidMount = () => {
-    this.props.fetchUserDetails();
+  componentDidUpdate = () => {
+    initSdk();
   };
 
   render() {
-    const { hamburgerMenu, isInitialized, isLoggedIn } = this.props;
+    const { hamburgerMenu, isInitialized, isLoggedIn, isTermsAccepted } = this.props;
     if (!isInitialized) {
-      return <h2>Loading</h2>;
+      return <CircularProgress />;
     }
     return (
       <ThemeProvider theme={theme}>
         <div className={hamburgerMenu ? "hide-overflow" : null}>
           <Router>
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<CircularProgress thickness={10} />}>
               <Switch>
                 <Route path={`/${Routes.SIGNUP}`} component={withRegistrationHeader(SignUp, headerData.SIGNUP)} />
                 <Route
@@ -70,24 +72,36 @@ class App extends Component {
                   {...this.props}
                   component={withRegistrationHeader(Onboarding, headerData.ONBOARDING)}
                 />
-                <WalletReqdRoute
+                <PrivateRoute
+                  isAllowed={isTermsAccepted}
+                  redirectTo={`/${Routes.ONBOARDING}`}
                   path={`/${Routes.AI_MARKETPLACE}`}
                   {...this.props}
                   component={withInAppWrapper(AiMarketplace)}
                 />
-                <WalletReqdRoute
-                  path={`/${Routes.SERVICE_DETAILS}/:service_row_id`}
+                <PrivateRoute
+                  isAllowed={isTermsAccepted}
+                  redirectTo={`/${Routes.ONBOARDING}`}
+                  path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId`}
                   {...this.props}
                   component={withInAppWrapper(ServiceDetails)}
                 />
-                <WalletReqdRoute
-                  loginReqd
-                  redirectTo={`/${Routes.LOGIN}`}
+                <PrivateRoute
+                  isAllowed={isLoggedIn && isTermsAccepted}
+                  redirectTo={isLoggedIn ? `/${Routes.ONBOARDING}` : `/${Routes.LOGIN}`}
                   path={`/${Routes.USER_PROFILE}`}
                   {...this.props}
                   component={withInAppWrapper(UserProfile)}
                 />
-                <WalletReqdRoute path="/" exact {...this.props} component={withInAppWrapper(AiMarketplace)} />
+                <PrivateRoute
+                  isAllowed={isTermsAccepted}
+                  redirectTo={`/${Routes.ONBOARDING}`}
+                  path="/"
+                  exact
+                  {...this.props}
+                  component={withInAppWrapper(AiMarketplace)}
+                />
+                <Route path={`/${Routes.GET_STARTED}`} component={withInAppWrapper(GetStarted)} />
                 <Route component={PageNotFound} />
               </Switch>
             </Suspense>
@@ -101,7 +115,8 @@ class App extends Component {
 
 const mapStateToProps = state => ({
   isLoggedIn: state.userReducer.login.isLoggedIn,
-  isWalletAssigned: state.userReducer.isWalletAssigned,
+  isTermsAccepted: state.userReducer.isTermsAccepted,
+  wallet: state.userReducer.wallet,
   isInitialized: state.userReducer.isInitialized,
   hamburgerMenu: state.stylesReducer.hamburgerMenu,
 });

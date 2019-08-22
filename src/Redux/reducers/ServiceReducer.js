@@ -4,14 +4,14 @@ import { defaultListingConfig, defaultActiveFilterItem } from "../../utility/con
 const InitialServiceList = {
   services: [],
   pagination: { ...defaultListingConfig },
-  serviceMethodExecution: {
-    response: {},
-    isComplete: false,
-  },
   filterData: {
     org_id: [],
   },
   activeFilterItem: { ...defaultActiveFilterItem },
+  serviceMethodExecution: {
+    response: {},
+    isComplete: false,
+  },
 };
 
 const serviceReducer = (state = InitialServiceList, action) => {
@@ -25,6 +25,10 @@ const serviceReducer = (state = InitialServiceList, action) => {
     case serviceActions.UPDATE_SERVICE_EXECUTION_RESPONSE: {
       return { ...state, serviceMethodExecution: { ...state.serviceMethodExecution, ...action.payload } };
     }
+    case serviceActions.RESET_SERVICE_EXECUTION: {
+      return { ...state, serviceMethodExecution: { ...InitialServiceList.serviceMethodExecution } };
+    }
+
     case serviceActions.UPDATE_SPEC_DETAILS: {
       return {
         ...state,
@@ -54,6 +58,15 @@ const serviceReducer = (state = InitialServiceList, action) => {
       return {
         ...state,
         activeFilterItem: { ...defaultActiveFilterItem },
+      };
+    }
+    case serviceActions.UPDATE_FEEDBACK: {
+      return {
+        ...state,
+        feedback: {
+          ...state.feedback,
+          ...action.payload,
+        },
       };
     }
     default: {
