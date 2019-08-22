@@ -9,6 +9,7 @@ import {
   generateFilterObject,
   filterTitles,
 } from "../../../../utility/constants/Pagination";
+import Reset from "./Reset";
 
 const Filter = ({ activeFilterItem, pagination, filterDataProps, handleFilterChange, resetFilter }) => {
   const classes = useStylesHook();
@@ -43,13 +44,16 @@ const Filter = ({ activeFilterItem, pagination, filterDataProps, handleFilterCha
     resetFilter({ pagination: latestPagination });
   };
 
+  const shouldResetBeEnabled = () => {
+    //Add a logic to disable the reset button
+    //return true if you want to show the RESET button
+  };
+
   return (
     <div className={classes.filterContainer}>
       <div className={classes.filterResetBtnContainer}>
         <h2 className={classes.h2}>Filters</h2>
-        <button className={classes.resetBtn} type="reset" value="Reset" onClick={handleFilterReset}>
-          Reset
-        </button>
+        <Reset disabled={!shouldResetBeEnabled()} resetBtn={classes.resetBtn} handleFilterReset={handleFilterReset} />
       </div>
       <StyledExpansionPanel
         expansionItems={Object.values(filterData)}
