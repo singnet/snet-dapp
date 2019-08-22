@@ -15,6 +15,7 @@ import PrivateRoute from "./components/common/PrivateRoute";
 import AppLoader from "./components/common/AppLoader";
 import { initSdk } from "./utility/sdk";
 import { CircularProgress } from "@material-ui/core";
+import NetworkChangeOverlay from "./components/common/NetworkChangeOverlay";
 
 const ForgotPassword = lazy(() => import("./components/Login/ForgotPassword"));
 const ForgotPasswordSubmit = lazy(() => import("./components/Login/ForgotPasswordSubmit"));
@@ -108,6 +109,7 @@ class App extends Component {
           </Router>
         </div>
         <AppLoader />
+        <NetworkChangeOverlay />
       </ThemeProvider>
     );
   }
