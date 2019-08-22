@@ -2,8 +2,8 @@ import { API } from "aws-amplify";
 
 import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { initializeAPIOptions } from "../../utility/API";
-import { fetchAuthenticatedUser, walletTypes } from "./UserActions";
-import { userActions, loaderActions } from ".";
+import { fetchAuthenticatedUser } from "./UserActions";
+import { loaderActions } from ".";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
 
 export const UPDATE_SERVICE_DETAILS = "UPDATE_SERVICE_DETAILS";

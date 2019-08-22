@@ -25,7 +25,7 @@ const serviceDetailsReducer = (state = InitialServiceDetails, action) => {
   }
 };
 
-export const freeCalls = (state) => {
+export const freeCalls = state => {
   return state.serviceDetailsReducer.freeCalls;
 };
 export const serviceDetails = (state, orgId, serviceId) => {
