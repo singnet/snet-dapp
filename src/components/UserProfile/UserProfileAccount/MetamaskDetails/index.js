@@ -37,8 +37,8 @@ class MetamaskDetails extends Component {
     this.setState({ escrowBalance: cogsToAgi(escrowBalance), tokenBalance: cogsToAgi(tokenBalance) });
   };
 
-  onTabChange = (...args) => {
-    this.setState({ activeTab: args[1] });
+  onTabChange = (event, value) => {
+    this.setState({ activeTab: value });
   };
 
   handleAmountChange = (event, txnType) => {
