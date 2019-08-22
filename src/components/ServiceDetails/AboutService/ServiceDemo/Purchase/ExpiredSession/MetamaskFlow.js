@@ -46,10 +46,14 @@ class MetamaskFlow extends Component {
   };
 
   initializePaymentChannel = async () => {
-    const { groupInfo } = this.props;
-    const sdk = await initSdk();
-    this.serviceClient = new ServiceClient(sdk, "snet", "example-service", sdk._mpeContract, {}, groupInfo);
-    this.paymentChannelManagement = new PaymentChannelManagement(sdk, this.serviceClient);
+    try {
+      const { groupInfo } = this.props;
+      const sdk = await initSdk();
+      this.serviceClient = new ServiceClient(sdk, "snet", "example-service", sdk._mpeContract, {}, groupInfo);
+      this.paymentChannelManagement = new PaymentChannelManagement(sdk, this.serviceClient);
+    } catch (error) {
+      this.props.handlePurchaseError(error);
+    }
   };
 
   PaymentInfoCardData = [

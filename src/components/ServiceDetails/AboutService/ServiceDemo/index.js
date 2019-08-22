@@ -68,6 +68,10 @@ class ServiceDemo extends Component {
     this.setState({ purchaseCompleted: true });
   };
 
+  handlePurchaseError = error => {
+    console.log("handlePurchaseError", error);
+  };
+
   render() {
     const {
       classes,
@@ -84,6 +88,7 @@ class ServiceDemo extends Component {
       serviceRequestStartHandler,
       serviceRequestCompleteHandler,
       serviceRequestErrorHandler,
+      handlePurchaseError,
     } = this;
 
     return (
@@ -93,7 +98,13 @@ class ServiceDemo extends Component {
         <PurchaseToggler
           groupInfo={groupInfo}
           purchaseCompleted={purchaseCompleted}
-          purchaseProps={{ handleComplete: this.handlePurchaseComplete, freeCallsRemaining, freeCallsAllowed, wallet }}
+          purchaseProps={{
+            handleComplete: this.handlePurchaseComplete,
+            freeCallsRemaining,
+            freeCallsAllowed,
+            wallet,
+            handlePurchaseError,
+          }}
           thirdPartyProps={{
             service_id: service.service_id,
             org_id: service.org_id,
