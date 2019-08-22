@@ -37,4 +37,16 @@ export const useStyles = makeStyles(theme => ({
     fontWeight: 600,
     letterSpacing: 0.25,
   },
+  NoResultContainer:{
+    height: 'calc(100vh - 699px)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    '& span':{
+      color: theme.palette.text.lightShadedGray,
+      fontSize: 16,
+      lineHeight: '20px'
+    },
+  }
 }));

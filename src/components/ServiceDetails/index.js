@@ -12,6 +12,7 @@ import InstallAndRunService from "./InstallAndRunService";
 import { useStyles } from "./styles";
 import { serviceDetailsActions } from "../../Redux/actionCreators";
 import { pricing, serviceDetails } from "../../Redux/reducers/ServiceDetailsReducer";
+import ErrorBox  from "../common/ErrorBox";
 import AlertBox, { alertTypes } from "../common/AlertBox";
 
 class ServiceDetails extends Component {
@@ -54,7 +55,7 @@ class ServiceDetails extends Component {
     if (isEmpty(service)) {
       return (
         <Grid container spacing={24} className={classes.serviceDetailContainer}>
-          <AlertBox type={alert.type} message={alert.message} />
+          <ErrorBox />
         </Grid>
       );
     }
