@@ -57,15 +57,7 @@ class ThirdPartyAIService extends Component {
       return null;
     }
 
-    const {
-      org_id,
-      service_id,
-      classes,
-      grpcResponse,
-      stopLoader,
-      isServiceExecutionComplete,
-      handleResetAndRun,
-    } = this.props;
+    const { org_id, service_id, classes, stopLoader, isServiceExecutionComplete, handleResetAndRun } = this.props;
     const { feedback } = this.state;
     const { serviceClient } = this;
     const AIServiceCustomComponent = thirdPartyCustomUIComponents.componentFor(org_id, service_id);
@@ -77,7 +69,6 @@ class ThirdPartyAIService extends Component {
             <AIServiceCustomComponent
               serviceClient={serviceClient}
               isComplete={isServiceExecutionComplete}
-              response={grpcResponse}
               sliderWidth={"550px"}
             />
           </ThirdPartyServiceErrorBoundary>
@@ -96,7 +87,7 @@ class ThirdPartyAIService extends Component {
 }
 
 const mapStateToProps = state => ({
-  grpcResponse: state.serviceReducer.serviceMethodExecution.response,
+  isComplete: state.serviceReducer.serviceMethodExecution.isComplete,
   email: state.userReducer.email,
   wallet: state.userReducer.wallet,
 });
