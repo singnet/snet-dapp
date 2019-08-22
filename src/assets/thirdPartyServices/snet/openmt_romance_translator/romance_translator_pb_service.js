@@ -1,7 +1,7 @@
 // package: 
 // file: ProtoFiles/romance_translator.proto
 
-var ProtoFiles_romance_translator_pb = require("../ProtoFiles/romance_translator_pb");
+var ProtoFiles_romance_translator_pb = require("./romance_translator_pb");
 var grpc = require("@improbable-eng/grpc-web").grpc;
 
 var RomanceTranslator = (function () {

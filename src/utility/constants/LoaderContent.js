@@ -29,7 +29,7 @@ export const LoaderContent = {
   },
   FETCH_METERING_DATA: {
     loaderHeader: "Fetching usage data",
-    loaderText: "Keep calm, we're checking your usage data",
+    loaderText: "Please wait,we're checking your usage data",
   },
   SERVICE_INVOKATION: {
     loaderHeader: "Invoking Third Party Service",
