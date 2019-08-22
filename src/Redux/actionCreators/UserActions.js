@@ -92,10 +92,7 @@ const noAuthenticatedUser = dispatch => {
 };
 
 const fetchUserDetailsSuccess = (isEmailVerified, email, nickname) => dispatch => {
-  const wallet = sessionStorage.getItem("wallet");
-  if (wallet) {
-    dispatch(updateWallet(JSON.parse(wallet)));
-  }
+  const wallet = JSON.parse(sessionStorage.getItem("wallet")) || {};
   dispatch({
     type: SET_USER_DETAILS,
     payload: {
@@ -104,6 +101,7 @@ const fetchUserDetailsSuccess = (isEmailVerified, email, nickname) => dispatch =
       isEmailVerified,
       email,
       nickname,
+      wallet,
     },
   });
   dispatch(loaderActions.stopAppLoader);

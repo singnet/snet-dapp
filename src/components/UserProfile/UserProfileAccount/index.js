@@ -63,7 +63,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  updateWallet: args => dispatch(userActions.updateWallet({ ...args })),
+  updateWallet: args => dispatch(userActions.updateWallet(args)),
 });
 
 export default connect(
