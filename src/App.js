@@ -18,7 +18,7 @@ import AppLoader from "./components/common/AppLoader";
 import { initSdk } from "./utility/sdk";
 import { CircularProgress } from "@material-ui/core";
 import NetworkChangeOverlay from "./components/common/NetworkChangeOverlay";
-import { walletTypes } from './Redux/actionCreators/UserActions';
+import { walletTypes } from "./Redux/actionCreators/UserActions";
 
 const ForgotPassword = lazy(() => import("./components/Login/ForgotPassword"));
 const ForgotPasswordSubmit = lazy(() => import("./components/Login/ForgotPasswordSubmit"));

@@ -12,7 +12,7 @@ export const useStyles = theme => ({
       margin: 0,
       color: theme.palette.text.darkShadedGray,
       fontSize: 20,
-      fontWeight: 400
+      fontWeight: 400,
     },
     "& .ProjectDetails-projectDetailsContainer-415": {
       "& h3": { marginBottom: 20 },
