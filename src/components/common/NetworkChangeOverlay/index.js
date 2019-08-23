@@ -17,8 +17,8 @@ class NetworkChangeOverlay extends Component {
   };
 
   componentDidMount() {
-    window.addEndListener("snetMMAccountChanged", this.handleMetaMaskChange);
-    window.addEndListener("snetMMNetworkChanged", this.handleMetaMaskChange);
+    window.addEventListener("snetMMAccountChanged", this.handleMetaMaskChange);
+    window.addEventListener("snetMMNetworkChanged", this.handleMetaMaskChange);
   }
 
   componentWillUnmount() {
@@ -38,12 +38,12 @@ class NetworkChangeOverlay extends Component {
     return (
       <Modal disableBackdropClick open={this.shouldOverlayBeOpened()}>
         <Card className={classes.card}>
-          <CardHeader title={<h4>Incorrect Metamask Channel</h4>} />
+          <CardHeader title={<h4>Incorrect Metamask Network</h4>} />
           <Divider />
           <CardContent>
             <AlertBox
               type="warning"
-              message="Kindly check the channel which you have set on Metamask. Please switch it to {{channelname}} to continue using the services."
+              message="Kindly check the channel which you have set on Metamask. Please switch it to Mainnet to continue using the services."
             />
           </CardContent>
         </Card>
