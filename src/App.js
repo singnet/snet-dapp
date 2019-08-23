@@ -1,6 +1,6 @@
 import React, { Component, lazy, Suspense } from "react";
 import Amplify from "aws-amplify";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Router, Switch, Route } from "react-router-dom";
 import { ThemeProvider } from "@material-ui/styles";
 import { connect } from "react-redux";
 import ReactGA from "react-ga";
