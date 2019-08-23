@@ -1,9 +1,11 @@
+import ArrowIndicator from "../../../../assets/images/GetStarted/ArrowMark.png";
+
 export const useStyles = theme => ({
   VerticalTabsContainer: {
     display: "flex",
     "& button": {
       maxWidth: "100%",
-      padding: "13px 25px",
+      padding: '0 0 0 25px',
       borderLeft: 1,
       borderLeftStyle: "solid",
       borderLeftColor: theme.palette.text.verticalTabLeftBorder,
@@ -19,6 +21,16 @@ export const useStyles = theme => ({
         borderLeftColor: theme.palette.text.primary,
         backgroundColor: theme.palette.text.white,
         fontWeight: 600,
+        // '&::after':{
+        //   width: 98,
+        //   height: 48,
+        //   display: 'inline-block',
+        //   content: '" "',
+        //   backgroundColor: theme.palette.text.offWhiteColor,
+        //   backgroundImage: `url(${ArrowIndicator})`,
+        //   backgroundRepeat: 'no-repeat',
+        //   backgroundPosition: 'right'
+        // }
       },
       "&:hover": {
         borderWidth: 1,
@@ -30,8 +42,8 @@ export const useStyles = theme => ({
       },
       "& span": {
         "&:first-of-type": { alignItems: "flex-start" },
-      },
-    },
+      }
+    }
   },
   TabsWrapper: {
     width: "100%",
