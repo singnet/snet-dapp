@@ -128,7 +128,7 @@ export const createServiceClient = (
     service_id,
     sdk && sdk._mpeContract,
     {},
-    groupInfo,
+    process.env.REACT_APP_SANDBOX ? {} : groupInfo,
     sdk && sdk._paymentChannelManagementStrategy,
     options
   );
