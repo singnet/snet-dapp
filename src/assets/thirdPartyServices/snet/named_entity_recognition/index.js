@@ -17,13 +17,13 @@ export default class NamedEntityRecognitionService extends React.Component {
   constructor(props) {
     super(props);
     this.submitAction = this.submitAction.bind(this);
-    this.handleServiceName = this.handleServiceName.bind(this);
+   // this.handleServiceName = this.handleServiceName.bind(this);
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
     this.handleChange = this.handleChange.bind(this);
 
     this.state = {
-      serviceName: undefined,
-      methodName: undefined,
+      serviceName: "ShowMessage",
+      methodName: "Show",
       message: undefined,
       response: undefined,
       isComplete : false,
@@ -42,71 +42,14 @@ export default class NamedEntityRecognitionService extends React.Component {
     this.serviceMethods = [];
     this.allServices = [];
     this.methodsForAllServices = [];
-    this.parseProps(props);
+    //this.parseProps(props);
    
   }
 
-  parseProps(nextProps) {
-    this.isComplete = nextProps.isComplete;
-    if (!this.isComplete) {
-      this.parseServiceSpec(nextProps.serviceSpec);
-    } else {
-      if (typeof nextProps.response !== "undefined") {
-        if (typeof nextProps.response === "string") {
-          this.setState({ response: nextProps.response });
-        } else {
-          this.setState({ response: nextProps.response.value });
-        }
-      }
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.isComplete !== nextProps.isComplete) {
-      this.parseProps(nextProps);
-    }
-  }
-
-  parseServiceSpec(serviceSpec) {
-    const packageName = Object.keys(serviceSpec.nested).find(
-      key => typeof serviceSpec.nested[key] === "object" && hasOwnDefinedProperty(serviceSpec.nested[key], "nested")
-    );
-
-    var objects = undefined;
-    var items = undefined;
-    if (typeof packageName !== "undefined") {
-      items = serviceSpec.lookup(packageName);
-      objects = Object.keys(items);
-    } else {
-      items = serviceSpec.nested;
-      objects = Object.keys(serviceSpec.nested);
-    }
-
-    this.methodsForAllServices = [];
-    objects.map(rr => {
-      if (typeof items[rr] === "object" && items[rr] !== null && items[rr].hasOwnProperty("methods")) {
-        this.allServices.push(rr);
-        this.methodsForAllServices.push(rr);
-        var methods = Object.keys(items[rr]["methods"]);
-        this.methodsForAllServices[rr] = methods;
-      }
-    });
-  }
 
   handleFormUpdate(event) {
     console.log(event.target);
     this.setState({ [event.target.name]: event.target.value });
-  }
-
-  handleServiceName(event) {
-    var strService = event.target.value;
-    this.setState({ serviceName: strService });
-    this.serviceMethods.length = 0;
-    var data = Object.values(this.methodsForAllServices[strService]);
-    if (typeof data !== "undefined") {
-      console.log("typeof data !== 'undefined'");
-      this.serviceMethods = data;
-    }
   }
 
   submitAction() {
@@ -116,13 +59,18 @@ export default class NamedEntityRecognitionService extends React.Component {
 
     request.setValue(message)
 
-
     const props = {
-        request,
-        onEnd: ({ message }) => {
-          this.setState({ isComplete: true, response: { value: message.getValue() } });
-        },
-      };
+      request,
+      onEnd: response => {
+        const { message, status, statusMessage } = response;
+        if (status !== 0) {
+          throw new Error(statusMessage);
+        }
+        this.setState({
+          response: { status: "success", value: message.getValue() },
+        });
+      },
+    };
 
     this.props.serviceClient.unary(methodDescriptor, props);
   }
@@ -184,46 +132,6 @@ export default class NamedEntityRecognitionService extends React.Component {
       <React.Fragment>
         <Grid item xs={12}>
           <br />
-          <br />
-          <FormControl style={{ minWidth: "100%" }}>
-            <Select
-              value={this.state.serviceName}
-              onChange={this.handleServiceName}
-              displayEmpty
-              name="serviceName"
-              style={this.state.styles.defaultFontSize}
-            >
-              <MenuItem style={this.state.styles.defaultFontSize} value={undefined}>
-                <em>Select a Service</em>
-              </MenuItem>
-              {this.allServices.map(item => (
-                <MenuItem style={this.state.styles.defaultFontSize} value={item} key={item}>
-                  {item}
-                </MenuItem>
-              ))}
-              ;
-            </Select>
-          </FormControl>
-          <br />
-          <FormControl style={{ minWidth: "100%" }}>
-            <Select
-              value={this.state.methodName}
-              onChange={this.handleFormUpdate}
-              displayEmpty
-              name="methodName"
-              style={this.state.styles.defaultFontSize}
-            >
-              <MenuItem style={this.state.styles.defaultFontSize} value={undefined}>
-                <em>Select a Method</em>
-              </MenuItem>
-              {this.serviceMethods.map(item => (
-                <MenuItem style={this.state.styles.defaultFontSize} value={item}>
-                  {item}
-                </MenuItem>
-              ))}
-              ;
-            </Select>
-          </FormControl>
           <br />
           <TextField
             id="standard-multiline-static"
