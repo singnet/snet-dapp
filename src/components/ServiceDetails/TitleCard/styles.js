@@ -43,7 +43,7 @@ export const useStyles = theme => ({
     display: "flex",
     alignItems: "center",
     "& span": {
-      color: theme.palette.text.primary,
+      color: theme.palette.text.lightShadedGray,
       fontSize: 14,
       textTransform: "uppercase",
     },

@@ -68,12 +68,12 @@ const generateOptions = (callType, wallet) => {
       disableBlockchainOperations: true,
     };
   }
-
+  if (callType === callTypes.FREE) {
+    return { metadataGenerator: metadataGenerator(callType) };
+  }
   if (wallet && wallet.type === walletTypes.METAMASK) {
     return {};
   }
-
-  return { metadataGenerator: metadataGenerator(callType) };
 };
 
 export const initSdk = async () => {

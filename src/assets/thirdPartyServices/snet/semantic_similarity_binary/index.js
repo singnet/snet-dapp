@@ -2,6 +2,14 @@ import React from "react";
 import { hasOwnDefinedProperty } from "../../../../utility/JSHelper";
 import Button from "@material-ui/core/Button";
 
+import {SSBERT} from "./ss_bert_pb_service"
+
+
+const initialUserInput = {
+  a: "",
+  b: "",
+};
+
 export default class BinarySemanticSimilarity extends React.Component {
   constructor(props) {
     super(props);
@@ -9,70 +17,17 @@ export default class BinarySemanticSimilarity extends React.Component {
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
 
     this.users_guide = "https://github.com/iktina/semantic-similarity-binary-service";
-    this.serviceName = "SSBERT";
-    this.methodName = "ss_bert";
 
     this.state = {
+      serviceName: "SSBERT",
+      methodName: "ss_bert",
       response: undefined,
-      a: "",
-      b: "",
     };
 
     this.isComplete = false;
     this.serviceMethods = [];
     this.allServices = [];
     this.methodsForAllServices = [];
-    this.parseProps(props);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.isComplete !== nextProps.isComplete) {
-      this.parseProps(nextProps);
-    }
-  }
-
-  parseProps(nextProps) {
-    this.isComplete = nextProps.isComplete;
-    if (!this.isComplete) {
-      this.parseServiceSpec(nextProps.serviceSpec);
-    } else {
-      if (typeof nextProps.response !== "undefined") {
-        if (typeof nextProps.response === "string") {
-          this.state.response = nextProps.response;
-        } else {
-          this.state.response = nextProps.response.answer;
-        }
-      }
-    }
-  }
-
-  parseServiceSpec(serviceSpec) {
-    const packageName = Object.keys(serviceSpec.nested).find(
-      key => typeof serviceSpec.nested[key] === "object" && hasOwnDefinedProperty(serviceSpec.nested[key], "nested")
-    );
-
-    var objects = undefined;
-    var items = undefined;
-    if (typeof packageName !== "undefined") {
-      items = serviceSpec.lookup(packageName);
-      objects = Object.keys(items);
-    } else {
-      items = serviceSpec.nested;
-      objects = Object.keys(serviceSpec.nested);
-    }
-
-    this.allServices.push("Select a service");
-    this.methodsForAllServices = [];
-    objects.map(rr => {
-      if (typeof items[rr] === "object" && items[rr] !== null && items[rr].hasOwnProperty("methods")) {
-        this.allServices.push(rr);
-        this.methodsForAllServices.push(rr);
-
-        var methods = Object.keys(items[rr]["methods"]);
-        methods.unshift("Select a method");
-        this.methodsForAllServices[rr] = methods;
-      }
-    });
   }
 
   handleFormUpdate(event) {
@@ -86,14 +41,33 @@ export default class BinarySemanticSimilarity extends React.Component {
   }
 
   submitAction() {
+
     var btn = document.getElementById("invoke-button");
     btn.disabled = true;
     btn.innerHTML = "Wait...";
 
-    this.props.callApiCallback(this.serviceName, this.methodName, {
-      a: this.state.a,
-      b: this.state.b,
-    });
+    const { methodName, a, b } = this.state;
+    const methodDescriptor = SSBERT[methodName];
+    const request = new methodDescriptor.requestType();
+
+    request.setA(a);
+    request.setB(b);
+
+    const props = {
+      request,
+      onEnd: response => {
+        const { message, status, statusMessage } = response;
+        if (status !== 0) {
+          throw new Error(statusMessage);
+        }
+        this.setState({
+          ...initialUserInput,
+          response: { status: "success", answer: message.getAnswer() },
+        });
+      },
+    };
+
+    this.props.serviceClient.unary(methodDescriptor, props);
   }
 
   renderForm() {
@@ -161,14 +135,14 @@ export default class BinarySemanticSimilarity extends React.Component {
     return (
       <div>
         <p style={{ fontSize: "13px" }}>
-          Response from service is <b>This sentences is {this.state.response === "1" ? "similar" : "distinct"}</b>{" "}
+          Response from service is <b>This sentences is {this.state.response.answer === "1" ? "similar" : "distinct"}</b>{" "}
         </p>
       </div>
     );
   }
 
   render() {
-    if (this.isComplete) return <div>{this.renderComplete()}</div>;
+    if (this.props.isComplete) return <div>{this.renderComplete()}</div>;
     else {
       return <div>{this.renderForm()}</div>;
     }

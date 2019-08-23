@@ -76,7 +76,8 @@ export default class EmotionVisualizer extends React.Component {
     cnvs.height = img.naturalHeight * scale;
 
     let context = cnvs.getContext("2d");
-    this.props.jobResult["faces"].forEach(item => {
+    //this.props.jobResult["faces"].forEach(item => {
+    this.props.jobResult.faces.forEach(item => {
       context.beginPath();
       context.rect(
         item.bounding_box["x"] * scale,
