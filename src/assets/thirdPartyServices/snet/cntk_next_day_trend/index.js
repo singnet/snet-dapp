@@ -208,13 +208,16 @@ export default class CNTKNextDayTrend extends React.Component {
       status = this.state.response + "\n";
     }
     return (
-      <div>
-        <p style={{ fontSize: "13px" }}>Response from service is: </p>
-        <pre>
-          Status: {status}
-          Trend : {trend}
-        </pre>
-      </div>
+        
+      <div style={{background:"#F8F8F8", padding: "24px"}}>
+        <h4> Results</h4>
+        <div style={{ padding: "10px 10px 0 10px", fontSize: "14px", color:"#9b9b9b" }}>
+          <div style={{ padding: "10px 0",borderBottom: "1px solid #eee" }}>Status: <span style={{color:"#212121"}}>{status}</span></div>
+          <div style={{ padding: "10px 0" }}>Trend: <span style={{color:"#212121"}}>{trend}</span></div>       
+        </div>
+      </div>        
+        
+        
     );
   }
 

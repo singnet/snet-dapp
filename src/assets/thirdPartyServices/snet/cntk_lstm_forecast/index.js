@@ -275,7 +275,6 @@ export default class CNTKLSTMForecast extends React.Component {
       status = this.state.response + "\n";
     }
     return (
-
         
       <div style={{background:"#F8F8F8", padding: "24px"}}>
         <h4> Results</h4>
@@ -285,8 +284,7 @@ export default class CNTKLSTMForecast extends React.Component {
           <div style={{ padding: "10px 0",borderBottom: "1px solid #eee" }}>Forecast Letter (SAX) : <span style={{color:"#212121"}}>{forecast_sax_letter}</span></div>
           <div style={{ padding: "10px 0",borderBottom: "1px solid #eee" }}>Position in Interval (SAX) : <span style={{color:"#212121"}}>{position_in_sax_interval}</span></div>         
         </div>
-      </div>
-        
+      </div>        
         
     );
   }
