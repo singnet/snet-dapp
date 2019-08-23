@@ -1,6 +1,11 @@
 import React from "react";
 import DatasetUpload from "../analysis-helpers/DatasetUploaderHelper";
 import ReactJson from "react-json-view";
+import MethodNamesDropDown from "../../common/MethodNamesDropDown";
+
+import {NetworkAnalyticsBipartite} from "./network_analytics_bipartite_pb_service"
+import {BipartiteNodes,Edge, BipartiteGraph} from "./network_analytics_bipartite_pb"
+
 
 const InputView = { File: "File Upload", Text: "Textual Input" };
 const SampleInputBipartiteGraph = {
@@ -74,7 +79,7 @@ export default class NetworkAnalysisBipartite extends React.Component {
   getInitialState() {
     return {
       serviceName: "NetworkAnalyticsBipartite",
-      methodName: "Select a method",
+      methodName: "BipartiteGraph",
       datasetFile: null,
       dataset: null,
       enteredJSON: null,
@@ -86,6 +91,8 @@ export default class NetworkAnalysisBipartite extends React.Component {
       fileAccept: ".json",
       internal_error: "",
       inputFormType: InputView.Text,
+      isComplete :false,
+
     };
   }
 
@@ -159,24 +166,100 @@ export default class NetworkAnalysisBipartite extends React.Component {
 
   submitAction() {
     if (this.state.methodName === "BipartiteGraph") {
-      this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
-        nodes: this.state.dataset["nodes"],
-        edges: this.state.dataset["edges"],
-      });
+
+
+      const { methodName, dataset } = this.state;
+      const methodDescriptor = NetworkAnalyticsBipartite[methodName];
+      const request = new methodDescriptor.requestType();
+
+      let nodes = new BipartiteNodes()
+      nodes.setBipartite0List(dataset['nodes']['bipartite_0'])
+      nodes.setBipartite1List(dataset['nodes']['bipartite_1'])
+
+      var edges=[]
+      for (let i=0;i<dataset['edges'].length;i++){
+        let e = new Edge()
+        e.setEdgeList(dataset['edges'][i]["edge"])
+        edges.push(e)
+      }
+
+      request.setNodes(nodes)
+      request.setEdgesList(edges)
+     
+  
+      const props = {
+        request,
+        onEnd: response => {
+          const { message, status, statusMessage } = response;
+          if (status !== 0) {
+            throw new Error(statusMessage);
+          }
+          this.setState({
+            response: { status: "success", message: message.getMessage(), output: message.getOutput() },
+          });
+        },
+      };
+  
+      this.props.serviceClient.unary(methodDescriptor, props);
+
+
     }
     if (this.state.methodName === "ProjectedGraph") {
-      this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
-        graph: this.state.dataset["graph"],
-        nodes: this.state.dataset["nodes"],
-        weight: this.state.dataset["weight"],
-      });
+     
+      
+      const { methodName, dataset } = this.state;
+      const methodDescriptor = NetworkAnalyticsBipartite[methodName];
+      const request = new methodDescriptor.requestType();
+
+
+      let graph =new BipartiteGraph();
+      let edges=[]
+      for (let i=0;i<dataset['graph']['edges'].length;i++){
+        let e = new Edge()
+        e.setEdgeList(dataset['graph']['edges'][i]["edge"])
+        edges.push(e)
+      }
+
+      graph.setBipartite1List(dataset['graph']['bipartite_1'])
+      graph.setBipartite0List(dataset['graph']['bipartite_0'])
+      
+
+
+      graph.setEdgesList(edges)
+      graph.setWeightsList(dataset['graph']['weights'])
+
+
+      request.setGraph(graph)
+      request.setNodesList(dataset['nodes'])
+      request.setWeight(dataset['weight'])
+
+
+
+      const props = {
+        request,
+        onEnd: response => {
+          const { message, status, statusMessage } = response;
+          if (status !== 0) {
+            throw new Error(statusMessage);
+          }
+          this.setState({
+            response: { status: "success", message: message.getMessage(), output: message.getOutput() },
+          });
+        },
+      };
+  
+      this.props.serviceClient.unary(methodDescriptor, props);
+
+
+
+
     }
   }
 
   download() {
     const link = document.createElement("a");
     link.setAttribute("type", "hidden");
-    link.setAttribute("href", "data:text/json," + JSON.stringify(this.props.response));
+    link.setAttribute("href", "data:text/json," + JSON.stringify(this.state.response));
     link.setAttribute("download", "result.json");
     document.body.appendChild(link);
     link.click();
@@ -248,9 +331,7 @@ export default class NetworkAnalysisBipartite extends React.Component {
   }
 
   renderForm() {
-    const service = this.props.protoSpec.findServiceByName(this.state.serviceName);
-    const serviceMethodNames = service.methodNames;
-
+    const serviceNameOptions = ["Select a method", ...this.props.serviceClient.getMethodNames(NetworkAnalyticsBipartite)];
     return (
       <React.Fragment>
         <div className="row">
@@ -258,14 +339,11 @@ export default class NetworkAnalysisBipartite extends React.Component {
             Method Name:
           </div>
           <div className="col-md-3 col-lg-3">
-            <select
-              name="methodName"
+          <MethodNamesDropDown
+              list={serviceNameOptions}
               value={this.state.methodName}
-              style={{ height: "30px", width: "250px", fontSize: "13px", marginBottom: "5px" }}
               onChange={this.handleFormUpdate}
-            >
-              {this.renderServiceMethodNames(serviceMethodNames)}
-            </select>
+            />
           </div>
         </div>
         <div className="row">
@@ -346,10 +424,9 @@ export default class NetworkAnalysisBipartite extends React.Component {
   }
 
   renderComplete() {
-    const response = [this.props.response];
     return (
       <React.Fragment>
-        <ReactJson src={this.props.response} theme="apathy:inverted" />
+        <ReactJson src={this.state.response} theme="apathy:inverted" />
         <div className="row" align="center">
           <button type="button" className="btn btn-primary" onClick={this.download}>
             Download Results JSON file
