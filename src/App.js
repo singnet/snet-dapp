@@ -30,7 +30,15 @@ const UserProfile = lazy(() => import("./components/UserProfile"));
 const GetStarted = lazy(() => import("./components/GetStarted"));
 
 Amplify.configure(aws_config);
+
 ReactGA.initialize(process.env.REACT_APP_GA_TRACKING_ID);
+
+const history = createBrowserHistory();
+history.listen(location => {
+  ReactGA.set({ page: location.pathname });
+  ReactGA.pageview(location.pathname);
+});
+
 class App extends Component {
   componentDidMount = () => {
     this.props.fetchUserDetails();
@@ -48,7 +56,7 @@ class App extends Component {
     return (
       <ThemeProvider theme={theme}>
         <div className={hamburgerMenu ? "hide-overflow" : null}>
-          <Router>
+          <Router history={history}>
             <Suspense fallback={<CircularProgress thickness={10} />}>
               <Switch>
                 <Route path={`/${Routes.SIGNUP}`} component={withRegistrationHeader(SignUp, headerData.SIGNUP)} />
