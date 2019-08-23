@@ -33,7 +33,7 @@ class NetworkChangeOverlay extends Component {
     }
     const { address: currentAddress } = wallet;
     const { detail: { address } } = event;
-    const sameAddress = address === currentAddress;
+    const sameAddress = address.toLowerCase() === currentAddress.toLowerCase();
     this.setState({ invalidMetaMaskDetails: !sameAddress });
   };
 
