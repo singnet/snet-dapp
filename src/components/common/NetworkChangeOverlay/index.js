@@ -42,7 +42,7 @@ class NetworkChangeOverlay extends Component {
     if(wallet.type !== walletTypes.METAMASK) {
       return;
     }
-    const sameNetwork = network === process.env.REACT_APP_NETWORK;
+    const sameNetwork = network === process.env.REACT_APP_ETH_NETWORK;
     this.setState({ invalidMetaMaskDetails: !sameNetwork });
   };
 
