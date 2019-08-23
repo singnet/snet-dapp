@@ -107,7 +107,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  forgotPasswordSubmit: args => dispatch(userActions.forgotPasswordSubmit({ ...args })),
+  forgotPasswordSubmit: args => dispatch(userActions.forgotPasswordSubmit(args)),
   updateError: error => dispatch(errorActions.updateForgotPasswordSubmitError(error)),
 });
 
