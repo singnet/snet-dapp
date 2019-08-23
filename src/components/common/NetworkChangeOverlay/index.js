@@ -9,34 +9,49 @@ import { withStyles } from "@material-ui/styles";
 
 import AlertBox from "../AlertBox";
 import { useStyles } from "./styles";
-import { freeCalls } from "../../../Redux/reducers/ServiceDetailsReducer";
+import { walletTypes } from "../../../Redux/actionCreators/UserActions";
 
 class NetworkChangeOverlay extends Component {
   state = {
-    show: false,
+    invalidMetaMaskDetails: false,
   };
 
   componentDidMount() {
-    window.addEventListener("snetMMAccountChanged", this.handleMetaMaskChange);
-    window.addEventListener("snetMMNetworkChanged", this.handleMetaMaskChange);
+    window.addEventListener("snetMMAccountChanged", this.handleMetaMaskAccountChange);
+    window.addEventListener("snetMMNetworkChanged", this.handleMetaMaskNetworkChange);
   }
 
   componentWillUnmount() {
-    window.removeEventListener("snetMMAccountChanged", this.handleMetaMaskChange);
-    window.removeEventListener("snetMMNetworkChanged", this.handleMetaMaskChange);
+    document.removeEventListener("snetMMAccountChanged", this.handleMetaMaskAccountChange);
+    document.removeEventListener("snetMMNetworkChanged", this.handleMetaMaskNetworkChange);
   }
 
-  shouldOverlayBeOpened = async () => {
-    // return true;
-    // //update hte network with actuall metamask network
-    // const network = await new Promise.resolve();
-    // return freeCallsRemaining <= 0 && network !== networks.MAINNET;
+  handleMetaMaskAccountChange = event => {
+    const { wallet } = this.props;
+    if (wallet.type !== walletTypes.METAMASK) {
+      return;
+    }
+    const { address: currentAddress } = wallet;
+    const {
+      detail: { address },
+    } = event;
+    const sameAddress = address === currentAddress;
+    this.setState({ invalidMetaMaskDetails: !sameAddress });
+  };
+
+  handleMetaMaskNetworkChange = ({ detail: { network } }) => {
+    const { wallet } = this.props;
+    if (wallet.type !== walletTypes.METAMASK) {
+      return;
+    }
+    const sameNetwork = network === process.env.REACT_APP_NETWORK;
+    this.setState({ invalidMetaMaskDetails: !sameNetwork });
   };
 
   render() {
     const { classes } = this.props;
     return (
-      <Modal disableBackdropClick open={this.shouldOverlayBeOpened()}>
+      <Modal disableBackdropClick open={this.state.invalidMetaMaskDetails}>
         <Card className={classes.card}>
           <CardHeader title={<h4>Incorrect Metamask Network</h4>} />
           <Divider />
@@ -53,7 +68,7 @@ class NetworkChangeOverlay extends Component {
 }
 
 const mapStateToProps = state => ({
-  freeCallsRemaining: freeCalls(state).remaining,
+  wallet: state.userReducer.wallet,
 });
 
 export default connect(mapStateToProps)(withStyles(useStyles)(NetworkChangeOverlay));
