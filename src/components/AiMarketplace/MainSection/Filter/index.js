@@ -67,8 +67,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  handleFilterChange: args => dispatch(serviceActions.handleFilterChange({ ...args })),
-  resetFilter: args => dispatch(serviceActions.resetFilter({ ...args })),
+  handleFilterChange: args => dispatch(serviceActions.handleFilterChange(args)),
+  resetFilter: args => dispatch(serviceActions.resetFilter(args)),
 });
 
 export default connect(

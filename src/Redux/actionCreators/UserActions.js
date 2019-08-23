@@ -20,7 +20,7 @@ export const APP_INITIALIZATION_SUCCESS = "APP_INITIALIZATION_SUCCESS";
 export const UPDATE_IS_TERMS_ACCEPTED = "UPDATE_IS_TERMS_ACCEPTED";
 
 export const walletTypes = {
-  SNET: "SNET",
+  // SNET: "SNET",
   METAMASK: "METAMASK",
 };
 
@@ -59,11 +59,11 @@ const updateIsTermsAccepted = isTermsAccepted => dispatch => {
   dispatch({ type: UPDATE_IS_TERMS_ACCEPTED, payload: isTermsAccepted });
 };
 
-export const fetchUserProfile = token => dispatch => {
+const fetchUserProfile = token => dispatch => {
   const apiName = APIEndpoints.USER.name;
   const path = APIPaths.GET_USER_PROFILE;
   const apiOptions = initializeAPIOptions(token);
-  API.get(apiName, path, apiOptions).then(res => {
+  return API.get(apiName, path, apiOptions).then(res => {
     if (res.data.data.length === 0) {
       dispatch(registerInMarketplace(token));
       return;
@@ -92,6 +92,7 @@ const noAuthenticatedUser = dispatch => {
 };
 
 const fetchUserDetailsSuccess = (isEmailVerified, email, nickname) => dispatch => {
+  const wallet = JSON.parse(sessionStorage.getItem("wallet")) || {};
   dispatch({
     type: SET_USER_DETAILS,
     payload: {
@@ -100,6 +101,7 @@ const fetchUserDetailsSuccess = (isEmailVerified, email, nickname) => dispatch =
       isEmailVerified,
       email,
       nickname,
+      wallet,
     },
   });
   dispatch(loaderActions.stopAppLoader);
@@ -117,7 +119,7 @@ export const fetchUserDetails = async dispatch => {
   dispatch(loaderActions.startAppLoader(LoaderContent.APP_INIT));
   try {
     const { nickname, token, email, email_verified } = await fetchAuthenticatedUser();
-    dispatch(fetchUserProfile(token));
+    await dispatch(fetchUserProfile(token));
     if (email === null || email === undefined) {
       //Username review - test for no authernticated user
       dispatch(noAuthenticatedUser);
@@ -162,7 +164,7 @@ export const updateUserProfile = updatedUserData => async dispatch => {
   }
 };
 
-export const loginSuccess = ({ res, history, route }) => dispatch => {
+export const loginSuccess = ({ res, history, route }) => async dispatch => {
   const userDetails = {
     type: userActions.LOGIN_SUCCESS,
     payload: {
@@ -174,6 +176,7 @@ export const loginSuccess = ({ res, history, route }) => dispatch => {
   };
   dispatch(userDetails);
   history.push(route);
+  await dispatch(fetchUserProfile(res.signInUserSession.idToken.jwtToken));
   dispatch(loaderActions.stopAppLoader);
 };
 

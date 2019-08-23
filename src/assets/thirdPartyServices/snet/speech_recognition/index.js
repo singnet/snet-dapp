@@ -2,75 +2,31 @@ import React from "react";
 import { hasOwnDefinedProperty } from "../../../../utility/JSHelper";
 import Button from "@material-ui/core/Button";
 
+import {ASR} from "./asr_pb_service"
+
+const initialUserInput = {
+  data: new ArrayBuffer(),
+};
+
 export default class AutomaticSpeechRecognition extends React.Component {
   constructor(props) {
     super(props);
     this.submitAction = this.submitAction.bind(this);
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
     this.users_guide = "https://github.com/iktina/speech-recognition-service";
-    this.serviceName = "ASR";
-    this.methodName = "s2t";
 
     this.state = {
+      ...initialUserInput,
+      serviceName: "ASR",
+      methodName: "s2t",
       response: undefined,
-      data: new ArrayBuffer(),
+      
     };
 
     this.isComplete = false;
     this.serviceMethods = [];
     this.allServices = [];
     this.methodsForAllServices = [];
-    this.parseProps(props);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.isComplete !== nextProps.isComplete) {
-      this.parseProps(nextProps);
-    }
-  }
-
-  parseProps(nextProps) {
-    this.isComplete = nextProps.isComplete;
-    if (!this.isComplete) {
-      this.parseServiceSpec(nextProps.serviceSpec);
-    } else {
-      if (typeof nextProps.response !== "undefined") {
-        if (typeof nextProps.response === "string") {
-          this.state.response = nextProps.response;
-        } else {
-          this.state.response = nextProps.response.text;
-        }
-      }
-    }
-  }
-
-  parseServiceSpec(serviceSpec) {
-    const packageName = Object.keys(serviceSpec.nested).find(
-      key => typeof serviceSpec.nested[key] === "object" && hasOwnDefinedProperty(serviceSpec.nested[key], "nested")
-    );
-
-    var objects = undefined;
-    var items = undefined;
-    if (typeof packageName !== "undefined") {
-      items = serviceSpec.lookup(packageName);
-      objects = Object.keys(items);
-    } else {
-      items = serviceSpec.nested;
-      objects = Object.keys(serviceSpec.nested);
-    }
-
-    this.allServices.push("Select a service");
-    this.methodsForAllServices = [];
-    objects.map(rr => {
-      if (typeof items[rr] === "object" && items[rr] !== null && items[rr].hasOwnProperty("methods")) {
-        this.allServices.push(rr);
-        this.methodsForAllServices.push(rr);
-
-        var methods = Object.keys(items[rr]["methods"]);
-        methods.unshift("Select a method");
-        this.methodsForAllServices[rr] = methods;
-      }
-    });
   }
 
   handleFormUpdate(event) {
@@ -119,14 +75,29 @@ export default class AutomaticSpeechRecognition extends React.Component {
   }
 
   submitAction() {
-    var btn = document.getElementById("invoke-button");
-    btn.disabled = true;
-    btn.innerHTML = "Wait...";
+    const { methodName, data } = this.state;
+    const methodDescriptor = ASR[methodName];
+    const request = new methodDescriptor.requestType();
 
-    this.props.callApiCallback(this.serviceName, this.methodName, {
-      data: this.state.data,
-    });
+    request.setData(data);
+
+    const props = {
+      request,
+      onEnd: response => {
+        const { message, status, statusMessage } = response;
+        if (status !== 0) {
+          throw new Error(statusMessage);
+        }
+        this.setState({
+          ...initialUserInput,
+          response: { status: "success", text: message.getText() },
+        });
+      },
+    };
+
+    this.props.serviceClient.unary(methodDescriptor, props);
   }
+
 
   renderForm() {
     return (
@@ -182,14 +153,14 @@ export default class AutomaticSpeechRecognition extends React.Component {
     return (
       <div>
         <p style={{ fontSize: "13px" }}>
-          Response from service is <b>{this.state.response}</b>{" "}
+          Response from service is <b>{this.state.response.text}</b>{" "}
         </p>
       </div>
     );
   }
 
   render() {
-    if (this.isComplete) return <div>{this.renderComplete()}</div>;
+    if (this.props.isComplete) return <div>{this.renderComplete()}</div>;
     else {
       return <div>{this.renderForm()}</div>;
     }

@@ -168,7 +168,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   deleteUserAccount: ({ history, route }) => dispatch(userActions.deleteUserAccount({ history, route })),
-  fetchUserProfile: () => dispatch(userActions.fetchUserProfile()),
   updateUserProfile: updatedUserData => dispatch(userActions.updateUserProfile(updatedUserData)),
   stopLoader: () => dispatch(loaderActions.stopAppLoader),
 });
