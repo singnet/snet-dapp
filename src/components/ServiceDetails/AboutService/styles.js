@@ -1,7 +1,9 @@
 export const useStyles = theme => ({
   aboutContainer: {
-    paddingBottom: 100,
-    marginTop: 15,
+    padding: '15px 0 100px',
+    borderTopWidth: 1,
+    borderTopStyle: "solid",
+    borderTopColor: theme.palette.text.verticalTabLeftBorder,
     "& h3": {
       padding: "11px 22px",
       borderBottomWidth: 1,
