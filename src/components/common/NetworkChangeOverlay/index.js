@@ -12,9 +12,12 @@ import { useStyles } from "./styles";
 import { walletTypes } from '../../../Redux/actionCreators/UserActions';
 
 class NetworkChangeOverlay extends Component {
-  state = {
-    invalidMetaMaskDetails: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      invalidMetaMaskDetails: this.showMetaMaskConfigMismatchOverlay(),
+    }
+  }
 
   componentDidMount() {
     window.addEventListener('snetMMAccountChanged', this.handleMetaMaskAccountChange);
@@ -24,6 +27,26 @@ class NetworkChangeOverlay extends Component {
   componentWillUnmount() {
     document.removeEventListener('snetMMAccountChanged', this.handleMetaMaskAccountChange);
     document.removeEventListener('snetMMNetworkChanged', this.handleMetaMaskNetworkChange);
+  }
+
+  showMetaMaskConfigMismatchOverlay() {
+    const { wallet } = this.props;
+    if(wallet && wallet.type !== walletTypes.METAMASK) {
+      return false;
+    }
+
+    const web3Provider = window.ethereum;
+    if (!web3Provider) {
+      return false;
+    }
+
+    const sameNetwork = web3Provider.networkVersion === process.env.REACT_APP_ETH_NETWORK;
+    if (!sameNetwork) {
+      return true;
+    }
+
+    const sameAddress = web3Provider.selectedAddress.toLowerCase() === wallet.address.toLowerCase();
+    return !sameAddress;
   }
 
   handleMetaMaskAccountChange = (event) => {
