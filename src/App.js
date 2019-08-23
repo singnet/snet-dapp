@@ -3,6 +3,8 @@ import Amplify from "aws-amplify";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { ThemeProvider } from "@material-ui/styles";
 import { connect } from "react-redux";
+import ReactGA from "react-ga";
+import { createBrowserHistory } from "history";
 
 import Routes from "./utility/constants/Routes";
 import { aws_config } from "./config/aws_config";
