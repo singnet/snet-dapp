@@ -4,93 +4,40 @@ import Button from "@material-ui/core/Button";
 import Slider from "@material-ui/lab/Slider";
 
 import SNETImageUpload from "../../standardComponents/SNETImageUpload";
+import { Detect } from "./object_detection_pb_service";
+
+
+const initialUserInput = {
+  img_path: undefined,
+  confidence: 0.7,
+};
 
 export default class YOLOv3ObjectDetection extends React.Component {
   constructor(props) {
     super(props);
     this.submitAction = this.submitAction.bind(this);
-    this.handleServiceName = this.handleServiceName.bind(this);
+
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
     this.getImageURL = this.getImageURL.bind(this);
-    this.getServiceMethods = this.getServiceMethods.bind(this);
     this.handleSliderChange = this.handleSliderChange.bind(this);
 
     this.state = {
-      users_guide:
-        "https://github.com/singnet/dnn-model-services/blob/master/docs/users_guide/yolov3-object-detection.md",
+      ...initialUserInput,
+      users_guide: "https://github.com/singnet/dnn-model-services/blob/master/docs/users_guide/yolov3-object-detection.md",
       code_repo: "https://github.com/singnet/dnn-model-services/blob/master/Services/gRPC/yolov3-object-detection",
       reference: "https://pjreddie.com/darknet/yolo/",
-
       serviceName: "Detect",
       methodName: "detect",
-
       model: "yolov3",
-      img_path: "",
-      confidence: 0.5,
-
       response: undefined,
     };
+
 
     this.isComplete = false;
     this.serviceMethods = [];
     this.allServices = [];
     this.methodsForAllServices = [];
-    this.parseProps(props);
-  }
-
-  parseProps(nextProps) {
-    this.isComplete = nextProps.isComplete;
-    if (!this.isComplete) {
-      this.parseServiceSpec(nextProps.serviceSpec);
-    } else {
-      console.log(nextProps.response);
-      if (typeof nextProps.response !== "undefined") {
-        this.state.response = nextProps.response;
-      }
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.isComplete !== nextProps.isComplete) {
-      this.parseProps(nextProps);
-    }
-  }
-
-  parseServiceSpec(serviceSpec) {
-    const packageName = Object.keys(serviceSpec.nested).find(
-      key => typeof serviceSpec.nested[key] === "object" && hasOwnDefinedProperty(serviceSpec.nested[key], "nested")
-    );
-
-    var objects = undefined;
-    var items = undefined;
-    if (typeof packageName !== "undefined") {
-      items = serviceSpec.lookup(packageName);
-      objects = Object.keys(items);
-    } else {
-      items = serviceSpec.nested;
-      objects = Object.keys(serviceSpec.nested);
-    }
-
-    this.methodsForAllServices = [];
-    objects.map(rr => {
-      if (typeof items[rr] === "object" && items[rr] !== null && items[rr].hasOwnProperty("methods")) {
-        this.allServices.push(rr);
-        this.methodsForAllServices.push(rr);
-        this.methodsForAllServices[rr] = Object.keys(items[rr]["methods"]);
-      }
-    });
-    this.getServiceMethods(this.allServices[0]);
-  }
-
-  getServiceMethods(strService) {
-    this.setState({
-      serviceName: strService,
-    });
-    var data = this.methodsForAllServices[strService];
-    if (typeof data === "undefined") {
-      data = [];
-    }
-    this.serviceMethods = data;
+    
   }
 
   getImageURL(data) {
@@ -109,25 +56,30 @@ export default class YOLOv3ObjectDetection extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   }
 
-  handleServiceName(event) {
-    var strService = event.target.value;
-    this.setState({
-      serviceName: strService,
-    });
-    console.log("Selected service is " + strService);
-    var data = this.methodsForAllServices[strService];
-    if (typeof data === "undefined") {
-      data = [];
-    }
-    this.serviceMethods = data;
-  }
-
   submitAction() {
-    this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
-      model: this.state.model,
-      img_path: this.state.img_path,
-      confidence: this.state.confidence.toFixed(2),
-    });
+    const { methodName, img_path, model, confidence } = this.state;
+    const methodDescriptor = Detect[methodName];
+    const request = new methodDescriptor.requestType();
+
+    request.setImgPath(img_path);
+    request.setModel(model);
+    request.setConfidence(confidence)
+
+    const props = {
+      request,
+      onEnd: response => {
+        const { message, status, statusMessage } = response;
+        if (status !== 0) {
+          throw new Error(statusMessage);
+        }
+        this.setState({
+          ...initialUserInput,
+          response: { status: "success", delta_time: message.getDeltaTime(), boxes: message.getBoxes(), class_ids: message.getClassIds(), confidences: message.getConfidences(), img_base64: message.getImgBase64() },
+        });
+      },
+    };
+
+    this.props.serviceClient.unary(methodDescriptor, props);
   }
 
   renderForm() {
@@ -188,6 +140,7 @@ export default class YOLOv3ObjectDetection extends React.Component {
   }
 
   renderComplete() {
+
     let status = "Ok\n";
     let delta_time = "\n";
     let boxes = "\n";
@@ -226,7 +179,7 @@ export default class YOLOv3ObjectDetection extends React.Component {
   }
 
   render() {
-    if (this.isComplete) return <div>{this.renderComplete()}</div>;
+    if (this.props.isComplete) return <div>{this.renderComplete()}</div>;
     else {
       return <div>{this.renderForm()}</div>;
     }

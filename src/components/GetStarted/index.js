@@ -2,11 +2,9 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 
-import StyledButton from "../common/StyledButton";
 import GetStartedDescription from "./GetStartedDescription";
 import { GetStartedCategoriesData } from "../../utility/constants/GetStarted";
 import Category from "./Category";
-import Features from "./Features";
 import { useStyles } from "./styles";
 
 const GetStarted = ({ classes }) => {
@@ -39,6 +37,7 @@ const GetStarted = ({ classes }) => {
           btnText={"Sign up free"}
         />
       </Grid>
+      {/*
       <Grid item xs={12} sm={12} md={12} lg={12} className={classes.FeaturesMainContainer}>
         <Features />
       </Grid>
@@ -46,6 +45,7 @@ const GetStarted = ({ classes }) => {
         <span>No commitment. No credit card required.</span>
         <StyledButton btnText="Start your Free Trial" type="blue" />
       </Grid>
+      */}
     </Grid>
   );
 };

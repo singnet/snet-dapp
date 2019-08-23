@@ -6,25 +6,34 @@ import Authentication from "./Authentication";
 import TermsOfUse from "./TermsOfUse";
 import { useStyles } from "./styles";
 import OnboardingContainer from "./OnboardingContainer";
+import Routes from "../../utility/constants/Routes";
 
 class Onboarding extends Component {
   state = {
     verificationCode: "",
-    activeSection: 2,
+    activeSection: 1,
     progressText: ["Authentication", "Terms of service"],
   };
 
   componentDidMount = () => {
-    const { isEmailVerified } = this.props;
-    if (isEmailVerified) {
-      this.setState({ activeSection: 2 });
-    }
+    this.initialChecks();
   };
 
   componentDidUpdate = () => {
-    const { isEmailVerified } = this.props;
+    this.initialChecks();
+  };
+
+  initialChecks = () => {
+    const { isEmailVerified, isTermsAccepted, history } = this.props;
     if (isEmailVerified && this.state.activeSection === 1) {
       this.setState({ activeSection: 2 });
+    }
+    if (isTermsAccepted) {
+      if (history.location.state && history.location.state.sourcePath) {
+        history.push(history.location.state.sourcePath);
+        return;
+      }
+      history.push(`/${Routes.AI_MARKETPLACE}`);
     }
   };
 
@@ -35,12 +44,12 @@ class Onboarding extends Component {
   };
 
   render() {
-    const { classes, username } = this.props;
+    const { classes, nickname } = this.props;
     const { activeSection, progressText } = this.state;
 
     const OnboardingDetails = [
       {
-        title: `Welcome ${username}`,
+        title: `Welcome ${nickname}`,
         description: (
           <p>
             You have successfully logged into your singularitynet account. <br />
@@ -75,7 +84,8 @@ class Onboarding extends Component {
 
 const mapStateToProps = state => ({
   isEmailVerified: state.userReducer.isEmailVerified,
-  username: state.userReducer.username,
+  isTermsAccepted: state.userReducer.isTermsAccepted,
+  nickname: state.userReducer.nickname,
 });
 
 export default connect(mapStateToProps)(withStyles(useStyles)(Onboarding));

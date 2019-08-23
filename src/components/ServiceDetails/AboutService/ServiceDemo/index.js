@@ -4,9 +4,10 @@ import { connect } from "react-redux";
 
 import ProgressBar from "../../../common/ProgressBar";
 import { useStyles } from "./styles";
-import { serviceDetailsActions } from "../../../../Redux/actionCreators";
+import { serviceDetailsActions, loaderActions } from "../../../../Redux/actionCreators";
 import PurchaseToggler from "./PurchaseToggler";
-import { groupInfo } from "../../../../Redux/reducers/ServiceDetailsReducer";
+import { freeCalls, groupInfo } from "../../../../Redux/reducers/ServiceDetailsReducer";
+import { LoaderContent } from "../../../../utility/constants/LoaderContent";
 
 const demoProgressStatus = {
   purchasing: 1,
@@ -16,9 +17,9 @@ const demoProgressStatus = {
 
 class ServiceDemo extends Component {
   state = {
-    error: "error state message",
     progressText: ["Purchase", "Configure", "Results"],
     purchaseCompleted: false,
+    isServiceExecutionComplete: false,
   };
 
   componentDidMount = async () => {
@@ -39,11 +40,24 @@ class ServiceDemo extends Component {
   };
 
   computeActiveSection = () => {
-    const { purchaseCompleted } = this.state;
-    const { isServiceExecutionComplete } = this.props;
+    const { purchaseCompleted, isServiceExecutionComplete } = this.state;
     const { purchasing, executingAIservice, displayingResponse } = demoProgressStatus;
 
     return purchaseCompleted ? (isServiceExecutionComplete ? displayingResponse : executingAIservice) : purchasing;
+  };
+
+  serviceRequestStartHandler = () => {
+    this.props.startLoader();
+  };
+
+  serviceRequestCompleteHandler = () => {
+    this.setState({ isServiceExecutionComplete: true });
+    this.props.stopLoader();
+  };
+
+  handleResetAndRun = () => {
+    this.setState({ purchaseCompleted: false, isServiceExecutionComplete: false });
+    this.fetchFreeCallsUsage();
   };
 
   handlePurchaseComplete = () => {
@@ -51,8 +65,16 @@ class ServiceDemo extends Component {
   };
 
   render() {
-    const { classes, service, freeCallsRemaining, freeCallsAllowed, groupInfo, wallet } = this.props;
-    const { progressText, purchaseCompleted } = this.state;
+    const {
+      classes,
+      service,
+      freeCalls: { remaining: freeCallsRemaining, allowed: freeCallsAllowed },
+      groupInfo,
+      wallet,
+    } = this.props;
+    const { progressText, purchaseCompleted, isServiceExecutionComplete } = this.state;
+    const { handleResetAndRun, serviceRequestStartHandler, serviceRequestCompleteHandler } = this;
+
     return (
       <div className={classes.demoExampleContainer}>
         <h4>Process</h4>
@@ -61,7 +83,15 @@ class ServiceDemo extends Component {
           groupInfo={groupInfo}
           purchaseCompleted={purchaseCompleted}
           purchaseProps={{ handleComplete: this.handlePurchaseComplete, freeCallsRemaining, freeCallsAllowed, wallet }}
-          thirdPartyProps={{ service_id: service.service_id, org_id: service.org_id, freeCallsRemaining }}
+          thirdPartyProps={{
+            service_id: service.service_id,
+            org_id: service.org_id,
+            freeCallsRemaining,
+            isServiceExecutionComplete,
+            handleResetAndRun,
+            serviceRequestStartHandler,
+            serviceRequestCompleteHandler,
+          }}
         />
       </div>
     );
@@ -69,16 +99,17 @@ class ServiceDemo extends Component {
 }
 
 const mapStateToProps = state => ({
-  isServiceExecutionComplete: state.serviceReducer.serviceMethodExecution.isComplete,
-  freeCallsRemaining: state.serviceDetailsReducer.freeCallsRemaining,
-  freeCallsAllowed: state.serviceDetailsReducer.freeCallsAllowed,
+  freeCalls: freeCalls(state),
   groupInfo: groupInfo(state),
   email: state.userReducer.email,
   wallet: state.userReducer.wallet,
 });
 
-const mapDispatchToProps = dispatch => ({
-  fetchMeteringData: args => dispatch(serviceDetailsActions.fetchMeteringData({ ...args })),
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  startLoader: () =>
+    dispatch(loaderActions.startAppLoader(LoaderContent.SERVICE_INVOKATION(ownProps.service.display_name))),
+  stopLoader: () => dispatch(loaderActions.stopAppLoader),
+  fetchMeteringData: args => dispatch(serviceDetailsActions.fetchMeteringData(args)),
 });
 
 export default connect(

@@ -66,14 +66,12 @@ const generateOptions = (callType, wallet) => {
       disableBlockchainOperations: true,
     };
   }
-
-  if (wallet && wallet.type === walletTypes.METAMASK) {
-    return {
-      endpoint: "https://example-service-a.singularitynet.io:8088",
-    };
+  if (callType === callTypes.FREE) {
+    return { metadataGenerator: metadataGenerator(callType) };
   }
-
-  return { metadataGenerator: metadataGenerator(callType) };
+  if (wallet && wallet.type === walletTypes.METAMASK) {
+    return {};
+  }
 };
 
 export const initSdk = async () => {

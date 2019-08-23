@@ -13,6 +13,7 @@ class ThirdPartyServiceErrorBoundary extends Component {
 
   componentDidCatch = (error, info) => {
     this.setState({ error, info });
+    this.props.stopLoader();
   };
 
   render() {

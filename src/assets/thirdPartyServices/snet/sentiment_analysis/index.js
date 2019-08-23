@@ -12,11 +12,12 @@ import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
+import {SentimentAnalysis} from './sentiment_analysis_rpc_pb_service';
+
 export default class NamedEntityRecognitionService extends React.Component {
   constructor(props) {
     super(props);
     this.submitAction = this.submitAction.bind(this);
-    this.handleServiceName = this.handleServiceName.bind(this);
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
     this.handleChange = this.handleChange.bind(this);
 
@@ -41,77 +42,40 @@ export default class NamedEntityRecognitionService extends React.Component {
     this.serviceMethods = [];
     this.allServices = [];
     this.methodsForAllServices = [];
-    this.parseProps(props);
+
   }
 
-  parseProps(nextProps) {
-    this.isComplete = nextProps.isComplete;
-    if (!this.isComplete) {
-      this.parseServiceSpec(nextProps.serviceSpec);
-    } else {
-      if (typeof nextProps.response !== "undefined") {
-        if (typeof nextProps.response === "string") {
-          this.setState({ response: nextProps.response });
-        } else {
-          this.setState({ response: nextProps.response.value });
-        }
-      }
-    }
-  }
+  
 
-  componentWillReceiveProps(nextProps) {
-    if (this.isComplete !== nextProps.isComplete) {
-      this.parseProps(nextProps);
-    }
-  }
-
-  parseServiceSpec(serviceSpec) {
-    const packageName = Object.keys(serviceSpec.nested).find(
-      key => typeof serviceSpec.nested[key] === "object" && hasOwnDefinedProperty(serviceSpec.nested[key], "nested")
-    );
-
-    var objects = undefined;
-    var items = undefined;
-    if (typeof packageName !== "undefined") {
-      items = serviceSpec.lookup(packageName);
-      objects = Object.keys(items);
-    } else {
-      items = serviceSpec.nested;
-      objects = Object.keys(serviceSpec.nested);
-    }
-
-    this.methodsForAllServices = [];
-    objects.map(rr => {
-      if (typeof items[rr] === "object" && items[rr] !== null && items[rr].hasOwnProperty("methods")) {
-        this.allServices.push(rr);
-        this.methodsForAllServices.push(rr);
-        var methods = Object.keys(items[rr]["methods"]);
-        this.methodsForAllServices[rr] = methods;
-      }
-    });
-  }
-
-  handleFormUpdate(event) {
-    console.log(event.target);
-    this.setState({ [event.target.name]: event.target.value });
-  }
-
-  handleServiceName(event) {
-    var strService = event.target.value;
-    this.setState({ serviceName: strService });
-    this.serviceMethods.length = 0;
-    var data = Object.values(this.methodsForAllServices[strService]);
-    if (typeof data !== "undefined") {
-      console.log("typeof data !== 'undefined'");
-      this.serviceMethods = data;
-    }
-  }
+ handleFormUpdate(event) {
+  console.log(event.target);
+  this.setState({ [event.target.name]: event.target.value });
+}
 
   submitAction() {
-    this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
-      value: btoa(this.state.message),
-    });
+    const { methodName, value } = this.state;
+    const methodDescriptor = SentimentAnalysis[methodName];
+    const request = new methodDescriptor.requestType();
+
+    request.setValue(btoa(this.state.message));
+
+    const props = {
+      request,
+      onEnd: response => {
+        const { message, status, statusMessage } = response;
+        if (status !== 0) {
+          throw new Error(statusMessage);
+        }
+        this.setState({
+          response: { status: "success", value: message.getValue() },
+        });
+      },
+    };
+
+    this.props.serviceClient.unary(methodDescriptor, props);
   }
+
+
 
   handleChange(event) {
     this.setState({ [event.target.name]: event.target.value });
@@ -162,7 +126,9 @@ export default class NamedEntityRecognitionService extends React.Component {
         <Grid item xs={12}>
           <br />
           <br />
-          <FormControl style={{ minWidth: "100%" }}>
+          {
+            /* TODO: Check for the need */
+            /* <FormControl style={{ minWidth: "100%" }}>
             <Select
               value={this.state.serviceName}
               onChange={this.handleServiceName}
@@ -201,7 +167,7 @@ export default class NamedEntityRecognitionService extends React.Component {
               ;
             </Select>
           </FormControl>
-          <br />
+          <br /> */}
           <TextField
             id="standard-multiline-static"
             label="Input sentence"
@@ -281,7 +247,10 @@ export default class NamedEntityRecognitionService extends React.Component {
   }
 
   renderComplete() {
-    const result = this.parseResponse(this.props.response.value);
+
+    const {response} = this.state;
+
+    const result = this.parseResponse(response.value);
     return (
       <React.Fragment>
         <Grid item xs={12} style={{ textAlign: "center" }}>
@@ -304,7 +273,7 @@ export default class NamedEntityRecognitionService extends React.Component {
   }
 
   render() {
-    if (this.isComplete)
+    if (this.props.isComplete)
       return (
         <div style={{ flexGrow: 1 }}>
           <Grid

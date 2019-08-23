@@ -1,4 +1,6 @@
 import React from "react";
+import MethodNamesDropDown from "../../common/MethodNamesDropDown";
+import {ResolveReference} from "./CoreferenceResolutionService_pb_service"
 
 const Colors = {};
 Colors.names = [
@@ -61,12 +63,12 @@ export default class CoreferenceResolutionService extends React.Component {
     return this.state.methodName !== "Select a method" && this.state.sentence !== "";
   }
 
-  renderServiceMethodNames(serviceMethodNames) {
-    const serviceNameOptions = ["Select a method", ...serviceMethodNames];
-    return serviceNameOptions.map((serviceMethodName, index) => {
-      return <option key={index}>{serviceMethodName}</option>;
-    });
-  }
+  // renderServiceMethodNames(serviceMethodNames) {
+  //   const serviceNameOptions = ["Select a method", ...serviceMethodNames];
+  //   return serviceNameOptions.map((serviceMethodName, index) => {
+  //     return <option key={index}>{serviceMethodName}</option>;
+  //   });
+  // }
 
   renderFormInput() {
     const inputOptions = [
@@ -94,13 +96,39 @@ export default class CoreferenceResolutionService extends React.Component {
     });
   }
 
+  submitAction() {
+    const { methodName, sentence } = this.state;
+    const methodDescriptor = ResolveReference[methodName];
+    const request = new methodDescriptor.requestType();
+
+    request.setSentence(sentence);
+
+    const props = {
+      request,
+      onEnd: response => {
+        const { message, status, statusMessage } = response;
+        if (status !== 0) {
+          throw new Error(statusMessage);
+        }
+        this.setState({
+          response: { status: "success", references: message.getReferencesList(), words: message.getWords() },
+        });
+      },
+    };
+
+    this.props.serviceClient.unary(methodDescriptor, props);
+  }
+
+
   handleInputUpdate(event) {
     this.setState({ sentence: event.target.value });
   }
 
   renderForm() {
-    const service = this.props.protoSpec.findServiceByName(this.state.serviceName);
-    const serviceMethodNames = service.methodNames;
+
+    const serviceNameOptions = ["Select a method", ...this.props.serviceClient.getMethodNames(ResolveReference)];
+    // const service = this.props.protoSpec.findServiceByName(this.state.serviceName);
+    // const serviceMethodNames = service.methodNames;
 
     return (
       <React.Fragment>
@@ -109,14 +137,11 @@ export default class CoreferenceResolutionService extends React.Component {
             Method Name:
           </div>
           <div className="col-md-3 col-lg-3">
-            <select
-              name="methodName"
+          <MethodNamesDropDown
+              list={serviceNameOptions}
               value={this.state.methodName}
-              style={{ height: "30px", width: "250px", fontSize: "13px", marginBottom: "5px" }}
               onChange={this.handleFormUpdate}
-            >
-              {this.renderServiceMethodNames(serviceMethodNames)}
-            </select>
+            />
           </div>
         </div>
         <div className="row">
@@ -163,9 +188,9 @@ export default class CoreferenceResolutionService extends React.Component {
   }
 
   renderComplete() {
-    const response = this.props.response;
+    const response = this.state.response;
     let similarItems = [];
-    response["references"].forEach((item, index) => {
+    response.references.forEach((item, index) => {
       let similarItem = [];
       similarItem.push.apply(
         similarItem,

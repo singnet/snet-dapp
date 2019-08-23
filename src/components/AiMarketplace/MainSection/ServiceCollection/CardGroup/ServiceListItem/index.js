@@ -40,7 +40,7 @@ const ServiceListItem = props => {
                 value={Number(props.ratingGiven)}
                 className={classes.ratingStars}
               />
-              <RatingsCount ratingGiven={props.ratingGiven} totalRating={props.totalRating} />
+              <RatingsCount ratingGiven={props.ratingGiven.rating} totalRating={props.ratingGiven.total_users_rated} />
             </div>
             <Typography className={classes.cardTypograpy} component="p">
               {props.cardDescription}

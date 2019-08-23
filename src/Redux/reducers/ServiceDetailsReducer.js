@@ -4,26 +4,20 @@ import first from "lodash/first";
 import some from "lodash/some";
 
 const InitialServiceDetails = {
-  serviceMetadata: {
-    groups: [],
-  },
-  freeCallsRemaining: 0,
-  freeCallsAllowed: 0,
+  details: {},
+  freeCalls: {},
 };
 
 const serviceDetailsReducer = (state = InitialServiceDetails, action) => {
   switch (action.type) {
-    case serviceDetailsActions.RESET_SERVICE_METADATA: {
-      return { ...state, serviceMetadata: {} };
+    case serviceDetailsActions.RESET_SERVICE_DETAILS: {
+      return InitialServiceDetails;
     }
-    case serviceDetailsActions.UPDATE_SERVICE_METADATA: {
-      return { ...state, serviceMetadata: { groups: action.payload.data } };
+    case serviceDetailsActions.UPDATE_SERVICE_DETAILS: {
+      return { ...state, details: action.payload.data };
     }
-    case serviceDetailsActions.UPDATE_FREE_CALLS_ALLOWED: {
-      return { ...state, freeCallsAllowed: action.payload };
-    }
-    case serviceDetailsActions.UPDATE_FREE_CALLS_REMAINING: {
-      return { ...state, freeCallsRemaining: action.payload };
+    case serviceDetailsActions.UPDATE_FREE_CALLS_INFO: {
+      return { ...state, freeCalls: action.payload };
     }
     default: {
       return state;
@@ -31,33 +25,32 @@ const serviceDetailsReducer = (state = InitialServiceDetails, action) => {
   }
 };
 
+export const freeCalls = state => {
+  return state.serviceDetailsReducer.freeCalls;
+};
+export const serviceDetails = (state, orgId, serviceId) => {
+  const { org_id, service_id } = state.serviceDetailsReducer.details;
+  if (org_id !== orgId || service_id !== serviceId) {
+    return undefined;
+  }
+
+  return state.serviceDetailsReducer.details;
+};
+
 const groups = state => {
-  return state.serviceDetailsReducer.serviceMetadata.groups;
+  return state.serviceDetailsReducer.details.groups;
 };
 
 export const groupInfo = state => {
-  //hardcoded-data
-  const payment = {
-    payment_address: "0xBEEC34186ed77F1CEbb92fd1C11cDD2F9789Dbe5",
-    payment_channel_storage_type: "etcd",
-    payment_expiration_threshold: 100,
-    payment_channel_storage_client: {
-      endpoints: ["https://snet-etcd.singularitynet.io:2379"],
-      request_timeout: "8s",
-      connection_timeout: "100s",
-    },
-  };
-  // till here
   const serviceGroups = groups(state);
   const availableGroup = find(serviceGroups, ({ endpoints }) =>
     some(endpoints, endpoint => endpoint.is_available === 1)
   );
   if (availableGroup) {
-    return { ...availableGroup, payment };
+    return availableGroup;
   }
-
   const firstGroup = first(serviceGroups);
-  return firstGroup && { ...firstGroup, payment };
+  return firstGroup;
 };
 
 export const pricing = state => {

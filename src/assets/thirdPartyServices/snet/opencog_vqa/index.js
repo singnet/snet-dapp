@@ -1,7 +1,9 @@
 import React from "react";
-import { hasOwnDefinedProperty } from "../../../../utility/JSHelper";
+
+import { hasOwnDefinedProperty } from  "../../../../utility/JSHelper";
 import Button from "@material-ui/core/Button";
 import SNETImageUpload from "../../standardComponents/SNETImageUpload";
+import {VqaService} from "./vqa_opencog_pb_service"
 
 export default class VisualQAOpencog extends React.Component {
   constructor(props) {
@@ -24,6 +26,7 @@ export default class VisualQAOpencog extends React.Component {
       use_pm: false,
 
       response: undefined,
+      isComplete : false
     };
     this.isComplete = false;
     this.serviceMethods = [];
@@ -101,11 +104,23 @@ export default class VisualQAOpencog extends React.Component {
   }
 
   submitAction() {
-    this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
-      image_data: this.state.imageData,
-      use_pm: this.state.use_pm,
-      question: this.state.question,
-    });
+    const { methodName, question,use_pm,imageData } = this.state;
+    const methodDescriptor = VqaService[methodName];
+    const request = new methodDescriptor.requestType();
+
+    request.setQuestion(question)
+    request.setUsePm(use_pm)
+    request.setImageData(imageData)
+
+
+    const props = {
+        request,
+        onEnd: ({ message }) => {
+          this.setState({ isComplete: true, response: { answer: message.getAnswer(),ok:message.getOk(),error_message:message.getErrorMessage() } });
+        },
+      };
+
+    this.props.serviceClient.unary(methodDescriptor, props);
   }
 
   renderForm() {
@@ -239,7 +254,7 @@ export default class VisualQAOpencog extends React.Component {
   }
 
   render() {
-    if (this.isComplete) return <div>{this.renderComplete()}</div>;
+    if (this.state.isComplete) return <div>{this.renderComplete()}</div>;
     else {
       return <div>{this.renderForm()}</div>;
     }

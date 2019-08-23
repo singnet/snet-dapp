@@ -12,9 +12,6 @@ export const useStyles = makeStyles(theme => ({
     borderTop: 1,
     borderTopStyle: "solid",
     borderTopColor: theme.palette.text.cardSeparator,
-    borderBottom: 1,
-    borderBottomStyle: "solid",
-    borderBottomColor: theme.palette.text.cardSeparator,
     borderRadius: 4,
     backgroundColor: theme.palette.text.white,
     "&:hover": {
@@ -28,7 +25,7 @@ export const useStyles = makeStyles(theme => ({
     height: 120,
   },
   cardHeader: {
-    padding: "6px 10px 0",
+    padding: "0 10px",
     alignItems: "center",
     textAlign: "left",
     "& button": {
@@ -44,7 +41,7 @@ export const useStyles = makeStyles(theme => ({
     color: theme.palette.text.darkShadedGray,
     fontSize: 20,
     letterSpacing: 0.25,
-    padding: "0px 9px 4px 0px",
+    padding: "0 9px 0 0px",
     textAlign: "left",
     fontFamily: theme.typography.primary.main,
     "& h4": { margin: "0 76px 0 0" },
