@@ -30,7 +30,7 @@ const UserProfile = lazy(() => import("./components/UserProfile"));
 const GetStarted = lazy(() => import("./components/GetStarted"));
 
 Amplify.configure(aws_config);
-
+ReactGA.initialize(process.env.REACT_APP_GA_TRACKING_ID);
 class App extends Component {
   componentDidMount = () => {
     this.props.fetchUserDetails();
