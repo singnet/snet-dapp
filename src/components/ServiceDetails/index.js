@@ -12,8 +12,7 @@ import InstallAndRunService from "./InstallAndRunService";
 import { useStyles } from "./styles";
 import { serviceDetailsActions } from "../../Redux/actionCreators";
 import { pricing, serviceDetails } from "../../Redux/reducers/ServiceDetailsReducer";
-import ErrorBox  from "../common/ErrorBox";
-import AlertBox, { alertTypes } from "../common/AlertBox";
+import ErrorBox from "../common/ErrorBox";
 
 class ServiceDetails extends Component {
   state = {
@@ -40,7 +39,7 @@ class ServiceDetails extends Component {
     try {
       await fetchServiceDetails(orgId, serviceId);
     } catch (error) {
-      this.setState({ alert: { type: alertTypes.ERROR, message: "unable to fetch service Details. Please reload" } });
+      this.setState({ error: true });
     }
   };
 
@@ -49,10 +48,9 @@ class ServiceDetails extends Component {
   };
 
   render() {
-    const { classes, service, pricing } = this.props;
-    const { alert } = this.state;
+    const { classes, service, pricing, loading, error } = this.props;
 
-    if (isEmpty(service)) {
+    if ((isEmpty(service) || error) && !loading) {
       return (
         <Grid container spacing={24} className={classes.serviceDetailContainer}>
           <ErrorBox />
@@ -94,7 +92,11 @@ const mapStateToProps = (state, ownProps) => {
     },
   } = ownProps;
 
-  return { service: serviceDetails(state, orgId, serviceId), pricing: pricing(state) };
+  return {
+    service: serviceDetails(state, orgId, serviceId),
+    pricing: pricing(state),
+    loading: state.loaderReducer.app.loading,
+  };
 };
 
 const mapDispatchToProps = dispatch => ({
