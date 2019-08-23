@@ -32,7 +32,7 @@
     "react-swipeable-views": "^0.13.1",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
-    "snet-sdk-web": "^1.0.0-beta.3",
+    "snet-sdk-web": "^1.0.0-beta.4",
     "utf8": "^3.0.0"
   },
   "scripts": {
