@@ -31,10 +31,10 @@ export const LoaderContent = {
     loaderHeader: "Fetching usage data",
     loaderText: "Please wait,we're checking your usage data",
   },
-  SERVICE_INVOKATION: {
-    loaderHeader: "Invoking Third Party Service",
+  SERVICE_INVOKATION: displayName => ({
+    loaderHeader: `Invoking ${displayName}`,
     loaderText: "Please wait, the AI service is computing the result",
-  },
+  }),
   SIGN_OUT: {
     loaderHeader: "Signing Out",
     loaderText: "You will be signed out of the portal",
@@ -44,6 +44,10 @@ export const LoaderContent = {
     loaderText: "Filtering the services",
   },
   UPDATE_PROFILE: { loaderHeader: "Updating", loaderText: "Filtering the services" },
+  FETCH_MM_ACC_DETAILS: {
+    loaderHeader: "Fetching Metamask Account",
+    loaderText: "Please wait while we retrieve your account details from Metamask",
+  },
   DEPOSIT: {
     loaderHeader: "Deposit",
     loaderText: "Depositing AGI tokens to Multi-party Escrow account",

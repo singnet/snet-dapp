@@ -1,8 +1,5 @@
 export const useStyles = theme => ({
   tabsHeader: {
-    borderBottomWidth: 1,
-    borderBottomStyle: "solid",
-    borderBottomColor: theme.palette.text.lightGray,
     backgroundColor: "transparent",
     color: theme.palette.text.lightShadedGray,
     boxShadow: "none",
@@ -14,6 +11,7 @@ export const useStyles = theme => ({
       textTransform: "none",
       color: theme.palette.text.lightShadedGray,
       fontFamily: theme.typography.primary.main,
+      '&:hover':{ color: theme.palette.text.primary }
     },
     "& .Mui-selected": {
       color: theme.palette.text.primary,

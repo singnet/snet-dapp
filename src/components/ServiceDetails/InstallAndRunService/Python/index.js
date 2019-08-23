@@ -6,26 +6,23 @@ import CodeSnippet from "../../../common/CodeSnippet";
 
 const Python = ({ classes }) => {
   return (
-    <section>
+    <section className={classes.pythonMainContainer}>
       <h2>Install</h2>
       <div>
-        Install the SDK using PIP <br />
+        <span>Install the SDK using PIP</span>
         <CodeSnippet>pip install snet.sdk</CodeSnippet>
       </div>
-      <br />
       <div>
-        To generate the gRPC client libraries, you need the SingularityNET Command Line Interface, or CLI, which you can
-        install using pip
+        <span>To generate the gRPC client libraries, you need the SingularityNET Command Line Interface, or CLI, which you can
+        install using pip</span>
         <CodeSnippet>pip install snet-cli</CodeSnippet>
       </div>
-      <br />
       <div>
-        Once you have the CLI installed, run the following command to generate gRPC stubs for service <br />
+        <span>Once you have the CLI installed, run the following command to generate gRPC stubs for service </span>
         <CodeSnippet>snet sdk generate-client-library python &lt;org_id&gt; &lt;service_id&gt;</CodeSnippet>
       </div>
-      <br />
       <div>
-        Run the code
+        <span>Run the code</span>
         <CodeSnippet>
           from snet.sdk import SnetSDK <br />
           import &lt;stub&gt;_pb2 <br />

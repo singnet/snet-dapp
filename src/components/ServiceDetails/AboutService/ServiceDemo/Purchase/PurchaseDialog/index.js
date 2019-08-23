@@ -24,8 +24,8 @@ const PurchaseDialog = ({ classes, show, onClose, startDepositLoader, startWithd
   const [amount, setAmount] = useState({});
   const [alert, setAlert] = useState({});
 
-  const handleTabChange = (...args) => {
-    setActiveTab(args[1]);
+  const handleTabChange = (event, value) => {
+    setActiveTab(value);
   };
 
   const handleDepositAmtChange = event => {
