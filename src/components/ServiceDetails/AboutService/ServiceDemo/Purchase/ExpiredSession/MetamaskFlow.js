@@ -46,7 +46,10 @@ class MetamaskFlow extends Component {
   };
 
   initializePaymentChannel = async () => {
-    const { serviceDetails: { org_id, service_id }, groupInfo } = this.props;
+    const {
+      serviceDetails: { org_id, service_id },
+      groupInfo,
+    } = this.props;
     const sdk = await initSdk();
     this.serviceClient = new ServiceClient(sdk, org_id, service_id, sdk._mpeContract, {}, groupInfo);
     this.paymentChannelManagement = new PaymentChannelManagement(sdk, this.serviceClient);
@@ -189,7 +192,7 @@ class MetamaskFlow extends Component {
             <span className={classes.channelSelectionTitle}>Recommended</span>
             <ChannelSelectionBox
               title="Channel Balance"
-              description={`You have ${this.parseChannelBalFromPaymentCard()} AGI in you channel. This can be used for running demos across all the services from this vendor.`}
+              description={`You have 1 AGI in you channel. This can be used for running demos across all the services from this vendor.`}
               checked={selectedPayType === payTypes.CHANNEL_BALANCE}
               value={payTypes.CHANNEL_BALANCE}
               onClick={() => this.handlePayTypeChange(payTypes.CHANNEL_BALANCE)}
