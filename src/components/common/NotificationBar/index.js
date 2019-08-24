@@ -7,8 +7,8 @@ import clsx from "clsx";
 import { useStyles } from "./styles";
 
 export const notificationBarTypes = {
-  WARNING: "warning",
-  INFORMATION: "information",
+  WARNING: "WARNING",
+  INFORMATION: "INFORMATION",
 };
 
 const NotificationBar = ({ classes, showNotification, icon: Icon, message, type }) => {

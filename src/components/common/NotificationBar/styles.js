@@ -14,7 +14,7 @@ export const useStyles = theme => ({
       lineHeight: "20px",
     },
   },
-  warning: {
+  WARNING: {
     backgroundColor: theme.backgroundColor.offlineRedBg,
     color: theme.palette.text.alertBoxColor,
     "& svg": {
@@ -22,7 +22,7 @@ export const useStyles = theme => ({
       color: theme.palette.text.offlineRed,
     },
   },
-  information: {
+  INFORMATION: {
     backgroundColor: theme.palette.text.informationBarBg,
     color: theme.palette.text.white,
     "& svg": { marginRight: 21 },
