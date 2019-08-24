@@ -19,13 +19,21 @@ import { initSdk } from "../../../../../../utility/sdk";
 import { loaderActions } from "../../../../../../Redux/actionCreators";
 import { LoaderContent } from "../../../../../../utility/constants/LoaderContent";
 
-const PurchaseDialog = ({ classes, show, onClose, startDepositLoader, startWithdrawLoader, stopLoader }) => {
+const PurchaseDialog = ({
+  classes,
+  show,
+  onClose,
+  startDepositLoader,
+  startWithdrawLoader,
+  stopLoader,
+  refetchAccBalance,
+}) => {
   const [activeTab, setActiveTab] = useState(0);
   const [amount, setAmount] = useState({});
   const [alert, setAlert] = useState({});
 
-  const handleTabChange = (...args) => {
-    setActiveTab(args[1]);
+  const handleTabChange = (event, value) => {
+    setActiveTab(value);
   };
 
   const handleDepositAmtChange = event => {
@@ -43,11 +51,10 @@ const PurchaseDialog = ({ classes, show, onClose, startDepositLoader, startWithd
       const amountInAGI = amount[txnTypes.DEPOSIT];
       const amountInCogs = agiToCogs(amountInAGI);
       await sdk.account.depositToEscrowAccount(amountInCogs);
-      setAmount({});
+      setAmount({ [txnTypes.DEPOSIT]: "" });
       setAlert({ type: alertTypes.SUCCESS, message: "Successfully deposited" });
-      this.props.refetchAccBalance();
+      await refetchAccBalance();
     } catch (err) {
-      //onFailure
       setAlert({ type: alertTypes.ERROR, message: `Unable to deposit amount: ${err}` });
     }
     stopLoader();
@@ -60,9 +67,9 @@ const PurchaseDialog = ({ classes, show, onClose, startDepositLoader, startWithd
       const amountInAGI = amount[txnTypes.WITHDRAW];
       const amountInCogs = agiToCogs(amountInAGI);
       await sdk.account.withdrawFromEscrowAccount(amountInCogs);
-      setAmount({});
+      setAmount({ [txnTypes.WITHDRAW]: "" });
       setAlert({ type: alertTypes.SUCCESS, message: "Successfully withdrawn" });
-      this.props.refetchAccBalance();
+      await refetchAccBalance();
     } catch (err) {
       setAlert({ type: alertTypes.ERROR, message: `Unable to withdraw amount: ${err}` });
     }

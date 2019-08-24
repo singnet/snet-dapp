@@ -10,6 +10,7 @@ export const SET_USER_DETAILS = "SET_USER_DETAILS";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_LOADING = "LOGIN_LOADING";
 export const LOGIN_ERROR = "LOGIN_ERROR";
+export const RESET_LOGIN_ERROR = "RESET_LOGIN_ERROR";
 export const SIGN_OUT = "SIGN_OUT";
 export const UPDATE_NICKNAME = "UPDATE_NICKNAME";
 export const UPDATE_EMAIL = "UPDATE_EMAIL";
@@ -20,7 +21,7 @@ export const APP_INITIALIZATION_SUCCESS = "APP_INITIALIZATION_SUCCESS";
 export const UPDATE_IS_TERMS_ACCEPTED = "UPDATE_IS_TERMS_ACCEPTED";
 
 export const walletTypes = {
-  SNET: "SNET",
+  // SNET: "SNET",
   METAMASK: "METAMASK",
 };
 
@@ -92,6 +93,7 @@ const noAuthenticatedUser = dispatch => {
 };
 
 const fetchUserDetailsSuccess = (isEmailVerified, email, nickname) => dispatch => {
+  const wallet = JSON.parse(sessionStorage.getItem("wallet")) || {};
   dispatch({
     type: SET_USER_DETAILS,
     payload: {
@@ -100,6 +102,7 @@ const fetchUserDetailsSuccess = (isEmailVerified, email, nickname) => dispatch =
       isEmailVerified,
       email,
       nickname,
+      wallet,
     },
   });
   dispatch(loaderActions.stopAppLoader);
@@ -160,6 +163,10 @@ export const updateUserProfile = updatedUserData => async dispatch => {
     dispatch(updateUserProfileFailure(err));
     throw err;
   }
+};
+
+export const resetLoginError = dispatch => {
+  dispatch({ type: RESET_LOGIN_ERROR });
 };
 
 export const loginSuccess = ({ res, history, route }) => async dispatch => {

@@ -12,16 +12,15 @@ export default class NewSummaryService extends React.Component {
         methodName: "summary",
         article_content:
           'Analysts are predicting record highs as a global shortage of teddy bears sweeps the nation. "The market these products is way up". The advice is to stay indoors as society collapses under the demand.',
-         isComplete: false,
       }
 
-
-    this.state = { ...initialUserInput
+    this.state = { 
+      ...initialUserInput,
     };
   }
 
   canBeInvoked() {
-    return this.state.text !== "";
+    return this.state.article_content !== "";
   }
 
   handleFormUpdate(event) {
@@ -37,16 +36,23 @@ export default class NewSummaryService extends React.Component {
 
     request.setArticleContent(article_content)
 
-
     const props = {
-        request,
-        onEnd: ({ message }) => {
-          this.setState({ isComplete: true, response: { value: message.getArticleSummary() } });
-        },
-      };
+      request,
+      onEnd: response => {
+        const { message, status, statusMessage } = response;
+        if (status !== 0) {
+          throw new Error(statusMessage);
+        }
+        this.setState({
+          response: { status: "success", article_summary: message.getArticleSummary() },
+        });
+      },
+    };
 
     this.props.serviceClient.unary(methodDescriptor, props);
   }
+
+
 
   renderForm() {
     return (
@@ -82,7 +88,7 @@ export default class NewSummaryService extends React.Component {
   }
 
   renderComplete() {
-    const {response} = this.state.response;
+    const {response} = this.state;
 
     return (
       <div>
@@ -92,7 +98,7 @@ export default class NewSummaryService extends React.Component {
   }
 
   render() {
-    if (this.state.isComplete) return <div>{this.renderComplete()}</div>;
+    if (this.props.isComplete) return <div>{this.renderComplete()}</div>;
     else {
       return <div>{this.renderForm()}</div>;
     }

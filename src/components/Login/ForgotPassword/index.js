@@ -56,7 +56,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   updateEmail: email => dispatch(userActions.updateEmail(email)),
-  handleForgotPassword: args => dispatch(userActions.forgotPassword({ ...args })),
+  handleForgotPassword: args => dispatch(userActions.forgotPassword(args)),
 });
 
 export default connect(

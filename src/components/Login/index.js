@@ -17,6 +17,10 @@ class Login extends Component {
     password: "",
   };
 
+  componentDidMount = () => {
+    this.props.resetError();
+  };
+
   handleEmail = event => {
     this.setState({ email: event.currentTarget.value });
   };
@@ -88,6 +92,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   fetchUserDetails: () => dispatch(userActions.fetchUserDetails),
   login: args => dispatch(userActions.login(args)),
+  resetError: () => dispatch(userActions.resetLoginError),
 });
 export default connect(
   mapStateToProps,

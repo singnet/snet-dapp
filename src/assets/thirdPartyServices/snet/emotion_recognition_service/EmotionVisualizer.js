@@ -15,6 +15,7 @@ export default class EmotionVisualizer extends React.Component {
     this.download = this.download.bind(this);
     this.download_img = this.download_img.bind(this);
     this.changeResultView = this.changeResultView.bind(this);
+    this.renderBoundingBox();
   }
 
   componentDidUpdate() {
@@ -56,7 +57,7 @@ export default class EmotionVisualizer extends React.Component {
     let cnvs = this.refs.bboxCanvas;
     let outsideWrap = this.refs.outsideWrap;
     if (img === undefined || cnvs === undefined || outsideWrap === undefined) {
-      setTimeout(() => this.renderBoundingBox(), 200);
+      setTimeout(() => this.renderBoundingBox(), 1);
       return;
     }
 
@@ -76,13 +77,14 @@ export default class EmotionVisualizer extends React.Component {
     cnvs.height = img.naturalHeight * scale;
 
     let context = cnvs.getContext("2d");
-    this.props.jobResult["faces"].forEach(item => {
+    //this.props.jobResult["faces"].forEach(item => {
+    this.props.jobResult.facesList.forEach(item => {
       context.beginPath();
       context.rect(
-        item.bounding_box["x"] * scale,
-        item.bounding_box["y"] * scale,
-        item.bounding_box["w"] * scale,
-        item.bounding_box["h"] * scale
+        item.boundingBox["x"] * scale,
+        item.boundingBox["y"] * scale,
+        item.boundingBox["w"] * scale,
+        item.boundingBox["h"] * scale
       );
       context.lineWidth = 3;
       context.strokeStyle = "#F70056";
@@ -90,8 +92,8 @@ export default class EmotionVisualizer extends React.Component {
       context.font = "18px Arial";
       context.fillText(
         item.emotion.charAt(0).toUpperCase() + item.emotion.substr(1),
-        item.bounding_box["x"] * scale + 10,
-        item.bounding_box["y"] * scale + 20
+        item.boundingBox["x"] * scale + 10,
+        item.boundingBox["y"] * scale + 20
       );
       context.stroke();
     });
@@ -117,11 +119,11 @@ export default class EmotionVisualizer extends React.Component {
               />
               <canvas ref="bboxCanvas" style={styles.coveringCanvas} />
             </div>
-            <div className="row" align="center">
+            {/* <div className="row" align="center">
               <button type="button" className="btn btn-primary" onClick={this.download_img}>
                 Download Image with Bounding Boxes
               </button>
-            </div>
+            </div> */}
           </div>
         )}
         {this.state.resultView === ResultView.JSON && (

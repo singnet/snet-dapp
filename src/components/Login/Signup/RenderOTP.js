@@ -35,8 +35,8 @@ const RenderOTP = ({ classes, otp, handleOTP, handleResendOTP, handleConfirmSign
         />
         <AlertBox type="error" message={error} />
         <div className={classes.buttonsContainer}>
-          <StyledButton type="blue" btnText="Resend" onClick={handleResendOTP} />
           <StyledButton type="blue" btnText="Continue" onClick={handleConfirmSignup} />
+          <StyledButton type="blue" btnText="Resend" onClick={handleResendOTP} />
         </div>
       </form>
     </Grid>
