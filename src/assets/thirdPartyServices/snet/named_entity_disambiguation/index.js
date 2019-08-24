@@ -5,7 +5,9 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { withStyles } from "@material-ui/core/styles";
+import MethodNamesDropDown from "../../common/MethodNamesDropDown";
 import Paper from "@material-ui/core/Paper";
+import {Disambiguate} from "./NamedEntityDisambiguation_pb_service"
 
 export default class NamedEntityDisambiguation extends React.Component {
   constructor(props) {
@@ -16,7 +18,7 @@ export default class NamedEntityDisambiguation extends React.Component {
 
     this.state = {
       serviceName: "Disambiguate",
-      methodName: "Select a method",
+      methodName: "named_entity_disambiguation",
       sentence: "Enter sample text here!",
     };
   }
@@ -54,10 +56,28 @@ export default class NamedEntityDisambiguation extends React.Component {
     });
   }
 
+
   submitAction() {
-    this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
-      input: this.state.sentence,
-    });
+    const { methodName, sentence } = this.state;
+    const methodDescriptor = Disambiguate[methodName];
+    const request = new methodDescriptor.requestType();
+
+    request.setInput(sentence)
+
+    const props = {
+      request,
+      onEnd: response => {
+        const { message, status, statusMessage } = response;
+        if (status !== 0) {
+          throw new Error(statusMessage);
+        }
+        this.setState({
+          response: { status: "success", value: message.getDisambiguationList() },
+        });
+      },
+    };
+
+    this.props.serviceClient.unary(methodDescriptor, props);
   }
 
   handleInputUpdate(event) {
@@ -65,8 +85,8 @@ export default class NamedEntityDisambiguation extends React.Component {
   }
 
   renderForm() {
-    const service = this.props.protoSpec.findServiceByName(this.state.serviceName);
-    const serviceMethodNames = service.methodNames;
+   const serviceNameOptions = ["Select a method", ...this.props.serviceClient.getMethodNames(Disambiguate)];
+
 
     return (
       <React.Fragment>
@@ -75,14 +95,11 @@ export default class NamedEntityDisambiguation extends React.Component {
             Method Name:
           </div>
           <div className="col-md-3 col-lg-3">
-            <select
-              name="methodName"
+          <MethodNamesDropDown
+              list={serviceNameOptions}
               value={this.state.methodName}
-              style={{ height: "30px", width: "250px", fontSize: "13px", marginBottom: "5px" }}
               onChange={this.handleFormUpdate}
-            >
-              {this.renderServiceMethodNames(serviceMethodNames)}
-            </select>
+            />
           </div>
         </div>
         <div className="row">
@@ -115,7 +132,7 @@ export default class NamedEntityDisambiguation extends React.Component {
             type=" button"
             className=" btn btn-primary"
             disabled={!this.canBeInvoked()}
-            onClick={this.submitAction}
+            onClick={this.submitAction()}
           >
             Call Named Entity Disambiguation
           </button>
@@ -125,7 +142,7 @@ export default class NamedEntityDisambiguation extends React.Component {
   }
 
   renderComplete() {
-    const response = this.props.response;
+    const response = this.state.response;
     const CustomTableCell = withStyles(theme => ({
       head: {
         backgroundColor: theme.palette.common.black,

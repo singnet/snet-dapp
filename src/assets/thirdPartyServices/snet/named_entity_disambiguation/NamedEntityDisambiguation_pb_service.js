@@ -1,36 +1,36 @@
 // package: 
-// file: ProtoFiles/summary.proto
+// file: ProtoFiles/NamedEntityDisambiguation.proto
 
-var ProtoFiles_summary_pb = require("./summary_pb");
+var ProtoFiles_NamedEntityDisambiguation_pb = require("./NamedEntityDisambiguation_pb");
 var grpc = require("@improbable-eng/grpc-web").grpc;
 
-var TextSummary = (function () {
-  function TextSummary() {}
-  TextSummary.serviceName = "TextSummary";
-  return TextSummary;
+var Disambiguate = (function () {
+  function Disambiguate() {}
+  Disambiguate.serviceName = "Disambiguate";
+  return Disambiguate;
 }());
 
-TextSummary.summary = {
-  methodName: "summary",
-  service: TextSummary,
+Disambiguate.named_entity_disambiguation = {
+  methodName: "named_entity_disambiguation",
+  service: Disambiguate,
   requestStream: false,
   responseStream: false,
-  requestType: ProtoFiles_summary_pb.Request,
-  responseType: ProtoFiles_summary_pb.Result
+  requestType: ProtoFiles_NamedEntityDisambiguation_pb.Input,
+  responseType: ProtoFiles_NamedEntityDisambiguation_pb.Output
 };
 
-exports.TextSummary = TextSummary;
+exports.Disambiguate = Disambiguate;
 
-function TextSummaryClient(serviceHost, options) {
+function DisambiguateClient(serviceHost, options) {
   this.serviceHost = serviceHost;
   this.options = options || {};
 }
 
-TextSummaryClient.prototype.summary = function summary(requestMessage, metadata, callback) {
+DisambiguateClient.prototype.named_entity_disambiguation = function named_entity_disambiguation(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
-  var client = grpc.unary(TextSummary.summary, {
+  var client = grpc.unary(Disambiguate.named_entity_disambiguation, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
@@ -57,5 +57,5 @@ TextSummaryClient.prototype.summary = function summary(requestMessage, metadata,
   };
 };
 
-exports.TextSummaryClient = TextSummaryClient;
+exports.DisambiguateClient = DisambiguateClient;
 
