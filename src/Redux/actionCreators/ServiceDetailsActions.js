@@ -19,8 +19,8 @@ const fetchServiceDetailsFailure = err => dispatch => {
 };
 
 const fetchServiceDetailsSuccess = serviceDetails => dispatch => {
-  dispatch({ type: UPDATE_SERVICE_DETAILS, payload: serviceDetails });
   dispatch(loaderActions.stopAppLoader);
+  dispatch({ type: UPDATE_SERVICE_DETAILS, payload: serviceDetails });
 };
 
 const fetchServiceDetailsAPI = async (orgId, serviceId) => {
