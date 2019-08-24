@@ -44,12 +44,12 @@ class NetworkChangeOverlay extends Component {
   showMetaMaskConfigMismatchOverlay = () => {
     const { wallet } = this.props;
     if (wallet && wallet.type !== walletTypes.METAMASK) {
-      return false;
+      return { invalidMetaMaskDetails: false, alert: {} };
     }
 
     const web3Provider = window.ethereum;
     if (!web3Provider) {
-      return false;
+      return { invalidMetaMaskDetails: false, alert: {} };
     }
 
     const sameNetwork = web3Provider.networkVersion === process.env.REACT_APP_ETH_NETWORK;
