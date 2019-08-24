@@ -23,7 +23,7 @@ export default class NamedEntityRecognitionService extends React.Component {
 
     this.state = {
       serviceName: undefined,
-      methodName: undefined,
+      methodName: "Analyze",
       message: undefined,
       response: undefined,
       expanded: null,

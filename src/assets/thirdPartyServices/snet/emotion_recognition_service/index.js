@@ -13,7 +13,6 @@ export default class EmotionRecognitionService extends React.Component {
   constructor(props) {
     super(props);
     this.handleImageUpload = this.handleImageUpload.bind(this);
-    //this.handleServiceName = this.handleServiceName.bind(this);
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
     this.submitAction = this.submitAction.bind(this);
 
@@ -41,27 +40,6 @@ export default class EmotionRecognitionService extends React.Component {
     });
   }
 
-  // handleServiceName(event) {
-  //   let strService = event.target.value;
-  //   this.setState({
-  //     serviceName: strService,
-  //   });
-  // }
-
-  // renderServiceMethodNames(serviceMethodNames) {
-  //   const serviceNameOptions = ["Select a method", ...serviceMethodNames];
-  //   return serviceNameOptions.map((serviceMethodName, index) => {
-  //     return <option key={index}>{serviceMethodName}</option>;
-  //   });
-  // }
-
-  // submitAction() {
-  //   this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
-  //     image: this.state.uploadedImage,
-  //     image_type: this.state.uploadedImageType,
-  //   });
-  // }
-
   submitAction() {
     const { methodName, uploadedImage, uploadedImageType } = this.state;
     const methodDescriptor = EmotionRecognition[methodName];
@@ -78,8 +56,7 @@ export default class EmotionRecognitionService extends React.Component {
           throw new Error(statusMessage);
         }
         this.setState({
-          ...initialUserInput,
-          response: { status: "success", faces: message.getFacesList() },
+          response: response.message.toObject(),
         });
       },
     };
@@ -91,8 +68,6 @@ export default class EmotionRecognitionService extends React.Component {
   renderForm() {
 
     const serviceNameOptions = ["Select a method", ...this.props.serviceClient.getMethodNames(EmotionRecognition)];
-    // const service = this.props.protoSpec.findServiceByName(this.state.serviceName);
-    // const serviceMethodNames = service.methodNames;
 
     return (
       <React.Fragment>

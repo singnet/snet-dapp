@@ -157,7 +157,7 @@ export default class TopicAnalysisService extends React.Component {
   download() {
     const link = document.createElement("a");
     link.setAttribute("type", "hidden");
-    let resp = this.props.response;
+    let resp = this.state.response;
     resp["handle"] = "https://tz-services-1.snet.sh:2298/topic-analysis/api/v1.0/results?handle=" + resp["handle"];
     link.setAttribute("href", "data:text/json," + JSON.stringify(resp));
     link.setAttribute("download", "result.json");
