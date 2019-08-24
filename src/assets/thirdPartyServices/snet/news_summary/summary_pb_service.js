@@ -1,7 +1,7 @@
 // package: 
 // file: ProtoFiles/summary.proto
 
-var ProtoFiles_summary_pb = require("../ProtoFiles/summary_pb");
+var ProtoFiles_summary_pb = require("./summary_pb");
 var grpc = require("@improbable-eng/grpc-web").grpc;
 
 var TextSummary = (function () {
