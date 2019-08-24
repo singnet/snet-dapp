@@ -14,7 +14,6 @@ const VerticalTabs = ({ classes, activeIndex, handleChange, title }) => {
       <Tabs value={activeIndex} onChange={handleChange} className={classes.TabsWrapper}>
         {titles}
       </Tabs>
-      <img src={ArrowIndicator} alt="Arrow" />
     </div>
   );
 };

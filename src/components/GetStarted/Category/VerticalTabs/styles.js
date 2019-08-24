@@ -21,16 +21,6 @@ export const useStyles = theme => ({
         borderLeftColor: theme.palette.text.primary,
         backgroundColor: theme.palette.text.white,
         fontWeight: 600,
-        // '&::after':{
-        //   width: 98,
-        //   height: 48,
-        //   display: 'inline-block',
-        //   content: '" "',
-        //   backgroundColor: theme.palette.text.offWhiteColor,
-        //   backgroundImage: `url(${ArrowIndicator})`,
-        //   backgroundRepeat: 'no-repeat',
-        //   backgroundPosition: 'right'
-        // }
       },
       "&:hover": {
         borderWidth: 1,
