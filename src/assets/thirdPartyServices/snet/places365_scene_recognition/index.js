@@ -95,13 +95,19 @@ export default class Places365SceneRecognition extends React.Component {
     request.setInputImage(input_image)
     request.setPredict(predict)
 
-
     const props = {
-        request,
-        onEnd: ({ message }) => {
-          this.setState({ isComplete: true, response: { data: message.getData() } });
-        },
-      };
+      request,
+      onEnd: response => {
+        const { message, status, statusMessage } = response;
+        if (status !== 0) {
+          throw new Error(statusMessage);
+        }
+        this.setState({
+         
+          response: { status: "success", data: message.getData() },
+        });
+      },
+    };
 
     this.props.serviceClient.unary(methodDescriptor, props);
   }
@@ -192,7 +198,9 @@ export default class Places365SceneRecognition extends React.Component {
   }
 
   parseResponse() {
-    const { response, isComplete } = this.props;
+    const { response } = this.state;
+    const { isComplete } = this.props;
+
     if (isComplete) {
       if (typeof response !== "undefined") {
         if (typeof response === "string") {
