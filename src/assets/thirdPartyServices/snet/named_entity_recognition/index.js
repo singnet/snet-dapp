@@ -256,7 +256,6 @@ export default class NamedEntityRecognitionService extends React.Component {
                 </p>
               </div>
             ))}
-            ;
           </div>
         </Grid>
       </React.Fragment>
