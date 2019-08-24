@@ -2,6 +2,8 @@ import React from "react";
 import SNETImageUpload from "../../standardComponents/SNETImageUpload";
 import { SemanticSegmentation } from "./segmentation_pb_service";
 
+import {Image} from "./segmentation_pb"
+
 const outsideWrapper = {
   width: "256px",
   height: "256px",
@@ -89,7 +91,7 @@ export default class SemanticSegmentationService extends React.Component {
     const request = new methodDescriptor.requestType();
 
     // Setting the Proto Message Img
-    var imgProto = request.Image();
+    var imgProto = new Image();
     imgProto.setMimetype(mimetype);
     imgProto.setContent(imageData);
 
@@ -105,7 +107,7 @@ export default class SemanticSegmentationService extends React.Component {
         }
         this.setState({
           ...initialUserInput,
-          response: { status: "success", debug_img: message.getImg() },
+          response: { status: "success", debug_img: message.getDebugImg() },
         });
       },
     };

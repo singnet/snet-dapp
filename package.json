@@ -13,6 +13,7 @@
     "cytoscape": "^3.3.3",
     "cytoscape-cola": "^2.3.0",
     "google-protobuf": "^3.8.0",
+    "history": "^4.9.0",
     "html2canvas": "^1.0.0-alpha.12",
     "lodash": "latest",
     "material-design-icons": "^3.0.1",
@@ -23,6 +24,7 @@
     "react-dom": "^16.8.6",
     "react-dropzone": "^8.0.4",
     "react-file-drop": "^0.2.8",
+    "react-ga": "^2.6.0",
     "react-google-charts": "^3.0.10",
     "react-json-view": "^1.19.1",
     "react-redux": "^7.1.0",
@@ -32,7 +34,7 @@
     "react-swipeable-views": "^0.13.1",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
-    "snet-sdk-web": "^1.0.0-beta.3",
+    "snet-sdk-web": "^1.0.0-beta.4",
     "utf8": "^3.0.0"
   },
   "scripts": {

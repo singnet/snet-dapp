@@ -11,7 +11,7 @@ export const useStyles = theme => ({
       textTransform: "none",
       color: theme.palette.text.lightShadedGray,
       fontFamily: theme.typography.primary.main,
-      '&:hover':{ color: theme.palette.text.primary }
+      "&:hover": { color: theme.palette.text.primary },
     },
     "& .Mui-selected": {
       color: theme.palette.text.primary,
