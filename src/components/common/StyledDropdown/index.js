@@ -12,14 +12,15 @@ const StyledDropdown = ({ labelTxt, list, value, onChange, formControlProps, nat
   return (
     <FormControl className={classes.formControl} {...formControlProps}>
       <Select value={value} onChange={onChange} name={labelTxt} className={classes.selectEmpty}>
-        <MenuItem value="">
-          <em>None</em>
+        <MenuItem value="default">
+          <em>Select a value</em>
         </MenuItem>
-        {list.map(item => (
-          <MenuItem key={item.value} value={item.value}>
-            {item.label}
-          </MenuItem>
-        ))}
+        {list &&
+          list.map(item => (
+            <MenuItem key={item.value} value={item.value}>
+              {item.label}
+            </MenuItem>
+          ))}
       </Select>
     </FormControl>
   );
@@ -37,7 +38,6 @@ StyledDropdown.propTypes = {
 
 StyledDropdown.defaultProps = {
   labelTxt: "",
-  list: [{ value: "", label: "" }],
 };
 
 export default StyledDropdown;
