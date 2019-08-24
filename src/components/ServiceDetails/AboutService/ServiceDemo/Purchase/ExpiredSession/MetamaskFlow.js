@@ -29,6 +29,7 @@ Click here to install and learn more about how to use Metamask and your AGI cred
 class MetamaskFlow extends Component {
   state = {
     MMconnected: false,
+    mpeBal: "0",
     selectedPayType: payTypes.CHANNEL_BALANCE,
     disabledPayTypes: [],
     showPurchaseDialog: false,
@@ -63,18 +64,19 @@ class MetamaskFlow extends Component {
     },
     {
       title: "Escrow Balance",
-      value: "",
+      value: this.state.mpeBal,
       unit: "AGI",
     },
     {
       title: "Channel Balance",
-      value: "",
+      value: this.state.channelBalance,
       unit: "AGI",
     },
   ];
 
   handleDisabledPaytypes = ({ channelBalance }) => {
     const { disabledPayTypes } = this.state;
+
     if (channelBalance <= 0 && !disabledPayTypes.includes(payTypes.CHANNEL_BALANCE)) {
       disabledPayTypes.push(payTypes.CHANNEL_BALANCE);
     }
@@ -86,26 +88,22 @@ class MetamaskFlow extends Component {
     try {
       startMMconnectLoader();
       const sdk = await initSdk();
-      let mpeBal = await sdk.account.escrowBalance();
+      const mpeBal = await sdk.account.escrowBalance();
       await this.paymentChannelManagement.updateChannelInfo();
-      if (!this.paymentChannelManagement.channel) {
-        await this.paymentChannelManagement.openChannel();
-        mpeBal = await sdk.account.escrowBalance();
-      }
 
       this.PaymentInfoCardData.map(el => {
         if (el.title === "Escrow Balance") {
           el.value = cogsToAgi(mpeBal);
         }
         if (el.title === "Channel Balance") {
-          el.value = cogsToAgi(this.paymentChannelManagement.channel.state.availableAmount);
+          el.value = cogsToAgi(this.paymentChannelManagement.availableBalance());
         }
         return el;
       });
+      const channelBalance = this.paymentChannelManagement.availableBalance();
+      this.handleDisabledPaytypes({ channelBalance });
 
-      this.handleDisabledPaytypes({ channelBalance: this.paymentChannelManagement.channel.state.availableAmount });
-
-      this.setState({ MMconnected: true });
+      this.setState({ MMconnected: true, mpeBal, channelBalance });
     } catch (error) {
       this.setState({ alert: { type: alertTypes.ERROR, message: `Unable to connect to metamask ${error}` } });
     }
@@ -130,20 +128,43 @@ class MetamaskFlow extends Component {
 
   handleNoOfCallsChange = event => {
     const noOfServiceCalls = event.target.value;
-    const totalPrice = String(((noOfServiceCalls * 2) / 100000000).toFixed(8));
+    const totalPrice = String(cogsToAgi(this.paymentChannelManagement.noOfCallsToCogs(noOfServiceCalls)));
     this.setState({ noOfServiceCalls, totalPrice });
   };
 
   handleSubmit = async () => {
+    this.setState({ alert: {} });
+
     let { noOfServiceCalls, selectedPayType } = this.state;
+    if (selectedPayType === payTypes.CHANNEL_BALANCE) {
+      this.props.handleContinue();
+      return;
+    }
+    if (selectedPayType === payTypes.SINGLE_CALL) {
+      noOfServiceCalls = 1;
+    }
+    const sdk = await initSdk();
+    const mpeBal = await sdk.account.escrowBalance();
+    if (mpeBal < this.paymentChannelManagement.noOfCallsToCogs(noOfServiceCalls)) {
+      this.setState({
+        mpeBal,
+        alert: {
+          type: alertTypes.ERROR,
+          message: `Insufficient MPE balance. Please deposit some AGI tokens to your escrow account`,
+        },
+      });
+      return;
+    }
     try {
-      if (selectedPayType === payTypes.SINGLE_CALL) {
-        noOfServiceCalls = 1;
+      if (!this.paymentChannelManagement.channel) {
+        await this.paymentChannelManagement.openChannel(noOfServiceCalls);
+      } else {
+        await this.paymentChannelManagement.extendAndAddFunds(noOfServiceCalls);
       }
-      await this.paymentChannelManagement.extendAndAddFunds(noOfServiceCalls);
+
       this.props.handleContinue();
     } catch (error) {
-      this.setState({ alert: { type: alertTypes.ERROR, message: `Unable to execute the call: ${error}` } });
+      this.setState({ alert: { type: alertTypes.ERROR, message: `Unable to execute the call` } });
     }
   };
 
