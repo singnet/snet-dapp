@@ -2,7 +2,7 @@ export const useStyles = theme => ({
   messageBox: {
     borderWidth: 1,
     borderStyle: "solid",
-    borderRadius: 2,
+    borderRadius: 4,
     padding: "13px 20px",
     marginTop: "20px ",
     color: theme.palette.text.alertBoxColor,
