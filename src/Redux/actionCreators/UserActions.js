@@ -10,6 +10,7 @@ export const SET_USER_DETAILS = "SET_USER_DETAILS";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_LOADING = "LOGIN_LOADING";
 export const LOGIN_ERROR = "LOGIN_ERROR";
+export const RESET_LOGIN_ERROR = "RESET_LOGIN_ERROR";
 export const SIGN_OUT = "SIGN_OUT";
 export const UPDATE_NICKNAME = "UPDATE_NICKNAME";
 export const UPDATE_EMAIL = "UPDATE_EMAIL";
@@ -162,6 +163,10 @@ export const updateUserProfile = updatedUserData => async dispatch => {
     dispatch(updateUserProfileFailure(err));
     throw err;
   }
+};
+
+export const resetLoginError = dispatch => {
+  dispatch({ type: RESET_LOGIN_ERROR });
 };
 
 export const loginSuccess = ({ res, history, route }) => async dispatch => {

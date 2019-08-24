@@ -8,7 +8,7 @@ import ChannelSelectionBox from "../ChannelSelectionBox";
 import AlertBox, { alertTypes } from "../../../../../common/AlertBox";
 import { initSdk } from "../../../../../../utility/sdk";
 import { cogsToAgi } from "../../../../../../utility/PricingStrategy";
-import { pricing } from "../../../../../../Redux/reducers/ServiceDetailsReducer";
+import { currentServiceDetails, pricing } from "../../../../../../Redux/reducers/ServiceDetailsReducer";
 import { WebServiceClient as ServiceClient } from "snet-sdk-web";
 import PaymentChannelManagement from "../../../../../../utility/PaymentChannelManagement";
 import { loaderActions } from "../../../../../../Redux/actionCreators";
@@ -46,9 +46,12 @@ class MetamaskFlow extends Component {
   };
 
   initializePaymentChannel = async () => {
-    const { groupInfo } = this.props;
+    const {
+      serviceDetails: { org_id, service_id },
+      groupInfo,
+    } = this.props;
     const sdk = await initSdk();
-    this.serviceClient = new ServiceClient(sdk, "snet", "example-service", sdk._mpeContract, {}, groupInfo);
+    this.serviceClient = new ServiceClient(sdk, org_id, service_id, sdk._mpeContract, {}, groupInfo);
     this.paymentChannelManagement = new PaymentChannelManagement(sdk, this.serviceClient);
   };
 
@@ -189,7 +192,7 @@ class MetamaskFlow extends Component {
             <span className={classes.channelSelectionTitle}>Recommended</span>
             <ChannelSelectionBox
               title="Channel Balance"
-              description={`You have ${this.parseChannelBalFromPaymentCard()} AGI in you channel. This can be used for running demos across all the services from this vendor.`}
+              description={`You have 1 AGI in you channel. This can be used for running demos across all the services from this vendor.`}
               checked={selectedPayType === payTypes.CHANNEL_BALANCE}
               value={payTypes.CHANNEL_BALANCE}
               onClick={() => this.handlePayTypeChange(payTypes.CHANNEL_BALANCE)}
@@ -239,6 +242,7 @@ class MetamaskFlow extends Component {
 }
 
 const mapStateToProps = state => ({
+  serviceDetails: currentServiceDetails(state),
   pricing: pricing(state),
 });
 
