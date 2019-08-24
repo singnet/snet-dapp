@@ -6,25 +6,32 @@ import clsx from "clsx";
 
 import { useStyles } from "./styles";
 
-const notificationBar = {
-	warning: 'warning',
-	information: 'information'
-}
+export const notificationBarTypes = {
+  WARNING: "warning",
+  INFORMATION: "information",
+};
 
-const NotificationBar = ({ classes, showNotification, icon: Icon, notificationText, type }) => {
+const NotificationBar = ({ classes, showNotification, icon: Icon, message, type }) => {
   if (!showNotification) return null;
   return (
     <Grid container className={classes.NotificationBar}>
-      <Grid item xs={12} sm={12} md={12} lg={12} className={clsx(classes.notificationText, classes[notificationBar[type]])}>
+      <Grid
+        item
+        xs={12}
+        sm={12}
+        md={12}
+        lg={12}
+        className={clsx(classes.notificationText, classes[notificationBarTypes[type]])}
+      >
         <Icon />
-        <span>{notificationText}</span>
+        <span>{message}</span>
       </Grid>
     </Grid>
   );
 };
 
 NotificationBar.propTypes = {
-	type: PropTypes.oneOf(["warning", "information"])
-}
+  type: PropTypes.oneOf(["warning", "information"]),
+};
 
 export default withStyles(useStyles)(NotificationBar);

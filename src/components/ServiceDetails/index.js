@@ -11,15 +11,19 @@ import StyledTabs from "./StyledTabs";
 import AboutService from "./AboutService";
 import InstallAndRunService from "./InstallAndRunService";
 import { useStyles } from "./styles";
-import NotificationBar from "../common/NotificationBar";
+import NotificationBar, { notificationBarTypes } from "../common/NotificationBar";
 import { serviceDetailsActions } from "../../Redux/actionCreators";
-import { pricing, serviceDetails, freeCalls } from "../../Redux/reducers/ServiceDetailsReducer";
+import { pricing, serviceDetails } from "../../Redux/reducers/ServiceDetailsReducer";
 import AlertBox, { alertTypes } from "../common/AlertBox";
 
 class ServiceDetails extends Component {
   state = {
     activeTab: 0,
     alert: {},
+    offlineNotication: {
+      type: notificationBarTypes.WARNING,
+      message: "Service is currently unavailable. Please try later",
+    },
   };
 
   componentDidMount() {
@@ -50,8 +54,8 @@ class ServiceDetails extends Component {
   };
 
   render() {
-    const { classes, service, pricing, freeCalls } = this.props;
-    const { alert } = this.state;
+    const { classes, service, pricing } = this.props;
+    const { alert, offlineNotication } = this.state;
 
     if (isEmpty(service)) {
       return (
@@ -76,11 +80,10 @@ class ServiceDetails extends Component {
       <div>
         <Grid container spacing={24} className={classes.serviceDetailContainer}>
           <NotificationBar
-            type="information"
+            type={offlineNotication.type}
             showNotification={!service.is_available}
             icon={CardGiftcardIcon}
-            notificationText={`Free Trial Access:  You can try out this service for free. You have   ${freeCalls.remaining} free API calls   
-               after which a subscription needs to be purchased`}
+            message={offlineNotication.message}
           />
           <div className={classes.TopSection}>
             <TitleCard
@@ -106,7 +109,7 @@ const mapStateToProps = (state, ownProps) => {
     },
   } = ownProps;
 
-  return { service: serviceDetails(state, orgId, serviceId), freeCalls: freeCalls(state), pricing: pricing(state) };
+  return { service: serviceDetails(state, orgId, serviceId), pricing: pricing(state) };
 };
 
 const mapDispatchToProps = dispatch => ({
