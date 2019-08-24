@@ -6,7 +6,7 @@ export const useStyles = theme => ({
     "& button": {
       maxWidth: "100%",
       padding: '0 0 0 25px',
-      borderLeft: 1,
+      borderLeftWidth: 1,
       borderLeftStyle: "solid",
       borderLeftColor: theme.palette.text.verticalTabLeftBorder,
       color: theme.palette.text.lightShadedGray,
@@ -23,9 +23,6 @@ export const useStyles = theme => ({
         fontWeight: 600,
       },
       "&:hover": {
-        borderWidth: 1,
-        borderStyle: "solid",
-        borderColor: theme.palette.text.primary,
         backgroundColor: theme.palette.text.white,
         color: theme.palette.text.primary,
         fontWeight: 600,
