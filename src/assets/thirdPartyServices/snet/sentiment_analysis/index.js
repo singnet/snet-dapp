@@ -23,7 +23,7 @@ export default class NamedEntityRecognitionService extends React.Component {
 
     this.state = {
       serviceName: undefined,
-      methodName: undefined,
+      methodName: "Analyze",
       message: undefined,
       response: undefined,
       expanded: null,
@@ -45,19 +45,36 @@ export default class NamedEntityRecognitionService extends React.Component {
 
   }
 
-  
-
  handleFormUpdate(event) {
   console.log(event.target);
   this.setState({ [event.target.name]: event.target.value });
 }
 
+handleSentences() {
+  let tempMessages = this.state.message.toString().split("\n");
+  let tempArray = [];
+  for (let i = 0; i < tempMessages.length; i++) {
+      if (tempMessages[i].length >= 1) {
+          tempArray.push(tempMessages[i]);
+      }
+  }
+  let filterArray = tempArray.filter(function (el) {
+      return el != null;
+  });
+
+  let itemsToAnalyze = [];
+  for (let i = 0; i < filterArray.length; i++) {
+      itemsToAnalyze.push({id: i + 1, sentence: filterArray[i]});
+  }
+  return itemsToAnalyze;
+}
+
   submitAction() {
-    const { methodName, value } = this.state;
+    const { methodName, message } = this.state;
     const methodDescriptor = SentimentAnalysis[methodName];
     const request = new methodDescriptor.requestType();
 
-    request.setValue(btoa(this.state.message));
+    request.setValue(JSON.stringify(this.handleSentences()));
 
     const props = {
       request,
@@ -75,8 +92,6 @@ export default class NamedEntityRecognitionService extends React.Component {
     this.props.serviceClient.unary(methodDescriptor, props);
   }
 
-
-
   handleChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
@@ -86,6 +101,8 @@ export default class NamedEntityRecognitionService extends React.Component {
     //Will be improved and migrated to backend service soon
     try {
       let resultItems = [];
+
+      /*
       const responseArray = atob(response).split("}");
       for (let i = 0; i < responseArray.length - 1; i++) {
         let arrayItem = responseArray[i].split("{");
@@ -97,6 +114,25 @@ export default class NamedEntityRecognitionService extends React.Component {
         resultItems.push(item);
       }
       return resultItems;
+      */
+
+      // Anyway we are pushing only one sentence in the input.
+      var jsonResult = JSON.parse(response);
+
+      var i=0;
+      var input = this.handleSentences();
+      jsonResult.forEach(val => {  
+
+        let item = {
+          sentence: input[i++].sentence,
+          result: val.analysis,
+        };
+        resultItems.push(item);
+
+      });
+
+      return resultItems;
+
     } catch (e) {
       return [];
     }
@@ -125,49 +161,6 @@ export default class NamedEntityRecognitionService extends React.Component {
         </Grid>
         <Grid item xs={12}>
           <br />
-          <br />
-          {
-            /* TODO: Check for the need */
-            /* <FormControl style={{ minWidth: "100%" }}>
-            <Select
-              value={this.state.serviceName}
-              onChange={this.handleServiceName}
-              displayEmpty
-              name="serviceName"
-              style={this.state.styles.defaultFontSize}
-            >
-              <MenuItem style={this.state.styles.defaultFontSize} value={undefined}>
-                <em>Select a Service</em>
-              </MenuItem>
-              {this.allServices.map(item => (
-                <MenuItem style={this.state.styles.defaultFontSize} value={item} key={item}>
-                  {item}
-                </MenuItem>
-              ))}
-              ;
-            </Select>
-          </FormControl>
-          <br />
-          <FormControl style={{ minWidth: "100%" }}>
-            <Select
-              value={this.state.methodName}
-              onChange={this.handleFormUpdate}
-              displayEmpty
-              name="methodName"
-              style={this.state.styles.defaultFontSize}
-            >
-              <MenuItem style={this.state.styles.defaultFontSize} value={undefined}>
-                <em>Select a Method</em>
-              </MenuItem>
-              {this.serviceMethods.map(item => (
-                <MenuItem style={this.state.styles.defaultFontSize} value={item}>
-                  {item}
-                </MenuItem>
-              ))}
-              ;
-            </Select>
-          </FormControl>
-          <br /> */}
           <TextField
             id="standard-multiline-static"
             label="Input sentence"
@@ -265,7 +258,6 @@ export default class NamedEntityRecognitionService extends React.Component {
                 <br />
               </h5>
             ))}
-            ;
           </div>
         </Grid>
       </React.Fragment>

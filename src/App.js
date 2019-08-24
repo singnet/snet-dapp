@@ -17,6 +17,8 @@ import PrivateRoute from "./components/common/PrivateRoute";
 import AppLoader from "./components/common/AppLoader";
 import { initSdk } from "./utility/sdk";
 import { CircularProgress } from "@material-ui/core";
+import NetworkChangeOverlay from "./components/common/NetworkChangeOverlay";
+import { walletTypes } from "./Redux/actionCreators/UserActions";
 
 const ForgotPassword = lazy(() => import("./components/Login/ForgotPassword"));
 const ForgotPasswordSubmit = lazy(() => import("./components/Login/ForgotPasswordSubmit"));
@@ -45,7 +47,9 @@ class App extends Component {
   };
 
   componentDidUpdate = () => {
-    initSdk();
+    if (this.props.wallet.type === walletTypes.METAMASK) {
+      initSdk();
+    }
   };
 
   render() {
@@ -118,6 +122,7 @@ class App extends Component {
           </Router>
         </div>
         <AppLoader />
+        <NetworkChangeOverlay />
       </ThemeProvider>
     );
   }
@@ -126,9 +131,9 @@ class App extends Component {
 const mapStateToProps = state => ({
   isLoggedIn: state.userReducer.login.isLoggedIn,
   isTermsAccepted: state.userReducer.isTermsAccepted,
-  wallet: state.userReducer.wallet,
   isInitialized: state.userReducer.isInitialized,
   hamburgerMenu: state.stylesReducer.hamburgerMenu,
+  wallet: state.userReducer.wallet,
 });
 
 const mapDispatchToProps = dispatch => ({
