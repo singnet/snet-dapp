@@ -24,11 +24,7 @@ export const useStyles = makeStyles(theme => ({
   circularProgressContainer: {
     paddingTop: 20,
     textAlign: "center",
-    "& div": {
-      color: theme.palette.text.primary,
-    },
+    "& div": { color: theme.palette.text.primary },
   },
-  circularProgress: {
-    display: "inline-block",
-  },
+  circularProgress: { display: "inline-block" },
 }));
