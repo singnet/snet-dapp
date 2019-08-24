@@ -60,7 +60,7 @@ export default class NeuralSpeechSynthesis extends React.Component {
         }
         this.setState({
           ...initialUserInput,
-          response: { status: "success", data: message.getData_asB64() },
+          response: { status: "success", data: message.getData_asU8() },
         });
       },
     };
