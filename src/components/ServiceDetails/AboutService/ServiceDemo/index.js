@@ -8,6 +8,7 @@ import { serviceDetailsActions, loaderActions } from "../../../../Redux/actionCr
 import PurchaseToggler from "./PurchaseToggler";
 import { freeCalls, groupInfo } from "../../../../Redux/reducers/ServiceDetailsReducer";
 import { LoaderContent } from "../../../../utility/constants/LoaderContent";
+import AlertBox, { alertTypes } from "../../../common/AlertBox";
 
 const demoProgressStatus = {
   purchasing: 1,
@@ -20,6 +21,7 @@ class ServiceDemo extends Component {
     progressText: ["Purchase", "Configure", "Results"],
     purchaseCompleted: false,
     isServiceExecutionComplete: false,
+    alert: {},
   };
 
   componentDidMount = async () => {
@@ -56,12 +58,16 @@ class ServiceDemo extends Component {
   };
 
   handleResetAndRun = () => {
-    this.setState({ purchaseCompleted: false, isServiceExecutionComplete: false });
+    this.setState({ purchaseCompleted: false, isServiceExecutionComplete: false, alert: {} });
     this.fetchFreeCallsUsage();
   };
 
-  serviceRequestErrorHandler = err => {
-    console.log("serviceRequestErrorHandler", err);
+  serviceRequestErrorHandler = error => {
+    console.log("serviceRequestErrorHandler", error);
+    this.setState({
+      isServiceExecutionComplete: false,
+      alert: { type: alertTypes.ERROR, message: error },
+    });
   };
 
   handlePurchaseComplete = () => {
@@ -69,7 +75,10 @@ class ServiceDemo extends Component {
   };
 
   handlePurchaseError = error => {
-    console.log("handlePurchaseError", error);
+    this.setState({
+      purchaseCompleted: false,
+      alert: { type: alertTypes.ERROR, message: error },
+    });
   };
 
   render() {
@@ -81,7 +90,7 @@ class ServiceDemo extends Component {
       wallet,
     } = this.props;
 
-    const { progressText, purchaseCompleted, isServiceExecutionComplete } = this.state;
+    const { progressText, purchaseCompleted, isServiceExecutionComplete, alert } = this.state;
 
     const {
       handleResetAndRun,
@@ -116,6 +125,7 @@ class ServiceDemo extends Component {
             serviceRequestErrorHandler,
           }}
         />
+        <AlertBox type={alert.type} message={alert.message} />
       </div>
     );
   }

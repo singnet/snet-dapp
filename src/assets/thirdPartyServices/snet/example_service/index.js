@@ -36,22 +36,26 @@ class ExampleService extends React.Component {
   }
 
   submitAction() {
-    const methodDescriptor = Calculator[this.state.methodName];
-    const request = new methodDescriptor.requestType();
-    request.setA(this.state.a);
-    request.setB(this.state.b);
+    try {
+      const methodDescriptor = Calculator[this.state.methodName];
+      const request = new methodDescriptor.requestType();
+      request.setA(this.state.a);
+      request.setB(this.state.b);
 
-    const props = {
-      request,
-      onEnd: ({ status, statusMessage, message }) => {
-        if (status !== 0) {
-          // throw new Error(statusMessage);
-          this.props.serviceRequestErrorHandler(statusMessage);
-        }
-        this.setState({ ...initialUserInput, response: { value: message.getValue() } });
-      },
-    };
-    this.props.serviceClient.unary(methodDescriptor, props);
+      const props = {
+        request,
+        onEnd: ({ status, statusMessage, message }) => {
+          if (status !== 0) {
+            this.props.serviceRequestErrorHandler(statusMessage);
+            return;
+          }
+          this.setState({ ...initialUserInput, response: { value: message.getValue() } });
+        },
+      };
+      this.props.serviceClient.unary(methodDescriptor, props);
+    } catch (error) {
+      this.props.serviceRequestErrorHandler(error);
+    }
   }
 
   renderServiceMethodNames(serviceMethodNames) {
