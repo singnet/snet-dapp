@@ -8,6 +8,8 @@ import ProxyPaymentChannelManagementStrategy from "./ProxyPaymentChannelManageme
 
 const DEFAULT_GAS_PRICE = 4700000;
 const DEFAULT_GAS_LIMIT = 210000;
+const ON_ACCOUNT_CHANGE = "accountsChanged";
+const ON_NETWORK_CHANGE = "networkChanged";
 
 let sdk;
 let web3Provider;
@@ -95,6 +97,14 @@ export const initSdk = async () => {
   if (hasEth && hasWeb3) {
     web3Provider = window.ethereum;
     await web3Provider.enable();
+    web3Provider.addListener(ON_ACCOUNT_CHANGE, accounts => {
+      const event = new CustomEvent("snetMMAccountChanged", { detail: { address: accounts[0] } });
+      window.dispatchEvent(event);
+    });
+    web3Provider.addListener(ON_NETWORK_CHANGE, network => {
+      const event = new CustomEvent("snetMMNetworkChanged", { detail: { network } });
+      window.dispatchEvent(event);
+    });
     updateSDK();
   }
   return sdk;
