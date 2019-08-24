@@ -66,12 +66,12 @@ const generateOptions = (callType, wallet) => {
       disableBlockchainOperations: true,
     };
   }
-
+  if (callType === callTypes.FREE) {
+    return { metadataGenerator: metadataGenerator(callType) };
+  }
   if (wallet && wallet.type === walletTypes.METAMASK) {
     return {};
   }
-
-  return { metadataGenerator: metadataGenerator(callType) };
 };
 
 export const initSdk = async () => {
@@ -128,7 +128,7 @@ export const createServiceClient = (
     service_id,
     sdk && sdk._mpeContract,
     {},
-    groupInfo,
+    process.env.REACT_APP_SANDBOX ? {} : groupInfo,
     sdk && sdk._paymentChannelManagementStrategy,
     options
   );

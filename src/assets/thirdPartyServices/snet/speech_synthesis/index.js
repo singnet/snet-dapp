@@ -2,6 +2,12 @@ import React from "react";
 import { hasOwnDefinedProperty } from "../../../../utility/JSHelper";
 import Button from "@material-ui/core/Button";
 
+import {TTS} from "./tts_pb_service"
+
+const initialUserInput = {
+  text: "",
+};
+
 export default class NeuralSpeechSynthesis extends React.Component {
   constructor(props) {
     super(props);
@@ -9,69 +15,18 @@ export default class NeuralSpeechSynthesis extends React.Component {
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
 
     this.users_guide = "https://github.com/iktina/speech-synthesis-service";
-    this.serviceName = "TTS";
-    this.methodName = "t2s";
 
     this.state = {
+      ...initialUserInput,
+      serviceName: "TTS",
+      methodName: "t2s",
       response: undefined,
-      text: "",
     };
 
     this.isComplete = false;
     this.serviceMethods = [];
     this.allServices = [];
     this.methodsForAllServices = [];
-    this.parseProps(props);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.isComplete !== nextProps.isComplete) {
-      this.parseProps(nextProps);
-    }
-  }
-
-  parseProps(nextProps) {
-    this.isComplete = nextProps.isComplete;
-    if (!this.isComplete) {
-      this.parseServiceSpec(nextProps.serviceSpec);
-    } else {
-      if (typeof nextProps.response !== "undefined") {
-        if (typeof nextProps.response === "string") {
-          this.state.response = nextProps.response;
-        } else {
-          this.state.response = nextProps.response.data;
-        }
-      }
-    }
-  }
-
-  parseServiceSpec(serviceSpec) {
-    const packageName = Object.keys(serviceSpec.nested).find(
-      key => typeof serviceSpec.nested[key] === "object" && hasOwnDefinedProperty(serviceSpec.nested[key], "nested")
-    );
-
-    var objects = undefined;
-    var items = undefined;
-    if (typeof packageName !== "undefined") {
-      items = serviceSpec.lookup(packageName);
-      objects = Object.keys(items);
-    } else {
-      items = serviceSpec.nested;
-      objects = Object.keys(serviceSpec.nested);
-    }
-
-    this.allServices.push("Select a service");
-    this.methodsForAllServices = [];
-    objects.map(rr => {
-      if (typeof items[rr] === "object" && items[rr] !== null && items[rr].hasOwnProperty("methods")) {
-        this.allServices.push(rr);
-        this.methodsForAllServices.push(rr);
-
-        var methods = Object.keys(items[rr]["methods"]);
-        methods.unshift("Select a method");
-        this.methodsForAllServices[rr] = methods;
-      }
-    });
   }
 
   handleFormUpdate(event) {
@@ -85,14 +40,34 @@ export default class NeuralSpeechSynthesis extends React.Component {
   }
 
   submitAction() {
+
     var btn = document.getElementById("invoke-button");
     btn.disabled = true;
     btn.innerHTML = "Wait...";
 
-    this.props.callApiCallback(this.serviceName, this.methodName, {
-      text: this.state.text,
-    });
+    const { methodName, text } = this.state;
+    const methodDescriptor = TTS[methodName];
+    const request = new methodDescriptor.requestType();
+
+    request.setText(text);
+
+    const props = {
+      request,
+      onEnd: response => {
+        const { message, status, statusMessage } = response;
+        if (status !== 0) {
+          throw new Error(statusMessage);
+        }
+        this.setState({
+          ...initialUserInput,
+          response: { status: "success", data: message.getData_asU8() },
+        });
+      },
+    };
+
+    this.props.serviceClient.unary(methodDescriptor, props);
   }
+
 
   renderForm() {
     return (
@@ -147,8 +122,8 @@ export default class NeuralSpeechSynthesis extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.isComplete) {
-      var data = new Uint8Array(this.state.response);
+    if (this.props.isComplete) {
+      var data = new Uint8Array(this.state.response.data);
       var blob = new Blob([data], { type: "audio/wav" });
       var ac = document.getElementById("audio-container");
       ac.innerHTML = "";
@@ -163,7 +138,7 @@ export default class NeuralSpeechSynthesis extends React.Component {
   }
 
   render() {
-    if (this.isComplete) return <div>{this.renderComplete()}</div>;
+    if (this.props.isComplete) return <div>{this.renderComplete()}</div>;
     else {
       return <div>{this.renderForm()}</div>;
     }

@@ -128,10 +128,11 @@ const mapStateToProps = state => ({
   wallet: state.userReducer.wallet,
 });
 
-const mapDispatchToProps = dispatch => ({
-  startLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.SERVICE_INVOKATION)),
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  startLoader: () =>
+    dispatch(loaderActions.startAppLoader(LoaderContent.SERVICE_INVOKATION(ownProps.service.display_name))),
   stopLoader: () => dispatch(loaderActions.stopAppLoader),
-  fetchMeteringData: args => dispatch(serviceDetailsActions.fetchMeteringData({ ...args })),
+  fetchMeteringData: args => dispatch(serviceDetailsActions.fetchMeteringData(args)),
 });
 
 export default connect(

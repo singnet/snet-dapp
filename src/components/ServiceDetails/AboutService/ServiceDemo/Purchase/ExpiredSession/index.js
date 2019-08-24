@@ -1,5 +1,6 @@
 import React from "react";
 import { withStyles } from "@material-ui/styles";
+import { withRouter } from "react-router-dom";
 
 import AlertBox from "../../../../../common/AlertBox";
 import StyledButton from "../../../../../common/StyledButton";
@@ -34,4 +35,4 @@ const ExpiredSession = ({ classes, handleComplete, metamask, groupInfo, history,
   );
 };
 
-export default withStyles(useStyles)(ExpiredSession);
+export default withRouter(withStyles(useStyles)(ExpiredSession));
