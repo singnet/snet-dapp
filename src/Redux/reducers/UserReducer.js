@@ -1,5 +1,5 @@
 import { userActions } from "../actionCreators";
-import { walletTypes } from "../actionCreators/UserActions";
+import { walletTypes, RESET_LOGIN_ERROR } from "../actionCreators/UserActions";
 
 const InitialUserDetails = {
   login: {
@@ -63,6 +63,9 @@ const userReducer = (state = InitialUserDetails, action) => {
           ...action.payload.login,
         },
       };
+    }
+    case RESET_LOGIN_ERROR: {
+      return { ...state, login: { ...state.login, error: undefined } };
     }
     case userActions.SIGN_OUT: {
       return {

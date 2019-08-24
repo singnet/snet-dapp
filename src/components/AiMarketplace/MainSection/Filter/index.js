@@ -1,5 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
+import some from "lodash/some";
+import isEmpty from "lodash/isEmpty";
 
 import StyledExpansionPanel from "./StyledExpansionPanel";
 import { useStylesHook } from "./styles";
@@ -9,6 +11,7 @@ import {
   generateFilterObject,
   filterTitles,
 } from "../../../../utility/constants/Pagination";
+import Reset from "./Reset";
 
 const Filter = ({ activeFilterItem, pagination, filterDataProps, handleFilterChange, resetFilter }) => {
   const classes = useStylesHook();
@@ -43,13 +46,13 @@ const Filter = ({ activeFilterItem, pagination, filterDataProps, handleFilterCha
     resetFilter({ pagination: latestPagination });
   };
 
+  const shouldResetBeEnabled = () => some(activeFilterItem, item => !isEmpty(item));
+
   return (
     <div className={classes.filterContainer}>
       <div className={classes.filterResetBtnContainer}>
         <h2 className={classes.h2}>Filters</h2>
-        <button className={classes.resetBtn} type="reset" value="Reset" onClick={handleFilterReset}>
-          Reset
-        </button>
+        <Reset disabled={!shouldResetBeEnabled()} classes={classes} handleFilterReset={handleFilterReset} />
       </div>
       <StyledExpansionPanel
         expansionItems={Object.values(filterData)}

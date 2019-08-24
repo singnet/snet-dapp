@@ -28,13 +28,18 @@ const serviceDetailsReducer = (state = InitialServiceDetails, action) => {
 export const freeCalls = state => {
   return state.serviceDetailsReducer.freeCalls;
 };
+
+export const currentServiceDetails = state => {
+  return state.serviceDetailsReducer.details;
+};
+
 export const serviceDetails = (state, orgId, serviceId) => {
-  const { org_id, service_id } = state.serviceDetailsReducer.details;
+  const { org_id, service_id } = currentServiceDetails(state);
   if (org_id !== orgId || service_id !== serviceId) {
     return undefined;
   }
 
-  return state.serviceDetailsReducer.details;
+  return currentServiceDetails(state);
 };
 
 const groups = state => {

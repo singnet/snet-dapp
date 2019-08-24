@@ -8,7 +8,7 @@ import ChannelSelectionBox from "../ChannelSelectionBox";
 import AlertBox, { alertTypes } from "../../../../../common/AlertBox";
 import { initSdk } from "../../../../../../utility/sdk";
 import { cogsToAgi } from "../../../../../../utility/PricingStrategy";
-import { pricing } from "../../../../../../Redux/reducers/ServiceDetailsReducer";
+import { currentServiceDetails, pricing } from "../../../../../../Redux/reducers/ServiceDetailsReducer";
 import { WebServiceClient as ServiceClient } from "snet-sdk-web";
 import PaymentChannelManagement from "../../../../../../utility/PaymentChannelManagement";
 import { loaderActions } from "../../../../../../Redux/actionCreators";
@@ -29,6 +29,7 @@ Click here to install and learn more about how to use Metamask and your AGI cred
 class MetamaskFlow extends Component {
   state = {
     MMconnected: false,
+    mpeBal: "0",
     selectedPayType: payTypes.CHANNEL_BALANCE,
     disabledPayTypes: [],
     showPurchaseDialog: false,
@@ -46,9 +47,12 @@ class MetamaskFlow extends Component {
   };
 
   initializePaymentChannel = async () => {
-    const { groupInfo } = this.props;
+    const {
+      serviceDetails: { org_id, service_id },
+      groupInfo,
+    } = this.props;
     const sdk = await initSdk();
-    this.serviceClient = new ServiceClient(sdk, "snet", "example-service", sdk._mpeContract, {}, groupInfo);
+    this.serviceClient = new ServiceClient(sdk, org_id, service_id, sdk._mpeContract, {}, groupInfo);
     this.paymentChannelManagement = new PaymentChannelManagement(sdk, this.serviceClient);
   };
 
@@ -59,18 +63,19 @@ class MetamaskFlow extends Component {
     },
     {
       title: "Escrow Balance",
-      value: "",
+      value: this.state.mpeBal,
       unit: "AGI",
     },
     {
       title: "Channel Balance",
-      value: "",
+      value: this.state.channelBalance,
       unit: "AGI",
     },
   ];
 
   handleDisabledPaytypes = ({ channelBalance }) => {
     const { disabledPayTypes } = this.state;
+
     if (channelBalance <= 0 && !disabledPayTypes.includes(payTypes.CHANNEL_BALANCE)) {
       disabledPayTypes.push(payTypes.CHANNEL_BALANCE);
     }
@@ -82,26 +87,22 @@ class MetamaskFlow extends Component {
     try {
       startMMconnectLoader();
       const sdk = await initSdk();
-      let mpeBal = await sdk.account.escrowBalance();
+      const mpeBal = await sdk.account.escrowBalance();
       await this.paymentChannelManagement.updateChannelInfo();
-      if (!this.paymentChannelManagement.channel) {
-        await this.paymentChannelManagement.openChannel();
-        mpeBal = await sdk.account.escrowBalance();
-      }
 
       this.PaymentInfoCardData.map(el => {
         if (el.title === "Escrow Balance") {
           el.value = cogsToAgi(mpeBal);
         }
         if (el.title === "Channel Balance") {
-          el.value = cogsToAgi(this.paymentChannelManagement.channel.state.availableAmount);
+          el.value = cogsToAgi(this.paymentChannelManagement.availableBalance());
         }
         return el;
       });
+      const channelBalance = this.paymentChannelManagement.availableBalance();
+      this.handleDisabledPaytypes({ channelBalance });
 
-      this.handleDisabledPaytypes({ channelBalance: this.paymentChannelManagement.channel.state.availableAmount });
-
-      this.setState({ MMconnected: true });
+      this.setState({ MMconnected: true, mpeBal, channelBalance });
     } catch (error) {
       this.setState({ alert: { type: alertTypes.ERROR, message: `Unable to connect to metamask ${error}` } });
     }
@@ -126,25 +127,48 @@ class MetamaskFlow extends Component {
 
   handleNoOfCallsChange = event => {
     const noOfServiceCalls = event.target.value;
-    const totalPrice = String(((noOfServiceCalls * 2) / 100000000).toFixed(8));
+    const totalPrice = String(cogsToAgi(this.paymentChannelManagement.noOfCallsToCogs(noOfServiceCalls)));
     this.setState({ noOfServiceCalls, totalPrice });
   };
 
   handleSubmit = async () => {
+    this.setState({ alert: {} });
+
     let { noOfServiceCalls, selectedPayType } = this.state;
+    if (selectedPayType === payTypes.CHANNEL_BALANCE) {
+      this.props.handleContinue();
+      return;
+    }
+    if (selectedPayType === payTypes.SINGLE_CALL) {
+      noOfServiceCalls = 1;
+    }
+    const sdk = await initSdk();
+    const mpeBal = await sdk.account.escrowBalance();
+    if (mpeBal < this.paymentChannelManagement.noOfCallsToCogs(noOfServiceCalls)) {
+      this.setState({
+        mpeBal,
+        alert: {
+          type: alertTypes.ERROR,
+          message: `Insufficient MPE balance. Please deposit some AGI tokens to your escrow account`,
+        },
+      });
+      return;
+    }
     try {
-      if (selectedPayType === payTypes.SINGLE_CALL) {
-        noOfServiceCalls = 1;
+      if (!this.paymentChannelManagement.channel) {
+        await this.paymentChannelManagement.openChannel(noOfServiceCalls);
+      } else {
+        await this.paymentChannelManagement.extendAndAddFunds(noOfServiceCalls);
       }
-      await this.paymentChannelManagement.extendAndAddFunds(noOfServiceCalls);
+
       this.props.handleContinue();
     } catch (error) {
-      this.setState({ alert: { type: alertTypes.ERROR, message: `Unable to execute the call: ${error}` } });
+      this.setState({ alert: { type: alertTypes.ERROR, message: `Unable to execute the call` } });
     }
   };
 
   parseChannelBalFromPaymentCard = () => {
-    return this.PaymentInfoCardData.find(el => el.title === "Channel Balance")[0].value;
+    return this.PaymentInfoCardData.find(el => el.title === "Channel Balance").value;
   };
 
   render() {
@@ -189,7 +213,7 @@ class MetamaskFlow extends Component {
             <span className={classes.channelSelectionTitle}>Recommended</span>
             <ChannelSelectionBox
               title="Channel Balance"
-              description={`You have ${this.parseChannelBalFromPaymentCard()} AGI in you channel. This can be used for running demos across all the services from this vendor.`}
+              description={`You have 1 AGI in you channel. This can be used for running demos across all the services from this vendor.`}
               checked={selectedPayType === payTypes.CHANNEL_BALANCE}
               value={payTypes.CHANNEL_BALANCE}
               onClick={() => this.handlePayTypeChange(payTypes.CHANNEL_BALANCE)}
@@ -239,6 +263,7 @@ class MetamaskFlow extends Component {
 }
 
 const mapStateToProps = state => ({
+  serviceDetails: currentServiceDetails(state),
   pricing: pricing(state),
 });
 

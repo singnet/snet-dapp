@@ -7,11 +7,14 @@ import { sortByCategories, defaultPaginationParameters } from "../../../../../ut
 import { serviceActions } from "../../../../../Redux/actionCreators";
 
 const ServiceSortOptions = ({ pagination, updatePagination, fetchService }) => {
-  const [activeSortItem, setActiveSortItem] = useState(sortByCategories[0].value);
+  const [activeSortItem, setActiveSortItem] = useState("default");
   const classes = useStyles();
 
   const handleSortChange = async event => {
-    const value = event.currentTarget.value;
+    const value = event.target.value;
+    if (value === "default" || value === activeSortItem) {
+      return;
+    }
     const latestPagination = { ...pagination, ...defaultPaginationParameters, sort_by: value };
     updatePagination(latestPagination);
     await fetchService(latestPagination);
@@ -39,5 +42,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(ServiceSortOptions);
-
-
