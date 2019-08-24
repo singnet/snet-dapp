@@ -10,11 +10,10 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import IconButton from "@material-ui/core/IconButton";
 import Avatar from "@material-ui/core/Avatar";
 
-import OfflineIndicator from "../../../../../common/OfflineIndicator";
-import StyledButton from "../../../../../common/StyledButton";
 import RatingsCount from "../../../../../common/RatingsCount";
 import SingularityLogo from "../../../../../../assets/images/avatar.png";
 import { useStyles } from "./styles";
+import ServiceAvailabilityToggler from "../ServiceListItem/ServiceAvailabilityToggler";
 
 const StyledCard = props => {
   const classes = useStyles();
@@ -51,12 +50,7 @@ const StyledCard = props => {
         </Typography>
       </CardContent>
       <CardActions className={classes.cardActions}>
-        {
-          !props.isAvailable ?
-            <OfflineIndicator />
-          :
-            <StyledButton type="transparent" btnText="demo" />
-        }
+        <ServiceAvailabilityToggler isAvailable={props.isAvailable} />
         <IconButton aria-label="Settings" className={classes.showMore}>
           <MoreVertIcon />
         </IconButton>

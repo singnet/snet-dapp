@@ -9,12 +9,10 @@ import CardActions from "@material-ui/core/CardActions";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 
-
-import OfflineIndicator from "../../../../../common/OfflineIndicator";
-import StyledButton from "../../../../../common/StyledButton";
 import { useStyles } from "./styles";
 import RatingsCount from "../../../../../common/RatingsCount";
 import SingularityLogo from "../../../../../../assets/images/avatar.png";
+import ServiceAvailabilityToggler from "./ServiceAvailabilityToggler";
 
 const ServiceListItem = props => {
   const classes = useStyles();
@@ -49,12 +47,7 @@ const ServiceListItem = props => {
             </Typography>
           </CardContent>
           <CardActions className={classes.cardActions}>
-          {
-            !props.isAvailable ?
-              <OfflineIndicator show />
-            :
-              <StyledButton type="transparent" btnText="demo" />
-          }
+            <ServiceAvailabilityToggler isAvailable={props.isAvailable} />
           </CardActions>
         </Grid>
       </Grid>
