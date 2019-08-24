@@ -63,7 +63,6 @@ class ServiceDemo extends Component {
   };
 
   serviceRequestErrorHandler = error => {
-    console.log("serviceRequestErrorHandler", error);
     this.setState({
       isServiceExecutionComplete: false,
       alert: { type: alertTypes.ERROR, message: error },

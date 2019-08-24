@@ -21,13 +21,13 @@ const CardGroup = ({ cards, loading }) => {
     );
   }
 
-  if(cards.length === 0){
+  if (cards.length === 0) {
     return (
       <div className={classes.NoResultContainer}>
         <span>No results to be displayed.</span>
         <span>Try different keywords or filters</span>
       </div>
-    )    
+    );
   }
 
   return (
