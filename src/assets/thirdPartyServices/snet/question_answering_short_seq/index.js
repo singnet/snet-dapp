@@ -134,11 +134,15 @@ export default class ShortQuestionAnswering extends React.Component {
 
   renderComplete() {
     return (
-      <div>
-        <p style={{ fontSize: "13px" }}>
-          Response from service is: <b>{this.state.response.answer}</b>{" "}
-        </p>
-      </div>
+        
+<div style={{background:"#F8F8F8", padding: "24px"}}>
+    <h4> Results</h4>
+    <div style={{ padding: "10px 10px 0 10px", fontSize: "14px", color:"#9b9b9b" }}>
+        <div style={{ padding: "10px 0" }}>Response from service is: 
+            <div style={{color:"#212121", marginTop:"5px",padding:"10px", background:"#f1f1f1",borderRadius:"4px"}}>{this.state.response.answer}</div>
+        </div>       
+    </div>
+</div>         
     );
   }
 

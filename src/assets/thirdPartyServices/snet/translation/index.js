@@ -127,9 +127,17 @@ export default class TranslationService extends React.Component {
     const { response } = this.state;
 
     return (
-      <div>
-        <p style={{ fontSize: "13px" }}>Response from service is: {response.translation} </p>
-      </div>
+
+<div style={{background:"#F8F8F8", padding: "24px"}}>
+    <h4> Results</h4>
+    <div style={{ padding: "10px 10px 0 10px", fontSize: "14px", color:"#9b9b9b" }}>
+        <div style={{ padding: "10px 0" }}>Response from service is: 
+            <div style={{color:"#212121", marginTop:"5px",padding:"10px", background:"#f1f1f1",borderRadius:"4px"}}>
+                {response.translation} 
+            </div>
+        </div>       
+    </div>
+</div>         
     );
   }
 
