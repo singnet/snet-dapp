@@ -148,7 +148,7 @@ class MetamaskFlow extends Component {
   };
 
   parseChannelBalFromPaymentCard = () => {
-    return this.PaymentInfoCardData.find(el => el.title === "Channel Balance")[0].value;
+    return this.PaymentInfoCardData.find(el => el.title === "Channel Balance").value;
   };
 
   render() {

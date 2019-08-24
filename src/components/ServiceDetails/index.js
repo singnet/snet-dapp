@@ -50,7 +50,10 @@ class ServiceDetails extends Component {
   render() {
     const { classes, service, pricing, loading, error } = this.props;
 
-    if ((isEmpty(service) || error) && !loading) {
+    if (isEmpty(service) || error) {
+      if (loading) {
+        return null;
+      }
       return (
         <Grid container spacing={24} className={classes.serviceDetailContainer}>
           <ErrorBox />
