@@ -26,7 +26,7 @@ export const useStyles = makeStyles(theme => ({
   },
   cardHeader: {
     padding: "0 10px",
-    position: 'relative',
+    position: "relative",
     alignItems: "center",
     textAlign: "left",
     "& button": {
@@ -92,9 +92,9 @@ export const useStyles = makeStyles(theme => ({
       alignItems: "flex-start",
     },
   },
-  cardActions:{
-    position: 'absolute',
+  cardActions: {
+    position: "absolute",
     top: 10,
-    right: 20
-  }
+    right: 20,
+  },
 }));

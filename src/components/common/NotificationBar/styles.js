@@ -1,30 +1,30 @@
 export const useStyles = theme => ({
-  NotificationBar: { 
-    paddingLeft: '0 !important',
-    paddingRight: '0 !important'
+  NotificationBar: {
+    paddingLeft: "0 !important",
+    paddingRight: "0 !important",
   },
   notificationText: {
-    padding: '8px 0',
+    padding: "8px 0",
     display: "flex",
     alignItems: "center",
-    justifyContent: 'center',
-    "& span": {      
+    justifyContent: "center",
+    "& span": {
       fontSize: 14.2,
       letterSpacing: 0.25,
-      lineHeight: "20px"
-    }
+      lineHeight: "20px",
+    },
   },
-  warning:{    
+  warning: {
     backgroundColor: theme.backgroundColor.offlineRedBg,
     color: theme.palette.text.alertBoxColor,
-    '& svg': {
+    "& svg": {
       marginRight: 17,
-      color: theme.palette.text.offlineRed
-    }
+      color: theme.palette.text.offlineRed,
+    },
   },
   information: {
     backgroundColor: theme.palette.text.informationBarBg,
     color: theme.palette.text.white,
-    '& svg': { marginRight: 21 }
-  }
+    "& svg": { marginRight: 21 },
+  },
 });

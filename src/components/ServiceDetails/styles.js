@@ -3,15 +3,15 @@ export const useStyles = theme => ({
     width: "auto",
     padding: "67px 0",
     backgroundColor: theme.palette.text.offWhiteColor,
-    '& > div':{ 
+    "& > div": {
       paddingLeft: 60,
-      paddingRight: 60
-    }
+      paddingRight: 60,
+    },
   },
-  TopSection:{
-    width: '100%',    
+  TopSection: {
+    width: "100%",
     marginTop: 32,
-    display: 'flex',
+    display: "flex",
   },
   computerVisionContainer: { display: "flex" },
   computerVisionContent: {
