@@ -1,6 +1,6 @@
 export const useStyles = theme => ({
   resetPasswordContainer: {
-    height: "100vh",
+    height:'calc(100vh - 126px)',
     backgroundColor: theme.palette.text.offWhiteColor,
     textAlign: "center",
     "& span": {
@@ -22,6 +22,8 @@ export const useStyles = theme => ({
     },
   },
   forgotPwdContent: {
+    height:'calc(100vh - 126px)',
+    backgroundColor: theme.palette.text.offWhiteColor,
     textAlign: "center",
     "& h2": {
       margin: 0,
