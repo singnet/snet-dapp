@@ -33,7 +33,7 @@ export const useStyles = theme => ({
       color: theme.palette.text.darkShadedGray,
       fontSize: 24,
       fontWeight: 600,
-      lineHeight: "33px",
+      lineHeight: "30px",
     },
   },
   CategoryMedia: {
