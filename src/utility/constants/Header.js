@@ -31,13 +31,11 @@ export const headerData = {
 const tabs = [
   {
     title: "AI Marketplace",
-    active: true,
     link: `/${Routes.AI_MARKETPLACE}`,
     openInNewTab: false,
   },
   {
     title: "Get Started",
-    active: false,
     link: `/${Routes.GET_STARTED}`,
     openInNewTab: false,
   },
