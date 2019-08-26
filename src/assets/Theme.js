@@ -69,6 +69,16 @@ const outlinedBtnHoverBg = "rgba(241,241,241,0.15)";
 
 const h2 = { size: 32, color: darkShadedGray };
 
+const offlineRed = "#EF5265";
+const offlineRedBg = "rgba(239,82,101,0.15)";
+
+const informationBarBg = "#2196F3";
+
+const infoBg = "#DEEAFF";
+
+const warningBg = "#FDF3E5";
+const warningBorder = "#F18D5A";
+
 const theme = createMuiTheme({
   palette: {
     text: {
@@ -95,6 +105,7 @@ const theme = createMuiTheme({
       iconColor,
       errorRed,
       RatingStarColor,
+      offlineRed,
       successBoxBorder,
       grayTitleText,
       redBtnText,
@@ -105,6 +116,9 @@ const theme = createMuiTheme({
       alertBoxBorder,
       alertBoxColor,
       alertBoxBackgroundColor,
+      infoBg,
+      warningBg,
+      warningBorder,
       verticalTabLeftBorder,
       redBtnBg,
       warningBoxBorder,
@@ -113,7 +127,8 @@ const theme = createMuiTheme({
       infoBoxLink,
       inputBoxBorder,
       dialogTitle,
-      outlinedBtnHoverBg
+      outlinedBtnHoverBg,
+      informationBarBg,
     },
   },
   backgroundColor: {
@@ -121,6 +136,7 @@ const theme = createMuiTheme({
     red: errorBgColor,
     white: whiteColor,
     githubBlack,
+    offlineRedBg,
     footerBgColor,
     succesBoxBg,
   },

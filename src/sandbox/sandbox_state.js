@@ -19,17 +19,23 @@ export default {
       url: "https://github.com/singnet/example-service",
       tags: ["example", "tutorial"],
       is_available: 1,
-      groups: [{
-        pricing: [{
-          default: true,
-          price_model: "fixed_price",
-          price_in_cogs: 1,
-        }],
-        endpoints: [{
-          endpoint: process.env.REACT_APP_SANDBOX_SERVICE_ENDPOINT,
-          is_available: 1,
-        }],
-      }],
+      groups: [
+        {
+          pricing: [
+            {
+              default: true,
+              price_model: "fixed_price",
+              price_in_cogs: 1,
+            },
+          ],
+          endpoints: [
+            {
+              endpoint: process.env.REACT_APP_SANDBOX_SERVICE_ENDPOINT,
+              is_available: 1,
+            },
+          ],
+        },
+      ],
     },
     freeCalls: {
       allowed: 10,

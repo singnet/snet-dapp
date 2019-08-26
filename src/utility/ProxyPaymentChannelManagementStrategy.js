@@ -3,7 +3,7 @@ export default class ProxyPaymentChannelManagementStrategy {
     this._channel = channel;
   }
 
-  async selectChannel(serviceClient) {
+  selectChannel(serviceClient) {
     return this._channel;
   }
 }

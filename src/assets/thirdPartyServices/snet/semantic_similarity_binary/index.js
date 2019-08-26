@@ -133,11 +133,17 @@ export default class BinarySemanticSimilarity extends React.Component {
 
   renderComplete() {
     return (
-      <div>
-        <p style={{ fontSize: "13px" }}>
-          Response from service is <b>This sentences is {this.state.response.answer === "1" ? "similar" : "distinct"}</b>{" "}
-        </p>
-      </div>
+
+<div style={{background:"#F8F8F8", padding: "24px"}}>
+    <h4> Results</h4>
+    <div style={{ padding: "10px 10px 0 10px", fontSize: "14px", color:"#9b9b9b" }}>
+        <div style={{ padding: "10px 0" }}>Response from service is: 
+            <div style={{color:"#212121", marginTop:"5px",padding:"10px", background:"#f1f1f1",borderRadius:"4px"}}>
+                This sentences is {this.state.response.answer === "1" ? "similar" : "distinct"}{" "}
+            </div>
+        </div>       
+    </div>
+</div>         
     );
   }
 

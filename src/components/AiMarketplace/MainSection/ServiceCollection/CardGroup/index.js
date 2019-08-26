@@ -21,6 +21,15 @@ const CardGroup = ({ cards, loading }) => {
     );
   }
 
+  if (cards.length === 0) {
+    return (
+      <div className={classes.NoResultContainer}>
+        <span>No results to be displayed.</span>
+        <span>Try different keywords or filters</span>
+      </div>
+    );
+  }
+
   return (
     <div className={classes.cardCollection}>
       {cards.map(card => (
@@ -37,6 +46,7 @@ const CardGroup = ({ cards, loading }) => {
             ratingGiven={card.service_rating}
             totalRating={card.total_users_rated}
             cardDescription={card.description}
+            isAvailable={Boolean(card.is_available)}
           />
         </Link>
       ))}
