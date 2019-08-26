@@ -47,7 +47,8 @@ export default class CNTKNextDayTrend extends React.Component {
   }
 
   submitAction() {
-    const { methodName, source, contract, start, end, target_date } = this.state;
+    try {
+      const { methodName, source, contract, start, end, target_date } = this.state;
     const methodDescriptor = NextDayTrend[methodName];
     const request = new methodDescriptor.requestType();
 
@@ -63,7 +64,8 @@ export default class CNTKNextDayTrend extends React.Component {
       onEnd: response => {
         const { message, status, statusMessage } = response;
         if (status !== 0) {
-          throw new Error(statusMessage);
+          this.props.serviceRequestErrorHandler(statusMessage);
+          return;
         }
         this.setState({
           ...initialUserInput,
@@ -73,6 +75,10 @@ export default class CNTKNextDayTrend extends React.Component {
     };
 
     this.props.serviceClient.unary(methodDescriptor, props);
+    } catch (error) {
+      this.props.serviceRequestErrorHandler(error);           
+    }
+    
   }
 
   renderForm() {
