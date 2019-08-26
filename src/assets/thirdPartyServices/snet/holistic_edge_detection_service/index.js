@@ -105,7 +105,7 @@ export default class HolisticEdgeDetectionService extends React.Component {
       if (typeof response === "string") {
         return response;
       }
-      return response.image;
+      return response;
     }
   }
 

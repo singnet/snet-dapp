@@ -101,13 +101,6 @@ export default class ImageRetrievalService extends React.Component {
     this.props.serviceClient.unary(methodDescriptor, props);
   }
 
-  submitAction() {
-    this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
-      image: this.state.uploadedImage,
-      similarity: this.state.similarityMeasure,
-    });
-  }
-
   renderForm() {
 
     const serviceNameOptions = ["Select a method", ...this.props.serviceClient.getMethodNames(SimilarImage)];
