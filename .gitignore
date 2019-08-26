@@ -73,3 +73,6 @@ src/Redux/Store.js
 #IDE files
 .idea
 .vs
+
+#GetStarted Images
+src/assets/images/GetStarted/*
