@@ -40,28 +40,33 @@ export default class CNTKImageRecognition extends React.Component {
   }
 
   submitAction() {
-    const { methodName, img_path, model } = this.state;
-    const methodDescriptor = Recognizer[methodName];
-    const request = new methodDescriptor.requestType();
+    try {
+      const { methodName, img_path, model } = this.state;
+      const methodDescriptor = Recognizer[methodName];
+      const request = new methodDescriptor.requestType();
 
-    request.setImgPath(img_path);
-    request.setModel(model);
+      request.setImgPath(img_path);
+      request.setModel(model);
 
-    const props = {
-      request,
-      onEnd: response => {
-        const { message, status, statusMessage } = response;
-        if (status !== 0) {
-          throw new Error(statusMessage);
-        }
-        this.setState({
-          ...initialUserInput,
-          response: { status: "success", top_5: message.getTop5(), delta_time: message.getDeltaTime() },
-        });
-      },
-    };
+      const props = {
+        request,
+        onEnd: response => {
+          const { message, status, statusMessage } = response;
+          if (status !== 0) {
+            this.props.serviceRequestErrorHandler(statusMessage);
+            return;
+          }
+          this.setState({
+            ...initialUserInput,
+            response: { status: "success", top_5: message.getTop5(), delta_time: message.getDeltaTime() },
+          });
+        },
+      };
 
-    this.props.serviceClient.unary(methodDescriptor, props);
+      this.props.serviceClient.unary(methodDescriptor, props);
+    } catch (error) {
+      this.props.serviceRequestErrorHandler(error);
+    }
   }
 
   renderForm() {
