@@ -45,28 +45,34 @@ export default class HolisticEdgeDetectionService extends React.Component {
   }
 
   submitAction() {
-    const { methodName, uploadedImage, uploadedImageType } = this.state;
-    const methodDescriptor = Edgedetect[methodName];
-    const request = new methodDescriptor.requestType();
-
-    request.setImage(uploadedImage);
-    request.setImageType(uploadedImageType);
-
-    const props = {
-      request,
-      onEnd: response => {
-        const { message, status, statusMessage } = response;
-        if (status !== 0) {
-          throw new Error(statusMessage);
-        }
-        this.setState({
-          ...initialUserInput,
-          response: { status: "success", image: message.getImage(), imageType: message.getImageType() },
-        });
-      },
-    };
-
-    this.props.serviceClient.unary(methodDescriptor, props);
+    try {
+      const { methodName, uploadedImage, uploadedImageType } = this.state;
+      const methodDescriptor = Edgedetect[methodName];
+      const request = new methodDescriptor.requestType();
+  
+      request.setImage(uploadedImage);
+      request.setImageType(uploadedImageType);
+  
+      const props = {
+        request,
+        onEnd: response => {
+          const { message, status, statusMessage } = response;
+          if (status !== 0) {
+            this.props.serviceRequestErrorHandler(statusMessage);
+            return
+          }
+          this.setState({
+            ...initialUserInput,
+            response: { status: "success", image: message.getImage(), imageType: message.getImageType() },
+          });
+        },
+      };
+  
+      this.props.serviceClient.unary(methodDescriptor, props);
+    } catch (error) {
+      this.props.serviceRequestErrorHandler(error); 
+    }
+  
   }
 
   renderForm() {
