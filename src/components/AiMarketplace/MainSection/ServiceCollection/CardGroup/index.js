@@ -46,6 +46,7 @@ const CardGroup = ({ cards, loading }) => {
             ratingGiven={card.service_rating}
             totalRating={card.total_users_rated}
             cardDescription={card.description}
+            isAvailable={Boolean(card.is_available)}
           />
         </Link>
       ))}
