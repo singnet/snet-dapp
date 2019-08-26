@@ -65,6 +65,8 @@ const inputBoxBorder = "#979797";
 
 const dialogTitle = "rgba(0,0,0,0.87)";
 
+const outlinedBtnHoverBg = "rgba(241,241,241,0.15)";
+
 const h2 = { size: 32, color: darkShadedGray };
 
 const offlineRed = "#EF5265";
@@ -125,6 +127,7 @@ const theme = createMuiTheme({
       infoBoxLink,
       inputBoxBorder,
       dialogTitle,
+      outlinedBtnHoverBg,
       informationBarBg,
     },
   },
