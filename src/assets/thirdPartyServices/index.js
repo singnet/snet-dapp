@@ -42,6 +42,7 @@ const Places365SceneRecognition = lazy(() => import("./snet/places365_scene_reco
 const SuperResolution = lazy(() => import("./snet/super_resolution"));
 const SemanticSegmentationAerial = lazy(() => import("./snet/semantic_segmentation_aerial"));
 const SiggraphColorization = lazy(() => import("./snet/siggraph_colorization"));
+const TextGeneration = lazy(() => import("./snet/text_generation"));
 const AlertBox = lazy(() => import("../../components/common/AlertBox"));
 
 class ThirdPartyCustomUIComponents {
@@ -115,5 +116,6 @@ addSnetCustomUI("places365-scene-recognition", Places365SceneRecognition);
 addSnetCustomUI("super-resolution", SuperResolution);
 addSnetCustomUI("semantic-segmentation-aerial", SemanticSegmentationAerial);
 addSnetCustomUI("siggraph-colorization", SiggraphColorization);
+addSnetCustomUI("text-generation", TextGeneration);
 
 export default thirdPartyCustomUIComponents;
