@@ -4,11 +4,17 @@ import { withRouter } from "react-router-dom";
 //import StyledDropdown from "../StyledDropdown/";
 import { useStyles } from "./styles";
 import NavItem from "./NavItem";
+import Routes from "../../../utility/constants/Routes";
 
 const NavBar = ({ data, history }) => {
   const classes = useStyles();
 
-  const isActiveTab = link => link === history.location.pathname;
+  const isActiveTab = link => {
+    if (history.location.pathname === "/") {
+      return link === `/${Routes.AI_MARKETPLACE}`;
+    }
+    return link === history.location.pathname;
+  };
 
   return (
     <nav>
