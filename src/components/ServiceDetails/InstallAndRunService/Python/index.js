@@ -13,8 +13,10 @@ const Python = ({ classes }) => {
         <CodeSnippet>pip install snet.sdk</CodeSnippet>
       </div>
       <div>
-        <span>To generate the gRPC client libraries, you need the SingularityNET Command Line Interface, or CLI, which you can
-        install using pip</span>
+        <span>
+          To generate the gRPC client libraries, you need the SingularityNET Command Line Interface, or CLI, which you
+          can install using pip
+        </span>
         <CodeSnippet>pip install snet-cli</CodeSnippet>
       </div>
       <div>
