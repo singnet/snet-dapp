@@ -1,6 +1,10 @@
 import React from "react";
 import SNETImageUpload from "../../standardComponents/SNETImageUpload";
 
+import {FaceDetect} from "./face_detect_pb_service"
+
+import { ImageRGB } from "./face_common_pb"
+
 const outsideWrapper = {
   width: "256px",
   height: "256px",
@@ -42,15 +46,32 @@ export default class FaceDetectService extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.isComplete && this.props.response !== undefined) {
-      this.renderBoundingBox(this.props.response);
+    if (this.props.isComplete && this.state.response !== undefined) {
+      this.renderBoundingBox(this.state.response);
     }
   }
 
   submitAction() {
-    this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
-      content: this.state.imageData,
-    });
+
+    const methodDescriptor = FaceDetect.FindFace;
+    const request = new methodDescriptor.requestType();
+    
+    request.setContent(this.state.imageData)
+
+    const props = {
+      request,
+      onEnd: response => {
+        const { message, status, statusMessage } = response;
+        if (status !== 0) {
+          throw new Error(statusMessage);
+        }
+        this.setState({
+          response: { image_chunk: message.toObject() },
+        });
+      },
+    };
+
+    this.props.serviceClient.unary(methodDescriptor, props);
   }
 
   canBeInvoked() {
@@ -83,7 +104,8 @@ export default class FaceDetectService extends React.Component {
       setTimeout(() => this.renderBoundingBox(result), 200);
       return;
     }
-    let desiredWidth = this.props.sliderWidth;
+    //let desiredWidth = this.props.sliderWidth;
+    let desiredWidth = img.naturalWidth;
     let scaleFactor = desiredWidth / img.naturalWidth;
     outsideWrap.style.width = img.naturalWidth * scaleFactor + "px";
     outsideWrap.style.height = img.naturalHeight * scaleFactor + "px";
@@ -94,7 +116,9 @@ export default class FaceDetectService extends React.Component {
     cnvs.height = img.naturalHeight * scaleFactor;
 
     let ctx = cnvs.getContext("2d");
-    result.face_bbox.forEach(item => {
+
+    //result.face_bbox.forEach(item => {
+    result.image_chunk.faceBboxList.forEach(item => {
       ctx.beginPath();
       ctx.rect(item.x * scaleFactor, item.y * scaleFactor, item.w * scaleFactor, item.h * scaleFactor);
       ctx.lineWidth = 3;
@@ -125,7 +149,7 @@ export default class FaceDetectService extends React.Component {
   renderComplete() {
     return (
       <div>
-        <p style={{ fontSize: "13px" }}>Response from service is {JSON.stringify(this.props.response)} </p>
+        <p style={{ fontSize: "13px" }}>Response from service is {JSON.stringify(this.state.response.image_chunk.faceBboxList)} </p>
         <div ref="outsideWrap" style={outsideWrapper}>
           <div style={insideWrapper}>
             <img ref="sourceImg" style={coveredImage} src={this.state.imgsrc} />

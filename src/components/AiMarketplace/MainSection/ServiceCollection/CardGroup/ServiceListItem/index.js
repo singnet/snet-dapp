@@ -5,13 +5,14 @@ import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
+import CardActions from "@material-ui/core/CardActions";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 
-import StyledButton from "../../../../../common/StyledButton";
 import { useStyles } from "./styles";
 import RatingsCount from "../../../../../common/RatingsCount";
 import SingularityLogo from "../../../../../../assets/images/avatar.png";
+import ServiceAvailabilityToggler from "./ServiceAvailabilityToggler";
 
 const ServiceListItem = props => {
   const classes = useStyles();
@@ -29,7 +30,6 @@ const ServiceListItem = props => {
             classes={{ title: classes.cardTitle, subheader: classes.cardSubheader }}
             title={<h4>{props.cardTitle}</h4>}
             subheader={"By " + props.cardSubheader}
-            action={<StyledButton type="transparent" btnText="demo" />}
           />
 
           <CardContent className={classes.cardContent}>
@@ -46,6 +46,9 @@ const ServiceListItem = props => {
               {props.cardDescription}
             </Typography>
           </CardContent>
+          <CardActions className={classes.cardActions}>
+            <ServiceAvailabilityToggler isAvailable={props.isAvailable} />
+          </CardActions>
         </Grid>
       </Grid>
     </Card>
