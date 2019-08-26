@@ -125,6 +125,7 @@ export const createServiceClient = (
   groupInfo,
   serviceRequestStartHandler,
   serviceRequestCompleteHandler,
+  serviceRequestErrorHandler,
   callType,
   wallet
 ) => {
@@ -144,9 +145,18 @@ export const createServiceClient = (
   );
 
   const onEnd = props => (...args) => {
-    props.onEnd(...args);
-    if (serviceRequestCompleteHandler) {
-      serviceRequestCompleteHandler();
+    try {
+      const { status, statusMessage } = args[0];
+      if (status !== 0) {
+        serviceRequestErrorHandler(statusMessage);
+        return;
+      }
+      props.onEnd(...args);
+      if (serviceRequestCompleteHandler) {
+        serviceRequestCompleteHandler();
+      }
+    } catch (error) {
+      serviceRequestErrorHandler(error);
     }
   };
 

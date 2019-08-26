@@ -144,7 +144,6 @@ export default class NetworkAnalysisRobustness extends React.Component {
   }
 
   submitAction() {
-    try {
       if (this.state.methodName === "MinNodesToRemove") {
         const { methodName } = this.state;
         const methodDescriptor = NetworkAnalyticsRobustness.MinNodesToRemove;
@@ -161,14 +160,7 @@ export default class NetworkAnalysisRobustness extends React.Component {
     
         const props = {
             request,
-            onEnd: ({ message,  status, statusMessage }) => {
-              if (status !== 0) {
-                this.props.serviceRequestErrorHandler(statusMessage);
-                return;
-              }   if (status !== 0) {
-                this.props.serviceRequestErrorHandler(statusMessage);
-                return;
-              }
+            onEnd: ({ message }) => {
               this.setState({ isComplete: true, response: message });
             },
           };
@@ -200,11 +192,7 @@ export default class NetworkAnalysisRobustness extends React.Component {
     
             const props = {
               request,
-              onEnd: ({ message , status, statusMessage}) => {
-                if (status !== 0) {
-                  this.props.serviceRequestErrorHandler(statusMessage);
-                  return;
-                }
+              onEnd: ({ message }) => {
                 this.setState({ isComplete: true, response: message });
               },
             };
@@ -212,14 +200,6 @@ export default class NetworkAnalysisRobustness extends React.Component {
           this.props.serviceClient.unary(methodDescriptor, props);
         
           }
-    
-    } catch (error) {
-      this.props.serviceRequestErrorHandler(error);
-    }
-
-    
-
-
   }
 
   download() {
