@@ -17,7 +17,7 @@ const RenderForm = ({
   handleEmail,
   password,
   handlePassword,
-  error,
+  alert,
   handleSubmit,
 }) => {
   return (
@@ -78,7 +78,7 @@ const RenderForm = ({
             value={password}
             onChange={handlePassword}
           />
-          <AlertBox type="error" message={error} />
+          <AlertBox type={alert.type} message={alert.message} />
           <div style={{ marginTop: 20 }} />
           <StyledButton type="blue" btnText="Create Account" onClick={handleSubmit} />
         </form>
