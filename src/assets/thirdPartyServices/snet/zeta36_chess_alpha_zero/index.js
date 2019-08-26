@@ -166,14 +166,21 @@ export default class Zeta36ChessAlphaZero extends React.Component {
       status = this.state.response + "\n";
     }
     return (
-      <div>
-        <p style={{ fontSize: "13px" }}>Response from service is: </p>
-        <pre>
-          Status: {status}
-          UID : {uid}
-          {board}
-        </pre>
-      </div>
+        
+<div style={{background:"#F8F8F8", padding: "24px"}}>
+    <h4> Results</h4>
+    <div style={{ padding: "10px 10px 0 10px", fontSize: "14px", color:"#9b9b9b" }}>
+        <div style={{ padding: "10px 0",borderBottom: "1px solid #eee" }}>Status: <span style={{color:"#212121"}}>{status}</span></div>
+        <div style={{ padding: "10px 0",borderBottom: "1px solid #eee" }}>UID: <span style={{color:"#212121"}}>{uid}</span></div>        
+        <div style={{ padding: "10px 0" }}>Board: 
+            <div style={{color:"#212121", marginTop:"5px",padding:"10px", background:"#f1f1f1",borderRadius:"4px"}}>
+                <pre>
+                    {board}
+                </pre>
+            </div>
+        </div>       
+    </div>
+</div>          
     );
   }
 

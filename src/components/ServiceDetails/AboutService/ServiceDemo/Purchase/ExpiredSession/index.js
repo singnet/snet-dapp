@@ -8,13 +8,20 @@ import { useStyles } from "./styles";
 import MetamaskFlow from "./MetamaskFlow";
 import Routes from "../../../../../../utility/constants/Routes";
 
-const ExpiredSession = ({ classes, handleComplete, metamask, groupInfo, history }) => {
+const ExpiredSession = ({ classes, handleComplete, metamask, groupInfo, history, handlePurchaseError }) => {
   const handleAddPayment = () => {
     history.push(`/${Routes.USER_PROFILE}`);
   };
 
   if (metamask) {
-    return <MetamaskFlow handleContinue={handleComplete} classes={classes} groupInfo={groupInfo} />;
+    return (
+      <MetamaskFlow
+        handleContinue={handleComplete}
+        classes={classes}
+        groupInfo={groupInfo}
+        handlePurchaseError={handlePurchaseError}
+      />
+    );
   }
   return (
     <div className={classes.ExpiredSessionContainer}>
