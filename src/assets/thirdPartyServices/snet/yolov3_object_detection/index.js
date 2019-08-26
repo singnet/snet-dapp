@@ -159,22 +159,25 @@ export default class YOLOv3ObjectDetection extends React.Component {
     }
 
     return (
-      <div>
-        <div>
-          <p style={{ fontSize: "13px" }}>Response from service is: </p>
-          <pre>
-            Status : {status}
-            Time : {delta_time}
-            Boxes : {boxes}
-            Classes : {class_ids}
-            Confidences: {confidences}
-            Image :
-          </pre>
-        </div>
-        <div style={{ align: "center", maxWidth: "100%" }}>
-          <img style={{ maxWidth: "100%" }} src={img_base64} alt={"Response Image"} />
-        </div>
-      </div>
+        
+<div style={{background:"#F8F8F8", padding: "24px"}}>
+    <h4> Results</h4>
+    <div style={{ padding: "10px 10px 0 10px", fontSize: "14px", color:"#9b9b9b" }}>
+        <div style={{ padding: "10px 0",borderBottom: "1px solid #eee" }}>Status: <span style={{color:"#212121"}}>{status}</span></div>
+        <div style={{ padding: "10px 0",borderBottom: "1px solid #eee" }}>Time: <span style={{color:"#212121"}}>{delta_time}</span></div>        
+        <div style={{ padding: "10px 0",borderBottom: "1px solid #eee" }}>Boxes: <span style={{color:"#212121"}}>{boxes}</span></div>   
+        <div style={{ padding: "10px 0",borderBottom: "1px solid #eee" }}>Classes: <span style={{color:"#212121"}}>{class_ids}</span></div>           
+        <div style={{ padding: "10px 0",borderBottom: "1px solid #eee" }}>Confidences: <span style={{color:"#212121"}}>{confidences}</span></div>         
+        <div style={{ padding: "10px 0" }}>Image: 
+            <div style={{color:"#212121", marginTop:"5px",padding:"10px", background:"#f1f1f1",borderRadius:"4px"}}>
+                <div style={{ align: "center", maxWidth: "100%" }}>
+                  <img style={{ maxWidth: "100%" }} src={img_base64} alt={"Response Image"} />
+                </div>
+            </div>
+        </div>       
+    </div>
+</div>         
+        
     );
   }
 
