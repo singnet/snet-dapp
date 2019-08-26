@@ -1,9 +1,5 @@
 import React from "react";
-import { hasOwnDefinedProperty } from "../../../../utility/JSHelper";
 import Grid from "@material-ui/core/Grid";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
@@ -11,21 +7,21 @@ import Typography from "@material-ui/core/Typography";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import {ShowMessage} from "./named_entity_recognition_rpc_pb_service"
+import {RecognizeMessage} from "./named_entity_recognition_rpc_pb_service"
 
 export default class NamedEntityRecognitionService extends React.Component {
   constructor(props) {
     super(props);
     this.submitAction = this.submitAction.bind(this);
-   // this.handleServiceName = this.handleServiceName.bind(this);
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.canBeInvoked = this.canBeInvoked.bind(this);
 
     this.state = {
-      serviceName: "ShowMessage",
-      methodName: "Show",
+      value: "",
+      serviceName: "RecognizeMessage",
+      methodName: "Recognize",
       message: undefined,
-      response: undefined,
       isComplete : false,
       styles: {
         details: {
@@ -37,15 +33,12 @@ export default class NamedEntityRecognitionService extends React.Component {
         },
       },
     };
-    this.message = undefined;
+
     this.isComplete = false;
     this.serviceMethods = [];
     this.allServices = [];
     this.methodsForAllServices = [];
-    //this.parseProps(props);
-   
   }
-
 
   handleFormUpdate(event) {
     console.log(event.target);
@@ -85,18 +78,63 @@ export default class NamedEntityRecognitionService extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   }
 
+  handleSentences() {
+    let tempMessages = this.state.message.toString().trim().split("\n");
+    let tempArray = [];
+    for (let i = 0; i < tempMessages.length; i++) {
+        if (tempMessages[i].length >= 1) {
+            tempArray.push(tempMessages[i]);
+        }
+    }
+    let filterArray = tempArray.filter(function (el) {
+        return el != null;
+    });
+
+    let itemsToAnalyze = [];
+    for (let i = 0; i < filterArray.length; i++) {
+        itemsToAnalyze.push({id: i + 1, sentence: filterArray[i]});
+    }
+    return itemsToAnalyze;
+  }
+
+  parseResponse(response) {
+    const responseArray = JSON.parse(response);
+    let resultItems = [];
+    for (let i = 0; i < responseArray.length; i++) {
+      const entityArrayItem = responseArray[i]["entities"];
+      for (let j = 0; j < entityArrayItem.length; j++) {
+        const entityItem = entityArrayItem[j];
+        const tempStartSpan = { startSpan: entityItem["start_span"] };
+        const tempEndSpan = { endSpan: entityItem["end_span"] };
+        const tempEntity = { "entity": {
+                  "name" : entityItem["name"],
+                  "type" : entityItem["type"]
+                }
+              };
+        resultItems.push(Object.assign(tempEntity, tempStartSpan, tempEndSpan));
+      }
+    }
+    return resultItems;
+  }
+
+  canBeInvoked() {
+    return typeof this.state.message !== "undefined" && this.state.message.trim() !== "";
+  }
+
+  /*
   parseResponse(response) {
     //Temporary parse
     //Will be improved and migrated to backend service soon
     try {
       let resultItems = [];
-      let responseArray = atob(response)
+      let responseArray = response
         .split("[")
         .join("")
         .split("]")
         .join("")
         .split(")");
-      for (let i = 0; i < responseArray.length - 1; i++) {
+      //const responseArray = JSON.parse(response);
+      for (let i = 0; i < responseArray.length; i++) {
         let temp = "";
         if (i === 0) {
           temp = responseArray[i].substring(1, responseArray[i].length);
@@ -131,7 +169,7 @@ export default class NamedEntityRecognitionService extends React.Component {
     } catch (e) {
       return [];
     }
-  }
+  }*/
 
   renderForm() {
     return (
@@ -159,7 +197,7 @@ export default class NamedEntityRecognitionService extends React.Component {
           />
         </Grid>
         <Grid item xs={12} style={{ textAlign: "center" }}>
-          <Button variant="contained" color="primary" onClick={this.submitAction}>
+          <Button variant="contained" color="primary" onClick={this.submitAction} disabled={!this.canBeInvoked()}>
             Invoke
           </Button>
         </Grid>
@@ -190,13 +228,13 @@ export default class NamedEntityRecognitionService extends React.Component {
             </ExpansionPanelSummary>
             <ExpansionPanelDetails style={this.state.styles.details}>
               <pre
-                style={{
-                  whiteSpace: "pre-wrap",
-                  overflowX: "scroll",
-                }}
+                style={{whiteSpace: "pre-wrap",overflowX: "scroll",}}
               >
-                oi
-                {/*[('Texas', 'LOCATION', 'Start span:', 97, 'End span:', 102), ('Arizona', 'LOCATION', 'Start span:', 113, 'End span:', 120), ('California', 'LOCATION', 'Start span:', 131, 'End span:', 141), ('Donald Trump', 'PERSON', 'Start span:', 144, 'End span:', 156), ('Trump Hotels', 'ORGANIZATION', 'Start span:', 331, 'End span:', 343)]*/}
+                  <p>Texas : LOCATION<br/>Start span: 97 - End span: 102</p>
+                  <p>Arizona : LOCATION<br/>Start span: 113 - End span: 120  </p>
+                  <p>California : LOCATION<br/>Start span: 131 - End span: 141 </p>
+                  <p>Donald Trump : PERSON<br/>Start span: 144 - End span: 156 </p>
+                  <p>Trump Hotels : ORGANIZATION<br/>Start span: 332 - End span: 344 </p>
               </pre>
             </ExpansionPanelDetails>
           </ExpansionPanel>
@@ -204,11 +242,9 @@ export default class NamedEntityRecognitionService extends React.Component {
       </React.Fragment>
     );
   }
-
+  
   renderComplete() {
-    const result = this.parseResponse(this.props.response.value);
-    console.log("RESULT");
-    console.log(result);
+    const result = this.parseResponse(this.state.value);
     return (
       <React.Fragment>
         <Grid item xs={12} style={{ textAlign: "center" }}>
@@ -227,7 +263,6 @@ export default class NamedEntityRecognitionService extends React.Component {
                 </p>
               </div>
             ))}
-            ;
           </div>
         </Grid>
       </React.Fragment>

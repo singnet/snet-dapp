@@ -149,28 +149,32 @@ export default class SemanticSegmentationService extends React.Component {
     const {response} = this.state;
 
     return (
-      <React.Fragment>
-        <div className="row">
-          <div style={{ fontSize: "14px", marginTop: "10px", marginBottom: "10px" }} className="col-md-12 col-lg-12">
-            Semantic Segmentation Result:
-          </div>
+            
+<div style={{background:"#F8F8F8", padding: "24px"}}>
+    <h4> Results</h4>
+    <div style={{ padding: "10px 0",fontSize: "14px",color:"#9b9b9b" }}>Semantic Segmentation Result:
+        <div style={{color:"#212121", marginTop:"5px",padding:"10px", background:"#f1f1f1",borderRadius:"4px"}}>
+          <React.Fragment>
+            <div className="row">
+              <div className="col-md-12 col-lg-12">
+                <img
+                  width={this.props.sliderWidth}
+                  src={
+                    "data:image/png;base64," +
+                    btoa(
+                      response.debug_img.getContent().reduce((data, byte) => {
+                        return data + String.fromCharCode(byte);
+                      }, "")
+                    )
+                  }
+                />
+              </div>
+            </div>
+          </React.Fragment>
         </div>
-        <div className="row">
-          <div className="col-md-12 col-lg-12">
-            <img
-              width={this.props.sliderWidth}
-              src={
-                "data:image/png;base64," +
-                btoa(
-                  response.debug_img.getContent().reduce((data, byte) => {
-                    return data + String.fromCharCode(byte);
-                  }, "")
-                )
-              }
-            />
-          </div>
-        </div>
-      </React.Fragment>
+    </div>         
+</div>            
+            
     );
   }
 

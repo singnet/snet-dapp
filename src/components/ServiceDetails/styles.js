@@ -1,8 +1,17 @@
 export const useStyles = theme => ({
   serviceDetailContainer: {
     width: "auto",
-    padding: "100px 60px 0",
+    padding: "67px 0",
     backgroundColor: theme.palette.text.offWhiteColor,
+    "& > div": {
+      paddingLeft: 60,
+      paddingRight: 60,
+    },
+  },
+  TopSection: {
+    width: "100%",
+    marginTop: 32,
+    display: "flex",
   },
   computerVisionContainer: { display: "flex" },
   computerVisionContent: {

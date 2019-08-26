@@ -1,6 +1,6 @@
 export const useStyles = theme => ({
   GetStartedMainContaienr: {
-    padding: "30px 60px 60px",
+    padding: "100px 60px 60px",
     backgroundColor: theme.palette.text.offWhiteColor,
     flexDirection: "column",
   },

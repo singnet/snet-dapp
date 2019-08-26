@@ -281,15 +281,17 @@ export default class CNTKLSTMForecast extends React.Component {
       status = this.state.response + "\n";
     }
     return (
-      <div>
-        <p style={{ fontSize: "13px" }}>Response from service is: </p>
-        <pre>
-          Status : {status}
-          Word (SAX) : {last_sax_word}
-          Forecast Letter (SAX) : {forecast_sax_letter}
-          Position in Interval (SAX): {position_in_sax_interval}
-        </pre>
-      </div>
+        
+      <div style={{background:"#F8F8F8", padding: "24px"}}>
+        <h4> Results</h4>
+        <div style={{ padding: "10px 10px 0 10px", fontSize: "14px", color:"#9b9b9b" }}>
+          <div style={{ padding: "10px 0",borderBottom: "1px solid #eee" }}>Status: <span style={{color:"#212121"}}>{status}</span></div>
+          <div style={{ padding: "10px 0",borderBottom: "1px solid #eee" }}>Word (SAX) : <span style={{color:"#212121"}}>{last_sax_word}</span></div>
+          <div style={{ padding: "10px 0",borderBottom: "1px solid #eee" }}>Forecast Letter (SAX) : <span style={{color:"#212121"}}>{forecast_sax_letter}</span></div>
+          <div style={{ padding: "10px 0",borderBottom: "1px solid #eee" }}>Position in Interval (SAX) : <span style={{color:"#212121"}}>{position_in_sax_interval}</span></div>         
+        </div>
+      </div>        
+        
     );
   }
 

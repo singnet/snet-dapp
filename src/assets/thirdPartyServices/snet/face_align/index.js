@@ -3,6 +3,7 @@ import React from "react";
 import SNETImageUpload from "../../standardComponents/SNETImageUpload";
 import { FaceAlignment } from "./face_alignment_pb_service";
 import { FaceAlignmentHeader, ImageRGB } from "./face_alignment_pb";
+import { BoundingBox } from "./face_common_pb"
 
 const initialUserInput = {
   imageData: undefined,
@@ -14,6 +15,7 @@ export default class FaceAlignService extends React.Component {
     super(props);
     this.submitAction = this.submitAction.bind(this);
     this.getData = this.getData.bind(this);
+    this.renderComplete = this.renderComplete.bind(this);
 
     this.state = {
       ...initialUserInput,
@@ -46,7 +48,27 @@ export default class FaceAlignService extends React.Component {
       const methodDescriptor = FaceAlignment.AlignFace;
     const request = new methodDescriptor.requestType();
 
-    const header = new FaceAlignmentHeader(JSON.parse(this.state.facesString)[0]);
+    const header = new FaceAlignmentHeader();
+
+
+    var bbList = []
+    //var bb = new BoundingBox(JSON.parse(this.state.facesString)[0])
+
+    var inputBoudingBox = JSON.parse(this.state.facesString)
+
+    inputBoudingBox.forEach(item => {
+
+      var bb = new BoundingBox();
+      bb.setX(JSON.parse(item.x));
+      bb.setY(JSON.parse(item.y));
+      bb.setW(JSON.parse(item.w));
+      bb.setH(JSON.parse(item.h));
+      bbList.push(bb);
+
+    })
+
+    header.setSourceBboxesList(bbList)
+
     request.setHeader(header);
     const imageChunk = new ImageRGB();
     imageChunk.setContent(this.state.imageData);
@@ -62,7 +84,7 @@ export default class FaceAlignService extends React.Component {
         }
         this.setState({
           ...initialUserInput,
-          response: { image_chunk: message.getImageChunkList() },
+          response: { image_chunk: message.toObject() },
         });
       },
     };
@@ -151,17 +173,19 @@ export default class FaceAlignService extends React.Component {
   }
 
   renderComplete() {
-    const { image_chunk } = this.state.response;
+    const { response } = this.state;
 
-    const alignedFaceImgList = image_chunk.map((item, idx) => {
-      // Of course this is how JS requires you to convert a uint8array to base64,
-      // because everything in JS has to be 10x harder than other languages...
-      return (
-        <div key={idx} className="col-md-3 col-lg-3">
-          <img src={"data:image/png;base64," + btoa(String.fromCharCode.apply(null, item.content))} />
-        </div>
-      );
-    });
+    // const alignedFaceImgList = response.image_chunk.imageChunkList.forEach(item => {
+    //   // Of course this is how JS requires you to convert a uint8array to base64,
+    //   // because everything in JS has to be 10x harder than other languages...
+    //   // btoa(String.fromCharCode.apply(null, new Object(item.content)))
+    //   return (
+    //     <div  className="col-md-3 col-lg-3">
+    //       <img src={"data:image/png;base64," + item.content} />
+    //     </div>
+    //   );
+    // });
+
     return (
       <React.Fragment>
         <div className="row">
@@ -169,7 +193,21 @@ export default class FaceAlignService extends React.Component {
             <p>Aligned faces:</p>
           </div>
         </div>
-        <div className="row">{alignedFaceImgList}</div>
+        <div className="row">{
+
+            response.image_chunk.imageChunkList.map((item,idx) => {
+              // Of course this is how JS requires you to convert a uint8array to base64,
+              // because everything in JS has to be 10x harder than other languages...
+              // btoa(String.fromCharCode.apply(null, new Object(item.content)))
+              return (
+                <div key="idx" className="col-md-3 col-lg-3">
+                  <img src={"data:image/png;base64," + item.content} />
+                </div>
+              );
+            })
+
+
+        }</div>
       </React.Fragment>
     );
   }
