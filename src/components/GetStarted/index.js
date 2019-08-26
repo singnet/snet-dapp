@@ -9,7 +9,6 @@ import Category from "./Category";
 import { useStyles } from "./styles";
 
 const GetStarted = ({ classes, history }) => {
-
   return (
     <Grid container spacing={24} className={classes.GetStartedMainContaienr}>
       <Grid item xs={12} sm={12} md={12} lg={12} className={classes.TopSection}>

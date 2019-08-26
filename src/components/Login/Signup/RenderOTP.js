@@ -34,7 +34,7 @@ const RenderOTP = ({ classes, otp, handleOTP, handleResendOTP, handleConfirmSign
           autoFocus
         />
         <AlertBox type={alert.type} message={alert.message} />
-        <div className={classes.buttonsContainer}>          
+        <div className={classes.buttonsContainer}>
           <StyledButton type="transparent" btnText="Resend" onClick={handleResendOTP} />
           <StyledButton type="blue" btnText="Continue" onClick={handleConfirmSignup} />
         </div>

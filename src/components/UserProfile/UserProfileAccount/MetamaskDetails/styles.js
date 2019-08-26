@@ -36,7 +36,7 @@ export const useStyles = theme => ({
   },
   bgBox: {
     alignItems: "center",
-    '& > div':{ marginTop: '7px !important' },
+    "& > div": { marginTop: "7px !important" },
     "& > span": {
       padding: "14px 20px",
       borderWidth: 1,
@@ -67,10 +67,10 @@ export const useStyles = theme => ({
       backgroundColor: theme.palette.text.primary,
     },
   },
-  tabsContainer:{
-    '& > div':{ 
-      width: '100%',
-      marginBottom: 28
-    }
-  }
+  tabsContainer: {
+    "& > div": {
+      width: "100%",
+      marginBottom: 28,
+    },
+  },
 });

@@ -18,7 +18,7 @@ class SignUp extends Component {
     nickname: "",
     email: "",
     password: "",
-    alert:{type: undefined, message:undefined},
+    alert: { type: undefined, message: undefined },
     toBeConfirmed: false,
     otp: "",
   };
@@ -43,21 +43,21 @@ class SignUp extends Component {
     event.preventDefault();
     const { nickname, password, email } = this.state;
     const { startSignupLoader, stopLoader } = this.props;
-    this.setState({ alert: {type:undefined, message:undefined} });
+    this.setState({ alert: { type: undefined, message: undefined } });
     if (nickname === "") {
-      this.setState({ alert: {type:"error", message:"Please enter a nickname" }});
+      this.setState({ alert: { type: "error", message: "Please enter a nickname" } });
       return;
     }
     if (email === "") {
-      this.setState({ alert: {type:"error", message:"Email cannot be left blank" }});
+      this.setState({ alert: { type: "error", message: "Email cannot be left blank" } });
       return;
     }
     if (!isValidEmail(email)) {
-      this.setState({ alert: {type:"error", message:"Please enter a valid email" }});
+      this.setState({ alert: { type: "error", message: "Please enter a valid email" } });
       return;
     }
     if (password === "") {
-      this.setState({ alert: {type:"error", message:"Password cannot be left blank" }});
+      this.setState({ alert: { type: "error", message: "Password cannot be left blank" } });
       return;
     }
     startSignupLoader();
@@ -75,7 +75,7 @@ class SignUp extends Component {
         stopLoader();
       })
       .catch(err => {
-        this.setState({ alert:{type:"error", message:err.message} });
+        this.setState({ alert: { type: "error", message: err.message } });
         stopLoader();
       });
   };
@@ -94,19 +94,19 @@ class SignUp extends Component {
       })
       .catch(err => {
         let error = parseError(err);
-        this.setState({ alert:{type:"error", message:{error} }});
+        this.setState({ alert: { type: "error", message: { error } } });
       });
   };
 
   handleResendOTP = () => {
-    this.setState({ alert:{type:undefined, message:undefined} });
+    this.setState({ alert: { type: undefined, message: undefined } });
     const { email } = this.state;
     Auth.resendSignUp(email)
       .then(() => {
-        this.setState({ alert:{type:"success", message:"code resent successfully" }});
+        this.setState({ alert: { type: "success", message: "code resent successfully" } });
       })
       .catch(err => {
-        this.setState({ alert:{ type:"error", message:err.message }});
+        this.setState({ alert: { type: "error", message: err.message } });
       });
   };
 

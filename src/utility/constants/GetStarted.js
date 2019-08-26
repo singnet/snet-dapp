@@ -46,7 +46,7 @@ export const GetStartedCategoriesData = [
       { title: "Change Filter Options", media: { type: "img", content: ChangeFilterOptions } },
       { title: "Sort Options", media: { type: "img", content: SortOptions } },
       { title: "Rating and Rankings", media: { type: "img", content: RatingandRanking } },
-      { title: "Search", media: { type: "img", content: Search } }
+      { title: "Search", media: { type: "img", content: Search } },
     ],
   },
   {
@@ -57,9 +57,9 @@ export const GetStartedCategoriesData = [
     categoryTabs: [
       { title: "About Details", media: { type: "img", content: AboutDetails } },
       { title: "Pricing", media: { type: "img", content: Pricing } },
-      { title: "Demo Trial", media: { type: "img", content: DemoTrial  } },
-      { title: "Install & Run", media: { type: "img", content: InstallRun  } },
-      { title: "Tutorials", media: { type: "img", content: Tutorials } }
+      { title: "Demo Trial", media: { type: "img", content: DemoTrial } },
+      { title: "Install & Run", media: { type: "img", content: InstallRun } },
+      { title: "Tutorials", media: { type: "img", content: Tutorials } },
     ],
   },
   {
@@ -71,7 +71,7 @@ export const GetStartedCategoriesData = [
       { title: "Accessing the demo", media: { type: "img", content: AccessingtheDemo } },
       { title: "Configure AI parameters", media: { type: "gif", content: ConfigureAIParameters } },
       { title: "See output results", media: { type: "gif", content: Seeoutputresults } },
-      { title: "Metamask (coming soon)", media: { type: "gif", content: Metamask } }
+      { title: "Metamask (coming soon)", media: { type: "gif", content: Metamask } },
     ],
   },
   {
@@ -82,7 +82,7 @@ export const GetStartedCategoriesData = [
     categoryTabs: [
       { title: "Rating AI Services", media: { type: "img", content: RatingAIServices } },
       { title: "Accessing & sorting reviews", media: { type: "img", content: AccessingSortingrReviews } },
-      { title: "Writing review ", media: { type: "img", content: WritingReview } }
+      { title: "Writing review ", media: { type: "img", content: WritingReview } },
     ],
   },
   {
@@ -94,7 +94,7 @@ export const GetStartedCategoriesData = [
       { title: "Install", media: { type: "img", content: Install } },
       { title: "Run", media: { type: "img", content: Run } },
       { title: "Multiple languages", media: { type: "img", content: MultipleChannels } },
-      { title: "documentation", media: { type: "img", content: Documentation } }
+      { title: "documentation", media: { type: "img", content: Documentation } },
     ],
   },
   {
@@ -103,11 +103,11 @@ export const GetStartedCategoriesData = [
     categoryDescription:
       "Own your funds - Whether you want to use services, delete your account or use your funds outside of the platform, you are the sole controller of your funds. Your wallet, your cryptographic key, your AGI. ",
     categoryTabs: [
-      { title: "Managing your AGI tokens", media: { type: "img", content: ManagingyourAGItokens  } },
+      { title: "Managing your AGI tokens", media: { type: "img", content: ManagingyourAGItokens } },
       { title: "Metamask wallet support", media: { type: "img", content: Metamaskwalletsupport } },
-      { title: "Using channel balances", media: { type: "img", content: Usingchannelbalances } }
+      { title: "Using channel balances", media: { type: "img", content: Usingchannelbalances } },
     ],
-  }
+  },
 ];
 
 export const GetStartedFeaturesData = [

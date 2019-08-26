@@ -6,10 +6,9 @@ import StyledButton from "../../common/StyledButton";
 import { useStyles } from "./styles";
 
 const GetStartedDescription = ({ classes, title, description, button, btnText, btnType, history }) => {
-
-	const handleClick = () => {
+  const handleClick = () => {
     history.push(`/${Routes.SIGNUP}`);
-  }
+  };
 
   return (
     <div className={classes.GetStartedDescription}>
