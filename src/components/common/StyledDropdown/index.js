@@ -12,9 +12,7 @@ const StyledDropdown = ({ labelTxt, list, value, onChange, formControlProps, nat
   return (
     <FormControl className={classes.formControl} {...formControlProps}>
       <Select value={value} onChange={onChange} name={labelTxt} className={classes.selectEmpty}>
-        <MenuItem value="default">
-          <em>Select a value</em>
-        </MenuItem>
+        <MenuItem value="default">Select a value</MenuItem>
         {list &&
           list.map(item => (
             <MenuItem key={item.value} value={item.value}>

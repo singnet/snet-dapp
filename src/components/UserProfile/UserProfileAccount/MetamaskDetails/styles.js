@@ -3,9 +3,10 @@ export const useStyles = theme => ({
     marginTop: 32,
     "& div": {
       display: "flex",
-      margin: "7px 0",
+      margin: "7px 0 13px",
       "& div": {
         width: "56%",
+        marginTop: 0,
         display: "inline-block",
         "& svg": {
           color: theme.palette.text.lightShadedGray,
@@ -35,6 +36,7 @@ export const useStyles = theme => ({
   },
   bgBox: {
     alignItems: "center",
+    '& > div':{ marginTop: '7px !important' },
     "& > span": {
       padding: "14px 20px",
       borderWidth: 1,
@@ -65,4 +67,10 @@ export const useStyles = theme => ({
       backgroundColor: theme.palette.text.primary,
     },
   },
+  tabsContainer:{
+    '& > div':{ 
+      width: '100%',
+      marginBottom: 28
+    }
+  }
 });
