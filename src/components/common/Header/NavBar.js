@@ -1,11 +1,15 @@
 import React from "react";
+import { withRouter } from "react-router-dom";
 
 //import StyledDropdown from "../StyledDropdown/";
 import { useStyles } from "./styles";
 import NavItem from "./NavItem";
 
-const NavBar = ({ data }) => {
+const NavBar = ({ data, history }) => {
   const classes = useStyles();
+
+  const isActiveTab = link => link === history.location.pathname;
+
   return (
     <nav>
       <ul className={classes.navUl}>
@@ -14,7 +18,7 @@ const NavBar = ({ data }) => {
             key={tab.title}
             title={tab.title}
             link={tab.link}
-            active={tab.active}
+            active={isActiveTab(tab.link)}
             openInNewTab={tab.openInNewTab}
           />
         ))}
@@ -28,4 +32,4 @@ const NavBar = ({ data }) => {
   );
 };
 
-export default NavBar;
+export default withRouter(NavBar);
