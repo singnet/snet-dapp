@@ -1,6 +1,11 @@
 import React from "react";
 import SNETImageUpload from "../../standardComponents/SNETImageUpload";
 
+import {FaceRecognition} from "./face_recognition_pb_service"
+
+import { FaceRecognitionHeader } from "./face_recognition_pb";
+import { BoundingBox, ImageRGB } from "./face_common_pb"
+
 const outsideWrapper = {
   width: "256px",
   height: "256px",
@@ -37,7 +42,8 @@ class FaceIdentityBadge extends React.Component {
   constructor(props) {
     super(props);
     // This will fail if sliderWidth is not in a format like '550px'
-    this.width = parseInt(props.sliderWidth) - 30;
+    //this.width = parseInt(props.sliderWidth) - 30;
+    this.width = 550 - 30;
     this.height = 160;
     this.sWidth = this.width / 16;
     this.sHeight = this.height / 8;
@@ -166,30 +172,78 @@ export default class FaceIdentityService extends React.Component {
     });
   }
 
-  handleServiceName(event) {
-    let strService = event.target.value;
-    this.setState({
-      serviceName: strService,
-    });
-    this.serviceMethods.length = 0;
-    if (typeof strService !== "undefined" && strService !== "Select a service") {
-      let data = Object.values(this.methodsForAllServices[strService]);
-      if (typeof data !== "undefined") {
-        this.serviceMethods = data;
-      }
-    }
-  }
+  // handleServiceName(event) {
+  //   let strService = event.target.value;
+  //   this.setState({
+  //     serviceName: strService,
+  //   });
+  //   this.serviceMethods.length = 0;
+  //   if (typeof strService !== "undefined" && strService !== "Select a service") {
+  //     let data = Object.values(this.methodsForAllServices[strService]);
+  //     if (typeof data !== "undefined") {
+  //       this.serviceMethods = data;
+  //     }
+  //   }
+  // }
+
+  // submitAction() {
+  //   this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
+  //     header: {
+  //       faces: JSON.parse(this.state.facesString),
+  //     },
+  //     image_chunk: {
+  //       content: this.state.imageData,
+  //     },
+  //   });
+  // }
 
   submitAction() {
-    this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
-      header: {
-        faces: JSON.parse(this.state.facesString),
+
+    const methodDescriptor = FaceRecognition.RecogniseFace;  
+    const request = new methodDescriptor.requestType();
+
+    const header = new FaceRecognitionHeader();
+
+    var bbList = []
+    //var bb = new BoundingBox(JSON.parse(this.state.facesString)[0])
+
+    var inputBoudingBox = JSON.parse(this.state.facesString)
+
+    inputBoudingBox.forEach(item => {
+
+      var bb = new BoundingBox();
+      bb.setX(JSON.parse(item.x));
+      bb.setY(JSON.parse(item.y));
+      bb.setW(JSON.parse(item.w));
+      bb.setH(JSON.parse(item.h));
+      bbList.push(bb);
+
+    })
+
+    header.setFacesList(bbList)
+
+    request.setHeader(header);
+    const imageChunk = new ImageRGB();
+    imageChunk.setContent(this.state.imageData);
+    request.setImageChunk(imageChunk);
+
+    const props = {
+      request,
+      onEnd: response => {
+        const { message, status, statusMessage } = response;
+        if (status !== 0) {
+          throw new Error(statusMessage);
+        }
+        this.setState({
+          response: { image_chunk: message.toObject() },
+        });
       },
-      image_chunk: {
-        content: this.state.imageData,
-      },
-    });
+    };
+
+    this.props.serviceClient.unary(methodDescriptor, props);
   }
+
+
 
   checkValid() {
     let inputValid = true;
@@ -267,7 +321,7 @@ export default class FaceIdentityService extends React.Component {
   }
 
   renderComplete() {
-    var identities = this.props.response.identities.map((item, idx) => {
+    var identities = this.state.response.image_chunk.identitiesList.map((item, idx) => {
       return (
         <div key={idx}>
           <div className="row">
@@ -277,7 +331,8 @@ export default class FaceIdentityService extends React.Component {
           </div>
           <div className="row">
             <div className="col-md-12 col-lg-12">
-              <textarea rows="3" cols="60" readOnly value={JSON.stringify(item.identity)} />
+              {/*  JSON.stringify(item.identity) */}
+              <textarea rows="3" cols="60" readOnly value={JSON.stringify(item.identityList)} />
             </div>
           </div>
           <div className="row">
@@ -287,7 +342,8 @@ export default class FaceIdentityService extends React.Component {
           </div>
           <div className="row">
             <div className="col-md-12 col-lg-12">
-              <FaceIdentityBadge identity={item.identity} sliderWidth={this.props.sliderWidth} />
+              {/*  JSON.stringify(item.identity) */}
+              <FaceIdentityBadge identity={item.identityList} sliderWidth={this.props.sliderWidth} />
             </div>
           </div>
         </div>
