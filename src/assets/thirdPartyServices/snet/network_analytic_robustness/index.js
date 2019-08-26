@@ -144,64 +144,80 @@ export default class NetworkAnalysisRobustness extends React.Component {
   }
 
   submitAction() {
-
-    if (this.state.methodName === "MinNodesToRemove") {
-    const { methodName } = this.state;
-    const methodDescriptor = NetworkAnalyticsRobustness.MinNodesToRemove;
-    const request = new methodDescriptor.requestType();
-
-    let graph=this.state.dataset["graph"]
-    let source_node = this.state.dataset["source_node"]
-    let target_node= this.state.dataset["target_node"] 
-
-    request.setGraph(graph)
-    request.setSourceNode(source_node)
-    request.setTargetNode(target_node)
-
-
-    const props = {
-        request,
-        onEnd: ({ message }) => {
-          this.setState({ isComplete: true, response: message });
-        },
-      };
-
-    this.props.serviceClient.unary(methodDescriptor, props);
+    try {
+      if (this.state.methodName === "MinNodesToRemove") {
+        const { methodName } = this.state;
+        const methodDescriptor = NetworkAnalyticsRobustness.MinNodesToRemove;
+        const request = new methodDescriptor.requestType();
+    
+        let graph=this.state.dataset["graph"]
+        let source_node = this.state.dataset["source_node"]
+        let target_node= this.state.dataset["target_node"] 
+    
+        request.setGraph(graph)
+        request.setSourceNode(source_node)
+        request.setTargetNode(target_node)
+    
+    
+        const props = {
+            request,
+            onEnd: ({ message,  status, statusMessage }) => {
+              if (status !== 0) {
+                this.props.serviceRequestErrorHandler(statusMessage);
+                return;
+              }   if (status !== 0) {
+                this.props.serviceRequestErrorHandler(statusMessage);
+                return;
+              }
+              this.setState({ isComplete: true, response: message });
+            },
+          };
+    
+        this.props.serviceClient.unary(methodDescriptor, props);
+        }
+    
+        if (this.state.methodName === "MostImportantNodesEdgesSubset") {
+    
+          const { methodName } = this.state;
+          const methodDescriptor = NetworkAnalyticsRobustness.MostImportantNodesEdgesSubset;
+          const request = new methodDescriptor.requestType();
+    
+    
+            let graph=this.state.dataset["graph"]
+            let source_nodes = this.state.dataset["source_nodes"]
+            let target_nodes = this.state.dataset["target_nodes"]
+            let Type = ""
+            let normalized=this.state.dataset["normalized"] === undefined ? false : this.state.dataset["normalized"]
+            let directed= this.state.dataset["directed"] === undefined ? false : this.state.dataset["directed"]
+         
+            request.setGraph(graph)
+            request.setSourceNodesList(source_nodes)
+            request.setTargetNodeList(target_nodes)
+            request.setDirected(directed)
+            request.setNormalized(Type)
+            request.setType(normalized)
+        
+    
+            const props = {
+              request,
+              onEnd: ({ message , status, statusMessage}) => {
+                if (status !== 0) {
+                  this.props.serviceRequestErrorHandler(statusMessage);
+                  return;
+                }
+                this.setState({ isComplete: true, response: message });
+              },
+            };
+      
+          this.props.serviceClient.unary(methodDescriptor, props);
+        
+          }
+    
+    } catch (error) {
+      this.props.serviceRequestErrorHandler(error);
     }
 
-    if (this.state.methodName === "MostImportantNodesEdgesSubset") {
-
-      const { methodName } = this.state;
-      const methodDescriptor = NetworkAnalyticsRobustness.MostImportantNodesEdgesSubset;
-      const request = new methodDescriptor.requestType();
-
-
-        let graph=this.state.dataset["graph"]
-        let source_nodes = this.state.dataset["source_nodes"]
-        let target_nodes = this.state.dataset["target_nodes"]
-        let Type = ""
-        let normalized=this.state.dataset["normalized"] === undefined ? false : this.state.dataset["normalized"]
-        let directed= this.state.dataset["directed"] === undefined ? false : this.state.dataset["directed"]
-     
-        request.setGraph(graph)
-        request.setSourceNodesList(source_nodes)
-        request.setTargetNodeList(target_nodes)
-        request.setDirected(directed)
-        request.setNormalized(Type)
-        request.setType(normalized)
     
-
-        const props = {
-          request,
-          onEnd: ({ message }) => {
-            this.setState({ isComplete: true, response: message });
-          },
-        };
-  
-      this.props.serviceClient.unary(methodDescriptor, props);
-    
-      }
-
 
 
   }
