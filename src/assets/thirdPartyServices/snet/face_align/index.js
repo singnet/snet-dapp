@@ -42,7 +42,8 @@ export default class FaceAlignService extends React.Component {
   }
 
   submitAction() {
-    const methodDescriptor = FaceAlignment.AlignFace;
+    try {
+      const methodDescriptor = FaceAlignment.AlignFace;
     const request = new methodDescriptor.requestType();
 
     const header = new FaceAlignmentHeader(JSON.parse(this.state.facesString)[0]);
@@ -56,7 +57,8 @@ export default class FaceAlignService extends React.Component {
       onEnd: response => {
         const { message, status, statusMessage } = response;
         if (status !== 0) {
-          throw new Error(statusMessage);
+          this.props.serviceRequestErrorHandler(statusMessage);
+          return;
         }
         this.setState({
           ...initialUserInput,
@@ -66,6 +68,11 @@ export default class FaceAlignService extends React.Component {
     };
 
     this.props.serviceClient.unary(methodDescriptor, props);
+      
+    } catch (error) {
+      this.props.serviceRequestErrorHandler(error);
+    }
+    
   }
 
   checkValid() {
