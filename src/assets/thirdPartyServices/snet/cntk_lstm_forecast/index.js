@@ -64,34 +64,40 @@ export default class CNTKLSTMForecast extends React.Component {
 
   
  submitAction() {
-  const { methodName, window_len, word_len, alphabet_size, source_type, source, contract, start_date, end_date} = this.state;
-  const methodDescriptor = Forecast[methodName];
-  const request = new methodDescriptor.requestType();
-
-  request.setWindowLen(window_len);
-  request.setWordLen(word_len);
-  request.setAlphabetSize(alphabet_size);
-  request.setSourceType(source_type);
-  request.setSource(source);
-  request.setContract(contract);
-  request.setStartDate(start_date);
-  request.setEndDate(end_date);
-
-  const props = {
-    request,
-    onEnd: response => {
-      const { message, status, statusMessage } = response;
-      if (status !== 0) {
-        throw new Error(statusMessage);
-      }
-      this.setState({
-        ...initialUserInput,
-        response: { status: "success", last_sax_word: message.getLastSaxWord(), forecast_sax_letter: message.getForecastSaxLetter(), position_in_sax_interval: message.getPositionInSaxInterval() },
-      });
-    },
-  };
+   try {
+    const { methodName, window_len, word_len, alphabet_size, source_type, source, contract, start_date, end_date} = this.state;
+    const methodDescriptor = Forecast[methodName];
+    const request = new methodDescriptor.requestType();
   
-  this.props.serviceClient.unary(methodDescriptor, props);
+    request.setWindowLen(window_len);
+    request.setWordLen(word_len);
+    request.setAlphabetSize(alphabet_size);
+    request.setSourceType(source_type);
+    request.setSource(source);
+    request.setContract(contract);
+    request.setStartDate(start_date);
+    request.setEndDate(end_date);
+  
+    const props = {
+      request,
+      onEnd: response => {
+        const { message, status, statusMessage } = response;
+        if (status !== 0) {
+          this.props.serviceRequestErrorHandler(statusMessage);     
+          return;
+        }
+        this.setState({
+          ...initialUserInput,
+          response: { status: "success", last_sax_word: message.getLastSaxWord(), forecast_sax_letter: message.getForecastSaxLetter(), position_in_sax_interval: message.getPositionInSaxInterval() },
+        });
+      },
+    };
+    
+    this.props.serviceClient.unary(methodDescriptor, props);
+   } catch (error) {
+    this.props.serviceRequestErrorHandler(error);     
+   }
+ 
 }
 
 
