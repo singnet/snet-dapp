@@ -55,27 +55,23 @@ export default class LanguageDetectionService extends React.Component {
   }
 
   submitAction() {
-    const { methodName, sentence} = this.state;
-    const methodDescriptor = LanguageDetect[methodName];
-    const request = new methodDescriptor.requestType();
-
-    request.setInput(sentence);
-
-    const props = {
-      request,
-      onEnd: response => {
-        const { message, status, statusMessage } = response;
-        if (status !== 0) {
-          throw new Error(statusMessage);
-        }
-        this.setState({
-          ...initialUserInput,
-          response: { status: "success", language: message.getLanguageList() },
-        });
-      },
-    };
-
-    this.props.serviceClient.unary(methodDescriptor, props);
+      const { methodName, sentence} = this.state;
+      const methodDescriptor = LanguageDetect[methodName];
+      const request = new methodDescriptor.requestType();
+  
+      request.setInput(sentence);
+  
+      const props = {
+        request,
+        onEnd: ({message}) => {
+          this.setState({
+            ...initialUserInput,
+            response: { status: "success", language: message.getLanguageList() },
+          });
+        },
+      };
+  
+      this.props.serviceClient.unary(methodDescriptor, props);  
   }
 
 

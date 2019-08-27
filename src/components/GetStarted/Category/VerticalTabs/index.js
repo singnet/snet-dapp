@@ -3,7 +3,6 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import { withStyles } from "@material-ui/styles";
 
-import ArrowIndicator from "../../../../assets/images/GetStarted/ArrowMark.png";
 import { useStyles } from "./styles";
 
 const VerticalTabs = ({ classes, activeIndex, handleChange, title }) => {

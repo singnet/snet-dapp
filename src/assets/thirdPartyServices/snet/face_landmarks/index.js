@@ -1,6 +1,10 @@
 import React from "react";
 import SNETImageUpload from "../../standardComponents/SNETImageUpload";
 
+import {FaceLandmark} from "./face_landmarks_pb_service"
+import { FaceLandmarkHeader } from "./face_landmarks_pb";
+import { FaceDetections, BoundingBox, ImageRGB } from "./face_common_pb"
+
 const outsideWrapper = {
   width: "256px",
   height: "256px",
@@ -27,6 +31,11 @@ const coveringCanvas = {
   left: "0px",
 };
 
+const initialUserInput = {
+  imageData: undefined,
+  imgsrc: undefined,
+};
+
 export default class FaceLandmarksService extends React.Component {
   constructor(props) {
     super(props);
@@ -36,8 +45,6 @@ export default class FaceLandmarksService extends React.Component {
     this.state = {
       serviceName: "FaceLandmark",
       methodName: "GetLandmarks",
-      imageData: undefined,
-      imgsrc: undefined,
       facesString: '[{"x":10,"y":10,"w":100,"h":100}]',
       landmarkModel: "68",
     };
@@ -46,8 +53,8 @@ export default class FaceLandmarksService extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.isComplete && this.props.response !== undefined) {
-      this.renderLandmarks(this.props.response);
+    if (this.props.isComplete && this.state.response !== undefined) {
+      this.renderLandmarks(this.state.response);
     }
 
     // This is hacky, but could figure out a better way to avoid react difficulties
@@ -68,16 +75,60 @@ export default class FaceLandmarksService extends React.Component {
   }
 
   submitAction() {
-    this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
-      header: {
-        landmark_model: this.state.landmarkModel,
-        faces: { face_bbox: JSON.parse(this.state.facesString) },
+
+    const methodDescriptor = FaceLandmark.GetLandmarks;
+    const request = new methodDescriptor.requestType();
+
+    const header = new FaceLandmarkHeader();
+
+    const faceDetection = new FaceDetections();
+
+    var bbList = []
+    //var bb = new BoundingBox(JSON.parse(this.state.facesString)[0])
+
+    // Creating the Bouding Boxes object
+    var inputBoudingBox = JSON.parse(this.state.facesString)
+
+    inputBoudingBox.forEach(item => {
+
+      var bb = new BoundingBox();
+      bb.setX(JSON.parse(item.x));
+      bb.setY(JSON.parse(item.y));
+      bb.setW(JSON.parse(item.w));
+      bb.setH(JSON.parse(item.h));
+      bbList.push(bb);
+
+    })
+
+    // Setting the Bouding Boxes List
+    faceDetection.setFaceBboxList(bbList)
+
+    // Setting Header Object Attributes
+    header.setFaces(faceDetection)
+    header.setLandmarkModel(this.state.landmarkModel)
+
+    // Setting Request Object
+    request.setHeader(header);
+    const imageChunk = new ImageRGB();
+    imageChunk.setContent(this.state.imageData);
+    request.setImageChunk(imageChunk);
+
+    const props = {
+      request,
+      onEnd: response => {
+        const { message, status, statusMessage } = response;
+        if (status !== 0) {
+          throw new Error(statusMessage);
+        }
+        this.setState({
+          response: { image_chunk: message.toObject() },
+        });
       },
-      image_chunk: {
-        content: this.state.imageData,
-      },
-    });
+    };
+
+    this.props.serviceClient.unary(methodDescriptor, props);
   }
+
 
   canBeInvoked() {
     return this.state.inputValid;
@@ -149,7 +200,8 @@ export default class FaceLandmarksService extends React.Component {
       setTimeout(() => this.renderLandmarks(result), 200);
       return;
     }
-    let desiredWidth = this.props.sliderWidth;
+    //let desiredWidth = this.props.sliderWidth;
+    let desiredWidth = img.naturalWidth;
     let scaleFactor = desiredWidth / img.naturalWidth;
     outsideWrap.style.width = img.naturalWidth * scaleFactor + "px";
     outsideWrap.style.height = img.naturalHeight * scaleFactor + "px";
@@ -160,15 +212,19 @@ export default class FaceLandmarksService extends React.Component {
     cnvs.height = img.naturalHeight * scaleFactor;
 
     let ctx = cnvs.getContext("2d");
-    result.landmarked_faces.forEach(item => {
+    
+    //result.landmarked_faces.forEach(item => {
+    result.image_chunk.landmarkedFacesList.forEach(item => {
       ctx.beginPath();
-      item.point.forEach(p => {
+      //item.point.forEach(p => {
+      item.pointList.forEach(p => {
         this.drawX(ctx, p.x * scaleFactor, p.y * scaleFactor);
       });
       ctx.lineWidth = 1;
       ctx.strokeStyle = "#00ff00";
       ctx.stroke();
     });
+
   }
 
   renderBoundingBox(result) {
@@ -253,7 +309,7 @@ export default class FaceLandmarksService extends React.Component {
   renderComplete() {
     return (
       <div>
-        <p style={{ fontSize: "13px" }}>Response from service is {JSON.stringify(this.props.response)} </p>
+        <p style={{ fontSize: "13px" }}>Response from service is {JSON.stringify(this.state.response)} </p>
         <div ref="outsideWrap" style={outsideWrapper}>
           <div style={insideWrapper}>
             <img ref="sourceImg" style={coveredImage} src={this.state.imgsrc} />

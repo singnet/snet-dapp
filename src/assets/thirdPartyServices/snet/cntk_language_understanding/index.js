@@ -52,45 +52,41 @@ export default class CNTKLanguageUnderstanding extends React.Component {
   }
 
   submitAction() {
-    const {
-      methodName,
-      train_ctf_url,
-      test_ctf_url,
-      query_wl_url,
-      slots_wl_url,
-      intent_wl_url,
-      vocab_size,
-      num_labels,
-      num_intents,
-      sentences_url,
-    } = this.state;
-
-    const methodDescriptor = LanguageUnderstanding[methodName];
-    const request = new methodDescriptor.requestType();
-    request.setTrainCtfUrl(train_ctf_url);
-    request.setTestCtfUrl(test_ctf_url);
-    request.setQueryWlUrl(query_wl_url);
-    request.setSlotsWlUrl(slots_wl_url);
-    request.setIntentWlUrl(intent_wl_url);
-    request.setVocabSize(vocab_size);
-    request.setNumLabels(num_labels);
-    request.setNumIntents(num_intents);
-    request.setSentencesUrl(sentences_url);
-
-    const props = {
-      request,
-      onEnd: response => {
-        const { message, status, statusMessage } = response;
-        if (status !== 0) {
-          throw new Error(statusMessage);
-        }
-        this.setState({
-          ...initialUserInput,
-          response: { status: "success", model_url: message.getModelUrl(), output_url: message.getOutputUrl() },
-        });
-      },
-    };
-    this.props.serviceClient.unary(methodDescriptor, props);
+      const {
+        methodName,
+        train_ctf_url,
+        test_ctf_url,
+        query_wl_url,
+        slots_wl_url,
+        intent_wl_url,
+        vocab_size,
+        num_labels,
+        num_intents,
+        sentences_url,
+      } = this.state;
+  
+      const methodDescriptor = LanguageUnderstanding[methodName];
+      const request = new methodDescriptor.requestType();
+      request.setTrainCtfUrl(train_ctf_url);
+      request.setTestCtfUrl(test_ctf_url);
+      request.setQueryWlUrl(query_wl_url);
+      request.setSlotsWlUrl(slots_wl_url);
+      request.setIntentWlUrl(intent_wl_url);
+      request.setVocabSize(vocab_size);
+      request.setNumLabels(num_labels);
+      request.setNumIntents(num_intents);
+      request.setSentencesUrl(sentences_url);
+  
+      const props = {
+        request,
+        onEnd: ({message}) => {
+          this.setState({
+            ...initialUserInput,
+            response: { status: "success", model_url: message.getModelUrl(), output_url: message.getOutputUrl() },
+          });
+        },
+      };
+      this.props.serviceClient.unary(methodDescriptor, props);
   }
 
   renderForm() {

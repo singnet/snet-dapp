@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
+import CardGiftcardIcon from "@material-ui/icons/CardGiftcard";
 import isEmpty from "lodash/isEmpty";
 
 import TitleCard from "./TitleCard";
@@ -10,14 +11,19 @@ import StyledTabs from "./StyledTabs";
 import AboutService from "./AboutService";
 import InstallAndRunService from "./InstallAndRunService";
 import { useStyles } from "./styles";
+import NotificationBar, { notificationBarTypes } from "../common/NotificationBar";
 import { serviceDetailsActions } from "../../Redux/actionCreators";
 import { pricing, serviceDetails } from "../../Redux/reducers/ServiceDetailsReducer";
-import AlertBox, { alertTypes } from "../common/AlertBox";
+import ErrorBox from "../common/ErrorBox";
 
 class ServiceDetails extends Component {
   state = {
     activeTab: 0,
     alert: {},
+    offlineNotication: {
+      type: notificationBarTypes.WARNING,
+      message: "Service is currently unavailable. Please try later",
+    },
   };
 
   componentDidMount() {
@@ -39,7 +45,7 @@ class ServiceDetails extends Component {
     try {
       await fetchServiceDetails(orgId, serviceId);
     } catch (error) {
-      this.setState({ alert: { type: alertTypes.ERROR, message: "unable to fetch service Details. Please reload" } });
+      this.setState({ error: true });
     }
   };
 
@@ -48,13 +54,16 @@ class ServiceDetails extends Component {
   };
 
   render() {
-    const { classes, service, pricing } = this.props;
-    const { alert } = this.state;
+    const { classes, service, pricing, loading, error } = this.props;
+    const { offlineNotication } = this.state;
 
-    if (isEmpty(service)) {
+    if (isEmpty(service) || error) {
+      if (loading) {
+        return null;
+      }
       return (
         <Grid container spacing={24} className={classes.serviceDetailContainer}>
-          <AlertBox type={alert.type} message={alert.message} />
+          <ErrorBox />
         </Grid>
       );
     }
@@ -71,17 +80,27 @@ class ServiceDetails extends Component {
     ];
 
     return (
-      <Grid container spacing={24} className={classes.serviceDetailContainer}>
-        <TitleCard
-          org_id={service.org_id}
-          display_name={service.display_name}
-          img_url={service.assets_url && service.assets_url.hero_image}
-          star_rating={service.service_rating && service.service_rating.rating}
-          totalRating={service.service_rating ? service.service_rating.total_users_rated : 0}
-        />
-        <PricingDetails pricing={pricing} />
-        <StyledTabs tabs={tabs} activeTab={activeTab} onTabChange={this.handleTabChange} />
-      </Grid>
+      <div>
+        <Grid container spacing={24} className={classes.serviceDetailContainer}>
+          <NotificationBar
+            type={offlineNotication.type}
+            showNotification={!service.is_available}
+            icon={CardGiftcardIcon}
+            message={offlineNotication.message}
+          />
+          <div className={classes.TopSection}>
+            <TitleCard
+              org_id={service.org_id}
+              display_name={service.display_name}
+              img_url={service.assets_url && service.assets_url.hero_image}
+              star_rating={service.service_rating && service.service_rating.rating}
+              totalRating={service.service_rating ? service.service_rating.total_users_rated : 0}
+            />
+            <PricingDetails pricing={pricing} />
+          </div>
+          <StyledTabs tabs={tabs} activeTab={activeTab} onTabChange={this.handleTabChange} />
+        </Grid>
+      </div>
     );
   }
 }
@@ -93,7 +112,11 @@ const mapStateToProps = (state, ownProps) => {
     },
   } = ownProps;
 
-  return { service: serviceDetails(state, orgId, serviceId), pricing: pricing(state) };
+  return {
+    service: serviceDetails(state, orgId, serviceId),
+    pricing: pricing(state),
+    loading: state.loaderReducer.app.loading,
+  };
 };
 
 const mapDispatchToProps = dispatch => ({

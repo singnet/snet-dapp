@@ -58,7 +58,7 @@ export default class NamedEntityDisambiguation extends React.Component {
 
 
   submitAction() {
-    const { methodName, sentence } = this.state;
+      const { methodName, sentence } = this.state;
     const methodDescriptor = Disambiguate[methodName];
     const request = new methodDescriptor.requestType();
 
@@ -66,18 +66,14 @@ export default class NamedEntityDisambiguation extends React.Component {
 
     const props = {
       request,
-      onEnd: response => {
-        const { message, status, statusMessage } = response;
-        if (status !== 0) {
-          throw new Error(statusMessage);
-        }
+      onEnd: ({message}) => {
         this.setState({
           response: { status: "success", value: message.getDisambiguationList() },
         });
       },
     };
 
-    this.props.serviceClient.unary(methodDescriptor, props);
+    this.props.serviceClient.unary(methodDescriptor, props);  
   }
 
   handleInputUpdate(event) {

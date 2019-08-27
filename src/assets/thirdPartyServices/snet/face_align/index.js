@@ -52,12 +52,19 @@ export default class FaceAlignService extends React.Component {
 
     var bbList = []
     //var bb = new BoundingBox(JSON.parse(this.state.facesString)[0])
-    var bb = new BoundingBox()
-    bb.setX(JSON.parse(this.state.facesString)[0].x)
-    bb.setY(JSON.parse(this.state.facesString)[0].y)
-    bb.setW(JSON.parse(this.state.facesString)[0].w)
-    bb.setH(JSON.parse(this.state.facesString)[0].h)
-    bbList.push(bb)
+
+    var inputBoudingBox = JSON.parse(this.state.facesString)
+
+    inputBoudingBox.forEach(item => {
+
+      var bb = new BoundingBox();
+      bb.setX(JSON.parse(item.x));
+      bb.setY(JSON.parse(item.y));
+      bb.setW(JSON.parse(item.w));
+      bb.setH(JSON.parse(item.h));
+      bbList.push(bb);
+
+    })
 
     header.setSourceBboxesList(bbList)
 
@@ -68,11 +75,7 @@ export default class FaceAlignService extends React.Component {
 
     const props = {
       request,
-      onEnd: response => {
-        const { message, status, statusMessage } = response;
-        if (status !== 0) {
-          throw new Error(statusMessage);
-        }
+      onEnd: ({message}) => {
         this.setState({
           ...initialUserInput,
           response: { image_chunk: message.toObject() },
@@ -81,6 +84,7 @@ export default class FaceAlignService extends React.Component {
     };
 
     this.props.serviceClient.unary(methodDescriptor, props);
+    
   }
 
   checkValid() {
@@ -161,16 +165,17 @@ export default class FaceAlignService extends React.Component {
   renderComplete() {
     const { response } = this.state;
 
-    const alignedFaceImgList = response.image_chunk.imageChunkList.forEach(item => {
-      // Of course this is how JS requires you to convert a uint8array to base64,
-      // because everything in JS has to be 10x harder than other languages...
-      // btoa(String.fromCharCode.apply(null, new Object(item.content)))
-      return (
-        <div  className="col-md-3 col-lg-3">
-          <img src={"data:image/png;base64," + item.content} />
-        </div>
-      );
-    });
+    // const alignedFaceImgList = response.image_chunk.imageChunkList.forEach(item => {
+    //   // Of course this is how JS requires you to convert a uint8array to base64,
+    //   // because everything in JS has to be 10x harder than other languages...
+    //   // btoa(String.fromCharCode.apply(null, new Object(item.content)))
+    //   return (
+    //     <div  className="col-md-3 col-lg-3">
+    //       <img src={"data:image/png;base64," + item.content} />
+    //     </div>
+    //   );
+    // });
+
     return (
       <React.Fragment>
         <div className="row">
@@ -185,7 +190,7 @@ export default class FaceAlignService extends React.Component {
               // because everything in JS has to be 10x harder than other languages...
               // btoa(String.fromCharCode.apply(null, new Object(item.content)))
               return (
-                <div  className="col-md-3 col-lg-3">
+                <div key="idx" className="col-md-3 col-lg-3">
                   <img src={"data:image/png;base64," + item.content} />
                 </div>
               );
