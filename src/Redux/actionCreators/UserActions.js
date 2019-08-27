@@ -200,7 +200,7 @@ export const login = ({ email, password, history, route }) => dispatch => {
           payload: { login: { isLoggedIn: true } },
         };
         dispatch(userDetails);
-        loginSuccess({ history, route });
+        dispatch(loginSuccess({ history, route }));
         return;
       }
       const error = parseError(err);
