@@ -77,7 +77,6 @@ export default class ImageRetrievalService extends React.Component {
   }
 
   submitAction() {
-    try {
       const { methodName, uploadedImage, similarityMeasure } = this.state;
       const methodDescriptor = SimilarImage[methodName];
       const request = new methodDescriptor.requestType();
@@ -87,12 +86,7 @@ export default class ImageRetrievalService extends React.Component {
   
       const props = {
         request,
-        onEnd: response => {
-          const { message, status, statusMessage } = response;
-          if (status !== 0) {
-            this.props.serviceRequestErrorHandler(statusMessage);
-            return;
-          }
+        onEnd: ({message}) => {
           this.setState({
             ...initialUserInput,
             response: { status: "success", imageout1: message.getImageout1(), imageout2: message.getImageout2(), imageout3: message.getImageout3(), imageout4: message.getImageout4(), imageout5: message.getImageout5() },
@@ -101,17 +95,6 @@ export default class ImageRetrievalService extends React.Component {
       };
   
       this.props.serviceClient.unary(methodDescriptor, props);
-    } catch (error) {
-      this.props.serviceRequestErrorHandler(error);
-    }
-   
-  }
-
-  submitAction() {
-    this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
-      image: this.state.uploadedImage,
-      similarity: this.state.similarityMeasure,
-    });
   }
 
   renderForm() {

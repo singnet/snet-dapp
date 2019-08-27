@@ -165,7 +165,6 @@ export default class NetworkAnalysisBipartite extends React.Component {
   }
 
   submitAction() {
-    try {
       if (this.state.methodName === "BipartiteGraph") {
 
 
@@ -190,12 +189,7 @@ export default class NetworkAnalysisBipartite extends React.Component {
     
         const props = {
           request,
-          onEnd: response => {
-            const { message, status, statusMessage } = response;
-            if (status !== 0) {
-              this.props.serviceRequestErrorHandler(statusMessage);
-              return;
-            }
+          onEnd: ({message}) => {
             this.setState({
               response: { status: "success", message: message.getMessage(), output: message.getOutput() },
             });
@@ -239,12 +233,7 @@ export default class NetworkAnalysisBipartite extends React.Component {
   
         const props = {
           request,
-          onEnd: response => {
-            const { message, status, statusMessage } = response;
-            if (status !== 0) {
-              this.props.serviceRequestErrorHandler(statusMessage);
-              return;
-            }
+          onEnd: ({message}) => {
             this.setState({
               response: { status: "success", message: message.getMessage(), output: message.getOutput() },
             });
@@ -253,10 +242,6 @@ export default class NetworkAnalysisBipartite extends React.Component {
     
         this.props.serviceClient.unary(methodDescriptor, props);
       }
-    } catch (error) {
-      this.props.serviceRequestErrorHandler(error);
-    }
-
   }
 
   download() {

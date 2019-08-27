@@ -7,7 +7,7 @@ import StyledButton from "../../common/StyledButton";
 import AlertBox from "../../common/AlertBox";
 import { useStyles } from "./styles";
 
-const RenderOTP = ({ classes, otp, handleOTP, handleResendOTP, handleConfirmSignup, error }) => {
+const RenderOTP = ({ classes, otp, handleOTP, handleResendOTP, handleConfirmSignup, alert }) => {
   return (
     <Grid item xs={12} sm={12} md={6} lg={6} className={`${classes.confirmOtp}`}>
       <h3>Validate your email </h3>
@@ -23,7 +23,7 @@ const RenderOTP = ({ classes, otp, handleOTP, handleResendOTP, handleConfirmSign
         </p>
         <TextField
           id="outlined-confirm-otp"
-          label="OTP"
+          label="Verification Code"
           className={classes.textField}
           type="password"
           autoComplete="otp"
@@ -33,10 +33,10 @@ const RenderOTP = ({ classes, otp, handleOTP, handleResendOTP, handleConfirmSign
           onChange={handleOTP}
           autoFocus
         />
-        <AlertBox type="error" message={error} />
+        <AlertBox type={alert.type} message={alert.message} />
         <div className={classes.buttonsContainer}>
+          <StyledButton type="transparent" btnText="Resend" onClick={handleResendOTP} />
           <StyledButton type="blue" btnText="Continue" onClick={handleConfirmSignup} />
-          <StyledButton type="blue" btnText="Resend" onClick={handleResendOTP} />
         </div>
       </form>
     </Grid>

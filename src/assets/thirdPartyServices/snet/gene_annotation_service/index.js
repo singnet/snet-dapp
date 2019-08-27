@@ -252,8 +252,6 @@ export default class GeneAnnotationService extends React.Component {
  // TODO: Need to update the code after validating with the Daemon Service
  // Did an attempt to get the code for Proto TS based on the Proto Definition
  handleSubmit() {
-
-  try {
     const {methodName} = this.state;
 
     const methodDescriptor = Annotate[methodName];
@@ -295,12 +293,7 @@ export default class GeneAnnotationService extends React.Component {
   
     const props = {
       request,
-      onEnd: response => {
-        const { message, status, statusMessage } = response;
-        if (status !== 0) {
-          this.props.serviceRequestErrorHandler(statusMessage);
-          return;
-        }
+      onEnd: ({message}) => {
         this.setState({
           response: { status: "success", graph: message.getGraph(), scm: message.getScm() },
         });
@@ -312,11 +305,6 @@ export default class GeneAnnotationService extends React.Component {
     this.setState({
       notification: { message: "Fetching annotation results ...", busy: true },
     });
-  } catch (error) {
-    this.props.serviceRequestErrorHandler(error);
-  }
-
- 
 }
 
 

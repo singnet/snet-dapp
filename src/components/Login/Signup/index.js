@@ -12,13 +12,14 @@ import RenderForm from "./RenderForm";
 import RenderOTP from "./RenderOTP";
 import { userActions, loaderActions } from "../../../Redux/actionCreators";
 import { LoaderContent } from "../../../utility/constants/LoaderContent";
+import { alertTypes } from "../../common/AlertBox";
 
 class SignUp extends Component {
   state = {
     nickname: "",
     email: "",
     password: "",
-    error: undefined,
+    alert: {type: undefined, message: undefined},
     toBeConfirmed: false,
     otp: "",
   };
@@ -43,21 +44,21 @@ class SignUp extends Component {
     event.preventDefault();
     const { nickname, password, email } = this.state;
     const { startSignupLoader, stopLoader } = this.props;
-    this.setState({ error: undefined });
+    this.setState({ alert: {} });
     if (nickname === "") {
-      this.setState({ error: "Please enter a nickname" });
+      this.setState({ alert: { type: alertTypes.ERROR, message: "Please enter a nickname" } });
       return;
     }
     if (email === "") {
-      this.setState({ error: "Email cannot be left blank" });
+      this.setState({ alert: { type: alertTypes.ERROR, message: "Email cannot be left blank" } });
       return;
     }
     if (!isValidEmail(email)) {
-      this.setState({ error: "Please enter a valid email" });
+      this.setState({ alert: { type: alertTypes.ERROR, message: "Please enter a valid email" } });
       return;
     }
     if (password === "") {
-      this.setState({ error: "Password cannot be left blank" });
+      this.setState({ alert: { type: alertTypes.ERROR, message: "Password cannot be left blank" } });
       return;
     }
     startSignupLoader();
@@ -75,7 +76,7 @@ class SignUp extends Component {
         stopLoader();
       })
       .catch(err => {
-        this.setState({ error: err.message });
+        this.setState({ alert: { type: alertTypes.ERROR, message: err.message } });
         stopLoader();
       });
   };
@@ -94,24 +95,24 @@ class SignUp extends Component {
       })
       .catch(err => {
         let error = parseError(err);
-        this.setState({ error });
+        this.setState({ alert: { type: alertTypes.ERROR, message: { error } } });
       });
   };
 
   handleResendOTP = () => {
-    this.setState({ error: undefined });
+    this.setState({ alert: {} });
     const { email } = this.state;
     Auth.resendSignUp(email)
       .then(() => {
-        this.setState({ error: "code resent successfully" });
+        this.setState({ alert: { type: alertTypes.SUCCESS, message: "code resent successfully" } });
       })
       .catch(err => {
-        this.setState({ error: err.message });
+        this.setState({ alert: { type: alertTypes.ERROR, message: err.message } });
       });
   };
 
   render() {
-    const { nickname, email, password, otp, error, toBeConfirmed } = this.state;
+    const { nickname, email, password, otp, alert, toBeConfirmed } = this.state;
     const { classes } = this.props;
 
     return (
@@ -123,7 +124,7 @@ class SignUp extends Component {
               handleOTP={this.handleOTP}
               handleResendOTP={this.handleResendOTP}
               handleConfirmSignup={this.handleConfirmSignup}
-              error={error}
+              alert={alert}
             />
           ) : (
             <RenderForm
@@ -133,7 +134,7 @@ class SignUp extends Component {
               handleEmail={this.handleEmail}
               password={password}
               handlePassword={this.handlePassword}
-              error={error}
+              alert={alert}
               handleSubmit={this.handleSubmit}
             />
           )}

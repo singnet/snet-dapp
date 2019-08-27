@@ -64,7 +64,6 @@ export default class CNTKLSTMForecast extends React.Component {
 
   
  submitAction() {
-   try {
     const { methodName, window_len, word_len, alphabet_size, source_type, source, contract, start_date, end_date} = this.state;
     const methodDescriptor = Forecast[methodName];
     const request = new methodDescriptor.requestType();
@@ -80,12 +79,7 @@ export default class CNTKLSTMForecast extends React.Component {
   
     const props = {
       request,
-      onEnd: response => {
-        const { message, status, statusMessage } = response;
-        if (status !== 0) {
-          this.props.serviceRequestErrorHandler(statusMessage);     
-          return;
-        }
+      onEnd: ({message}) => {
         this.setState({
           ...initialUserInput,
           response: { status: "success", last_sax_word: message.getLastSaxWord(), forecast_sax_letter: message.getForecastSaxLetter(), position_in_sax_interval: message.getPositionInSaxInterval() },
@@ -94,9 +88,6 @@ export default class CNTKLSTMForecast extends React.Component {
     };
     
     this.props.serviceClient.unary(methodDescriptor, props);
-   } catch (error) {
-    this.props.serviceRequestErrorHandler(error);     
-   }
  
 }
 
