@@ -25,7 +25,10 @@ class Onboarding extends Component {
 
   initialChecks = () => {
     const { isEmailVerified, isTermsAccepted, history } = this.props;
-    if (isEmailVerified && this.state.activeSection === 1) {
+    if (!isEmailVerified) {
+      return;
+    }
+    if (this.state.activeSection === 1) {
       this.setState({ activeSection: 2 });
     }
     if (isTermsAccepted) {
