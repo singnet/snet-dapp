@@ -51,8 +51,7 @@ export default class I3DActionRecognition extends React.Component {
   }
 
   submitAction() {
-    try {
-      const { methodName, model, url } = this.state;
+    const { methodName, model, url } = this.state;
     const methodDescriptor = VideoActionRecognition[methodName];
     const request = new methodDescriptor.requestType();
 
@@ -61,12 +60,7 @@ export default class I3DActionRecognition extends React.Component {
 
     const props = {
       request,
-      onEnd: response => {
-        const { message, status, statusMessage } = response;
-        if (status !== 0) {
-          this.props.serviceRequestErrorHandler(statusMessage);
-          return;
-        }
+      onEnd: ({message}) => {
         this.setState({
           ...initialUserInput,
           response: { status: "success", value: message.getValue() },
@@ -75,10 +69,6 @@ export default class I3DActionRecognition extends React.Component {
     };
 
     this.props.serviceClient.unary(methodDescriptor, props);
-    } catch (error) {
-      this.props.serviceRequestErrorHandler(error);
-    }
-    
   }
 
   renderForm() {

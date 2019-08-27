@@ -40,33 +40,24 @@ export default class CNTKImageRecognition extends React.Component {
   }
 
   submitAction() {
-    try {
-      const { methodName, img_path, model } = this.state;
-      const methodDescriptor = Recognizer[methodName];
-      const request = new methodDescriptor.requestType();
+    const { methodName, img_path, model } = this.state;
+    const methodDescriptor = Recognizer[methodName];
+    const request = new methodDescriptor.requestType();
 
-      request.setImgPath(img_path);
-      request.setModel(model);
+    request.setImgPath(img_path);
+    request.setModel(model);
 
-      const props = {
-        request,
-        onEnd: response => {
-          const { message, status, statusMessage } = response;
-          if (status !== 0) {
-            this.props.serviceRequestErrorHandler(statusMessage);
-            return;
-          }
-          this.setState({
-            ...initialUserInput,
-            response: { status: "success", top_5: message.getTop5(), delta_time: message.getDeltaTime() },
-          });
-        },
-      };
+    const props = {
+      request,
+      onEnd: ({ message }) => {
+        this.setState({
+          ...initialUserInput,
+          response: { status: "success", top_5: message.getTop5(), delta_time: message.getDeltaTime() },
+        });
+      },
+    };
 
-      this.props.serviceClient.unary(methodDescriptor, props);
-    } catch (error) {
-      this.props.serviceRequestErrorHandler(error);
-    }
+    this.props.serviceClient.unary(methodDescriptor, props);
   }
 
   renderForm() {
@@ -129,14 +120,29 @@ export default class CNTKImageRecognition extends React.Component {
     const { response } = this.state;
 
     return (
-      <div style={{background:"#F8F8F8", padding: "24px"}}>
+      <div style={{ background: "#F8F8F8", padding: "24px" }}>
         <h4> Results</h4>
-        <div style={{ padding: "10px 10px 0 10px", fontSize: "14px", color:"#9b9b9b" }}>
-          <div style={{ padding: "10px 0",borderBottom: "1px solid #eee" }}>Status: <span style={{color:"#212121"}}>{response.status}</span></div>
-          <div style={{ padding: "10px 0",borderBottom: "1px solid #eee" }}>Time : <span style={{color:"#212121"}}>{response.delta_time}</span></div>
-          <div style={{ padding: "10px 0" }}>Output: 
-            <div style={{color:"#212121", marginTop:"5px",padding:"10px", background:"#f1f1f1",borderRadius:"4px"}}>{response.top_5}</div>
-          </div>        
+        <div style={{ padding: "10px 10px 0 10px", fontSize: "14px", color: "#9b9b9b" }}>
+          <div style={{ padding: "10px 0", borderBottom: "1px solid #eee" }}>
+            Status: <span style={{ color: "#212121" }}>{response.status}</span>
+          </div>
+          <div style={{ padding: "10px 0", borderBottom: "1px solid #eee" }}>
+            Time : <span style={{ color: "#212121" }}>{response.delta_time}</span>
+          </div>
+          <div style={{ padding: "10px 0" }}>
+            Output:
+            <div
+              style={{
+                color: "#212121",
+                marginTop: "5px",
+                padding: "10px",
+                background: "#f1f1f1",
+                borderRadius: "4px",
+              }}
+            >
+              {response.top_5}
+            </div>
+          </div>
         </div>
       </div>
     );

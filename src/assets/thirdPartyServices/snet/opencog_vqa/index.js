@@ -104,7 +104,6 @@ export default class VisualQAOpencog extends React.Component {
   }
 
   submitAction() {
-    try {
       const { methodName, question,use_pm,imageData } = this.state;
       const methodDescriptor = VqaService[methodName];
       const request = new methodDescriptor.requestType();
@@ -116,20 +115,13 @@ export default class VisualQAOpencog extends React.Component {
   
       const props = {
           request,
-          onEnd: ({ message,  status, statusMessage  }) => {
-            if (status !== 0) {
-              this.props.serviceRequestErrorHandler(statusMessage);
-              return;
-            }
-            this.setState({ isComplete: true, response: { answer: message.getAnswer(),ok:message.getOk(),error_message:message.getErrorMessage() } });
+          onEnd: ({ message  }) => {
+            this.setState({ isComplete: true,
+               response: { answer: message.getAnswer(),ok:message.getOk(),error_message:message.getErrorMessage() } });
           },
         };
   
-      this.props.serviceClient.unary(methodDescriptor, props);
-    } catch (error) {
-      this.props.serviceRequestErrorHandler(error);
-    }
-   
+      this.props.serviceClient.unary(methodDescriptor, props);   
   }
 
   renderForm() {

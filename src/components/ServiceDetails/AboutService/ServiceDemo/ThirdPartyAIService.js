@@ -57,15 +57,7 @@ class ThirdPartyAIService extends Component {
       return null;
     }
 
-    const {
-      org_id,
-      service_id,
-      classes,
-      stopLoader,
-      isServiceExecutionComplete,
-      handleResetAndRun,
-      serviceRequestErrorHandler,
-    } = this.props;
+    const { org_id, service_id, classes, stopLoader, isServiceExecutionComplete, handleResetAndRun } = this.props;
     const { feedback } = this.state;
     const { serviceClient } = this;
     const AIServiceCustomComponent = thirdPartyCustomUIComponents.componentFor(org_id, service_id);
@@ -78,7 +70,6 @@ class ThirdPartyAIService extends Component {
               serviceClient={serviceClient}
               isComplete={isServiceExecutionComplete}
               sliderWidth={"550px"}
-              serviceRequestErrorHandler={serviceRequestErrorHandler}
             />
           </ThirdPartyServiceErrorBoundary>
         </Suspense>
