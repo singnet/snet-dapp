@@ -6,11 +6,53 @@ import {GENGPT2} from "./ntg_pb_service"
 
 const initialUserInput = {
   start_text: "",
+  run_name: "trump",
   temperature : 1.2,
-  top_k: 20
+  top_k: 20,
+  length:500,
 };
 
-export default class ShortQuestionAnswering extends React.Component {
+const runNames = [{ "key":"badastronomer", "value": "Phil Plait",},
+{ "key":"barackobama", "value": "Barack Obama",},
+{ "key":"beebrookshire", "value": "Bethany Brookshire",},
+{ "key":"berniesanders", "value": "Bernie Sanders",},
+{ "key":"billgates", "value": "Bill Gates",},
+{ "key":"cmdr_hadfield", "value": "Chris Hadfield",},
+{ "key":"conanobrien", "value": "Conan O'Brien",},
+{ "key":"deborahblum", "value": "Deborah Blum",},
+{ "key":"deepakchopra", "value": "Deepak Chopra",},
+{ "key":"dril", "value": "wint",},
+{ "key":"elonmusk", "value": "Elon Musk",},
+{ "key":"ericrweinstein", "value": "Eric Weinstein",},
+{ "key":"hillaryclinton", "value": "Hillary Clinton",},
+{ "key":"jimmyfallon", "value": "jimmyfallon",},
+{ "key":"joebiden", "value": "Joe Biden",},
+{ "key":"joerogan", "value": "Joe Rogan",},
+{ "key":"jordanbpeterson", "value": "Dr Jordan B Peterson",},
+{ "key":"justinbieber", "value": "Justin Bieber",},
+{ "key":"katyperry", "value": "Katy Perry",},
+{ "key":"kevinhart4real", "value": "Kevin Hart",},
+{ "key":"kimkardashian", "value": "Kim Kardashian West",},
+{ "key":"ladygaga", "value": "Lady Gaga",},
+{ "key":"laelaps", "value": "Brian Switek",},
+{ "key":"neiltyson", "value": "Neil deGrasse Tyson",},
+{ "key":"nietzschequotes", "value": "NietzscheQuotes",},
+{ "key":"officialmcafee", "value": "John McAfee",},
+{ "key":"trump", "value": "Donald J. Trump",},
+{ "key":"rebeccaskloot", "value": "Rebecca Skloot",},
+{ "key":"richarddawkins", "value": "Richard Dawkins",},
+{ "key":"rickygervais", "value": "Ricky Gervais",},
+{ "key":"samharrisorg", "value": "Sam Harris",},
+{ "key":"terencemckenna_", "value": "Terence McKenna" ,},
+{ "key":"theellenshow", "value": "Ellen DeGeneres",},
+{ "key":"therock", "value": "Dwayne Johnson",},
+{ "key":"thetweetofgod", "value": "God",},
+{ "key":"ticbot", "value": "TicBot",},
+{ "key":"veryshortstory", "value": "Very Short Story",},
+{ "key":"virginiahughes", "value": "Virginia Hughes"}]
+
+
+export default class TextGenerationService extends React.Component {
   constructor(props) {
     super(props);
     this.submitAction = this.submitAction.bind(this);
@@ -47,13 +89,15 @@ export default class ShortQuestionAnswering extends React.Component {
     btn.disabled = true;
     btn.innerHTML = "Wait...";
 
-    const { methodName, start_text, temperature, top_k } = this.state;
+    const { methodName, start_text, temperature, top_k, run_name, length } = this.state;
     const methodDescriptor = GENGPT2[methodName];
     const request = new methodDescriptor.requestType();
 
     request.setStartText(start_text);    
     request.setTemperature(temperature);
     request.setTopK(top_k);
+    request.setRunName(run_name);
+    request.setLength(length);
 
     const props = {
       request,
@@ -79,8 +123,7 @@ export default class ShortQuestionAnswering extends React.Component {
         
         <div className="row">
           <div className="col-md-3 col-lg-3" style={{ fontSize: "13px", marginLeft: "10px" }}>
-            Start Text <br/>
-            Leave this field empty or insert the beginning of the text to generate a continuation.
+            Start Text
           </div>
           <div className="col-md-3 col-lg-2">
             <textarea
@@ -94,6 +137,23 @@ export default class ShortQuestionAnswering extends React.Component {
               onChange={this.handleFormUpdate}
               onKeyPress={e => this.onKeyPressvalidator(e)}
             ></textarea>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-md-3 col-lg-3" style={{ fontSize: "13px", marginLeft: "10px" }}>
+            Run Name
+          </div>
+          <div className="col-md-3 col-lg-2">
+              <select
+                value={this.state.run_name}
+                onChange={this.handleFormUpdate}
+                name="run_name">
+                  {runNames.map(item => {
+                    return (
+                      <option key={item.key} value={item.key}>{item.value}</option>
+                    )
+                  })}
+              </select>
           </div>
         </div>
         <div className="row">
@@ -122,7 +182,7 @@ export default class ShortQuestionAnswering extends React.Component {
     return (
       <div>
         <p style={{ fontSize: "13px" }}>
-          Response from service is: <b>{this.state.response.answer}</b>{" "}
+          Response from service is: <b>{this.state.response.answer.replace("[END BY LENGTH]", "")}</b>{" "}
         </p>
       </div>
     );
