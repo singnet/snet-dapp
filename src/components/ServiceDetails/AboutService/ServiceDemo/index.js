@@ -67,6 +67,7 @@ class ServiceDemo extends Component {
       isServiceExecutionComplete: false,
       alert: { type: alertTypes.ERROR, message: "Service Execution went wrong. Please try again" },
     });
+    this.props.stopLoader();
   };
 
   handlePurchaseComplete = () => {
@@ -78,6 +79,7 @@ class ServiceDemo extends Component {
       purchaseCompleted: false,
       alert: { type: alertTypes.ERROR, message: "Purchase could not be completed. Please try again" },
     });
+    this.props.stopLoader();
   };
 
   render() {
