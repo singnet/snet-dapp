@@ -32,7 +32,7 @@ export const generateFilterObject = filterData => {
   return filterObject;
 };
 
-export const sortByCategories = [{ value: "display_name", label: "Display Name" }];
+export const sortByCategories = [{ value: "display_name", label: "Featured" }];
 
 export const defaultPaginationParameters = {
   q: "",
