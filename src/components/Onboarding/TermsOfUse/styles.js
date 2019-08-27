@@ -51,9 +51,14 @@ export const useStyles = theme => ({
     padding: "30px 15px 0",
     display: "flex",
     justifyContent: "space-between",
-    "& button": {
-      padding: "13px 61px 11px",
+    '& span':{
+      color: theme.palette.text.mediumShadeGray,
+      fontFamily: theme.typography.primary.main,
+      fontSize: 14,
+      letterSpacing: 0.25,
+      lineHeight: '20px'
     },
+    "& button": { padding: "13px 61px 11px" },
     [theme.breakpoints.down("xs")]: {
       flexDirection: "column",
     },
