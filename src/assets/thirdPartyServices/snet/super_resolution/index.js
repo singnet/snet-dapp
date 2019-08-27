@@ -94,14 +94,6 @@ export default class SuperResolutionService extends React.Component {
   }
 
   submitAction() {
-    this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
-      input: this.state.input,
-      model: this.state.model,
-      scale: this.state.scale,
-    });
-  }
-
-  submitAction() {
     const { methodName, input, model, scale } = this.state;
     const methodDescriptor = SuperResolution[methodName];
     const request = new methodDescriptor.requestType();
