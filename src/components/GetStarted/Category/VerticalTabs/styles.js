@@ -1,11 +1,9 @@
-import ArrowIndicator from "../../../../assets/images/GetStarted/ArrowMark.png";
-
 export const useStyles = theme => ({
   VerticalTabsContainer: {
     display: "flex",
     "& button": {
       maxWidth: "100%",
-      padding: '0 0 0 25px',
+      padding: "0 0 0 25px",
       borderLeftWidth: 1,
       borderLeftStyle: "solid",
       borderLeftColor: theme.palette.text.verticalTabLeftBorder,
@@ -29,8 +27,8 @@ export const useStyles = theme => ({
       },
       "& span": {
         "&:first-of-type": { alignItems: "flex-start" },
-      }
-    }
+      },
+    },
   },
   TabsWrapper: {
     width: "100%",

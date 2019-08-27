@@ -55,7 +55,7 @@ class ServiceDetails extends Component {
 
   render() {
     const { classes, service, pricing, loading, error } = this.props;
-    const {  offlineNotication } = this.state;
+    const { offlineNotication } = this.state;
 
     if (isEmpty(service) || error) {
       if (loading) {

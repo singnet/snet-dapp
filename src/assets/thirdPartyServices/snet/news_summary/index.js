@@ -30,7 +30,7 @@ export default class NewSummaryService extends React.Component {
   }
 
   submitAction() {
-    const { methodName, article_content } = this.state;
+     const { methodName, article_content } = this.state;
     const methodDescriptor = TextSummary[methodName];
     const request = new methodDescriptor.requestType();
 
@@ -38,11 +38,7 @@ export default class NewSummaryService extends React.Component {
 
     const props = {
       request,
-      onEnd: response => {
-        const { message, status, statusMessage } = response;
-        if (status !== 0) {
-          throw new Error(statusMessage);
-        }
+      onEnd: ({message}) => {
         this.setState({
           response: { status: "success", article_summary: message.getArticleSummary() },
         });

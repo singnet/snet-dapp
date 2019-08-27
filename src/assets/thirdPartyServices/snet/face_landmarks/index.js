@@ -74,18 +74,6 @@ export default class FaceLandmarksService extends React.Component {
     });
   }
 
-  // submitAction() {
-  //   this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
-  //     header: {
-  //       landmark_model: this.state.landmarkModel,
-  //       faces: { face_bbox: JSON.parse(this.state.facesString) },
-  //     },
-  //     image_chunk: {
-  //       content: this.state.imageData,
-  //     },
-  //   });
-  // }
-
   submitAction() {
 
     const methodDescriptor = FaceLandmark.GetLandmarks;

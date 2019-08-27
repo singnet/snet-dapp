@@ -4,6 +4,7 @@ export const useStyles = theme => ({
     borderRadius: 4,
     backgroundColor: theme.palette.text.white,
     paddingBottom: 1,
+    marginBottom: 25,
   },
   companyInfo: {
     paddingLeft: 22,

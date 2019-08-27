@@ -65,8 +65,9 @@ class ServiceDemo extends Component {
   serviceRequestErrorHandler = error => {
     this.setState({
       isServiceExecutionComplete: false,
-      alert: { type: alertTypes.ERROR, message: error },
+      alert: { type: alertTypes.ERROR, message: "Service Execution went wrong. Please try again" },
     });
+    this.props.stopLoader();
   };
 
   handlePurchaseComplete = () => {
@@ -76,8 +77,9 @@ class ServiceDemo extends Component {
   handlePurchaseError = error => {
     this.setState({
       purchaseCompleted: false,
-      alert: { type: alertTypes.ERROR, message: error },
+      alert: { type: alertTypes.ERROR, message: "Purchase could not be completed. Please try again" },
     });
+    this.props.stopLoader();
   };
 
   render() {

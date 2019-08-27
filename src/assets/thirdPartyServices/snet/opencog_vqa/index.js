@@ -104,23 +104,24 @@ export default class VisualQAOpencog extends React.Component {
   }
 
   submitAction() {
-    const { methodName, question,use_pm,imageData } = this.state;
-    const methodDescriptor = VqaService[methodName];
-    const request = new methodDescriptor.requestType();
-
-    request.setQuestion(question)
-    request.setUsePm(use_pm)
-    request.setImageData(imageData)
-
-
-    const props = {
-        request,
-        onEnd: ({ message }) => {
-          this.setState({ isComplete: true, response: { answer: message.getAnswer(),ok:message.getOk(),error_message:message.getErrorMessage() } });
-        },
-      };
-
-    this.props.serviceClient.unary(methodDescriptor, props);
+      const { methodName, question,use_pm,imageData } = this.state;
+      const methodDescriptor = VqaService[methodName];
+      const request = new methodDescriptor.requestType();
+  
+      request.setQuestion(question)
+      request.setUsePm(use_pm)
+      request.setImageData(imageData)
+  
+  
+      const props = {
+          request,
+          onEnd: ({ message  }) => {
+            this.setState({ isComplete: true,
+               response: { answer: message.getAnswer(),ok:message.getOk(),error_message:message.getErrorMessage() } });
+          },
+        };
+  
+      this.props.serviceClient.unary(methodDescriptor, props);   
   }
 
   renderForm() {

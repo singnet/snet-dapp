@@ -5,6 +5,7 @@ import { parseError } from "../../utility/ErrorHandling";
 import { userActions, errorActions, loaderActions } from ".";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
 import { initializeAPIOptions } from "../../utility/API";
+import Routes from "../../utility/constants/Routes";
 
 export const SET_USER_DETAILS = "SET_USER_DETAILS";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
@@ -200,7 +201,8 @@ export const login = ({ email, password, history, route }) => dispatch => {
           payload: { login: { isLoggedIn: true } },
         };
         dispatch(userDetails);
-        loginSuccess({ history, route });
+        history.push(`/${Routes.ONBOARDING}`);
+        dispatch(loaderActions.stopAppLoader);
         return;
       }
       const error = parseError(err);
@@ -320,7 +322,7 @@ export const forgotPassword = ({ email, history, route }) => dispatch => {
   dispatch(forgotPasswordInit);
   Auth.forgotPassword(email)
     .then(() => {
-      dispatch(forgotPasswordSuccessfull({ history, route }));
+      dispatch(forgotPasswordSuccessfull({ email, history, route }));
     })
     .catch(err => {
       dispatch(forgotPasswordFailure(err.message));
