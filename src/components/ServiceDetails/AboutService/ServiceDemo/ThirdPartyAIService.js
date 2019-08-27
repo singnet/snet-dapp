@@ -27,6 +27,7 @@ class ThirdPartyAIService extends Component {
       groupInfo,
       this.props.serviceRequestStartHandler,
       this.props.serviceRequestCompleteHandler,
+      this.props.serviceRequestErrorHandler,
       callType,
       wallet
     );
