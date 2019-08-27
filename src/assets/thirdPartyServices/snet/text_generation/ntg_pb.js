@@ -59,8 +59,10 @@ snet_text_generation.Query.prototype.toObject = function(opt_includeInstance) {
 snet_text_generation.Query.toObject = function(includeInstance, msg) {
   var f, obj = {
     startText: msg.getStartText(),
+    runName: msg.getRunName(),
     temperature: msg.getTemperature(),
-    topK: msg.getTopK()
+    topK: msg.getTopK(),
+    length: msg.getLength()
   };
 
   if (includeInstance) {
@@ -102,12 +104,20 @@ snet_text_generation.Query.deserializeBinaryFromReader = function(msg, reader) {
       msg.setStartText(value);
       break;
     case 2:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setRunName(value);
+      break;
+    case 3:
       var value = /** @type {number} */ (reader.readFloat());
       msg.setTemperature(value);
       break;
-    case 3:
+    case 4:
       var value = /** @type {number} */ (reader.readInt32());
       msg.setTopK(value);
+      break;
+    case 5:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setLength(value);
       break;
     default:
       reader.skipField();
@@ -154,17 +164,31 @@ snet_text_generation.Query.prototype.serializeBinaryToWriter = function (writer)
       f
     );
   }
+  f = this.getRunName();
+  if (f.length > 0) {
+    writer.writeString(
+      2,
+      f
+    );
+  }
   f = this.getTemperature();
   if (f !== 0.0) {
     writer.writeFloat(
-      2,
+      3,
       f
     );
   }
   f = this.getTopK();
   if (f !== 0) {
     writer.writeInt32(
-      3,
+      4,
+      f
+    );
+  }
+  f = this.getLength();
+  if (f !== 0) {
+    writer.writeInt32(
+      5,
       f
     );
   }
@@ -196,32 +220,62 @@ snet_text_generation.Query.prototype.setStartText = function(value) {
 
 
 /**
- * optional float temperature = 2;
- * @return {number}
+ * optional string run_name = 2;
+ * @return {string}
  */
-snet_text_generation.Query.prototype.getTemperature = function() {
-  return /** @type {number} */ (jspb.Message.getFieldProto3(this, 2, 0));
+snet_text_generation.Query.prototype.getRunName = function() {
+  return /** @type {string} */ (jspb.Message.getFieldProto3(this, 2, ""));
 };
 
 
-/** @param {number} value  */
-snet_text_generation.Query.prototype.setTemperature = function(value) {
+/** @param {string} value  */
+snet_text_generation.Query.prototype.setRunName = function(value) {
   jspb.Message.setField(this, 2, value);
 };
 
 
 /**
- * optional int32 top_k = 3;
+ * optional float temperature = 3;
  * @return {number}
  */
-snet_text_generation.Query.prototype.getTopK = function() {
+snet_text_generation.Query.prototype.getTemperature = function() {
   return /** @type {number} */ (jspb.Message.getFieldProto3(this, 3, 0));
 };
 
 
 /** @param {number} value  */
-snet_text_generation.Query.prototype.setTopK = function(value) {
+snet_text_generation.Query.prototype.setTemperature = function(value) {
   jspb.Message.setField(this, 3, value);
+};
+
+
+/**
+ * optional int32 top_k = 4;
+ * @return {number}
+ */
+snet_text_generation.Query.prototype.getTopK = function() {
+  return /** @type {number} */ (jspb.Message.getFieldProto3(this, 4, 0));
+};
+
+
+/** @param {number} value  */
+snet_text_generation.Query.prototype.setTopK = function(value) {
+  jspb.Message.setField(this, 4, value);
+};
+
+
+/**
+ * optional int32 length = 5;
+ * @return {number}
+ */
+snet_text_generation.Query.prototype.getLength = function() {
+  return /** @type {number} */ (jspb.Message.getFieldProto3(this, 5, 0));
+};
+
+
+/** @param {number} value  */
+snet_text_generation.Query.prototype.setLength = function(value) {
+  jspb.Message.setField(this, 5, value);
 };
 
 
