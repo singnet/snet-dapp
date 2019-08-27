@@ -60,11 +60,7 @@ export default class I3DActionRecognition extends React.Component {
 
     const props = {
       request,
-      onEnd: response => {
-        const { message, status, statusMessage } = response;
-        if (status !== 0) {
-          throw new Error(statusMessage);
-        }
+      onEnd: ({message}) => {
         this.setState({
           ...initialUserInput,
           response: { status: "success", value: message.getValue() },

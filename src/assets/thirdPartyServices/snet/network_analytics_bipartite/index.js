@@ -165,95 +165,83 @@ export default class NetworkAnalysisBipartite extends React.Component {
   }
 
   submitAction() {
-    if (this.state.methodName === "BipartiteGraph") {
+      if (this.state.methodName === "BipartiteGraph") {
 
 
-      const { methodName, dataset } = this.state;
-      const methodDescriptor = NetworkAnalyticsBipartite[methodName];
-      const request = new methodDescriptor.requestType();
-
-      let nodes = new BipartiteNodes()
-      nodes.setBipartite0List(dataset['nodes']['bipartite_0'])
-      nodes.setBipartite1List(dataset['nodes']['bipartite_1'])
-
-      var edges=[]
-      for (let i=0;i<dataset['edges'].length;i++){
-        let e = new Edge()
-        e.setEdgeList(dataset['edges'][i]["edge"])
-        edges.push(e)
+        const { methodName, dataset } = this.state;
+        const methodDescriptor = NetworkAnalyticsBipartite[methodName];
+        const request = new methodDescriptor.requestType();
+  
+        let nodes = new BipartiteNodes()
+        nodes.setBipartite0List(dataset['nodes']['bipartite_0'])
+        nodes.setBipartite1List(dataset['nodes']['bipartite_1'])
+  
+        var edges=[]
+        for (let i=0;i<dataset['edges'].length;i++){
+          let e = new Edge()
+          e.setEdgeList(dataset['edges'][i]["edge"])
+          edges.push(e)
+        }
+  
+        request.setNodes(nodes)
+        request.setEdgesList(edges)
+       
+    
+        const props = {
+          request,
+          onEnd: ({message}) => {
+            this.setState({
+              response: { status: "success", message: message.getMessage(), output: message.getOutput() },
+            });
+          },
+        };
+    
+        this.props.serviceClient.unary(methodDescriptor, props);
+  
+  
       }
-
-      request.setNodes(nodes)
-      request.setEdgesList(edges)
-     
+      if (this.state.methodName === "ProjectedGraph") {
+       
+        
+        const { methodName, dataset } = this.state;
+        const methodDescriptor = NetworkAnalyticsBipartite[methodName];
+        const request = new methodDescriptor.requestType();
   
-      const props = {
-        request,
-        onEnd: response => {
-          const { message, status, statusMessage } = response;
-          if (status !== 0) {
-            throw new Error(statusMessage);
-          }
-          this.setState({
-            response: { status: "success", message: message.getMessage(), output: message.getOutput() },
-          });
-        },
-      };
   
-      this.props.serviceClient.unary(methodDescriptor, props);
-
-
-    }
-    if (this.state.methodName === "ProjectedGraph") {
-     
-      
-      const { methodName, dataset } = this.state;
-      const methodDescriptor = NetworkAnalyticsBipartite[methodName];
-      const request = new methodDescriptor.requestType();
-
-
-      let graph =new BipartiteGraph();
-      let edges=[]
-      for (let i=0;i<dataset['graph']['edges'].length;i++){
-        let e = new Edge()
-        e.setEdgeList(dataset['graph']['edges'][i]["edge"])
-        edges.push(e)
+        let graph =new BipartiteGraph();
+        let edges=[]
+        for (let i=0;i<dataset['graph']['edges'].length;i++){
+          let e = new Edge()
+          e.setEdgeList(dataset['graph']['edges'][i]["edge"])
+          edges.push(e)
+        }
+  
+        graph.setBipartite1List(dataset['graph']['bipartite_1'])
+        graph.setBipartite0List(dataset['graph']['bipartite_0'])
+        
+  
+  
+        graph.setEdgesList(edges)
+        graph.setWeightsList(dataset['graph']['weights'])
+  
+  
+        request.setGraph(graph)
+        request.setNodesList(dataset['nodes'])
+        request.setWeight(dataset['weight'])
+  
+  
+  
+        const props = {
+          request,
+          onEnd: ({message}) => {
+            this.setState({
+              response: { status: "success", message: message.getMessage(), output: message.getOutput() },
+            });
+          },
+        };
+    
+        this.props.serviceClient.unary(methodDescriptor, props);
       }
-
-      graph.setBipartite1List(dataset['graph']['bipartite_1'])
-      graph.setBipartite0List(dataset['graph']['bipartite_0'])
-      
-
-
-      graph.setEdgesList(edges)
-      graph.setWeightsList(dataset['graph']['weights'])
-
-
-      request.setGraph(graph)
-      request.setNodesList(dataset['nodes'])
-      request.setWeight(dataset['weight'])
-
-
-
-      const props = {
-        request,
-        onEnd: response => {
-          const { message, status, statusMessage } = response;
-          if (status !== 0) {
-            throw new Error(statusMessage);
-          }
-          this.setState({
-            response: { status: "success", message: message.getMessage(), output: message.getOutput() },
-          });
-        },
-      };
-  
-      this.props.serviceClient.unary(methodDescriptor, props);
-
-
-
-
-    }
   }
 
   download() {
