@@ -30,20 +30,48 @@ export default class PaymentChannelManagement {
     await this._channel.syncState();
   }
 
-  async openChannel() {
-    const serviceCallPrice = this._pricePerServiceCall();
-    const defaultExpiration = await this._defaultChannelExpiration();
+  async openChannel(noOfServiceCalls = 1) {
+    const serviceCallPrice = this.noOfCallsToCogs(noOfServiceCalls);
+    const defaultExpiration = await this._channelExtensionBlockNumber();
 
     this._channel = await this.serviceClient.openChannel(serviceCallPrice, defaultExpiration);
     this._sdkContext.currentChannel = this._channel;
   }
 
   async extendAndAddFunds(noOfServiceCalls = 1) {
-    const serviceCallPrice = this._pricePerServiceCall() * noOfServiceCalls;
-    const defaultExpiration = await this._defaultChannelExpiration();
+    const serviceCallPrice = this.noOfCallsToCogs(noOfServiceCalls);
+    const defaultExpiration = await this._channelExtensionBlockNumber();
 
     await this._channel.extendAndAddFunds(defaultExpiration, serviceCallPrice);
     await this._channel.syncState();
+  }
+
+  async canUseChannel() {
+    if (!this._channel) {
+      return false;
+    }
+    const isValid = await this._isValid();
+    return isValid && this._hasSufficientFunds();
+  }
+
+  availableBalance() {
+    if (!this._channel) {
+      return 0;
+    }
+    return this._channel.state.availableAmount;
+  }
+
+  noOfCallsToCogs(noOfServiceCalls) {
+    return this._pricePerServiceCall() * noOfServiceCalls;
+  }
+
+  async _isValid() {
+    const expiry = await this._defaultChannelExpiration();
+    return this._channel.state.expiration > expiry;
+  }
+
+  _hasSufficientFunds() {
+    return this._channel.state.availableAmount >= this._pricePerServiceCall();
   }
 
   _pricePerServiceCall() {
@@ -53,8 +81,13 @@ export default class PaymentChannelManagement {
     return fixedPricing.price_in_cogs;
   }
 
-  async _defaultChannelExpiration() {
+  async _channelExtensionBlockNumber() {
     const currentBlockNumber = await this._sdkContext.web3.eth.getBlockNumber();
     return currentBlockNumber + this.serviceClient.group.payment_expiration_threshold + ONE_YEAR_BLOCKS;
+  }
+
+  async _defaultChannelExpiration() {
+    const currentBlockNumber = await this._sdkContext.web3.eth.getBlockNumber();
+    return currentBlockNumber + this._serviceClient.group.payment_expiration_threshold;
   }
 }

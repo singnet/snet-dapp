@@ -64,34 +64,31 @@ export default class CNTKLSTMForecast extends React.Component {
 
   
  submitAction() {
-  const { methodName, window_len, word_len, alphabet_size, source_type, source, contract, start_date, end_date} = this.state;
-  const methodDescriptor = Forecast[methodName];
-  const request = new methodDescriptor.requestType();
-
-  request.setWindowLen(window_len);
-  request.setWordLen(word_len);
-  request.setAlphabetSize(alphabet_size);
-  request.setSourceType(source_type);
-  request.setSource(source);
-  request.setContract(contract);
-  request.setStartDate(start_date);
-  request.setEndDate(end_date);
-
-  const props = {
-    request,
-    onEnd: response => {
-      const { message, status, statusMessage } = response;
-      if (status !== 0) {
-        throw new Error(statusMessage);
-      }
-      this.setState({
-        ...initialUserInput,
-        response: { status: "success", last_sax_word: message.getLastSaxWord(), forecast_sax_letter: message.getForecastSaxLetter(), position_in_sax_interval: message.getPositionInSaxInterval() },
-      });
-    },
-  };
+    const { methodName, window_len, word_len, alphabet_size, source_type, source, contract, start_date, end_date} = this.state;
+    const methodDescriptor = Forecast[methodName];
+    const request = new methodDescriptor.requestType();
   
-  this.props.serviceClient.unary(methodDescriptor, props);
+    request.setWindowLen(window_len);
+    request.setWordLen(word_len);
+    request.setAlphabetSize(alphabet_size);
+    request.setSourceType(source_type);
+    request.setSource(source);
+    request.setContract(contract);
+    request.setStartDate(start_date);
+    request.setEndDate(end_date);
+  
+    const props = {
+      request,
+      onEnd: ({message}) => {
+        this.setState({
+          ...initialUserInput,
+          response: { status: "success", last_sax_word: message.getLastSaxWord(), forecast_sax_letter: message.getForecastSaxLetter(), position_in_sax_interval: message.getPositionInSaxInterval() },
+        });
+      },
+    };
+    
+    this.props.serviceClient.unary(methodDescriptor, props);
+ 
 }
 
 
@@ -275,15 +272,17 @@ export default class CNTKLSTMForecast extends React.Component {
       status = this.state.response + "\n";
     }
     return (
-      <div>
-        <p style={{ fontSize: "13px" }}>Response from service is: </p>
-        <pre>
-          Status : {status}
-          Word (SAX) : {last_sax_word}
-          Forecast Letter (SAX) : {forecast_sax_letter}
-          Position in Interval (SAX): {position_in_sax_interval}
-        </pre>
-      </div>
+        
+      <div style={{background:"#F8F8F8", padding: "24px"}}>
+        <h4> Results</h4>
+        <div style={{ padding: "10px 10px 0 10px", fontSize: "14px", color:"#9b9b9b" }}>
+          <div style={{ padding: "10px 0",borderBottom: "1px solid #eee" }}>Status: <span style={{color:"#212121"}}>{status}</span></div>
+          <div style={{ padding: "10px 0",borderBottom: "1px solid #eee" }}>Word (SAX) : <span style={{color:"#212121"}}>{last_sax_word}</span></div>
+          <div style={{ padding: "10px 0",borderBottom: "1px solid #eee" }}>Forecast Letter (SAX) : <span style={{color:"#212121"}}>{forecast_sax_letter}</span></div>
+          <div style={{ padding: "10px 0",borderBottom: "1px solid #eee" }}>Position in Interval (SAX) : <span style={{color:"#212121"}}>{position_in_sax_interval}</span></div>         
+        </div>
+      </div>        
+        
     );
   }
 

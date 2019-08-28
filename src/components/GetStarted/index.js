@@ -3,11 +3,12 @@ import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 
 import GetStartedDescription from "./GetStartedDescription";
+
 import { GetStartedCategoriesData } from "../../utility/constants/GetStarted";
 import Category from "./Category";
 import { useStyles } from "./styles";
 
-const GetStarted = ({ classes }) => {
+const GetStarted = ({ classes, history }) => {
   return (
     <Grid container spacing={24} className={classes.GetStartedMainContaienr}>
       <Grid item xs={12} sm={12} md={12} lg={12} className={classes.TopSection}>
@@ -35,6 +36,7 @@ const GetStarted = ({ classes }) => {
           button
           btnType={"blue"}
           btnText={"Sign up free"}
+          history={history}
         />
       </Grid>
       {/*

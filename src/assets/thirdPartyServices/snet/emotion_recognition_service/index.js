@@ -50,18 +50,14 @@ export default class EmotionRecognitionService extends React.Component {
 
     const props = {
       request,
-      onEnd: response => {
-        const { message, status, statusMessage } = response;
-        if (status !== 0) {
-          throw new Error(statusMessage);
-        }
+      onEnd: ({message}) => {
         this.setState({
-          response: response.message.toObject(),
+          response: message.toObject(),
         });
       },
     };
 
-    this.props.serviceClient.unary(methodDescriptor, props);
+    this.props.serviceClient.unary(methodDescriptor, props);  
   }
 
 

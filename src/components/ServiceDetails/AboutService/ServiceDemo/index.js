@@ -8,6 +8,7 @@ import { serviceDetailsActions, loaderActions } from "../../../../Redux/actionCr
 import PurchaseToggler from "./PurchaseToggler";
 import { freeCalls, groupInfo } from "../../../../Redux/reducers/ServiceDetailsReducer";
 import { LoaderContent } from "../../../../utility/constants/LoaderContent";
+import AlertBox, { alertTypes } from "../../../common/AlertBox";
 
 const demoProgressStatus = {
   purchasing: 1,
@@ -20,6 +21,7 @@ class ServiceDemo extends Component {
     progressText: ["Purchase", "Configure", "Results"],
     purchaseCompleted: false,
     isServiceExecutionComplete: false,
+    alert: {},
   };
 
   componentDidMount = async () => {
@@ -56,12 +58,28 @@ class ServiceDemo extends Component {
   };
 
   handleResetAndRun = () => {
-    this.setState({ purchaseCompleted: false, isServiceExecutionComplete: false });
+    this.setState({ purchaseCompleted: false, isServiceExecutionComplete: false, alert: {} });
     this.fetchFreeCallsUsage();
+  };
+
+  serviceRequestErrorHandler = error => {
+    this.setState({
+      isServiceExecutionComplete: false,
+      alert: { type: alertTypes.ERROR, message: "Service Execution went wrong. Please try again" },
+    });
+    this.props.stopLoader();
   };
 
   handlePurchaseComplete = () => {
     this.setState({ purchaseCompleted: true });
+  };
+
+  handlePurchaseError = error => {
+    this.setState({
+      purchaseCompleted: false,
+      alert: { type: alertTypes.ERROR, message: "Purchase could not be completed. Please try again" },
+    });
+    this.props.stopLoader();
   };
 
   render() {
@@ -72,8 +90,16 @@ class ServiceDemo extends Component {
       groupInfo,
       wallet,
     } = this.props;
-    const { progressText, purchaseCompleted, isServiceExecutionComplete } = this.state;
-    const { handleResetAndRun, serviceRequestStartHandler, serviceRequestCompleteHandler } = this;
+
+    const { progressText, purchaseCompleted, isServiceExecutionComplete, alert } = this.state;
+
+    const {
+      handleResetAndRun,
+      serviceRequestStartHandler,
+      serviceRequestCompleteHandler,
+      serviceRequestErrorHandler,
+      handlePurchaseError,
+    } = this;
 
     return (
       <div className={classes.demoExampleContainer}>
@@ -82,7 +108,13 @@ class ServiceDemo extends Component {
         <PurchaseToggler
           groupInfo={groupInfo}
           purchaseCompleted={purchaseCompleted}
-          purchaseProps={{ handleComplete: this.handlePurchaseComplete, freeCallsRemaining, freeCallsAllowed, wallet }}
+          purchaseProps={{
+            handleComplete: this.handlePurchaseComplete,
+            freeCallsRemaining,
+            freeCallsAllowed,
+            wallet,
+            handlePurchaseError,
+          }}
           thirdPartyProps={{
             service_id: service.service_id,
             org_id: service.org_id,
@@ -91,8 +123,10 @@ class ServiceDemo extends Component {
             handleResetAndRun,
             serviceRequestStartHandler,
             serviceRequestCompleteHandler,
+            serviceRequestErrorHandler,
           }}
         />
+        <AlertBox type={alert.type} message={alert.message} />
       </div>
     );
   }
@@ -105,10 +139,11 @@ const mapStateToProps = state => ({
   wallet: state.userReducer.wallet,
 });
 
-const mapDispatchToProps = dispatch => ({
-  startLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.SERVICE_INVOKATION)),
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  startLoader: () =>
+    dispatch(loaderActions.startAppLoader(LoaderContent.SERVICE_INVOKATION(ownProps.service.display_name))),
   stopLoader: () => dispatch(loaderActions.stopAppLoader),
-  fetchMeteringData: args => dispatch(serviceDetailsActions.fetchMeteringData({ ...args })),
+  fetchMeteringData: args => dispatch(serviceDetailsActions.fetchMeteringData(args)),
 });
 
 export default connect(

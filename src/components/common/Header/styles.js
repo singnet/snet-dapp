@@ -101,17 +101,20 @@ export const useStyles = makeStyles(theme => ({
     borderRadius: 4,
     marginRight: 0,
     cursor: "pointer",
+    "&:hover": { backgroundColor: theme.palette.text.outlinedBtnHoverBg },
   },
   loginBtnsAnchor: {
     textDecoration: "none",
     fontSize: 16,
     color: theme.palette.text.white,
     cursor: "pointer",
+    "&:hover": { textDecoration: "underline" },
   },
   signupBtnText: {
     fontWeight: 600,
     letterSpacing: 1.79,
     lineHeight: "16px",
+    "&:hover": { textDecoration: "none" },
   },
   UppercaseText: { textTransform: "uppercase" },
   loggedInActions: {

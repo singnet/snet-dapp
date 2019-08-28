@@ -245,22 +245,29 @@ handleSentences() {
 
     const result = this.parseResponse(response.value);
     return (
-      <React.Fragment>
-        <Grid item xs={12} style={{ textAlign: "center" }}>
-          <h4>Response from service is:</h4>
-          <br />
-          <div style={{ textAlign: "left", padding: 20, backgroundColor: "#E5EFFC" }}>
-            {result.map(item => (
-              <h5>
-                {item.sentence}
-                <br />
-                {JSON.stringify(item.result)}
-                <br />
-              </h5>
-            ))}
-          </div>
-        </Grid>
-      </React.Fragment>
+        
+<div style={{background:"#F8F8F8", padding: "24px"}}>
+    <h4> Results</h4>
+    <div style={{ padding: "10px 0",fontSize: "14px",color:"#9b9b9b" }}>Response from service is: 
+        <div style={{color:"#212121", marginTop:"5px",padding:"10px", background:"#f1f1f1",borderRadius:"4px"}}>
+          <React.Fragment>
+            <Grid item xs={12} style={{ textAlign: "center" }}>
+              <div style={{ textAlign: "left" }}>
+                {result.map(item => (
+                  <h5 style={{fontSize: "14px"}}>
+                    <span style={{fontWeight:"400"}}>{item.sentence}</span>
+                    <br />
+                    {JSON.stringify(item.result)}
+                    <br />
+                  </h5>
+                ))}
+              </div>
+            </Grid>
+          </React.Fragment>
+        </div>
+    </div>         
+</div>     
+        
     );
   }
 

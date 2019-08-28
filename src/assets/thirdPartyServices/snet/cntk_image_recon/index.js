@@ -49,11 +49,7 @@ export default class CNTKImageRecognition extends React.Component {
 
     const props = {
       request,
-      onEnd: response => {
-        const { message, status, statusMessage } = response;
-        if (status !== 0) {
-          throw new Error(statusMessage);
-        }
+      onEnd: ({ message }) => {
         this.setState({
           ...initialUserInput,
           response: { status: "success", top_5: message.getTop5(), delta_time: message.getDeltaTime() },
@@ -124,13 +120,30 @@ export default class CNTKImageRecognition extends React.Component {
     const { response } = this.state;
 
     return (
-      <div>
-        <p style={{ fontSize: "13px" }}>Response from service is: </p>
-        <pre>
-          Status: {response.status}
-          Time : {response.delta_time}
-          Output: {response.top_5}
-        </pre>
+      <div style={{ background: "#F8F8F8", padding: "24px" }}>
+        <h4> Results</h4>
+        <div style={{ padding: "10px 10px 0 10px", fontSize: "14px", color: "#9b9b9b" }}>
+          <div style={{ padding: "10px 0", borderBottom: "1px solid #eee" }}>
+            Status: <span style={{ color: "#212121" }}>{response.status}</span>
+          </div>
+          <div style={{ padding: "10px 0", borderBottom: "1px solid #eee" }}>
+            Time : <span style={{ color: "#212121" }}>{response.delta_time}</span>
+          </div>
+          <div style={{ padding: "10px 0" }}>
+            Output:
+            <div
+              style={{
+                color: "#212121",
+                marginTop: "5px",
+                padding: "10px",
+                background: "#f1f1f1",
+                borderRadius: "4px",
+              }}
+            >
+              {response.top_5}
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

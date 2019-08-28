@@ -252,64 +252,59 @@ export default class GeneAnnotationService extends React.Component {
  // TODO: Need to update the code after validating with the Daemon Service
  // Did an attempt to get the code for Proto TS based on the Proto Definition
  handleSubmit() {
+    const {methodName} = this.state;
 
-  const {methodName} = this.state;
-
-  const methodDescriptor = Annotate[methodName];
-  const request = new methodDescriptor.requestType();
-
-  var annotations = this.state.selectedAnnotations.map(sa => {
-
-    var annotation = request.Annotate;
-
-    annotation.setFunctionname(sa.name)
-
-    var filters  = sa.filter
-      ? Object.keys(sa.filter).map(k => {
-          var filter = request.Filter;
-          filter.setFilter(k)
-          var val = Array.isArray(sa.filter[k])
-            ? sa.filter[k]
-                .reduce((acc, value) => {
-                  return acc + " " + value;
-                }, "")
-                .trim()
-            : this.capitalizeFirstLetter(sa.filter[k].toString());
-          filter.setValue(val);
-          return filter;
-        })
-      : [];
-    annotation.setFiltersList(filters);
-    return annotation;
-  });
-
-  var genes = this.state.genes.map(g => {
-    var gene = request.Gene;
-    gene.setGenename(g);
-    return gene;
-  });
+    const methodDescriptor = Annotate[methodName];
+    const request = new methodDescriptor.requestType();
   
-  request.setAnnotationsList(annotations);
-  request.setGenesList(genes);
-
-  const props = {
-    request,
-    onEnd: response => {
-      const { message, status, statusMessage } = response;
-      if (status !== 0) {
-        throw new Error(statusMessage);
-      }
-      this.setState({
-        response: { status: "success", graph: message.getGraph(), scm: message.getScm() },
-      });
-    },
-  };
-
-  this.props.serviceClient.unary(methodDescriptor, props);
-
-  this.setState({
-    notification: { message: "Fetching annotation results ...", busy: true },
-  });
+    var annotations = this.state.selectedAnnotations.map(sa => {
+  
+      var annotation = request.Annotate;
+  
+      annotation.setFunctionname(sa.name)
+  
+      var filters  = sa.filter
+        ? Object.keys(sa.filter).map(k => {
+            var filter = request.Filter;
+            filter.setFilter(k)
+            var val = Array.isArray(sa.filter[k])
+              ? sa.filter[k]
+                  .reduce((acc, value) => {
+                    return acc + " " + value;
+                  }, "")
+                  .trim()
+              : this.capitalizeFirstLetter(sa.filter[k].toString());
+            filter.setValue(val);
+            return filter;
+          })
+        : [];
+      annotation.setFiltersList(filters);
+      return annotation;
+    });
+  
+    var genes = this.state.genes.map(g => {
+      var gene = request.Gene;
+      gene.setGenename(g);
+      return gene;
+    });
+    
+    request.setAnnotationsList(annotations);
+    request.setGenesList(genes);
+  
+    const props = {
+      request,
+      onEnd: ({message}) => {
+        this.setState({
+          response: { status: "success", graph: message.getGraph(), scm: message.getScm() },
+        });
+      },
+    };
+  
+    this.props.serviceClient.unary(methodDescriptor, props);
+  
+    this.setState({
+      notification: { message: "Fetching annotation results ...", busy: true },
+    });
 }
 
 

@@ -1,5 +1,5 @@
 export const useStyles = theme => ({
-  accountMainContainer: { margin: "10px 0 50px" },
+  accountMainContainer: { margin: "13px 0 50px" },
   accountContainer: {
     paddingBottom: 52,
     borderRadius: 4,
