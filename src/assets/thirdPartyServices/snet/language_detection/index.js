@@ -69,8 +69,7 @@ export default class LanguageDetectionService extends React.Component {
           throw new Error(statusMessage);
         }
         this.setState({
-          ...initialUserInput,
-          response: { status: "success", language: message.getLanguageList() },
+          response: { status: "success", language: message.toObject() },
         });
       },
     };
@@ -167,21 +166,21 @@ export default class LanguageDetectionService extends React.Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {response.language.map((row, index) => (
+              {response.language.languageList.map((row, index) => (
                 <TableRow key={index}>
                   <CustomTableCell component="th" scope="row">
                     {row["sentence"]}
                   </CustomTableCell>
                   <CustomTableCell align="center">
-                    {row["prediction"][0]["language"] +
+                    {row["predictionList"][0]["language"] +
                       " - " +
-                      parseFloat(row["prediction"][0]["confidence"]).toFixed(2) +
+                      parseFloat(row["predictionList"][0]["confidence"]).toFixed(2) +
                       "%"}
                   </CustomTableCell>
                   <CustomTableCell align="center">
-                    {row["prediction"][1]["language"] +
+                    {row["predictionList"][1]["language"] +
                       " - " +
-                      parseFloat(row["prediction"][1]["confidence"]).toFixed(2) +
+                      parseFloat(row["predictionList"][1]["confidence"]).toFixed(2) +
                       "%"}
                   </CustomTableCell>
                 </TableRow>
