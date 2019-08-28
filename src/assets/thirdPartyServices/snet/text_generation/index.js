@@ -1,6 +1,8 @@
 import React from "react";
 import { hasOwnDefinedProperty } from "../../../../utility/JSHelper";
+import { makeStyles } from '@material-ui/core/styles';
 import Button from "@material-ui/core/Button";
+import Slider from "@material-ui/lab/Slider";
 
 import {GENGPT2} from "./ntg_pb_service"
 
@@ -9,7 +11,7 @@ const initialUserInput = {
   run_name: "trump",
   temperature : 1.2,
   top_k: 20,
-  length:500,
+  length:256,
 };
 
 const runNames = [{ "key":"badastronomer", "value": "Phil Plait",},
@@ -57,6 +59,7 @@ export default class TextGenerationService extends React.Component {
     super(props);
     this.submitAction = this.submitAction.bind(this);
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
+    this.changeSlider = this.changeSlider.bind(this);
 
     this.users_guide = "https://github.com/iktina/neural-text-generation";
 
@@ -71,6 +74,13 @@ export default class TextGenerationService extends React.Component {
     this.serviceMethods = [];
     this.allServices = [];
     this.methodsForAllServices = [];
+  }
+
+  changeSlider(elementName, value) {
+    // Event Target Name and Value are getting Blank
+    this.setState({
+      [elementName]: value,
+    });
   }
 
   handleFormUpdate(event) {
@@ -123,12 +133,12 @@ export default class TextGenerationService extends React.Component {
         
         <div className="row">
           <div className="col-md-3 col-lg-3" style={{ fontSize: "13px", marginLeft: "10px" }}>
-            Start Text
+            Start tweet text
           </div>
           <div className="col-md-3 col-lg-2">
             <textarea
               name="start_text"
-              placeholder="Enter a start text."
+              placeholder="Enter a start tweet text."
               className="w3-input w3-border"
               style={{ resize: "none", width: "250px" }}
               rows="4"
@@ -141,7 +151,7 @@ export default class TextGenerationService extends React.Component {
         </div>
         <div className="row">
           <div className="col-md-3 col-lg-3" style={{ fontSize: "13px", marginLeft: "10px" }}>
-            Run Name
+            Choose Model
           </div>
           <div className="col-md-3 col-lg-2">
               <select
@@ -156,6 +166,74 @@ export default class TextGenerationService extends React.Component {
               </select>
           </div>
         </div>
+
+
+
+        <div className="row">
+          <div className="col-md-3 col-lg-3" style={{ fontSize: "13px", marginLeft: "10px" }}>
+            Max length
+          </div>
+          <div className="col-md-3 col-lg-2">
+            <Slider
+                name="length"
+                style={{ width:"100px", padding: "0px 50%" }}
+                value={this.state.length}
+                step={1}
+                max={1024}
+                min={1}
+                defaultValue={256}
+                valueLabelDisplay="on"
+                onChange={ (e, val) => this.changeSlider("length", val) }
+                >
+              </Slider>
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col-md-3 col-lg-3" style={{ fontSize: "13px", marginLeft: "10px" }}>
+          Top K
+          </div>
+          <div className="col-md-3 col-lg-2">
+            <Slider
+                name="top_k"
+                style={{ width:"100px", padding: "0px 50%" }}
+                value={this.state.top_k}
+                step={10}
+                min={0}
+                max={100}
+                defaultValue={20}
+                valueLabelDisplay="on"
+                onChange={ (e, val) => this.changeSlider("top_k", val) }
+                >
+              </Slider>
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col-md-3 col-lg-3" style={{ fontSize: "13px", marginLeft: "10px" }}>
+          Temperature
+          </div>
+          <div className="col-md-3 col-lg-2">
+            <Slider
+                name="temperature"
+                aria-labelledby="discrete-slider-small-steps"
+                style={{ width:"100px", padding: "0px 50%" }}
+                value={this.state.temperature}
+                step={0.1}
+                min={0.2}
+                max={1.5}
+                defaultValue={1.0}
+                valueLabelDisplay="on"
+                onChange={ (e, val) => this.changeSlider("temperature", val) }
+                >
+              </Slider>
+          </div>
+        </div>
+
+
+
+
+
         <div className="row">
           <div className="col-md-6 col-lg-6" style={{ textAlign: "right", marginTop: "5px", width: "245px" }}>
             <button id="invoke-button" type="button" className="btn btn-primary" onClick={this.submitAction}>
