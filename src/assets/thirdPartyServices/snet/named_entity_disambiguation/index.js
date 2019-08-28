@@ -128,7 +128,7 @@ export default class NamedEntityDisambiguation extends React.Component {
             type=" button"
             className=" btn btn-primary"
             disabled={!this.canBeInvoked()}
-            onClick={this.submitAction()}
+            onClick={this.submitAction}
           >
             Call Named Entity Disambiguation
           </button>

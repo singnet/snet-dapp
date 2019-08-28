@@ -60,10 +60,13 @@ export default class EmotionRecognitionService extends React.Component {
     this.props.serviceClient.unary(methodDescriptor, props);  
   }
 
+  getMethodNamesList() {
+    const methodNames = this.props.serviceClient.getMethodNames(EmotionRecognition);
+    return (methodNames.length === 1 ? methodNames : ["Select a method", ...methodNames]);
+  }
 
   renderForm() {
-
-    const serviceNameOptions = ["Select a method", ...this.props.serviceClient.getMethodNames(EmotionRecognition)];
+    const serviceNameOptions = this.getMethodNamesList();
 
     return (
       <React.Fragment>
