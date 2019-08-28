@@ -9,12 +9,12 @@ export const UserMenuList = [
   {
     menuIcon: AccountCircleIcon,
     menuTitle: "Account",
-    menuLink: Routes.USER_PROFILE,
+    menuLink: `${Routes.USER_PROFILE}/account`,
   },
   {
     menuIcon: SettingIcon,
     menuTitle: "Settings",
-    menuLink: Routes.USER_PROFILE,
+    menuLink: `${Routes.USER_PROFILE}/settings`,
   },
 ];
 
