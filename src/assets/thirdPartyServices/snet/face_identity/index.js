@@ -172,31 +172,6 @@ export default class FaceIdentityService extends React.Component {
     });
   }
 
-  // handleServiceName(event) {
-  //   let strService = event.target.value;
-  //   this.setState({
-  //     serviceName: strService,
-  //   });
-  //   this.serviceMethods.length = 0;
-  //   if (typeof strService !== "undefined" && strService !== "Select a service") {
-  //     let data = Object.values(this.methodsForAllServices[strService]);
-  //     if (typeof data !== "undefined") {
-  //       this.serviceMethods = data;
-  //     }
-  //   }
-  // }
-
-  // submitAction() {
-  //   this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
-  //     header: {
-  //       faces: JSON.parse(this.state.facesString),
-  //     },
-  //     image_chunk: {
-  //       content: this.state.imageData,
-  //     },
-  //   });
-  // }
-
   submitAction() {
 
     const methodDescriptor = FaceRecognition.RecogniseFace;  

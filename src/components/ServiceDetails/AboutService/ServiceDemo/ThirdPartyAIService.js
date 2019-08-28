@@ -4,7 +4,7 @@ import { withStyles } from "@material-ui/styles";
 
 import thirdPartyCustomUIComponents from "../../../../assets/thirdPartyServices";
 import { useStyles } from "./styles";
-import { serviceActions } from "../../../../Redux/actionCreators";
+import { serviceActions, loaderActions } from "../../../../Redux/actionCreators";
 import CompletedActions from "./CompletedActions";
 import { createServiceClient, callTypes } from "../../../../utility/sdk";
 import ThirdPartyServiceErrorBoundary from "./ThirdPartyServiceErrorBoundary";
@@ -27,6 +27,7 @@ class ThirdPartyAIService extends Component {
       groupInfo,
       this.props.serviceRequestStartHandler,
       this.props.serviceRequestCompleteHandler,
+      this.props.serviceRequestErrorHandler,
       callType,
       wallet
     );
@@ -57,15 +58,7 @@ class ThirdPartyAIService extends Component {
       return null;
     }
 
-    const {
-      org_id,
-      service_id,
-      classes,
-      stopLoader,
-      isServiceExecutionComplete,
-      handleResetAndRun,
-      serviceRequestErrorHandler,
-    } = this.props;
+    const { org_id, service_id, classes, stopLoader, isServiceExecutionComplete, handleResetAndRun } = this.props;
     const { feedback } = this.state;
     const { serviceClient } = this;
     const AIServiceCustomComponent = thirdPartyCustomUIComponents.componentFor(org_id, service_id);
@@ -78,7 +71,6 @@ class ThirdPartyAIService extends Component {
               serviceClient={serviceClient}
               isComplete={isServiceExecutionComplete}
               sliderWidth={"550px"}
-              serviceRequestErrorHandler={serviceRequestErrorHandler}
             />
           </ThirdPartyServiceErrorBoundary>
         </Suspense>
@@ -103,6 +95,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchFeedback: (orgId, serviceId) => dispatch(serviceActions.fetchFeedback(orgId, serviceId)),
+  stopLoader: () => dispatch(loaderActions.startAppLoader),
 });
 
 export default connect(

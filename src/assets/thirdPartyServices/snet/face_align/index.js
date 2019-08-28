@@ -44,7 +44,6 @@ export default class FaceAlignService extends React.Component {
   }
 
   submitAction() {
-
     const methodDescriptor = FaceAlignment.AlignFace;
     const request = new methodDescriptor.requestType();
 
@@ -76,11 +75,7 @@ export default class FaceAlignService extends React.Component {
 
     const props = {
       request,
-      onEnd: response => {
-        const { message, status, statusMessage } = response;
-        if (status !== 0) {
-          throw new Error(statusMessage);
-        }
+      onEnd: ({message}) => {
         this.setState({
           ...initialUserInput,
           response: { image_chunk: message.toObject() },
@@ -89,6 +84,7 @@ export default class FaceAlignService extends React.Component {
     };
 
     this.props.serviceClient.unary(methodDescriptor, props);
+    
   }
 
   checkValid() {

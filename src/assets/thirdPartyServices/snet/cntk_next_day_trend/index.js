@@ -60,11 +60,7 @@ export default class CNTKNextDayTrend extends React.Component {
 
     const props = {
       request,
-      onEnd: response => {
-        const { message, status, statusMessage } = response;
-        if (status !== 0) {
-          throw new Error(statusMessage);
-        }
+      onEnd: ({message}) => {
         this.setState({
           ...initialUserInput,
           response: { status: "success", response: message.getResponse() },
@@ -73,6 +69,7 @@ export default class CNTKNextDayTrend extends React.Component {
     };
 
     this.props.serviceClient.unary(methodDescriptor, props);
+
   }
 
   renderForm() {

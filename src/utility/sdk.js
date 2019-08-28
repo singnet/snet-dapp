@@ -44,7 +44,7 @@ const parseFreeCallMetadata = ({ data }) => {
   };
 };
 
-const metadataGenerator = callType => async (serviceClient, serviceName, method) => {
+const metadataGenerator = (callType, serviceRequestErrorHandler) => async (serviceClient, serviceName, method) => {
   try {
     const { orgId: org_id, serviceId: service_id } = serviceClient.metadata;
     const { email, token } = await fetchAuthenticatedUser();
@@ -53,15 +53,15 @@ const metadataGenerator = callType => async (serviceClient, serviceName, method)
     const apiOptions = initializeAPIOptions(token, payload);
 
     if (callType === callTypes.REGULAR) {
-      return API.post(apiName, APIPaths.SIGNER_REGULAR_CALL, apiOptions).then(parseRegularCallMetadata);
+      return await API.post(apiName, APIPaths.SIGNER_REGULAR_CALL, apiOptions).then(parseRegularCallMetadata);
     }
-    return API.post(apiName, APIPaths.SIGNER_FREE_CALL, apiOptions).then(parseFreeCallMetadata);
+    return await API.post(apiName, APIPaths.SIGNER_FREE_CALL, apiOptions).then(parseFreeCallMetadata);
   } catch (err) {
-    throw err;
+    serviceRequestErrorHandler(err);
   }
 };
 
-const generateOptions = (callType, wallet) => {
+const generateOptions = (callType, wallet, serviceRequestErrorHandler) => {
   if (process.env.REACT_APP_SANDBOX) {
     return {
       endpoint: process.env.REACT_APP_SANDBOX_SERVICE_ENDPOINT,
@@ -69,7 +69,7 @@ const generateOptions = (callType, wallet) => {
     };
   }
   if (callType === callTypes.FREE) {
-    return { metadataGenerator: metadataGenerator(callType) };
+    return { metadataGenerator: metadataGenerator(callType, serviceRequestErrorHandler) };
   }
   if (wallet && wallet.type === walletTypes.METAMASK) {
     return {};
@@ -125,13 +125,14 @@ export const createServiceClient = (
   groupInfo,
   serviceRequestStartHandler,
   serviceRequestCompleteHandler,
+  serviceRequestErrorHandler,
   callType,
   wallet
 ) => {
   if (sdk && sdk.currentChannel) {
     sdk.paymentChannelManagementStrategy = new ProxyPaymentChannelManagementStrategy(sdk.currentChannel);
   }
-  const options = generateOptions(callType, wallet);
+  const options = generateOptions(callType, wallet, serviceRequestErrorHandler);
   const serviceClient = new ServiceClient(
     sdk,
     org_id,
@@ -144,9 +145,18 @@ export const createServiceClient = (
   );
 
   const onEnd = props => (...args) => {
-    props.onEnd(...args);
-    if (serviceRequestCompleteHandler) {
-      serviceRequestCompleteHandler();
+    try {
+      const { status, statusMessage } = args[0];
+      if (status !== 0) {
+        serviceRequestErrorHandler(statusMessage);
+        return;
+      }
+      props.onEnd(...args);
+      if (serviceRequestCompleteHandler) {
+        serviceRequestCompleteHandler();
+      }
+    } catch (error) {
+      serviceRequestErrorHandler(error);
     }
   };
 
