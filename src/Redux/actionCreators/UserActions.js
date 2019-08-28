@@ -322,7 +322,7 @@ export const forgotPassword = ({ email, history, route }) => dispatch => {
   dispatch(forgotPasswordInit);
   Auth.forgotPassword(email)
     .then(() => {
-      dispatch(forgotPasswordSuccessfull({ history, route }));
+      dispatch(forgotPasswordSuccessfull({ email, history, route }));
     })
     .catch(err => {
       dispatch(forgotPasswordFailure(err.message));

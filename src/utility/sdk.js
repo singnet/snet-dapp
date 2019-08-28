@@ -53,9 +53,9 @@ const metadataGenerator = (callType, serviceRequestErrorHandler) => async (servi
     const apiOptions = initializeAPIOptions(token, payload);
 
     if (callType === callTypes.REGULAR) {
-      await API.post(apiName, APIPaths.SIGNER_REGULAR_CALL, apiOptions).then(parseRegularCallMetadata);
+      return await API.post(apiName, APIPaths.SIGNER_REGULAR_CALL, apiOptions).then(parseRegularCallMetadata);
     }
-    await API.post(apiName, APIPaths.SIGNER_FREE_CALL, apiOptions).then(parseFreeCallMetadata);
+    return await API.post(apiName, APIPaths.SIGNER_FREE_CALL, apiOptions).then(parseFreeCallMetadata);
   } catch (err) {
     serviceRequestErrorHandler(err);
   }
