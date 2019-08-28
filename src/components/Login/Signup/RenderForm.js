@@ -5,9 +5,11 @@ import { withStyles } from "@material-ui/styles";
 import { Icon } from "@material-ui/core";
 
 import StyledButton from "../../common/StyledButton";
-import AlertBox from "../../common/AlertBox";
+import AlertBox, { alertTypes } from "../../common/AlertBox";
 import { isValidEmail } from "../../../utility/Validation";
 import { useStyles } from "./styles";
+import AlertText from "../../common/AlertText";
+import { PasswordCriteria, ValidationMessages } from "../../../utility/constants/ValidtionMessages";
 
 const RenderForm = ({
   classes,
@@ -20,6 +22,10 @@ const RenderForm = ({
   alert,
   handleSubmit,
 }) => {
+  const hasUpperCase = () => /[A-Z]/.test(password);
+  const hasLowerCase = () => /[a-z]/.test(password);
+  const min8Chars = () => password.length >= 8;
+
   return (
     <Fragment>
       <Grid item xs={12} sm={12} md={6} lg={6} className={classes.signupInfo}>
@@ -65,7 +71,7 @@ const RenderForm = ({
               value={email}
               onChange={handleEmail}
             />
-            {email !== "" && !isValidEmail(email) && <span className={classes.usernameError}>invalid email</span>}
+            <AlertText type={alertTypes.ERROR} message={!isValidEmail(email) ? ValidationMessages.INVALID_EMAIL : ""} />
           </div>
           <TextField
             id="outlined-password-input"
@@ -78,6 +84,13 @@ const RenderForm = ({
             value={password}
             onChange={handlePassword}
           />
+          <div>
+            <span>Include:</span>
+            <AlertText
+              type={hasUpperCase() ? alertTypes.SUCCESS : alertTypes.ERROR}
+              message={PasswordCriteria.UPPER_CASE}
+            />
+          </div>
           <AlertBox type={alert.type} message={alert.message} />
           <div style={{ marginTop: 20 }} />
           <StyledButton type="blue" btnText="Create Account" onClick={handleSubmit} />
