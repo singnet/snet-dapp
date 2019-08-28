@@ -84,7 +84,7 @@ const RenderForm = ({
             value={password}
             onChange={handlePassword}
           />
-          <div>
+          <div className={classes.passwordCriteriaContainer}>
             <span>Include:</span>
             <AlertText
               type={hasUpperCase() ? alertTypes.SUCCESS : alertTypes.ERROR}
