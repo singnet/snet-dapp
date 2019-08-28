@@ -1,7 +1,5 @@
 import React, { Fragment } from "react";
 import { withStyles } from "@material-ui/styles";
-import Icon from "@material-ui/core/Icon";
-import clsx from "clsx";
 import { connect } from "react-redux";
 import { stylesActions } from "../../../../Redux/actionCreators";
 import CloseIcon from "@material-ui/icons/Close";

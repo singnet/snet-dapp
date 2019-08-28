@@ -19,7 +19,7 @@ class SignUp extends Component {
     nickname: "",
     email: "",
     password: "",
-    alert: {type: undefined, message: undefined},
+    alert: { type: undefined, message: undefined },
     toBeConfirmed: false,
     otp: "",
   };

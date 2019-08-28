@@ -26,7 +26,7 @@ export const useStyles = theme => ({
       letterSpacing: "0.29px",
       textTransform: "uppercase",
     },
-    '& input': { color: '#212121 !important'},
+    "& input": { color: "#212121 !important" },
     "& button": { width: "100%" },
     "@media (max-width:545px)": { width: "80%" },
   },
