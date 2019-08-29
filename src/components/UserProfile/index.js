@@ -10,9 +10,21 @@ import UserProfileHeader from "./UserProfileHeader";
 import { useStyles } from "./styles";
 import UserProfileAccount from "./UserProfileAccount";
 
+const UserProfileTabs = {
+  account: 0,
+  settings: 1,
+};
+
 class UserProfile extends Component {
   state = {
     activeTab: 0,
+  };
+
+  componentDidMount = () => {
+    const { activeTab } = this.props.match.params;
+    if (activeTab && UserProfileTabs[activeTab.toLowerCase()]) {
+      this.setState({ activeTab: UserProfileTabs[activeTab.toLowerCase()] });
+    }
   };
 
   onTabChange = activeTab => {

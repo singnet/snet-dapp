@@ -63,13 +63,6 @@ export default class CoreferenceResolutionService extends React.Component {
     return this.state.methodName !== "Select a method" && this.state.sentence !== "";
   }
 
-  // renderServiceMethodNames(serviceMethodNames) {
-  //   const serviceNameOptions = ["Select a method", ...serviceMethodNames];
-  //   return serviceNameOptions.map((serviceMethodName, index) => {
-  //     return <option key={index}>{serviceMethodName}</option>;
-  //   });
-  // }
-
   renderFormInput() {
     const inputOptions = [
       "Michael is a great man. He does what is required of him.",
@@ -91,12 +84,6 @@ export default class CoreferenceResolutionService extends React.Component {
   }
 
   submitAction() {
-    this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
-      sentence: this.state.sentence,
-    });
-  }
-
-  submitAction() {
     const { methodName, sentence } = this.state;
     const methodDescriptor = ResolveReference[methodName];
     const request = new methodDescriptor.requestType();
@@ -111,7 +98,7 @@ export default class CoreferenceResolutionService extends React.Component {
           throw new Error(statusMessage);
         }
         this.setState({
-          response: { status: "success", references: message.getReferencesList(), words: message.getWords() },
+          response: { status: "success", references: message.toObject().referencesList, words: message.toObject().words },
         });
       },
     };
@@ -127,8 +114,6 @@ export default class CoreferenceResolutionService extends React.Component {
   renderForm() {
 
     const serviceNameOptions = ["Select a method", ...this.props.serviceClient.getMethodNames(ResolveReference)];
-    // const service = this.props.protoSpec.findServiceByName(this.state.serviceName);
-    // const serviceMethodNames = service.methodNames;
 
     return (
       <React.Fragment>
@@ -195,16 +180,16 @@ export default class CoreferenceResolutionService extends React.Component {
       similarItem.push.apply(
         similarItem,
         Array.from(
-          new Array(parseInt(item["key"]["secondIndex"]) - parseInt(item["key"]["firstIndex"]) + 1),
-          (x, i) => i + parseInt(item["key"]["firstIndex"])
+          new Array(parseInt(item["key"]["secondindex"]) - parseInt(item["key"]["firstindex"]) + 1),
+          (x, i) => i + parseInt(item["key"]["firstindex"])
         )
       );
-      item["mappings"].forEach((item_map, index) => {
+      item["mappingsList"].forEach((item_map, index) => {
         similarItem.push.apply(
           similarItem,
           Array.from(
-            new Array(parseInt(item_map["secondIndex"]) - parseInt(item_map["firstIndex"]) + 1),
-            (x, i) => i + parseInt(item_map["firstIndex"])
+            new Array(parseInt(item_map["secondindex"]) - parseInt(item_map["firstindex"]) + 1),
+            (x, i) => i + parseInt(item_map["firstindex"])
           )
         );
       });
@@ -212,7 +197,8 @@ export default class CoreferenceResolutionService extends React.Component {
     });
     // Now let's take the word in words and create a big new array that is a mapping of colors and items
     let colorForm = {};
-    response["words"]["word"].forEach((word, index) => {
+    //response["words"]["word"].forEach((word, index) => {
+    response["words"]["wordList"].forEach((word, index) => {
       colorForm[index] = "#000000";
     });
     similarItems.forEach((item, idx) => {
@@ -224,7 +210,7 @@ export default class CoreferenceResolutionService extends React.Component {
       <div style={{ borderWidth: 2, borderColor: "#000000", boarderSytle: "solid" }}>
         <p style={{ fontSize: "13px" }}> Similar colors are represent identical entities in this sentence: </p>
         <p>
-          {response["words"]["word"].map((word, index) => (
+          {response["words"]["wordList"].map((word, index) => (
             <span style={{ fontSize: "14px", color: colorForm[index] }} key={index}>
               {word}{" "}
             </span>
