@@ -18,7 +18,7 @@ const TitleCard = ({ classes, org_id, display_name, star_rating, api_calls, img_
       <div className={classes.computerVisionContent}>
         <div className={classes.serviceCreatorDetails}>
           <Avatar alt="Singularity" src={SingularityLogo} className={classes.avatar} />
-          <span>{org_id}</span>
+          <span>By {org_id}</span>
         </div>
         <h2>{display_name}</h2>
         <div>
