@@ -89,7 +89,7 @@ export default class ImageRetrievalService extends React.Component {
         onEnd: ({message}) => {
           this.setState({
             ...initialUserInput,
-            response: { status: "success", imageout1: message.getImageout1(), imageout2: message.getImageout2(), imageout3: message.getImageout3(), imageout4: message.getImageout4(), imageout5: message.getImageout5() },
+            response: { status: "success", imageOut1: message.getImageout1(), imageOut2: message.getImageout2(), imageOut3: message.getImageout3(), imageOut4: message.getImageout4(), imageOut5: message.getImageout5() },
           });
         },
       };
@@ -97,9 +97,13 @@ export default class ImageRetrievalService extends React.Component {
       this.props.serviceClient.unary(methodDescriptor, props);
   }
 
-  renderForm() {
+  getMethodNamesList() {
+    const methodNames = this.props.serviceClient.getMethodNames(SimilarImage);
+    return (methodNames.length === 1 ? methodNames : ["Select a method", ...methodNames]);
+  }
 
-    const serviceNameOptions = ["Select a method", ...this.props.serviceClient.getMethodNames(SimilarImage)];
+  renderForm() {
+    const serviceNameOptions = this.getMethodNamesList();
 
     return (
       <React.Fragment>

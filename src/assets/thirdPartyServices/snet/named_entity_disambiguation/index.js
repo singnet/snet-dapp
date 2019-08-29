@@ -24,8 +24,9 @@ export default class NamedEntityDisambiguation extends React.Component {
   }
 
   canBeInvoked() {
-    // When the image isn't uploaded yet and when function name isn't yet given.
-    return this.state.methodName !== "Select a method" && this.state.sentence !== "";
+    let sentence = this.state.sentence;
+    return this.state.methodName !== "Select a method" && 
+                    (sentence.trim() !== "" && sentence !== "Enter sample text here!");
   }
 
   renderServiceMethodNames(serviceMethodNames) {
@@ -58,7 +59,7 @@ export default class NamedEntityDisambiguation extends React.Component {
 
 
   submitAction() {
-      const { methodName, sentence } = this.state;
+    const { methodName, sentence } = this.state;
     const methodDescriptor = Disambiguate[methodName];
     const request = new methodDescriptor.requestType();
 
@@ -68,7 +69,7 @@ export default class NamedEntityDisambiguation extends React.Component {
       request,
       onEnd: ({message}) => {
         this.setState({
-          response: { status: "success", value: message.getDisambiguationList() },
+          response: { status: "success", value: message.toObject() },
         });
       },
     };
@@ -128,7 +129,7 @@ export default class NamedEntityDisambiguation extends React.Component {
             type=" button"
             className=" btn btn-primary"
             disabled={!this.canBeInvoked()}
-            onClick={this.submitAction()}
+            onClick={this.submitAction}
           >
             Call Named Entity Disambiguation
           </button>
@@ -138,7 +139,7 @@ export default class NamedEntityDisambiguation extends React.Component {
   }
 
   renderComplete() {
-    const response = this.state.response;
+    const response = this.state.response.value;
     const CustomTableCell = withStyles(theme => ({
       head: {
         backgroundColor: theme.palette.common.black,
@@ -164,15 +165,15 @@ export default class NamedEntityDisambiguation extends React.Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {response["disambiguation"].map((row, index) => (
+              {response.disambiguationList.map((row, index) => (
                 <TableRow key={index}>
                   <CustomTableCell component="th" scope="row">
-                    {row["named_entity"]}
+                    {row.namedEntity}
                   </CustomTableCell>
-                  <CustomTableCell align="center">{row["disambiguation_word"]}</CustomTableCell>
+                  <CustomTableCell align="center">{row.disambiguationWord}</CustomTableCell>
                   <CustomTableCell align="center">
-                    <a rel="noopener noreferrer" target="_blank" href={row["disambiguation_link"]}>
-                      {row["disambiguation_link"]}
+                    <a rel="noopener noreferrer" target="_blank" href={row.disambiguationLink}>
+                      {row.disambiguationLink}
                     </a>
                   </CustomTableCell>
                 </TableRow>

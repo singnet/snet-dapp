@@ -50,11 +50,22 @@ export const useStyles = theme => ({
       backgroundColor: theme.palette.text.whiteColor,
       color: theme.palette.text.mediumShadeGray,
       fontSize: 16,
-      "&:disabled": { backgroundColor: theme.palette.text.cardBackground },
+      "&:disabled": { backgroundColor: theme.palette.text.cardBackground, borderColor: "#eee" },
     },
     "& span": {
       color: theme.palette.text.lightShadedGray,
       lineHeight: "17px",
+    },
+  },
+  disabledInputDataContainer: {
+    "& h2": {
+      color: theme.palette.text.disabledBtnBg,
+    },
+    "& input": {
+      color: theme.palette.text.disabledBtnBg,
+    },
+    "& span": {
+      color: theme.palette.text.disabledBtnBg,
     },
   },
   value: { fontSize: 18 },
@@ -76,6 +87,11 @@ export const useStyles = theme => ({
       color: theme.palette.text.mediumShadeGray,
       fontSize: 14,
       lineHeight: "21px",
+    },
+  },
+  disabledSelectionBoxDescription: {
+    "& p": {
+      color: theme.palette.text.disabledBtnBg,
     },
   },
 });
