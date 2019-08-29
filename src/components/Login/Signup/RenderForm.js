@@ -5,9 +5,18 @@ import { withStyles } from "@material-ui/styles";
 import { Icon } from "@material-ui/core";
 
 import StyledButton from "../../common/StyledButton";
-import AlertBox from "../../common/AlertBox";
-import { isValidEmail } from "../../../utility/Validation";
+import AlertBox, { alertTypes } from "../../common/AlertBox";
+import {
+  isValidEmail,
+  hasUpperCase,
+  hasLowerCase,
+  minChars,
+  hasSpecialChar,
+  hasNumber,
+} from "../../../utility/Validation";
 import { useStyles } from "./styles";
+import AlertText from "../../common/AlertText";
+import { PasswordCriteria, ValidationMessages } from "../../../utility/constants/ValidtionMessages";
 
 const RenderForm = ({
   classes,
@@ -65,7 +74,7 @@ const RenderForm = ({
               value={email}
               onChange={handleEmail}
             />
-            {email !== "" && !isValidEmail(email) && <span className={classes.usernameError}>invalid email</span>}
+            <AlertText type={alertTypes.ERROR} message={!isValidEmail(email) ? ValidationMessages.INVALID_EMAIL : ""} />
           </div>
           <TextField
             id="outlined-password-input"
@@ -78,6 +87,29 @@ const RenderForm = ({
             value={password}
             onChange={handlePassword}
           />
+          <div className={classes.passwordCriteriaContainer}>
+            <p>Include:</p>
+            <AlertText
+              type={hasUpperCase(password) ? alertTypes.SUCCESS : alertTypes.ERROR}
+              message={`${PasswordCriteria.UPPER_CASE}, `}
+            />
+            <AlertText
+              type={hasLowerCase(password) ? alertTypes.SUCCESS : alertTypes.ERROR}
+              message={`${PasswordCriteria.LOWER_CASE}, `}
+            />
+            <AlertText
+              type={minChars(password, 8) ? alertTypes.SUCCESS : alertTypes.ERROR}
+              message={`${PasswordCriteria.MIN_CHARS}, `}
+            />
+            <AlertText
+              type={hasSpecialChar(password) ? alertTypes.SUCCESS : alertTypes.ERROR}
+              message={`${PasswordCriteria.SPECIAL_CHAR}, `}
+            />
+            <AlertText
+              type={hasNumber(password) ? alertTypes.SUCCESS : alertTypes.ERROR}
+              message={PasswordCriteria.NUMBER}
+            />
+          </div>
           <AlertBox type={alert.type} message={alert.message} />
           <div style={{ marginTop: 20 }} />
           <StyledButton type="blue" btnText="Create Account" onClick={handleSubmit} />
