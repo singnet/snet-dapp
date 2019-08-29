@@ -23,8 +23,8 @@ const ChannelSelectionBox = ({
       container
       spacing={24}
       className={`${classes.ChannelSelectionBoxContainer}
-       ${disabled ? classes.disabledChannelBox : ""} 
-       ${checked ? classes.selectedChannelBox : ""}`}
+       ${disabled && classes.disabledChannelBox} 
+       ${checked && classes.selectedChannelBox}`}
       value={value}
       onClick={onClick}
     >
@@ -32,12 +32,19 @@ const ChannelSelectionBox = ({
         <div className={classes.RadioButtonContainer}>
           <Radio checked={checked} color="primary" name="radio-button" disabled={disabled} {...restProps} />
         </div>
-        <div className={classes.InputDataContainer}>
+        <div className={`${classes.InputDataContainer} ${disabled && classes.disabledInputDataContainer}`}>
           <h2>{title}</h2>
           <CallPriceInput classes={classes} disabled={disabled} inputProps={inputProps} />
         </div>
       </Grid>
-      <Grid item xs={8} sm={8} md={8} lg={8} className={classes.selectionBoxDescription}>
+      <Grid
+        item
+        xs={8}
+        sm={8}
+        md={8}
+        lg={8}
+        className={`${classes.selectionBoxDescription} ${disabled && classes.disabledSelectionBoxDescription}`}
+      >
         <p>{description}.</p>
       </Grid>
     </Grid>
