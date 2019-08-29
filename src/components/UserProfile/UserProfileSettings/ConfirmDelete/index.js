@@ -78,7 +78,7 @@ const ConfirmDelete = ({ open, handleClose, handleSubmit, error }) => {
                   input={<OutlinedInput labelWidth={320} name="age" id="outlined-age-simple" />}
                 >
                   {resonForLeaving.map(item => (
-                    <MenuItem key={item.value} value={item.value}>
+                    <MenuItem className={classes.menuItem} key={item.value} value={item.value}>
                       {item.label}
                     </MenuItem>
                   ))}

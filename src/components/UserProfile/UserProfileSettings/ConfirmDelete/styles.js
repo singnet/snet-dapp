@@ -103,5 +103,15 @@ export const useStyles = makeStyles(theme => ({
     '& div':{
       '&.MuiTextField-root':{ marginTop: 28 }
     }
+  },
+  menuItem:{
+    color: theme.palette.text.black1,
+    fontSize: 16,
+    letterSpacing: 0.5,
+    lineHeight: '28px',
+    '&:hover':{
+      color: theme.palette.text.primary,
+      backgroundColor: theme.palette.text.offWhiteColor
+    }
   }
 }));
