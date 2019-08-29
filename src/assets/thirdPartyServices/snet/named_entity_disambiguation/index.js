@@ -24,8 +24,9 @@ export default class NamedEntityDisambiguation extends React.Component {
   }
 
   canBeInvoked() {
+    let sentence = this.state.sentence;
     return this.state.methodName !== "Select a method" && 
-                    (this.state.sentence.trim() !== "" && this.state.sentence !== "Enter sample text here!");
+                    (sentence.trim() !== "" && sentence !== "Enter sample text here!");
   }
 
   renderServiceMethodNames(serviceMethodNames) {
@@ -164,15 +165,15 @@ export default class NamedEntityDisambiguation extends React.Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {response["disambiguationList"].map((row, index) => (
+              {response.disambiguationList.map((row, index) => (
                 <TableRow key={index}>
                   <CustomTableCell component="th" scope="row">
-                    {row["namedEntity"]}
+                    {row.namedEntity}
                   </CustomTableCell>
-                  <CustomTableCell align="center">{row["disambiguationWord"]}</CustomTableCell>
+                  <CustomTableCell align="center">{row.disambiguationWord}</CustomTableCell>
                   <CustomTableCell align="center">
-                    <a rel="noopener noreferrer" target="_blank" href={row["disambiguationLink"]}>
-                      {row["disambiguationLink"]}
+                    <a rel="noopener noreferrer" target="_blank" href={row.disambiguationLink}>
+                      {row.disambiguationLink}
                     </a>
                   </CustomTableCell>
                 </TableRow>
