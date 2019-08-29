@@ -78,7 +78,7 @@ class MetamaskFlow extends Component {
   ];
 
   handleDisabledPaytypes = (channelBalance, mpeBal) => {
-    const { disabledPayTypes } = this.state;
+    const disabledPayTypes = [];
     let { selectedPayType } = this.state;
 
     if (channelBalance <= 0 && !disabledPayTypes.includes(payTypes.CHANNEL_BALANCE)) {
