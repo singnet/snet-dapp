@@ -46,10 +46,9 @@ export default class NamedEntityRecognitionService extends React.Component {
   }
 
   submitAction() {
-      const { methodName, message } = this.state;
+      const { methodName } = this.state;
       const methodDescriptor = RecognizeMessage[methodName];
       const request = new methodDescriptor.requestType();
-  
       request.setValue(JSON.stringify(this.handleSentences()));
       const props = {
         request,
