@@ -19,6 +19,7 @@ import { initSdk } from "./utility/sdk";
 import { CircularProgress } from "@material-ui/core";
 import NetworkChangeOverlay from "./components/common/NetworkChangeOverlay";
 import { walletTypes } from "./Redux/actionCreators/UserActions";
+import initGDPRNotification from "./assets/externalScripts/gdpr";
 
 const ForgotPassword = lazy(() => import("./components/Login/ForgotPassword"));
 const ForgotPasswordSubmit = lazy(() => import("./components/Login/ForgotPasswordSubmit"));
@@ -40,6 +41,8 @@ history.listen(location => {
   ReactGA.set({ page: location.pathname });
   ReactGA.pageview(location.pathname);
 });
+
+initGDPRNotification();
 
 class App extends Component {
   componentDidMount = () => {
