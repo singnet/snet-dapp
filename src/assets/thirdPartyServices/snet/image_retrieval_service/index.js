@@ -97,9 +97,13 @@ export default class ImageRetrievalService extends React.Component {
       this.props.serviceClient.unary(methodDescriptor, props);
   }
 
-  renderForm() {
+  getMethodNamesList() {
+    const methodNames = this.props.serviceClient.getMethodNames(SimilarImage);
+    return (methodNames.length === 1 ? methodNames : ["Select a method", ...methodNames]);
+  }
 
-    const serviceNameOptions = ["Select a method", ...this.props.serviceClient.getMethodNames(SimilarImage)];
+  renderForm() {
+    const serviceNameOptions = this.getMethodNamesList();
 
     return (
       <React.Fragment>
