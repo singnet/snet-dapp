@@ -140,11 +140,11 @@ export const useStyles = theme => ({
       textTransform: "uppercase",
     },
   },
-  passwordCriteriaContainer:{
+  passwordCriteriaContainer: {
     color: theme.palette.text.mediumShadeGray,
     fontSize: 12,
     letterSpacing: 0.39,
-    lineHeight: '16px',
-    '& p':{ display: 'inline-block' }
-  }
+    lineHeight: "16px",
+    "& p": { display: "inline-block", paddingRight: 4 },
+  },
 });

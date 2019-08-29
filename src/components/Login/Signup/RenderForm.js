@@ -6,7 +6,14 @@ import { Icon } from "@material-ui/core";
 
 import StyledButton from "../../common/StyledButton";
 import AlertBox, { alertTypes } from "../../common/AlertBox";
-import { isValidEmail } from "../../../utility/Validation";
+import {
+  isValidEmail,
+  hasUpperCase,
+  hasLowerCase,
+  minChars,
+  hasSpecialChar,
+  hasNumber,
+} from "../../../utility/Validation";
 import { useStyles } from "./styles";
 import AlertText from "../../common/AlertText";
 import { PasswordCriteria, ValidationMessages } from "../../../utility/constants/ValidtionMessages";
@@ -22,10 +29,6 @@ const RenderForm = ({
   alert,
   handleSubmit,
 }) => {
-  const hasUpperCase = () => /[A-Z]/.test(password);
-  const hasLowerCase = () => /[a-z]/.test(password);
-  const min8Chars = () => password.length >= 8;
-
   return (
     <Fragment>
       <Grid item xs={12} sm={12} md={6} lg={6} className={classes.signupInfo}>
@@ -85,10 +88,26 @@ const RenderForm = ({
             onChange={handlePassword}
           />
           <div className={classes.passwordCriteriaContainer}>
-            <span>Include:</span>
+            <p>Include:</p>
             <AlertText
-              type={hasUpperCase() ? alertTypes.SUCCESS : alertTypes.ERROR}
-              message={PasswordCriteria.UPPER_CASE}
+              type={hasUpperCase(password) ? alertTypes.SUCCESS : alertTypes.ERROR}
+              message={`${PasswordCriteria.UPPER_CASE}, `}
+            />
+            <AlertText
+              type={hasLowerCase(password) ? alertTypes.SUCCESS : alertTypes.ERROR}
+              message={`${PasswordCriteria.LOWER_CASE}, `}
+            />
+            <AlertText
+              type={minChars(password, 8) ? alertTypes.SUCCESS : alertTypes.ERROR}
+              message={`${PasswordCriteria.MIN_CHARS}, `}
+            />
+            <AlertText
+              type={hasSpecialChar(password) ? alertTypes.SUCCESS : alertTypes.ERROR}
+              message={`${PasswordCriteria.SPECIAL_CHAR}, `}
+            />
+            <AlertText
+              type={hasNumber(password) ? alertTypes.SUCCESS : alertTypes.ERROR}
+              message={PasswordCriteria.NUMBER}
             />
           </div>
           <AlertBox type={alert.type} message={alert.message} />
