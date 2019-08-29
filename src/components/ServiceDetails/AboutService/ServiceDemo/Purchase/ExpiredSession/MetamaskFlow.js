@@ -211,11 +211,7 @@ class MetamaskFlow extends Component {
     }
     return (
       <div className={classes.PurchaseFlowContainer}>
-        <PurchaseDialog
-          show={showPurchaseDialog}
-          onClose={this.handlePurchaseDialogClose}
-          refetchAccBalance={this.handleConnectMM}
-        />
+        <PurchaseDialog show={showPurchaseDialog} onClose={this.handlePurchaseDialogClose} />
         <p className={classes.PurchaseFlowDescription}>
           Transfer the style of a “style Image” to a “content image” by choosing them in the boxes below. You can upload
           a a file from your computer, URL, or select image from the gallery. You can specify additional parameters in
