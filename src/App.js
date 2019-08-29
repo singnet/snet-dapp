@@ -19,6 +19,7 @@ import { initSdk } from "./utility/sdk";
 import { CircularProgress } from "@material-ui/core";
 import NetworkChangeOverlay from "./components/common/NetworkChangeOverlay";
 import { walletTypes } from "./Redux/actionCreators/UserActions";
+import initHotjar from "./assets/externalScripts/hotjar";
 
 const ForgotPassword = lazy(() => import("./components/Login/ForgotPassword"));
 const ForgotPasswordSubmit = lazy(() => import("./components/Login/ForgotPasswordSubmit"));
@@ -41,6 +42,9 @@ history.listen(location => {
   ReactGA.pageview(location.pathname);
 });
 
+if (process.env.REACT_APP_HOTJAR_ID && process.env.REACT_APP_HOTJAR_SV) {
+  initHotjar(process.env.REACT_APP_HOTJAR_ID, process.env.REACT_APP_HOTJAR_SV);
+}
 class App extends Component {
   componentDidMount = () => {
     this.props.fetchUserDetails();
