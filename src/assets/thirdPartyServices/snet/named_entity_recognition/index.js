@@ -22,7 +22,6 @@ export default class NamedEntityRecognitionService extends React.Component {
       serviceName: "RecognizeMessage",
       methodName: "Recognize",
       message: undefined,
-      isComplete : false,
       styles: {
         details: {
           fontSize: 14,
@@ -34,7 +33,6 @@ export default class NamedEntityRecognitionService extends React.Component {
       },
     };
 
-    this.isComplete = false;
     this.serviceMethods = [];
     this.allServices = [];
     this.methodsForAllServices = [];
@@ -46,21 +44,16 @@ export default class NamedEntityRecognitionService extends React.Component {
   }
 
   submitAction() {
-      const { methodName, message } = this.state;
+      const { methodName } = this.state;
       const methodDescriptor = RecognizeMessage[methodName];
       const request = new methodDescriptor.requestType();
-  
-      request.setValue(message)
-  
+      request.setValue(JSON.stringify(this.handleSentences()));
       const props = {
         request,
-        onEnd: ({message}) => {
-          this.setState({
-            response: { status: "success", value: message.getValue() },
-          });
+        onEnd: ({ message }) => {
+          this.setState({value: message.getValue()});
         },
       };
-  
       this.props.serviceClient.unary(methodDescriptor, props);   
   }
 
@@ -260,7 +253,7 @@ export default class NamedEntityRecognitionService extends React.Component {
   }
 
   render() {
-    if (this.state.isComplete)
+    if (this.props.isComplete)
       return (
         <div style={{ flexGrow: 1 }}>
           <Grid
