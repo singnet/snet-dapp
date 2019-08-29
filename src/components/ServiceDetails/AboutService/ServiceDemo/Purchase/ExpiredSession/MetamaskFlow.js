@@ -77,13 +77,23 @@ class MetamaskFlow extends Component {
     },
   ];
 
-  handleDisabledPaytypes = ({ channelBalance }) => {
-    const { disabledPayTypes } = this.state;
+  handleDisabledPaytypes = (channelBalance, mpeBal) => {
+    const disabledPayTypes = [];
+    let { selectedPayType } = this.state;
 
     if (channelBalance <= 0 && !disabledPayTypes.includes(payTypes.CHANNEL_BALANCE)) {
       disabledPayTypes.push(payTypes.CHANNEL_BALANCE);
+      selectedPayType = "";
     }
-    this.setState({ disabledPayTypes, selectedPayType: payTypes.SINGLE_CALL });
+    if (mpeBal <= 0) {
+      if (!disabledPayTypes.includes(payTypes.SINGLE_CALL)) {
+        disabledPayTypes.push(payTypes.SINGLE_CALL);
+      }
+      if (!disabledPayTypes.includes(payTypes.MULTIPLE_CALLS)) {
+        disabledPayTypes.push(payTypes.MULTIPLE_CALLS);
+      }
+    }
+    this.setState({ disabledPayTypes, selectedPayType });
   };
 
   handleConnectMM = async () => {
@@ -104,7 +114,7 @@ class MetamaskFlow extends Component {
         return el;
       });
       const channelBalance = this.paymentChannelManagement.availableBalance();
-      this.handleDisabledPaytypes({ channelBalance });
+      this.handleDisabledPaytypes(channelBalance, mpeBal);
 
       this.setState({ MMconnected: true, mpeBal, channelBalance });
     } catch (error) {
@@ -175,6 +185,10 @@ class MetamaskFlow extends Component {
     return this.PaymentInfoCardData.find(el => el.title === "Channel Balance").value;
   };
 
+  shouldContinueBeEnabled = () => this.state.mpeBal > 0;
+
+  shouldDepositToEscrowBeHighlighted = () => this.state.mpeBal <= 0;
+
   render() {
     const { classes } = this.props;
     const {
@@ -217,11 +231,11 @@ class MetamaskFlow extends Component {
             <span className={classes.channelSelectionTitle}>Recommended</span>
             <ChannelSelectionBox
               title="Channel Balance"
-              description={`You have 1 AGI in you channel. This can be used for running demos across all the services from this vendor.`}
+              description={`You have ${this.parseChannelBalFromPaymentCard()} AGI in you channel. This can be used for running demos across all the services from this vendor.`}
               checked={selectedPayType === payTypes.CHANNEL_BALANCE}
               value={payTypes.CHANNEL_BALANCE}
               onClick={() => this.handlePayTypeChange(payTypes.CHANNEL_BALANCE)}
-              disabled={disabledPayTypes.includes(payTypes.CHANNEL_BALANCEx)}
+              disabled={disabledPayTypes.includes(payTypes.CHANNEL_BALANCE)}
             />
           </div>
           <div>
@@ -258,8 +272,17 @@ class MetamaskFlow extends Component {
         </div>
         <AlertBox type={alert.type} message={alert.message} />
         <div className={classes.buttonContainer}>
-          <StyledButton type="transparent" btnText="Deposit into Escrow" onClick={this.handlePurchaseDialogOpen} />
-          <StyledButton type="blue" btnText="Continue" onClick={this.handleSubmit} />
+          <StyledButton
+            type={this.shouldDepositToEscrowBeHighlighted() ? "blue" : "transparent"}
+            btnText="Deposit into Escrow"
+            onClick={this.handlePurchaseDialogOpen}
+          />
+          <StyledButton
+            type="blue"
+            btnText="Continue"
+            onClick={this.handleSubmit}
+            disabled={!this.shouldContinueBeEnabled()}
+          />
         </div>
       </div>
     );

@@ -88,10 +88,9 @@ export const useStyles = theme => ({
   },
   backToLink: {
     marginTop: 30,
-    "& span": {
-      color: theme.palette.text.primary,
-      verticalAlign: "bottom",
-    },
+    display: "flex",
+    alignItems: "center",
+    "& span": { color: theme.palette.text.primary },
     "& a": {
       marginLeft: 11,
       color: theme.palette.text.primary,

@@ -4,11 +4,6 @@ import EmotionVisualizer from "./EmotionVisualizer";
 import MethodNamesDropDown from "../../common/MethodNamesDropDown";
 import {EmotionRecognition} from "./EmotionService_pb_service"
 
-const initialUserInput = {
-  uploadedImage: null,
-  uploadedImageType: null,
-};
-
 export default class EmotionRecognitionService extends React.Component {
   constructor(props) {
     super(props);
@@ -18,7 +13,8 @@ export default class EmotionRecognitionService extends React.Component {
 
     this.state = {
       serviceName: "EmotionRecognition",
-      methodName: "Select a method",
+      methodName: "classify",
+      uploadedImage: null,
     };
   }
 
@@ -60,9 +56,7 @@ export default class EmotionRecognitionService extends React.Component {
     this.props.serviceClient.unary(methodDescriptor, props);  
   }
 
-
   renderForm() {
-
     const serviceNameOptions = ["Select a method", ...this.props.serviceClient.getMethodNames(EmotionRecognition)];
 
     return (

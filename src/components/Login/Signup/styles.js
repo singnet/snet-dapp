@@ -16,9 +16,7 @@ export const useStyles = theme => ({
   },
   signupInfo: {
     paddingRight: 54,
-    "@media (max-width:960px)": {
-      paddingRight: 0,
-    },
+    "@media (max-width:960px)": { paddingRight: 0 },
     "& h2": {
       margin: 0,
       color: theme.palette.text.darkShadedGray,
