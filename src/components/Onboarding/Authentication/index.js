@@ -9,7 +9,7 @@ import StyledButton from "../../common/StyledButton";
 import { isValidNumber } from "../../../utility/Validation";
 import { parseError } from "../../../utility/ErrorHandling";
 import { useStyles } from "./styles";
-import ErrorMsgText from "../../common/ErrorMsgText";
+import AlertText from "../../common/AlertText";
 import InlineLoader from "../../common/InlineLoader";
 import Routes from "../../../utility/constants/Routes";
 
@@ -83,7 +83,7 @@ class Authentication extends Component {
           value={verificationCode}
           onChange={this.handleVerificationCode}
         />
-        <ErrorMsgText error={error} />
+        <AlertText message={error} />
         <div className={classes.buttonsContainer}>
           <StyledButton
             btnText="resend code"
