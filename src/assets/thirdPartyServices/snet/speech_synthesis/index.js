@@ -83,7 +83,7 @@ export default class NeuralSpeechSynthesis extends React.Component {
               className="w3-input w3-border"
               style={{ resize: "none", width: "250px" }}
               rows="3"
-              maxLength="5000"
+              maxLength="140"
               value={this.state.text}
               onChange={this.handleFormUpdate}
               onKeyPress={e => this.onKeyPressvalidator(e)}

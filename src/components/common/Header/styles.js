@@ -108,7 +108,13 @@ export const useStyles = makeStyles(theme => ({
     fontSize: 16,
     color: theme.palette.text.white,
     cursor: "pointer",
-    "&:hover": { textDecoration: "underline" },
+    "&:hover": {
+      paddingBottom: 4,
+      borderBottomWidth: "2px",
+      borderBottomStyle: "solid",
+      borderBottomColor: theme.palette.text.white,
+      fontWeight: 600,
+    },
   },
   signupBtnText: {
     fontWeight: 600,

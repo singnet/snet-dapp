@@ -8,7 +8,7 @@ export const useStyles = theme => ({
       fontSize: 32,
       fontWeight: 600,
       color: theme.palette.text.darkShadedGray,
-      letterSpacing: "-0.5",
+      letterSpacing: -0.5,
     },
   },
   loginForm: {
@@ -26,12 +26,9 @@ export const useStyles = theme => ({
       letterSpacing: "0.29px",
       textTransform: "uppercase",
     },
-    "& button": {
-      width: "100%",
-    },
-    "@media (max-width:545px)": {
-      width: "80%",
-    },
+    "& input": { color: "#212121 !important" },
+    "& button": { width: "100%" },
+    "@media (max-width:545px)": { width: "80%" },
   },
   horizontalLine: {
     marginTop: 15,
