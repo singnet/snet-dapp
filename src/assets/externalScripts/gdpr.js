@@ -1,3 +1,4 @@
+/* eslint-disable */
 export default   function(){
     var elem = document.createElement('script');
     elem.src = 'https://quantcast.mgr.consensu.org/cmp.js';
