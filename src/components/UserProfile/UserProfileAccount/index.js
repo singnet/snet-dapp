@@ -19,6 +19,7 @@ const UserProfileAccount = ({ updateWallet, classes, wallet }) => {
     if (value === walletTypes.METAMASK) {
       const sdk = await initSdk();
       const address = sdk.account.address;
+      console.log("user account", sdk.account);
       //1. To be replaced with wallet API
       sessionStorage.setItem("wallet", JSON.stringify({ type: walletTypes.METAMASK, address }));
       //till here(1)
