@@ -4,17 +4,18 @@ export const useStyles = makeStyles(theme => ({
   Modal: { overflow: "auto" },
   card: {
     width: 519,
+    paddingBottom: 25,
     margin: "0px auto 80px	",
     transform: "translateY(25%)",
   },
   CardHeader: {
     padding: "5px 22px",
     backgroundColor: theme.palette.text.offWhiteColor,
-    "& h2": {
+    "& span": {
       color: theme.palette.text.black1,
+      fontFamily: theme.typography.primary.main,
       fontSize: 20,
-      lineHeight: "24px",
-      fontWeight: 600,
+      lineHeight: "23px",
     },
   },
   CardContent: {
@@ -22,6 +23,7 @@ export const useStyles = makeStyles(theme => ({
     "& h2": {
       color: theme.palette.text.darkShadedGray,
       fontSize: 18,
+      fontWeight: 400,
       lineHeight: "24px",
     },
     "& p": {
@@ -32,7 +34,10 @@ export const useStyles = makeStyles(theme => ({
       lineHeight: "20px",
     },
   },
-  CardActions: { justifyContent: "center" },
+  CardActions: { 
+    marginTop: 23,
+    justifyContent: "center" 
+  },
   BeforeYouGoContent: { marginTop: 16 },
   DropDownContainer: {
     borderWidth: 1,
@@ -68,9 +73,15 @@ export const useStyles = makeStyles(theme => ({
     borderRadius: 4,
     marginTop: 16,
     padding: "13px 20px",
+    '& div':{ 
+      marginBottom: 17,
+      display: 'flex',
+      alignItems: 'flex-start',
+      '&:last-of-type': { marginBottom: 0 }
+    },
     "& p": {
       border: "none",
-      margin: "0 0 12",
+      margin: "0 0 12px",
       padding: 0,
       display: "inline",
       "&:last-of-type": { marginBottom: 0 },
@@ -81,4 +92,16 @@ export const useStyles = makeStyles(theme => ({
       verticalAlign: "middle",
     },
   },
+  inputFieldContainer:{ 
+    marginTop: 35,
+    '& > div': { 
+      width: '100%',
+      '& div':{
+        '&.MuiSelect-select':{ padding: '28px 0' },
+      }
+    },
+    '& div':{
+      '&.MuiTextField-root':{ marginTop: 28 }
+    }
+  }
 }));

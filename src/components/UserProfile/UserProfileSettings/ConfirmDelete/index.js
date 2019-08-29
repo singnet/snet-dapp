@@ -6,17 +6,34 @@ import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import TextField from '@material-ui/core/TextField';
 
 import { useStyles } from "./styles";
 import StyledButton from "../../../common/StyledButton";
 import BulletPoint from "../../../common/BulletPoint";
+import StyledDropdown from "../../../common/StyledDropdown";
 import AlertBox, { alertTypes } from "../../../common/AlertBox";
+
 
 const warningMessage = [
   "Your wallet or any wallets you have used will remain in your possession. We do not have any access to your wallet and cannot help you recover wallet keys.",
   "Any remaining AGI tokens on your SingularityNET account will remain yours. Your account balance is linked to your wallet and can thus be accessed directly via the third party wallet service you have been using.",
   "All personal data associated with your account will be deleted from our records.",
 ];
+
+const resonForLeaving = [
+  { label:"I want to create another account", value:" "},
+  {label:"I am dissatisfied with the platform", value:" "},
+  {label:"There were not enough services", value:" "},
+  {label:"It is too difficult to use", value:" "},
+  {label:"It is too slow to use", value:" "},
+  {label:"Other (Please describe below)", value:" "}
+]
 
 const ConfirmDelete = ({ open, handleClose, handleSubmit, error }) => {
   const classes = useStyles();
@@ -52,6 +69,27 @@ const ConfirmDelete = ({ open, handleClose, handleSubmit, error }) => {
                 ))}
               </div>
               <AlertBox type={alertTypes.ERROR} message={error} />
+            </div>
+            <div className={classes.inputFieldContainer}>
+              <FormControl variant="outlined" className={classes.formControl}>
+                <InputLabel htmlFor="outlined-age-simple">Help us improve, tell us why you are leaving</InputLabel>
+                <Select
+                  value={"hie"}
+                  input={<OutlinedInput labelWidth={320} name="age" id="outlined-age-simple" />}
+                >
+                  {resonForLeaving.map(item => (
+                    <MenuItem key={item.value} value={item.value}>
+                      {item.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <TextField
+                label="Your feedback matters. Anything else you’d like share "
+                multiline
+                rows="7"
+                variant="outlined"
+              />
             </div>
           </CardContent>
           <CardActions className={classes.CardActions}>

@@ -2,15 +2,17 @@ import React from "react";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import InputLabel from '@material-ui/core/InputLabel';
 import PropTypes from "prop-types";
 
 import { useStyles } from "./styles";
 
-const StyledDropdown = ({ labelTxt, list, value, onChange, formControlProps, nativeSelectProps }) => {
+const StyledDropdown = ({ labelTxt, list, value, onChange, formControlProps, inputLabel }) => {
   const classes = useStyles();
 
   return (
     <FormControl className={classes.formControl} {...formControlProps}>
+      {inputLabel ? <InputLabel htmlFor="age-simple">{inputLabel}</InputLabel> : null}
       <Select value={value} onChange={onChange} name={labelTxt} className={classes.selectEmpty}>
         <MenuItem value="default">Select a value</MenuItem>
         {list &&
