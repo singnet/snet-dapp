@@ -14,6 +14,8 @@ import red from "@material-ui/core/colors/red";
 
 import {Annotate} from "./annotation_pb_service"
 
+import {Filter, Annotation, Gene} from "./annotation_pb"
+
 const ErrorSnackbarContent = withStyles({
   root: { background: red[600] },
   message: { color: "#fff" },
@@ -259,13 +261,13 @@ export default class GeneAnnotationService extends React.Component {
   
     var annotations = this.state.selectedAnnotations.map(sa => {
   
-      var annotation = request.Annotate;
+      var annotation = new Annotation();
   
       annotation.setFunctionname(sa.name)
   
       var filters  = sa.filter
         ? Object.keys(sa.filter).map(k => {
-            var filter = request.Filter;
+            var filter = new Filter();
             filter.setFilter(k)
             var val = Array.isArray(sa.filter[k])
               ? sa.filter[k]
@@ -283,7 +285,7 @@ export default class GeneAnnotationService extends React.Component {
     });
   
     var genes = this.state.genes.map(g => {
-      var gene = request.Gene;
+      var gene = new Gene();
       gene.setGenename(g);
       return gene;
     });
@@ -302,9 +304,9 @@ export default class GeneAnnotationService extends React.Component {
   
     this.props.serviceClient.unary(methodDescriptor, props);
   
-    this.setState({
-      notification: { message: "Fetching annotation results ...", busy: true },
-    });
+    // this.setState({
+    //   notification: { message: "Fetching annotation results ...", busy: true },
+    // });
 }
 
 
