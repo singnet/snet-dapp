@@ -1187,7 +1187,7 @@ export default class SNETImageUpload extends React.Component {
           spacing={0}
         >
           <Grid item xs={12}>
-            <Grid container direction="row" alignItems="baseline" justify="space-around">
+            <Grid container direction="row" alignItems="center" justify="space-around">
               <Grid item xs={3}>
                 <Typography
                   color="inherit"
@@ -1197,6 +1197,7 @@ export default class SNETImageUpload extends React.Component {
                     fontSize: 18,
                     fontFamily: snetFont,
                     padding: spacingUnit / 2,
+                    marginBottom: 25
                   }}
                 >
                   {this.state.mainState === "display" ? this.props.displayModeTitle : this.props.imageName}
