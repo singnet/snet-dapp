@@ -9,6 +9,7 @@ import PurchaseToggler from "./PurchaseToggler";
 import { freeCalls, groupInfo } from "../../../../Redux/reducers/ServiceDetailsReducer";
 import { LoaderContent } from "../../../../utility/constants/LoaderContent";
 import AlertBox, { alertTypes } from "../../../common/AlertBox";
+import Routes from "../../../../utility/constants/Routes";
 
 const demoProgressStatus = {
   purchasing: 1,
@@ -30,6 +31,7 @@ class ServiceDemo extends Component {
     }
 
     await this.fetchFreeCallsUsage();
+    this.scrollToHash();
   };
 
   fetchFreeCallsUsage = () => {
@@ -39,6 +41,15 @@ class ServiceDemo extends Component {
       serviceId: service.service_id,
       username: email,
     });
+  };
+
+  scrollToHash = () => {
+    if (this.props.history.location.hash === Routes.hash.SERVICE_DEMO) {
+      window.scroll({
+        top: 520,
+        behavior: "smooth",
+      });
+    }
   };
 
   computeActiveSection = () => {
