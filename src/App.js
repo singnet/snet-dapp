@@ -103,7 +103,7 @@ class App extends Component {
                 <PrivateRoute
                   isAllowed={isLoggedIn && isTermsAccepted}
                   redirectTo={isLoggedIn ? `/${Routes.ONBOARDING}` : `/${Routes.LOGIN}`}
-                  path={`/${Routes.USER_PROFILE}`}
+                  path={`/${Routes.USER_PROFILE}/:activeTab?`}
                   {...this.props}
                   component={withInAppWrapper(UserProfile)}
                 />

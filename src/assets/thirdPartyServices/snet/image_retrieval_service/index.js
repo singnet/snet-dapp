@@ -26,7 +26,7 @@ export default class ImageRetrievalService extends React.Component {
       code_repo: "",
       reference: "",
       serviceName: "SimilarImage",
-      methodName: "Select a method",
+      methodName: "FindSimilar",
       uploadedImage: null,
       similarityMeasure: "CosineDistance",
       response: undefined,
@@ -89,7 +89,7 @@ export default class ImageRetrievalService extends React.Component {
         onEnd: ({message}) => {
           this.setState({
             ...initialUserInput,
-            response: { status: "success", imageout1: message.getImageout1(), imageout2: message.getImageout2(), imageout3: message.getImageout3(), imageout4: message.getImageout4(), imageout5: message.getImageout5() },
+            response: { status: "success", imageOut1: message.getImageout1(), imageOut2: message.getImageout2(), imageOut3: message.getImageout3(), imageOut4: message.getImageout4(), imageOut5: message.getImageout5() },
           });
         },
       };
@@ -98,7 +98,6 @@ export default class ImageRetrievalService extends React.Component {
   }
 
   renderForm() {
-
     const serviceNameOptions = ["Select a method", ...this.props.serviceClient.getMethodNames(SimilarImage)];
 
     return (
