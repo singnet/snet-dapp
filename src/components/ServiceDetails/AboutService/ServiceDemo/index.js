@@ -60,6 +60,7 @@ class ServiceDemo extends Component {
   };
 
   serviceRequestStartHandler = () => {
+    this.setState({ alert: {} });
     this.props.startLoader();
   };
 
