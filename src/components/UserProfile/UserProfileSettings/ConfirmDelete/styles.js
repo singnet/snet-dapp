@@ -34,9 +34,9 @@ export const useStyles = makeStyles(theme => ({
       lineHeight: "20px",
     },
   },
-  CardActions: { 
+  CardActions: {
     marginTop: 23,
-    justifyContent: "center" 
+    justifyContent: "center",
   },
   BeforeYouGoContent: { marginTop: 16 },
   DropDownContainer: {
@@ -73,11 +73,11 @@ export const useStyles = makeStyles(theme => ({
     borderRadius: 4,
     marginTop: 16,
     padding: "13px 20px",
-    '& div':{ 
+    "& div": {
       marginBottom: 17,
-      display: 'flex',
-      alignItems: 'flex-start',
-      '&:last-of-type': { marginBottom: 0 }
+      display: "flex",
+      alignItems: "flex-start",
+      "&:last-of-type": { marginBottom: 0 },
     },
     "& p": {
       border: "none",
@@ -92,26 +92,26 @@ export const useStyles = makeStyles(theme => ({
       verticalAlign: "middle",
     },
   },
-  inputFieldContainer:{ 
+  inputFieldContainer: {
     marginTop: 35,
-    '& > div': { 
-      width: '100%',
-      '& div':{
-        '&.MuiSelect-select':{ padding: '28px 0' },
-      }
+    "& > div": {
+      width: "100%",
+      "& div": {
+        "&.MuiSelect-select": { padding: "28px 0" },
+      },
     },
-    '& div':{
-      '&.MuiTextField-root':{ marginTop: 28 }
-    }
+    "& div": {
+      "&.MuiTextField-root": { marginTop: 28 },
+    },
   },
-  menuItem:{
+  menuItem: {
     color: theme.palette.text.black1,
     fontSize: 16,
     letterSpacing: 0.5,
-    lineHeight: '28px',
-    '&:hover':{
+    lineHeight: "28px",
+    "&:hover": {
       color: theme.palette.text.primary,
-      backgroundColor: theme.palette.text.offWhiteColor
-    }
-  }
+      backgroundColor: theme.palette.text.offWhiteColor,
+    },
+  },
 }));

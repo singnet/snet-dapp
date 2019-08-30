@@ -6,19 +6,17 @@ import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import TextField from '@material-ui/core/TextField';
+import OutlinedInput from "@material-ui/core/OutlinedInput";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import TextField from "@material-ui/core/TextField";
 
 import { useStyles } from "./styles";
 import StyledButton from "../../../common/StyledButton";
 import BulletPoint from "../../../common/BulletPoint";
-import StyledDropdown from "../../../common/StyledDropdown";
 import AlertBox, { alertTypes } from "../../../common/AlertBox";
-
 
 const warningMessage = [
   "Your wallet or any wallets you have used will remain in your possession. We do not have any access to your wallet and cannot help you recover wallet keys.",
@@ -27,13 +25,13 @@ const warningMessage = [
 ];
 
 const resonForLeaving = [
-  { label:"I want to create another account", value:" "},
-  {label:"I am dissatisfied with the platform", value:" "},
-  {label:"There were not enough services", value:" "},
-  {label:"It is too difficult to use", value:" "},
-  {label:"It is too slow to use", value:" "},
-  {label:"Other (Please describe below)", value:" "}
-]
+  { label: "I want to create another account", value: " " },
+  { label: "I am dissatisfied with the platform", value: " " },
+  { label: "There were not enough services", value: " " },
+  { label: "It is too difficult to use", value: " " },
+  { label: "It is too slow to use", value: " " },
+  { label: "Other (Please describe below)", value: " " },
+];
 
 const ConfirmDelete = ({ open, handleClose, handleSubmit, error }) => {
   const classes = useStyles();
@@ -74,7 +72,7 @@ const ConfirmDelete = ({ open, handleClose, handleSubmit, error }) => {
               <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel htmlFor="outlined-age-simple">Help us improve, tell us why you are leaving</InputLabel>
                 <Select
-                  value={"hie"}
+                  value={"Help us improve, tell us why you are leaving"}
                   input={<OutlinedInput labelWidth={320} name="age" id="outlined-age-simple" />}
                 >
                   {resonForLeaving.map(item => (
