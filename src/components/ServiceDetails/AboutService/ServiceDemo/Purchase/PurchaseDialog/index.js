@@ -8,9 +8,9 @@ import MetamaskDetails from "../../../../../UserProfile/UserProfileAccount/Metam
 const PurchaseDialog = ({ classes, show, onClose }) => {
   return (
     <Dialog onClose={onClose} open={show} className={classes.dialogBox}>
-    	<span className={classes.header}>Deposit in Escrow</span>
-    	<div className={classes.escrowAccountDetails}>
-      	<MetamaskDetails />
+      <span className={classes.header}>Deposit in Escrow</span>
+      <div className={classes.escrowAccountDetails}>
+        <MetamaskDetails />
       </div>
     </Dialog>
   );

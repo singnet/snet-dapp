@@ -107,7 +107,6 @@ export const initSdk = async () => {
     });
     updateSDK();
   }
-  console.log("updated sdk", sdk);
   return sdk;
 };
 
