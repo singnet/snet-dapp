@@ -2,6 +2,7 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
+import isEmpty from "lodash/isEmpty";
 
 import StyledDropdown from "../../common/StyledDropdown";
 import { useStyles } from "./styles";
@@ -20,7 +21,9 @@ const UserProfileAccount = ({ updateWallet, classes, wallet }) => {
       const sdk = await initSdk();
       const address = sdk.account.address;
       //1. To be replaced with wallet API
-      sessionStorage.setItem("wallet", JSON.stringify({ type: walletTypes.METAMASK, address }));
+      if (!isEmpty(address)) {
+        sessionStorage.setItem("wallet", JSON.stringify({ type: walletTypes.METAMASK, address }));
+      }
       //till here(1)
       updateWallet({ type: value, address });
       return;

@@ -13,7 +13,7 @@ const textColor = {
 };
 
 const AlertText = ({ type, message, inline }) => {
- const classes = useStyles();
+  const classes = useStyles();
 
   if (message) {
     return <p className={clsx(classes.errorMsg, classes[textColor[type]])}>{message}</p>;
