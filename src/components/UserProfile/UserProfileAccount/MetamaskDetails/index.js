@@ -45,6 +45,9 @@ class MetamaskDetails extends Component {
   };
 
   onTabChange = (event, value) => {
+    if (this.props.handleTitleChange) {
+      this.props.handleTitleChange(value);
+    }
     this.setState({ activeTab: value });
   };
 
