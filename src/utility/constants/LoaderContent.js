@@ -17,11 +17,11 @@ export const LoaderContent = {
   },
   FORGOT_PASSWORD: {
     loaderHeader: "Forgot Password",
-    loaderText: "User profile will be deleted completely and all the records will be removed",
+    loaderText: "Sending you an email with the verification code",
   },
   FORGOT_PASSWORD_SUBMIT: {
     loaderHeader: "Forgot Password Submit",
-    loaderText: "User profile will be deleted completely and all the records will be removed",
+    loaderText: "Resetting your password",
   },
   FETCH_SERVICE_DETAILS: {
     loaderHeader: "Fetching Service Details",
