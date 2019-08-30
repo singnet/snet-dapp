@@ -11,7 +11,6 @@ const CompletedActions = ({ isComplete, feedback, orgId, serviceId, refetchFeedb
     if (process.env.REACT_APP_SANDBOX) {
       return;
     }
-
     setUserFeedback(true);
   };
 
