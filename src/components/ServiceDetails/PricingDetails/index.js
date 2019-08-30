@@ -7,16 +7,23 @@ import StyledButton from "../../common/StyledButton";
 import { useStyles } from "./styles";
 import Price from "./Price";
 import { PricingStrategy } from "../../../utility/PricingStrategy";
+import Routes from "../../../utility/constants/Routes";
 
-const PricingDetails = ({ classes, pricing }) => {
+const PricingDetails = ({ classes, pricing, handleTabChange, history, activeTab }) => {
   const price_strategy = new PricingStrategy(pricing);
   const priceInAGI = typeof price_strategy === "undefined" ? undefined : price_strategy.getMaxPriceInAGI();
   const price_model = typeof price_strategy === "undefined" ? undefined : price_strategy.getPriceModel();
+
   const handleClick = () => {
-    window.scroll({
-      top: 520,
-      behavior: "smooth",
-    });
+    history.push({ ...history.location, hash: Routes.hash.SERVICE_DEMO });
+    if (activeTab === 0) {
+      window.scroll({
+        top: 520,
+        behavior: "smooth",
+      });
+      return;
+    }
+    handleTabChange(0);
   };
 
   return (
