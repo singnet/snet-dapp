@@ -7,3 +7,9 @@ export const isValidNumber = number => {
   let reg = /^[0-9]*$/;
   return reg.test(number);
 };
+
+export const hasLowerCase = string => /[a-z]/.test(string);
+export const hasUpperCase = string => /[A-Z]/.test(string);
+export const hasNumber = string => /[0-9]/.test(string);
+export const hasSpecialChar = string => /[\^\$\*\.\[\]\{\}\(\)\?\-\"\!\@\#\%\&\/\,\>\<\'\:\;\|\_\~\`]/.test(string);
+export const minChars = (string, length) => string.length >= length;

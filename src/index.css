@@ -1,21 +1,26 @@
 body {
   margin: 0;
-  font-family: 'Muli', sans-serif;
+  font-family: "Muli", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
-h1, h2 { margin: 0; }
+h1,
+h2 {
+  margin: 0;
+}
 
-
-.hide-overflow { 
-  height: 100vh; 
+.hide-overflow {
+  height: 100vh;
   overflow: hidden;
 }
 
-
+/* GDPR QuantCast Notification */
+.qc-cmp-persistent-link {
+  display: none !important;
+}
+/* GDPR QuantCast Notification - ends */

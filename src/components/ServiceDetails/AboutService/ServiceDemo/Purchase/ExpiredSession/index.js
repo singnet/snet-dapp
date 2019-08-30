@@ -28,7 +28,6 @@ const ExpiredSession = ({ classes, handleComplete, metamask, groupInfo, history,
       <AlertBox
         type="warning"
         message="You have used all your free quota for this service.  Please add a payment method to continue using this service. "
-        link="Click here"
       />
       <StyledButton type="blue" btnText="add payment" onClick={handleAddPayment} />
     </div>
