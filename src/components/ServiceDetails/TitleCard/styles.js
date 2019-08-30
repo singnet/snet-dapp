@@ -10,13 +10,15 @@ export const useStyles = theme => ({
   },
   ratingStars: {
     "& .dv-star-rating-empty-star": {
-      "& i": { color: theme.palette.text.disabledBtnBg },
+      "& i": { color: theme.palette.text.disabledBtnBg, cursor: "default" },
     },
     "& i": {
       color: theme.palette.text.RatingStarColor,
       fontSize: 22,
       paddingRight: 2,
+      cursor: "default",
     },
+    "& label": { cursor: "default !important" },
   },
   apiCall: {
     padding: "6px 15px",
