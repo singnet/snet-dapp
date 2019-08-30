@@ -479,6 +479,8 @@ export default class SNETImageUpload extends React.Component {
               overflow: "hidden",
               height: this.tabHeight - this.dropzoneHeightOffset + "px",
               padding: spacingUnit,
+              display: 'flex',
+              flexDirection: 'column'
             }}
           >
             <Grid
@@ -492,10 +494,10 @@ export default class SNETImageUpload extends React.Component {
               }}
               spacing={spacingUnit}
             >
-              <Grid item>
+              <Grid item style={{ padding: '0 40px'}}>
                 <CloudUpload style={{ fontSize: 48, color: this.mainColor }} />
               </Grid>
-              <Grid item>
+              <Grid item style={{ padding: '0 40px'}}>
                 <Typography
                   style={{
                     fontFamily: snetFont,
@@ -509,7 +511,7 @@ export default class SNETImageUpload extends React.Component {
                   <span style={{ color: this.mainColor }}> click</span>
                 </Typography>
               </Grid>
-              <Grid item>
+              <Grid item style={{ padding: '20px 40px'}}>
                 <Typography
                   style={{
                     fontFamily: snetFont,
@@ -1286,15 +1288,7 @@ export default class SNETImageUpload extends React.Component {
                   </Tooltip>
                 )}
               </Grid>
-              <Grid
-                item
-                xs={1}
-                style={{
-                  flexGrow: 1,
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
+              <Grid item xs={1} style={{ flexGrow: 1, display: "flex", justifyContent: "center", alignItems: "center", }}
               >
                 {this.state.mainState === "uploaded" && !this.props.disableResetButton && (
                   <Fade in={this.state.mainState === "uploaded"}>
