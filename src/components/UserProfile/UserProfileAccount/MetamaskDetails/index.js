@@ -158,7 +158,9 @@ class MetamaskDetails extends Component {
           {activeComponent.component}
           <AlertBox type={alert.type} message={alert.message} />
         </div>
-        <StyledButton type="blue" btnText={activeComponent.name} onClick={activeComponent.submitAction} />
+        <div className={classes.btnContainer}>
+          <StyledButton type="blue" btnText={activeComponent.name} onClick={activeComponent.submitAction} />
+        </div>
       </Fragment>
     );
   }

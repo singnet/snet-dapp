@@ -73,4 +73,5 @@ export const useStyles = theme => ({
       marginBottom: 28,
     },
   },
+  btnContainer:{ textAlign: 'center' }
 });

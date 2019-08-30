@@ -3,6 +3,7 @@ export const useStyles = theme => ({
     "& .MuiPaper-root": {
       maxWidth: 520,
       width: "100%",
+      '& > div':{ marginTop: 0 }
     },
     "& .MuiDialogTitle-root": {
       borderRadius: "4px 4px 0 0",
@@ -69,4 +70,12 @@ export const useStyles = theme => ({
       backgroundColor: theme.palette.text.primary,
     },
   },
+  header:{
+    padding: '13px 25px',
+    backgroundColor: theme.palette.text.offWhiteColor,
+    color: theme.palette.text.black1,
+    fontSize: 20,
+    lineHeight: '25px'
+  },
+  escrowAccountDetails:{ padding: '0 25px 25px' }
 });
