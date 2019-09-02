@@ -22,8 +22,8 @@ const payTypes = {
 
 const connectMMinfo = {
   type: alertTypes.WARNING,
-  message: `Please Login or Install to your Metamask wallet account and connect to SingularityNet. 
-Click here to install and learn more about how to use Metamask and your AGI credits with SinguarlityNet AI Marketplace.`,
+  message: `Please install Metamask and use your Metamask wallet to connect to SingularityNet. 	  message: `Please Login or Install to your Metamask wallet account and connect to SingularityNet. 
+Click below to install and learn more about how to use Metamask and your AGI credits with SinguarlityNet AI Marketplace.`,
 };
 
 class MetamaskFlow extends Component {
