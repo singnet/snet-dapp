@@ -2,7 +2,6 @@ import React from "react";
 import { withStyles } from "@material-ui/styles";
 
 import NoConnectionImg from "../../../assets/images/error.svg";
-import StyledButton from "../StyledButton";
 import { useStyles } from "./styles";
 
 const ErrorBox = ({ classes, errImg, errText }) => {

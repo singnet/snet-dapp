@@ -8,6 +8,9 @@ const Routes = {
   SERVICE_DETAILS: "servicedetails",
   USER_PROFILE: "userprofile",
   GET_STARTED: "getstarted",
+  hash: {
+    SERVICE_DEMO: "#demo",
+  },
 };
 
 export default Routes;
