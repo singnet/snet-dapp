@@ -22,8 +22,8 @@ const payTypes = {
 
 const connectMMinfo = {
   type: alertTypes.WARNING,
-  message: `Please install Metamask and use your Metamask wallet to connect to SingularityNet. 
-Click below to install and learn more about how to use Metamask and your AGI credits with SinguarlityNet AI Marketplace.`,
+  message: `Please Login or Install to your Metamask wallet account and connect to SingularityNet. 
+Click here to install and learn more about how to use Metamask and your AGI credits with SinguarlityNet AI Marketplace.`,
 };
 
 class MetamaskFlow extends Component {
@@ -146,11 +146,13 @@ class MetamaskFlow extends Component {
   };
 
   handleSubmit = async () => {
+    this.props.startChannelSetupLoader();
     this.setState({ alert: {} });
 
     let { noOfServiceCalls, selectedPayType } = this.state;
     if (selectedPayType === payTypes.CHANNEL_BALANCE) {
       this.props.handleContinue();
+      this.props.stopLoader();
       return;
     }
     if (selectedPayType === payTypes.SINGLE_CALL) {
@@ -176,8 +178,10 @@ class MetamaskFlow extends Component {
       }
 
       this.props.handleContinue();
+      this.props.stopLoader();
     } catch (error) {
       this.setState({ alert: { type: alertTypes.ERROR, message: `Unable to execute the call` } });
+      this.props.stopLoader();
     }
   };
 
@@ -292,6 +296,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   startMMconnectLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.CONNECT_METAMASK)),
+  startChannelSetupLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.SETUP_CHANNEL_FOR_SERV_EXEC)),
   stopLoader: () => dispatch(loaderActions.stopAppLoader),
 });
 

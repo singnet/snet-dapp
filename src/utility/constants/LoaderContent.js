@@ -17,11 +17,11 @@ export const LoaderContent = {
   },
   FORGOT_PASSWORD: {
     loaderHeader: "Forgot Password",
-    loaderText: "Sending you an email with the verification code",
+    loaderText: "User profile will be deleted completely and all the records will be removed",
   },
   FORGOT_PASSWORD_SUBMIT: {
     loaderHeader: "Forgot Password Submit",
-    loaderText: "Resetting your password",
+    loaderText: "User profile will be deleted completely and all the records will be removed",
   },
   FETCH_SERVICE_DETAILS: {
     loaderHeader: "Fetching Service Details",
@@ -59,5 +59,9 @@ export const LoaderContent = {
   CONNECT_METAMASK: {
     loaderHeader: "Connecting Metask",
     loaderText: "Please sign in using Metamask to proceed",
+  },
+  SETUP_CHANNEL_FOR_SERV_EXEC: {
+    loaderHeader: "Setting up the Channel",
+    loaderText: "Settting up the channel for service execution",
   },
 };
