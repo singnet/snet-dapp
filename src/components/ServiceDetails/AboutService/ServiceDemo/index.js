@@ -126,6 +126,7 @@ class ServiceDemo extends Component {
             freeCallsAllowed,
             wallet,
             handlePurchaseError,
+            isServiceAvailable: Boolean(service.is_available),
           }}
           thirdPartyProps={{
             service_id: service.service_id,
