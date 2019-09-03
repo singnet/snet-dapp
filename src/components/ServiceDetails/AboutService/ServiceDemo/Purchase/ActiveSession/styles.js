@@ -22,4 +22,7 @@ export const useStyles = theme => ({
     fontWeight: 600,
     lineHeight: "33px",
   },
+  tooltip: {
+    fontSize: 14,
+  },
 });

@@ -36,6 +36,6 @@ export const useStyles = theme => ({
     fontWeight: 600,
   },
   tooltip: {
-    fontSize: 16,
+    fontSize: 14,
   },
 });

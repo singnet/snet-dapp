@@ -300,6 +300,7 @@ class MetamaskFlow extends Component {
             onOpen={this.handleTooltipOpen}
             onClose={this.handleTooltipClose}
             className={classes.tooltip}
+            classes={classes}
           >
             <div>
               <StyledButton
