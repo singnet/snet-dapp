@@ -94,20 +94,25 @@ export const initSdk = async () => {
 
   const hasEth = typeof window.ethereum !== "undefined";
   const hasWeb3 = typeof window.web3 !== "undefined";
-  if (hasEth && hasWeb3) {
-    web3Provider = window.ethereum;
-    const accounts = await web3Provider.enable();
-    window.web3.eth.defaultAccount = accounts[0];
-    web3Provider.addListener(ON_ACCOUNT_CHANGE, accounts => {
-      const event = new CustomEvent("snetMMAccountChanged", { detail: { address: accounts[0] } });
-      window.dispatchEvent(event);
-    });
-    web3Provider.addListener(ON_NETWORK_CHANGE, network => {
-      const event = new CustomEvent("snetMMNetworkChanged", { detail: { network } });
-      window.dispatchEvent(event);
-    });
-    updateSDK();
+  try {
+    if (hasEth && hasWeb3) {
+      web3Provider = window.ethereum;
+      const accounts = await web3Provider.enable();
+      window.web3.eth.defaultAccount = accounts[0];
+      web3Provider.addListener(ON_ACCOUNT_CHANGE, accounts => {
+        const event = new CustomEvent("snetMMAccountChanged", { detail: { address: accounts[0] } });
+        window.dispatchEvent(event);
+      });
+      web3Provider.addListener(ON_NETWORK_CHANGE, network => {
+        const event = new CustomEvent("snetMMNetworkChanged", { detail: { network } });
+        window.dispatchEvent(event);
+      });
+      updateSDK();
+    }
+  } catch (error) {
+    console.log("Failed to initialize SDK", error);
   }
+
   return sdk;
 };
 
