@@ -295,6 +295,9 @@ export default class TimeSeriesAnomalyDiscoveryService extends React.Component {
           response: { status: "success", timeseries: message.getTimeseries(), density: message.getDensity(), normalized: message.getNormalized(), inverted: message.getInverted()},
         });
 
+        this.state.timeSeriesJson = JSON.parse(this.state.response.timeseries);
+        this.state.invertedDensityCurveJson = JSON.parse(this.state.response.inverted);
+
       },
     };
 
@@ -371,6 +374,7 @@ export default class TimeSeriesAnomalyDiscoveryService extends React.Component {
   }
 
   renderComplete() {
+
     return (
       // this.props.response.output
       <React.Fragment>
@@ -448,6 +452,7 @@ export default class TimeSeriesAnomalyDiscoveryService extends React.Component {
     this.updateParentExansion();
 
     if (this.props.isComplete) {
+
       if (this.state.first_render === true) {
         this.state.first_render = false;
         this.updateRenderTimeSeries();
