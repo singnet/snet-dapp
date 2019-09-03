@@ -105,7 +105,7 @@ export const initSdk = async () => {
       const event = new CustomEvent("snetMMNetworkChanged", { detail: { network } });
       window.dispatchEvent(event);
     });
-    window.web.eth.accounts().then(accounts => {
+    window.we.eth.accounts().then(accounts => {
       window.web3.eth.defaultAccount = accounts[0];
       updateSDK();
     });
