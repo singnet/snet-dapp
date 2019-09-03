@@ -96,7 +96,8 @@ export const initSdk = async () => {
   const hasWeb3 = typeof window.web3 !== "undefined";
   if (hasEth && hasWeb3) {
     web3Provider = window.ethereum;
-    await web3Provider.enable();
+    const accounts = await web3Provider.enable();
+    window.web3.eth.defaultAccount = accounts[0];
     web3Provider.addListener(ON_ACCOUNT_CHANGE, accounts => {
       const event = new CustomEvent("snetMMAccountChanged", { detail: { address: accounts[0] } });
       window.dispatchEvent(event);
@@ -105,10 +106,7 @@ export const initSdk = async () => {
       const event = new CustomEvent("snetMMNetworkChanged", { detail: { network } });
       window.dispatchEvent(event);
     });
-    window.web3.eth.accounts().then(accounts => {
-      window.web3.eth.defaultAccount = accounts[0];
-      updateSDK();
-    });
+    updateSDK();
   }
   return sdk;
 };
