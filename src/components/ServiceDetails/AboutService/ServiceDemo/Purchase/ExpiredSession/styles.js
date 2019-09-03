@@ -23,6 +23,10 @@ export const useStyles = theme => ({
   buttonContainer: {
     marginTop: 35,
     textAlign: "center",
+    justifyContent: "center",
+    "& div": {
+      display: "inline-block",
+    },
   },
   channelSelectionTitle: {
     marginBottom: 5,
@@ -30,5 +34,8 @@ export const useStyles = theme => ({
     color: theme.palette.text.mediumShadeGray,
     fontSize: 16,
     fontWeight: 600,
+  },
+  tooltip: {
+    fontSize: 16,
   },
 });

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import Tooltip from "@material-ui/core/Tooltip";
 
 import StyledButton from "../../../../../common/StyledButton";
 import PaymentInfoCard from "../PaymentInfoCard";
@@ -36,6 +37,7 @@ class MetamaskFlow extends Component {
     noOfServiceCalls: 1,
     totalPrice: cogsToAgi(this.props.pricing.price_in_cogs),
     alert: {},
+    showTooltip: false,
   };
 
   serviceClient;
@@ -189,9 +191,19 @@ class MetamaskFlow extends Component {
     return this.PaymentInfoCardData.find(el => el.title === "Channel Balance").value;
   };
 
-  shouldContinueBeEnabled = () => this.state.mpeBal > 0;
+  shouldContinueBeEnabled = () => this.state.mpeBal > 0 && this.props.isServiceAvailable;
 
   shouldDepositToEscrowBeHighlighted = () => this.state.mpeBal <= 0;
+
+  handleTooltipOpen = () => {
+    if (!this.props.isServiceAvailable) {
+      this.setState({ showTooltip: true });
+    }
+  };
+
+  handleTooltipClose = () => {
+    this.setState({ showTooltip: false });
+  };
 
   render() {
     const { classes } = this.props;
@@ -203,7 +215,9 @@ class MetamaskFlow extends Component {
       noOfServiceCalls,
       totalPrice,
       alert,
+      showTooltip,
     } = this.state;
+
     if (!MMconnected) {
       return (
         <div className={classes.ExpiredSessionContainer}>
@@ -272,17 +286,30 @@ class MetamaskFlow extends Component {
         </div>
         <AlertBox type={alert.type} message={alert.message} />
         <div className={classes.buttonContainer}>
-          <StyledButton
-            type={this.shouldDepositToEscrowBeHighlighted() ? "blue" : "transparent"}
-            btnText="Deposit into Escrow"
-            onClick={this.handlePurchaseDialogOpen}
-          />
-          <StyledButton
-            type="blue"
-            btnText="Continue"
-            onClick={this.handleSubmit}
-            disabled={!this.shouldContinueBeEnabled()}
-          />
+          <div>
+            <StyledButton
+              type={this.shouldDepositToEscrowBeHighlighted() ? "blue" : "transparent"}
+              btnText="Deposit into Escrow"
+              onClick={this.handlePurchaseDialogOpen}
+            />
+          </div>
+          <Tooltip
+            title="Service is currently offline. Please try after sometime"
+            aria-label="add-payment"
+            open={showTooltip}
+            onOpen={this.handleTooltipOpen}
+            onClose={this.handleTooltipClose}
+            className={classes.tooltip}
+          >
+            <div>
+              <StyledButton
+                type="blue"
+                btnText="Continue"
+                onClick={this.handleSubmit}
+                disabled={!this.shouldContinueBeEnabled()}
+              />
+            </div>
+          </Tooltip>
         </div>
       </div>
     );
