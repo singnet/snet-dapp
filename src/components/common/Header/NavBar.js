@@ -1,10 +1,10 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 
-//import StyledDropdown from "../StyledDropdown/";
 import { useStyles } from "./styles";
 import NavItem from "./NavItem";
 import Routes from "../../../utility/constants/Routes";
+import StyledMenu from "../StyledMenu";
 
 const NavBar = ({ data, history }) => {
   const classes = useStyles();
@@ -28,11 +28,9 @@ const NavBar = ({ data, history }) => {
             openInNewTab={tab.openInNewTab}
           />
         ))}
-        {/*data.dropdowns.map(dropdown => (
-          <li key={dropdown.label} className={classes.navLinksDropDown}>
-            <StyledDropdown labelTxt={dropdown.label} list={dropdown.list} />
-          </li>
-        ))*/}
+        {data.dropdowns.map(dropdown => (
+          <StyledMenu key={dropdown.label} label={dropdown.label} list={dropdown.list} />
+        ))}
       </ul>
     </nav>
   );
