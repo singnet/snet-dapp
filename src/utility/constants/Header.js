@@ -45,10 +45,10 @@ const dropdowns = [
   {
     label: "Resources",
     list: [
-      { label: "Documentation", link: "https://github.com/singnet" },
-      { label: "Telegram", link: "https://telegram.me/singularitynet" },
-      { label: "Forum", link: "https://community.singularitynet.io/" },
-      { label: "Blog", link: "http://blog.singularitynet.io/" },
+      { label: "Documentation", link: "https://github.com/singnet", external: true },
+      { label: "Telegram", link: "https://telegram.me/singularitynet", external: true },
+      { label: "Forum", link: "https://community.singularitynet.io/", external: true },
+      { label: "Blog", link: "http://blog.singularitynet.io/", external: true },
     ],
   },
 ];
