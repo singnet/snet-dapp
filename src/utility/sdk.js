@@ -110,7 +110,7 @@ export const initSdk = async () => {
       updateSDK();
     }
   } catch (error) {
-    console.log("Failed to initialize SDK", error);
+    throw error;
   }
 
   return sdk;

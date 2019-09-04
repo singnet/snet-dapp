@@ -58,7 +58,7 @@ class MetamaskFlow extends Component {
       this.serviceClient = new ServiceClient(sdk, org_id, service_id, sdk._mpeContract, {}, groupInfo);
       this.paymentChannelManagement = new PaymentChannelManagement(sdk, this.serviceClient);
     } catch (error) {
-      this.props.handlePurchaseError(error);
+      this.props.handlePurchaseError(error.message);
     }
   };
 
@@ -120,7 +120,7 @@ class MetamaskFlow extends Component {
 
       this.setState({ MMconnected: true, mpeBal, channelBalance });
     } catch (error) {
-      this.setState({ alert: { type: alertTypes.ERROR, message: `Unable to connect to metamask ${error}` } });
+      this.setState({ alert: { type: alertTypes.ERROR, message: `Unable to connect to metamask ${error.message}` } });
     }
     stopLoader();
   };

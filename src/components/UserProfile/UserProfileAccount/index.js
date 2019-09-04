@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
@@ -15,18 +15,25 @@ import AlertBox, { alertTypes } from "../../common/AlertBox";
 const walletDropdownList = Object.entries(walletTypes).map(([key, value]) => ({ value, label: key }));
 
 const UserProfileAccount = ({ updateWallet, classes, wallet }) => {
+  const [alert, setAlert] = useState({});
+
   const handleWalletTypeChange = async event => {
+    setAlert({});
     const { value } = event.target;
     if (value === walletTypes.METAMASK) {
-      const sdk = await initSdk();
-      const address = sdk.account.address;
-      //1. To be replaced with wallet API
-      if (!isEmpty(address)) {
-        sessionStorage.setItem("wallet", JSON.stringify({ type: walletTypes.METAMASK, address }));
+      try {
+        const sdk = await initSdk();
+        const address = sdk.account.address;
+        //1. To be replaced with wallet API
+        if (!isEmpty(address)) {
+          sessionStorage.setItem("wallet", JSON.stringify({ type: walletTypes.METAMASK, address }));
+        }
+        //till here(1)
+        updateWallet({ type: value, address });
+        return;
+      } catch (error) {
+        setAlert({ type: alertTypes.ERROR, message: `Error: ${error.message}` });
       }
-      //till here(1)
-      updateWallet({ type: value, address });
-      return;
     }
     //2. to be removed once wallet API is available
     sessionStorage.removeItem("wallet");
@@ -55,6 +62,7 @@ const UserProfileAccount = ({ updateWallet, classes, wallet }) => {
           {walletDetails[wallet.type] || (
             <AlertBox type={alertTypes.INFO} message="Please select a wallet to proceed" />
           )}
+          <AlertBox type={alert.type} message={alert.message} />
         </div>
       </Grid>
     </Grid>
