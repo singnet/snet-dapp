@@ -22,7 +22,8 @@ const UserProfileAccount = ({ updateWallet, classes, wallet }) => {
     const { value } = event.target;
     if (value === walletTypes.METAMASK) {
       try {
-        const sdk = await initSdk();
+        const selectedEthAddress = window.ethereum && window.ethereum.selectedAddress;
+        const sdk = await initSdk(selectedEthAddress);
         const address = sdk.account.address;
         //1. To be replaced with wallet API
         if (!isEmpty(address)) {
