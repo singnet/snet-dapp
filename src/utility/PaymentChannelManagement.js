@@ -35,6 +35,7 @@ export default class PaymentChannelManagement {
     const defaultExpiration = await this._channelExtensionBlockNumber();
 
     this._channel = await this.serviceClient.openChannel(serviceCallPrice, defaultExpiration);
+    await this._channel.syncState();
     this._sdkContext.currentChannel = this._channel;
   }
 
