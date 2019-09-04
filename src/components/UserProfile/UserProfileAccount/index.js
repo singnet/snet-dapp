@@ -32,7 +32,7 @@ const UserProfileAccount = ({ updateWallet, classes, wallet }) => {
         updateWallet({ type: value, address });
         return;
       } catch (error) {
-        setAlert({ type: alertTypes.ERROR, message: `Error: ${error.message}` });
+        setAlert({ type: alertTypes.ERROR, message: `Something went wrong. Please try again` });
       }
     }
     //2. to be removed once wallet API is available

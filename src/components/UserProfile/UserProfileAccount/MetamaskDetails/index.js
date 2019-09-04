@@ -45,7 +45,7 @@ class MetamaskDetails extends Component {
       });
     } catch (error) {
       this.setState({
-        alert: { type: alertTypes.ERROR, message: `Unable to fetch account details: ${error.message}` },
+        alert: { type: alertTypes.ERROR, message: `Unable to fetch account details` },
       });
     }
   };
@@ -72,7 +72,7 @@ class MetamaskDetails extends Component {
       await this.retrieveAccountDetails();
       this.setState({ alert: { type: alertTypes.SUCCESS, message: "Successfully deposited" } });
     } catch (error) {
-      this.setState({ alert: { type: alertTypes.ERROR, message: `Unable to deposit amount: ${error.message}` } });
+      this.setState({ alert: { type: alertTypes.ERROR, message: `Unable to deposit amount` } });
     }
     this.props.stopLoader();
   };
@@ -87,7 +87,7 @@ class MetamaskDetails extends Component {
       await this.retrieveAccountDetails();
       this.setState({ alert: { type: alertTypes.SUCCESS, message: "Successfully withdrawn" } });
     } catch (error) {
-      this.setState({ alert: { type: alertTypes.ERROR, message: `Unable to withdraw amount: ${error.message}` } });
+      this.setState({ alert: { type: alertTypes.ERROR, message: `Unable to withdraw amount` } });
     }
     this.props.stopLoader();
   };
