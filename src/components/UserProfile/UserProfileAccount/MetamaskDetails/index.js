@@ -63,6 +63,7 @@ class MetamaskDetails extends Component {
   };
 
   handleDeposit = async () => {
+    this.setState({ alert: {} });
     this.props.startDepositLoader();
     try {
       const sdk = await initSdk();
@@ -78,6 +79,7 @@ class MetamaskDetails extends Component {
   };
 
   handleWithDraw = async () => {
+    this.setState({ alert: {} });
     this.props.startWithdrawLoader();
     try {
       const sdk = await initSdk();
