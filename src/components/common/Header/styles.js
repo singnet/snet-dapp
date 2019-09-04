@@ -47,13 +47,13 @@ export const useStyles = makeStyles(theme => ({
     "@media (max-width:1280px) and (min-width: 1024px)": {
       marginRight: 26,
     },
-  },
-  navLinksAnchor: {
-    textDecoration: "none",
-    fontSize: 16,
-    color: theme.palette.text.lightShadedGray,
-    lineHeight: "22px",
-    "&:hover": { color: theme.palette.text.white },
+    "& a": {
+      textDecoration: "none",
+      fontSize: 16,
+      color: theme.palette.text.lightShadedGray,
+      lineHeight: "22px",
+      "&:hover": { color: theme.palette.text.white, textDecoration: "none" },
+    },
   },
   navLinksDropDown: {
     listStyle: "none",

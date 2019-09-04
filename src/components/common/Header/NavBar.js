@@ -25,7 +25,7 @@ const NavBar = ({ data, history }) => {
             title={tab.title}
             link={tab.link}
             active={isActiveTab(tab.link)}
-            openInNewTab={tab.openInNewTab}
+            newTab={tab.newTab}
           />
         ))}
         {data.dropdowns.map(dropdown => (
