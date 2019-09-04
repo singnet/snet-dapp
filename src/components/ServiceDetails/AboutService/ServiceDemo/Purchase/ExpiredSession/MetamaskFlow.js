@@ -100,6 +100,7 @@ class MetamaskFlow extends Component {
 
   handleConnectMM = async () => {
     const { startMMconnectLoader, stopLoader } = this.props;
+    this.setState({ alert: {} });
     try {
       startMMconnectLoader();
       const sdk = await initSdk();
