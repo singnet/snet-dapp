@@ -58,7 +58,7 @@ class MetamaskFlow extends Component {
       this.serviceClient = new ServiceClient(sdk, org_id, service_id, sdk._mpeContract, {}, groupInfo);
       this.paymentChannelManagement = new PaymentChannelManagement(sdk, this.serviceClient);
     } catch (error) {
-      this.props.handlePurchaseError(error);
+      this.props.handlePurchaseError("Unable to initialize payment channel. Please try again");
     }
   };
 
@@ -100,6 +100,7 @@ class MetamaskFlow extends Component {
 
   handleConnectMM = async () => {
     const { startMMconnectLoader, stopLoader } = this.props;
+    this.setState({ alert: {} });
     try {
       startMMconnectLoader();
       const sdk = await initSdk();
@@ -120,7 +121,7 @@ class MetamaskFlow extends Component {
 
       this.setState({ MMconnected: true, mpeBal, channelBalance });
     } catch (error) {
-      this.setState({ alert: { type: alertTypes.ERROR, message: `Unable to connect to metamask ${error}` } });
+      this.setState({ alert: { type: alertTypes.ERROR, message: `Unable to connect to metamask. Please try again` } });
     }
     stopLoader();
   };
@@ -160,19 +161,19 @@ class MetamaskFlow extends Component {
     if (selectedPayType === payTypes.SINGLE_CALL) {
       noOfServiceCalls = 1;
     }
-    const sdk = await initSdk();
-    const mpeBal = await sdk.account.escrowBalance();
-    if (mpeBal < this.paymentChannelManagement.noOfCallsToCogs(noOfServiceCalls)) {
-      this.setState({
-        mpeBal,
-        alert: {
-          type: alertTypes.ERROR,
-          message: `Insufficient MPE balance. Please deposit some AGI tokens to your escrow account`,
-        },
-      });
-      return;
-    }
     try {
+      const sdk = await initSdk();
+      const mpeBal = await sdk.account.escrowBalance();
+      if (mpeBal < this.paymentChannelManagement.noOfCallsToCogs(noOfServiceCalls)) {
+        this.setState({
+          mpeBal,
+          alert: {
+            type: alertTypes.ERROR,
+            message: `Insufficient MPE balance. Please deposit some AGI tokens to your escrow account`,
+          },
+        });
+        return;
+      }
       if (!this.paymentChannelManagement.channel) {
         await this.paymentChannelManagement.openChannel(noOfServiceCalls);
       } else {
