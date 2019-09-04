@@ -10,10 +10,10 @@ const NavBar = ({ data, history }) => {
   const classes = useStyles();
 
   const isActiveTab = link => {
-    if (history.location.pathname === "/") {
-      return link === `/${Routes.AI_MARKETPLACE}`;
+    if (history.location.pathname === `/${Routes.GET_STARTED}`) {
+      return link === `/${Routes.GET_STARTED}`;
     }
-    return link === history.location.pathname;
+    return link !== `/${Routes.GET_STARTED}`;
   };
 
   return (
