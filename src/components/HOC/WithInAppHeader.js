@@ -8,8 +8,10 @@ const withInAppWrapper = InputComponent => {
     return (
       <Fragment>
         <Header />
-        <InputComponent {...props} />
-        <Footer />
+        <div className="scrollableContent">
+        	<InputComponent {...props} />
+        	<Footer />
+        </div>
       </Fragment>
     );
   };

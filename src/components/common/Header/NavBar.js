@@ -1,6 +1,5 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import CaretIcon from "@material-ui/icons/ArrowDropDown";
 
 import { useStyles } from "./styles";
 import NavItem from "./NavItem";
@@ -30,10 +29,7 @@ const NavBar = ({ data, history }) => {
           />
         ))}
         {data.dropdowns.map(dropdown => (
-          <div>
-            <StyledMenu key={dropdown.label} label={dropdown.label} list={dropdown.list} />
-            <CaretIcon />
-          </div>
+          <StyledMenu key={dropdown.label} label={dropdown.label} list={dropdown.list} />
         ))}
       </ul>
     </nav>
