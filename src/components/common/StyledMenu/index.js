@@ -3,6 +3,8 @@ import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { withStyles } from "@material-ui/core/styles";
+import CaretIcon from "@material-ui/icons/ArrowDropDown";
+
 import { useStyles } from "./styles";
 import AnchorLink from "../AnchorLink";
 
@@ -18,9 +20,10 @@ const StyledMenu = ({ classes, label, list }) => {
   };
   return (
     <Fragment>
-      <Button onClick={handleOpen} className={classes.button}>
-        {label}
-      </Button>
+      <div onClick={handleOpen}>
+        <Button className={classes.button}>{label}</Button>
+        <CaretIcon />
+      </div>      
       <Menu anchorEl={anchorEl} id="simple-menu" open={Boolean(anchorEl)} onClose={handleClose}>
         {list.map(item => (
           <MenuItem key={item.label}>
