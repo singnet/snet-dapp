@@ -36,14 +36,16 @@ export const useStyles = makeStyles(theme => ({
     marginBottom: 10,
     "@media (max-width:1024px)": { display: "none" },
   },
-  navUl: {
-    padding: 0,
-    margin: 0,
-    display: "flex",
+  headerDropDown:{
     "&:hover": {
       "& button": { color: theme.palette.text.white },
       "& svg": { color: theme.palette.text.white },
     },
+  },
+  navUl: {
+    padding: 0,
+    margin: 0,
+    display: "flex",
     "& button": {
       padding: 0,
       color: "#9b9b9b",
@@ -80,10 +82,10 @@ export const useStyles = makeStyles(theme => ({
   },
   activeTab: {
     paddingBottom: 4,
-    borderBottomWidth: "2px",
+    borderBottomWidth: 2,
     borderBottomStyle: "solid",
     borderBottomColor: theme.palette.text.white,
-    color: theme.palette.text.white,
+    color: '#fff !important',
     fontWeight: 600,
   },
   loginBtnsSection: {

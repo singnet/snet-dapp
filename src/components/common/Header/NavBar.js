@@ -29,7 +29,9 @@ const NavBar = ({ data, history }) => {
           />
         ))}
         {data.dropdowns.map(dropdown => (
-          <StyledMenu key={dropdown.label} label={dropdown.label} list={dropdown.list} />
+          <div className={classes.headerDropDown}>
+            <StyledMenu key={dropdown.label} label={dropdown.label} list={dropdown.list} />
+          </div>
         ))}
       </ul>
     </nav>
