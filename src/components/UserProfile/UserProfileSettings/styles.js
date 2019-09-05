@@ -1,6 +1,6 @@
 export const useStyles = theme => ({
   settingMainContainer: {
-    margin: "30px 0 50px",
+    margin: "13px 0 50px",
   },
   settingsContainer: {
     borderRadius: 4,
@@ -34,7 +34,6 @@ export const useStyles = theme => ({
     },
     "& label": {
       color: theme.palette.text.black1,
-      fontFamily: theme.typography.primary.main,
       fontSize: 14,
       fontWeight: 600,
       letterSpacing: 0.4,
@@ -42,7 +41,6 @@ export const useStyles = theme => ({
     },
     "& input": {
       color: theme.palette.text.black1,
-      fontFamily: theme.typography.primary.main,
       fontSize: 16,
       fontWeight: 600,
       letterSpacing: 0.15,
@@ -51,7 +49,6 @@ export const useStyles = theme => ({
     "& p": {
       margin: 0,
       color: theme.palette.text.lightShadedGray,
-      fontFamily: theme.typography.secondary.main,
       fontSize: 14,
       letterSpacing: 0.25,
       lineHeight: "20px",
@@ -74,7 +71,6 @@ export const useStyles = theme => ({
         fontSize: 14,
         letterSpacing: 0.25,
         lineHeight: "20px",
-        fontFamily: theme.typography.primary.main,
         fontWeight: 600,
       },
     },
@@ -88,7 +84,6 @@ export const useStyles = theme => ({
         fontSize: 14,
         letterSpacing: 0.25,
         lineHeight: "20px",
-        fontFamily: theme.typography.primary.main,
         fontWeight: 600,
       },
     },

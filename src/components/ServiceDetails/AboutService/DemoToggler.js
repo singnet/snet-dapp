@@ -7,12 +7,12 @@ import ServiceDemo from "./ServiceDemo";
 import Routes from "../../../utility/constants/Routes";
 import { useStyles } from "./styles";
 
-const DemoToggler = ({ classes, showDemo, onClick, service }) => {
+const DemoToggler = ({ classes, showDemo, onClick, service, history }) => {
   if (showDemo) {
     return (
       <div className={classes.demoContainer}>
         <h3>Service Demo</h3>
-        <ServiceDemo service={service} />
+        <ServiceDemo service={service} history={history} />
       </div>
     );
   }

@@ -25,6 +25,10 @@ const serviceReducer = (state = InitialServiceList, action) => {
     case serviceActions.UPDATE_SERVICE_EXECUTION_RESPONSE: {
       return { ...state, serviceMethodExecution: { ...state.serviceMethodExecution, ...action.payload } };
     }
+    case serviceActions.RESET_SERVICE_EXECUTION: {
+      return { ...state, serviceMethodExecution: { ...InitialServiceList.serviceMethodExecution } };
+    }
+
     case serviceActions.UPDATE_SPEC_DETAILS: {
       return {
         ...state,
@@ -72,7 +76,3 @@ const serviceReducer = (state = InitialServiceList, action) => {
 };
 
 export default serviceReducer;
-
-export const serviceDetails = (state, serviceRowId) => {
-  return state.serviceReducer.services.find(service => service.service_row_id === Number(serviceRowId));
-};

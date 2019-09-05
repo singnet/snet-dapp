@@ -26,12 +26,6 @@ class UserProfileSettings extends Component {
     this.setState({ emailAlerts: this.props.emailAlerts });
   };
 
-  componentDidUpdate = prevProps => {
-    if (prevProps.emailAlerts !== this.props.emailAlerts) {
-      this.setState({ emailAlerts: this.props.emailAlerts });
-    }
-  };
-
   handleEmailChange = event => {
     this.setState({
       email: event.target.value,
@@ -42,7 +36,7 @@ class UserProfileSettings extends Component {
     this.setState(prevState => ({ emailAlerts: !prevState.emailAlerts }));
   };
 
-  handleDelete = async () => {
+  handleDelete = () => {
     this.setState({ showConfirmDelete: true });
   };
 
@@ -52,8 +46,8 @@ class UserProfileSettings extends Component {
 
   handleSubmit = async () => {
     this.setState({ alertMessage: undefined });
-    const { updateUserProfile } = this.props;
-    const updatedUserData = { email_alerts: this.state.emailAlerts };
+    const { updateUserProfile, isTermsAccepted } = this.props;
+    const updatedUserData = { email_alerts: this.state.emailAlerts, is_terms_accepted: isTermsAccepted };
     try {
       await updateUserProfile(updatedUserData);
       this.setState({ alertType: alertTypes.SUCCESS, alertMessage: "Changes saved successfully" });
@@ -86,7 +80,7 @@ class UserProfileSettings extends Component {
   };
 
   render() {
-    const { classes, userEmail, username } = this.props;
+    const { classes, userEmail, nickname } = this.props;
     const { alertMessage, alertType, emailAlerts, showConfirmDelete, confirmDeleteError } = this.state;
     return (
       <Grid container spacing={24} className={classes.settingMainContainer}>
@@ -96,14 +90,14 @@ class UserProfileSettings extends Component {
             <div>
               <TextField
                 id="outlined-name"
-                label="User Name (20 char max)"
+                label="Nick Name (20 char max)"
                 className={classes.styledTextField}
-                value={username}
+                value={nickname}
                 margin="normal"
                 variant="outlined"
                 disabled
               />
-              <p>Your username will be visible to other users when you post comments.</p>
+              <p>Your nickname will be visible to other users when you post comments.</p>
             </div>
             <div>
               <TextField
@@ -167,13 +161,13 @@ class UserProfileSettings extends Component {
 
 const mapStateToProps = state => ({
   userEmail: state.userReducer.email,
-  username: state.userReducer.username,
+  nickname: state.userReducer.nickname,
   emailAlerts: state.userReducer.emailAlerts,
+  isTermsAccepted: state.userReducer.isTermsAccepted,
 });
 
 const mapDispatchToProps = dispatch => ({
   deleteUserAccount: ({ history, route }) => dispatch(userActions.deleteUserAccount({ history, route })),
-  fetchUserProfile: () => dispatch(userActions.fetchUserProfile()),
   updateUserProfile: updatedUserData => dispatch(userActions.updateUserProfile(updatedUserData)),
   stopLoader: () => dispatch(loaderActions.stopAppLoader),
 });

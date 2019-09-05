@@ -8,14 +8,16 @@ export const useStyles = theme => ({
       fontSize: 32,
       fontWeight: 600,
       color: theme.palette.text.darkShadedGray,
-      letterSpacing: "-0.5",
+      letterSpacing: -0.5,
     },
   },
   loginForm: {
     boxSizing: "border-box",
     width: 410,
     padding: "40px 20px 30px",
+    borderRadius: 4,
     margin: "45px auto 0",
+    backgroundColor: theme.palette.text.white,
     boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
     "& h3": {
       margin: "0 0 11px",
@@ -24,12 +26,9 @@ export const useStyles = theme => ({
       letterSpacing: "0.29px",
       textTransform: "uppercase",
     },
-    "& button": {
-      width: "100%",
-    },
-    "@media (max-width:545px)": {
-      width: "80%",
-    },
+    "& input": { color: "#212121 !important" },
+    "& button": { width: "100%" },
+    "@media (max-width:545px)": { width: "80%" },
   },
   horizontalLine: {
     marginTop: 15,
@@ -78,12 +77,8 @@ export const useStyles = theme => ({
       fontSize: 14,
       letterSpacing: "0.25px",
       textDecoration: "none",
-      "&:hover": {
-        textDecoration: "underline",
-      },
+      "&:hover": { color: theme.palette.text.primary },
     },
-    "@media (max-width:400px)": {
-      flexDirection: "column",
-    },
+    "@media (max-width:400px)": { flexDirection: "column" },
   },
 });

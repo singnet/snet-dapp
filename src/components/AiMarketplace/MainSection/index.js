@@ -52,7 +52,7 @@ class MainSection extends Component {
         <Grid item xs={12} sm={9} md={9} lg={9}>
           <ServiceCollection
             toolbarProps={{
-              listView: listView,
+              listView,
               total_count: pagination.total_count,
               handleSearchChange: this.handlePaginationChange,
               toggleView: this.toggleView,

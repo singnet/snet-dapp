@@ -10,36 +10,36 @@ import Routes from "../../../utility/constants/Routes";
 import { useStyles } from "./styles";
 import { userActions } from "../../../Redux/actionCreators";
 
-const ForgotPassword = ({ classes, username, error, handleForgotPassword, history }) => {
-  const [localUsername, setUsername] = useState(username);
+const ForgotPassword = ({ classes, email, error, handleForgotPassword, history }) => {
+  const [localEmail, setEmail] = useState(email);
 
-  const handleUsername = event => {
-    setUsername(event.target.value);
+  const handleEmail = event => {
+    setEmail(event.target.value);
   };
 
   const handleSubmit = event => {
     event.preventDefault();
     event.stopPropagation();
     const route = `/${Routes.FORGOT_PASSWORD_SUBMIT}`;
-    handleForgotPassword({ username: localUsername, history, route });
+    handleForgotPassword({ email: localEmail, history, route });
   };
 
   return (
-    <Grid container spacing={24}>
+    <Grid container spacing={24} className={classes.forgotPwdMainContainer}>
       <Grid item xs={12} sm={12} md={12} lg={12} className={classes.forgotPwdContent}>
         <h2>Forgot your pasword?</h2>
         <p>We'll email you instructions on how to reset it.</p>
         <form noValidate autoComplete="off" className={classes.forgotPwdForm}>
           <TextField
             id="outlined-username-input"
-            label="Username"
+            label="Email"
             className={classes.textField}
             type="text"
-            name="username"
+            name="email"
             margin="normal"
             variant="outlined"
-            value={localUsername}
-            onChange={handleUsername}
+            value={localEmail}
+            onChange={handleEmail}
           />
           <AlertBox type="error" message={error} />
           <StyledButton type="blue" btnText="reset password" onClick={handleSubmit} />
@@ -50,13 +50,13 @@ const ForgotPassword = ({ classes, username, error, handleForgotPassword, histor
 };
 
 const mapStateToProps = state => ({
-  username: state.userReducer.username,
+  email: state.userReducer.email,
   error: state.errorReducer.forgotPassword,
 });
 
 const mapDispatchToProps = dispatch => ({
-  updateUsername: username => dispatch(userActions.updateUsername(username)),
-  handleForgotPassword: args => dispatch(userActions.forgotPassword({ ...args })),
+  updateEmail: email => dispatch(userActions.updateEmail(email)),
+  handleForgotPassword: args => dispatch(userActions.forgotPassword(args)),
 });
 
 export default connect(

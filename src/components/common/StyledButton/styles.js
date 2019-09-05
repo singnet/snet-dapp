@@ -9,7 +9,7 @@ export const useStyles = makeStyles(theme => ({
     color: theme.palette.text.white,
     textTransform: "uppercase",
     fontFamily: theme.typography.primary.main,
-    fontWeight: theme.typography.fontweight,
+    fontWeight: 600,
     letterSpacing: "1.25px",
     lineHeight: "16px",
     "&:disabled": {

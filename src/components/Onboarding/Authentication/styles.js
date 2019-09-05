@@ -28,12 +28,11 @@ export const useStyles = theme => ({
     margin: 0,
     color: theme.palette.text.mediumShadeGray,
     fontSize: 14,
-    fontFamily: theme.typography.secondary.main,
     lineHeight: "21px",
     textAlign: "left",
     "& span": {
       color: theme.palette.text.darkShadedGray,
-      fontWeight: theme.typography.fontweight,
+      fontWeight: 600,
     },
   },
   textField: {

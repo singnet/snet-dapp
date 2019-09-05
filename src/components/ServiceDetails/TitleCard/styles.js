@@ -1,30 +1,24 @@
 export const useStyles = theme => ({
-  computerVisionContainer: {
-    display: "flex",
-  },
+  computerVisionContainer: { display: "flex" },
   computerVisionContent: {
     marginLeft: 25,
-    "& > span": {
-      color: theme.palette.text.primary,
-      fontSize: 14,
-      textTransform: "uppercase",
-    },
     "& h2": {
       color: theme.palette.text.darkShadedGray,
       fontSize: 38,
+      fontWeight: 200,
     },
   },
   ratingStars: {
     "& .dv-star-rating-empty-star": {
-      "& i": {
-        color: theme.palette.text.disabledBtnBg,
-      },
+      "& i": { color: theme.palette.text.disabledBtnBg, cursor: "default" },
     },
     "& i": {
       color: theme.palette.text.RatingStarColor,
       fontSize: 22,
       paddingRight: 2,
+      cursor: "default",
     },
+    "& label": { cursor: "default !important" },
   },
   apiCall: {
     padding: "6px 15px",
@@ -38,5 +32,26 @@ export const useStyles = theme => ({
     fontWeight: 600,
     letterSpacing: 2,
     verticalAlign: "super",
+  },
+  avatar: {
+    marginRight: 12,
+    display: "inline-block",
+    "& img": {
+      width: 40,
+      height: 40,
+    },
+  },
+  serviceCreatorDetails: {
+    display: "flex",
+    alignItems: "center",
+    "& span": {
+      color: theme.palette.text.lightShadedGray,
+      fontSize: 14,
+      textTransform: "uppercase",
+    },
+  },
+  titleImg: {
+    width: 234,
+    "& img": { width: "100%" },
   },
 });
