@@ -28,10 +28,11 @@ const UserProfileAccount = ({ updateWallet, classes, wallet }) => {
         //1. To be replaced with wallet API
         if (!isEmpty(address)) {
           sessionStorage.setItem("wallet", JSON.stringify({ type: walletTypes.METAMASK, address }));
+          updateWallet({ type: value, address });
+          return;
         }
+        setAlert({ type: alertTypes.ERROR, message: `Unable to fetch Metamask address. Please try again` });
         //till here(1)
-        updateWallet({ type: value, address });
-        return;
       } catch (error) {
         setAlert({ type: alertTypes.ERROR, message: `Something went wrong. Please try again` });
       }
