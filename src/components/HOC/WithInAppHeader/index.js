@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 
-import Header from "../common/Header";
-import Footer from "../common/Footer";
+import Header from "../../common/Header";
+import Footer from "../../common/Footer";
 import { useStyles } from "./styles";
 
 const withInAppWrapper = InputComponent => {
