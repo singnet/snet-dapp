@@ -18,8 +18,109 @@ import Avatar from "@material-ui/core/Avatar";
 
 import StyledButton from "../../../../components/common/StyledButton";
 import AlertBox, { alertTypes } from "../../../../components/common/AlertBox";
+
 import BarackObama from "../../../images/ThirdPartyServices/snet/text_generation/BarackObama.jpg";
 import BarackObamaAvatar from "../../../images/ThirdPartyServices/snet/text_generation/BarackObama_avatar.jpg";
+
+import BernieSanders from "../../../images/ThirdPartyServices/snet/text_generation/BernieSanders.jpg";
+import BernieSandersAvatar from "../../../images/ThirdPartyServices/snet/text_generation/BernieSanders_avatar.jpg";
+
+import BethanyBrookshire from "../../../images/ThirdPartyServices/snet/text_generation/BethanyBrookshire.jpg";
+import BethanyBrookshireAvatar from "../../../images/ThirdPartyServices/snet/text_generation/BethanyBrookshire_avatar.jpg";
+
+import BillGates from "../../../images/ThirdPartyServices/snet/text_generation/BillGates.jpg";
+import BillGatesAvatar from "../../../images/ThirdPartyServices/snet/text_generation/BillGates_avatar.jpg";
+
+import BrianSwitek from "../../../images/ThirdPartyServices/snet/text_generation/BrianSwitek.jpg";
+import BrianSwitekAvatar from "../../../images/ThirdPartyServices/snet/text_generation/BrianSwitek_avatar.jpg";
+
+import ConanOBrien from "../../../images/ThirdPartyServices/snet/text_generation/ConanOBrien.jpg";
+import ConanOBrienAvatar from "../../../images/ThirdPartyServices/snet/text_generation/ConanOBrien_avatar.jpg";
+
+import ChrisHadfield from "../../../images/ThirdPartyServices/snet/text_generation/ChrisHadfield.jpg";
+import ChrisHadfieldAvatar from "../../../images/ThirdPartyServices/snet/text_generation/ChrisHadfield_avatar.jpg";
+
+import DeborahBlum from "../../../images/ThirdPartyServices/snet/text_generation/DeborahBlum.jpg";
+import DeborahBlumAvatar from "../../../images/ThirdPartyServices/snet/text_generation/DeborahBlum_avatar.jpg";
+
+import DeepakChopra from "../../../images/ThirdPartyServices/snet/text_generation/DeepakChopra.jpg";
+import DeepakChopraAvatar from "../../../images/ThirdPartyServices/snet/text_generation/DeepakChopra_avatar.jpg";
+
+import DonaldTrump from "../../../images/ThirdPartyServices/snet/text_generation/DonaldTrump.jpg";
+import DonaldTrumpAvatar from "../../../images/ThirdPartyServices/snet/text_generation/DonaldTrump_avatar.jpg";
+
+import DwayneJohnson from "../../../images/ThirdPartyServices/snet/text_generation/DwayneJohnson.jpg";
+import DwayneJohnsonAvatar from "../../../images/ThirdPartyServices/snet/text_generation/DwayneJohnson_avatar.jpg";
+
+import EllenDeGeneres from "../../../images/ThirdPartyServices/snet/text_generation/EllenDeGeneres.jpg";
+import EllenDeGeneresAvatar from "../../../images/ThirdPartyServices/snet/text_generation/EllenDeGeneres_avatar.jpg";
+
+import ElonMusk from "../../../images/ThirdPartyServices/snet/text_generation/ElonMusk.jpg";
+import ElonMuskAvatar from "../../../images/ThirdPartyServices/snet/text_generation/ElonMusk_avatar.jpg";
+
+import EricWeinstein from "../../../images/ThirdPartyServices/snet/text_generation/EricWeinstein.png";
+import EricWeinsteinAvatar from "../../../images/ThirdPartyServices/snet/text_generation/EricWeinstein_avatar.png";
+
+import god from "../../../images/ThirdPartyServices/snet/text_generation/god.jpg";
+import godAvatar from "../../../images/ThirdPartyServices/snet/text_generation/god_avatar.jpg";
+
+import HillaryClinton from "../../../images/ThirdPartyServices/snet/text_generation/HillaryClinton.jpg";
+import HillaryClintonAvatar from "../../../images/ThirdPartyServices/snet/text_generation/HillaryClinton_avatar.jpg";
+
+import JimmyFallon from "../../../images/ThirdPartyServices/snet/text_generation/JimmyFallon.jpg";
+import JimmyFallonAvatar from "../../../images/ThirdPartyServices/snet/text_generation/JimmyFallon_avatar.jpg";
+
+import JoeBiden from "../../../images/ThirdPartyServices/snet/text_generation/JoeBiden.jpg";
+import JoeBidenAvatar from "../../../images/ThirdPartyServices/snet/text_generation/JoeBiden_avatar.jpg";
+
+import JoeRogan from "../../../images/ThirdPartyServices/snet/text_generation/JoeRogan.png";
+import JoeRoganAvatar from "../../../images/ThirdPartyServices/snet/text_generation/JoeRogan_avatar.png";
+
+import JohnMcAfee from "../../../images/ThirdPartyServices/snet/text_generation/JohnMcAfee.jpg";
+import JohnMcAfeeAvatar from "../../../images/ThirdPartyServices/snet/text_generation/JohnMcAfee_avatar.jpg";
+
+import JordanPeterson from "../../../images/ThirdPartyServices/snet/text_generation/JordanPeterson.jpg";
+import JordanPetersonAvatar from "../../../images/ThirdPartyServices/snet/text_generation/JordanPeterson_avatar.jpg";
+
+import JustinBieber from "../../../images/ThirdPartyServices/snet/text_generation/JustinBieber.jpg";
+import JustinBieberAvatar from "../../../images/ThirdPartyServices/snet/text_generation/JustinBieber_avatar.jpg";
+
+import KatyPerry from "../../../images/ThirdPartyServices/snet/text_generation/KatyPerry.jpg";
+import KatyPerryAvatar from "../../../images/ThirdPartyServices/snet/text_generation/KatyPerry_avatar.jpg";
+
+import KevinHart from "../../../images/ThirdPartyServices/snet/text_generation/KevinHart.jpg";
+import KevinHartAvatar from "../../../images/ThirdPartyServices/snet/text_generation/KevinHart_avatar.jpg";
+
+import KimKardashian from "../../../images/ThirdPartyServices/snet/text_generation/KimKardashian.png";
+import KimKardashianAvatar from "../../../images/ThirdPartyServices/snet/text_generation/KimKardashian_avatar.png";
+
+import LadyGaga from "../../../images/ThirdPartyServices/snet/text_generation/LadyGaga.jpg";
+import LadyGagaAvatar from "../../../images/ThirdPartyServices/snet/text_generation/LadyGaga_avatar.jpg";
+
+import NeildeGrasseTyson from "../../../images/ThirdPartyServices/snet/text_generation/NeildeGrasseTyson.jpg";
+import NeildeGrasseTysonAvatar from "../../../images/ThirdPartyServices/snet/text_generation/NeildeGrasseTyson_avatar.jpg";
+
+import PhilipPlait from "../../../images/ThirdPartyServices/snet/text_generation/PhilipPlait.jpg";
+import PhilipPlaitAvatar from "../../../images/ThirdPartyServices/snet/text_generation/PhilipPlait_avatar.jpg";
+
+import RebeccaSkloot from "../../../images/ThirdPartyServices/snet/text_generation/RebeccaSkloot.jpg";
+import RebeccaSklootAvatar from "../../../images/ThirdPartyServices/snet/text_generation/RebeccaSkloot_avatar.jpg";
+
+import RichardDawkins from "../../../images/ThirdPartyServices/snet/text_generation/RichardDawkins.jpg";
+import RichardDawkinsAvatar from "../../../images/ThirdPartyServices/snet/text_generation/RichardDawkins_avatar.jpg";
+
+import RickyGervais from "../../../images/ThirdPartyServices/snet/text_generation/RickyGervais.jpg";
+import RickyGervaisAvatar from "../../../images/ThirdPartyServices/snet/text_generation/RickyGervais_avatar.jpg";
+
+import SamHarris from "../../../images/ThirdPartyServices/snet/text_generation/SamHarris.jpg";
+import SamHarrisAvatar from "../../../images/ThirdPartyServices/snet/text_generation/SamHarris_avatar.jpg";
+
+import TerenceMcKenna from "../../../images/ThirdPartyServices/snet/text_generation/TerenceMcKenna.jpg";
+import TerenceMcKennaAvatar from "../../../images/ThirdPartyServices/snet/text_generation/TerenceMcKenna_avatar.jpg";
+
+import VirginiaHughes from "../../../images/ThirdPartyServices/snet/text_generation/VirginiaHughes.jpg";
+import VirginiaHughesAvatar from "../../../images/ThirdPartyServices/snet/text_generation/VirginiaHughes_avatar.jpg";
+
 import { GENGPT2 } from "./ntg_pb_service";
 import { useStyles } from "./styles";
 
@@ -32,44 +133,44 @@ const initialUserInput = {
 };
 
 const runNames = [
-  { key: "badastronomer", value: "Phil Plait" },
+  { key: "badastronomer", value: "Phil Plait", image: PhilipPlait, avatar: PhilipPlaitAvatar },
   { key: "barackobama", value: "Barack Obama", image: BarackObama, avatar: BarackObamaAvatar },
-  { key: "beebrookshire", value: "Bethany Brookshire" },
-  { key: "berniesanders", value: "Bernie Sanders" },
-  { key: "billgates", value: "Bill Gates" },
-  { key: "cmdr_hadfield", value: "Chris Hadfield" },
-  { key: "conanobrien", value: "Conan O'Brien" },
-  { key: "deborahblum", value: "Deborah Blum" },
-  { key: "deepakchopra", value: "Deepak Chopra" },
+  { key: "beebrookshire", value: "Bethany Brookshire", image: BethanyBrookshire, avatar: BethanyBrookshireAvatar },
+  { key: "berniesanders", value: "Bernie Sanders", image: BernieSanders, avatar: BernieSandersAvatar },
+  { key: "billgates", value: "Bill Gates", image: BillGates, avatar: BillGatesAvatar },
+  { key: "cmdr_hadfield", value: "Chris Hadfield", image: ChrisHadfield, avatar: ChrisHadfieldAvatar },
+  { key: "conanobrien", value: "Conan O'Brien", image: ConanOBrien, avatar: ConanOBrienAvatar },
+  { key: "deborahblum", value: "Deborah Blum", image: DeborahBlum, image: DeborahBlumAvatar },
+  { key: "deepakchopra", value: "Deepak Chopra", image: DeepakChopra, avatar: DeepakChopraAvatar },
   { key: "dril", value: "wint" },
-  { key: "elonmusk", value: "Elon Musk" },
-  { key: "ericrweinstein", value: "Eric Weinstein" },
-  { key: "hillaryclinton", value: "Hillary Clinton" },
-  { key: "jimmyfallon", value: "jimmyfallon" },
-  { key: "joebiden", value: "Joe Biden" },
-  { key: "joerogan", value: "Joe Rogan" },
-  { key: "jordanbpeterson", value: "Dr Jordan B Peterson" },
-  { key: "justinbieber", value: "Justin Bieber" },
-  { key: "katyperry", value: "Katy Perry" },
-  { key: "kevinhart4real", value: "Kevin Hart" },
-  { key: "kimkardashian", value: "Kim Kardashian West" },
-  { key: "ladygaga", value: "Lady Gaga" },
-  { key: "laelaps", value: "Brian Switek" },
-  { key: "neiltyson", value: "Neil deGrasse Tyson" },
+  { key: "elonmusk", value: "Elon Musk", image: ElonMusk, avatar: ElonMuskAvatar },
+  { key: "ericrweinstein", value: "Eric Weinstein", image: EricWeinstein, avatar: EricWeinsteinAvatar },
+  { key: "hillaryclinton", value: "Hillary Clinton", image: HillaryClinton, avatar: HillaryClintonAvatar },
+  { key: "jimmyfallon", value: "jimmyfallon", image: JimmyFallon, avatar: JimmyFallonAvatar },
+  { key: "joebiden", value: "Joe Biden", image: JoeBiden, avatar: JoeBidenAvatar },
+  { key: "joerogan", value: "Joe Rogan", image: JoeRogan, avatar: JoeRoganAvatar },
+  { key: "jordanbpeterson", value: "Dr Jordan B Peterson", image: JordanPeterson, avatar: JordanPetersonAvatar },
+  { key: "justinbieber", value: "Justin Bieber", image: JustinBieber, avatar: JustinBieberAvatar },
+  { key: "katyperry", value: "Katy Perry", image: KatyPerry, avatar: KatyPerryAvatar },
+  { key: "kevinhart4real", value: "Kevin Hart", image: KevinHart, avatar: KevinHartAvatar },
+  { key: "kimkardashian", value: "Kim Kardashian West", image: KimKardashian, avatar: KimKardashianAvatar },
+  { key: "ladygaga", value: "Lady Gaga", image: LadyGaga, avatar: LadyGagaAvatar },
+  { key: "laelaps", value: "Brian Switek", image: BrianSwitek, avatar: BrianSwitekAvatar },
+  { key: "neiltyson", value: "Neil deGrasse Tyson", image: NeildeGrasseTyson, avatar: NeildeGrasseTysonAvatar },
   { key: "nietzschequotes", value: "NietzscheQuotes" },
-  { key: "officialmcafee", value: "John McAfee" },
-  { key: "trump", value: "Donald J. Trump" },
-  { key: "rebeccaskloot", value: "Rebecca Skloot" },
-  { key: "richarddawkins", value: "Richard Dawkins" },
-  { key: "rickygervais", value: "Ricky Gervais" },
-  { key: "samharrisorg", value: "Sam Harris" },
-  { key: "terencemckenna_", value: "Terence McKenna" },
-  { key: "theellenshow", value: "Ellen DeGeneres" },
-  { key: "therock", value: "Dwayne Johnson" },
-  { key: "thetweetofgod", value: "God" },
+  { key: "officialmcafee", value: "John McAfee", image: JohnMcAfee, avatar: JohnMcAfeeAvatar },
+  { key: "trump", value: "Donald J. Trump", image: DonaldTrump, avatar: DonaldTrumpAvatar },
+  { key: "rebeccaskloot", value: "Rebecca Skloot", image: RebeccaSkloot, avatar: RebeccaSklootAvatar },
+  { key: "richarddawkins", value: "Richard Dawkins", image: RichardDawkins, avatar: RichardDawkinsAvatar },
+  { key: "rickygervais", value: "Ricky Gervais", image: RickyGervais, avatar: RickyGervaisAvatar },
+  { key: "samharrisorg", value: "Sam Harris", image: SamHarris, avatar: SamHarrisAvatar },
+  { key: "terencemckenna_", value: "Terence McKenna", image: TerenceMcKenna, avatar: TerenceMcKennaAvatar },
+  { key: "theellenshow", value: "Ellen DeGeneres", image: EllenDeGeneres, avatar: EllenDeGeneresAvatar },
+  { key: "therock", value: "Dwayne Johnson", image: DwayneJohnson, avatar: DwayneJohnsonAvatar },
+  { key: "thetweetofgod", value: "God", image: god, avatar: godAvatar },
   { key: "ticbot", value: "TicBot" },
   { key: "veryshortstory", value: "Very Short Story" },
-  { key: "virginiahughes", value: "Virginia Hughes" },
+  { key: "virginiahughes", value: "Virginia Hughes", image: VirginiaHughes, avatar: VirginiaHughesAvatar },
 ];
 
 const personaModalOptions = [
