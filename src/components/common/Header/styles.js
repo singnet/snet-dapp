@@ -40,6 +40,22 @@ export const useStyles = makeStyles(theme => ({
     padding: 0,
     margin: 0,
     display: "flex",
+    '& button':{
+      padding: 0,
+      color: '#9b9b9b',
+      fontFamily: theme.typography.primary.main,
+      fontSize: 16,
+      fontWeight: 400,
+      lineHeight: '22px',
+      '&:hover':{
+        color: theme.palette.text.white
+      }
+    },
+    '& svg':{
+      paddingLeft: 5,
+      color: '#9b9b9b',
+      verticalAlign: 'middle'
+    }
   },
   navLinks: {
     marginRight: 53,
