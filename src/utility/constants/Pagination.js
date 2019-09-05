@@ -46,8 +46,8 @@ export const defaultFilterParameters = {
 };
 
 export const defaultSortParameters = {
-  sort_by: "",
-  order_by: "",
+  sort_by: "ranking",
+  order_by: "asc",
 };
 
 export const defaultListingConfig = {
