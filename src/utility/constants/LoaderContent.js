@@ -60,4 +60,8 @@ export const LoaderContent = {
     loaderHeader: "Connecting Metask",
     loaderText: "Please sign in using Metamask to proceed",
   },
+  SETUP_CHANNEL_FOR_SERV_EXEC: {
+    loaderHeader: "Setting up the Channel",
+    loaderText: "Settting up the channel for service execution",
+  },
 };

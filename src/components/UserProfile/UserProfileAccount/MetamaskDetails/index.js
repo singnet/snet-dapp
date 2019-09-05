@@ -14,10 +14,12 @@ import { useStyles } from "./styles";
 import StyledTextField from "../../../common/StyledTextField";
 import StyledButton from "../../../common/StyledButton";
 import AlertBox, { alertTypes } from "../../../common/AlertBox";
+import { Networks } from "../../../../config/Networks";
 
 class MetamaskDetails extends Component {
   state = {
     activeTab: 0,
+    currentNetwork: "",
     tokenBalance: "",
     escrowBalance: "",
     amount: {},
@@ -26,18 +28,33 @@ class MetamaskDetails extends Component {
 
   componentDidMount = async () => {
     this.props.startAccBalLoader();
-    await this.retrieveAccountBalances();
+    await this.retrieveAccountDetails();
     this.props.stopLoader();
   };
 
-  retrieveAccountBalances = async () => {
-    const sdk = await initSdk();
-    const escrowBalance = await sdk.account.escrowBalance();
-    const tokenBalance = await sdk.account.balance();
-    this.setState({ escrowBalance: cogsToAgi(escrowBalance), tokenBalance: cogsToAgi(tokenBalance) });
+  retrieveAccountDetails = async () => {
+    try {
+      const sdk = await initSdk();
+      const escrowBalance = await sdk.account.escrowBalance();
+      const tokenBalance = await sdk.account.balance();
+      const networkId = sdk._networkId;
+      this.setState({
+        escrowBalance: cogsToAgi(escrowBalance),
+        tokenBalance: cogsToAgi(tokenBalance),
+        currentNetwork: Networks[networkId],
+      });
+    } catch (error) {
+      this.setState({
+        alert: { type: alertTypes.ERROR, message: `Unable to fetch account details` },
+      });
+    }
   };
 
   onTabChange = (event, value) => {
+    this.setState({ alert: {} });
+    if (this.props.handleTitleChange) {
+      this.props.handleTitleChange(value);
+    }
     this.setState({ activeTab: value });
   };
 
@@ -47,38 +64,40 @@ class MetamaskDetails extends Component {
   };
 
   handleDeposit = async () => {
+    this.setState({ alert: {} });
     this.props.startDepositLoader();
-    const sdk = await initSdk();
     try {
+      const sdk = await initSdk();
       const amountInAGI = this.state.amount[txnTypes.DEPOSIT];
       const amountInCogs = agiToCogs(amountInAGI);
       await sdk.account.depositToEscrowAccount(amountInCogs);
-      await this.retrieveAccountBalances();
+      await this.retrieveAccountDetails();
       this.setState({ alert: { type: alertTypes.SUCCESS, message: "Successfully deposited" } });
-    } catch (err) {
-      this.setState({ alert: { type: alertTypes.ERROR, message: `Unable to deposit amount: ${err}` } });
+    } catch (error) {
+      this.setState({ alert: { type: alertTypes.ERROR, message: `Unable to deposit amount` } });
     }
     this.props.stopLoader();
   };
 
   handleWithDraw = async () => {
+    this.setState({ alert: {} });
     this.props.startWithdrawLoader();
-    const sdk = await initSdk();
     try {
+      const sdk = await initSdk();
       const amountInAGI = this.state.amount[txnTypes.WITHDRAW];
       const amountInCogs = agiToCogs(amountInAGI);
       await sdk.account.withdrawFromEscrowAccount(amountInCogs);
-      await this.retrieveAccountBalances();
+      await this.retrieveAccountDetails();
       this.setState({ alert: { type: alertTypes.SUCCESS, message: "Successfully withdrawn" } });
-    } catch (err) {
-      this.setState({ alert: { type: alertTypes.ERROR, message: `Unable to withdraw amount: ${err}` } });
+    } catch (error) {
+      this.setState({ alert: { type: alertTypes.ERROR, message: `Unable to withdraw amount` } });
     }
     this.props.stopLoader();
   };
 
   render() {
     const { classes, wallet } = this.props;
-    const { activeTab, tokenBalance, escrowBalance, amount, alert } = this.state;
+    const { activeTab, currentNetwork, tokenBalance, escrowBalance, amount, alert } = this.state;
 
     const tabs = [
       {
@@ -116,7 +135,7 @@ class MetamaskDetails extends Component {
               <InfoIcon />
               <span>Current Network</span>
             </div>
-            <span>Ropsten Test Network</span>
+            <span>{currentNetwork} Network</span>
           </div>
           <div>
             <div className={classes.label}>
@@ -151,7 +170,9 @@ class MetamaskDetails extends Component {
           {activeComponent.component}
           <AlertBox type={alert.type} message={alert.message} />
         </div>
-        <StyledButton type="blue" btnText={activeComponent.name} onClick={activeComponent.submitAction} />
+        <div className={classes.btnContainer}>
+          <StyledButton type="blue" btnText={activeComponent.name} onClick={activeComponent.submitAction} />
+        </div>
       </Fragment>
     );
   }

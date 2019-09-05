@@ -76,11 +76,7 @@ const generateOptions = (callType, wallet, serviceRequestErrorHandler) => {
   }
 };
 
-export const initSdk = async () => {
-  if (sdk) {
-    return sdk;
-  }
-
+export const initSdk = async address => {
   const updateSDK = () => {
     const networkId = web3Provider.networkVersion;
     const config = {
@@ -92,21 +88,40 @@ export const initSdk = async () => {
     sdk = new SnetSDK(config);
   };
 
+  if (sdk && address) {
+    const currentAddress = sdk.account.address;
+    if (currentAddress.toLowerCase() !== address.toLowerCase()) {
+      window.web3.eth.defaultAccount = address;
+      updateSDK();
+    }
+    return sdk;
+  }
+
+  if (sdk) {
+    return sdk;
+  }
+
   const hasEth = typeof window.ethereum !== "undefined";
   const hasWeb3 = typeof window.web3 !== "undefined";
-  if (hasEth && hasWeb3) {
-    web3Provider = window.ethereum;
-    await web3Provider.enable();
-    web3Provider.addListener(ON_ACCOUNT_CHANGE, accounts => {
-      const event = new CustomEvent("snetMMAccountChanged", { detail: { address: accounts[0] } });
-      window.dispatchEvent(event);
-    });
-    web3Provider.addListener(ON_NETWORK_CHANGE, network => {
-      const event = new CustomEvent("snetMMNetworkChanged", { detail: { network } });
-      window.dispatchEvent(event);
-    });
-    updateSDK();
+  try {
+    if (hasEth && hasWeb3) {
+      web3Provider = window.ethereum;
+      const accounts = await web3Provider.enable();
+      window.web3.eth.defaultAccount = accounts[0];
+      web3Provider.addListener(ON_ACCOUNT_CHANGE, accounts => {
+        const event = new CustomEvent("snetMMAccountChanged", { detail: { address: accounts[0] } });
+        window.dispatchEvent(event);
+      });
+      web3Provider.addListener(ON_NETWORK_CHANGE, network => {
+        const event = new CustomEvent("snetMMNetworkChanged", { detail: { network } });
+        window.dispatchEvent(event);
+      });
+      updateSDK();
+    }
+  } catch (error) {
+    throw error;
   }
+
   return sdk;
 };
 
