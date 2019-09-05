@@ -3,8 +3,8 @@ import Grid from "@material-ui/core/Grid";
 
 import { useStyles } from "./styles";
 import SearchInputToggler from "./SearchInputToggler";
-//import ViewToggler from "./ViewToggler";
 import ServiceSortOptions from "./ServiceSortOptions";
+import ViewToggler from "./ViewToggler";
 
 const ToolBar = ({ listView, total_count, handleSearchChange, toggleView, currentPagination }) => {
   const [showSearchInput, toggleSearchInput] = useState(false);
@@ -36,9 +36,7 @@ const ToolBar = ({ listView, total_count, handleSearchChange, toggleView, curren
             searchKeyword={searchKeyword}
           />
         </button>
-        {
-          //<ViewToggler listView={listView} toggleView={toggleView} />
-        }
+        <ViewToggler listView={listView} toggleView={toggleView} />
       </Grid>
     </Grid>
   );

@@ -1,7 +1,7 @@
 import { makeStyles } from "@material-ui/styles";
 
 export const useStyles = makeStyles(theme => ({
-  cardCollection: {
+  lisViewCardCollection: {
     marginTop: 10,
     "@media(max-width: 1023px) and (min-width: 768px)": { textAlign: "center" },
   },
@@ -49,4 +49,5 @@ export const useStyles = makeStyles(theme => ({
       lineHeight: "20px",
     },
   },
+  gridViewCardCollection: { marginTop: 20 },
 }));
