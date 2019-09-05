@@ -18,13 +18,11 @@ export const useStyles = theme => ({
     borderTop: 1,
     borderTopStyle: 'solid',    
     borderTopColor: theme.palette.text.disabledBtnBg,
-    marginTop: 45,
-    
+    marginTop: 45,    
     '& h4':{
     	padding: '0 15px',
     	fontSize: 18,
-    	color: theme.palette.text.black1
-    	
+    	color: theme.palette.text.black1    	
     }
 	},
 	infoIcon:{
@@ -39,7 +37,7 @@ export const useStyles = theme => ({
 	},
 	dropdown:{
 		'& > div': {
-		 	width: '90%',
+		 	width: '86%',
 		 	'& label':{
 		 		fontFamily: theme.typography.primary,
 				color: theme.palette.text.darkShadedGray,
@@ -47,9 +45,18 @@ export const useStyles = theme => ({
 				lineHeight: '16px'
 		 	},
 		 	'& > div': { 
-		 		padding: 10,
 		 		'& legend': { width: '110px !important' }
 		 	}
+		}
+	},
+	menuItem:{
+		fontSize: 16,
+		color: theme.palette.text.black1,
+		letterSpacing: 0.5,
+		lineHeight: '28px',
+		'&:hover':{
+			color: theme.palette.text.primary,
+			backgroundColor: theme.palette.text.offWhiteColor
 		}
 	},
 	avatar:{
