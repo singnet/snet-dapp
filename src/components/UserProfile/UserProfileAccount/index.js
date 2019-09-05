@@ -22,15 +22,17 @@ const UserProfileAccount = ({ updateWallet, classes, wallet }) => {
     const { value } = event.target;
     if (value === walletTypes.METAMASK) {
       try {
-        const sdk = await initSdk();
+        const selectedEthAddress = window.ethereum && window.ethereum.selectedAddress;
+        const sdk = await initSdk(selectedEthAddress);
         const address = sdk.account.address;
         //1. To be replaced with wallet API
         if (!isEmpty(address)) {
           sessionStorage.setItem("wallet", JSON.stringify({ type: walletTypes.METAMASK, address }));
+          updateWallet({ type: value, address });
+          return;
         }
+        setAlert({ type: alertTypes.ERROR, message: `Unable to fetch Metamask address. Please try again` });
         //till here(1)
-        updateWallet({ type: value, address });
-        return;
       } catch (error) {
         setAlert({ type: alertTypes.ERROR, message: `Something went wrong. Please try again` });
       }
