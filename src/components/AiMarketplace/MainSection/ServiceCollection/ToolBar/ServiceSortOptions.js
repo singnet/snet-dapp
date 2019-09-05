@@ -15,7 +15,7 @@ const ServiceSortOptions = ({ pagination, updatePagination, fetchService }) => {
     if (value === "default" || value === activeSortItem) {
       return;
     }
-    const latestPagination = { ...pagination, ...defaultPaginationParameters, sort_by: value };
+    const latestPagination = { ...pagination, ...defaultPaginationParameters, sort_by: value, order_by: "asc" };
     updatePagination(latestPagination);
     await fetchService(latestPagination);
     setActiveSortItem(value);
