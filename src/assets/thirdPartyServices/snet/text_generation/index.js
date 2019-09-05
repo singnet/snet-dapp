@@ -12,6 +12,8 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import TextField from "@material-ui/core/TextField";
 import InfoIcon from "@material-ui/icons/Info";
+import DownloadIcon from "@material-ui/icons/SaveAlt";
+import KnowMoreIcon from "@material-ui/icons/MoreVert";
 import Avatar from "@material-ui/core/Avatar";
 
 import StyledButton from "../../../../components/common/StyledButton";
@@ -158,10 +160,11 @@ class TextGenerationService extends React.Component {
   };
 
   renderForm() {
+    const { response } = this.state;
     const { classes } = this.props;
     return (
       <React.Fragment>
-        <Grid container spacing={24} className={classes.textGenConfigTabDetails}>
+        <Grid container spacing={24} className={classes.textGenConfigDetails}>
 
           <Grid item xs={12} sm={12} md={12} lg={12} className={classes.description}>
             <p>For this demo you will be asked to input a text content and the persona you would like the tweet to be. This text block is used to explain the nature of your Demo service . More text describing what the user should do here.</p>
@@ -282,15 +285,79 @@ class TextGenerationService extends React.Component {
 
   renderComplete() {
     const { response } = this.state;
+    const { classes } = this.props;
     return (
-      <div>
-        <p style={{ fontSize: "13px" }}>
+      // <div>
+      //   <p style={{ fontSize: "13px" }}>
+      //     <div>
+      //       <img src={response.image} height={400} />
+      //     </div>
+      //     Response from service is: <b>{response.answer.replace("[END BY LENGTH]", "")}</b>{" "}
+      //   </p>
+      // </div>
+
+      <Grid container spacing={24} className={classes.textGenRunDetails}>
+
+         <Grid item xs={12} sm={12} md={12} lg={12} className={classes.runTabDescription}>
+          <p>Your request has been completed. You can now vote for the agent below.</p>
+        </Grid>
+
+        <Grid item xs={12} sm={12} md={12} lg={12} className={classes.resultsHeader}>
+          <h4>Results</h4>
           <div>
-            <img src={response.image} height={400} />
+            <DownloadIcon />
+            <KnowMoreIcon />
           </div>
-          Response from service is: <b>{response.answer.replace("[END BY LENGTH]", "")}</b>{" "}
-        </p>
-      </div>
+         </Grid>
+
+         <Grid item xs={12} sm={12} md={12} lg={12} className={classes.resultsContent}>
+
+          <Grid item xs={12} sm={12} md={12} lg={12} className={classes.imgContainer}>
+            <img src={BarackObama} />
+          </Grid>
+
+          <Grid item xs={12} sm={12} md={12} lg={12} className={classes.resultDetails} >
+            <Grid item xs={12} sm={12} md={5} lg={5}>
+              <InfoIcon className={classes.infoIcon} />
+              <span className="resultTitle">Status</span>
+            </Grid>
+            <Grid item xs={12} sm={12} md={7} lg={7}>
+              <span className={classes.resultValue}>success</span>
+            </Grid>
+
+          </Grid>
+
+          <Grid item xs={12} sm={12} md={12} lg={12} className={classes.resultDetails}>
+            <Grid item xs={12} sm={12} md={5} lg={5}>
+              <InfoIcon className={classes.infoIcon} />
+              <span className="resultTitle">Input text</span>
+            </Grid>
+            <Grid item xs={12} sm={12} md={7} lg={7}>
+              <span className={classes.resultValue}>Before boarding your rocket to Mars, remember to pack these items</span>
+            </Grid>
+
+          </Grid>
+
+          <Grid item xs={12} sm={12} md={12} lg={12} className={classes.resultDetails}>
+            <Grid item xs={12} sm={12} md={5} lg={5}>
+              <InfoIcon className={classes.infoIcon} />
+              <span className="resultTitle">Response output</span>
+            </Grid>
+            <Grid item xs={12} sm={12} md={7} lg={7}>
+              <span className={classes.resultValue}>Space shuttle tickets</span>
+            </Grid>
+
+          </Grid>
+         </Grid>
+
+         <Grid item xs={12} sm={12} md={12} lg={12} className={classes.resultBtnContainer}>
+            <StyledButton type="transparent" btnText="rate the service" />
+            <StyledButton type="blue" btnText="reset and run again" />
+          </Grid>
+
+        </Grid>
+
+
     );
   }
 
