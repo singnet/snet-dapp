@@ -1,6 +1,6 @@
 export const useStyles = theme => ({
   resetPasswordContainer: {
-    height: "100vh",
+    height: "calc(100vh - 126px)",
     backgroundColor: theme.palette.text.offWhiteColor,
     textAlign: "center",
     "& span": {
@@ -13,12 +13,17 @@ export const useStyles = theme => ({
     "& p": {
       margin: "20px 0 0",
       color: theme.palette.text.mediumShadeGray,
-      fontFamily: theme.typography.secondary.main,
       fontSize: 20,
       lineHeight: "30px",
     },
+    "& a": {
+      cursor: "pointer",
+      color: theme.palette.text.primary,
+    },
   },
   forgotPwdContent: {
+    height: "calc(100vh - 126px)",
+    backgroundColor: theme.palette.text.offWhiteColor,
     textAlign: "center",
     "& h2": {
       margin: 0,
@@ -29,7 +34,6 @@ export const useStyles = theme => ({
       margin: "17px 0 0",
       color: theme.palette.text.mediumShadeGray,
       fontSize: "22px",
-      fontFamily: theme.typography.secondary.main,
     },
     "@media (max-width:527px)": {
       width: "75%",

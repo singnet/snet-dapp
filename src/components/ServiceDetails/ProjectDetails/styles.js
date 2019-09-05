@@ -3,7 +3,6 @@ export const useStyles = theme => ({
     boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
     padding: "0 25px 30px 0",
     borderRadius: 4,
-    marginTop: 30,
     backgroundColor: theme.palette.text.white,
     "& h3": { marginBottom: 15 },
     "& > div": {
@@ -11,22 +10,21 @@ export const useStyles = theme => ({
       marginBottom: 30,
       display: "flex",
       "& h5": {
-        width: 150,
+        width: "50%",
         margin: 0,
         color: theme.palette.text.darkShadedGray,
         fontSize: 16,
+        fontWeight: 400,
         lineHeight: "22px",
-      },
-      "& div": {
-        marginLeft: 20,
       },
       "& a": {
         display: "block",
         color: theme.palette.text.primary,
         fontSize: 14,
-        fontFamily: theme.typography.secondary.main,
-        fontWeight: 600,
+        fontWeight: 400,
+        letterSpacing: 0.25,
         textDecoration: "none",
+        "&:hover": { textDecoration: "underline" },
       },
       "& p": {
         margin: 0,
@@ -37,11 +35,17 @@ export const useStyles = theme => ({
     },
   },
   contributors: {
-    "& p": {
-      marginLeft: "30px !important",
-    },
+    "& p": { marginLeft: "30px !important" },
   },
-  projectDetailsContent: {
-    paddingTop: 10,
+  projectDetailsContent: { paddingTop: 10 },
+  projectURLContainer: {
+    width: "100%",
+    display: "flex",
+    "& svg": {
+      paddingTop: 3,
+      marginRight: 5,
+      color: theme.palette.text.primary,
+      fontSize: 14,
+    },
   },
 });

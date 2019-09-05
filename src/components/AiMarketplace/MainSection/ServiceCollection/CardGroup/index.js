@@ -4,12 +4,12 @@ import { connect } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import ServiceListItem from "./ServiceListItem";
-import CardImg from "../../../../../assets/images/dummy-card.png";
+import CardImg from "../../../../../assets/images/SnetDefaultServiceImage.png";
 import { useStyles } from "./styles";
 import Routes from "../../../../../utility/constants/Routes";
-import ServiceGridItem from "./ServiceGridItem";
+import GridViewItem from "./GridViewItem";
 
-const CardGroup = ({ services, loading, listView }) => {
+const CardGroup = ({ data: cards, listView, loading }) => {
   const classes = useStyles();
   if (loading) {
     return (
@@ -21,24 +21,31 @@ const CardGroup = ({ services, loading, listView }) => {
       </div>
     );
   }
+  if (cards.length === 0) {
+    return (
+      <div className={classes.NoResultContainer}>
+        <span>No results to be displayed.</span>
+        <span>Try different keywords or filters</span>
+      </div>
+    );
+  }
   if (listView) {
     return (
       <div className={classes.cardCollection}>
-        {services.map(service => (
+        {cards.map(card => (
           <Link
-            key={service.service_row_id}
-            to={`/${Routes.SERVICE_DETAILS}/${service.service_row_id}`}
+            to={`/${Routes.SERVICE_DETAILS}/org/${card.org_id}/service/${card.service_id}`}
             className={classes.routerLink}
+            key={card.service_id}
           >
             <ServiceListItem
-              cardMedia={
-                JSON.parse(service.assets_url).hero_image ? JSON.parse(service.assets_url).hero_image : CardImg
-              }
-              cardTitle={service.org_id}
-              cardSubheader={service.display_name}
-              ratingGiven={service.service_rating}
-              totalRating={service.total_users_rated}
-              cardDescription={service.description}
+              cardMedia={card.assets_url.hero_image ? card.assets_url.hero_image : CardImg}
+              cardTitle={card.display_name}
+              cardSubheader={card.org_id}
+              ratingGiven={card.service_rating}
+              totalRating={card.total_users_rated}
+              cardDescription={card.description}
+              isAvailable={Boolean(card.is_available)}
             />
           </Link>
         ))}
@@ -46,20 +53,21 @@ const CardGroup = ({ services, loading, listView }) => {
     );
   }
   return (
-    <div className={classes.cardCollection}>
-      {services.map(service => (
+    <div className={classes.gridViewCardCollection}>
+      {cards.map(card => (
         <Link
-          key={service.service_row_id}
-          to={`/${Routes.SERVICE_DETAILS}/${service.service_row_id}`}
+          key={card.service_row_id}
+          to={`/${Routes.SERVICE_DETAILS}/org/${card.org_id}/service/${card.service_id}`}
           className={classes.routerLink}
         >
-          <ServiceGridItem
-            cardMedia={JSON.parse(service.assets_url).hero_image ? JSON.parse(service.assets_url).hero_image : CardImg}
-            cardTitle={service.org_id}
-            cardSubheader={service.display_name}
-            ratingGiven={service.service_rating}
-            totalRating={service.total_users_rated}
-            cardDescription={service.description}
+          <GridViewItem
+            cardMedia={card.assets_url.hero_image ? card.assets_url.hero_image : CardImg}
+            cardTitle={card.display_name}
+            cardSubheader={card.org_id}
+            ratingGiven={card.service_rating}
+            totalRating={card.total_users_rated}
+            cardDescription={card.description}
+            isAvailable={Boolean(card.is_available)}
           />
         </Link>
       ))}
@@ -68,7 +76,7 @@ const CardGroup = ({ services, loading, listView }) => {
 };
 
 CardGroup.defaultProps = {
-  services: [],
+  cards: [],
 };
 
 const mapStateToProps = state => ({

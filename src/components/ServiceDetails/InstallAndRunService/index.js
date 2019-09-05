@@ -18,7 +18,7 @@ class InstallAndRunService extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, service } = this.props;
     const { activeTab } = this.state;
     const tabs = [
       { name: "Python", activeIndex: 0, component: <Python /> },
@@ -35,7 +35,7 @@ class InstallAndRunService extends Component {
           </div>
         </Grid>
         <Grid item xs={12} sm={12} md={4} lg={4}>
-          <ProjectDetails />
+          <ProjectDetails projectURL={service.url} />
         </Grid>
       </Grid>
     );

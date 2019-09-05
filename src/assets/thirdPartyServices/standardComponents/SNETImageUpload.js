@@ -479,6 +479,8 @@ export default class SNETImageUpload extends React.Component {
               overflow: "hidden",
               height: this.tabHeight - this.dropzoneHeightOffset + "px",
               padding: spacingUnit,
+              display: 'flex',
+              flexDirection: 'column'
             }}
           >
             <Grid
@@ -492,10 +494,10 @@ export default class SNETImageUpload extends React.Component {
               }}
               spacing={spacingUnit}
             >
-              <Grid item>
+              <Grid item style={{ padding: '0 40px'}}>
                 <CloudUpload style={{ fontSize: 48, color: this.mainColor }} />
               </Grid>
-              <Grid item>
+              <Grid item style={{ padding: '0 40px'}}>
                 <Typography
                   style={{
                     fontFamily: snetFont,
@@ -509,7 +511,7 @@ export default class SNETImageUpload extends React.Component {
                   <span style={{ color: this.mainColor }}> click</span>
                 </Typography>
               </Grid>
-              <Grid item>
+              <Grid item style={{ padding: '20px 40px'}}>
                 <Typography
                   style={{
                     fontFamily: snetFont,
@@ -1074,7 +1076,7 @@ export default class SNETImageUpload extends React.Component {
             overflow: "hidden",
             padding: spacingUnit,
             width: "100%",
-            height: this.tabHeight + "px",
+            height: this.tabHeight + "px",  
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -1195,6 +1197,7 @@ export default class SNETImageUpload extends React.Component {
                     fontSize: 18,
                     fontFamily: snetFont,
                     padding: spacingUnit / 2,
+                    marginBottom: 25
                   }}
                 >
                   {this.state.mainState === "display" ? this.props.displayModeTitle : this.props.imageName}
@@ -1216,7 +1219,7 @@ export default class SNETImageUpload extends React.Component {
                       !(this.state.mainState === "display") &&
                       !this.props.disableUploadTab && (
                         <Tab
-                          style={{ minWidth: "5%" }}
+                          style={{ minWidth: "5%", marginRight: "0" }}
                           value={0}
                           label={<span style={this.tabLabelStyle}>Upload</span>}
                         />
@@ -1224,20 +1227,20 @@ export default class SNETImageUpload extends React.Component {
                     {this.state.mainState !== "uploaded" &&
                       !(this.state.mainState === "display") &&
                       !this.props.disableUrlTab && (
-                        <Tab style={{ minWidth: "5%" }} value={1} label={<span style={this.tabLabelStyle}>URL</span>} />
+                        <Tab style={{ minWidth: "5%", marginRight: "0" }} value={1} label={<span style={this.tabLabelStyle}>URL</span>} />
                       )}
                     {this.state.mainState !== "uploaded" &&
                       !(this.state.mainState === "display") &&
                       this.props.imageGallery.length > 0 && (
                         <Tab
-                          style={{ minWidth: "5%" }}
+                          style={{ minWidth: "5%", marginRight: "0" }}
                           value={2}
                           label={<span style={this.tabLabelStyle}>Gallery</span>}
                         />
                       )}
                     {this.state.mainState === "display" && !this.props.disableInputTab && (
                       <Tab
-                        style={{ minWidth: "5%" }}
+                        style={{ minWidth: "5%", marginRight: "0" }}
                         value={3}
                         label={<span style={this.tabLabelStyle}>{this.props.inputTabTitle}</span>}
                       />
@@ -1286,15 +1289,7 @@ export default class SNETImageUpload extends React.Component {
                   </Tooltip>
                 )}
               </Grid>
-              <Grid
-                item
-                xs={1}
-                style={{
-                  flexGrow: 1,
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
+              <Grid item xs={1} style={{ flexGrow: 1, display: "flex", justifyContent: "center", alignItems: "center", }}
               >
                 {this.state.mainState === "uploaded" && !this.props.disableResetButton && (
                   <Fade in={this.state.mainState === "uploaded"}>

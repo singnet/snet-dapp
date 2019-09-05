@@ -25,8 +25,12 @@
         "html": true
       }
     ],
-    "no-extra-boolean-cast": 0,
+    "no-extra-boolean-cast": "off",
     "no-unused-vars": "error",
-    "react/jsx-key": "error"
+    "react/jsx-key": "error",
+    "no-useless-computed-key": "error",
+    "object-shorthand": "error",
+    "require-await": "warn",
+    "eqeqeq": "warn"
   }
 }

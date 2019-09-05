@@ -10,7 +10,7 @@ const Icon = {
 const BulletPoint = ({ message, type }) => {
   return (
     <div>
-      {Icon[type]}
+      <div>{Icon[type]}</div>
       <AlertBox type={type} message={message} />
     </div>
   );

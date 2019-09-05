@@ -48,4 +48,8 @@ export const useStyles = makeStyles(theme => ({
       textAlign: "inherit",
     },
   },
+  FooterLogo: {
+    "& h1": { width: 240 },
+    "& img": { width: "100%" },
+  },
 }));
