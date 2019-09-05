@@ -33,18 +33,25 @@ class MetamaskDetails extends Component {
   };
 
   retrieveAccountDetails = async () => {
-    const sdk = await initSdk();
-    const escrowBalance = await sdk.account.escrowBalance();
-    const tokenBalance = await sdk.account.balance();
-    const networkId = sdk._networkId;
-    this.setState({
-      escrowBalance: cogsToAgi(escrowBalance),
-      tokenBalance: cogsToAgi(tokenBalance),
-      currentNetwork: Networks[networkId],
-    });
+    try {
+      const sdk = await initSdk();
+      const escrowBalance = await sdk.account.escrowBalance();
+      const tokenBalance = await sdk.account.balance();
+      const networkId = sdk._networkId;
+      this.setState({
+        escrowBalance: cogsToAgi(escrowBalance),
+        tokenBalance: cogsToAgi(tokenBalance),
+        currentNetwork: Networks[networkId],
+      });
+    } catch (error) {
+      this.setState({
+        alert: { type: alertTypes.ERROR, message: `Unable to fetch account details` },
+      });
+    }
   };
 
   onTabChange = (event, value) => {
+    this.setState({ alert: {} });
     if (this.props.handleTitleChange) {
       this.props.handleTitleChange(value);
     }
@@ -57,31 +64,33 @@ class MetamaskDetails extends Component {
   };
 
   handleDeposit = async () => {
+    this.setState({ alert: {} });
     this.props.startDepositLoader();
-    const sdk = await initSdk();
     try {
+      const sdk = await initSdk();
       const amountInAGI = this.state.amount[txnTypes.DEPOSIT];
       const amountInCogs = agiToCogs(amountInAGI);
       await sdk.account.depositToEscrowAccount(amountInCogs);
       await this.retrieveAccountDetails();
       this.setState({ alert: { type: alertTypes.SUCCESS, message: "Successfully deposited" } });
-    } catch (err) {
-      this.setState({ alert: { type: alertTypes.ERROR, message: `Unable to deposit amount: ${err}` } });
+    } catch (error) {
+      this.setState({ alert: { type: alertTypes.ERROR, message: `Unable to deposit amount` } });
     }
     this.props.stopLoader();
   };
 
   handleWithDraw = async () => {
+    this.setState({ alert: {} });
     this.props.startWithdrawLoader();
-    const sdk = await initSdk();
     try {
+      const sdk = await initSdk();
       const amountInAGI = this.state.amount[txnTypes.WITHDRAW];
       const amountInCogs = agiToCogs(amountInAGI);
       await sdk.account.withdrawFromEscrowAccount(amountInCogs);
       await this.retrieveAccountDetails();
       this.setState({ alert: { type: alertTypes.SUCCESS, message: "Successfully withdrawn" } });
-    } catch (err) {
-      this.setState({ alert: { type: alertTypes.ERROR, message: `Unable to withdraw amount: ${err}` } });
+    } catch (error) {
+      this.setState({ alert: { type: alertTypes.ERROR, message: `Unable to withdraw amount` } });
     }
     this.props.stopLoader();
   };
