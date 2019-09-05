@@ -139,9 +139,11 @@ class TextGenerationService extends React.Component {
         if (status !== 0) {
           throw new Error(statusMessage);
         }
+        const selectedRunName = runNames.find(el => el.key === this.state.run_name);
+        const image = selectedRunName && selectedRunName.image;
         this.setState({
           ...initialUserInput,
-          response: { status: "success", answer: message.getAnswer() },
+          response: { status: "success", answer: message.getAnswer(), image },
         });
       },
     };
@@ -272,10 +274,14 @@ class TextGenerationService extends React.Component {
   }
 
   renderComplete() {
+    const { response } = this.state;
     return (
       <div>
         <p style={{ fontSize: "13px" }}>
-          Response from service is: <b>{this.state.response.answer.replace("[END BY LENGTH]", "")}</b>{" "}
+          <div>
+            <img src={response.image} height={400} />
+          </div>
+          Response from service is: <b>{response.answer.replace("[END BY LENGTH]", "")}</b>{" "}
         </p>
       </div>
     );
