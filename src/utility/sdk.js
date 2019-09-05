@@ -76,11 +76,7 @@ const generateOptions = (callType, wallet, serviceRequestErrorHandler) => {
   }
 };
 
-export const initSdk = async () => {
-  if (sdk) {
-    return sdk;
-  }
-
+export const initSdk = async address => {
   const updateSDK = () => {
     const networkId = web3Provider.networkVersion;
     const config = {
@@ -91,6 +87,19 @@ export const initSdk = async () => {
     };
     sdk = new SnetSDK(config);
   };
+
+  if (sdk && address) {
+    const currentAddress = sdk.account.address;
+    if (currentAddress.toLowerCase() !== address.toLowerCase()) {
+      window.web3.eth.defaultAccount = address;
+      updateSDK();
+    }
+    return sdk;
+  }
+
+  if (sdk) {
+    return sdk;
+  }
 
   const hasEth = typeof window.ethereum !== "undefined";
   const hasWeb3 = typeof window.web3 !== "undefined";
