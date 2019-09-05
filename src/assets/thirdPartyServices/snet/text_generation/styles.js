@@ -32,6 +32,30 @@ export const useStyles = theme => ({
   	color: theme.palette.text.lightGray,
   	verticalAlign: 'middle',
 	},
+	dropdownAndAvatar: {
+		marginTop: 30,
+		display: 'flex',
+		alignItems: 'center'
+	},
+	dropdown:{
+		'& > div': {
+		 	width: '90%',
+		 	'& label':{
+		 		fontFamily: theme.typography.primary,
+				color: theme.palette.text.darkShadedGray,
+				letterSpacing: 0.4,
+				lineHeight: '16px'
+		 	},
+		 	'& > div': { 
+		 		padding: 10,
+		 		'& legend': { width: '110px !important' }
+		 	}
+		}
+	},
+	avatar:{
+		width: 72,
+		height: 72
+	},
 	textArea:{
 		padding: '0 30px 0 4px',
 		marginTop: 25,

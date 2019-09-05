@@ -11,7 +11,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import TextField from "@material-ui/core/TextField";
-import InfoIcon from "@material-ui/icons/Info"
+import InfoIcon from "@material-ui/icons/Info";
+import Avatar from "@material-ui/core/Avatar";
 
 import StyledButton from "../../../../components/common/StyledButton";
 import AlertBox, { alertTypes } from "../../../../components/common/AlertBox";
@@ -171,9 +172,11 @@ class TextGenerationService extends React.Component {
             <h4>Parameters</h4>
           </Grid>
 
-          <Grid item xs={12} sm={12} md={12} lg={12} className={classes.dropdown}>
-            <InfoIcon className={classes.infoIcon} />
-            <FormControl variant="outlined" className={classes.formControl}>
+          <Grid item xs={12} sm={12} md={12} lg={12} className={classes.dropdownAndAvatar}>
+
+            <Grid item xs={12} sm={12} md={7} lg={7} className={classes.dropdown}>
+              <InfoIcon className={classes.infoIcon} />
+              <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel htmlFor="outlined-age-simple">Persona Model</InputLabel>
                 <Select
                   value={"Persona Model"}
@@ -186,6 +189,10 @@ class TextGenerationService extends React.Component {
                   ))}
                 </Select>
               </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={12} md={5} lg={5}>
+              <Avatar alt="Singularity" src={BarackObamaAvatar} className={classes.avatar} />
+            </Grid>
           </Grid>
 
           <Grid item xs={12} sm={12} md={12} lg={12} className={classes.textArea}>
