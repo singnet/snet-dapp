@@ -1,12 +1,24 @@
 import React from "react";
 import { hasOwnDefinedProperty } from "../../../../utility/JSHelper";
-import { makeStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import Slider from "@material-ui/lab/Slider";
+import Slider from "@material-ui/core/Slider";
+import { Link } from "react-router-dom";
+import Grid from "@material-ui/core/Grid";
+import OutlinedInput from "@material-ui/core/OutlinedInput";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import TextField from "@material-ui/core/TextField";
+import InfoIcon from "@material-ui/icons/Info"
 
+import StyledButton from "../../../../components/common/StyledButton";
+import AlertBox, { alertTypes } from "../../../../components/common/AlertBox";
 import BarackObama from "../../../images/ThirdPartyServices/snet/text_generation/BarackObama.jpg";
 import BarackObamaAvatar from "../../../images/ThirdPartyServices/snet/text_generation/BarackObama_avatar.jpg";
 import { GENGPT2 } from "./ntg_pb_service";
+import { useStyles } from "./styles";
 
 const initialUserInput = {
   start_text: "",
@@ -57,7 +69,16 @@ const runNames = [
   { key: "virginiahughes", value: "Virginia Hughes" },
 ];
 
-export default class TextGenerationService extends React.Component {
+const personaModalOptions = [
+  { label: "Donald J. Trump", value: " " },
+  { label: "Ricky Gervais", value: " " },
+  { label: "{option 3}", value: " " },
+  { label: "{option 4}", value: " " },
+  { label: "{option 5}", value: " " },
+  { label: "{option 6}", value: " " }
+];
+
+class TextGenerationService extends React.Component {
   constructor(props) {
     super(props);
     this.submitAction = this.submitAction.bind(this);
@@ -134,120 +155,118 @@ export default class TextGenerationService extends React.Component {
   };
 
   renderForm() {
+    const { classes } = this.props;
     return (
       <React.Fragment>
-        <div className="row">
-          <div className="col-md-3 col-lg-3" style={{ fontSize: "13px", marginLeft: "10px" }}>
-            Start tweet text
-          </div>
-          <div className="col-md-3 col-lg-2">
-            <textarea
-              name="start_text"
-              placeholder="Enter a start tweet text."
-              className="w3-input w3-border"
-              style={{ resize: "none", width: "250px" }}
-              rows="4"
-              maxLength="5000"
-              value={this.state.start_text}
-              onChange={this.handleFormUpdate}
-              onKeyPress={e => this.onKeyPressvalidator(e)}
-            ></textarea>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-md-3 col-lg-3" style={{ fontSize: "13px", marginLeft: "10px" }}>
-            Choose Model
-          </div>
-          <div className="col-md-3 col-lg-2">
-            <select value={this.state.run_name} onChange={this.handleFormUpdate} name="run_name">
-              {runNames.map(item => {
-                return (
-                  <option key={item.key} value={item.key}>
-                    {item.value}
-                  </option>
-                );
-              })}
-            </select>
-            <img src={this.parseAvatarSrc()} alt="avatar" height={50} width={50} />
-          </div>
-        </div>
+        <Grid container spacing={24} className={classes.textGenConfigTabDetails}>
 
-        <div className="row">
-          <div className="col-md-3 col-lg-3" style={{ fontSize: "13px", marginLeft: "10px" }}>
-            Max length
-          </div>
-          <div className="col-md-3 col-lg-2">
-            <Slider
-              name="length"
-              style={{ width: "100px", padding: "0px 50%" }}
-              value={this.state.length}
-              step={1}
-              max={1024}
-              min={1}
-              defaultValue={256}
-              valueLabelDisplay="on"
-              onChange={(e, val) => this.changeSlider("length", val)}
-            ></Slider>
-          </div>
-        </div>
+          <Grid item xs={12} sm={12} md={12} lg={12} className={classes.description}>
+            <p>For this demo you will be asked to input a text content and the persona you would like the tweet to be. This text block is used to explain the nature of your Demo service . More text describing what the user should do here.</p>
+            <p>Check out the <Link to="">Guide</Link> for details steps.</p>
+          </Grid>
 
-        <div className="row">
-          <div className="col-md-3 col-lg-3" style={{ fontSize: "13px", marginLeft: "10px" }}>
-            Top K
-          </div>
-          <div className="col-md-3 col-lg-2">
-            <Slider
-              name="top_k"
-              style={{ width: "100px", padding: "0px 50%" }}
-              value={this.state.top_k}
-              step={10}
-              min={0}
-              max={100}
-              defaultValue={20}
-              valueLabelDisplay="on"
-              onChange={(e, val) => this.changeSlider("top_k", val)}
-            ></Slider>
-          </div>
-        </div>
+          <Grid item xs={12} sm={12} md={12} lg={12}  className={classes.header}>
+            <h4>Parameters</h4>
+          </Grid>
 
-        <div className="row">
-          <div className="col-md-3 col-lg-3" style={{ fontSize: "13px", marginLeft: "10px" }}>
-            Temperature
-          </div>
-          <div className="col-md-3 col-lg-2">
-            <Slider
-              name="temperature"
-              aria-labelledby="discrete-slider-small-steps"
-              style={{ width: "100px", padding: "0px 50%" }}
-              value={this.state.temperature}
-              step={0.1}
-              min={0.2}
-              max={1.5}
-              defaultValue={1.0}
-              valueLabelDisplay="on"
-              onChange={(e, val) => this.changeSlider("temperature", val)}
-            ></Slider>
-          </div>
-        </div>
+          <Grid item xs={12} sm={12} md={12} lg={12} className={classes.dropdown}>
+            <InfoIcon className={classes.infoIcon} />
+            <FormControl variant="outlined" className={classes.formControl}>
+                <InputLabel htmlFor="outlined-age-simple">Persona Model</InputLabel>
+                <Select
+                  value={"Persona Model"}
+                  input={<OutlinedInput labelWidth={320} name="age" id="outlined-age-simple" />}
+                >
+                  {personaModalOptions.map(item => (
+                    <MenuItem className={classes.menuItem} key={item.value} value={item.value}>
+                      {item.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+          </Grid>
 
-        <div className="row">
-          <div className="col-md-6 col-lg-6" style={{ textAlign: "right", marginTop: "5px", width: "245px" }}>
-            <button id="invoke-button" type="button" className="btn btn-primary" onClick={this.submitAction}>
-              Invoke
-            </button>
-          </div>
-        </div>
+          <Grid item xs={12} sm={12} md={12} lg={12} className={classes.textArea}>
+            <InfoIcon className={classes.infoIcon} />
+            <TextField
+              label="Tweet Context or Question"
+              multiline
+              rows="7"
+              variant="outlined"
+            />
+          </Grid>
 
-        <div className="row">
-          <div className="col-md-3 col-lg-3" style={{ fontSize: "13px", marginLeft: "10px", marginTop: "10px" }}>
-            About
-          </div>
-          <div className="col-md-3 col-lg-2">
-            <Button target="_blank" href={this.users_guide} style={{ fontSize: "13px", marginTop: "5px" }}>
-              Guide
-            </Button>
-          </div>
-        </div>
+          <Grid item xs={12} sm={12} md={12} lg={12} className={classes.progressBarContainer}>
+
+            <Grid item xs={12} sm={12} md={3} lg={3}>
+              <InfoIcon className={classes.infoIcon} />
+              <span className={classes.title}>Max Length</span>
+            </Grid>
+
+            <Grid item xs={12} sm={12} md={9} lg={9} className={classes.sliderContainer}>
+              <span className={classes.startEndNumber}>0</span>
+              <Slider
+                defaultValue={60}
+                aria-labelledby="discrete-slider-always"
+                step={10}
+                valueLabelDisplay="on"
+              />
+              <span className={classes.startEndNumber}>300</span>
+            </Grid>
+
+          </Grid>
+
+          <Grid item xs={12} sm={12} md={12} lg={12} className={classes.progressBarContainer}>
+
+            <Grid item xs={12} sm={12} md={3} lg={3}>
+              <InfoIcon className={classes.infoIcon} />
+              <span className={classes.title}>Top K</span>
+            </Grid>
+
+            <Grid item xs={12} sm={12} md={9} lg={9} className={classes.sliderContainer}>
+              <span className={classes.startEndNumber}>0</span>
+                <Slider
+                  defaultValue={60}
+                  aria-labelledby="discrete-slider-always"
+                  step={10}
+                  valueLabelDisplay="on"
+                />
+              <span className={classes.startEndNumber}>300</span>
+            </Grid>
+
+          </Grid>
+
+          <Grid item xs={12} sm={12} md={12} lg={12} className={classes.progressBarContainer}>
+
+            <Grid item xs={12} sm={12} md={3} lg={3}>
+              <InfoIcon className={classes.infoIcon} />
+              <span className={classes.title}>Temperature</span>
+            </Grid>
+
+            <Grid item xs={12} sm={12} md={9} lg={9} className={classes.sliderContainer}>
+              <span className={classes.startEndNumber}>0</span>
+              <Slider
+                defaultValue={60}
+                aria-labelledby="discrete-slider-always"
+                step={10}
+                valueLabelDisplay="on"
+              />
+              <span className={classes.startEndNumber}>300</span>
+            </Grid>
+          </Grid>
+
+          <Grid item xs={12} sm={12} md={12} lg={12} className={classes.errorMsg}>
+            <AlertBox message="error state message" type={alertTypes.ERROR}/>
+          </Grid>
+
+          <Grid item xs={12} sm={12} md={12} lg={12} className={classes.btnContainer}>
+            <StyledButton type="transparent" btnText="back" />
+            <StyledButton type="blue" btnText="next" />
+          </Grid>
+
+        </Grid>
+
+
       </React.Fragment>
     );
   }
@@ -269,3 +288,5 @@ export default class TextGenerationService extends React.Component {
     }
   }
 }
+
+export default withStyles(useStyles)(TextGenerationService);
