@@ -36,10 +36,30 @@ export const useStyles = makeStyles(theme => ({
     marginBottom: 10,
     "@media (max-width:1024px)": { display: "none" },
   },
+  headerDropDown:{
+    "&:hover": {
+      "& button": { color: theme.palette.text.white },
+      "& svg": { color: theme.palette.text.white },
+    },
+  },
   navUl: {
     padding: 0,
     margin: 0,
     display: "flex",
+    "& button": {
+      padding: 0,
+      color: "#9b9b9b",
+      fontFamily: theme.typography.primary.main,
+      fontSize: 16,
+      fontWeight: 400,
+      lineHeight: "22px",
+    },
+    "& svg": {
+      paddingLeft: 5,
+      color: "#9b9b9b",
+      cursor: "pointer",
+      verticalAlign: "middle",
+    },
   },
   navLinks: {
     marginRight: 53,
@@ -47,13 +67,13 @@ export const useStyles = makeStyles(theme => ({
     "@media (max-width:1280px) and (min-width: 1024px)": {
       marginRight: 26,
     },
-  },
-  navLinksAnchor: {
-    textDecoration: "none",
-    fontSize: 16,
-    color: theme.palette.text.lightShadedGray,
-    lineHeight: "22px",
-    "&:hover": { color: theme.palette.text.white },
+    "& a": {
+      textDecoration: "none",
+      fontSize: 16,
+      color: theme.palette.text.lightShadedGray,
+      lineHeight: "22px",
+      "&:hover": { color: theme.palette.text.white, textDecoration: "none" },
+    },
   },
   navLinksDropDown: {
     listStyle: "none",
@@ -62,10 +82,10 @@ export const useStyles = makeStyles(theme => ({
   },
   activeTab: {
     paddingBottom: 4,
-    borderBottomWidth: "2px",
+    borderBottomWidth: 2,
     borderBottomStyle: "solid",
     borderBottomColor: theme.palette.text.white,
-    color: theme.palette.text.white,
+    color: '#fff !important',
     fontWeight: 600,
   },
   loginBtnsSection: {
