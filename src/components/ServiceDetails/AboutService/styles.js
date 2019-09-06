@@ -15,7 +15,10 @@ export const useStyles = theme => ({
       fontWeight: 400,
     },
   },
-  leftSideSection: { paddingRight: 25 },
+  leftSideSection: { 
+    paddingRight: 25,
+    '@media(max-width:800px)': { paddingRight: 0 }
+  },
   overViewContainer: {
     boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
     backgroundColor: theme.palette.text.white,
@@ -57,6 +60,7 @@ export const useStyles = theme => ({
       display: "inline-block",
       color: theme.palette.text.lightShadedGray,
       fontSize: 16,
+      '@media(max-width:800px)': { paddingLeft: 0 }
     },
   },
   tags: {
@@ -72,6 +76,7 @@ export const useStyles = theme => ({
     letterSpacing: "0.21px",
     lineHeight: "20px",
     "&:last-of-type": { marginRight: 0 },
+    '@media(max-width:800px)': { marginBottom: 10 }
   },
   demoContainer: {
     marginTop: 25,
@@ -87,7 +92,7 @@ export const useStyles = theme => ({
     },
   },
   backToLink: {
-    marginTop: 30,
+    margin: '30px 0',
     display: "flex",
     alignItems: "center",
     "& span": { color: theme.palette.text.primary },
@@ -185,4 +190,7 @@ export const useStyles = theme => ({
   demoToggler: {
     "& a": { textDecoration: "none !important" },
   },
+  tagsContainer:{
+    '@media(max-width:800px)': { padding: '0 10px' }
+  }
 });

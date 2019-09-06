@@ -9,7 +9,7 @@ const ServiceOverview = ({ classes, description, service_url, tags }) => {
     <div className={classes.overViewContainer}>
       <h3>Overview</h3>
       <p>{description}</p>
-      <Tags tags={tags} />
+      <Tags className={classes.tagsContainer} tags={tags} />
     </div>
   );
 };

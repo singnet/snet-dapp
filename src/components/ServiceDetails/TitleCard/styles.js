@@ -1,7 +1,12 @@
 export const useStyles = theme => ({
-  computerVisionContainer: { display: "flex" },
+  computerVisionContainer: { 
+    display: "flex",
+    '@media(max-width:800px)': { marginBottom: 25 },
+    '@media(max-width:490px)': { display: 'inline-block' }
+  },
   computerVisionContent: {
     marginLeft: 25,
+    '@media(max-width:490px)': { textAlign:' center' },
     "& h2": {
       color: theme.palette.text.darkShadedGray,
       fontSize: 38,
@@ -49,9 +54,14 @@ export const useStyles = theme => ({
       fontSize: 14,
       textTransform: "uppercase",
     },
+    '@media(max-width:490px)': { 
+      marginTop: 20,
+      justifyContent: 'center'
+    }
   },
   titleImg: {
     width: 234,
     "& img": { width: "100%" },
+    '@media(max-width:490px)': { margin: '0 auto' }
   },
 });

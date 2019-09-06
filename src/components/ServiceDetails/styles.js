@@ -5,12 +5,17 @@ export const useStyles = theme => ({
     "& > div": {
       paddingLeft: 60,
       paddingRight: 60,
+      '@media(max-width:800px)': {
+        paddingLeft: 30,
+        paddingRight: 30,
+      }
     },
   },
   TopSection: {
     width: "100%",
     marginTop: 32,
     display: "flex",
+    '@media(max-width:800px)': { flexDirection: 'column' }
   },
   computerVisionContainer: { display: "flex" },
   computerVisionContent: {
