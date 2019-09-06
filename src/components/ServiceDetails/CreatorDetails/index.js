@@ -7,7 +7,7 @@ import { useStyles } from "./styles";
 const CreatorDetails = ({ classes, organizationName }) => {
   return (
     <div className={classes.creatorDetailsContainer}>
-      <h3>Creator Details</h3>
+      <h3>Provider</h3>
       <div className={classes.companyInfo}>
         <img src={SingularityLogo} alt="SingularityNET" />
         <div className={classes.companyName}>
