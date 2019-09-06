@@ -16,9 +16,7 @@ export const useStyles = theme => ({
   },
   signupInfo: {
     paddingRight: 54,
-    "@media (max-width:960px)": {
-      paddingRight: 0,
-    },
+    "@media (max-width:960px)": { paddingRight: 0 },
     "& h2": {
       margin: 0,
       color: theme.palette.text.darkShadedGray,
@@ -139,5 +137,12 @@ export const useStyles = theme => ({
       textAlign: "center",
       textTransform: "uppercase",
     },
+  },
+  passwordCriteriaContainer: {
+    color: theme.palette.text.mediumShadeGray,
+    fontSize: 12,
+    letterSpacing: 0.39,
+    lineHeight: "16px",
+    "& p": { display: "inline-block", paddingRight: 4 },
   },
 });

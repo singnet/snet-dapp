@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import Tooltip from "@material-ui/core/Tooltip";
 
 import StyledButton from "../../../../../common/StyledButton";
 import PaymentInfoCard from "../PaymentInfoCard";
@@ -22,8 +23,8 @@ const payTypes = {
 
 const connectMMinfo = {
   type: alertTypes.WARNING,
-  message: `Please Login or Install to your Metamask wallet account and connect to SingularityNet. 
-Click here to install and learn more about how to use Metamask and your AGI credits with SinguarlityNet AI Marketplace.`,
+  message: `Please install Metamask and use your Metamask wallet to connect to SingularityNet. 
+Click below to install and learn more about how to use Metamask and your AGI credits with SinguarlityNet AI Marketplace.`,
 };
 
 class MetamaskFlow extends Component {
@@ -36,6 +37,7 @@ class MetamaskFlow extends Component {
     noOfServiceCalls: 1,
     totalPrice: cogsToAgi(this.props.pricing.price_in_cogs),
     alert: {},
+    showTooltip: false,
   };
 
   serviceClient;
@@ -56,7 +58,7 @@ class MetamaskFlow extends Component {
       this.serviceClient = new ServiceClient(sdk, org_id, service_id, sdk._mpeContract, {}, groupInfo);
       this.paymentChannelManagement = new PaymentChannelManagement(sdk, this.serviceClient);
     } catch (error) {
-      this.props.handlePurchaseError(error);
+      this.props.handlePurchaseError("Unable to initialize payment channel. Please try again");
     }
   };
 
@@ -77,17 +79,28 @@ class MetamaskFlow extends Component {
     },
   ];
 
-  handleDisabledPaytypes = ({ channelBalance }) => {
-    const { disabledPayTypes } = this.state;
+  handleDisabledPaytypes = (channelBalance, mpeBal) => {
+    const disabledPayTypes = [];
+    let { selectedPayType } = this.state;
 
     if (channelBalance <= 0 && !disabledPayTypes.includes(payTypes.CHANNEL_BALANCE)) {
       disabledPayTypes.push(payTypes.CHANNEL_BALANCE);
+      selectedPayType = "";
     }
-    this.setState({ disabledPayTypes, selectedPayType: payTypes.SINGLE_CALL });
+    if (mpeBal <= 0) {
+      if (!disabledPayTypes.includes(payTypes.SINGLE_CALL)) {
+        disabledPayTypes.push(payTypes.SINGLE_CALL);
+      }
+      if (!disabledPayTypes.includes(payTypes.MULTIPLE_CALLS)) {
+        disabledPayTypes.push(payTypes.MULTIPLE_CALLS);
+      }
+    }
+    this.setState({ disabledPayTypes, selectedPayType });
   };
 
   handleConnectMM = async () => {
     const { startMMconnectLoader, stopLoader } = this.props;
+    this.setState({ alert: {} });
     try {
       startMMconnectLoader();
       const sdk = await initSdk();
@@ -104,11 +117,11 @@ class MetamaskFlow extends Component {
         return el;
       });
       const channelBalance = this.paymentChannelManagement.availableBalance();
-      this.handleDisabledPaytypes({ channelBalance });
+      this.handleDisabledPaytypes(channelBalance, mpeBal);
 
       this.setState({ MMconnected: true, mpeBal, channelBalance });
     } catch (error) {
-      this.setState({ alert: { type: alertTypes.ERROR, message: `Unable to connect to metamask ${error}` } });
+      this.setState({ alert: { type: alertTypes.ERROR, message: `Unable to connect to metamask. Please try again` } });
     }
     stopLoader();
   };
@@ -136,29 +149,31 @@ class MetamaskFlow extends Component {
   };
 
   handleSubmit = async () => {
+    this.props.startChannelSetupLoader();
     this.setState({ alert: {} });
 
     let { noOfServiceCalls, selectedPayType } = this.state;
     if (selectedPayType === payTypes.CHANNEL_BALANCE) {
       this.props.handleContinue();
+      this.props.stopLoader();
       return;
     }
     if (selectedPayType === payTypes.SINGLE_CALL) {
       noOfServiceCalls = 1;
     }
-    const sdk = await initSdk();
-    const mpeBal = await sdk.account.escrowBalance();
-    if (mpeBal < this.paymentChannelManagement.noOfCallsToCogs(noOfServiceCalls)) {
-      this.setState({
-        mpeBal,
-        alert: {
-          type: alertTypes.ERROR,
-          message: `Insufficient MPE balance. Please deposit some AGI tokens to your escrow account`,
-        },
-      });
-      return;
-    }
     try {
+      const sdk = await initSdk();
+      const mpeBal = await sdk.account.escrowBalance();
+      if (mpeBal < this.paymentChannelManagement.noOfCallsToCogs(noOfServiceCalls)) {
+        this.setState({
+          mpeBal,
+          alert: {
+            type: alertTypes.ERROR,
+            message: `Insufficient MPE balance. Please deposit some AGI tokens to your escrow account`,
+          },
+        });
+        return;
+      }
       if (!this.paymentChannelManagement.channel) {
         await this.paymentChannelManagement.openChannel(noOfServiceCalls);
       } else {
@@ -166,13 +181,29 @@ class MetamaskFlow extends Component {
       }
 
       this.props.handleContinue();
+      this.props.stopLoader();
     } catch (error) {
       this.setState({ alert: { type: alertTypes.ERROR, message: `Unable to execute the call` } });
+      this.props.stopLoader();
     }
   };
 
   parseChannelBalFromPaymentCard = () => {
     return this.PaymentInfoCardData.find(el => el.title === "Channel Balance").value;
+  };
+
+  shouldContinueBeEnabled = () => this.state.mpeBal > 0 && this.props.isServiceAvailable;
+
+  shouldDepositToEscrowBeHighlighted = () => this.state.mpeBal <= 0;
+
+  handleTooltipOpen = () => {
+    if (!this.props.isServiceAvailable) {
+      this.setState({ showTooltip: true });
+    }
+  };
+
+  handleTooltipClose = () => {
+    this.setState({ showTooltip: false });
   };
 
   render() {
@@ -185,7 +216,9 @@ class MetamaskFlow extends Component {
       noOfServiceCalls,
       totalPrice,
       alert,
+      showTooltip,
     } = this.state;
+
     if (!MMconnected) {
       return (
         <div className={classes.ExpiredSessionContainer}>
@@ -197,11 +230,7 @@ class MetamaskFlow extends Component {
     }
     return (
       <div className={classes.PurchaseFlowContainer}>
-        <PurchaseDialog
-          show={showPurchaseDialog}
-          onClose={this.handlePurchaseDialogClose}
-          refetchAccBalance={this.handleConnectMM}
-        />
+        <PurchaseDialog show={showPurchaseDialog} onClose={this.handlePurchaseDialogClose} />
         <p className={classes.PurchaseFlowDescription}>
           Transfer the style of a “style Image” to a “content image” by choosing them in the boxes below. You can upload
           a a file from your computer, URL, or select image from the gallery. You can specify additional parameters in
@@ -217,11 +246,11 @@ class MetamaskFlow extends Component {
             <span className={classes.channelSelectionTitle}>Recommended</span>
             <ChannelSelectionBox
               title="Channel Balance"
-              description={`You have 1 AGI in you channel. This can be used for running demos across all the services from this vendor.`}
+              description={`You have ${this.parseChannelBalFromPaymentCard()} AGI in you channel. This can be used for running demos across all the services from this vendor.`}
               checked={selectedPayType === payTypes.CHANNEL_BALANCE}
               value={payTypes.CHANNEL_BALANCE}
               onClick={() => this.handlePayTypeChange(payTypes.CHANNEL_BALANCE)}
-              disabled={disabledPayTypes.includes(payTypes.CHANNEL_BALANCEx)}
+              disabled={disabledPayTypes.includes(payTypes.CHANNEL_BALANCE)}
             />
           </div>
           <div>
@@ -258,8 +287,31 @@ class MetamaskFlow extends Component {
         </div>
         <AlertBox type={alert.type} message={alert.message} />
         <div className={classes.buttonContainer}>
-          <StyledButton type="transparent" btnText="Deposit into Escrow" onClick={this.handlePurchaseDialogOpen} />
-          <StyledButton type="blue" btnText="Continue" onClick={this.handleSubmit} />
+          <div>
+            <StyledButton
+              type={this.shouldDepositToEscrowBeHighlighted() ? "blue" : "transparent"}
+              btnText="Deposit into Escrow"
+              onClick={this.handlePurchaseDialogOpen}
+            />
+          </div>
+          <Tooltip
+            title="Service is currently offline. Please try after sometime"
+            aria-label="add-payment"
+            open={showTooltip}
+            onOpen={this.handleTooltipOpen}
+            onClose={this.handleTooltipClose}
+            className={classes.tooltip}
+            classes={classes}
+          >
+            <div>
+              <StyledButton
+                type="blue"
+                btnText="Continue"
+                onClick={this.handleSubmit}
+                disabled={!this.shouldContinueBeEnabled()}
+              />
+            </div>
+          </Tooltip>
         </div>
       </div>
     );
@@ -273,6 +325,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   startMMconnectLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.CONNECT_METAMASK)),
+  startChannelSetupLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.SETUP_CHANNEL_FOR_SERV_EXEC)),
   stopLoader: () => dispatch(loaderActions.stopAppLoader),
 });
 

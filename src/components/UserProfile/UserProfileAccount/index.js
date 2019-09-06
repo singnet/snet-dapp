@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
+import isEmpty from "lodash/isEmpty";
 
 import StyledDropdown from "../../common/StyledDropdown";
 import { useStyles } from "./styles";
@@ -14,16 +15,27 @@ import AlertBox, { alertTypes } from "../../common/AlertBox";
 const walletDropdownList = Object.entries(walletTypes).map(([key, value]) => ({ value, label: key }));
 
 const UserProfileAccount = ({ updateWallet, classes, wallet }) => {
+  const [alert, setAlert] = useState({});
+
   const handleWalletTypeChange = async event => {
+    setAlert({});
     const { value } = event.target;
     if (value === walletTypes.METAMASK) {
-      const sdk = await initSdk();
-      const address = sdk.account.address;
-      //1. To be replaced with wallet API
-      sessionStorage.setItem("wallet", JSON.stringify({ type: walletTypes.METAMASK, address }));
-      //till here(1)
-      updateWallet({ type: value, address });
-      return;
+      try {
+        const selectedEthAddress = window.ethereum && window.ethereum.selectedAddress;
+        const sdk = await initSdk(selectedEthAddress);
+        const address = sdk.account.address;
+        //1. To be replaced with wallet API
+        if (!isEmpty(address)) {
+          sessionStorage.setItem("wallet", JSON.stringify({ type: walletTypes.METAMASK, address }));
+          updateWallet({ type: value, address });
+          return;
+        }
+        setAlert({ type: alertTypes.ERROR, message: `Unable to fetch Metamask address. Please try again` });
+        //till here(1)
+      } catch (error) {
+        setAlert({ type: alertTypes.ERROR, message: `Something went wrong. Please try again` });
+      }
     }
     //2. to be removed once wallet API is available
     sessionStorage.removeItem("wallet");
@@ -52,6 +64,7 @@ const UserProfileAccount = ({ updateWallet, classes, wallet }) => {
           {walletDetails[wallet.type] || (
             <AlertBox type={alertTypes.INFO} message="Please select a wallet to proceed" />
           )}
+          <AlertBox type={alert.type} message={alert.message} />
         </div>
       </Grid>
     </Grid>

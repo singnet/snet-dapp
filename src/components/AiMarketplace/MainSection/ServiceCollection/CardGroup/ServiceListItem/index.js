@@ -29,7 +29,7 @@ const ServiceListItem = props => {
             avatar={<Avatar aria-label="recipe" className={classes.avatar} src={SingularityLogo} />}
             classes={{ title: classes.cardTitle, subheader: classes.cardSubheader }}
             title={<h4>{props.cardTitle}</h4>}
-            subheader={"By " + props.cardSubheader}
+            subheader="SingularityNET"
           />
 
           <CardContent className={classes.cardContent}>
@@ -37,7 +37,7 @@ const ServiceListItem = props => {
               <StarRatingComponent
                 name="rate1"
                 starCount={5}
-                value={Number(props.ratingGiven)}
+                value={Number(props.ratingGiven.rating)}
                 className={classes.ratingStars}
               />
               <RatingsCount ratingGiven={props.ratingGiven.rating} totalRating={props.ratingGiven.total_users_rated} />

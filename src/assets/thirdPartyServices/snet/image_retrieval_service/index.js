@@ -26,7 +26,7 @@ export default class ImageRetrievalService extends React.Component {
       code_repo: "",
       reference: "",
       serviceName: "SimilarImage",
-      methodName: "Select a method",
+      methodName: "FindSimilar",
       uploadedImage: null,
       similarityMeasure: "CosineDistance",
       response: undefined,
@@ -98,7 +98,6 @@ export default class ImageRetrievalService extends React.Component {
   }
 
   renderForm() {
-
     const serviceNameOptions = ["Select a method", ...this.props.serviceClient.getMethodNames(SimilarImage)];
 
     return (

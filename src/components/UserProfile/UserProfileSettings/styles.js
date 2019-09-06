@@ -1,6 +1,6 @@
 export const useStyles = theme => ({
   settingMainContainer: {
-    margin: "30px 0 50px",
+    margin: "13px 0 50px",
   },
   settingsContainer: {
     borderRadius: 4,

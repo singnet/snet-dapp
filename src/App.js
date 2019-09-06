@@ -19,6 +19,8 @@ import { initSdk } from "./utility/sdk";
 import { CircularProgress } from "@material-ui/core";
 import NetworkChangeOverlay from "./components/common/NetworkChangeOverlay";
 import { walletTypes } from "./Redux/actionCreators/UserActions";
+import initHotjar from "./assets/externalScripts/hotjar";
+import initGDPRNotification from "./assets/externalScripts/gdpr";
 
 const ForgotPassword = lazy(() => import("./components/Login/ForgotPassword"));
 const ForgotPasswordSubmit = lazy(() => import("./components/Login/ForgotPasswordSubmit"));
@@ -40,6 +42,11 @@ history.listen(location => {
   ReactGA.set({ page: location.pathname });
   ReactGA.pageview(location.pathname);
 });
+
+if (process.env.REACT_APP_HOTJAR_ID && process.env.REACT_APP_HOTJAR_SV) {
+  initHotjar(process.env.REACT_APP_HOTJAR_ID, process.env.REACT_APP_HOTJAR_SV);
+}
+initGDPRNotification();
 
 class App extends Component {
   componentDidMount = () => {
@@ -103,7 +110,7 @@ class App extends Component {
                 <PrivateRoute
                   isAllowed={isLoggedIn && isTermsAccepted}
                   redirectTo={isLoggedIn ? `/${Routes.ONBOARDING}` : `/${Routes.LOGIN}`}
-                  path={`/${Routes.USER_PROFILE}`}
+                  path={`/${Routes.USER_PROFILE}/:activeTab?`}
                   {...this.props}
                   component={withInAppWrapper(UserProfile)}
                 />

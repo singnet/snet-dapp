@@ -8,7 +8,15 @@ import { useStyles } from "./styles";
 import MetamaskFlow from "./MetamaskFlow";
 import Routes from "../../../../../../utility/constants/Routes";
 
-const ExpiredSession = ({ classes, handleComplete, metamask, groupInfo, history, handlePurchaseError }) => {
+const ExpiredSession = ({
+  classes,
+  handleComplete,
+  metamask,
+  groupInfo,
+  history,
+  handlePurchaseError,
+  isServiceAvailable,
+}) => {
   const handleAddPayment = () => {
     history.push(`/${Routes.USER_PROFILE}`);
   };
@@ -20,6 +28,7 @@ const ExpiredSession = ({ classes, handleComplete, metamask, groupInfo, history,
         classes={classes}
         groupInfo={groupInfo}
         handlePurchaseError={handlePurchaseError}
+        isServiceAvailable={isServiceAvailable}
       />
     );
   }
@@ -28,7 +37,6 @@ const ExpiredSession = ({ classes, handleComplete, metamask, groupInfo, history,
       <AlertBox
         type="warning"
         message="You have used all your free quota for this service.  Please add a payment method to continue using this service. "
-        link="Click here"
       />
       <StyledButton type="blue" btnText="add payment" onClick={handleAddPayment} />
     </div>
