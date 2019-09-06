@@ -16,7 +16,7 @@ export const useStyles = theme => ({
     paddingLeft: 20,
     "& h4": {
       margin: 0,
-      color: theme.palette.text.lightShadedGray,
+      color: theme.palette.text.primary,
       fontSize: 18,
       fontWeight: 600,
       letterSpacing: "0.23px",
