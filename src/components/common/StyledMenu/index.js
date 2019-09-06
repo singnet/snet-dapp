@@ -26,7 +26,7 @@ const StyledMenu = ({ classes, label, list }) => {
       </div>
       <Menu anchorEl={anchorEl} id="simple-menu" open={Boolean(anchorEl)} onClose={handleClose}>
         {list.map(item => (
-          <MenuItem key={item.label}>
+          <MenuItem key={item.label} className={classes.menuItem}>
             <AnchorLink label={item.label} href={item.link} newTab={item.newTab} />
           </MenuItem>
         ))}
