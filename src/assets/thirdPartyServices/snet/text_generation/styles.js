@@ -27,7 +27,8 @@ export const useStyles = theme => ({
 	},
 	infoIcon:{
 		paddingRight: 12,
-  	color: theme.palette.text.lightGray,
+		display: 'none',
+  	color: theme.palette.text.lightGray,  	
   	verticalAlign: 'middle',
 	},
 	dropdownAndAvatar: {
@@ -117,7 +118,10 @@ export const useStyles = theme => ({
 		alignItems: 'center',
 		justifyContent: 'space-between',
 		'& h4':{ fontSize: '20 !important' },
-		'& svg':{ color: theme.palette.text.lightShadedGray }
+		'& svg':{ 
+			display: 'none',
+			color: theme.palette.text.lightShadedGray
+		}
 	},
 	resultsContent:{
 		padding: '20px 0 90px',
