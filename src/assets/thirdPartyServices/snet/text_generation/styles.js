@@ -1,22 +1,22 @@
 export const useStyles = theme => ({
-	description:{
-		'& p':{
-			margin: '25px 0 0',
-			color: 'rgba(0,0,0,0.60)',
-			fontSize: 14,
-			letterSpacing: 0.3,
-			lineHeight: '21px',
-		},
-		'& a':{ 
-			color: theme.palette.text.primary,
-			fontWeight: 600,
-			textDecoration: 'none',
-		}		
-	},
-	header:{
-		paddingTop: 10,
+  description: {
+    "& p": {
+      margin: "25px 0 0",
+      color: "rgba(0,0,0,0.60)",
+      fontSize: 14,
+      letterSpacing: 0.3,
+      lineHeight: "21px",
+    },
+    "& a": {
+      color: theme.palette.text.primary,
+      fontWeight: 600,
+      textDecoration: "none",
+    },
+  },
+  header: {
+    paddingTop: 10,
     borderTop: 1,
-    borderTopStyle: 'solid',    
+    borderTopStyle: "solid",
     borderTopColor: theme.palette.text.disabledBtnBg,
     marginTop: 45,    
     '& h4':{
@@ -38,7 +38,7 @@ export const useStyles = theme => ({
 	},
 	dropdown:{
 		'& > div': {
-		 	width: '86%',
+		 	width: '95%',
 		 	'& label':{
 		 		fontFamily: theme.typography.primary,
 				color: theme.palette.text.darkShadedGray,
@@ -98,8 +98,9 @@ export const useStyles = theme => ({
 		lineHeight: '24px',
 		textAlign: 'center'
 	},
-	errorMsg:{ margin: '25px 0 10px' },
+	errorMsg:{ margin: '25px 0 0' },
 	btnContainer: { 
+		marginTop: 30,
 		textAlign: 'center',
 		'& button':{
 			'&:first-of-type': { padding: '13px 0 11px' },
