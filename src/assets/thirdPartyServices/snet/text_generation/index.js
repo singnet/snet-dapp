@@ -1,7 +1,5 @@
 import React from "react";
-import { hasOwnDefinedProperty } from "../../../../utility/JSHelper";
 import { withStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
 import Slider from "@material-ui/core/Slider";
 import { Link } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
@@ -12,12 +10,9 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import TextField from "@material-ui/core/TextField";
 import InfoIcon from "@material-ui/icons/Info";
-import DownloadIcon from "@material-ui/icons/SaveAlt";
-import KnowMoreIcon from "@material-ui/icons/MoreVert";
 import Avatar from "@material-ui/core/Avatar";
 
 import StyledButton from "../../../../components/common/StyledButton";
-import AlertBox, { alertTypes } from "../../../../components/common/AlertBox";
 
 import BarackObama from "../../../images/ThirdPartyServices/snet/text_generation/BarackObama.jpg";
 import BarackObamaAvatar from "../../../images/ThirdPartyServices/snet/text_generation/BarackObama_avatar.jpg";
@@ -36,9 +31,6 @@ import BrianSwitekAvatar from "../../../images/ThirdPartyServices/snet/text_gene
 
 import ConanOBrien from "../../../images/ThirdPartyServices/snet/text_generation/ConanOBrien.jpg";
 import ConanOBrienAvatar from "../../../images/ThirdPartyServices/snet/text_generation/ConanOBrien_avatar.jpg";
-
-import ChrisHadfield from "../../../images/ThirdPartyServices/snet/text_generation/ChrisHadfield.jpg";
-import ChrisHadfieldAvatar from "../../../images/ThirdPartyServices/snet/text_generation/ChrisHadfield_avatar.jpg";
 
 import DeborahBlum from "../../../images/ThirdPartyServices/snet/text_generation/DeborahBlum.jpg";
 import DeborahBlumAvatar from "../../../images/ThirdPartyServices/snet/text_generation/DeborahBlum_avatar.jpg";
@@ -75,9 +67,6 @@ import JoeBidenAvatar from "../../../images/ThirdPartyServices/snet/text_generat
 
 import JoeRogan from "../../../images/ThirdPartyServices/snet/text_generation/JoeRogan.png";
 import JoeRoganAvatar from "../../../images/ThirdPartyServices/snet/text_generation/JoeRogan_avatar.png";
-
-import JohnMcAfee from "../../../images/ThirdPartyServices/snet/text_generation/JohnMcAfee.jpg";
-import JohnMcAfeeAvatar from "../../../images/ThirdPartyServices/snet/text_generation/JohnMcAfee_avatar.jpg";
 
 import JordanPeterson from "../../../images/ThirdPartyServices/snet/text_generation/JordanPeterson.jpg";
 import JordanPetersonAvatar from "../../../images/ThirdPartyServices/snet/text_generation/JordanPeterson_avatar.jpg";
@@ -118,9 +107,6 @@ import SamHarrisAvatar from "../../../images/ThirdPartyServices/snet/text_genera
 import TerenceMcKenna from "../../../images/ThirdPartyServices/snet/text_generation/TerenceMcKenna.jpg";
 import TerenceMcKennaAvatar from "../../../images/ThirdPartyServices/snet/text_generation/TerenceMcKenna_avatar.jpg";
 
-import VirginiaHughes from "../../../images/ThirdPartyServices/snet/text_generation/VirginiaHughes.jpg";
-import VirginiaHughesAvatar from "../../../images/ThirdPartyServices/snet/text_generation/VirginiaHughes_avatar.jpg";
-
 import { GENGPT2 } from "./ntg_pb_service";
 import { useStyles } from "./styles";
 
@@ -138,11 +124,9 @@ const runNames = [
   { key: "beebrookshire", value: "Bethany Brookshire", image: BethanyBrookshire, avatar: BethanyBrookshireAvatar },
   { key: "berniesanders", value: "Bernie Sanders", image: BernieSanders, avatar: BernieSandersAvatar },
   { key: "billgates", value: "Bill Gates", image: BillGates, avatar: BillGatesAvatar },
-  { key: "cmdr_hadfield", value: "Chris Hadfield", image: ChrisHadfield, avatar: ChrisHadfieldAvatar },
   { key: "conanobrien", value: "Conan O'Brien", image: ConanOBrien, avatar: ConanOBrienAvatar },
   { key: "deborahblum", value: "Deborah Blum", image: DeborahBlum, image: DeborahBlumAvatar },
   { key: "deepakchopra", value: "Deepak Chopra", image: DeepakChopra, avatar: DeepakChopraAvatar },
-  { key: "dril", value: "wint" },
   { key: "elonmusk", value: "Elon Musk", image: ElonMusk, avatar: ElonMuskAvatar },
   { key: "ericrweinstein", value: "Eric Weinstein", image: EricWeinstein, avatar: EricWeinsteinAvatar },
   { key: "hillaryclinton", value: "Hillary Clinton", image: HillaryClinton, avatar: HillaryClintonAvatar },
@@ -157,8 +141,6 @@ const runNames = [
   { key: "ladygaga", value: "Lady Gaga", image: LadyGaga, avatar: LadyGagaAvatar },
   { key: "laelaps", value: "Brian Switek", image: BrianSwitek, avatar: BrianSwitekAvatar },
   { key: "neiltyson", value: "Neil deGrasse Tyson", image: NeildeGrasseTyson, avatar: NeildeGrasseTysonAvatar },
-  { key: "nietzschequotes", value: "NietzscheQuotes" },
-  { key: "officialmcafee", value: "John McAfee", image: JohnMcAfee, avatar: JohnMcAfeeAvatar },
   { key: "trump", value: "Donald J. Trump", image: DonaldTrump, avatar: DonaldTrumpAvatar },
   { key: "rebeccaskloot", value: "Rebecca Skloot", image: RebeccaSkloot, avatar: RebeccaSklootAvatar },
   { key: "richarddawkins", value: "Richard Dawkins", image: RichardDawkins, avatar: RichardDawkinsAvatar },
@@ -169,17 +151,6 @@ const runNames = [
   { key: "therock", value: "Dwayne Johnson", image: DwayneJohnson, avatar: DwayneJohnsonAvatar },
   { key: "thetweetofgod", value: "God", image: god, avatar: godAvatar },
   { key: "ticbot", value: "TicBot" },
-  { key: "veryshortstory", value: "Very Short Story" },
-  { key: "virginiahughes", value: "Virginia Hughes", image: VirginiaHughes, avatar: VirginiaHughesAvatar },
-];
-
-const personaModalOptions = [
-  { label: "Donald J. Trump", value: " " },
-  { label: "Ricky Gervais", value: " " },
-  { label: "{option 3}", value: " " },
-  { label: "{option 4}", value: " " },
-  { label: "{option 5}", value: " " },
-  { label: "{option 6}", value: " " }
 ];
 
 class TextGenerationService extends React.Component {
@@ -222,10 +193,6 @@ class TextGenerationService extends React.Component {
   }
 
   submitAction() {
-    var btn = document.getElementById("invoke-button");
-    btn.disabled = true;
-    btn.innerHTML = "Wait...";
-
     const { methodName, start_text, temperature, top_k, run_name, length } = this.state;
     const methodDescriptor = GENGPT2[methodName];
     const request = new methodDescriptor.requestType();
@@ -247,7 +214,7 @@ class TextGenerationService extends React.Component {
         const image = selectedRunName && selectedRunName.image;
         this.setState({
           ...initialUserInput,
-          response: { status: "success", answer: message.getAnswer(), image },
+          response: { status: "success", answer: message.getAnswer(), image, start_text },
         });
       },
     };
@@ -261,56 +228,65 @@ class TextGenerationService extends React.Component {
   };
 
   renderForm() {
-    const { response } = this.state;
+    const { run_name, start_text, length: maxResponseLength, top_k, temperature } = this.state;
     const { classes } = this.props;
     return (
       <React.Fragment>
         <Grid container spacing={24} className={classes.textGenConfigDetails}>
-
           <Grid item xs={12} sm={12} md={12} lg={12} className={classes.description}>
-            <p>For this demo you will be asked to input a text content and the persona you would like the tweet to be. This text block is used to explain the nature of your Demo service . More text describing what the user should do here.</p>
-            <p>Check out the <Link to="">Guide</Link> for details steps.</p>
+            <p>
+              For this demo you will be asked to input a text content and the persona you would like the tweet to be.
+              This text block is used to explain the nature of your Demo service . More text describing what the user
+              should do here.
+            </p>
+            <p>
+              Check out the <Link to="">Guide</Link> for details steps.
+            </p>
           </Grid>
 
-          <Grid item xs={12} sm={12} md={12} lg={12}  className={classes.header}>
+          <Grid item xs={12} sm={12} md={12} lg={12} className={classes.header}>
             <h4>Parameters</h4>
           </Grid>
 
           <Grid item xs={12} sm={12} md={12} lg={12} className={classes.dropdownAndAvatar}>
-
             <Grid item xs={12} sm={12} md={7} lg={7} className={classes.dropdown}>
               <InfoIcon className={classes.infoIcon} />
               <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel htmlFor="outlined-age-simple">Persona Model</InputLabel>
                 <Select
-                  value={"Persona Model"}
+                  value={run_name}
+                  onChange={this.handleFormUpdate}
+                  name="run_name"
                   input={<OutlinedInput labelWidth={320} name="age" id="outlined-age-simple" />}
                 >
-                  {personaModalOptions.map(item => (
-                    <MenuItem className={classes.menuItem} key={item.value} value={item.value}>
-                      {item.label}
+                  {runNames.map(item => (
+                    <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
+                      {item.value}
                     </MenuItem>
                   ))}
                 </Select>
               </FormControl>
             </Grid>
             <Grid item xs={12} sm={12} md={5} lg={5}>
-              <Avatar alt="Singularity" src={BarackObamaAvatar} className={classes.avatar} />
+              <Avatar alt="Singularity" src={this.parseAvatarSrc()} className={classes.avatar} />
             </Grid>
           </Grid>
 
           <Grid item xs={12} sm={12} md={12} lg={12} className={classes.textArea}>
             <InfoIcon className={classes.infoIcon} />
             <TextField
+              name="start_text"
               label="Tweet Context or Question"
               multiline
               rows="7"
               variant="outlined"
+              value={start_text}
+              onChange={this.handleFormUpdate}
+              onKeyPress={e => this.onKeyPressvalidator(e)}
             />
           </Grid>
 
           <Grid item xs={12} sm={12} md={12} lg={12} className={classes.progressBarContainer}>
-
             <Grid item xs={12} sm={12} md={3} lg={3}>
               <InfoIcon className={classes.infoIcon} />
               <span className={classes.title}>Max Length</span>
@@ -319,18 +295,20 @@ class TextGenerationService extends React.Component {
             <Grid item xs={12} sm={12} md={9} lg={9} className={classes.sliderContainer}>
               <span className={classes.startEndNumber}>0</span>
               <Slider
-                defaultValue={60}
+                name="length"
+                value={maxResponseLength}
+                max={1024}
+                min={1}
                 aria-labelledby="discrete-slider-always"
                 step={10}
                 valueLabelDisplay="on"
+                onChange={(e, val) => this.changeSlider("length", val)}
               />
-              <span className={classes.startEndNumber}>300</span>
+              <span className={classes.startEndNumber}>1024</span>
             </Grid>
-
           </Grid>
 
           <Grid item xs={12} sm={12} md={12} lg={12} className={classes.progressBarContainer}>
-
             <Grid item xs={12} sm={12} md={3} lg={3}>
               <InfoIcon className={classes.infoIcon} />
               <span className={classes.title}>Top K</span>
@@ -338,19 +316,21 @@ class TextGenerationService extends React.Component {
 
             <Grid item xs={12} sm={12} md={9} lg={9} className={classes.sliderContainer}>
               <span className={classes.startEndNumber}>0</span>
-                <Slider
-                  defaultValue={60}
-                  aria-labelledby="discrete-slider-always"
-                  step={10}
-                  valueLabelDisplay="on"
-                />
-              <span className={classes.startEndNumber}>300</span>
+              <Slider
+                name="top_k"
+                value={top_k}
+                aria-labelledby="discrete-slider-always"
+                min={0}
+                max={100}
+                step={10}
+                valueLabelDisplay="on"
+                onChange={(e, val) => this.changeSlider("top_k", val)}
+              />
+              <span className={classes.startEndNumber}>100</span>
             </Grid>
-
           </Grid>
 
           <Grid item xs={12} sm={12} md={12} lg={12} className={classes.progressBarContainer}>
-
             <Grid item xs={12} sm={12} md={3} lg={3}>
               <InfoIcon className={classes.infoIcon} />
               <span className={classes.title}>Temperature</span>
@@ -359,27 +339,23 @@ class TextGenerationService extends React.Component {
             <Grid item xs={12} sm={12} md={9} lg={9} className={classes.sliderContainer}>
               <span className={classes.startEndNumber}>0</span>
               <Slider
-                defaultValue={60}
+                name="temperature"
+                value={temperature}
+                step={0.1}
+                min={0.2}
+                max={1.5}
                 aria-labelledby="discrete-slider-always"
-                step={10}
                 valueLabelDisplay="on"
+                onChange={(e, val) => this.changeSlider("temperature", val)}
               />
-              <span className={classes.startEndNumber}>300</span>
+              <span className={classes.startEndNumber}>1.5</span>
             </Grid>
           </Grid>
 
-          <Grid item xs={12} sm={12} md={12} lg={12} className={classes.errorMsg}>
-            <AlertBox message="error state message" type={alertTypes.ERROR}/>
-          </Grid>
-
           <Grid item xs={12} sm={12} md={12} lg={12} className={classes.btnContainer}>
-            <StyledButton type="transparent" btnText="back" />
-            <StyledButton type="blue" btnText="next" />
+            <StyledButton type="blue" btnText="Invoke" onClick={this.submitAction} />
           </Grid>
-
         </Grid>
-
-
       </React.Fragment>
     );
   }
@@ -388,36 +364,21 @@ class TextGenerationService extends React.Component {
     const { response } = this.state;
     const { classes } = this.props;
     return (
-      // <div>
-      //   <p style={{ fontSize: "13px" }}>
-      //     <div>
-      //       <img src={response.image} height={400} />
-      //     </div>
-      //     Response from service is: <b>{response.answer.replace("[END BY LENGTH]", "")}</b>{" "}
-      //   </p>
-      // </div>
-
       <Grid container spacing={24} className={classes.textGenRunDetails}>
-
-         <Grid item xs={12} sm={12} md={12} lg={12} className={classes.runTabDescription}>
+        <Grid item xs={12} sm={12} md={12} lg={12} className={classes.runTabDescription}>
           <p>Your request has been completed. You can now vote for the agent below.</p>
         </Grid>
 
         <Grid item xs={12} sm={12} md={12} lg={12} className={classes.resultsHeader}>
           <h4>Results</h4>
-          <div>
-            <DownloadIcon />
-            <KnowMoreIcon />
-          </div>
-         </Grid>
+        </Grid>
 
-         <Grid item xs={12} sm={12} md={12} lg={12} className={classes.resultsContent}>
-
+        <Grid item xs={12} sm={12} md={12} lg={12} className={classes.resultsContent}>
           <Grid item xs={12} sm={12} md={12} lg={12} className={classes.imgContainer}>
-            <img src={BarackObama} />
+            <img src={response.image} />
           </Grid>
 
-          <Grid item xs={12} sm={12} md={12} lg={12} className={classes.resultDetails} >
+          <Grid item xs={12} sm={12} md={12} lg={12} className={classes.resultDetails}>
             <Grid item xs={12} sm={12} md={5} lg={5}>
               <InfoIcon className={classes.infoIcon} />
               <span className="resultTitle">Status</span>
@@ -425,7 +386,6 @@ class TextGenerationService extends React.Component {
             <Grid item xs={12} sm={12} md={7} lg={7}>
               <span className={classes.resultValue}>success</span>
             </Grid>
-
           </Grid>
 
           <Grid item xs={12} sm={12} md={12} lg={12} className={classes.resultDetails}>
@@ -434,9 +394,8 @@ class TextGenerationService extends React.Component {
               <span className="resultTitle">Input text</span>
             </Grid>
             <Grid item xs={12} sm={12} md={7} lg={7}>
-              <span className={classes.resultValue}>Before boarding your rocket to Mars, remember to pack these items</span>
+              <span className={classes.resultValue}>{response.start_text}</span>
             </Grid>
-
           </Grid>
 
           <Grid item xs={12} sm={12} md={12} lg={12} className={classes.resultDetails}>
@@ -445,20 +404,11 @@ class TextGenerationService extends React.Component {
               <span className="resultTitle">Response output</span>
             </Grid>
             <Grid item xs={12} sm={12} md={7} lg={7}>
-              <span className={classes.resultValue}>Space shuttle tickets</span>
+              <span className={classes.resultValue}>{response.answer.replace("[END BY LENGTH]", "")}</span>
             </Grid>
-
           </Grid>
-         </Grid>
-
-         <Grid item xs={12} sm={12} md={12} lg={12} className={classes.resultBtnContainer}>
-            <StyledButton type="transparent" btnText="rate the service" />
-            <StyledButton type="blue" btnText="reset and run again" />
-          </Grid>
-
         </Grid>
-
-
+      </Grid>
     );
   }
 
