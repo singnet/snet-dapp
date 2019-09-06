@@ -1,20 +1,18 @@
 import React from "react";
 
 import { useStyles } from "./styles";
+import AnchorLink from "../AnchorLink";
 
-const NavItem = ({ active, title, link, openInNewTab }) => {
+const NavItem = ({ active, title, link, newTab }) => {
   const classes = useStyles();
   return (
     <li className={classes.navLinks}>
-      <a
+      <AnchorLink
         href={link}
-        title={title}
+        label={title}
         className={`${classes.navLinksAnchor} ${active ? classes.activeTab : ""}`}
-        target={openInNewTab ? "_blank" : ""}
-        rel="noopener noreferrer"
-      >
-        {title}
-      </a>
+        newTab={newTab}
+      />
     </li>
   );
 };

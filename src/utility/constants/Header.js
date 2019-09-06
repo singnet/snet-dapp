@@ -32,12 +32,12 @@ const tabs = [
   {
     title: "AI Marketplace",
     link: `/${Routes.AI_MARKETPLACE}`,
-    openInNewTab: false,
+    newTab: false,
   },
   {
     title: "Get Started",
     link: `/${Routes.GET_STARTED}`,
-    openInNewTab: false,
+    newTab: false,
   },
 ];
 
@@ -45,10 +45,10 @@ const dropdowns = [
   {
     label: "Resources",
     list: [
-      { label: "Documentation", value: "https://github.com/singnet" },
-      { label: "Telegram", link: "https://telegram.me/singularitynet" },
-      { label: "Forum", link: "https://community.singularitynet.io/" },
-      { label: "Blog", link: "http://blog.singularitynet.io/" },
+      { label: "Documentation", link: "https://github.com/singnet", newTab: true },
+      { label: "Telegram", link: "https://telegram.me/singularitynet", newTab: true },
+      { label: "Forum", link: "https://community.singularitynet.io/", newTab: true },
+      { label: "Blog", link: "http://blog.singularitynet.io/", newTab: true },
     ],
   },
 ];
