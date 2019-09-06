@@ -4,4 +4,7 @@ export const useStyles = theme => ({
       textTransform: "none",
     },
   },
+  menuItem: {
+    fontFamily: theme.typography.primary.main,
+  },
 });

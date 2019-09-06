@@ -1,5 +1,5 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/styles";
 import Slider from "@material-ui/core/Slider";
 import { Link } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
