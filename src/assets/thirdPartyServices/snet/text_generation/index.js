@@ -235,7 +235,7 @@ class TextGenerationService extends React.Component {
         <Grid container spacing={24} className={classes.textGenConfigDetails}>
           <Grid item xs={12} sm={12} md={12} lg={12} className={classes.description}>
             <p>
-              For this demo you will be asked to input a text content and the persona you would like the tweet to be.
+              For this demo you will be asked to input a text content and the persona you would like the tweet to come from.
             </p>
             <p>
               Check out the
@@ -245,7 +245,7 @@ class TextGenerationService extends React.Component {
                 label="Guide"
                 className={classes.guideLink}
               />
-              for details steps.
+              for detailed steps.
             </p>
           </Grid>
 
