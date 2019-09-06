@@ -3,6 +3,7 @@ export const useStyles = theme => ({
     padding: "30px 60px 60px",
     backgroundColor: theme.palette.text.offWhiteColor,
     flexDirection: "column",
+    '@media(max-width:414px)': { padding: '30px 30px 60px' }
   },
   TopSection: {
     maxWidth: 800,
@@ -13,6 +14,7 @@ export const useStyles = theme => ({
     maxWidth: "47%",
     margin: "0 auto ",
     textAlign: "center",
+    '@media(max-width:960px)': { maxWidth: '100%' }
   },
   FeaturesMainContainer: { marginTop: 60 },
   FreeTrialSignUp: {
