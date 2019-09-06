@@ -11,7 +11,7 @@ const CreatorDetails = ({ classes, organizationName }) => {
       <div className={classes.companyInfo}>
         <img src={SingularityLogo} alt="SingularityNET" />
         <div className={classes.companyName}>
-          <h4>{organizationName}</h4>
+          <h4>SingularityNET</h4>
         </div>
       </div>
     </div>
