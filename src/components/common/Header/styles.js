@@ -8,7 +8,7 @@ export const useStyles = makeStyles(theme => ({
     position: "fixed",
     right: 0,
     left: 0,
-    zIndex: 1,
+    zIndex: 5,
     backgroundColor: theme.palette.text.purple,
     boxShadow: "0 2px 6px 0 rgba(0,0,0,0.3)",
     "@media (max-width:1280px)": { padding: "13px 10px 3px 10px" },
