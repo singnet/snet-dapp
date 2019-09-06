@@ -11,6 +11,7 @@ export const useStyles = theme => ({
       color: theme.palette.text.primary,
       fontWeight: 600,
       textDecoration: "none",
+      padding: "0 5px",
     },
   },
   header: {
