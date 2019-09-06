@@ -1,7 +1,6 @@
 export const useStyles = theme => ({
   serviceDetailContainer: {
     width: "auto",
-    padding: "67px 0",
     backgroundColor: theme.palette.text.offWhiteColor,
     "& > div": {
       paddingLeft: 60,
