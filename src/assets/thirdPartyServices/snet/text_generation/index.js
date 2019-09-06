@@ -113,7 +113,7 @@ import { useStyles } from "./styles";
 const initialUserInput = {
   start_text: "",
   run_name: "trump",
-  temperature: 1.2,
+  temperature: 0.8,
   top_k: 20,
   length: 256,
 };
@@ -321,8 +321,8 @@ class TextGenerationService extends React.Component {
                 value={top_k}
                 aria-labelledby="discrete-slider-always"
                 min={0}
-                max={100}
-                step={10}
+                max={20}
+                step={1}
                 valueLabelDisplay="on"
                 onChange={(e, val) => this.changeSlider("top_k", val)}
               />
