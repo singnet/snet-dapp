@@ -28,6 +28,7 @@ export default class I3DActionRecognition extends React.Component {
       serviceName: "VideoActionRecognition",
       methodName: "video_action_recon",
       response: undefined,
+      displayInfoMessage : true,
     };
 
     this.modelOptions = ["400", "600"];
@@ -35,7 +36,6 @@ export default class I3DActionRecognition extends React.Component {
     this.serviceMethods = [];
     this.allServices = [];
     this.methodsForAllServices = [];
-
   }
 
   isValidVideoURL(str) {
@@ -43,7 +43,11 @@ export default class I3DActionRecognition extends React.Component {
   }
 
   canBeInvoked() {
-    return this.isValidVideoURL(this.state.url);
+    const valid = this.isValidVideoURL(this.state.url);
+    if(this.state.displayInfoMessage === valid) {
+      this.setState({displayInfoMessage : !valid});
+    }
+    return valid;
   }
 
   handleFormUpdate(event) {
@@ -105,6 +109,9 @@ export default class I3DActionRecognition extends React.Component {
               onChange={this.handleFormUpdate}
             ></input>
           </div>
+        </div>
+        <div className="col-md-3 col-lg-3" style={{ textAlign: "center", height: "20px", fontSize: "13px"}}>
+              {this.state.displayInfoMessage ? "The URL must be of a .avi or .mp4 video only." : " "}
         </div>
         <div className="row">
           <div className="col-md-3 col-lg-3" style={{ padding: "10px", fontSize: "13px", marginLeft: "10px" }}>
