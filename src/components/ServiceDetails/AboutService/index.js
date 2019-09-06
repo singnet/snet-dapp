@@ -17,19 +17,18 @@ const AboutService = ({ classes, isLoggedIn, service, history }) => {
     <Grid container spacing={24} className={classes.aboutContainer}>
       <Grid item xs={12} sm={12} md={8} lg={8} className={classes.leftSideSection}>
         <ServiceOverview description={service.description} service_url={service.url} tags={service.tags} />
-
-        <DemoToggler showDemo={isLoggedIn} classes={classes} service={service} history={history} />
-
-        <div className={classes.backToLink}>
-          <Icon className="fas fa-arrow-left" />
-          <Link to={`/${Routes.AI_MARKETPLACE}`}>Back to AI Marketplace</Link>
-        </div>
+        <DemoToggler showDemo={isLoggedIn} classes={classes} service={service} history={history} />        
       </Grid>
 
       <Grid item xs={12} sm={12} md={4} lg={4}>
         <CreatorDetails organizationName={service.org_id} />
         <ProjectDetails projectURL={service.url} />
       </Grid>
+
+      <div className={classes.backToLink}>
+        <Icon className="fas fa-arrow-left" />
+        <Link to={`/${Routes.AI_MARKETPLACE}`}>Back to AI Marketplace</Link>
+      </div>
     </Grid>
   );
 };

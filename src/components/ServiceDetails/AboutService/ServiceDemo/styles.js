@@ -9,11 +9,21 @@ export const useStyles = theme => ({
       fontSize: 18,
       textAlign: "left",
     },
-    "& ul": { justifyContent: "center" },
+    '& > div':{
+      '@media (max-width: 1045px)': { width: 'auto' },
+      '@media (max-width: 480px)': { paddingTop: 20 }
+    },
+    "& ul": { 
+      justifyContent: "center",
+      '@media (max-width: 480px)': { display: 'inline-block' }
+    },
     "& li": {
       "&::before": {
         width: 110,
         marginLeft: 15,
+        '@media (max-width: 946px)': { width: 110 },
+        '@media (max-width: 716px)': { width: 30 },
+        '@media (max-width: 480px)': { display: 'none' }
       },
     },
     "& > p": {

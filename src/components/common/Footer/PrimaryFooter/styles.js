@@ -4,9 +4,7 @@ export const useStyles = makeStyles(theme => ({
   PrimaryFooter: {
     width: "100%",
     display: "flex",
-    "@media (max-width:1023px)": {
-      display: "inline-block",
-    },
+    "@media (max-width:1023px)": { display: "inline-block" },    
   },
   LeftData: {
     paddingRight: 30,
@@ -20,6 +18,10 @@ export const useStyles = makeStyles(theme => ({
       alignItems: "center",
       justifyContent: "space-between",
     },
+    "@media (max-width:400px)": { 
+      flexDirection: 'column',
+      alignItems: 'flex-start'
+     },
   },
   footerLogoSection: {
     textAlign: "right",

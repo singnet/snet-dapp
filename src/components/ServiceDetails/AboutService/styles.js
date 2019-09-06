@@ -17,13 +17,16 @@ export const useStyles = theme => ({
   },
   leftSideSection: { 
     paddingRight: 25,
-    '@media(max-width:800px)': { paddingRight: 0 }
+    '@media(max-width:960px)': { 
+      paddingRight: 0,
+      marginBottom: 25
+    }
   },
   overViewContainer: {
     boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
     backgroundColor: theme.palette.text.white,
     borderRadius: 4,
-    paddingBottom: 30,
+    paddingBottom: 20,
     "& p": {
       padding: "15px 22px 0",
       margin: 0,
@@ -33,7 +36,6 @@ export const useStyles = theme => ({
       lineHeight: "20px",
     },
     "& h4": {
-      paddingLeft: 22,
       margin: "30px 0 0",
       color: theme.palette.text.mediumShadeGray,
       fontSize: 18,
@@ -55,7 +57,6 @@ export const useStyles = theme => ({
       },
     },
     "& h5": {
-      paddingLeft: 22,
       margin: "40px 45px 0 0",
       display: "inline-block",
       color: theme.palette.text.lightShadedGray,
@@ -69,14 +70,13 @@ export const useStyles = theme => ({
     borderColor: theme.palette.text.lightGray,
     borderRadius: 16,
     padding: "5px 15px",
-    marginRight: 5,
+    margin: '0 5px 10px 0',
     display: "inline-block",
     color: theme.palette.text.lightShadedGray,
     fontSize: 12,
     letterSpacing: "0.21px",
     lineHeight: "20px",
     "&:last-of-type": { marginRight: 0 },
-    '@media(max-width:800px)': { marginBottom: 10 }
   },
   demoContainer: {
     marginTop: 25,
@@ -92,7 +92,7 @@ export const useStyles = theme => ({
     },
   },
   backToLink: {
-    margin: '30px 0',
+    margin: '30px 0 0',
     display: "flex",
     alignItems: "center",
     "& span": { color: theme.palette.text.primary },
@@ -190,7 +190,9 @@ export const useStyles = theme => ({
   demoToggler: {
     "& a": { textDecoration: "none !important" },
   },
-  tagsContainer:{
-    '@media(max-width:800px)': { padding: '0 10px' }
+  tagsContainer:{ 
+    padding: '0 22px',
+    display: 'flex',
+    alignItems: 'baseline'
   }
 });

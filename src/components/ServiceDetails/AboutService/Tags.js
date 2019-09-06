@@ -8,7 +8,9 @@ const Tags = ({ classes, tags }) => {
   return (
     <div className={classes.tagsContainer}>
       <h5>Tags</h5>
-      {tags && tags.map(tag => <Tag key={tag.tag_name} text={tag.tag_name} />)}
+      <div>
+      	{tags && tags.map(tag => <Tag key={tag.tag_name} text={tag.tag_name} />)}
+      </div>
     </div>
   );
 };

@@ -5,9 +5,11 @@ export const useStyles = theme => ({
     "& > div": {
       paddingLeft: 60,
       paddingRight: 60,
-      '@media(max-width:800px)': {
+      '@media(max-width:801px)': {
+        boxSizing: 'border-box',
         paddingLeft: 30,
         paddingRight: 30,
+        marginBottom: 25
       }
     },
   },
