@@ -40,7 +40,7 @@ export const GetStartedCategoriesData = [
     categoryIcon: SeacrhIcon,
     categoryTitle: "Browsing the marketplace",
     categoryDescription:
-      "Exploring AI - The SingularityNET AI Marketplace hosts a wide variety of AI services that range from Pneumonia Detection to Image Colorisation. You can view all of them by default in “Card view” as shown here but also search by category, rating, most recent and favourites.",
+      "Exploring AI - The SingularityNET AI Marketplace hosts a wide variety of AI services that range from Text generation to Face detection. You can view all of them by default in “List view” as shown here but also search by category, rating, most recent and favourites.",
     categoryTabs: [
       { title: "Card or List Views ", media: { type: "img", content: CardorListViews } },
       { title: "Change Filter Options", media: { type: "img", content: ChangeFilterOptions } },
