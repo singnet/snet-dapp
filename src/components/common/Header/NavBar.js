@@ -1,19 +1,19 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 
-//import StyledDropdown from "../StyledDropdown/";
 import { useStyles } from "./styles";
 import NavItem from "./NavItem";
 import Routes from "../../../utility/constants/Routes";
+import StyledMenu from "../StyledMenu";
 
 const NavBar = ({ data, history }) => {
   const classes = useStyles();
 
   const isActiveTab = link => {
-    if (history.location.pathname === "/") {
-      return link === `/${Routes.AI_MARKETPLACE}`;
+    if (history.location.pathname === `/${Routes.GET_STARTED}`) {
+      return link === `/${Routes.GET_STARTED}`;
     }
-    return link === history.location.pathname;
+    return link !== `/${Routes.GET_STARTED}`;
   };
 
   return (
@@ -25,14 +25,14 @@ const NavBar = ({ data, history }) => {
             title={tab.title}
             link={tab.link}
             active={isActiveTab(tab.link)}
-            openInNewTab={tab.openInNewTab}
+            newTab={tab.newTab}
           />
         ))}
-        {/*data.dropdowns.map(dropdown => (
-          <li key={dropdown.label} className={classes.navLinksDropDown}>
-            <StyledDropdown labelTxt={dropdown.label} list={dropdown.list} />
-          </li>
-        ))*/}
+        {data.dropdowns.map(dropdown => (
+          <div className={classes.headerDropDown}>
+            <StyledMenu key={dropdown.label} label={dropdown.label} list={dropdown.list} />
+          </div>
+        ))}
       </ul>
     </nav>
   );

@@ -16,11 +16,16 @@ const buttonColor = {
   redBg: "redBg",
 };
 
-const StyledButton = ({ disabled, onClick, type, iconClass, btnText }) => {
+const StyledButton = ({ disabled, onClick, type, iconClass, btnText, ...rest }) => {
   const classes = useStyles();
 
   return (
-    <Button className={clsx(classes.styledButton, classes[buttonColor[type]])} disabled={disabled} onClick={onClick}>
+    <Button
+      className={clsx(classes.styledButton, classes[buttonColor[type]])}
+      disabled={disabled}
+      onClick={onClick}
+      {...rest}
+    >
       {iconClass ? <Icon className={iconClass} /> : null}
       {btnText}
     </Button>
