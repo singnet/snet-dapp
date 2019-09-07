@@ -1,0 +1,33 @@
+.tables-modal .ant-modal-body {
+  padding: 10px 0 !important;
+}
+
+.tables-modal .ant-collapse {
+  margin: 5px 10px;
+}
+
+.table-tabs-wrapper {
+  padding: 0;
+  background-color: "#fff";
+  position: relative;
+}
+
+.tabbed-table-spinner-wrapper {
+  width: 100%;
+  text-align: center;
+  padding-top: 30;
+  padding-bottom: 30;
+}
+
+.tabbed-table-spinner-wrapper .ant-spin {
+  margin-right: 10px;
+}
+
+.table-definition-wrapper .title {
+  font-weight: bold;
+}
+
+.ant-table-tbody > tr > td {
+  word-wrap: break-word;
+  word-break: break-all;
+}
