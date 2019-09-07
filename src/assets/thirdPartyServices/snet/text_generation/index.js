@@ -331,7 +331,7 @@ class TextGenerationService extends React.Component {
                 valueLabelDisplay="on"
                 onChange={(e, val) => this.changeSlider("top_k", val)}
               />
-              <span className={classes.startEndNumber}>100</span>
+              <span className={classes.startEndNumber}>20</span>
             </Grid>
           </Grid>
 
