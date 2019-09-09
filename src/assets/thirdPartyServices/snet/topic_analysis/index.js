@@ -158,7 +158,8 @@ export default class TopicAnalysisService extends React.Component {
     const link = document.createElement("a");
     link.setAttribute("type", "hidden");
     let resp = this.state.response;
-    resp["handle"] = "https://tz-services-1.snet.sh:2298/topic-analysis/api/v1.0/results?handle=" + resp["handle"];
+    // Concatenation already done in the render complete method
+    //resp["handle"] = "https://tz-services-1.snet.sh:2298/topic-analysis/api/v1.0/results?handle=" + resp["handle"];
     link.setAttribute("href", "data:text/json," + JSON.stringify(resp));
     link.setAttribute("download", "result.json");
     document.body.appendChild(link);
@@ -370,13 +371,9 @@ export default class TopicAnalysisService extends React.Component {
               <a
                 rel="noopener noreferrer"
                 target="_blank"
-                href={
-                  "https://tz-services-1.snet.sh:2298/topic-analysis/api/v1.0/results?handle=" +
-                  response.handle
-                }
+                href={response.handle}
               >
-                {"https://tz-services-1.snet.sh:2298/topic-analysis/api/v1.0/results?handle=" +
-                  response.handle}
+                {response.handle}
               </a>
             </p>
           </CardContent>

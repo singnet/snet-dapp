@@ -1,16 +1,17 @@
 import { makeStyles } from "@material-ui/styles";
 
 export const useStyles = makeStyles(theme => ({
-  cardCollection: {
+  lisViewCardCollection: {
     marginTop: 10,
     "@media(max-width: 1023px) and (min-width: 768px)": { textAlign: "center" },
+    "& a": {
+      width: "100%",
+      textDecoration: "none ",
+      display: "inline-block",
+      verticalAlign: "top",
+    },
   },
-  routerLink: {
-    width: "100%",
-    textDecoration: "none ",
-    display: "inline-block",
-    verticalAlign: "top",
-  },
+
   circularProgressContainer: {
     paddingTop: 20,
     textAlign: "center",
@@ -47,6 +48,18 @@ export const useStyles = makeStyles(theme => ({
       color: theme.palette.text.lightShadedGray,
       fontSize: 16,
       lineHeight: "20px",
+    },
+  },
+  gridViewCardCollection: {
+    marginTop: 20,
+    display: "flex",
+    flexWrap: "wrap",
+    "& a": {
+      width: "100%",
+      textDecoration: "none ",
+      display: "inline-block",
+      verticalAlign: "top",
+      flex: 1,
     },
   },
 }));

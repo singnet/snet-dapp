@@ -35,17 +35,12 @@ const StyledCard = props => {
           <StarRatingComponent
             name="rate1"
             starCount={5}
-            value={3}
-            starColor={"#FFC200"}
-            emptyStarColor={"rgba(161,163,168,0.35)"}
+            value={Number(props.ratingGiven.rating)}
             className={classes.ratingStars}
           />
-          <RatingsCount ratingGiven={props.ratingGiven} totalRating={props.totalRating} />
-          <span className={classes.ratedCount}>
-            {props.ratingGiven} {props.totalRating}
-          </span>
+          <RatingsCount ratingGiven={props.ratingGiven.rating} totalRating={props.ratingGiven.total_users_rated} />
         </div>
-        <Typography className={classes.cardTypograpy} component="p">
+        <Typography className={classes.cardTypograpy} component="p" noWrap>
           {props.cardDescription}
         </Typography>
       </CardContent>

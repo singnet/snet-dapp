@@ -11,6 +11,7 @@ export const useStyles = theme => ({
       color: theme.palette.text.primary,
       fontWeight: 600,
       textDecoration: "none",
+      padding: "0 5px",
     },
   },
   header: {
@@ -27,6 +28,7 @@ export const useStyles = theme => ({
   },
   infoIcon: {
     paddingRight: 12,
+    display: "none",
     color: theme.palette.text.lightGray,
     verticalAlign: "middle",
   },
@@ -37,7 +39,7 @@ export const useStyles = theme => ({
   },
   dropdown: {
     "& > div": {
-      width: "86%",
+      width: "95%",
       "& label": {
         fontFamily: theme.typography.primary,
         color: theme.palette.text.darkShadedGray,
@@ -97,9 +99,9 @@ export const useStyles = theme => ({
     lineHeight: "24px",
     textAlign: "center",
   },
-  errorMsg: { margin: "25px 0 10px" },
+  errorMsg: { margin: "25px 0 0" },
   btnContainer: {
-    marginTop: 40,
+    marginTop: 30,
     textAlign: "center",
     "& button": {
       "&:first-of-type": { padding: "13px 0 11px" },
@@ -118,7 +120,10 @@ export const useStyles = theme => ({
     alignItems: "center",
     justifyContent: "space-between",
     "& h4": { fontSize: "20 !important" },
-    "& svg": { color: theme.palette.text.lightShadedGray },
+    "& svg": {
+      display: "none",
+      color: theme.palette.text.lightShadedGray,
+    },
   },
   resultsContent: {
     padding: "20px 0 90px",

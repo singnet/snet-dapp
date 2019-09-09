@@ -1,7 +1,6 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/styles";
 import Slider from "@material-ui/core/Slider";
-import { Link } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -109,11 +108,12 @@ import TerenceMcKennaAvatar from "../../../images/ThirdPartyServices/snet/text_g
 
 import { GENGPT2 } from "./ntg_pb_service";
 import { useStyles } from "./styles";
+import AnchorLink from "../../../../components/common/AnchorLink";
 
 const initialUserInput = {
   start_text: "",
   run_name: "trump",
-  temperature: 1.2,
+  temperature: 0.8,
   top_k: 20,
   length: 256,
 };
@@ -235,12 +235,17 @@ class TextGenerationService extends React.Component {
         <Grid container spacing={24} className={classes.textGenConfigDetails}>
           <Grid item xs={12} sm={12} md={12} lg={12} className={classes.description}>
             <p>
-              For this demo you will be asked to input a text content and the persona you would like the tweet to be.
-              This text block is used to explain the nature of your Demo service . More text describing what the user
-              should do here.
+              For this demo you will be asked to input a text content and the persona you would like the tweet to come from.
             </p>
             <p>
-              Check out the <Link to="">Guide</Link> for details steps.
+              Check out the
+              <AnchorLink
+                newTab
+                href="https://github.com/iktina/neural-text-generation#how-does-it-work"
+                label="Guide"
+                className={classes.guideLink}
+              />
+              for detailed steps.
             </p>
           </Grid>
 
@@ -321,12 +326,12 @@ class TextGenerationService extends React.Component {
                 value={top_k}
                 aria-labelledby="discrete-slider-always"
                 min={0}
-                max={100}
-                step={10}
+                max={20}
+                step={1}
                 valueLabelDisplay="on"
                 onChange={(e, val) => this.changeSlider("top_k", val)}
               />
-              <span className={classes.startEndNumber}>100</span>
+              <span className={classes.startEndNumber}>20</span>
             </Grid>
           </Grid>
 
