@@ -68,6 +68,7 @@ export const useStyles = makeStyles(theme => ({
     fontFamily: theme.typography.primary.main,
     fontSize: 14,
     lineHeight: "20px",
+    textAlign:' left',
     "@media(max-width: 1279px)": { marginTop: 5 },
   },
   showMore: {

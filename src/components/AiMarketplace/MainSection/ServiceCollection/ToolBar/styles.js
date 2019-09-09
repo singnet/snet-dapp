@@ -8,6 +8,10 @@ export const useStyles = makeStyles(theme => ({
       padding: '10px 15px',
       marginTop: 0
     },
+    "@media(max-width: 480px)": { 
+      flexDirection: 'column-reverse',
+      alignItems: 'flex-start'
+    },
   },
   serviceCollection: { paddingLeft: 25 },
   sortBySection: {
@@ -23,6 +27,16 @@ export const useStyles = makeStyles(theme => ({
   servicesCount: {
     color: theme.palette.text.lightShadedGray,
     fontSize: 16,
+    '&::after':{
+      content: "' '",
+      width: 1,
+      height: 15,
+      marginLeft: 10,
+      display: 'inline-block',
+      backgroundColor: 'darkShadedGray',
+      verticalAlign: 'middle',
+      "@media(max-width: 480px)": { display: 'none' },
+    }
   },
   searchBar: {
     paddingTop: 10,
@@ -45,6 +59,10 @@ export const useStyles = makeStyles(theme => ({
         color: theme.palette.text.lightShadedGray,
         fontSize: 17,
       },
+    },
+    "@media(max-width: 768px)": { 
+      width: '100%',
+      justifyContent: 'space-between'
     },
   },
 }));
