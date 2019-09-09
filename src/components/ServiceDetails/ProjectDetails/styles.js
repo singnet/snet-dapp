@@ -23,7 +23,7 @@ export const useStyles = theme => ({
         fontSize: 14,
         fontWeight: 400,
         letterSpacing: 0.25,
-        wordBreak: 'break-all',
+        wordBreak: "break-all",
         textDecoration: "none",
         "&:hover": { textDecoration: "underline" },
       },

@@ -15,16 +15,16 @@ export const useStyles = makeStyles(theme => ({
   },
   cardHeader: {
     padding: "0 18px",
-    '& .MuiCardHeader-avatar':{
+    "& .MuiCardHeader-avatar": {
       "@media(max-width: 768px)": { marginRight: 0 },
     },
-    '& .MuiCardHeader-content':{
-      "@media(max-width: 768px)": { 
-        textAlign: 'left',
-        marginLeft: 10
+    "& .MuiCardHeader-content": {
+      "@media(max-width: 768px)": {
+        textAlign: "left",
+        marginLeft: 10,
       },
     },
-    "@media(max-width: 768px)": { alignItems: 'flex-start' },
+    "@media(max-width: 768px)": { alignItems: "flex-start" },
   },
   cardTitle: {
     fontFamily: theme.typography.primary.main,
@@ -41,31 +41,30 @@ export const useStyles = makeStyles(theme => ({
     fontWeight: 600,
     letterSpacing: 1.67,
     lineHeight: "16px",
-    textTransform: 'uppercase'
+    textTransform: "uppercase",
   },
   CardMedia: {
     height: 175,
     margin: "5px 0 13px",
-    "@media(max-width: 768px)": { margin: "12px 0 13px", },
+    "@media(max-width: 768px)": { margin: "12px 0 13px" },
   },
   fontSize: 18,
-  cardContent: { 
-    padding: "0 13px", 
-    fontFamily: theme.typography.primary.main, 
+  cardContent: {
+    padding: "0 13px",
+    fontFamily: theme.typography.primary.main,
     fontSize: 18,
-    "@media(max-width: 768px)": { textAlign: 'left' },
+    "@media(max-width: 768px)": { textAlign: "left" },
   },
   cardTypograpy: {
     color: theme.palette.text.mediumShadeGray,
-    lineHeight: "20px",
     fontFamily: theme.typography.primary.main,
     fontSize: 18,
     letterSpacing: 0.25,
-    lineHeight: '21px',
-    "@media(max-width: 768px)": { 
+    lineHeight: "21px",
+    "@media(max-width: 768px)": {
       fontSize: 14,
-      overflow: 'visible',
-      whiteSpace: 'normal'
+      overflow: "visible",
+      whiteSpace: "normal",
     },
   },
   cardActions: {

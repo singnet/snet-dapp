@@ -40,9 +40,9 @@ export const useStyles = theme => ({
       margin: "5px 0 0",
       fontWeight: 200,
     },
-    "@media(max-width: 1279px)": { 
+    "@media(max-width: 1279px)": {
       paddingRight: 0,
-      paddingTop: 16
+      paddingTop: 16,
     },
     "@media(max-width: 1024px)": { paddingTop: 0 },
   },

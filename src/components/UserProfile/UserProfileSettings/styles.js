@@ -28,9 +28,9 @@ export const useStyles = theme => ({
     "& div": {
       width: 411,
       margin: "30px 0 0",
-      '@media(max-width:660px)': { 
-        width: '100%',
-        flexDirection: 'column' 
+      "@media(max-width:660px)": {
+        width: "100%",
+        flexDirection: "column",
       },
       "&:first-of-type": {
         marginTop: 0,
