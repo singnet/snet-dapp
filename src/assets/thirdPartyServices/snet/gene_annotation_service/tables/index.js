@@ -16,7 +16,6 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Button from "@material-ui/core/Button";
 import CloudDownloadIcon from "@material-ui/icons/CloudDownloadOutlined";
-
 import { downloadCSVFile } from "../service";
 import * as papa from "papaparse";
 import "./style.css";

@@ -4,13 +4,6 @@ import addSvg from "../assets/add.svg";
 import filterSvg from "../assets/filter.svg";
 import "cytoscape-context-menus/cytoscape-context-menus.css";
 import $ from "jquery";
-
-const cytoscape = require("cytoscape");
-const cola = require("cytoscape-cola");
-const contextMenus = require("cytoscape-context-menus");
-const Color = require("color");
-contextMenus(cytoscape, $);
-
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import SearchIcon from "@material-ui/icons/Search";
@@ -32,8 +25,13 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import HelpIcon from "@material-ui/icons/HelpOutline";
 import { useSnackbar } from "notistack";
-
 import "./style.css";
+
+const cytoscape = require("cytoscape");
+const cola = require("cytoscape-cola");
+const contextMenus = require("cytoscape-context-menus");
+const Color = require("color");
+contextMenus(cytoscape, $);
 
 const AnnotationGroups = [
   {
