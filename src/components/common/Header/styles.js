@@ -37,6 +37,10 @@ export const useStyles = makeStyles(theme => ({
     "@media (max-width:1024px)": { display: "none" },
   },
   headerDropDown:{
+    '& > div':{
+      display: 'flex',
+      alignItems: 'flex-start'
+    },
     "&:hover": {
       "& button": { color: theme.palette.text.white },
       "& svg": { color: theme.palette.text.white },
@@ -58,7 +62,6 @@ export const useStyles = makeStyles(theme => ({
       paddingLeft: 5,
       color: "#9b9b9b",
       cursor: "pointer",
-      verticalAlign: "middle",
     },
   },
   navLinks: {
