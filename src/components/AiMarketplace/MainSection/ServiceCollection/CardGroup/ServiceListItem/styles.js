@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/styles";
 export const useStyles = makeStyles(theme => ({
   cardItemsContainer: {
     flexWrap: "nowrap",
-    "@media(max-width: 480px)": { flexDirection: "column" },
+    "@media(max-width: 768px)": { flexDirection: "column" },
   },
   card: {
     padding: 10,
