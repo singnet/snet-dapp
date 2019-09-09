@@ -18,7 +18,8 @@ export const useStyles = theme => ({
     width: "100%",
     marginTop: 32,
     display: "flex",
-    '@media(max-width:768px)': { flexDirection: 'column' }
+    '@media(max-width:768px)': { flexDirection: 'column' },
+    '@media(max-width:480px)': { marginTop: 16 }
   },
   computerVisionContainer: { display: "flex" },
   computerVisionContent: {

@@ -11,8 +11,8 @@ export const useStyles = theme => ({
       fontWeight: 200,
       '@media(max-width:1024px)': { fontSize: 34 }
     },
-    '@media(max-width:490px)': { textAlign:' center' },
-    '@media(max-width:768px)': { marginLeft: 17 }
+    '@media(max-width:768px)': { marginLeft: 17 },
+    '@media(max-width:480px)': { marginLeft: 0 }
   },
   ratingStars: {
     "& .dv-star-rating-empty-star": {
@@ -58,12 +58,14 @@ export const useStyles = theme => ({
     },
     '@media(max-width:490px)': { 
       marginTop: 20,
-      justifyContent: 'center'
     }
   },
   titleImg: {
     width: 234,
     "& img": { width: "100%" },
-    '@media(max-width:490px)': { margin: '0 auto' }
+    '@media(max-width:480px)': { 
+      width: 302,
+      margin: '0 auto'
+    }
   },
 });
