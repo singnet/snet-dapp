@@ -84,7 +84,7 @@ class UserProfileSettings extends Component {
     const { alertMessage, alertType, emailAlerts, showConfirmDelete, confirmDeleteError } = this.state;
     return (
       <Grid container spacing={24} className={classes.settingMainContainer}>
-        <Grid item xs={12} sm={12} md={8} lg={8} className={classes.settingsContainer}>
+        <Grid item xs={12} sm={12} md={7} lg={7} className={classes.settingsContainer}>
           <h3>Settings</h3>
           <div className={classes.settingsContent}>
             <div>

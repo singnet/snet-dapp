@@ -4,6 +4,8 @@ export const useStyles = theme => ({
     margin: "13px 0 50px",
   },
   accountContainer: {
+    maxWidth: 412,
+    flexBasis: '100%',
     paddingBottom: 52,
     borderRadius: 4,
     backgroundColor: theme.palette.text.white,
