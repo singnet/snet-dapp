@@ -33,7 +33,7 @@ export const useStyles = makeStyles(theme => ({
       height: 15,
       marginLeft: 10,
       display: "inline-block",
-      backgroundColor: theme.palette.text.darkShadedGray,
+      backgroundColor: theme.palette.text.mediumShadeGray,
       verticalAlign: "middle",
       "@media(max-width: 480px)": { display: "none" },
     },
