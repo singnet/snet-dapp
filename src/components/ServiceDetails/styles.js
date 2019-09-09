@@ -8,6 +8,9 @@ export const useStyles = theme => ({
       '@media(max-width:1280px)': {
         paddingLeft: 10,
         paddingRight: 10,
+      },
+      '&:last-of-type': {
+        '@media(max-width:768px)': { paddingRight: 0, paddingLeft: 0 }  
       }
     },
   },
@@ -15,7 +18,7 @@ export const useStyles = theme => ({
     width: "100%",
     marginTop: 32,
     display: "flex",
-    // '@media(max-width:800px)': { flexDirection: 'column' }
+    '@media(max-width:768px)': { flexDirection: 'column' }
   },
   computerVisionContainer: { display: "flex" },
   computerVisionContent: {

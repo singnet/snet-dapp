@@ -4,14 +4,15 @@ export const useStyles = theme => ({
     '@media(max-width:490px)': { display: 'inline-block' }
   },
   computerVisionContent: {
-    marginLeft: 25,
-    '@media(max-width:490px)': { textAlign:' center' },
+    marginLeft: 25,    
     "& h2": {
       color: theme.palette.text.darkShadedGray,
       fontSize: 38,
       fontWeight: 200,
       '@media(max-width:1024px)': { fontSize: 34 }
     },
+    '@media(max-width:490px)': { textAlign:' center' },
+    '@media(max-width:768px)': { marginLeft: 17 }
   },
   ratingStars: {
     "& .dv-star-rating-empty-star": {
@@ -45,6 +46,7 @@ export const useStyles = theme => ({
       width: 40,
       height: 40,
     },
+    '@media(max-width:768px)': { display: 'none' }
   },
   serviceCreatorDetails: {
     display: "flex",

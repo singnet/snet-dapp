@@ -15,14 +15,13 @@ export const useStyles = theme => ({
     },
     "& ul": { 
       justifyContent: "center",
-      '@media (max-width: 480px)': { display: 'inline-block' }
+      '@media(max-width:768px)': { flexDirection: 'row' }
     },
     "& li": {
       "&::before": {
         width: 110,
         marginLeft: 15,
         '@media (max-width: 938px)': { width: 40 },
-        '@media (max-width: 480px)': { display: 'none' }
       },
     },
     "& > p": {

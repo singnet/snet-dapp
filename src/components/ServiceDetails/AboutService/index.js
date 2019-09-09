@@ -20,7 +20,7 @@ const AboutService = ({ classes, isLoggedIn, service, history }) => {
         <DemoToggler showDemo={isLoggedIn} classes={classes} service={service} history={history} />        
       </Grid>
 
-      <Grid item xs={12} sm={4} md={4} lg={4}>
+      <Grid item xs={12} sm={4} md={4} lg={4} className={classes.rightSideSection}>
         <CreatorDetails organizationName={service.org_id} />
         <ProjectDetails projectURL={service.url} />
       </Grid>
