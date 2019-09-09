@@ -21,8 +21,7 @@ export const useStyles = theme => ({
       "&::before": {
         width: 110,
         marginLeft: 15,
-        '@media (max-width: 946px)': { width: 110 },
-        '@media (max-width: 716px)': { width: 30 },
+        '@media (max-width: 938px)': { width: 40 },
         '@media (max-width: 480px)': { display: 'none' }
       },
     },

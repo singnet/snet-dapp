@@ -5,11 +5,9 @@ export const useStyles = theme => ({
     "& > div": {
       paddingLeft: 60,
       paddingRight: 60,
-      '@media(max-width:801px)': {
-        boxSizing: 'border-box',
-        paddingLeft: 30,
-        paddingRight: 30,
-        marginBottom: 25
+      '@media(max-width:1280px)': {
+        paddingLeft: 10,
+        paddingRight: 10,
       }
     },
   },
@@ -17,7 +15,7 @@ export const useStyles = theme => ({
     width: "100%",
     marginTop: 32,
     display: "flex",
-    '@media(max-width:800px)': { flexDirection: 'column' }
+    // '@media(max-width:800px)': { flexDirection: 'column' }
   },
   computerVisionContainer: { display: "flex" },
   computerVisionContent: {
@@ -29,7 +27,7 @@ export const useStyles = theme => ({
     },
     "& h2": {
       color: theme.palette.text.darkShadedGray,
-      fontSize: 38,
+      fontSize: 38,      
     },
   },
   ratingStars: {

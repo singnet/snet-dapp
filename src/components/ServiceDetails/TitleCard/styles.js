@@ -1,7 +1,6 @@
 export const useStyles = theme => ({
   computerVisionContainer: { 
     display: "flex",
-    '@media(max-width:800px)': { marginBottom: 25 },
     '@media(max-width:490px)': { display: 'inline-block' }
   },
   computerVisionContent: {
@@ -11,6 +10,7 @@ export const useStyles = theme => ({
       color: theme.palette.text.darkShadedGray,
       fontSize: 38,
       fontWeight: 200,
+      '@media(max-width:1024px)': { fontSize: 34 }
     },
   },
   ratingStars: {
