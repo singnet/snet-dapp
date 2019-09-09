@@ -11,6 +11,7 @@ import GridViewItem from "./GridViewItem";
 
 const CardGroup = ({ data: cards, listView, loading }) => {
   const classes = useStyles();
+
   if (loading) {
     return (
       <div className={classes.circularProgressContainer}>

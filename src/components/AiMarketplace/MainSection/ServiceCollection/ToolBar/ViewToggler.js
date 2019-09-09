@@ -4,8 +4,12 @@ import clsx from "clsx";
 
 import { useStyles } from "./styles";
 
-const ViewToggler = ({ listView, toggleView }) => {
+const ViewToggler = ({ listView, toggleView, show }) => {
   const classes = useStyles();
+
+  if (!show) {
+    return null;
+  }
 
   if (!listView) {
     return (

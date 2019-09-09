@@ -9,9 +9,10 @@ import { useStyles } from "./styles";
 import { serviceActions } from "../../../Redux/actionCreators";
 import { filterAttributes, generateFilterObject } from "../../../utility/constants/Pagination";
 
+const isDesktop = window.innerWidth > 768;
 class MainSection extends Component {
   state = {
-    listView: true,
+    listView: isDesktop,
   };
 
   componentDidMount = () => {
@@ -58,10 +59,11 @@ class MainSection extends Component {
               toggleView: this.toggleView,
               currentPagination: pagination,
               currentFilter,
+              showToggler: isDesktop,
             }}
             cardGroupProps={{
               data: services,
-              listView: listView,
+              listView,
             }}
             paginationProps={{
               limit: pagination.limit,
