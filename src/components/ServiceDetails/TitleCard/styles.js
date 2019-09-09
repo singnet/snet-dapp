@@ -1,18 +1,18 @@
 export const useStyles = theme => ({
-  computerVisionContainer: { 
+  computerVisionContainer: {
     display: "flex",
-    '@media(max-width:490px)': { display: 'inline-block' }
+    "@media(max-width:490px)": { display: "inline-block" },
   },
   computerVisionContent: {
-    marginLeft: 25,    
+    marginLeft: 25,
     "& h2": {
       color: theme.palette.text.darkShadedGray,
       fontSize: 38,
       fontWeight: 200,
-      '@media(max-width:1024px)': { fontSize: 34 }
+      "@media(max-width:1024px)": { fontSize: 34 },
     },
-    '@media(max-width:768px)': { marginLeft: 17 },
-    '@media(max-width:480px)': { marginLeft: 0 }
+    "@media(max-width:768px)": { marginLeft: 17 },
+    "@media(max-width:480px)": { marginLeft: 0 },
   },
   ratingStars: {
     "& .dv-star-rating-empty-star": {
@@ -46,7 +46,7 @@ export const useStyles = theme => ({
       width: 40,
       height: 40,
     },
-    '@media(max-width:768px)': { display: 'none' }
+    "@media(max-width:768px)": { display: "none" },
   },
   serviceCreatorDetails: {
     display: "flex",
@@ -56,16 +56,16 @@ export const useStyles = theme => ({
       fontSize: 14,
       textTransform: "uppercase",
     },
-    '@media(max-width:490px)': { 
+    "@media(max-width:490px)": {
       marginTop: 20,
-    }
+    },
   },
   titleImg: {
     width: 234,
     "& img": { width: "100%" },
-    '@media(max-width:480px)': { 
+    "@media(max-width:480px)": {
       width: 302,
-      margin: '0 auto'
-    }
+      margin: "0 auto",
+    },
   },
 });

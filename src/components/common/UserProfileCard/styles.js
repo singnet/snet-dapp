@@ -29,6 +29,7 @@ export const useStyles = theme => ({
   },
   closeIcon: {
     position: "absolute",
+    cursor: "pointer",
     top: 10,
     right: 20,
     display: "none",

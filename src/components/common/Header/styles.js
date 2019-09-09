@@ -36,10 +36,10 @@ export const useStyles = makeStyles(theme => ({
     marginBottom: 10,
     "@media (max-width:1024px)": { display: "none" },
   },
-  headerDropDown:{
-    '& > div':{
-      display: 'flex',
-      alignItems: 'flex-start'
+  headerDropDown: {
+    "& > div": {
+      display: "flex",
+      alignItems: "flex-start",
     },
     "&:hover": {
       "& button": { color: theme.palette.text.white },
@@ -88,14 +88,14 @@ export const useStyles = makeStyles(theme => ({
     borderBottomWidth: 2,
     borderBottomStyle: "solid",
     borderBottomColor: theme.palette.text.white,
-    color: '#fff !important',
+    color: "#fff !important",
     fontWeight: 600,
   },
   loginBtnsSection: {
     width: "30%",
     marginBottom: 6,
     "@media (max-width:1024px)": { width: "59%" },
-    "@media (max-width:550px)": { display: 'none' },
+    "@media (max-width:550px)": { display: "none" },
   },
   loginBtnsUl: {
     margin: 0,

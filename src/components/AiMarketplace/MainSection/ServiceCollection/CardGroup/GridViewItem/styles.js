@@ -37,22 +37,21 @@ export const useStyles = makeStyles(theme => ({
     fontWeight: 600,
     letterSpacing: 1.67,
     lineHeight: "16px",
-    textTransform: 'uppercase'
+    textTransform: "uppercase",
   },
   CardMedia: {
     height: 175,
     margin: "12px 0 13px",
   },
   fontSize: 18,
-  cardContent: { 
-    padding: "0 13px", 
-    fontFamily: theme.typography.primary.main, 
+  cardContent: {
+    padding: "0 13px",
+    fontFamily: theme.typography.primary.main,
     fontSize: 18,
     textAlign: 'left'
   },
   cardTypograpy: {
     color: theme.palette.text.mediumShadeGray,
-    lineHeight: "20px",
     fontFamily: theme.typography.primary.main,
     fontSize: 14,
     letterSpacing: 0.25,

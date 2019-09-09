@@ -64,8 +64,8 @@ export const useStyles = makeStyles(theme => ({
       '& > div':{
         "@media(max-width: 768px)": { marginRight: 0 },  
       },
-      "@media(max-width: 768px)": { textAlign: 'center' },
+      "@media(max-width: 768px)": { textAlign: "center" },
     },
-    "@media(max-width: 768px)": { flexDirection: 'column' },
+    "@media(max-width: 768px)": { flexDirection: "column" },
   },
 }));

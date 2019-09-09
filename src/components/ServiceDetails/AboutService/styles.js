@@ -14,23 +14,23 @@ export const useStyles = theme => ({
       fontSize: 20,
       fontWeight: 400,
     },
-    '@media(max-width:768px)': { 
-      padding: ' 20px 10px 0',
-      flexDirection: 'column'
-    }
+    "@media(max-width:768px)": {
+      padding: " 20px 10px 0",
+      flexDirection: "column",
+    },
   },
-  leftSideSection: { 
+  leftSideSection: {
     paddingRight: 25,
-    '@media(max-width:768px)': { 
-      maxWidth: '100%',
-      paddingRight: 0 
-    }
+    "@media(max-width:768px)": {
+      maxWidth: "100%",
+      paddingRight: 0,
+    },
   },
-  rightSideSection:{
-    '@media(max-width:768px)': { 
-      maxWidth: '100%',
-      marginTop: 25 
-    }
+  rightSideSection: {
+    "@media(max-width:768px)": {
+      maxWidth: "100%",
+      marginTop: 25,
+    },
   },
   overViewContainer: {
     boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
@@ -71,7 +71,7 @@ export const useStyles = theme => ({
       display: "inline-block",
       color: theme.palette.text.lightShadedGray,
       fontSize: 16,
-      '@media(max-width:800px)': { paddingLeft: 0 }
+      "@media(max-width:800px)": { paddingLeft: 0 },
     },
   },
   tags: {
@@ -80,7 +80,7 @@ export const useStyles = theme => ({
     borderColor: theme.palette.text.lightGray,
     borderRadius: 16,
     padding: "5px 15px",
-    margin: '0 5px 10px 0',
+    margin: "0 5px 10px 0",
     display: "inline-block",
     color: theme.palette.text.lightShadedGray,
     fontSize: 12,
@@ -102,7 +102,7 @@ export const useStyles = theme => ({
     },
   },
   backToLink: {
-    margin: '30px 0 0',
+    margin: "30px 0 0",
     display: "flex",
     alignItems: "center",
     "& span": { color: theme.palette.text.primary },
@@ -113,10 +113,10 @@ export const useStyles = theme => ({
       fontSize: 16,
       "&:hover": { fontWeight: 600 },
     },
-    '@media(max-width:768px)': { 
+    "@media(max-width:768px)": {
       marginTop: 15,
-      marginBottom: 15 
-    }
+      marginBottom: 15,
+    },
   },
   creatorDetailsContainer: {
     boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
@@ -204,9 +204,9 @@ export const useStyles = theme => ({
   demoToggler: {
     "& a": { textDecoration: "none !important" },
   },
-  tagsContainer:{ 
-    padding: '0 22px',
-    display: 'flex',
-    alignItems: 'baseline'
-  }
+  tagsContainer: {
+    padding: "0 22px",
+    display: "flex",
+    alignItems: "baseline",
+  },
 });

@@ -3,7 +3,7 @@ export const useStyles = theme => ({
     backgroundColor: "transparent",
     color: theme.palette.text.lightShadedGray,
     boxShadow: "none",
-    '@media(max-width:768px)': { padding: '0 30px' },
+    "@media(max-width:768px)": { padding: "0 30px" },
     "& button": {
       minWidth: "auto",
       padding: 0,

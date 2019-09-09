@@ -4,13 +4,13 @@ export const useStyles = makeStyles(theme => ({
   toolBar: {
     padding: "10px 0",
     "@media(max-width: 1023px)": { marginTop: 30 },
-    "@media(max-width: 768px)": { 
-      padding: '10px 15px',
-      marginTop: 0
+    "@media(max-width: 768px)": {
+      padding: "10px 15px",
+      marginTop: 0,
     },
-    "@media(max-width: 480px)": { 
-      flexDirection: 'column-reverse',
-      alignItems: 'flex-start'
+    "@media(max-width: 480px)": {
+      flexDirection: "column-reverse",
+      alignItems: "flex-start",
     },
   },
   serviceCollection: { paddingLeft: 25 },
@@ -27,7 +27,7 @@ export const useStyles = makeStyles(theme => ({
   servicesCount: {
     color: theme.palette.text.lightShadedGray,
     fontSize: 16,
-    '&::after':{
+    "&::after": {
       content: "' '",
       width: 1,
       height: 15,
@@ -61,6 +61,7 @@ export const useStyles = makeStyles(theme => ({
     },
     "@media(max-width: 480px)": { 
       width: '100%',
+      marginBottom: 15,
       justifyContent: 'space-between' 
     },
   },
