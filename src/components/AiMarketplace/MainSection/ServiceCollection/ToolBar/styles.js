@@ -33,13 +33,12 @@ export const useStyles = makeStyles(theme => ({
       height: 15,
       marginLeft: 10,
       display: 'inline-block',
-      backgroundColor: 'darkShadedGray',
+      backgroundColor: theme.palette.text.darkShadedGray,
       verticalAlign: 'middle',
       "@media(max-width: 480px)": { display: 'none' },
     }
   },
   searchBar: {
-    paddingTop: 10,
     "& div": {
       color: theme.palette.text.mediumShadeGray,
       "&::after": { borderBottomColor: "#9b9b9b !important" },
@@ -60,9 +59,9 @@ export const useStyles = makeStyles(theme => ({
         fontSize: 17,
       },
     },
-    "@media(max-width: 768px)": { 
+    "@media(max-width: 480px)": { 
       width: '100%',
-      justifyContent: 'space-between'
+      justifyContent: 'space-between' 
     },
   },
 }));
