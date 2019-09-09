@@ -4,7 +4,7 @@ export const useStyles = theme => ({
   },
   settingsContainer: {
     maxWidth: 845,
-    flexBasis: '100%',
+    flexBasis: "100%",
     borderRadius: 4,
     backgroundColor: theme.palette.text.white,
     boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
@@ -52,9 +52,9 @@ export const useStyles = theme => ({
       letterSpacing: 0.15,
       lineHeight: "24px",
       "@media(max-width:660px)": {
-        boxSizing: 'border-box',
-        padding: '28px 15px'
-      }
+        boxSizing: "border-box",
+        padding: "28px 15px",
+      },
     },
     "& p": {
       margin: 0,

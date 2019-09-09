@@ -70,7 +70,7 @@ export const useStyles = theme => ({
   loggedInActions: {
     display: "flex",
     alignItems: "center",
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
     "& span": {
       cursor: "pointer",
       "&:first-of-type": {

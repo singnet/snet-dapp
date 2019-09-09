@@ -60,9 +60,9 @@ export const useStyles = makeStyles(theme => ({
       display: "inline-block",
       verticalAlign: "top",
       flex: 1,
-      "@media(max-width: 1024px)": { textAlign: 'center' },
-      '& > div':{
-        "@media(max-width: 768px)": { marginRight: 0 },  
+      "@media(max-width: 1024px)": { textAlign: "center" },
+      "& > div": {
+        "@media(max-width: 768px)": { marginRight: 0 },
       },
       "@media(max-width: 768px)": { textAlign: "center" },
     },

@@ -67,13 +67,13 @@ export const useStyles = theme => ({
     borderTopColor: theme.palette.text.white,
     paddingTop: 30,
     "& ul": {
-      marginLeft: '29%',
+      marginLeft: "29%",
       justifyContent: "flex-start",
       "& li": {
         margin: 0,
         padding: 0,
-        border: 'none',
-        '&:first-of-type': { marginRight: 15 }, 
+        border: "none",
+        "&:first-of-type": { marginRight: 15 },
         "&:last-of-type span": {
           padding: "10px 28px",
           borderWidth: 1,

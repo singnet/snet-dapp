@@ -32,11 +32,11 @@ export const useStyles = makeStyles(theme => ({
       width: 1,
       height: 15,
       marginLeft: 10,
-      display: 'inline-block',
+      display: "inline-block",
       backgroundColor: theme.palette.text.darkShadedGray,
-      verticalAlign: 'middle',
-      "@media(max-width: 480px)": { display: 'none' },
-    }
+      verticalAlign: "middle",
+      "@media(max-width: 480px)": { display: "none" },
+    },
   },
   searchBar: {
     "& div": {
@@ -59,10 +59,10 @@ export const useStyles = makeStyles(theme => ({
         fontSize: 17,
       },
     },
-    "@media(max-width: 480px)": { 
-      width: '100%',
+    "@media(max-width: 480px)": {
+      width: "100%",
       marginBottom: 15,
-      justifyContent: 'space-between' 
+      justifyContent: "space-between",
     },
   },
 }));
