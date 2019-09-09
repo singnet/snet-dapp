@@ -15,11 +15,11 @@ export const useStyles = makeStyles(theme => ({
   },
   cardHeader: {
     padding: "0 18px",
-    alignItems: 'flex-start',
-    '& .MuiCardHeader-avatar':{ marginRight: 0 },
-    '& .MuiCardHeader-content':{ 
-      textAlign: 'left',
-      marginLeft: 10
+    alignItems: "flex-start",
+    "& .MuiCardHeader-avatar": { marginRight: 0 },
+    "& .MuiCardHeader-content": {
+      textAlign: "left",
+      marginLeft: 10,
     },
   },
   cardTitle: {
@@ -48,14 +48,14 @@ export const useStyles = makeStyles(theme => ({
     padding: "0 13px",
     fontFamily: theme.typography.primary.main,
     fontSize: 18,
-    textAlign: 'left'
+    textAlign: "left",
   },
   cardTypograpy: {
     color: theme.palette.text.mediumShadeGray,
     fontFamily: theme.typography.primary.main,
     fontSize: 14,
     letterSpacing: 0.25,
-    lineHeight: '21px',
+    lineHeight: "21px",
   },
   cardActions: {
     padding: "16px 13px 0",
