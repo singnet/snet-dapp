@@ -13,6 +13,10 @@ export const useStyles = theme => ({
       lineHeight: "24px",
       "& span": { fontWeight: 600 },
     },
+    "@media(max-width:960px)": {
+      maxWidth: "100%",
+      marginBottom: 25,
+    },
   },
   reverseDirection: {
     flexDirection: "row-reverse",

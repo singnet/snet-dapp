@@ -4,19 +4,23 @@ import clsx from "clsx";
 
 import { useStyles } from "./styles";
 
-const ViewToggler = ({ listView, toggleView }) => {
+const ViewToggler = ({ listView, toggleView, show }) => {
   const classes = useStyles();
 
-  if (listView) {
+  if (!show) {
+    return null;
+  }
+
+  if (!listView) {
     return (
       <button onClick={toggleView}>
-        <Icon className={clsx(classes.icon, "fa fa-th-list")} />
+        <Icon className={clsx(classes.icon, "fa fa-th")} />
       </button>
     );
   }
   return (
     <button onClick={toggleView}>
-      <Icon className={clsx(classes.icon, "fa fa-th")} />
+      <Icon className={clsx(classes.icon, "fa fa-th-list")} />
     </button>
   );
 };

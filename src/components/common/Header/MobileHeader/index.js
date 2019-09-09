@@ -39,7 +39,7 @@ const MobileHeader = ({ classes, data, isLoggedIn, hamburgerMenu, updateHamburge
                 <Fragment>
                   <NavItem title={dropdown.label} subHeader />
                   {dropdown.list.map(item => (
-                    <NavItem key={item.label} title={item.label} link={dropdown.link} subListItem />
+                    <NavItem key={item.label} title={item.label} link={item.link} subListItem />
                   ))}
                 </Fragment>
               </div>
