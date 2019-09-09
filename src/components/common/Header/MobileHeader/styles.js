@@ -67,12 +67,14 @@ export const useStyles = theme => ({
     borderTopColor: theme.palette.text.white,
     paddingTop: 30,
     "& ul": {
-      justifyContent: "space-evenly",
+      marginLeft: '29%',
+      justifyContent: "flex-start",
       "& li": {
         margin: 0,
         padding: 0,
-        border: "none",
-        "&:last-of-type a": {
+        border: 'none',
+        '&:first-of-type': { marginRight: 15 }, 
+        "&:last-of-type span": {
           padding: "10px 28px",
           borderWidth: 1,
           borderStyle: "solid",
@@ -108,5 +110,4 @@ export const useStyles = theme => ({
       "&:nth-child(2) a": { paddingTop: 0 },
     },
   },
-  loggedInState: { display: "none" },
 });
