@@ -14,7 +14,7 @@ const UserProfilePopUp = ({ classes, handleClick, nickname }) => {
   return (
     <div ref={wrapperRef}>
       <div className={classes.UserProfilePopUpContainer}>
-        <UserProfilePopUpHeader nickName={nickname} remainingCredits="" usedCredits="" />
+        <UserProfilePopUpHeader nickName={nickname} remainingCredits="" usedCredits="" onClose={handleClick} />
         <UserMenu />
       </div>
     </div>
