@@ -105,17 +105,18 @@ function AnnotationForm(props) {
         return gene;
       })
     );
+    // Namespace and number of parents
+    const namespace = new Filter();
+    namespace.setFilter("namespace");
+    namespace.setValue(GOSubgroups.join(" "));
+    const nop = new Filter();
+    nop.setFilter("parents");
+    nop.setValue(parents);
     annotationRequest.setAnnotationsList(
       annotations.map(sa => {
         const annotation = new Annotation();
         annotation.setFunctionname(sa);
         if (sa === "gene-go-annotation") {
-          const namespace = new Filter();
-          namespace.setFilter("namespace");
-          namespace.setValue(GOSubgroups.join(" "));
-          const nop = new Filter();
-          nop.setFilter("parents");
-          nop.setValue(parents);
           annotation.setFiltersList([namespace, nop]);
         } else if (sa === "gene-pathway-annotation") {
           const ps = new Filter();
@@ -127,12 +128,17 @@ function AnnotationForm(props) {
           const ip = new Filter();
           ip.setFilter("include_prot");
           ip.setValue(capitalizeFirstLetter(includeProtiens.toString()));
-          annotation.setFiltersList([ps, ip, ism]);
+          annotation.setFiltersList([
+            ps,
+            ip,
+            ism,
+            ...(annotations.includes("gene-go-annotation") ? [namespace, nop] : []),
+          ]);
         } else if (sa === "biogrid-interaction-annotation") {
           const int = new Filter();
           int.setFilter("interaction");
           int.setValue(annotations.includes("gene-pathway-annotation") && includeProtiens ? "Proteins" : "Genes");
-          annotation.setFiltersList([int]);
+          annotation.setFiltersList([int, ...(annotations.includes("gene-go-annotation") ? [namespace, nop] : [])]);
         }
         return annotation;
       })
@@ -356,17 +362,6 @@ function AnnotationForm(props) {
                     }
                     label="Small molecules"
                   />
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        checked={includeProtiens}
-                        onChange={e => setIncludeProtiens(e.target.checked)}
-                        value="protiens"
-                        color="primary"
-                      />
-                    }
-                    label="Protiens"
-                  />
                 </FormGroup>
               </div>
             </div>
@@ -383,6 +378,17 @@ function AnnotationForm(props) {
           </FormGroup>
         </li>
       </ul>
+      <FormControlLabel
+        control={
+          <Switch
+            checked={includeProtiens}
+            onChange={e => setIncludeProtiens(e.target.checked)}
+            value="protiens"
+            color="primary"
+          />
+        }
+        label="Include protiens"
+      />
       <div className="actions">
         <Button
           variant="contained"
