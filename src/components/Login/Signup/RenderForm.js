@@ -6,17 +6,12 @@ import { Icon } from "@material-ui/core";
 
 import StyledButton from "../../common/StyledButton";
 import AlertBox, { alertTypes } from "../../common/AlertBox";
-import {
-  isValidEmail,
-  hasUpperCase,
-  hasLowerCase,
-  minChars,
-  hasSpecialChar,
-  hasNumber,
-} from "../../../utility/Validation";
+import { hasUpperCase, hasLowerCase, minChars, hasSpecialChar, hasNumber } from "../../../utility/Validation";
 import { useStyles } from "./styles";
 import AlertText from "../../common/AlertText";
 import { PasswordCriteria, ValidationMessages } from "../../../utility/constants/ValidtionMessages";
+import validate from "validate.js";
+import { signup_form_constraints } from "./validationConstraints";
 
 const RenderForm = ({
   classes,
@@ -74,7 +69,10 @@ const RenderForm = ({
               value={email}
               onChange={handleEmail}
             />
-            <AlertText type={alertTypes.ERROR} message={!isValidEmail(email) ? ValidationMessages.INVALID_EMAIL : ""} />
+            <AlertText
+              type={alertTypes.ERROR}
+              message={validate.single(email, signup_form_constraints.email) ? ValidationMessages.INVALID_EMAIL : ""}
+            />
           </div>
           <TextField
             id="outlined-password-input"
