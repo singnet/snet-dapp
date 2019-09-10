@@ -2,7 +2,7 @@
 // file: src/proto/annotation.proto
 
 var src_proto_annotation_pb = require("./annotation_pb");
-var grpc = require("grpc-web-client").grpc;
+var grpc = require("@improbable-eng/grpc-web").grpc;
 
 var Annotate = (function() {
   function Annotate() {}
@@ -16,7 +16,7 @@ Annotate.Annotate = {
   requestStream: false,
   responseStream: false,
   requestType: src_proto_annotation_pb.AnnotationRequest,
-  responseType: src_proto_annotation_pb.AnnotationResponse
+  responseType: src_proto_annotation_pb.AnnotationResponse,
 };
 
 exports.Annotate = Annotate;
@@ -26,11 +26,7 @@ function AnnotateClient(serviceHost, options) {
   this.options = options || {};
 }
 
-AnnotateClient.prototype.annotate = function annotate(
-  requestMessage,
-  metadata,
-  callback
-) {
+AnnotateClient.prototype.annotate = function annotate(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
@@ -51,13 +47,13 @@ AnnotateClient.prototype.annotate = function annotate(
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
     cancel: function() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 

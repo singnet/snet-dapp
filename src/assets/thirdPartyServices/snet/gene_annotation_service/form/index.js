@@ -19,9 +19,9 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Dropzone from "react-dropzone";
 import { useSnackbar } from "notistack";
 import { Annotate } from "../proto/annotation_pb_service";
-import { grpc } from "grpc-web-client";
 import { AnnotationRequest, Annotation, Gene, Filter } from "../proto/annotation_pb";
 import "./style.css";
+const grpc = require("@improbable-eng/grpc-web").grpc;
 
 const GeneGoOptions = [
   { label: "Biological Process", value: "biological_process" },
@@ -43,7 +43,6 @@ function AnnotationForm(props) {
   const [pathways, setPathways] = useState(["reactome"]);
   const [includeSmallMolecules, setIncludeSmallMolecules] = useState(false);
   const [includeProtiens, setIncludeProtiens] = useState(true);
-  const [response, setResponse] = useState(undefined);
   const [loading, setLoading] = useState(false);
   const [GOSubgroups, setGOSubgroups] = useState(["biological_process", "cellular_component", "molecular_function"]);
   const [geneInputMethod, setGeneInputMethod] = useState(GeneInputMethods.Manual);
@@ -144,7 +143,6 @@ function AnnotationForm(props) {
       onEnd: ({ status, statusMessage, message: msg }) => {
         setLoading(false);
         if (status === grpc.Code.OK) {
-          setResponse(msg.array[0]);
           props.onResponse(msg.array[0].substr(msg.array[0].indexOf("id=") + 3));
         } else {
           if (statusMessage.includes("Gene Doesn't exist")) {
