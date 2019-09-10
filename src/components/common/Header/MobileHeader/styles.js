@@ -69,6 +69,10 @@ export const useStyles = theme => ({
     "& ul": {
       marginLeft: "29%",
       justifyContent: "flex-start",
+      '& > div':{
+        "@media (max-width:550px)": { display: "none" },
+      },
+      "@media(max-width: 480px)":{ margin: 0 },
       "& li": {
         margin: 0,
         padding: 0,
@@ -81,15 +85,18 @@ export const useStyles = theme => ({
           borderColor: theme.palette.text.white,
           borderRadius: 4,
         },
+        "@media (max-width:550px)": { display: "block" },
       },
       "& span": {
         fontSize: 24,
         textTransform: "capitalize",
       },
-      "& a": {
-        paddingBottom: 0,
-      },
+      "& a": { paddingBottom: 0 },
     },
+    "@media(max-width: 480px)":{
+      display: 'flex',
+      justifyContent: 'center'
+    }
   },
   subMenues: {
     "& li": {

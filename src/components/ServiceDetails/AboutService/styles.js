@@ -202,7 +202,16 @@ export const useStyles = theme => ({
     "& p": { marginLeft: "30px !important" },
   },
   demoToggler: {
-    "& a": { textDecoration: "none !important" },
+    "& a": { 
+      textDecoration: "none !important",
+      '& button':{ 
+        '@media(max-width:545px)':{ marginRight: '0 !important' }
+      }
+    },
+    "@media(max-width: 545px)":{ 
+      display: 'flex',
+      flexDirection: 'column'
+    }
   },
   tagsContainer: {
     padding: "0 22px",
