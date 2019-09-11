@@ -162,7 +162,7 @@ class TextGenerationService extends React.Component {
           throw new Error(statusMessage);
         }
         const selectedRunName = runNames.find(el => el.key === this.state.run_name);
-        const image = selectedRunName && selectedRunName.image;
+        const image = (selectedRunName && selectedRunName.image) || defaultImgPath;
         this.setState({
           ...initialUserInput,
           response: { status: "success", answer: message.getAnswer(), image, start_text },
@@ -175,11 +175,16 @@ class TextGenerationService extends React.Component {
 
   parseAvatarSrc = (run_name) => {
     const selectedRunName = runNames.find(el => el.key === run_name);
-    this.setState({selectedAvatar: selectedRunName && selectedRunName.avatar});
+    const selectedAvatar = (selectedRunName && selectedRunName.avatar) || defaultImgPath;
+    this.setState({selectedAvatar});
   };
 
   handleAvatarLoadError = () => {
     this.setState({selectedAvatar:defaultImgPath});
+  }
+
+  handleResponseImgError = () => {
+    this.setState(prevState => ({response:{...prevState.response, image:defaultImgPath}}));
   }
 
   renderForm() {
@@ -343,7 +348,7 @@ class TextGenerationService extends React.Component {
 
         <Grid item xs={12} sm={12} md={12} lg={12} className={classes.resultsContent}>
           <Grid item xs={12} sm={12} md={12} lg={12} className={classes.imgContainer}>
-            <img src={response.image} />
+            <img src={response.image} onError={this.handleResponseImgError} />
           </Grid>
 
           <Grid item xs={12} sm={12} md={12} lg={12} className={classes.resultDetails}>
