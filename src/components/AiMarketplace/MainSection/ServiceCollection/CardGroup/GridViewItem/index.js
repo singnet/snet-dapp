@@ -40,7 +40,7 @@ const StyledCard = props => {
           />
           <RatingsCount ratingGiven={props.ratingGiven.rating} totalRating={props.ratingGiven.total_users_rated} />
         </div>
-        <Typography className={classes.cardTypograpy} component="p" noWrap>
+        <Typography className={classes.cardTypograpy} component="p">
           {props.cardDescription}
         </Typography>
       </CardContent>

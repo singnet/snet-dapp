@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import truncate from "lodash/truncate";
 
 import ServiceListItem from "./ServiceListItem";
 import CardImg from "../../../../../assets/images/SnetDefaultServiceImage.png";
@@ -45,7 +46,7 @@ const CardGroup = ({ data: cards, listView, loading }) => {
               cardSubheader={card.org_id}
               ratingGiven={card.service_rating}
               totalRating={card.total_users_rated}
-              cardDescription={card.description}
+              cardDescription={truncate(card.description, { length: 180 })}
               isAvailable={Boolean(card.is_available)}
             />
           </Link>
@@ -67,7 +68,7 @@ const CardGroup = ({ data: cards, listView, loading }) => {
             cardSubheader={card.org_id}
             ratingGiven={card.service_rating}
             totalRating={card.total_users_rated}
-            cardDescription={card.description}
+            cardDescription={truncate(card.description, { length: 180 })}
             isAvailable={Boolean(card.is_available)}
           />
         </Link>
