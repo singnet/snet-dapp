@@ -12,100 +12,6 @@ import InfoIcon from "@material-ui/icons/Info";
 import Avatar from "@material-ui/core/Avatar";
 
 import StyledButton from "../../../../components/common/StyledButton";
-
-// import BarackObama from "../../../images/ThirdPartyServices/snet/text_generation/BarackObama.jpg";
-// import BarackObamaAvatar from "../../../images/ThirdPartyServices/snet/text_generation/BarackObama_avatar.jpg";
-
-// import BernieSanders from "../../../images/ThirdPartyServices/snet/text_generation/BernieSanders.jpg";
-// import BernieSandersAvatar from "../../../images/ThirdPartyServices/snet/text_generation/BernieSanders_avatar.jpg";
-
-// import BethanyBrookshire from "../../../images/ThirdPartyServices/snet/text_generation/BethanyBrookshire.jpg";
-// import BethanyBrookshireAvatar from "../../../images/ThirdPartyServices/snet/text_generation/BethanyBrookshire_avatar.jpg";
-
-// import BillGates from "../../../images/ThirdPartyServices/snet/text_generation/BillGates.jpg";
-// import BillGatesAvatar from "../../../images/ThirdPartyServices/snet/text_generation/BillGates_avatar.jpg";
-
-// import BrianSwitek from "../../../images/ThirdPartyServices/snet/text_generation/BrianSwitek.jpg";
-// import BrianSwitekAvatar from "../../../images/ThirdPartyServices/snet/text_generation/BrianSwitek_avatar.jpg";
-
-// import ConanOBrien from "../../../images/ThirdPartyServices/snet/text_generation/ConanOBrien.jpg";
-// import ConanOBrienAvatar from "../../../images/ThirdPartyServices/snet/text_generation/ConanOBrien_avatar.jpg";
-
-// import DeborahBlum from "../../../images/ThirdPartyServices/snet/text_generation/DeborahBlum.jpg";
-// import DeborahBlumAvatar from "../../../images/ThirdPartyServices/snet/text_generation/DeborahBlum_avatar.jpg";
-
-// import DeepakChopra from "../../../images/ThirdPartyServices/snet/text_generation/DeepakChopra.jpg";
-// import DeepakChopraAvatar from "../../../images/ThirdPartyServices/snet/text_generation/DeepakChopra_avatar.jpg";
-
-// import DonaldTrump from "../../../images/ThirdPartyServices/snet/text_generation/DonaldTrump.jpg";
-// import DonaldTrumpAvatar from "../../../images/ThirdPartyServices/snet/text_generation/DonaldTrump_avatar.jpg";
-
-// import DwayneJohnson from "../../../images/ThirdPartyServices/snet/text_generation/DwayneJohnson.jpg";
-// import DwayneJohnsonAvatar from "../../../images/ThirdPartyServices/snet/text_generation/DwayneJohnson_avatar.jpg";
-
-// import EllenDeGeneres from "../../../images/ThirdPartyServices/snet/text_generation/EllenDeGeneres.jpg";
-// import EllenDeGeneresAvatar from "../../../images/ThirdPartyServices/snet/text_generation/EllenDeGeneres_avatar.jpg";
-
-// import ElonMusk from "../../../images/ThirdPartyServices/snet/text_generation/ElonMusk.jpg";
-// import ElonMuskAvatar from "../../../images/ThirdPartyServices/snet/text_generation/ElonMusk_avatar.jpg";
-
-// import EricWeinstein from "../../../images/ThirdPartyServices/snet/text_generation/EricWeinstein.png";
-// import EricWeinsteinAvatar from "../../../images/ThirdPartyServices/snet/text_generation/EricWeinstein_avatar.png";
-
-// import god from "../../../images/ThirdPartyServices/snet/text_generation/god.jpg";
-// import godAvatar from "../../../images/ThirdPartyServices/snet/text_generation/god_avatar.jpg";
-
-// import HillaryClinton from "../../../images/ThirdPartyServices/snet/text_generation/HillaryClinton.jpg";
-// import HillaryClintonAvatar from "../../../images/ThirdPartyServices/snet/text_generation/HillaryClinton_avatar.jpg";
-
-// import JimmyFallon from "../../../images/ThirdPartyServices/snet/text_generation/JimmyFallon.jpg";
-// import JimmyFallonAvatar from "../../../images/ThirdPartyServices/snet/text_generation/JimmyFallon_avatar.jpg";
-
-// import JoeBiden from "../../../images/ThirdPartyServices/snet/text_generation/JoeBiden.jpg";
-// import JoeBidenAvatar from "../../../images/ThirdPartyServices/snet/text_generation/JoeBiden_avatar.jpg";
-
-// import JoeRogan from "../../../images/ThirdPartyServices/snet/text_generation/JoeRogan.png";
-// import JoeRoganAvatar from "../../../images/ThirdPartyServices/snet/text_generation/JoeRogan_avatar.png";
-
-// import JordanPeterson from "../../../images/ThirdPartyServices/snet/text_generation/JordanPeterson.jpg";
-// import JordanPetersonAvatar from "../../../images/ThirdPartyServices/snet/text_generation/JordanPeterson_avatar.jpg";
-
-// import JustinBieber from "../../../images/ThirdPartyServices/snet/text_generation/JustinBieber.jpg";
-// import JustinBieberAvatar from "../../../images/ThirdPartyServices/snet/text_generation/JustinBieber_avatar.jpg";
-
-// import KatyPerry from "../../../images/ThirdPartyServices/snet/text_generation/KatyPerry.jpg";
-// import KatyPerryAvatar from "../../../images/ThirdPartyServices/snet/text_generation/KatyPerry_avatar.jpg";
-
-// import KevinHart from "../../../images/ThirdPartyServices/snet/text_generation/KevinHart.jpg";
-// import KevinHartAvatar from "../../../images/ThirdPartyServices/snet/text_generation/KevinHart_avatar.jpg";
-
-// import KimKardashian from "../../../images/ThirdPartyServices/snet/text_generation/KimKardashian.png";
-// import KimKardashianAvatar from "../../../images/ThirdPartyServices/snet/text_generation/KimKardashian_avatar.png";
-
-// import LadyGaga from "../../../images/ThirdPartyServices/snet/text_generation/LadyGaga.jpg";
-// import LadyGagaAvatar from "../../../images/ThirdPartyServices/snet/text_generation/LadyGaga_avatar.jpg";
-
-// import NeildeGrasseTyson from "../../../images/ThirdPartyServices/snet/text_generation/NeildeGrasseTyson.jpg";
-// import NeildeGrasseTysonAvatar from "../../../images/ThirdPartyServices/snet/text_generation/NeildeGrasseTyson_avatar.jpg";
-
-// import PhilipPlait from "../../../images/ThirdPartyServices/snet/text_generation/PhilipPlait.jpg";
-// import PhilipPlaitAvatar from "../../../images/ThirdPartyServices/snet/text_generation/PhilipPlait_avatar.jpg";
-
-// import RebeccaSkloot from "../../../images/ThirdPartyServices/snet/text_generation/RebeccaSkloot.jpg";
-// import RebeccaSklootAvatar from "../../../images/ThirdPartyServices/snet/text_generation/RebeccaSkloot_avatar.jpg";
-
-// import RichardDawkins from "../../../images/ThirdPartyServices/snet/text_generation/RichardDawkins.jpg";
-// import RichardDawkinsAvatar from "../../../images/ThirdPartyServices/snet/text_generation/RichardDawkins_avatar.jpg";
-
-// import RickyGervais from "../../../images/ThirdPartyServices/snet/text_generation/RickyGervais.jpg";
-// import RickyGervaisAvatar from "../../../images/ThirdPartyServices/snet/text_generation/RickyGervais_avatar.jpg";
-
-// import SamHarris from "../../../images/ThirdPartyServices/snet/text_generation/SamHarris.jpg";
-// import SamHarrisAvatar from "../../../images/ThirdPartyServices/snet/text_generation/SamHarris_avatar.jpg";
-
-// import TerenceMcKenna from "../../../images/ThirdPartyServices/snet/text_generation/TerenceMcKenna.jpg";
-// import TerenceMcKennaAvatar from "../../../images/ThirdPartyServices/snet/text_generation/TerenceMcKenna_avatar.jpg";
-
 import { GENGPT2 } from "./ntg_pb_service";
 import { useStyles } from "./styles";
 import AnchorLink from "../../../../components/common/AnchorLink";
@@ -120,7 +26,8 @@ const initialUserInput = {
 
 const imgPath = (name, orgId = "snet", serviceId = "text-generation", extension = "jpg") => {
   const correctedServiceId = serviceId.replace(/\-/g, "_");
-  return `${process.env.REACT_APP_SNET_CDN}/assets/images/ThirdPartyServices/${orgId}/${correctedServiceId}/${name}.${extension}`;
+  const trimmedName = name.replace(/[\s\.\'']/g, "");
+  return `${process.env.REACT_APP_SNET_CDN}/assets/images/ThirdPartyServices/${orgId}/${correctedServiceId}/${trimmedName}.${extension}`;
 };
 
 const avatarPath = (name, orgId = "snet", serviceId = "text-generation", extension = "jpg") => {
@@ -138,16 +45,31 @@ const runNamesWithoutMedia = [
   { key: "deborahblum", value: "Deborah Blum" },
   { key: "deepakchopra", value: "Deepak Chopra" },
   { key: "elonmusk", value: "Elon Musk" },
-  { key: "ericrweinstein", value: "Eric Weinstein" },
+  {
+    key: "ericrweinstein",
+    value: "Eric Weinstein",
+    image: imgPath("EricWeinstein", undefined, undefined, "png"),
+    avatar: avatarPath("EricWeinstein", undefined, undefined, "png"),
+  },
   { key: "hillaryclinton", value: "Hillary Clinton" },
-  { key: "jimmyfallon", value: "jimmyfallon" },
+  { key: "jimmyfallon", value: "Jimmy Fallon" },
   { key: "joebiden", value: "Joe Biden" },
-  { key: "joerogan", value: "Joe Rogan" },
+  {
+    key: "joerogan",
+    value: "Joe Rogan",
+    image: imgPath("JoeRogan", undefined, undefined, "png"),
+    avatar: avatarPath("JoeRogan", undefined, undefined, "png"),
+  },
   { key: "jordanbpeterson", value: "Dr Jordan B Peterson" },
   { key: "justinbieber", value: "Justin Bieber" },
   { key: "katyperry", value: "Katy Perry" },
   { key: "kevinhart4real", value: "Kevin Hart" },
-  { key: "kimkardashian", value: "Kim Kardashian West" },
+  {
+    key: "kimkardashian",
+    value: "Kim Kardashian West",
+    image: imgPath("Kim Kardashian West", undefined, undefined, "png"),
+    avatar: avatarPath("Kim Kardashian West", undefined, undefined, "png"),
+  },
   { key: "ladygaga", value: "Lady Gaga" },
   { key: "laelaps", value: "Brian Switek" },
   { key: "neiltyson", value: "Neil deGrasse Tyson" },
@@ -163,11 +85,16 @@ const runNamesWithoutMedia = [
   { key: "ticbot", value: "TicBot" },
 ];
 
-const runNames = runNamesWithoutMedia.map(runName => ({
-  ...runName,
-  image: imgPath(runName.value),
-  avatar: avatarPath(runName.value),
-}));
+const runNames = runNamesWithoutMedia.map(runName => {
+  const updatedRunName = { ...runName };
+  if (!runName.image) {
+    updatedRunName.image = imgPath(runName.value);
+  }
+  if (!runName.avatar) {
+    updatedRunName.avatar = avatarPath(runName.value);
+  }
+  return updatedRunName;
+});
 
 class TextGenerationService extends React.Component {
   constructor(props) {
