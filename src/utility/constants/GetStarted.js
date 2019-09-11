@@ -5,43 +5,10 @@ import ThumbsUpDownIcon from "@material-ui/icons/ThumbsUpDown";
 import SettingsIcon from "@material-ui/icons/Settings";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 
-// import CardorListViews from "../../assets/images/GetStarted/BrowsingTheMarketplace/CardorListViews.png";
-// import ChangeFilterOptions from "../../assets/images/GetStarted/BrowsingTheMarketplace/ChangeFilterOptions.png";
-// import SortOptions from "../../assets/images/GetStarted/BrowsingTheMarketplace/SortOptions.png";
-// import RatingandRanking from "../../assets/images/GetStarted/BrowsingTheMarketplace/RatingandRanking.png";
-// import Search from "../../assets/images/GetStarted/BrowsingTheMarketplace/Search.png";
+const mediaPath = (type, directory, file, extension) =>
+  `${process.env.REACT_APP_SNET_CDN}/assets/${type}/GetStarted/${directory}/${file}.${extension}`;
 
-// import AboutDetails from "../../assets/images/GetStarted/ChooseingYourAi/AboutDetails.png";
-// import Pricing from "../../assets/images/GetStarted/ChooseingYourAi/Pricing.png";
-// import DemoTrial from "../../assets/images/GetStarted/ChooseingYourAi/DemoTrial.png";
-// import InstallRun from "../../assets/images/GetStarted/ChooseingYourAi/Install&Run.png";
-// import Tutorials from "../../assets/images/GetStarted/ChooseingYourAi/Tutorials.png";
-
-// import AccessingtheDemo from "../../assets/images/GetStarted/DemoAiServices/AccessingtheDemo.png";
-// import ConfigureAIParameters from "../../assets/images/GetStarted/DemoAiServices/ConfigureAIParameters.png";
-// import Metamask from "../../assets/images/GetStarted/DemoAiServices/Metamask.png";
-// import Seeoutputresults from "../../assets/images/GetStarted/DemoAiServices/Seeoutputresults.png";
-
-// import RatingAIServices from "../../assets/images/GetStarted/RateReviewImprove/RatingAIServices.png";
-// import AccessingSortingrReviews from "../../assets/images/GetStarted/RateReviewImprove/AccessingSortingrReviews.png";
-// import WritingReview from "../../assets/images/GetStarted/RateReviewImprove/WritingReview.png";
-
-// import Install from "../../assets/images/GetStarted/MakeItYourAI/Install.png";
-// import Run from "../../assets/images/GetStarted/MakeItYourAI/Run.png";
-// import MultipleChannels from "../../assets/images/GetStarted/MakeItYourAI/MultipleChannels.png";
-// import Documentation from "../../assets/images/GetStarted/MakeItYourAI/Documentation.png";
-
-// import ManagingyourAGItokens from "../../assets/images/GetStarted/UsingAgi/ManagingyourAGItokens.png";
-// import Metamaskwalletsupport from "../../assets/images/GetStarted/UsingAgi/Metamaskwalletsupport.png";
-// import Usingchannelbalances from "../../assets/images/GetStarted/UsingAgi/Usingchannelbalances.png";
-
-const mediaPath = (type, categoryTitle, title, extension) => {
-  const trimmedTitle = categoryTitle.replace(/\s/g, "");
-  const trimmedName = title.replace(/\s/g, "");
-  return `${process.env.REACT_APP_SNET_CDN}/assets/${type}/GetStarted/${trimmedTitle}/${trimmedName}.${extension}`;
-};
-
-const imgPath = (categoryTitle, title, extension = "png") => mediaPath("images", categoryTitle, title, extension);
+const imgPath = (directory, file, extension = "png") => mediaPath("images", directory, file, extension);
 
 export const GetStartedCategoriesData = [
   {
@@ -54,22 +21,22 @@ export const GetStartedCategoriesData = [
         title: "Card or List Views ",
         media: {
           type: "img",
-          content: imgPath("Browsing the marketplace", "Card or List Views "),
+          content: imgPath("BrowsingTheMarketplace", "CardorListViews"),
         },
       },
       {
         title: "Change Filter Options",
-        media: { type: "img", content: imgPath("Browsing the marketplace", "Change Filter Options") },
+        media: { type: "img", content: imgPath("BrowsingTheMarketplace", "ChangeFilterOptions") },
       },
       {
         title: "Sort Options",
-        media: { type: "img", content: imgPath("Browsing the marketplace", "Sort Options") },
+        media: { type: "img", content: imgPath("BrowsingTheMarketplace", "SortOptions") },
       },
       {
         title: "Rating and Rankings",
-        media: { type: "img", content: imgPath("Browsing the marketplace", "Rating and Rankings") },
+        media: { type: "img", content: imgPath("BrowsingTheMarketplace", "RatingandRanking") },
       },
-      { title: "Search", media: { type: "img", content: imgPath("Browsing the marketplace", "Search") } },
+      { title: "Search", media: { type: "img", content: imgPath("BrowsingTheMarketplace", "Search") } },
     ],
   },
   {
@@ -78,11 +45,11 @@ export const GetStartedCategoriesData = [
     categoryDescription:
       "AI Services - Each AI service on this platform is unique. Click on any service you would like to use to find out more about its required input, expected output, cost, usage, developer’s note and much more!",
     categoryTabs: [
-      { title: "About Details", media: { type: "img", content: imgPath("Choosing your AI", "About Details") } },
-      { title: "Pricing", media: { type: "img", content: imgPath("Choosing your AI", "Pricing") } },
-      { title: "Demo Trial", media: { type: "img", content: imgPath("Choosing your AI", "Demo Trial") } },
-      { title: "Install & Run", media: { type: "img", content: imgPath("Choosing your AI", "Install & Run") } },
-      { title: "Tutorials", media: { type: "img", content: imgPath("Choosing your AI", "Tutorials") } },
+      { title: "About Details", media: { type: "img", content: imgPath("ChooseingYourAi", "AboutDetails") } },
+      { title: "Pricing", media: { type: "img", content: imgPath("ChooseingYourAi", "Pricing") } },
+      { title: "Demo Trial", media: { type: "img", content: imgPath("ChooseingYourAi", "DemoTrial") } },
+      { title: "Install & Run", media: { type: "img", content: imgPath("ChooseingYourAi", "Install&Run") } },
+      { title: "Tutorials", media: { type: "img", content: imgPath("ChooseingYourAi", "Tutorials") } },
     ],
   },
   {
@@ -93,19 +60,19 @@ export const GetStartedCategoriesData = [
     categoryTabs: [
       {
         title: "Accessing the demo",
-        media: { type: "img", content: imgPath("Demo Ai Services", "Accessing the demo") },
+        media: { type: "img", content: imgPath("DemoAiServices", "AccessingtheDemo") },
       },
       {
         title: "Configure AI parameters",
-        media: { type: "gif", content: imgPath("Demo Ai Services", "Configure AI parameters") },
+        media: { type: "gif", content: imgPath("DemoAiServices", "ConfigureAIParameters") },
       },
       {
         title: "See output results",
-        media: { type: "gif", content: imgPath("Demo Ai Services", "See output results") },
+        media: { type: "gif", content: imgPath("DemoAiServices", "Seeoutputresults") },
       },
       {
         title: "Metamask (coming soon)",
-        media: { type: "gif", content: imgPath("Demo Ai Services", "Metamask (coming soon)") },
+        media: { type: "gif", content: imgPath("DemoAiServices", "Metamask") },
       },
     ],
   },
@@ -117,13 +84,13 @@ export const GetStartedCategoriesData = [
     categoryTabs: [
       {
         title: "Rating AI Services",
-        media: { type: "img", content: imgPath("RateReviewImprove", "Rating AI Services") },
+        media: { type: "img", content: imgPath("RateReviewImprove", "RatingAIServices") },
       },
       {
         title: "Accessing & sorting reviews",
-        media: { type: "img", content: imgPath("RateReviewImprove", "Accessing & sorting reviews") },
+        media: { type: "img", content: imgPath("RateReviewImprove", "AccessingSortingrReviews") },
       },
-      { title: "Writing review ", media: { type: "img", content: imgPath("RateReviewImprove", "Writing review") } },
+      { title: "Writing review ", media: { type: "img", content: imgPath("RateReviewImprove", "WritingReview") } },
     ],
   },
   {
@@ -132,13 +99,13 @@ export const GetStartedCategoriesData = [
     categoryDescription:
       "Install & run it - It has never been easier to find and integrate AI algorithms. Regardless of your internal tech capabilities, you can now seamlessly integrate a service to your website, app or other product via the SingularityNET AI Marketplace. ",
     categoryTabs: [
-      { title: "Install", media: { type: "img", content: imgPath("Make it your AI", "Install") } },
-      { title: "Run", media: { type: "img", content: imgPath("Make it your AI", "Run") } },
+      { title: "Install", media: { type: "img", content: imgPath("MakeItYourAI", "Install") } },
+      { title: "Run", media: { type: "img", content: imgPath("MakeItYourAI", "Run") } },
       {
         title: "Multiple languages",
-        media: { type: "img", content: imgPath("Make it your AI", "Multiple languages") },
+        media: { type: "img", content: imgPath("MakeItYourAI", "MultipleChannels") },
       },
-      { title: "documentation", media: { type: "img", content: imgPath("Make it your AI", "documentation") } },
+      { title: "documentation", media: { type: "img", content: imgPath("MakeItYourAI", "Documentation") } },
     ],
   },
   {
@@ -149,15 +116,15 @@ export const GetStartedCategoriesData = [
     categoryTabs: [
       {
         title: "Managing your AGI tokens",
-        media: { type: "img", content: imgPath("UsingAgi", "Managing your AGI tokens") },
+        media: { type: "img", content: imgPath("UsingAgi", "ManagingyourAGItokens") },
       },
       {
         title: "Metamask wallet support",
-        media: { type: "img", content: imgPath("UsingAgi", "Managing your AGI tokens") },
+        media: { type: "img", content: imgPath("UsingAgi", "Metamaskwalletsupport") },
       },
       {
         title: "Using channel balances",
-        media: { type: "img", content: imgPath("UsingAgi", "Managing your AGI tokens") },
+        media: { type: "img", content: imgPath("UsingAgi", "Usingchannelbalances") },
       },
     ],
   },
