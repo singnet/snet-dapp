@@ -2,10 +2,12 @@ import { makeStyles } from "@material-ui/styles";
 
 export const useStyles = makeStyles(theme => ({
   card: {
+    minHeight: 437,
     width: 302,
     padding: "13px 0",
     margin: "0 25px 25px 0",
     display: "inline-block",
+    position: 'relative',
     fontFamily: theme.typography.primary.main,
     fontSize: 18,
     "&:hover": {
@@ -43,7 +45,6 @@ export const useStyles = makeStyles(theme => ({
     height: 175,
     margin: "12px 0 13px",
   },
-  fontSize: 18,
   cardContent: {
     padding: "0 13px",
     fontFamily: theme.typography.primary.main,
@@ -58,6 +59,10 @@ export const useStyles = makeStyles(theme => ({
     lineHeight: "21px",
   },
   cardActions: {
+    boxSizing: 'border-box',
+    width: '100%',
+    position: 'absolute',
+    bottom: 20,
     padding: "16px 13px 0",
     justifyContent: "space-between",
     "& button": { padding: 0 },

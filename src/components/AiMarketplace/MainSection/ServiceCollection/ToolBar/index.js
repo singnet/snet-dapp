@@ -36,7 +36,7 @@ const ToolBar = ({ listView, total_count, handleSearchChange, toggleView, curren
             searchKeyword={searchKeyword}
           />
         </button>
-        {/* <ViewToggler listView={listView} toggleView={toggleView} show={showToggler} /> */}
+        <ViewToggler listView={listView} toggleView={toggleView} show={showToggler} />
       </Grid>
     </Grid>
   );
