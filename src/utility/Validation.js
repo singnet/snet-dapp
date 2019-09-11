@@ -46,6 +46,8 @@ validate.validators.hasAWSPasswordSplChar = (value, options, key, attributes) =>
   return options.message || "must contain a special character";
 };
 
+validate.options = { format: "flat" };
+
 const snetValidator = validate;
 
 export default snetValidator;

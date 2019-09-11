@@ -43,7 +43,7 @@ class SignUp extends Component {
   handleSubmit = event => {
     event.preventDefault();
     this.setState({ alert: {} });
-    const isNotValid = snetValidator(this.state, signupFormConstraints, { format: "flat" });
+    const isNotValid = snetValidator(this.state, signupFormConstraints);
     if (isNotValid) {
       this.setState({ alert: { type: alertTypes.ERROR, message: isNotValid[0] } });
       return;
@@ -73,7 +73,7 @@ class SignUp extends Component {
 
   handleConfirmSignup = event => {
     this.setState({ alert: {} });
-    const isNotValid = snetValidator(this.state, singup_otp_contraints, { format: "flat" });
+    const isNotValid = snetValidator(this.state, singup_otp_contraints);
     if (isNotValid) {
       this.setState({ alert: { type: alertTypes.ERROR, message: isNotValid[0] } });
       return;
