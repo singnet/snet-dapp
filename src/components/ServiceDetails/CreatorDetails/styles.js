@@ -11,6 +11,9 @@ export const useStyles = theme => ({
     margin: "10px 0 20px",
     display: "flex",
     alignItems: "center",
+    "& img": {
+      "@media(max-width:1023px)": { width: 48 },
+    },
   },
   companyName: {
     paddingLeft: 20,

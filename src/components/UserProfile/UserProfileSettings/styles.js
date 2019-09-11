@@ -3,6 +3,8 @@ export const useStyles = theme => ({
     margin: "13px 0 50px",
   },
   settingsContainer: {
+    maxWidth: 845,
+    flexBasis: "100%",
     borderRadius: 4,
     backgroundColor: theme.palette.text.white,
     boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
@@ -28,6 +30,10 @@ export const useStyles = theme => ({
     "& div": {
       width: 411,
       margin: "30px 0 0",
+      "@media(max-width:660px)": {
+        width: "100%",
+        flexDirection: "column",
+      },
       "&:first-of-type": {
         marginTop: 0,
       },
@@ -45,6 +51,10 @@ export const useStyles = theme => ({
       fontWeight: 600,
       letterSpacing: 0.15,
       lineHeight: "24px",
+      "@media(max-width:660px)": {
+        boxSizing: "border-box",
+        padding: "28px 15px",
+      },
     },
     "& p": {
       margin: 0,

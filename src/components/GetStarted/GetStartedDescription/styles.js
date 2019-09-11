@@ -11,6 +11,7 @@ export const useStyles = theme => ({
       color: theme.palette.text.mediumShadeGray,
       fontSize: 20,
       lineHeight: "30px",
+      "@media(max-width:1024px)": { marginTop: 10 } 
     },
     "& button": {
       padding: "13px 16% 11px",

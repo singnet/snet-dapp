@@ -114,7 +114,7 @@ const initialUserInput = {
   start_text: "",
   run_name: "trump",
   temperature: 0.8,
-  top_k: 20,
+  top_k: 0,
   length: 256,
 };
 

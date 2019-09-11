@@ -13,7 +13,7 @@ export const useStyles = makeStyles(theme => ({
       padding: "15px 15px 0",
       alignItems: "center",
     },
-    "@media (max-width:768px)": {
+    "@media (max-width:769px)": {
       paddingTop: 30,
       marginTop: 19,
       flexFlow: "column-reverse",

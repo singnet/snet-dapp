@@ -27,7 +27,7 @@ const StyledCard = props => {
           subheader: classes.cardSubheader,
         }}
         title={props.cardTitle}
-        subheader={<h4>{props.cardSubheader}</h4>}
+        subheader={props.cardSubheader}
       />
       <CardMedia className={classes.CardMedia} image={props.cardMedia} title={props.title} />
       <CardContent className={classes.cardContent}>

@@ -28,7 +28,7 @@ export const useStyles = theme => ({
         display: "inline-block",
         backgroundColor: theme.palette.text.lightGray,
         verticalAlign: "middle",
-        "@media (max-width:724px)": { display: "none" },
+        "@media (max-width:1150px)": { width: 50 },
       },
       "& i": {
         marginRight: 5,
