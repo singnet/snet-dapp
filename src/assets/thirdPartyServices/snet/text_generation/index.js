@@ -16,14 +16,6 @@ import { GENGPT2 } from "./ntg_pb_service";
 import { useStyles } from "./styles";
 import AnchorLink from "../../../../components/common/AnchorLink";
 
-const initialUserInput = {
-  start_text: "",
-  run_name: "trump",
-  temperature: 0.8,
-  top_k: 20,
-  length: 256,
-};
-
 const imgPath = (name, orgId = "snet", serviceId = "text-generation", extension = "jpg") => {
   const correctedServiceId = serviceId.replace(/\-/g, "_");
   const trimmedName = name.replace(/[\s\.\'']/g, "");
@@ -34,6 +26,8 @@ const avatarPath = (name, orgId = "snet", serviceId = "text-generation", extensi
   const avatarName = name + "_avatar";
   return imgPath(avatarName, orgId, serviceId, extension);
 };
+
+const defaultImgPath = imgPath("DefaultImage", undefined, undefined, "png");
 
 const runNamesWithoutMedia = [
   { key: "universal", value: "Universal Generator" },
@@ -97,6 +91,15 @@ const runNames = runNamesWithoutMedia.map(runName => {
   return updatedRunName;
 });
 
+const initialUserInput = {
+  start_text: "",
+  run_name: "trump",
+  temperature: 0.8,
+  top_k: 20,
+  length: 256,
+  selectedAvatar: avatarPath("DonaldJTrump")
+};
+
 class TextGenerationService extends React.Component {
   constructor(props) {
     super(props);
@@ -129,6 +132,10 @@ class TextGenerationService extends React.Component {
   handleFormUpdate(event) {
     this.setState({
       [event.target.name]: event.target.value,
+    },()=>{
+      if(event.target.name === "run_name"){
+        this.parseAvatarSrc(event.target.value)
+      }
     });
   }
 
@@ -166,13 +173,17 @@ class TextGenerationService extends React.Component {
     this.props.serviceClient.unary(methodDescriptor, props);
   }
 
-  parseAvatarSrc = () => {
-    const selectedRunName = runNames.find(el => el.key === this.state.run_name);
-    return selectedRunName && selectedRunName.avatar;
+  parseAvatarSrc = (run_name) => {
+    const selectedRunName = runNames.find(el => el.key === run_name);
+    this.setState({selectedAvatar: selectedRunName && selectedRunName.avatar});
   };
 
+  handleAvatarLoadError = () => {
+    this.setState({selectedAvatar:defaultImgPath});
+  }
+
   renderForm() {
-    const { run_name, start_text, length: maxResponseLength, top_k, temperature } = this.state;
+    const { run_name, start_text, length: maxResponseLength, top_k, temperature, selectedAvatar } = this.state;
     const { classes } = this.props;
     return (
       <React.Fragment>
@@ -218,7 +229,14 @@ class TextGenerationService extends React.Component {
               </FormControl>
             </Grid>
             <Grid item xs={12} sm={12} md={5} lg={5}>
-              <Avatar alt="Singularity" src={this.parseAvatarSrc()} className={classes.avatar} />
+              <Avatar
+                alt="Singularity"
+                src={selectedAvatar}
+                imgProps={{
+                  onError: this.handleAvatarLoadError,
+                }}
+                className={classes.avatar}
+              />
             </Grid>
           </Grid>
 
