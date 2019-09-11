@@ -5,7 +5,6 @@ import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
 
 import Routes from "../../../utility/constants/Routes";
-import snetValidator from "../../../utility/Validation";
 import { useStyles } from "./styles";
 import RenderForm from "./RenderForm";
 import RenderOTP from "./RenderOTP";
@@ -13,6 +12,9 @@ import { userActions, loaderActions } from "../../../Redux/actionCreators";
 import { LoaderContent } from "../../../utility/constants/LoaderContent";
 import { alertTypes } from "../../common/AlertBox";
 import { signupFormConstraints, singup_otp_contraints } from "./validationConstraints";
+import { initSnetValidator } from "../../../utility/snetValidator";
+
+const snetValidator = initSnetValidator();
 
 class SignUp extends Component {
   state = {

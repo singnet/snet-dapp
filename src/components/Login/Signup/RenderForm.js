@@ -7,17 +7,14 @@ import isEmpty from "lodash/isEmpty";
 
 import StyledButton from "../../common/StyledButton";
 import AlertBox, { alertTypes } from "../../common/AlertBox";
-import snetValidator, {
-  hasUpperCase,
-  hasLowerCase,
-  minChars,
-  hasSpecialChar,
-  hasNumber,
-} from "../../../utility/Validation";
+import { hasUpperCase, hasLowerCase, minChars, hasSpecialChar, hasNumber } from "../../../utility/Validation";
 import { useStyles } from "./styles";
 import AlertText from "../../common/AlertText";
 import { PasswordCriteria } from "../../../utility/constants/ValidtionMessages";
 import { signupFormConstraints } from "./validationConstraints";
+import { initSnetValidator } from "../../../utility/snetValidator";
+
+const snetValidator = initSnetValidator();
 
 const RenderForm = ({
   classes,
