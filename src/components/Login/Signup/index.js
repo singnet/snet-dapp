@@ -12,7 +12,7 @@ import RenderOTP from "./RenderOTP";
 import { userActions, loaderActions } from "../../../Redux/actionCreators";
 import { LoaderContent } from "../../../utility/constants/LoaderContent";
 import { alertTypes } from "../../common/AlertBox";
-import { signup_form_constraints, singup_otp_contraints } from "./validationConstraints";
+import { signupFormConstraints, singup_otp_contraints } from "./validationConstraints";
 
 class SignUp extends Component {
   state = {
@@ -43,7 +43,7 @@ class SignUp extends Component {
   handleSubmit = event => {
     event.preventDefault();
     this.setState({ alert: {} });
-    const isNotValid = snetValidator(this.state, signup_form_constraints, { format: "flat" });
+    const isNotValid = snetValidator(this.state, signupFormConstraints, { format: "flat" });
     if (isNotValid) {
       this.setState({ alert: { type: alertTypes.ERROR, message: isNotValid[0] } });
       return;

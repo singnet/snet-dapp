@@ -1,4 +1,4 @@
-export const signup_form_constraints = {
+export const signupFormConstraints = {
   nickname: {
     presence: { allowEmpty: false },
   },
