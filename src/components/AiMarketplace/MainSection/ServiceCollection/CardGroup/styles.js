@@ -51,7 +51,7 @@ export const useStyles = makeStyles(theme => ({
     },
   },
   gridViewCardCollection: {
-    marginTop: 20,
+    marginTop: 9,
     display: "flex",
     flexWrap: "wrap",
     "& a": {
