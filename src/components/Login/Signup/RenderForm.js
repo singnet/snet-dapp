@@ -6,12 +6,17 @@ import { Icon } from "@material-ui/core";
 
 import StyledButton from "../../common/StyledButton";
 import AlertBox, { alertTypes } from "../../common/AlertBox";
-import { hasUpperCase, hasLowerCase, minChars, hasSpecialChar, hasNumber } from "../../../utility/Validation";
+import snetValidator, {
+  hasUpperCase,
+  hasLowerCase,
+  minChars,
+  hasSpecialChar,
+  hasNumber,
+} from "../../../utility/Validation";
 import { useStyles } from "./styles";
 import AlertText from "../../common/AlertText";
-import { PasswordCriteria, ValidationMessages } from "../../../utility/constants/ValidtionMessages";
-import validate from "validate.js";
-import { signup_form_constraints } from "./validationConstraints";
+import { PasswordCriteria } from "../../../utility/constants/ValidtionMessages";
+import { signupFormConstraints } from "./validationConstraints";
 
 const RenderForm = ({
   classes,
@@ -24,6 +29,14 @@ const RenderForm = ({
   alert,
   handleSubmit,
 }) => {
+  const validEmail = () => {
+    const isNotValid = snetValidator({ email }, { email: signupFormConstraints.email });
+    if (isNotValid) {
+      return isNotValid[0];
+    }
+    return null;
+  };
+
   return (
     <Fragment>
       <Grid item xs={12} sm={12} md={6} lg={6} className={classes.signupInfo}>
@@ -69,10 +82,7 @@ const RenderForm = ({
               value={email}
               onChange={handleEmail}
             />
-            <AlertText
-              type={alertTypes.ERROR}
-              message={validate.single(email, signup_form_constraints.email) ? ValidationMessages.INVALID_EMAIL : ""}
-            />
+            <AlertText type={alertTypes.ERROR} message={validEmail()} />
           </div>
           <TextField
             id="outlined-password-input"
