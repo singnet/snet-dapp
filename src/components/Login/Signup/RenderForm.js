@@ -3,6 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/styles";
 import { Icon } from "@material-ui/core";
+import isEmpty from "lodash/isEmpty";
 
 import StyledButton from "../../common/StyledButton";
 import AlertBox, { alertTypes } from "../../common/AlertBox";
@@ -31,7 +32,7 @@ const RenderForm = ({
 }) => {
   const validEmail = () => {
     const isNotValid = snetValidator({ email }, { email: signupFormConstraints.email });
-    if (isNotValid) {
+    if (isNotValid && !isEmpty(email)) {
       return isNotValid[0];
     }
     return null;
