@@ -36,6 +36,7 @@ const avatarPath = (name, orgId = "snet", serviceId = "text-generation", extensi
 };
 
 const runNamesWithoutMedia = [
+  { key: "universal", value: "Universal Generator" },
   { key: "badastronomer", value: "Phil Plait" },
   { key: "barackobama", value: "Barack Obama" },
   { key: "beebrookshire", value: "Bethany Brookshire" },
