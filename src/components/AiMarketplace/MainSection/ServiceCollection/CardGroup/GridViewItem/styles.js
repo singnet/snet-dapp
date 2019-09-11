@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/styles";
 export const useStyles = makeStyles(theme => ({
   card: {
     minHeight: 440,
-    width: 302,
+    width: 350,
     paddingTop: 10,
     margin: "0 25px 25px 0",
     display: "inline-block",

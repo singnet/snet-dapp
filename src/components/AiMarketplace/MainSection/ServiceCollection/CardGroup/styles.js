@@ -11,7 +11,6 @@ export const useStyles = makeStyles(theme => ({
       verticalAlign: "top",
     },
   },
-
   circularProgressContainer: {
     paddingTop: 20,
     textAlign: "center",
@@ -55,11 +54,9 @@ export const useStyles = makeStyles(theme => ({
     display: "flex",
     flexWrap: "wrap",
     "& a": {
-      width: "100%",
       textDecoration: "none ",
       display: "inline-block",
       verticalAlign: "top",
-      flex: 1,
       "@media(max-width: 1024px)": { textAlign: "center" },
       "& > div": {
         "@media(max-width: 768px)": { marginRight: 0 },
