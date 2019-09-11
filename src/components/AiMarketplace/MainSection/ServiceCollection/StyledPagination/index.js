@@ -34,7 +34,7 @@ const StyledPagination = ({ limit, offset, total_count, handleChange }) => {
 
   return (
     <Grid container spacing={24} className={classes.paginationContainer}>
-      <Grid item xs={12} sm={6} md={6} lg={6} className={classes.pagination}>
+      <Grid item xs={6} sm={6} md={6} lg={6} className={classes.pagination}>
         <Pagination
           limit={limit}
           offset={offset}
@@ -44,7 +44,7 @@ const StyledPagination = ({ limit, offset, total_count, handleChange }) => {
           className={classes.styledPagination}
         />
       </Grid>
-      <Grid item xs={12} sm={6} md={6} lg={6} className={classes.pageCountSection}>
+      <Grid item xs={6} sm={6} md={6} lg={6} className={classes.pageCountSection}>
         <span className={classes.itemPerPageTxt}>Items per page</span>
         <FormControl variant="outlined" className={classes.pageListformControl}>
           <Select

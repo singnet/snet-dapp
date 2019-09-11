@@ -49,7 +49,7 @@ const UserProfileAccount = ({ updateWallet, classes, wallet }) => {
 
   return (
     <Grid container spacing={10} className={classes.accountMainContainer}>
-      <Grid xs={12} sm={12} md={3} lg={3} className={classes.accountContainer}>
+      <Grid xs={12} sm={12} md={4} lg={4} className={classes.accountContainer}>
         <h3>Payment / Transfer Method</h3>
         <div className={classes.accountWrapper}>
           <div className={classes.dropDown}>
