@@ -11,7 +11,7 @@ import RenderOTP from "./RenderOTP";
 import { userActions, loaderActions } from "../../../Redux/actionCreators";
 import { LoaderContent } from "../../../utility/constants/LoaderContent";
 import { alertTypes } from "../../common/AlertBox";
-import { signupFormConstraints, singup_otp_contraints } from "./validationConstraints";
+import { signupFormConstraints, singupOtpContraints } from "./validationConstraints";
 import { initSnetValidator } from "../../../utility/snetValidator";
 
 const snetValidator = initSnetValidator();
@@ -75,7 +75,7 @@ class SignUp extends Component {
 
   handleConfirmSignup = event => {
     this.setState({ alert: {} });
-    const isNotValid = snetValidator(this.state, singup_otp_contraints);
+    const isNotValid = snetValidator(this.state, singupOtpContraints);
     if (isNotValid) {
       this.setState({ alert: { type: alertTypes.ERROR, message: isNotValid[0] } });
       return;

@@ -7,11 +7,10 @@ import isEmpty from "lodash/isEmpty";
 
 import StyledButton from "../../common/StyledButton";
 import AlertBox, { alertTypes } from "../../common/AlertBox";
-import { hasUpperCase, hasLowerCase, minChars, hasSpecialChar, hasNumber } from "../../../utility/Validation";
 import { useStyles } from "./styles";
 import AlertText from "../../common/AlertText";
 import { PasswordCriteria } from "../../../utility/constants/ValidtionMessages";
-import { signupFormConstraints } from "./validationConstraints";
+import { signupFormConstraints, passwordInlineConstraints } from "./validationConstraints";
 import { initSnetValidator } from "../../../utility/snetValidator";
 
 const snetValidator = initSnetValidator();
@@ -96,23 +95,43 @@ const RenderForm = ({
           <div className={classes.passwordCriteriaContainer}>
             <p>Include:</p>
             <AlertText
-              type={hasUpperCase(password) ? alertTypes.SUCCESS : alertTypes.ERROR}
+              type={
+                isEmpty(snetValidator.single(password, passwordInlineConstraints.upperCase))
+                  ? alertTypes.SUCCESS
+                  : alertTypes.ERROR
+              }
               message={`${PasswordCriteria.UPPER_CASE}, `}
             />
             <AlertText
-              type={hasLowerCase(password) ? alertTypes.SUCCESS : alertTypes.ERROR}
+              type={
+                isEmpty(snetValidator.single(password, passwordInlineConstraints.lowerCase))
+                  ? alertTypes.SUCCESS
+                  : alertTypes.ERROR
+              }
               message={`${PasswordCriteria.LOWER_CASE}, `}
             />
             <AlertText
-              type={minChars(password, 8) ? alertTypes.SUCCESS : alertTypes.ERROR}
+              type={
+                isEmpty(snetValidator.single(password, passwordInlineConstraints.length))
+                  ? alertTypes.SUCCESS
+                  : alertTypes.ERROR
+              }
               message={`${PasswordCriteria.MIN_CHARS}, `}
             />
             <AlertText
-              type={hasSpecialChar(password) ? alertTypes.SUCCESS : alertTypes.ERROR}
+              type={
+                isEmpty(snetValidator.single(password, passwordInlineConstraints.AWSSplChars))
+                  ? alertTypes.SUCCESS
+                  : alertTypes.ERROR
+              }
               message={`${PasswordCriteria.SPECIAL_CHAR}, `}
             />
             <AlertText
-              type={hasNumber(password) ? alertTypes.SUCCESS : alertTypes.ERROR}
+              type={
+                isEmpty(snetValidator.single(password, passwordInlineConstraints.number))
+                  ? alertTypes.SUCCESS
+                  : alertTypes.ERROR
+              }
               message={PasswordCriteria.NUMBER}
             />
           </div>
