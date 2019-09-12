@@ -26,27 +26,25 @@ const AnnotationResult = props => {
   const id = props.id;
 
   useEffect(() => {
-    if (id) {
-      setFetchingResult(true);
-      fetch(`${RESULT_ADDR}/status/${id}`)
-        .then(res => res.json())
-        .then(res => {
-          if (res.status === 2) {
-            return fetch(`${RESULT_ADDR}/${id}`)
-              .then(res => res.json())
-              .then(result => {
-                setFetchingResult(false);
-                setResponse(Object.assign({}, res, { result }));
-              });
-          }
-          setFetchingResult(false);
-          setResponse({
-            status: AnnotationStatus.ERROR,
-            statusMessage: res.response,
-          });
+    setFetchingResult(true);
+    fetch(`${RESULT_ADDR}/status/${id}`)
+      .then(res => res.json())
+      .then(res => {
+        if (res.status === 2) {
+          return fetch(`${RESULT_ADDR}/${id}`)
+            .then(res => res.json())
+            .then(result => {
+              setFetchingResult(false);
+              setResponse(Object.assign({}, res, { result }));
+            });
+        }
+        setFetchingResult(false);
+        setResponse({
+          status: AnnotationStatus.ERROR,
+          statusMessage: res.response,
         });
-    }
-  });
+      });
+  }, []);
 
   const fetchTableData = fileName => {
     fetch(`${RESULT_ADDR}/csv_file/${id}/${fileName.substr(0, fileName.length - 4)}`).then(data => {
