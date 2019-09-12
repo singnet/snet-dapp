@@ -16,18 +16,17 @@ import { GENGPT2 } from "./ntg_pb_service";
 import { useStyles } from "./styles";
 import AnchorLink from "../../../../components/common/AnchorLink";
 
-const imgPath = (name, orgId = "snet", serviceId = "text-generation", extension = "jpg") => {
-  const correctedServiceId = serviceId.replace(/\-/g, "_");
+const imgPath = (name,  extension = "jpg") => {
   const trimmedName = name.replace(/[\s\.\'']/g, "");
-  return `${process.env.REACT_APP_SNET_CDN}/assets/images/ThirdPartyServices/${orgId}/${correctedServiceId}/${trimmedName}.${extension}`;
+  return `${process.env.REACT_APP_SNET_CDN}/assets/images/ThirdPartyServices/snet/text_generation/${trimmedName}.${extension}`;
 };
 
-const avatarPath = (name, orgId = "snet", serviceId = "text-generation", extension = "jpg") => {
+const avatarPath = (name, extension = "jpg") => {
   const avatarName = name + "_avatar";
-  return imgPath(avatarName, orgId, serviceId, extension);
+  return imgPath(avatarName, extension);
 };
 
-const defaultImgPath = imgPath("DefaultImage", undefined, undefined, "png");
+const defaultImgPath = imgPath("DefaultImage", "png");
 
 const runNamesWithoutMedia = [
   { key: "universal", value: "Universal Generator" },
@@ -43,8 +42,8 @@ const runNamesWithoutMedia = [
   {
     key: "ericrweinstein",
     value: "Eric Weinstein",
-    image: imgPath("EricWeinstein", undefined, undefined, "png"),
-    avatar: avatarPath("EricWeinstein", undefined, undefined, "png"),
+    image: imgPath("EricWeinstein", "png"),
+    avatar: avatarPath("EricWeinstein",  "png"),
   },
   { key: "hillaryclinton", value: "Hillary Clinton" },
   { key: "jimmyfallon", value: "Jimmy Fallon" },
@@ -52,8 +51,8 @@ const runNamesWithoutMedia = [
   {
     key: "joerogan",
     value: "Joe Rogan",
-    image: imgPath("JoeRogan", undefined, undefined, "png"),
-    avatar: avatarPath("JoeRogan", undefined, undefined, "png"),
+    image: imgPath("JoeRogan","png"),
+    avatar: avatarPath("JoeRogan", "png"),
   },
   { key: "jordanbpeterson", value: "Dr Jordan B Peterson" },
   { key: "justinbieber", value: "Justin Bieber" },
@@ -62,8 +61,8 @@ const runNamesWithoutMedia = [
   {
     key: "kimkardashian",
     value: "Kim Kardashian West",
-    image: imgPath("Kim Kardashian West", undefined, undefined, "png"),
-    avatar: avatarPath("Kim Kardashian West", undefined, undefined, "png"),
+    image: imgPath("Kim Kardashian West",  "png"),
+    avatar: avatarPath("Kim Kardashian West",  "png"),
   },
   { key: "ladygaga", value: "Lady Gaga" },
   { key: "laelaps", value: "Brian Switek" },
