@@ -5,10 +5,8 @@ import ThumbsUpDownIcon from "@material-ui/icons/ThumbsUpDown";
 import SettingsIcon from "@material-ui/icons/Settings";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 
-const mediaPath = (type, directory, file, extension) =>
-  `${process.env.REACT_APP_SNET_CDN}/assets/${type}/GetStarted/${directory}/${file}.${extension}`;
-
-const imgPath = (directory, file, extension = "png") => mediaPath("images", directory, file, extension);
+const imgPath = (directory, file, extension = "png") =>
+  `${process.env.REACT_APP_SNET_CDN}/assets/images/GetStarted/${directory}/${file}.${extension}`;
 
 export const GetStartedCategoriesData = [
   {
