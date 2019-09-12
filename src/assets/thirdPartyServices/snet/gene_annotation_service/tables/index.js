@@ -281,7 +281,12 @@ const ResultTables = props => {
                                     .map(t =>
                                       t.includes("http") ? (
                                         <Typography variant="body1">
-                                          <a style={{ marginRight: 15 }} href={t} target="_blank">
+                                          <a
+                                            style={{ marginRight: 15 }}
+                                            href={t}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                          >
                                             {t.slice(t.indexOf("=") + 1, t.length)}
                                           </a>{" "}
                                         </Typography>
