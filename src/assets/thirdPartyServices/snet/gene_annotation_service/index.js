@@ -5,7 +5,7 @@ import AnnotationForm from "./form";
 import AnnotationResult from "./result";
 import "./style.css";
 
-function App(props) {
+const App = props => {
   const [id, setId] = useState(undefined);
 
   return (
@@ -13,6 +13,6 @@ function App(props) {
       <SnackbarProvider>{id ? <AnnotationResult id={id} /> : <AnnotationForm onResponse={setId} />}</SnackbarProvider>
     </div>
   );
-}
+};
 
 ReactDOM.render(<App />, document.getElementById("app"));

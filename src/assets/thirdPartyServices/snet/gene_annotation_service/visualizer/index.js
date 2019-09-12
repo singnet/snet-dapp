@@ -129,7 +129,7 @@ const CYTOSCAPE_STYLE = [
   },
 ];
 
-function Visualizer(props) {
+const Visualizer = props => {
   const { enqueueSnackbar } = useSnackbar();
   cytoscape.use(cola);
   const cy_wrapper = React.createRef();
@@ -667,6 +667,6 @@ function Visualizer(props) {
       {filteredElements && renderFilterControls()}
     </Fragment>
   );
-}
+};
 
 export default Visualizer;

@@ -33,7 +33,7 @@ const Pathways = [{ label: "SMPDB", value: "smpdb" }, { label: "Reactome", value
 
 const GeneInputMethods = { Manual: 0, Import: 1 };
 
-function AnnotationForm(props) {
+const AnnotationForm = props => {
   const { enqueueSnackbar } = useSnackbar();
   const geneInputRef = React.createRef();
   const [genes, setGenes] = useState([]);
@@ -406,6 +406,6 @@ function AnnotationForm(props) {
       </div>
     </div>
   );
-}
+};
 
 export default AnnotationForm;

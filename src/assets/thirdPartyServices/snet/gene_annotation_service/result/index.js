@@ -17,7 +17,7 @@ export const AnnotationStatus = {
   ERROR: -1,
 };
 
-function AnnotationResult(props) {
+const AnnotationResult = props => {
   const [response, setResponse] = useState(undefined);
   const [isTableShown, setTableShown] = useState(false);
   const [isVisualizerShown, setVisualizerShown] = useState(false);
@@ -46,7 +46,7 @@ function AnnotationResult(props) {
           });
         });
     }
-  }, []);
+  });
 
   const fetchTableData = fileName => {
     fetch(`${RESULT_ADDR}/csv_file/${id}/${fileName.substr(0, fileName.length - 4)}`).then(data => {
@@ -142,6 +142,6 @@ function AnnotationResult(props) {
       )}
     </div>
   );
-}
+};
 
 export default AnnotationResult;

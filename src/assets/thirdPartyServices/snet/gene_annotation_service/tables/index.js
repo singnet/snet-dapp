@@ -23,7 +23,7 @@ import "./style.css";
 const parseTable = tableData => papa.parse(tableData);
 const width = document.body.clientWidth || window.screen.width;
 
-function ResultTables(props) {
+const ResultTables = props => {
   const [tab, setTab] = useState(0);
   const { handleClose, tables, fetchTableData } = props;
 
@@ -44,20 +44,14 @@ function ResultTables(props) {
       <div>
         {genes.map((g, i) => (
           <ExpansionPanel>
-            <ExpansionPanelSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-            >
+            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
               <Typography variant="h6">{g}</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
               <div>
                 <Typography>{table[1][i * 6 + 1]}</Typography>
                 <Typography variant="body1">
-                  <a href={`https://www.ncbi.nlm.nih.gov/gene/?term=${g}`}>
-                    Learn more about {g}
-                  </a>
+                  <a href={`https://www.ncbi.nlm.nih.gov/gene/?term=${g}`}>Learn more about {g}</a>
                 </Typography>
                 <Table size="small" style={{ minWidth: width - 300 }}>
                   <TableHead>
@@ -80,14 +74,7 @@ function ResultTables(props) {
                     {tableData
                       .filter(row => {
                         const values = row.slice(i * 6 + 1, i * 6 + 7);
-                        return (
-                          values[0] ||
-                          values[1] ||
-                          values[2] ||
-                          values[3] ||
-                          values[4] ||
-                          values[5]
-                        );
+                        return values[0] || values[1] || values[2] || values[3] || values[4] || values[5];
                       })
                       .map((row, j) => {
                         const values = row.slice(i * 6 + 1, i * 6 + 7);
@@ -96,35 +83,17 @@ function ResultTables(props) {
                             <TableCell>{j + 1}</TableCell>
                             <TableCell>
                               <Typography variant="body1">
-                                <a
-                                  href={`http://amigo.geneontology.org/amigo/term/${
-                                    values[1]
-                                  }`}
-                                >
-                                  {values[1]}
-                                </a>
+                                <a href={`http://amigo.geneontology.org/amigo/term/${values[1]}`}>{values[1]}</a>
                               </Typography>
                             </TableCell>
                             <TableCell>{values[0]}</TableCell>
                             <TableCell>
-                              <a
-                                href={`http://amigo.geneontology.org/amigo/term/${
-                                  values[3]
-                                }`}
-                              >
-                                {values[3]}
-                              </a>
+                              <a href={`http://amigo.geneontology.org/amigo/term/${values[3]}`}>{values[3]}</a>
                             </TableCell>
                             <TableCell>{values[2]}</TableCell>
                             <TableCell>
                               <Typography variant="body1">
-                                <a
-                                  href={`http://amigo.geneontology.org/amigo/term/${
-                                    values[5]
-                                  }`}
-                                >
-                                  {values[5]}
-                                </a>
+                                <a href={`http://amigo.geneontology.org/amigo/term/${values[5]}`}>{values[5]}</a>
                               </Typography>
                             </TableCell>
                             <TableCell>{values[4]}</TableCell>
@@ -144,9 +113,7 @@ function ResultTables(props) {
   const renderPathwayTable = () => {
     const data = tables.find(t => t.displayName === "PATHWAY").data;
     const table = parseTable(data).data;
-    const pathways = table[0]
-      .slice(1)
-      .filter((g, i) => table[0].indexOf(g) === i);
+    const pathways = table[0].slice(1).filter((g, i) => table[0].indexOf(g) === i);
     const tableData = table.slice(3);
     return (
       <div>
@@ -159,9 +126,7 @@ function ResultTables(props) {
               <div>
                 <Typography>{table[1][i * 3 + 1]}</Typography>
                 <Typography variant="body1">
-                  <a href={` http://www.reactome.org/content/detail/${p}`}>
-                    Learn more about {p}
-                  </a>
+                  <a href={` http://www.reactome.org/content/detail/${p}`}>Learn more about {p}</a>
                 </Typography>
                 <Table size="small" style={{ minWidth: width - 300 }}>
                   <TableHead>
@@ -189,13 +154,7 @@ function ResultTables(props) {
                             <TableCell>{j + 1}</TableCell>
                             <TableCell>
                               <Typography variant="body1">
-                                <a
-                                  href={`https://www.ncbi.nlm.nih.gov/gene/?term=${
-                                    values[0]
-                                  }`}
-                                >
-                                  {values[0]}
-                                </a>{" "}
+                                <a href={`https://www.ncbi.nlm.nih.gov/gene/?term=${values[0]}`}>{values[0]}</a>{" "}
                               </Typography>
                             </TableCell>
                             <TableCell>
@@ -214,13 +173,7 @@ function ResultTables(props) {
                                 )}
                                 {protien.length > 1 && (
                                   <Typography variant="body1">
-                                    <a
-                                      href={`https://www.ncbi.nlm.nih.gov/gene/?term=${
-                                        protien[1]
-                                      }`}
-                                    >
-                                      {protien[1]}
-                                    </a>{" "}
+                                    <a href={`https://www.ncbi.nlm.nih.gov/gene/?term=${protien[1]}`}>{protien[1]}</a>{" "}
                                   </Typography>
                                 )}
                               </Fragment>
@@ -252,9 +205,7 @@ function ResultTables(props) {
   const renderBiogridTable = () => {
     const data = tables.find(t => t.displayName === "BIOGRID").data;
     const table = parseTable(data).data;
-    const interactions = table[0]
-      .slice(1)
-      .filter((g, i) => table[0].indexOf(g) === i);
+    const interactions = table[0].slice(1).filter((g, i) => table[0].indexOf(g) === i);
     const tableData = table.slice(3);
     return (
       <div>
@@ -267,9 +218,7 @@ function ResultTables(props) {
               <div>
                 <Typography>{table[1][i * 6 + 1]}</Typography>
                 <Typography variant="body1">
-                  <a href={`https://www.ncbi.nlm.nih.gov/gene/?term=${b}`}>
-                    Learn more about {b}
-                  </a>
+                  <a href={`https://www.ncbi.nlm.nih.gov/gene/?term=${b}`}>Learn more about {b}</a>
                 </Typography>
                 <Table size="small" style={{ minWidth: width - 300 }}>
                   <TableHead>
@@ -314,26 +263,14 @@ function ResultTables(props) {
                                 )}
                                 {protien.length > 1 && (
                                   <Typography variant="body1">
-                                    <a
-                                      href={`https://www.ncbi.nlm.nih.gov/gene/?term=${
-                                        protien[1]
-                                      }`}
-                                    >
-                                      {protien[1]}
-                                    </a>{" "}
+                                    <a href={`https://www.ncbi.nlm.nih.gov/gene/?term=${protien[1]}`}>{protien[1]}</a>{" "}
                                   </Typography>
                                 )}
                               </Fragment>
                             </TableCell>
                             <TableCell>
                               <Typography variant="body1">
-                                <a
-                                  href={`https://www.ncbi.nlm.nih.gov/gene/?term=${
-                                    values[2]
-                                  }`}
-                                >
-                                  {values[2]}
-                                </a>{" "}
+                                <a href={`https://www.ncbi.nlm.nih.gov/gene/?term=${values[2]}`}>{values[2]}</a>{" "}
                               </Typography>
                             </TableCell>
                             <TableCell>
@@ -344,15 +281,8 @@ function ResultTables(props) {
                                     .map(t =>
                                       t.includes("http") ? (
                                         <Typography variant="body1">
-                                          <a
-                                            style={{ marginRight: 15 }}
-                                            href={t}
-                                            target="_blank"
-                                          >
-                                            {t.slice(
-                                              t.indexOf("=") + 1,
-                                              t.length
-                                            )}
+                                          <a style={{ marginRight: 15 }} href={t} target="_blank">
+                                            {t.slice(t.indexOf("=") + 1, t.length)}
                                           </a>{" "}
                                         </Typography>
                                       ) : (
@@ -375,23 +305,15 @@ function ResultTables(props) {
   };
 
   return (
-    <Modal
-      onClose={handleClose}
-      open={true}
-      style={{ marginLeft: 100, marginTop: 30 }}
-    >
+    <Modal onClose={handleClose} open={true} style={{ marginLeft: 100, marginTop: 30 }}>
       <div
         style={{
           backgroundColor: "#e5e5e5",
-          width: width - 200
+          width: width - 200,
         }}
       >
         <AppBar position="static" color="default">
-          <Tabs
-            indicatorColor="primary"
-            value={tab}
-            onChange={(e, value) => setTab(value)}
-          >
+          <Tabs indicatorColor="primary" value={tab} onChange={(e, value) => setTab(value)}>
             {tables.map(t => (
               <Tab label={t.displayName} id={t.displayName} />
             ))}
@@ -401,7 +323,7 @@ function ResultTables(props) {
               position: "absolute",
               textAlign: "right",
               right: 130,
-              top: 10
+              top: 10,
             }}
           >
             <Button
@@ -410,8 +332,7 @@ function ResultTables(props) {
               color="primary"
               onClick={() => downloadCSVFile(props.id, tables[tab].fileName)}
             >
-              <CloudDownloadIcon style={{ marginRight: 15 }} /> Download CSV
-              file for {tables[tab].displayName}
+              <CloudDownloadIcon style={{ marginRight: 15 }} /> Download CSV file for {tables[tab].displayName}
             </Button>
           </div>
         </AppBar>
@@ -423,19 +344,13 @@ function ResultTables(props) {
               </Typography>
             </div>
           ) : null}
-          {tables[tab].data &&
-            tables[tab].displayName === "GO" &&
-            renderGeneGOTable()}
-          {tables[tab].data &&
-            tables[tab].displayName === "PATHWAY" &&
-            renderPathwayTable()}
-          {tables[tab].data &&
-            tables[tab].displayName === "BIOGRID" &&
-            renderBiogridTable()}
+          {tables[tab].data && tables[tab].displayName === "GO" && renderGeneGOTable()}
+          {tables[tab].data && tables[tab].displayName === "PATHWAY" && renderPathwayTable()}
+          {tables[tab].data && tables[tab].displayName === "BIOGRID" && renderBiogridTable()}
         </div>
       </div>
     </Modal>
   );
-}
+};
 
 export default ResultTables;
