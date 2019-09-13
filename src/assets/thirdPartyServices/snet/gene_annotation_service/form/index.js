@@ -188,7 +188,7 @@ const AnnotationForm = props => {
   };
 
   return (
-    <div className="container form-wrapper" style={{ padding: "30px 450px" }}>
+    <div className="container form-wrapper">
       {/* Gene List */}
       <Typography variant="h6" gutterBottom>
         Input Genes
