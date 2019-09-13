@@ -43,7 +43,7 @@ const ResultTables = props => {
     return (
       <div>
         {genes.map((g, i) => (
-          <ExpansionPanel>
+          <ExpansionPanel key={g}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
               <Typography variant="h6">{g}</Typography>
             </ExpansionPanelSummary>
@@ -118,7 +118,7 @@ const ResultTables = props => {
     return (
       <div>
         {pathways.map((p, i) => (
-          <ExpansionPanel>
+          <ExpansionPanel key={p}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
               <Typography>{p}</Typography>
             </ExpansionPanelSummary>
@@ -150,7 +150,7 @@ const ResultTables = props => {
                           .split(" ")
                           .filter(s => s);
                         return (
-                          <TableRow>
+                          <TableRow key={"row" + j}>
                             <TableCell>{j + 1}</TableCell>
                             <TableCell>
                               <Typography variant="body1">
@@ -163,11 +163,11 @@ const ResultTables = props => {
                                   <Typography variant="body1">
                                     <a
                                       href={`https://www.uniprot.org/uniprot/${protien[0].slice(
-                                        protien.indexOf(":") + 1
+                                        protien[0].indexOf(":") + 1
                                       )}`}
                                       style={{ marginRight: 15 }}
                                     >
-                                      {protien[0]}
+                                      {protien[0].slice(protien[0].indexOf(":") + 1)}
                                     </a>{" "}
                                   </Typography>
                                 )}
@@ -210,7 +210,7 @@ const ResultTables = props => {
     return (
       <div>
         {interactions.map((b, i) => (
-          <ExpansionPanel>
+          <ExpansionPanel key={b}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
               <Typography>{b}</Typography>
             </ExpansionPanelSummary>
@@ -225,63 +225,52 @@ const ResultTables = props => {
                     <TableRow>
                       <TableCell>No</TableCell>
                       <TableCell>Location</TableCell>
-                      <TableCell>Protiens</TableCell>
-                      <TableCell>Interacting genes</TableCell>
+                      <TableCell>Interacting features</TableCell>
                       <TableCell>Pubmed ID</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {tableData
                       .filter(row => {
-                        const values = row.slice(i * 4 + 1, i * 4 + 5);
+                        const values = row.slice(i * 3 + 1, i * 3 + 4);
                         return values[0] || values[1] || values[2] || values[3];
                       })
                       .map((row, j) => {
-                        const values = row.slice(i * 4 + 1, i * 4 + 5);
-                        const protien = values[1]
-                          ? values[1]
-                              .trim()
-                              .split(" ")
-                              .filter(s => s)
-                          : [];
+                        const values = row.slice(i * 3 + 1, i * 3 + 4);
+
                         return (
                           <TableRow key={row.name}>
                             <TableCell>{j + 1}</TableCell>
                             <TableCell>{values[0] || "-"}</TableCell>
+
                             <TableCell>
-                              <Fragment>
-                                {protien.length > 0 && (
-                                  <Typography variant="body1">
+                              <Typography variant="body1">
+                                {values[1] ? (
+                                  values[1].includes("Uniprot") ? (
                                     <a
-                                      href={`https://www.uniprot.org/uniprot/${protien[0].slice(
-                                        protien.indexOf(":") + 1
+                                      href={`https://www.uniprot.org/uniprot/${values[1].slice(
+                                        values[1].indexOf(":") + 1
                                       )}`}
                                       style={{ marginRight: 15 }}
                                     >
-                                      {protien[0]}
-                                    </a>{" "}
-                                  </Typography>
+                                      {values[1].slice(values[1].indexOf(":") + 1)}
+                                    </a>
+                                  ) : (
+                                    <a href={`https://www.ncbi.nlm.nih.gov/gene/?term=${values[1]}`}>{values[1]}</a>
+                                  )
+                                ) : (
+                                  values[1]
                                 )}
-                                {protien.length > 1 && (
-                                  <Typography variant="body1">
-                                    <a href={`https://www.ncbi.nlm.nih.gov/gene/?term=${protien[1]}`}>{protien[1]}</a>{" "}
-                                  </Typography>
-                                )}
-                              </Fragment>
-                            </TableCell>
-                            <TableCell>
-                              <Typography variant="body1">
-                                <a href={`https://www.ncbi.nlm.nih.gov/gene/?term=${values[2]}`}>{values[2]}</a>{" "}
                               </Typography>
                             </TableCell>
                             <TableCell>
-                              {values[3]
-                                ? values[3]
+                              {values[2]
+                                ? values[2]
                                     .trim()
                                     .split(",")
                                     .map(t =>
                                       t.includes("http") ? (
-                                        <Typography variant="body1">
+                                        <Typography variant="body1" key={t}>
                                           <a
                                             style={{ marginRight: 15 }}
                                             href={t}
@@ -321,7 +310,7 @@ const ResultTables = props => {
         <AppBar position="static" color="default">
           <Tabs indicatorColor="primary" value={tab} onChange={(e, value) => setTab(value)}>
             {tables.map(t => (
-              <Tab label={t.displayName} id={t.displayName} />
+              <Tab key={t} label={t.displayName} id={t.displayName} />
             ))}
           </Tabs>
           <div
