@@ -498,32 +498,32 @@ const Visualizer = props => {
     <Fragment>
       <div className="visualizer-wrapper" ref={cy_wrapper} />
       <div className="visualizer-controls-wrapper">
-        <Tooltip placement="right" title="Go back">
+        <Tooltip placement="right" title={<Typography variant="body1">Go back</Typography>}>
           <IconButton onClick={props.onClose}>
             <ArrowBackIcon />
           </IconButton>
         </Tooltip>
-        <Tooltip placement="right" title="Randomize layout">
+        <Tooltip placement="right" title={<Typography variant="body1">Randomize layout</Typography>}>
           <IconButton onClick={randomLayout}>
             <ShuffleIcon />
           </IconButton>
         </Tooltip>
-        <Tooltip placement="right" title="Breadth-first layout">
+        <Tooltip placement="right" title={<Typography variant="body1">Breadth-first layout</Typography>}>
           <IconButton onClick={breadthFirstLayout}>
             <CategoryIcon />
           </IconButton>
         </Tooltip>
-        <Tooltip placement="right" title="Concentric layout">
+        <Tooltip placement="right" title={<Typography variant="body1">Concentric layout</Typography>}>
           <IconButton onClick={concentricLayout}>
             <AdjustIcon />
           </IconButton>
         </Tooltip>
-        <Tooltip placement="right" title="Save screenshot">
+        <Tooltip placement="right" title={<Typography variant="body1">Save screenshot</Typography>}>
           <IconButton onClick={takeScreenshot}>
             <CameraAltIcon />
           </IconButton>
         </Tooltip>
-        <Tooltip placement="right" title="Download graph as JSON">
+        <Tooltip placement="right" title={<Typography variant="body1">Download graph as JSON</Typography>}>
           <IconButton onClick={downloadGraphJSON}>
             <CloudDownloadIcon />
           </IconButton>
@@ -582,6 +582,7 @@ const Visualizer = props => {
                   />
                 }
                 label={n}
+                key={n}
               />
             ))}
           </ExpansionPanelDetails>
@@ -594,7 +595,7 @@ const Visualizer = props => {
             <div>
               {AnnotationGroups.filter(a => props.annotations.includes(a.group)).map((a, i) => {
                 return (
-                  <div>
+                  <div key={a}>
                     <span>
                       <Typography variant="body1" gutterBottom>
                         {a.group.includes("biogrid") && (
@@ -617,7 +618,7 @@ const Visualizer = props => {
                     {a.subgroups
                       .filter(s => props.annotations.includes(s.subgroup))
                       .map(s => (
-                        <span style={{ paddingLeft: 15 }}>
+                        <span style={{ paddingLeft: 15 }} key={s}>
                           <FormControlLabel
                             control={
                               <Checkbox
