@@ -67,27 +67,36 @@ export const useStyles = theme => ({
     borderTopColor: theme.palette.text.white,
     paddingTop: 30,
     "& ul": {
-      justifyContent: "space-evenly",
+      marginLeft: "29%",
+      justifyContent: "flex-start",
+      '& > div':{
+        "@media (max-width:550px)": { display: "none" },
+      },
+      "@media(max-width: 480px)":{ margin: 0 },
       "& li": {
         margin: 0,
         padding: 0,
         border: "none",
-        "&:last-of-type a": {
+        "&:first-of-type": { marginRight: 15 },
+        "&:last-of-type span": {
           padding: "10px 28px",
           borderWidth: 1,
           borderStyle: "solid",
           borderColor: theme.palette.text.white,
           borderRadius: 4,
         },
+        "@media (max-width:550px)": { display: "block" },
       },
       "& span": {
         fontSize: 24,
         textTransform: "capitalize",
       },
-      "& a": {
-        paddingBottom: 0,
-      },
+      "& a": { paddingBottom: 0 },
     },
+    "@media(max-width: 480px)":{
+      display: 'flex',
+      justifyContent: 'center'
+    }
   },
   subMenues: {
     "& li": {
@@ -108,5 +117,4 @@ export const useStyles = theme => ({
       "&:nth-child(2) a": { paddingTop: 0 },
     },
   },
-  loggedInState: { display: "none" },
 });

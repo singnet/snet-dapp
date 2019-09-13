@@ -17,7 +17,7 @@ export const useStyles = makeStyles(theme => ({
     width: "30%",
     display: "flex",
     alignItems: "center",
-    "@media (max-width:1024px)": { width: "65%" },
+    "@media (max-width:1024px)": { width: "40%" },
   },
   h1: {
     margin: 0,
@@ -36,7 +36,11 @@ export const useStyles = makeStyles(theme => ({
     marginBottom: 10,
     "@media (max-width:1024px)": { display: "none" },
   },
-  headerDropDown:{
+  headerDropDown: {
+    "& > div": {
+      display: "flex",
+      alignItems: "flex-start",
+    },
     "&:hover": {
       "& button": { color: theme.palette.text.white },
       "& svg": { color: theme.palette.text.white },
@@ -58,15 +62,12 @@ export const useStyles = makeStyles(theme => ({
       paddingLeft: 5,
       color: "#9b9b9b",
       cursor: "pointer",
-      verticalAlign: "middle",
     },
   },
   navLinks: {
     marginRight: 53,
     listStyle: "none",
-    "@media (max-width:1280px) and (min-width: 1024px)": {
-      marginRight: 26,
-    },
+    "@media (max-width:1280px) and (min-width: 1024px)": { marginRight: 26 },
     "& a": {
       textDecoration: "none",
       fontSize: 16,
@@ -85,14 +86,13 @@ export const useStyles = makeStyles(theme => ({
     borderBottomWidth: 2,
     borderBottomStyle: "solid",
     borderBottomColor: theme.palette.text.white,
-    color: '#fff !important',
+    color: "#fff !important",
     fontWeight: 600,
   },
   loginBtnsSection: {
     width: "30%",
     marginBottom: 6,
-    "@media (max-width:1024px)": { width: "35%" },
-    "@media (max-width: 587px)": { width: "50%" },
+    "@media (max-width:1024px)": { width: "59%" }    
   },
   loginBtnsUl: {
     margin: 0,
@@ -100,9 +100,7 @@ export const useStyles = makeStyles(theme => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-end",
-    "& a": {
-      textDecoration: "none",
-    },
+    "& a": { textDecoration: "none" }    
   },
   loginBtnsLi: {
     marginRight: 30,
@@ -112,6 +110,7 @@ export const useStyles = makeStyles(theme => ({
         "@media (max-width:768px)": { display: "none" },
       },
     },
+    "@media (max-width:550px)": { display: "none" },
   },
   signupBtn: {
     padding: "4px 24px",

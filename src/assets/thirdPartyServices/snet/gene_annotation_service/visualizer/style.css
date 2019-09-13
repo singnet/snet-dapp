@@ -1,0 +1,101 @@
+.context-menu {
+  border: none !important;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),
+    0 1px 2px rgba(0, 0, 0, 0.24);
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  -ms-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  -o-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.context-menu-item {
+  font-size: 1em !important;
+  padding: 7px 35px;
+  border: none !important;
+  min-width: 200px;
+}
+
+.context-menu-item:hover {
+  background-color: #e8eaf6 !important;
+  color: #000 !important;
+}
+
+.context-menu-item:first-child {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.context-menu-item:last-child {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.percentage-wrapper {
+  width: 100%;
+  height: 5px;
+  background-color: #eee;
+}
+
+.percentage-bar {
+  height: 5px;
+  background-color: #000;
+}
+
+.description-wrapper {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  width: 350px;
+  background-color: #c9e1f9;
+  border: solid 1px #87bef5;
+  padding: 5px;
+  border-radius: 3px;
+  max-height: 500px;
+  overflow-y: scroll;
+}
+
+.annotation-toggle-wrapper {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  border-radius: 5px;
+  z-index: 2;
+  opacity: 0.9;
+  text-align: left;
+  width: 300px;
+}
+
+.visualizer-wrapper {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #fff;
+}
+
+.visualizer-controls-wrapper {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  top: 15px;
+  left: 15px;
+  opacity: 0.9;
+  z-index: 2;
+  background-color: #fff;
+}
+
+.visualizer-controls-wrapper .ant-btn {
+  border: none;
+}
+
+.inline-buttons button {
+  margin: 5px;
+}
+
+.filter-controls {
+  position: absolute;
+  top: 15px;
+  left: 90px;
+}

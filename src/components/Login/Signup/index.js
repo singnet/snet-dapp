@@ -5,14 +5,14 @@ import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
 
 import Routes from "../../../utility/constants/Routes";
-import { isValidEmail } from "../../../utility/Validation";
-import { parseError } from "../../../utility/ErrorHandling";
+import snetValidator from "../../../utility/Validation";
 import { useStyles } from "./styles";
 import RenderForm from "./RenderForm";
 import RenderOTP from "./RenderOTP";
 import { userActions, loaderActions } from "../../../Redux/actionCreators";
 import { LoaderContent } from "../../../utility/constants/LoaderContent";
 import { alertTypes } from "../../common/AlertBox";
+import { signupFormConstraints, singup_otp_contraints } from "./validationConstraints";
 
 class SignUp extends Component {
   state = {
@@ -42,25 +42,15 @@ class SignUp extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
+    this.setState({ alert: {} });
+    const isNotValid = snetValidator(this.state, signupFormConstraints);
+    if (isNotValid) {
+      this.setState({ alert: { type: alertTypes.ERROR, message: isNotValid[0] } });
+      return;
+    }
     const { nickname, password, email } = this.state;
     const { startSignupLoader, stopLoader } = this.props;
-    this.setState({ alert: {} });
-    if (nickname === "") {
-      this.setState({ alert: { type: alertTypes.ERROR, message: "Please enter a nickname" } });
-      return;
-    }
-    if (email === "") {
-      this.setState({ alert: { type: alertTypes.ERROR, message: "Email cannot be left blank" } });
-      return;
-    }
-    if (!isValidEmail(email)) {
-      this.setState({ alert: { type: alertTypes.ERROR, message: "Please enter a valid email" } });
-      return;
-    }
-    if (password === "") {
-      this.setState({ alert: { type: alertTypes.ERROR, message: "Password cannot be left blank" } });
-      return;
-    }
+
     startSignupLoader();
     Auth.signUp({
       username: email,
@@ -82,6 +72,12 @@ class SignUp extends Component {
   };
 
   handleConfirmSignup = event => {
+    this.setState({ alert: {} });
+    const isNotValid = snetValidator(this.state, singup_otp_contraints);
+    if (isNotValid) {
+      this.setState({ alert: { type: alertTypes.ERROR, message: isNotValid[0] } });
+      return;
+    }
     const { email, otp } = this.state;
     const { history, updateEmail } = this.props;
     event.preventDefault();
@@ -93,9 +89,8 @@ class SignUp extends Component {
         updateEmail(email);
         history.push(route);
       })
-      .catch(err => {
-        let error = parseError(err);
-        this.setState({ alert: { type: alertTypes.ERROR, message: { error } } });
+      .catch(() => {
+        this.setState({ alert: { type: alertTypes.ERROR, message: "email confirmation failed. Please try again" } });
       });
   };
 
