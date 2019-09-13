@@ -184,7 +184,7 @@ const AnnotationForm = props => {
       },
     };
 
-    this.props.serviceClient.unary(Annotate.Annotate, requestProps);
+    props.serviceClient.unary(Annotate.Annotate, requestProps);
   };
 
   return (
