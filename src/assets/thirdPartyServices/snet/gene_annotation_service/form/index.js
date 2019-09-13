@@ -29,7 +29,7 @@ const GeneGoOptions = [
   { label: "Molecular Function", value: "molecular_function" },
 ];
 
-const Pathways = [{ label: "SMPDB", value: "smpdb" }, { label: "Reactome", value: "reactome" }];
+const Pathways = [{ label: "Reactome", value: "reactome" }];
 
 const GeneInputMethods = { Manual: 0, Import: 1 };
 

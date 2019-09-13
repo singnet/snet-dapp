@@ -562,7 +562,7 @@ const Visualizer = props => {
 
         <ExpansionPanel defaultExpanded={true}>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} id="genes">
-            <Typography>Genes</Typography>
+            <Typography>Node Types</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             {nodeTypes.map(n => (
