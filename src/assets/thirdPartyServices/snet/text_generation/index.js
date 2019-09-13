@@ -16,7 +16,7 @@ import { GENGPT2 } from "./ntg_pb_service";
 import { useStyles } from "./styles";
 import AnchorLink from "../../../../components/common/AnchorLink";
 
-const imgPath = (name,  extension = "jpg") => {
+const imgPath = (name, extension = "jpg") => {
   const trimmedName = name.replace(/[\s\.\'']/g, "");
   return `${process.env.REACT_APP_SNET_CDN}/assets/images/ThirdPartyServices/snet/text_generation/${trimmedName}.${extension}`;
 };
@@ -43,7 +43,7 @@ const runNamesWithoutMedia = [
     key: "ericrweinstein",
     value: "Eric Weinstein",
     image: imgPath("EricWeinstein", "png"),
-    avatar: avatarPath("EricWeinstein",  "png"),
+    avatar: avatarPath("EricWeinstein", "png"),
   },
   { key: "hillaryclinton", value: "Hillary Clinton" },
   { key: "jimmyfallon", value: "Jimmy Fallon" },
@@ -51,7 +51,7 @@ const runNamesWithoutMedia = [
   {
     key: "joerogan",
     value: "Joe Rogan",
-    image: imgPath("JoeRogan","png"),
+    image: imgPath("JoeRogan", "png"),
     avatar: avatarPath("JoeRogan", "png"),
   },
   { key: "jordanbpeterson", value: "Dr Jordan B Peterson" },
@@ -61,8 +61,8 @@ const runNamesWithoutMedia = [
   {
     key: "kimkardashian",
     value: "Kim Kardashian West",
-    image: imgPath("Kim Kardashian West",  "png"),
-    avatar: avatarPath("Kim Kardashian West",  "png"),
+    image: imgPath("Kim Kardashian West", "png"),
+    avatar: avatarPath("Kim Kardashian West", "png"),
   },
   { key: "ladygaga", value: "Lady Gaga" },
   { key: "laelaps", value: "Brian Switek" },
@@ -96,7 +96,7 @@ const initialUserInput = {
   temperature: 0.8,
   top_k: 0,
   length: 256,
-  selectedAvatar: avatarPath("DonaldJTrump")
+  selectedAvatar: avatarPath("DonaldJTrump"),
 };
 
 class TextGenerationService extends React.Component {
@@ -129,13 +129,11 @@ class TextGenerationService extends React.Component {
   }
 
   handleFormUpdate(event) {
-    this.setState({
-      [event.target.name]: event.target.value,
-    },()=>{
-      if(event.target.name === "run_name"){
-        this.parseAvatarSrc(event.target.value)
-      }
-    });
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+    if (name === "run_name") {
+      this.parseAvatarSrc(value);
+    }
   }
 
   onKeyPressvalidator(event) {
@@ -172,19 +170,19 @@ class TextGenerationService extends React.Component {
     this.props.serviceClient.unary(methodDescriptor, props);
   }
 
-  parseAvatarSrc = (run_name) => {
+  parseAvatarSrc = run_name => {
     const selectedRunName = runNames.find(el => el.key === run_name);
     const selectedAvatar = (selectedRunName && selectedRunName.avatar) || defaultImgPath;
-    this.setState({selectedAvatar});
+    this.setState({ selectedAvatar });
   };
 
   handleAvatarLoadError = () => {
-    this.setState({selectedAvatar:defaultImgPath});
-  }
+    this.setState({ selectedAvatar: defaultImgPath });
+  };
 
   handleResponseImgError = () => {
-    this.setState(prevState => ({response:{...prevState.response, image:defaultImgPath}}));
-  }
+    this.setState(prevState => ({ response: { ...prevState.response, image: defaultImgPath } }));
+  };
 
   renderForm() {
     const { run_name, start_text, length: maxResponseLength, top_k, temperature, selectedAvatar } = this.state;
