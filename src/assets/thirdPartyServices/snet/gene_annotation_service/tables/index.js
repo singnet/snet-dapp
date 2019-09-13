@@ -239,9 +239,11 @@ const ResultTables = props => {
                       .map((row, j) => {
                         const values = row.slice(i * 4 + 1, i * 4 + 5);
                         const protien = values[1]
-                          .trim()
-                          .split(" ")
-                          .filter(s => s);
+                          ? values[1]
+                              .trim()
+                              .split(" ")
+                              .filter(s => s)
+                          : [];
                         return (
                           <TableRow key={row.name}>
                             <TableCell>{j + 1}</TableCell>
@@ -256,7 +258,6 @@ const ResultTables = props => {
                                       )}`}
                                       style={{ marginRight: 15 }}
                                     >
-                                      {console.log(values[1])}
                                       {protien[0]}
                                     </a>{" "}
                                   </Typography>

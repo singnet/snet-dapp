@@ -5,6 +5,7 @@ import filterSvg from "../assets/filter.svg";
 import "cytoscape-context-menus/cytoscape-context-menus.css";
 import $ from "jquery";
 import IconButton from "@material-ui/core/IconButton";
+import Button from "@material-ui/core/Button";
 import Tooltip from "@material-ui/core/Tooltip";
 import SearchIcon from "@material-ui/icons/Search";
 import ClearIcon from "@material-ui/icons/Clear";
@@ -484,9 +485,10 @@ const Visualizer = props => {
     return (
       <div className="filter-controls">
         <Tooltip placement="bottom" title="Remove Filter">
-          <IconButton onClick={clearFilter} type="secondary">
+          <Button onClick={clearFilter} color="secondary" variant="contained">
             <ClearIcon />
-          </IconButton>
+            Remove filter
+          </Button>
         </Tooltip>
       </div>
     );
@@ -496,7 +498,7 @@ const Visualizer = props => {
     <Fragment>
       <div className="visualizer-wrapper" ref={cy_wrapper} />
       <div className="visualizer-controls-wrapper">
-        <Tooltip placement="right" title="Randomize layout">
+        <Tooltip placement="right" title="Go back">
           <IconButton onClick={props.onClose}>
             <ArrowBackIcon />
           </IconButton>
@@ -529,12 +531,12 @@ const Visualizer = props => {
         <Tooltip
           placement="right"
           title={
-            <div>
+            <Typography variant="body1">
               <p>Use the checkboxes to the right to filter the graph by annotations and node types.</p>
               <p>Right click on a node to perform actions on it.</p>
               <p>You may download the graph JSON and view it on Cytoscape desktop.</p>
               <p>The search is case sensitive.</p>
-            </div>
+            </Typography>
           }
         >
           <IconButton>
@@ -543,8 +545,9 @@ const Visualizer = props => {
         </Tooltip>
       </div>
       <div className="annotation-toggle-wrapper">
-        <Paper style={{ marginBottom: 15, padding: 5, paddingLeft: 15 }}>
+        <Paper style={{ display: "flex", marginBottom: 15, padding: 5, paddingLeft: 15 }}>
           <InputBase
+            style={{ flexGrow: 1 }}
             placeholder="Node ID"
             onChange={e => setSearchToken(e.target.value)}
             onKeyPress={e => {
