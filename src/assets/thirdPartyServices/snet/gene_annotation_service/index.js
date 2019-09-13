@@ -14,5 +14,3 @@ const App = props => {
     </div>
   );
 };
-
-ReactDOM.render(<App />, document.getElementById("app"));
