@@ -1,22 +1,22 @@
-// package: 
-// file: ProtoFiles/annotation.proto
+// package:
+// file: src/proto/annotation.proto
 
-var ProtoFiles_annotation_pb = require("./annotation_pb");
+var src_proto_annotation_pb = require("./annotation_pb");
 var grpc = require("@improbable-eng/grpc-web").grpc;
 
-var Annotate = (function () {
+var Annotate = (function() {
   function Annotate() {}
   Annotate.serviceName = "Annotate";
   return Annotate;
-}());
+})();
 
 Annotate.Annotate = {
   methodName: "Annotate",
   service: Annotate,
   requestStream: false,
   responseStream: false,
-  requestType: ProtoFiles_annotation_pb.AnnotationRequest,
-  responseType: ProtoFiles_annotation_pb.AnnotationResponse
+  requestType: src_proto_annotation_pb.AnnotationRequest,
+  responseType: src_proto_annotation_pb.AnnotationResponse,
 };
 
 exports.Annotate = Annotate;
@@ -36,7 +36,7 @@ AnnotateClient.prototype.annotate = function annotate(requestMessage, metadata, 
     metadata: metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd: function(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -47,15 +47,14 @@ AnnotateClient.prototype.annotate = function annotate(requestMessage, metadata, 
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel: function() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.AnnotateClient = AnnotateClient;
-
