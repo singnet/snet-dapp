@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/styles";
 export const useStyles = makeStyles(theme => ({
   card: {
     minHeight: 440,
-    width: 350,
+    width: 302,
     paddingTop: 10,
     margin: "0 25px 25px 0",
     display: "inline-block",
@@ -13,7 +13,9 @@ export const useStyles = makeStyles(theme => ({
     "&:hover": {
       backgroundColor: theme.palette.text.offWhiteColor,
       "& h4": { color: theme.palette.text.primary },
-    },
+    },    
+    "@media(min-width: 1281px)": { marginRight: 19 },
+    "@media(max-width: 1280px)": { marginRight: 38  },
   },
   cardHeader: {
     padding: "0 18px",
