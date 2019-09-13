@@ -68,7 +68,6 @@ const AnnotationResult = props => {
 
   const renderError = () => (
     <Typography variant="body2">
-      {console.log(response)}
       {response.statusMessage}. Try to
       <Button color="primary">run another annotation</Button>
     </Typography>
@@ -86,7 +85,7 @@ const AnnotationResult = props => {
         </Typography>
         <div className="inline-buttons">
           <Button variant="contained" onClick={e => setTableShown(true)}>
-            <TableChartOutlinedIcon style={{ marginRight: 15 }} /> View results table
+            <TableChartOutlinedIcon style={{ marginRight: "15px !important" }} /> View results table
           </Button>
           <Button variant="contained" onClick={() => downloadSchemeFile(id)}>
             <CloudDownloadIcon style={{ marginRight: 15 }} /> Download Scheme File

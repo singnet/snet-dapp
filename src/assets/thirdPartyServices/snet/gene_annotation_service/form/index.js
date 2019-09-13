@@ -137,12 +137,13 @@ const AnnotationForm = props => {
         } else if (sa === "biogrid-interaction-annotation") {
           const int = new Filter();
           int.setFilter("interaction");
-          int.setValue(annotations.includes("gene-pathway-annotation") && includeProtiens ? "Proteins" : "Genes");
+          int.setValue(includeProtiens ? "Proteins" : "Genes");
           annotation.setFiltersList([int, ...(annotations.includes("gene-go-annotation") ? [namespace, nop] : [])]);
         }
         return annotation;
       })
     );
+
 
     const requestProps = {
       request: annotationRequest,
