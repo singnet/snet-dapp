@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import ReactDOM from "react-dom";
 import { SnackbarProvider } from "notistack";
 import AnnotationForm from "./form";
 import AnnotationResult from "./result";
@@ -14,3 +13,5 @@ const App = props => {
     </div>
   );
 };
+
+export default App;
