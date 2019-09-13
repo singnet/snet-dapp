@@ -9,7 +9,9 @@ const App = props => {
 
   return (
     <div>
-      <SnackbarProvider>{id ? <AnnotationResult id={id} /> : <AnnotationForm onResponse={setId} />}</SnackbarProvider>
+      <SnackbarProvider>
+        {id ? <AnnotationResult id={id} /> : <AnnotationForm serviceClient={props.serviceClient} onResponse={setId} />}
+      </SnackbarProvider>
     </div>
   );
 };
