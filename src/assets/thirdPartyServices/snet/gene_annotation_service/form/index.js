@@ -29,7 +29,7 @@ const GeneGoOptions = [
   { label: "Molecular Function", value: "molecular_function" },
 ];
 
-const Pathways = [{ label: "SMPDB", value: "smpdb" }, { label: "Reactome", value: "reactome" }];
+const Pathways = [{ label: "Reactome", value: "reactome" }];
 
 const GeneInputMethods = { Manual: 0, Import: 1 };
 
@@ -137,12 +137,13 @@ const AnnotationForm = props => {
         } else if (sa === "biogrid-interaction-annotation") {
           const int = new Filter();
           int.setFilter("interaction");
-          int.setValue(annotations.includes("gene-pathway-annotation") && includeProtiens ? "Proteins" : "Genes");
+          int.setValue(includeProtiens ? "Proteins" : "Genes");
           annotation.setFiltersList([int, ...(annotations.includes("gene-go-annotation") ? [namespace, nop] : [])]);
         }
         return annotation;
       })
     );
+
 
     const requestProps = {
       request: annotationRequest,
@@ -184,11 +185,11 @@ const AnnotationForm = props => {
       },
     };
 
-    this.props.serviceClient.unary(Annotate.Annotate, requestProps);
+    props.serviceClient.unary(Annotate.Annotate, requestProps);
   };
 
   return (
-    <div className="container form-wrapper" style={{ padding: "30px 450px" }}>
+    <div className="container form-wrapper">
       {/* Gene List */}
       <Typography variant="h6" gutterBottom>
         Input Genes

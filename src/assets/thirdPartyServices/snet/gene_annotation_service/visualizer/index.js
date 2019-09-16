@@ -5,6 +5,7 @@ import filterSvg from "../assets/filter.svg";
 import "cytoscape-context-menus/cytoscape-context-menus.css";
 import $ from "jquery";
 import IconButton from "@material-ui/core/IconButton";
+import Button from "@material-ui/core/Button";
 import Tooltip from "@material-ui/core/Tooltip";
 import SearchIcon from "@material-ui/icons/Search";
 import ClearIcon from "@material-ui/icons/Clear";
@@ -484,9 +485,10 @@ const Visualizer = props => {
     return (
       <div className="filter-controls">
         <Tooltip placement="bottom" title="Remove Filter">
-          <IconButton onClick={clearFilter} type="secondary">
+          <Button onClick={clearFilter} color="secondary" variant="contained">
             <ClearIcon />
-          </IconButton>
+            Remove filter
+          </Button>
         </Tooltip>
       </div>
     );
@@ -496,32 +498,32 @@ const Visualizer = props => {
     <Fragment>
       <div className="visualizer-wrapper" ref={cy_wrapper} />
       <div className="visualizer-controls-wrapper">
-        <Tooltip placement="right" title="Randomize layout">
+        <Tooltip placement="right" title={<Typography variant="body1">Go back</Typography>}>
           <IconButton onClick={props.onClose}>
             <ArrowBackIcon />
           </IconButton>
         </Tooltip>
-        <Tooltip placement="right" title="Randomize layout">
+        <Tooltip placement="right" title={<Typography variant="body1">Randomize layout</Typography>}>
           <IconButton onClick={randomLayout}>
             <ShuffleIcon />
           </IconButton>
         </Tooltip>
-        <Tooltip placement="right" title="Breadth-first layout">
+        <Tooltip placement="right" title={<Typography variant="body1">Breadth-first layout</Typography>}>
           <IconButton onClick={breadthFirstLayout}>
             <CategoryIcon />
           </IconButton>
         </Tooltip>
-        <Tooltip placement="right" title="Concentric layout">
+        <Tooltip placement="right" title={<Typography variant="body1">Concentric layout</Typography>}>
           <IconButton onClick={concentricLayout}>
             <AdjustIcon />
           </IconButton>
         </Tooltip>
-        <Tooltip placement="right" title="Save screenshot">
+        <Tooltip placement="right" title={<Typography variant="body1">Save screenshot</Typography>}>
           <IconButton onClick={takeScreenshot}>
             <CameraAltIcon />
           </IconButton>
         </Tooltip>
-        <Tooltip placement="right" title="Download graph as JSON">
+        <Tooltip placement="right" title={<Typography variant="body1">Download graph as JSON</Typography>}>
           <IconButton onClick={downloadGraphJSON}>
             <CloudDownloadIcon />
           </IconButton>
@@ -529,12 +531,12 @@ const Visualizer = props => {
         <Tooltip
           placement="right"
           title={
-            <div>
+            <Typography variant="body1">
               <p>Use the checkboxes to the right to filter the graph by annotations and node types.</p>
               <p>Right click on a node to perform actions on it.</p>
               <p>You may download the graph JSON and view it on Cytoscape desktop.</p>
               <p>The search is case sensitive.</p>
-            </div>
+            </Typography>
           }
         >
           <IconButton>
@@ -543,8 +545,9 @@ const Visualizer = props => {
         </Tooltip>
       </div>
       <div className="annotation-toggle-wrapper">
-        <Paper style={{ marginBottom: 15, padding: 5, paddingLeft: 15 }}>
+        <Paper style={{ display: "flex", marginBottom: 15, padding: 5, paddingLeft: 15 }}>
           <InputBase
+            style={{ flexGrow: 1 }}
             placeholder="Node ID"
             onChange={e => setSearchToken(e.target.value)}
             onKeyPress={e => {
@@ -562,7 +565,7 @@ const Visualizer = props => {
 
         <ExpansionPanel defaultExpanded={true}>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} id="genes">
-            <Typography>Genes</Typography>
+            <Typography>Node Types</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             {nodeTypes.map(n => (
@@ -579,6 +582,7 @@ const Visualizer = props => {
                   />
                 }
                 label={n}
+                key={n}
               />
             ))}
           </ExpansionPanelDetails>
@@ -591,7 +595,7 @@ const Visualizer = props => {
             <div>
               {AnnotationGroups.filter(a => props.annotations.includes(a.group)).map((a, i) => {
                 return (
-                  <div>
+                  <div key={a}>
                     <span>
                       <Typography variant="body1" gutterBottom>
                         {a.group.includes("biogrid") && (
@@ -614,7 +618,7 @@ const Visualizer = props => {
                     {a.subgroups
                       .filter(s => props.annotations.includes(s.subgroup))
                       .map(s => (
-                        <span style={{ paddingLeft: 15 }}>
+                        <span style={{ paddingLeft: 15 }} key={s}>
                           <FormControlLabel
                             control={
                               <Checkbox
