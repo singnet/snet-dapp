@@ -13,6 +13,14 @@ export const signupFormConstraints = {
   },
 };
 
-export const singup_otp_contraints = {
+export const singupOtpContraints = {
   otp: { presence: { allowEmpty: false }, length: { minimum: 6 } },
+};
+
+export const passwordInlineConstraints = {
+  lowerCase: { hasLowerCase: true },
+  upperCase: { hasUpperCase: true },
+  number: { hasNumber: true },
+  AWSSplChars: { hasAWSPasswordSplChar: true },
+  length: { length: { minimum: 8 } },
 };
