@@ -7,5 +7,6 @@ export const useStyles = makeStyles(theme => ({
     position: "absolute",
     top: 70,
     overflowY: "scroll",
+    backgroundColor: theme.palette.text.offWhiteColor,
   },
 }));
