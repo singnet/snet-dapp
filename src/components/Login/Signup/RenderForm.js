@@ -135,7 +135,7 @@ const RenderForm = ({
           </div>
           <AlertBox type={alert.type} message={alert.message} />
           <div style={{ marginTop: 20 }} />
-          <StyledButton type="blue" btnText="Create Account" onClick={handleSubmit} />
+          <StyledButton type="blue" btnText="Create Account" onClick={handleSubmit} btnType="submit" />
         </form>
       </Grid>
     </Fragment>
