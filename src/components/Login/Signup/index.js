@@ -12,9 +12,7 @@ import { userActions, loaderActions } from "../../../Redux/actionCreators";
 import { LoaderContent } from "../../../utility/constants/LoaderContent";
 import { alertTypes } from "../../common/AlertBox";
 import { signupFormConstraints, singupOtpContraints } from "./validationConstraints";
-import { initSnetValidator } from "../../../utility/snetValidator";
-
-const snetValidator = initSnetValidator();
+import snetValidator from "../../../utility/snetValidator";
 
 class SignUp extends Component {
   state = {

@@ -1,6 +1,6 @@
 import validate from "validate.js";
 
-let snetValidator;
+const snetValidator = validate;
 
 const hasLowerCase = (value, options, key, attributes) => {
   if (/[a-z]/.test(value)) {
@@ -31,23 +31,16 @@ const hasAWSPasswordSplChar = (value, options, key, attributes) => {
   return options.message || "must contain a special character";
 };
 
-export const initSnetValidator = () => {
-  if (snetValidator) {
-    return snetValidator;
-  }
-
-  snetValidator = validate;
-  snetValidator.validators = {
-    ...validate.validators,
-    // custom validators
-    hasLowerCase,
-    hasUpperCase,
-    hasNumber,
-    hasAWSPasswordSplChar,
-  };
-
-  // default options
-  snetValidator.options = { format: "flat" };
-
-  return snetValidator;
+snetValidator.validators = {
+  ...validate.validators,
+  // custom validators
+  hasLowerCase,
+  hasUpperCase,
+  hasNumber,
+  hasAWSPasswordSplChar,
 };
+
+// default options
+snetValidator.options = { format: "flat" };
+
+export default snetValidator;

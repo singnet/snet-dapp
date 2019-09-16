@@ -11,9 +11,7 @@ import { useStyles } from "./styles";
 import AlertText from "../../common/AlertText";
 import { PasswordCriteria } from "../../../utility/constants/ValidtionMessages";
 import { signupFormConstraints, passwordInlineConstraints } from "./validationConstraints";
-import { initSnetValidator } from "../../../utility/snetValidator";
-
-const snetValidator = initSnetValidator();
+import snetValidator from "../../../utility/snetValidator";
 
 const RenderForm = ({
   classes,
