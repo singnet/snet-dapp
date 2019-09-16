@@ -7,9 +7,11 @@ import ServiceListItem from "./ServiceListItem";
 import CardImg from "../../../../../assets/images/SnetDefaultServiceImage.png";
 import { useStyles } from "./styles";
 import Routes from "../../../../../utility/constants/Routes";
+import GridViewItem from "./GridViewItem";
 
-const CardGroup = ({ cards, loading }) => {
+const CardGroup = ({ data: cards, listView, loading }) => {
   const classes = useStyles();
+
   if (loading) {
     return (
       <div className={classes.circularProgressContainer}>
@@ -20,7 +22,6 @@ const CardGroup = ({ cards, loading }) => {
       </div>
     );
   }
-
   if (cards.length === 0) {
     return (
       <div className={classes.NoResultContainer}>
@@ -29,20 +30,41 @@ const CardGroup = ({ cards, loading }) => {
       </div>
     );
   }
-
+  if (listView) {
+    return (
+      <div className={classes.lisViewCardCollection}>
+        {cards.map(card => (
+          <Link
+            to={`/${Routes.SERVICE_DETAILS}/org/${card.org_id}/service/${card.service_id}`}
+            className={classes.routerLink}
+            key={card.service_id}
+          >
+            <ServiceListItem
+              cardMedia={card.assets_url.hero_image ? card.assets_url.hero_image : CardImg}
+              cardTitle={card.display_name}
+              cardSubheader={card.org_id}
+              ratingGiven={card.service_rating}
+              totalRating={card.total_users_rated}
+              cardDescription={card.description}
+              isAvailable={Boolean(card.is_available)}
+            />
+          </Link>
+        ))}
+      </div>
+    );
+  }
   return (
-    <div className={classes.cardCollection}>
+    <div className={classes.gridViewCardCollection}>
       {cards.map(card => (
         <Link
           key={card.service_row_id}
           to={`/${Routes.SERVICE_DETAILS}/org/${card.org_id}/service/${card.service_id}`}
           className={classes.routerLink}
         >
-          <ServiceListItem
-            key={card.service_id}
+          <GridViewItem
             cardMedia={card.assets_url.hero_image ? card.assets_url.hero_image : CardImg}
-            cardSubheader={card.org_id}
             cardTitle={card.display_name}
+            cardSubheader={card.org_id}
             ratingGiven={card.service_rating}
             totalRating={card.total_users_rated}
             cardDescription={card.description}
