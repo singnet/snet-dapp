@@ -10,6 +10,8 @@ import AlertBox from "../common/AlertBox";
 import Routes from "../../utility/constants/Routes";
 import { useStyles } from "./styles";
 import { userActions } from "../../Redux/actionCreators";
+import snetValidator from "../../utility/snetValidator";
+import { loginConstraints } from "./validationConstraints";
 
 class Login extends Component {
   state = {
@@ -30,12 +32,16 @@ class Login extends Component {
   };
 
   handleSubmit = async event => {
-    const { history } = this.props;
+    const { history, updateError } = this.props;
     let route = `/${Routes.ONBOARDING}`;
     if (history.location.state && history.location.state.sourcePath) {
       route = history.location.state.sourcePath;
     }
-    this.setState({ error: undefined });
+    const isNotValid = snetValidator(this.state, loginConstraints);
+    if (isNotValid) {
+      updateError(isNotValid[0]);
+      return;
+    }
     const { email, password } = this.state;
     event.preventDefault();
     event.stopPropagation();
@@ -93,6 +99,7 @@ const mapDispatchToProps = dispatch => ({
   fetchUserDetails: () => dispatch(userActions.fetchUserDetails),
   login: args => dispatch(userActions.login(args)),
   resetError: () => dispatch(userActions.resetLoginError),
+  updateError: error => dispatch(userActions.updateLoginError(error)),
 });
 export default connect(
   mapStateToProps,
