@@ -1187,13 +1187,13 @@ export default class SNETImageUpload extends React.Component {
             backgroundColor: "white" }} spacing={0} >
           <Grid item xs={12}>
             <Grid container direction="row" alignItems="flex-end" justify="space-around" style={{ paddingBottom: 12 }}>
-              <Grid item xs={2}>
+              <Grid item xs={3}>
                 <Typography color="inherit" noWrap variant="h6" style={{ fontSize: 18, fontFamily: snetFont,
-                    padding: spacingUnit / 2, marginBottom: 25 }}>
+                    padding: spacingUnit / 2}}>
                   {this.state.mainState === "display" ? this.props.displayModeTitle : this.props.imageName}
                 </Typography>
               </Grid>
-              <Grid item xs={8}>
+              <Grid item xs={7}>
                 <MuiThemeProvider theme={this.theme}>
                   <Tabs
                     value={this.state.value}
