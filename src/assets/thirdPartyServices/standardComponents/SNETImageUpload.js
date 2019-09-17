@@ -136,7 +136,7 @@ export default class SNETImageUpload extends React.Component {
     this.tabStyle = {
       position: "relative",
       overflow: "hidden",
-      padding: spacingUnit,
+      // padding: spacingUnit,
       height: this.tabHeight + "px",
     };
 
@@ -161,7 +161,7 @@ export default class SNETImageUpload extends React.Component {
     this.urlErrorMessage = "Incorrect URL or permission denied by server.";
     this.fileSizeError = "File size exceeds limits (" + this.props.maxImageSize / 1000000 + "mb).";
     this.fileTypeError = "File type not accepted. Allowed: " + this.props.allowedInputTypes + ".";
-    this.inputImageErrorMessage = "Input image could not be rendered.";
+    this.inputImageErrorMessage = "Content image could not be rendered.";
     this.outputImageErrorMessage = "Output image could not be rendered.";
 
     // Refs
@@ -471,14 +471,12 @@ export default class SNETImageUpload extends React.Component {
             onClick={() => this.inputElement.click()}
             style={{
               borderWidth: 2,
-              borderColor: this.mainColor,
+              borderColor: '#d6d6d6',
               borderStyle: "dashed",
-              borderRadius: 5,
-              backgroundColor: dropzoneBackgroundGrey,
+              borderRadius: 4,
               cursor: "pointer",
               overflow: "hidden",
-              height: this.tabHeight - this.dropzoneHeightOffset + "px",
-              padding: spacingUnit,
+              height: this.tabHeight - this.dropzoneHeightOffset + 10 + "px",
               display: 'flex',
               flexDirection: 'column'
             }}
@@ -514,17 +512,19 @@ export default class SNETImageUpload extends React.Component {
               <Grid item style={{ padding: '20px 40px'}}>
                 <Typography
                   style={{
+                    width: '58%',
+                    margin: '0 auto',
                     fontFamily: snetFont,
                     fontVariantCaps: "normal",
                     textTransform: "initial",
-                    fontSize: 14,
-                    color: snetGrey,
+                    fontSize: 12,
+                    color: '#9b9b9b',
                     textAlign: "center",
                     padding: spacingUnit,
                   }}
                 >
-                  Image file must be smaller than {this.props.maxImageSize / 1000000}mb. Source images are not saved on
-                  the servers after the job is processed.
+                  (Image must be under {this.props.maxImageSize / 1000000}mb. Source images are not saved on
+                  the servers after the job is processed.)
                 </Typography>
               </Grid>
             </Grid>
@@ -630,6 +630,12 @@ export default class SNETImageUpload extends React.Component {
         alignItems="center"
         style={{
           height: this.tabHeight + "px",
+          borderWidth: 2,
+          borderColor: '#d6d6d6',
+          borderStyle: "dashed",
+          borderRadius: 4,
+          cursor: "pointer",
+          overflow: "hidden",
         }}
       >
         <Grid
@@ -658,6 +664,8 @@ export default class SNETImageUpload extends React.Component {
                   <InputAdornment position="end">
                     <IconButton
                       style={{
+                        marginRight: 0,
+                        padding: 0,
                         color: this.mainColor,
                       }}
                       onClick={this.state.searchText !== null ? () => this.handleSearchSubmit(null) : undefined}
@@ -1175,35 +1183,17 @@ export default class SNETImageUpload extends React.Component {
           position: "relative",
         }}
       >
-        <Grid
-          container
-          direction="row"
-          justify="flex-start"
-          alignItems="center"
-          style={{
-            color: "black",
-            backgroundColor: "white",
-          }}
-          spacing={0}
-        >
+        <Grid container direction="row" justify="flex-start" alignItems="center" style={{ color: "black",
+            backgroundColor: "white" }} spacing={0} >
           <Grid item xs={12}>
-            <Grid container direction="row" alignItems="center" justify="space-around">
-              <Grid item xs={3}>
-                <Typography
-                  color="inherit"
-                  noWrap
-                  variant="h6"
-                  style={{
-                    fontSize: 18,
-                    fontFamily: snetFont,
-                    padding: spacingUnit / 2,
-                    marginBottom: 25
-                  }}
-                >
+            <Grid container direction="row" alignItems="flex-end" justify="space-around" style={{ paddingBottom: 12 }}>
+              <Grid item xs={2}>
+                <Typography color="inherit" noWrap variant="h6" style={{ fontSize: 18, fontFamily: snetFont,
+                    padding: spacingUnit / 2, marginBottom: 25 }}>
                   {this.state.mainState === "display" ? this.props.displayModeTitle : this.props.imageName}
                 </Typography>
               </Grid>
-              <Grid item xs={7}>
+              <Grid item xs={8}>
                 <MuiThemeProvider theme={this.theme}>
                   <Tabs
                     value={this.state.value}
@@ -1393,7 +1383,7 @@ SNETImageUpload.propTypes = {
 SNETImageUpload.defaultProps = {
   width: "500px",
   tabHeight: 300,
-  imageName: "Input Image",
+  imageName: "Content Image",
   disableUploadTab: false, // If true disables upload tab
   disableUrlTab: false, // If true disables url tab
   disableResetButton: false,
