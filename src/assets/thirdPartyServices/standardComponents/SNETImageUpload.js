@@ -470,7 +470,7 @@ export default class SNETImageUpload extends React.Component {
           <div
             onClick={() => this.inputElement.click()}
             style={{
-              borderWidth: 2,
+              borderWidth: 1,
               borderColor: '#d6d6d6',
               borderStyle: "dashed",
               borderRadius: 4,
@@ -630,7 +630,7 @@ export default class SNETImageUpload extends React.Component {
         alignItems="center"
         style={{
           height: this.tabHeight + "px",
-          borderWidth: 2,
+          borderWidth: 1,
           borderColor: '#d6d6d6',
           borderStyle: "dashed",
           borderRadius: 4,
@@ -1186,14 +1186,14 @@ export default class SNETImageUpload extends React.Component {
         <Grid container direction="row" justify="flex-start" alignItems="center" style={{ color: "black",
             backgroundColor: "white" }} spacing={0} >
           <Grid item xs={12}>
-            <Grid container direction="row" alignItems="flex-end" justify="space-around" style={{ paddingBottom: 12 }}>
-              <Grid item xs={3}>
+            <Grid container direction="row" alignItems="flex-end" justify="space-around" style={{ paddingBottom: 5 }}>
+              <Grid item xs={4}>
                 <Typography color="inherit" noWrap variant="h6" style={{ fontSize: 18, fontFamily: snetFont,
                     padding: spacingUnit / 2}}>
                   {this.state.mainState === "display" ? this.props.displayModeTitle : this.props.imageName}
                 </Typography>
               </Grid>
-              <Grid item xs={7}>
+              <Grid item xs={6}>
                 <MuiThemeProvider theme={this.theme}>
                   <Tabs
                     value={this.state.value}
@@ -1204,33 +1204,43 @@ export default class SNETImageUpload extends React.Component {
                     style={{
                       color: snetGrey,
                     }}
+                    TabIndicatorProps={{style:{ 
+                      bottom: 8,
+                      backgroundColor: '#4086ff'
+                    }}}
                   >
                     {this.state.mainState !== "uploaded" &&
                       !(this.state.mainState === "display") &&
                       !this.props.disableUploadTab && (
                         <Tab
-                          style={{ minWidth: "5%", marginRight: "0" }}
-                          value={0}
-                          label={<span style={this.tabLabelStyle}>Upload</span>}
+                        indicatorColor={'red'}
+                          style={{ marginRight: "0", minWidth: 'fit-content',
+                            paddingBottom: 0, flexGrow: 0, flexBasis: 0,  paddingLeft: 10 }} 
+                          value={0} label={<span style={this.tabLabelStyle}>Upload</span>}                          
                         />
                       )}
                     {this.state.mainState !== "uploaded" &&
                       !(this.state.mainState === "display") &&
                       !this.props.disableUrlTab && (
-                        <Tab style={{ minWidth: "5%", marginRight: "0" }} value={1} label={<span style={this.tabLabelStyle}>URL</span>} />
+                        <Tab 
+                          style={{ marginRight: "0", minWidth: 'fit-content',
+                            paddingBottom: 0, flexGrow: 0, flexBasis: 0,  paddingLeft: 10 }} 
+                          value={1} label={<span style={this.tabLabelStyle}>URL</span>} />
                       )}
                     {this.state.mainState !== "uploaded" &&
                       !(this.state.mainState === "display") &&
                       this.props.imageGallery.length > 0 && (
                         <Tab
-                          style={{ minWidth: "5%", marginRight: "0" }}
+                          style={{ marginRight: "0", minWidth: 'fit-content',
+                          paddingBottom: 0, flexGrow: 0, flexBasis: 0, paddingLeft: 10  }}
                           value={2}
                           label={<span style={this.tabLabelStyle}>Gallery</span>}
                         />
                       )}
                     {this.state.mainState === "display" && !this.props.disableInputTab && (
                       <Tab
-                        style={{ minWidth: "5%", marginRight: "0" }}
+                        style={{ marginRight: "0", minWidth: 'fit-content',
+                          paddingBottom: 0, flexGrow: 0, flexBasis: 0 }}
                         value={3}
                         label={<span style={this.tabLabelStyle}>{this.props.inputTabTitle}</span>}
                       />
