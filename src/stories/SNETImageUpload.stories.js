@@ -31,7 +31,12 @@ storiesOf("SNETImageUpload")
   .add("Disable Output Tab", () => <SNETOutputImage outputImageName="Custom Output name" disableOutputTab />)
   .add("Disable Comparision Tab", () => <SNETOutputImage outputImageName="Custom Output name" disableComparisonTab />)
   .add("Disable download button", () => <SNETOutputImage outputImageName="Custom Output name" disableDownloadButton />)
-  .add("Overlay Input Image", () => <SNETOutputImage outputImageName="Custom Output name" overlayInputImage />);
+  .add("Overlay Input Image", () => <SNETOutputImage outputImageName="Custom Output name" overlayInputImage />)
+  .add("Custom Input Title", () => <SNETOutputImage outputImageName="Custom Output name" inputTabTitle="Custom" />)
+  .add("Custom Output Title", () => <SNETOutputImage outputImageName="Custom Output name" outputTabTitle="Custom" />)
+  .add("Custom Comparision Title", () => (
+    <SNETOutputImage outputImageName="Custom Output name" comparisonTabTitle="Custom" />
+  ));
 
 // SNETImageUpload.propTypes = {
 //   width: PropTypes.string, // e.g.: "500px", "50%" (of parent component width)
