@@ -2,7 +2,7 @@ import React from "react";
 import { storiesOf } from "@storybook/react";
 import AlertBox, { alertTypes } from "./";
 
-storiesOf("AlertBox")
+storiesOf("AlertBox", module)
   .add("_default", () => <AlertBox message="Default" />)
   .add("Success", () => <AlertBox type={alertTypes.SUCCESS} message="Success" />)
   .add("Info", () => <AlertBox type={alertTypes.INFO} message="Info" />)
