@@ -11,10 +11,24 @@ const SNETOutputImage = props => {
   return <WithReqdProps imageDataFunc={data => setOutputImage(data)} outputImage={outputImage} {...props} />;
 };
 
-storiesOf("SNETImageUpload")
+const styleGallery = [
+  "https://raw.githubusercontent.com/dxyang/StyleTransfer/master/style_imgs/mosaic.jpg",
+  "https://raw.githubusercontent.com/ShafeenTejani/fast-style-transfer/master/examples/dora-maar-picasso.jpg",
+  "https://raw.githubusercontent.com/singnet/style-transfer-service/master/docs/assets/input/style/brushstrokes.jpg",
+  "https://raw.githubusercontent.com/singnet/style-transfer-service/master/docs/assets/examples/impronte_d_artista_cropped.jpg",
+  "https://raw.githubusercontent.com/singnet/style-transfer-service/master/docs/assets/examples/woman_with_hat_matisse_cropped.jpg",
+  "https://raw.githubusercontent.com/singnet/style-transfer-service/master/docs/assets/examples/sketch_cropped.png",
+  "https://raw.githubusercontent.com/singnet/style-transfer-service/master/docs/assets/examples/ashville_cropped.jpg",
+  "https://raw.githubusercontent.com/singnet/style-transfer-service/master/docs/assets/examples/goeritz_cropped.jpg",
+  "https://raw.githubusercontent.com/singnet/style-transfer-service/master/docs/assets/examples/en_campo_gris_cropped.jpg",
+];
+
+storiesOf("SNETImageUpload", module)
   .add("_default", () => <WithReqdProps />)
   .add("Disabled Upload Tab", () => <WithReqdProps disableUploadTab />)
   .add("Disabled URL", () => <WithReqdProps disableUrlTab />)
+  .add("Image Gallery", () => <WithReqdProps imageGallery={styleGallery} />)
+  .add("Gallery Columns", () => <WithReqdProps imageGallery={styleGallery} galleryCols={5} />)
   .add("Disabled Reset Button", () => <WithReqdProps disableResetButton />)
   .add("Custom Image Tab Width", () => <WithReqdProps width="1000px" />)
   .add("Custom Image Tab height", () => <WithReqdProps tabHeight={1000} />)
