@@ -1,8 +1,6 @@
 export const signupFormConstraints = {
-  nickname: {
-    presence: { allowEmpty: false },
-  },
-  email: { presence: { allowEmpty: false }, email: true },
+  nickname: { presence: { allowEmpty: false } },
+  email: { presence: { allowEmpty: false }, email: { message: "'%{value}' is not valid" } },
   password: {
     presence: { allowEmpty: false },
     hasLowerCase: true,
