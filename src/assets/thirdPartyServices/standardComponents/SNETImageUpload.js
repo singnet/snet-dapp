@@ -1213,7 +1213,6 @@ export default class SNETImageUpload extends React.Component {
                       !(this.state.mainState === "display") &&
                       !this.props.disableUploadTab && (
                         <Tab
-                        indicatorColor={'red'}
                           style={{ marginRight: "0", minWidth: 'fit-content',
                             paddingBottom: 0, flexGrow: 0, flexBasis: 0,  paddingLeft: 10 }} 
                           value={0} label={<span style={this.tabLabelStyle}>Upload</span>}                          
