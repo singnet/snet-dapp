@@ -76,7 +76,7 @@ class Login extends Component {
               <Link to={Routes.FORGOT_PASSWORD}>Forgot password?</Link>
             </div>
             <AlertBox type="error" message={loginError} />
-            <StyledButton type="blue" btnText="login" onClick={this.handleSubmit} />
+            <StyledButton type="blue" btnText="login" onClick={this.handleSubmit} btnType="submit" />
           </form>
         </Grid>
       </Grid>
