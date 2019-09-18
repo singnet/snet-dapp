@@ -15,6 +15,7 @@ import NotificationBar, { notificationBarTypes } from "../common/NotificationBar
 import { serviceDetailsActions } from "../../Redux/actionCreators";
 import { pricing, serviceDetails } from "../../Redux/reducers/ServiceDetailsReducer";
 import ErrorBox from "../common/ErrorBox";
+import PaypalButton from "../common/PaypalButton";
 
 class ServiceDetails extends Component {
   state = {
@@ -103,6 +104,7 @@ class ServiceDetails extends Component {
               history={history}
             />
           </div>
+          <PaypalButton />
           <StyledTabs tabs={tabs} activeTab={activeTab} onTabChange={this.handleTabChange} />
         </Grid>
       </div>
