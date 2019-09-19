@@ -2,16 +2,14 @@ import React from "react";
 import ReactDOM from "react-dom";
 import scriptLoader from "react-async-script-loader";
 
+window.React = React;
+window.ReactDOM = ReactDOM;
+
 class PaypalButton extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showButton: false,
-      orderId: "",
-    };
-    window.React = React;
-    window.ReactDOM = ReactDOM;
-  }
+  state = {
+    showButton: false,
+    orderId: "",
+  };
 
   componentDidMount() {
     const { isScriptLoaded, isScriptLoadSucceed } = this.props;
@@ -20,18 +18,18 @@ class PaypalButton extends React.Component {
     }
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { isScriptLoaded, isScriptLoadSucceed } = nextProps;
-    const isLoadedButWasntLoadedBefore = !this.state.showButton && !this.props.isScriptLoaded && isScriptLoaded;
-    if (isLoadedButWasntLoadedBefore) {
+  componentDidUpdate = prevProps => {
+    const { isScriptLoaded, isScriptLoadSucceed } = this.props;
+    const isScriptLoadedButBtnUnavailable = !this.state.showButton && !prevProps.isScriptLoaded && isScriptLoaded;
+    if (isScriptLoadedButBtnUnavailable) {
       if (isScriptLoadSucceed) {
         this.setState({ showButton: true });
       }
     }
-  }
+  };
 
   payment = async (data, actions) => {
-    console.log("payment data", data, actions);
+    console.log("payment data", data, "actions", actions);
     try {
       const response = await actions.request.post(
         "https://3240791e-40ca-4b99-90cb-44a215e7c397.mock.pstmn.io/order/initiate",
@@ -61,6 +59,7 @@ class PaypalButton extends React.Component {
 
   render() {
     const { total, currency, env, commit, client, onSuccess, onError, onCancel } = this.props;
+    console.log("props", this.props);
     const { showButton } = this.state;
 
     return (
@@ -68,8 +67,8 @@ class PaypalButton extends React.Component {
         {showButton && (
           // eslint-disable-next-line react/jsx-no-undef
           <paypal.Button.react
-            env={env}
-            client={client}
+            // env={env}
+            // client={client}
             // commit={commit}
             payment={this.payment}
             onAuthorize={this.onAuthorize}
