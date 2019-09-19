@@ -240,7 +240,7 @@ class MetamaskFlow extends Component {
           the panel below. “Mouse over” for tool tips.
         </p>
         <div className={classes.paymentInfoCard}>
-          <div className={classes.dropDown}>
+          <div className={classes.paymentChannelDropDown}>
             <span className={classes.dropDownTitle}>Payment Channel</span>
             <AccountBalanceWalletIcon className={classes.walletIcon} />
             <StyledDropdown
