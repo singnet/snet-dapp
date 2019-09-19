@@ -79,3 +79,9 @@ src/assets/images/GetStarted/*
 
 #ThirdPartyServices Images
 src/assets/images/ThirdPartyServices/*
+
+#lock files
+package-lock.json
+
+#storybook
+storybook-static/
