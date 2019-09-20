@@ -35,7 +35,6 @@ export default class I3DActionRecognition extends React.Component {
     this.serviceMethods = [];
     this.allServices = [];
     this.methodsForAllServices = [];
-
   }
 
   isValidVideoURL(str) {
@@ -106,6 +105,9 @@ export default class I3DActionRecognition extends React.Component {
             ></input>
           </div>
         </div>
+        <div className="col-md-3 col-lg-3" style={{ textAlign: "center", height: "20px", fontSize: "13px"}}>
+              {!this.canBeInvoked() ? "The URL must be of a .avi or .mp4 video only." : " "}
+        </div>
         <div className="row">
           <div className="col-md-3 col-lg-3" style={{ padding: "10px", fontSize: "13px", marginLeft: "10px" }}>
             About:{" "}
@@ -158,7 +160,7 @@ export default class I3DActionRecognition extends React.Component {
     <div style={{ padding: "10px 10px 0 10px", fontSize: "14px", color:"#9b9b9b" }}>
         <div style={{ padding: "10px 0",borderBottom: "1px solid #eee" }}>Status: <span style={{color:"#212121"}}>{status}</span></div>
         <div style={{ padding: "10px 0" }}>Top Predicted Actions: 
-            <div style={{color:"#212121", marginTop:"5px",padding:"10px", background:"#f1f1f1",borderRadius:"4px"}}>{value}</div>
+            <div style={{color:"#212121", marginTop:"5px",padding:"10px", background:"#f1f1f1",borderRadius:"4px"}}><pre>{value}</pre></div>
         </div>       
     </div>
 </div>          

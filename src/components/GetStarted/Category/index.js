@@ -26,7 +26,7 @@ const Category = ({ classes, icon: Icon, title, description, tabs, rightAlign })
       spacing={24}
       className={`${classes.CategoryWrapper} ${rightAlign ? classes.reverseDirection : null}`}
     >
-      <Grid item xs={12} sm={12} md={6} lg={6} className={classes.CategoryContent}>
+      <Grid item xs={12} sm={6} md={6} lg={6} className={classes.CategoryContent}>
         <div className={classes.Title}>
           <Icon />
           <h3>{title}</h3>
@@ -34,7 +34,7 @@ const Category = ({ classes, icon: Icon, title, description, tabs, rightAlign })
         <p>{description}</p>
         <VerticalTabs activeIndex={activeIndex} handleChange={handleChange} title={tabs} />
       </Grid>
-      <Grid item xs={12} sm={12} md={6} lg={6} className={classes.CategoryMedia}>
+      <Grid item xs={12} sm={6} md={6} lg={6} className={classes.CategoryMedia}>
         <FeatureMedia media={activeFeatureMedia()} />
       </Grid>
     </Grid>
