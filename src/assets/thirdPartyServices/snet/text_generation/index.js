@@ -77,6 +77,35 @@ const runNamesWithoutMedia = [
   { key: "therock", value: "Dwayne Johnson" },
   { key: "thetweetofgod", value: "God" },
   { key: "ticbot", value: "TicBot" },
+
+  { 
+    key: "goodfellow_ian", 
+    value: "Ian Goodfellow" ,
+    image: imgPath("Ian Goodfellow", "jpg"),
+    avatar: avatarPath("Ian Goodfellow", "jpg"),
+  },
+  { 
+    key: "nietzsche", 
+    value: "Friedrich Nietzsche",
+    image: imgPath("Friedrich Nietzsche", "jpg"),
+    avatar: avatarPath("Friedrich Nietzsche", "jpg"),
+  },
+  { key: "quotes500k_texts", value: "Best Quotes" },
+  { key: "songdata", value: "Song Lyrics" },
+  { key: "cmdr_hadfield", value: "Chris Hadfield" },
+  { key: "dril", value: "Dril" },
+  { 
+    key: "officialmcafee", 
+    value: "John MacAfee",
+    image: imgPath("John MacAfee", "jpg"),
+    avatar: avatarPath("John MacAfee", "jpg"),
+  },
+  { 
+    key: "virginiahughes", 
+    value: "Virginia Huges",
+    image: imgPath("Virginia Huges", "jpg"),
+    avatar: avatarPath("Virginia Huges", "jpg"), 
+  },
 ];
 
 const runNames = runNamesWithoutMedia.map(runName => {
