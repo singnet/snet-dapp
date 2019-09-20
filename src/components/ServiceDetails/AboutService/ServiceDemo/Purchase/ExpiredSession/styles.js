@@ -58,5 +58,11 @@ export const useStyles = theme => ({
     fontSize: 12,
     letterSpacing: 0.4
   },
-  walletIcon: { color: theme.palette.text.lightShadedGray }
+  walletIcon: { color: theme.palette.text.lightShadedGray },
+  infoIconContainer:{
+    marginRight: 10,
+    alignSelf: 'center',
+    color: theme.palette.text.lightShadedGray,
+    fontSize: 20,
+  }
 });

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Tooltip from "@material-ui/core/Tooltip";
 import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet";
+import InfoIcon from "@material-ui/icons/Info";
 
 import StyledButton from "../../../../../common/StyledButton";
 import StyledDropdown from "../../../../../common/StyledDropdown";
@@ -240,15 +241,18 @@ class MetamaskFlow extends Component {
           the panel below. “Mouse over” for tool tips.
         </p>
         <div className={classes.paymentInfoCard}>
-          <div className={classes.paymentChannelDropDown}>
-            <span className={classes.dropDownTitle}>Payment Channel</span>
-            <AccountBalanceWalletIcon className={classes.walletIcon} />
-            <StyledDropdown
-              labelTxt={"Select a Wallet"}
-              list={channelPaymentOptions}
-              value={" "}
-              onChange={this.handlePayTypeChange}
-            />
+          <div className={classes.paymentChannelDropDownContainer}>
+            <InfoIcon className={classes.infoIconContainer} />
+            <div className={classes.paymentChannelDropDown}>
+              <span className={classes.dropDownTitle}>Payment Channel</span>
+              <AccountBalanceWalletIcon className={classes.walletIcon} />
+              <StyledDropdown
+                labelTxt={"Select a Wallet"}
+                list={channelPaymentOptions}
+                value={" "}
+                onChange={this.handlePayTypeChange}
+              />
+            </div>
           </div>
           {this.PaymentInfoCardData.map(item => (
             <PaymentInfoCard key={item.title} title={item.title} value={item.value} unit={item.unit} />

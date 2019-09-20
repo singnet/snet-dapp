@@ -6,32 +6,36 @@ import AlertBox from "../../../../../common/AlertBox";
 import StyledButton from "../../../../../common/StyledButton";
 import { useStyles } from "./styles";
 import MetamaskFlow from "./MetamaskFlow";
+import GeneralAccountWallet from "./GeneralAccountWallet";
 import Routes from "../../../../../../utility/constants/Routes";
 
-const ExpiredSession = ({
-  classes,
-  handleComplete,
-  metamask,
-  groupInfo,
-  history,
-  handlePurchaseError,
-  isServiceAvailable,
-}) => {
+const ExpiredSession = ({ classes, handleComplete, metamask, groupInfo, history, handlePurchaseError, isServiceAvailable, }) => {
   const handleAddPayment = () => {
     history.push(`/${Routes.USER_PROFILE}`);
   };
 
   if (metamask) {
     return (
-      <MetamaskFlow
-        handleContinue={handleComplete}
-        classes={classes}
-        groupInfo={groupInfo}
-        handlePurchaseError={handlePurchaseError}
-        isServiceAvailable={isServiceAvailable}
+      <GeneralAccountWallet 
+        paymentInfoCardTitle="Channel Balance"
+        paymentInfoCardValue="0.06244168"
+        paymentInfoCardUnit="AGI"
       />
     );
   }
+
+  // if (metamask) {
+  //   return (
+  //     <MetamaskFlow
+  //       handleContinue={handleComplete}
+  //       classes={classes}
+  //       groupInfo={groupInfo}
+  //       handlePurchaseError={handlePurchaseError}
+  //       isServiceAvailable={isServiceAvailable}
+  //     />
+  //   );
+  // }
+
   return (
     <div className={classes.ExpiredSessionContainer}>
       <AlertBox
