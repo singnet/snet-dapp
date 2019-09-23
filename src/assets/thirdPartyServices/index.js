@@ -74,6 +74,10 @@ const addSnetCustomUI = (serviceId, CustomUIComponent) => {
   thirdPartyCustomUIComponents.addCustomUIComponent("snet", serviceId, CustomUIComponent);
 };
 
+const addMoziCustomUI = (serviceId, CustomUIComponent) => {
+  thirdPartyCustomUIComponents.addCustomUIComponent("mozi", serviceId, CustomUIComponent);
+};
+
 addSnetCustomUI("example-service", ExampleService);
 addSnetCustomUI("freecall", ExampleService);
 addSnetCustomUI("cntk-image-recon", CNTKImageRecognition);
@@ -103,7 +107,6 @@ addSnetCustomUI("face-identity", FaceIdentityService);
 addSnetCustomUI("emotion-recognition-service", EmotionRecognitionService);
 addSnetCustomUI("holistic-edge-detection-service", HolisticEdgeDetectionService);
 addSnetCustomUI("image-retrieval-service", ImageRetrievalService);
-addSnetCustomUI("gene-annotation-service", GeneAnnotationService);
 addSnetCustomUI("translation", TranslationService);
 addSnetCustomUI("news-summary", NewsSummaryService);
 addSnetCustomUI("style-transfer", StyleTransfer);
@@ -119,5 +122,6 @@ addSnetCustomUI("semantic-segmentation-aerial", SemanticSegmentationAerial);
 addSnetCustomUI("siggraph-colorization", SiggraphColorization);
 addSnetCustomUI("text-generation", TextGeneration);
 addSnetCustomUI("pneumonia-diagnosis", PneumoniaDiagnosis);
+addMoziCustomUI("gene-annotation-service", GeneAnnotationService);
 
 export default thirdPartyCustomUIComponents;
