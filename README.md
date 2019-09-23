@@ -64,7 +64,7 @@ For the following [proto file](https://github.com/singnet/example-service/blob/m
 
         Create a new directory named after the `service-id` under the newly created directory in the above step
 
-        e.g. for a service with org-id: snet and service-id: example-service you will have to do the following assuming you are at the root of the `refactored-dapp`
+        e.g. for a service with org-id: snet and service-id: example-service you will have to do the following assuming you are at the root of the `snet-dapp`
 
             cd src/assets/thirdPartyServices
             mkdir snet
