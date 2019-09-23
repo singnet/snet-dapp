@@ -2,16 +2,20 @@ import { makeStyles } from "@material-ui/styles";
 
 export const useStyles = makeStyles(theme => ({
   card: {
+    minHeight: 440,
     width: 302,
-    padding: "13px 0",
+    paddingTop: 10,
     margin: "0 25px 25px 0",
     display: "inline-block",
+    position: 'relative',
     fontFamily: theme.typography.primary.main,
     fontSize: 18,
     "&:hover": {
       backgroundColor: theme.palette.text.offWhiteColor,
       "& h4": { color: theme.palette.text.primary },
-    },
+    },    
+    "@media(min-width: 1281px)": { marginRight: 19 },
+    "@media(max-width: 1280px)": { marginRight: 38  },
   },
   cardHeader: {
     padding: "0 18px",
@@ -28,6 +32,7 @@ export const useStyles = makeStyles(theme => ({
     fontWeight: 600,
     color: theme.palette.text.darkShadedGray,
     letterSpacing: 0.23,
+    lineHeight: '23px'
   },
   cardSubheader: {
     margin: 0,
@@ -41,16 +46,16 @@ export const useStyles = makeStyles(theme => ({
   },
   CardMedia: {
     height: 175,
-    margin: "12px 0 13px",
+    margin: "12px 0 17px",
   },
-  fontSize: 18,
   cardContent: {
-    padding: "0 13px",
+    padding: "0 18px",
     fontFamily: theme.typography.primary.main,
     fontSize: 18,
     textAlign: "left",
   },
   cardTypograpy: {
+    marginTop: 8,
     color: theme.palette.text.mediumShadeGray,
     fontFamily: theme.typography.primary.main,
     fontSize: 14,
@@ -58,7 +63,11 @@ export const useStyles = makeStyles(theme => ({
     lineHeight: "21px",
   },
   cardActions: {
-    padding: "16px 13px 0",
+    boxSizing: 'border-box',
+    width: '100%',
+    position: 'absolute',
+    bottom: 20,
+    padding: "0 11px",
     justifyContent: "space-between",
     "& button": { padding: 0 },
   },
@@ -67,4 +76,8 @@ export const useStyles = makeStyles(theme => ({
     margin: 0,
     color: theme.palette.text.lightShadedGray,
   },
+  ratingStars: { 
+    '& label': { fontSize: 24 },
+    '& .dv-star-rating-empty-star i':{ color: theme.palette.text.disabledBtnBg }
+  }
 }));
