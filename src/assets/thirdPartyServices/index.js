@@ -45,7 +45,6 @@ const SiggraphColorization = lazy(() => import("./snet/siggraph_colorization"));
 const TextGeneration = lazy(() => import("./snet/text_generation"));
 const PneumoniaDiagnosis = lazy(() => import("./snet/pneumonia_diagnosis"));
 
-
 const AlertBox = lazy(() => import("../../components/common/AlertBox"));
 
 class ThirdPartyCustomUIComponents {
@@ -121,6 +120,5 @@ addSnetCustomUI("semantic-segmentation-aerial", SemanticSegmentationAerial);
 addSnetCustomUI("siggraph-colorization", SiggraphColorization);
 addSnetCustomUI("text-generation", TextGeneration);
 addSnetCustomUI("pneumonia-diagnosis", PneumoniaDiagnosis);
-
 
 export default thirdPartyCustomUIComponents;

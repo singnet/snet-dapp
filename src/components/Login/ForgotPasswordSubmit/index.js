@@ -9,8 +9,10 @@ import { userActions, errorActions } from "../../../Redux/actionCreators";
 import AlertBox from "../../common/AlertBox";
 import { useStyles } from "./styles";
 import StyledButton from "../../common/StyledButton";
+import snetValidator from "../../../utility/snetValidator";
+import { forgotPassworSubmitConstraints } from "./validationConstraints";
 
-const ForgotPasswordSubmit = ({ classes, history, error, email, forgotPasswordSubmit, updateError }) => {
+const ForgotPasswordSubmit = ({ classes, history, error, email, forgotPasswordSubmit, updateError, resetError }) => {
   const [showEmailSentAlert, setShowEmailSentAlert] = useState(true);
   const [code, setCode] = useState("");
   const [password, setPassword] = useState("");
@@ -35,8 +37,10 @@ const ForgotPasswordSubmit = ({ classes, history, error, email, forgotPasswordSu
 
   const handleSubmit = event => {
     event.preventDefault();
-    if (password !== confirmPassword) {
-      updateError("password and confirm password do not match");
+    resetError();
+    const isNotValid = snetValidator({ password, confirmPassword, code }, forgotPassworSubmitConstraints);
+    if (isNotValid) {
+      updateError(isNotValid[0]);
       return;
     }
     const route = `/${Routes.AI_MARKETPLACE}`;
@@ -108,6 +112,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   forgotPasswordSubmit: args => dispatch(userActions.forgotPasswordSubmit(args)),
+  resetError: () => dispatch(errorActions.resetForgotPasswordSubmitError),
   updateError: error => dispatch(errorActions.updateForgotPasswordSubmitError(error)),
 });
 

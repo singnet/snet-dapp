@@ -10,7 +10,7 @@ import Divider from "@material-ui/core/Divider";
 
 import { useStyles } from "./styles";
 
-const AppLoader = ({ loading, loaderHeader, loaderText }) => {
+export const AppLoader = ({ loading, loaderHeader, loaderText }) => {
   const classes = useStyles();
 
   return (
