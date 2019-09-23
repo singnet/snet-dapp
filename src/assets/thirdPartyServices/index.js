@@ -1,4 +1,5 @@
 import React, { lazy } from "react";
+import AlertBox from "../../components/common/AlertBox";
 
 const ExampleService = lazy(() => import("./snet/example_service"));
 const CNTKImageRecognition = lazy(() => import("./snet/cntk_image_recon"));
@@ -28,7 +29,7 @@ const FaceIdentityService = lazy(() => import("./snet/face_identity"));
 const EmotionRecognitionService = lazy(() => import("./snet/emotion_recognition_service"));
 const HolisticEdgeDetectionService = lazy(() => import("./snet/holistic_edge_detection_service"));
 const ImageRetrievalService = lazy(() => import("./snet/image_retrieval_service"));
-const GeneAnnotationService = lazy(() => import("./snet/gene_annotation_service"));
+const GeneAnnotationService = lazy(() => import("./mozi/gene_annotation_service"));
 const TranslationService = lazy(() => import("./snet/translation"));
 const NewsSummaryService = lazy(() => import("./snet/news_summary"));
 const StyleTransfer = lazy(() => import("./snet/style_transfer"));
@@ -45,8 +46,6 @@ const SiggraphColorization = lazy(() => import("./snet/siggraph_colorization"));
 const TextGeneration = lazy(() => import("./snet/text_generation"));
 const PneumoniaDiagnosis = lazy(() => import("./snet/pneumonia_diagnosis"));
 
-const AlertBox = lazy(() => import("../../components/common/AlertBox"));
-
 class ThirdPartyCustomUIComponents {
   constructor() {
     this.customUIComponents = {};
@@ -60,7 +59,7 @@ class ThirdPartyCustomUIComponents {
   componentFor = (orgId, serviceId) => {
     const CustomUIComponent = this.customUIComponents[this._generateUniqueID(orgId, serviceId)];
     if (!CustomUIComponent) {
-      return <AlertBox type="error" message="No Component matched" />;
+      return () => <AlertBox type="error" message="No Component matched. Please check the orgId and serviceId" />;
     }
 
     return CustomUIComponent;
