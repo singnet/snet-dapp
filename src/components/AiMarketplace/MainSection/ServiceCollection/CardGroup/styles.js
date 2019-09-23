@@ -57,19 +57,19 @@ export const useStyles = makeStyles(theme => ({
       textDecoration: "none ",
       display: "inline-block",
       verticalAlign: "top",
-      '&:nth-child(2n) > div':{ 
-        "@media(max-width: 1280px)": { marginRight: 0}
+      "&:nth-child(2n) > div": {
+        "@media(max-width: 1280px)": { marginRight: 0 },
       },
-      '&:nth-child(3n) > div':{ 
-        "@media(min-width: 1281px)": { marginRight: 0}
+      "&:nth-child(3n) > div": {
+        "@media(min-width: 1281px)": { marginRight: 0 },
       },
       "@media(max-width: 1024px)": { textAlign: "center" },
-      "& > div": {        
+      "& > div": {
         "@media(max-width: 768px)": { marginRight: 0 },
       },
       "@media(max-width: 768px)": { textAlign: "center" },
     },
-    "@media(min-width: 768px) and (max-width: 1024px)": { justifyContent: 'center' }, 
+    "@media(min-width: 768px) and (max-width: 1024px)": { justifyContent: "center" },
     "@media(max-width: 768px)": { flexDirection: "column" },
   },
 }));
