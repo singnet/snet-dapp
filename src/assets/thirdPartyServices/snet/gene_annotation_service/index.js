@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import ReactDOM from "react-dom";
 import { SnackbarProvider } from "notistack";
 import AnnotationForm from "./form";
 import AnnotationResult from "./result";
@@ -10,9 +9,11 @@ const App = props => {
 
   return (
     <div>
-      <SnackbarProvider>{id ? <AnnotationResult id={id} /> : <AnnotationForm onResponse={setId} />}</SnackbarProvider>
+      <SnackbarProvider>
+        {id ? <AnnotationResult id={id} /> : <AnnotationForm serviceClient={props.serviceClient} onResponse={setId} />}
+      </SnackbarProvider>
     </div>
   );
 };
 
-ReactDOM.render(<App />, document.getElementById("app"));
+export default App;

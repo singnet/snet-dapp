@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment } from "react";
-import { parse, formatDistanceToNow } from "date-fns";
+import { parse, formatDistanceToNow, toDate } from "date-fns";
 import { RESULT_ADDR, downloadSchemeFile } from "../service";
 import TabbedTables from "../tables";
 import Visualizer from "../visualizer";
@@ -68,7 +68,6 @@ const AnnotationResult = props => {
 
   const renderError = () => (
     <Typography variant="body2">
-      {console.log(response)}
       {response.statusMessage}. Try to
       <Button color="primary">run another annotation</Button>
     </Typography>
@@ -82,7 +81,7 @@ const AnnotationResult = props => {
           The result contains {nodes.length} entities and {edges.length} connections between them.
         </Typography>
         <Typography variant="body2">
-          This page will expire in {formatDistanceToNow(parse(response.expire_time * 1000))}.
+          This page will expire in {formatDistanceToNow(toDate(response.expire_time * 1000))}.
         </Typography>
         <div className="inline-buttons">
           <Button variant="contained" onClick={e => setTableShown(true)}>
