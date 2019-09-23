@@ -136,7 +136,6 @@ export default class SNETImageUpload extends React.Component {
     this.tabStyle = {
       position: "relative",
       overflow: "hidden",
-      // padding: spacingUnit,
       height: this.tabHeight + "px",
     };
 
