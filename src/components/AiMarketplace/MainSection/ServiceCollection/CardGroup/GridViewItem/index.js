@@ -9,6 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import IconButton from "@material-ui/core/IconButton";
 import Avatar from "@material-ui/core/Avatar";
+import truncate from "lodash/truncate";
 
 import RatingsCount from "../../../../../common/RatingsCount";
 import SingularityLogo from "../../../../../../assets/images/avatar.png";
@@ -26,7 +27,7 @@ const StyledCard = props => {
           title: classes.cardTitle,
           subheader: classes.cardSubheader,
         }}
-        title={props.cardTitle}
+        title={truncate(props.cardTitle, { length: 35 })}
         subheader={props.cardSubheader}
       />
       <CardMedia className={classes.CardMedia} image={props.cardMedia} title={props.title} />
