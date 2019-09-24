@@ -55,7 +55,7 @@ const UserProfileAccount = ({ updateWallet, classes, wallet }) => {
           <div className={classes.dropDown}>
             <span className={classes.dropDownTitle}>Wallet</span>
             <StyledDropdown
-              labelTxt={"Select a Wallet"}
+              labelTxt="Select a Wallet"
               list={walletDropdownList}
               value={wallet.type}
               onChange={handleWalletTypeChange}
