@@ -38,7 +38,8 @@ class GeneralAccountWallet extends Component {
 			<div className={classes.generalAccWalletContainer}>
 				<Typography variant="body1" className={classes.description}>You have run out of free trial. Please select a payment method to continue</Typography>
 
-				<div className={classes.paymentChannelAndDetails}>				
+				<div className={classes.paymentChannelAndDetails}>	
+							
 					<div className={classes.paymentChannelDropDownContainer}>
 						<InfoIcon className={classes.infoIconContainer} />
 						<div className={classes.paymentChannelDropDown}>

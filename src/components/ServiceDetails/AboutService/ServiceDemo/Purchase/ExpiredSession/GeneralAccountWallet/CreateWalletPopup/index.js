@@ -63,10 +63,6 @@ class CreateWalletPopup extends Component {
 			          />
         			))}
 	          </CardContent>
-	          <CardActions className={classes.CardActions}>
-	            <StyledButton btnText="cancel" type="transparent" />
-	            <StyledButton btnText="Continue" type="blue"/>
-	          </CardActions>
 	        </Card>
 	      </Modal>
 			</div>
