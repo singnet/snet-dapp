@@ -15,6 +15,7 @@ import RatingsCount from "../../../../../common/RatingsCount";
 import SingularityLogo from "../../../../../../assets/images/avatar.png";
 import { useStyles } from "./styles";
 import ServiceAvailabilityToggler from "../ServiceListItem/ServiceAvailabilityToggler";
+import { GridViewHeaderLength } from "../../../../../../utility/constants/UXProperties";
 
 const StyledCard = props => {
   const classes = useStyles();
@@ -27,7 +28,7 @@ const StyledCard = props => {
           title: classes.cardTitle,
           subheader: classes.cardSubheader,
         }}
-        title={truncate(props.cardTitle, { length: 35 })}
+        title={truncate(props.cardTitle, { length: GridViewHeaderLength })}
         subheader={props.cardSubheader}
       />
       <CardMedia className={classes.CardMedia} image={props.cardMedia} title={props.title} />
