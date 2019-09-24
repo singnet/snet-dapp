@@ -37,7 +37,7 @@ export const useStyles = theme => ({
   dropDownTitle:{
     padding: '0 5px',
     position: 'absolute',
-    top: -9,
+    top: -11,
     left: 10,    
     backgroundColor: theme.palette.text.white,
     color: theme.palette.text.dialogTitle,
