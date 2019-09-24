@@ -1,24 +1,24 @@
 import React from "react";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import { withStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
 
-import {OpencogServices} from "./opencog_pb_service"
-import { TextField } from "material-ui";
+import OpencogServices from "./opencog_pb_service"
+import TextField from "@material-ui/core/TextField"
+import { makeStyles } from '@material-ui/core/styles'
+import Radio from '@material-ui/core/Radio'
+import RadioGroup from '@material-ui/core/RadioGroup'
+import FormHelperText from '@material-ui/core/FormHelperText'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import FormControl from '@material-ui/core/FormControl'
+import FormLabel from '@material-ui/core/FormLabel'
 
 const initialUserInput = {
   methodName: "Execute",
-  dataset: undefined,
-  minsup: undefined,
-  maximum_iterations: undefined,
-  conjunction_expansion: undefined,
-  max_conjuncts: undefined,
-  max_variables: undefined,
-  surprisingness: undefined,
+  dataset: "https://raw.githubusercontent.com/singnet/miner/master/examples/miner/ugly-male-soda-drinker/kb.scm",
+  minfreq: 0.1,
+  minsup: 5,
+  maximum_iterations: 100,
+  max_conjuncts: 3,
+  max_variables: 2,
+  example_radial_value: "ugly-male-soda-drinker",
 };
 
 export default class OpenCogMiner extends React.Component {
@@ -27,6 +27,7 @@ export default class OpenCogMiner extends React.Component {
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
     this.submitAction = this.submitAction.bind(this);
     this.handleInputUpdate = this.handleInputUpdate.bind(this);
+    this.handleRadialButtonUpdate = this.handleRadialButtonUpdate.bind(this);
 
     this.state = {
       ...initialUserInput,
@@ -39,12 +40,11 @@ export default class OpenCogMiner extends React.Component {
     // When the image isn't uploaded yet and when function name isn't yet given.
     return this.state.methodName !== "Select a method" && 
            this.state.dataset !== "" && 
+           this.state.minfreq !== "" &&
            this.state.minsup !== "" &&
            this.state.maximum_iterations !== "" && 
-           this.state.conjunction_expansion !== "" &&  
            this.state.max_conjuncts !== "" && 
-           this.state.max_variables !== "" && 
-           this.state.surprisingness !== "";
+           this.state.max_variables !== ""
   }
 
   handleFormUpdate(event) {
@@ -54,12 +54,11 @@ export default class OpenCogMiner extends React.Component {
   submitAction() {
     const { methodName,
             dataset,
+            minfreq,
             minsup,
             maximum_iterations,
-            conjunction_expansion,
             max_conjuncts,
-            max_variables,
-            surprisingness} = this.state;
+            max_variables} = this.state;
 
     const methodDescriptor = OpencogServices[methodName];
     const request = new methodDescriptor.requestType();
@@ -67,12 +66,11 @@ export default class OpenCogMiner extends React.Component {
     const cmd = ["sync",
                  "Miner",
                  dataset,
+                 minfreq,
                  minsup,
                  maximum_iterations,
-                 conjunction_expansion,
                  max_conjuncts,
-                 max_variables,
-                 surprisingness];
+                 max_variables];
 
     request.setInput(cmd);
 
@@ -96,10 +94,72 @@ export default class OpenCogMiner extends React.Component {
     this.setState({ sentence: event.target.value });
   }
 
+  handleRadialButtonUpdate(event) {
+    if (event.target.value == "ugly-male-soda-drinker") {
+        this.state.dataset = "https://raw.githubusercontent.com/singnet/miner/master/examples/miner/ugly-male-soda-drinker/kb.scm";
+        this.state.minfreq = 0.1;
+        this.state.minsup = 5;
+        this.state.maximum_iterations = 100;
+        this.state.max_conjuncts = 3;
+        this.state.max_variables = 2;
+    }
+
+    if (event.target.value == "mozi-ai") {
+      this.state.dataset = "https://raw.githubusercontent.com/Ophien/opencog-pattern-miner-examples/master/mozi-ai-sample.scm";
+      this.state.minfreq = 0.001;
+      this.state.minsup = 5;
+      this.state.maximum_iterations = 1000;
+      this.state.max_conjuncts = 3;
+      this.state.max_variables = 2;
+    }
+
+    if (event.target.value == "custom") {
+      this.state.dataset = "";
+      this.state.minfreq = "";
+      this.state.minsup = "";
+      this.state.maximum_iterations = "";
+      this.state.max_conjuncts = "";
+      this.state.max_variables = "";
+    }
+
+    this.setState({ sentence: event.target.value });
+  }
+
   renderForm() {
 
     return (
       <React.Fragment>
+        
+        <FormControl component="fieldset">
+          <FormLabel component="legend">Default Inputs and Examples</FormLabel>
+          <RadioGroup 
+            aria-label="gender" n
+            ame="gender2" 
+            defaultValue="ugly-male-soda-drinker" 
+            value={this.example_radial_value} 
+            onChange={this.handleRadialButtonUpdate}>
+
+            <FormControlLabel
+              value="ugly-male-soda-drinker"
+              control={<Radio color="primary" />}
+              label="Ugly Male Soda Drinker"
+              labelPlacement="start"
+            />
+            <FormControlLabel
+              value="mozi-ai"
+              control={<Radio color="primary" />}
+              label="Mozi AI"
+              labelPlacement="start"
+            />
+            <FormControlLabel
+              value="custom"
+              control={<Radio color="primary" />}
+              label="Custom"
+              labelPlacement="start"
+            />
+          </RadioGroup>
+        </FormControl>
+
         <div className="row" align=" center">
             <TextField
               id="standard-multiline-static"
@@ -113,6 +173,26 @@ export default class OpenCogMiner extends React.Component {
               }}
               value={this.state.dataset}
               name="dataset"
+              onChange={this.handleFormUpdate}
+              rows="6"
+              defaultValue=""
+              margin="normal"
+            />
+        </div>
+
+        <div className="row" align=" center">
+            <TextField
+              id="standard-multiline-static"
+              label="Minimun Frequency"
+              style={{ width: "100%" }}
+              InputProps={{
+                style: { fontSize: 15 },
+              }}
+              InputLabelProps={{
+                style: { fontSize: 15 },
+              }}
+              value={this.state.minfreq}
+              name="minfreq"
               onChange={this.handleFormUpdate}
               rows="6"
               defaultValue=""
@@ -163,26 +243,6 @@ export default class OpenCogMiner extends React.Component {
         <div className="row" align=" center">
             <TextField
               id="standard-multiline-static"
-              label="Conjunction Expansion"
-              style={{ width: "100%" }}
-              InputProps={{
-                style: { fontSize: 15 },
-              }}
-              InputLabelProps={{
-                style: { fontSize: 15 },
-              }}
-              value={this.state.conjunction_expansion}
-              name="conjunction_expansion"
-              onChange={this.handleFormUpdate}
-              rows="6"
-              defaultValue=""
-              margin="normal"
-            />
-        </div>
-
-        <div className="row" align=" center">
-            <TextField
-              id="standard-multiline-static"
               label="Max Conjunctions"
               style={{ width: "100%" }}
               InputProps={{
@@ -213,26 +273,6 @@ export default class OpenCogMiner extends React.Component {
               }}
               value={this.state.max_variables}
               name="max_variables"
-              onChange={this.handleFormUpdate}
-              rows="6"
-              defaultValue=""
-              margin="normal"
-            />
-        </div>
-
-        <div className="row" align=" center">
-            <TextField
-              id="standard-multiline-static"
-              label="Surprisingness"
-              style={{ width: "100%" }}
-              InputProps={{
-                style: { fontSize: 15 },
-              }}
-              InputLabelProps={{
-                style: { fontSize: 15 },
-              }}
-              value={this.state.surprisingness}
-              name="surprisingness"
               onChange={this.handleFormUpdate}
               rows="6"
               defaultValue=""
