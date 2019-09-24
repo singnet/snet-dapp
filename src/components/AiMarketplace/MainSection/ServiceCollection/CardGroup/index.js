@@ -43,7 +43,7 @@ const CardGroup = ({ data: cards, listView, loading }) => {
             <ServiceListItem
               cardMedia={card.assets_url.hero_image ? card.assets_url.hero_image : CardImg}
               cardTitle={card.display_name}
-              cardSubheader={card.org_id}
+              cardSubheader={card.organization_name}
               ratingGiven={card.service_rating}
               totalRating={card.total_users_rated}
               cardDescription={truncate(card.description, { length: 180 })}
@@ -65,7 +65,7 @@ const CardGroup = ({ data: cards, listView, loading }) => {
           <GridViewItem
             cardMedia={card.assets_url.hero_image ? card.assets_url.hero_image : CardImg}
             cardTitle={card.display_name}
-            cardSubheader={card.org_id}
+            cardSubheader={card.organization_name}
             ratingGiven={card.service_rating}
             totalRating={card.total_users_rated}
             cardDescription={truncate(card.description, { length: 180 })}
