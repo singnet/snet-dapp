@@ -26,17 +26,17 @@ const StyledExpansionPanel = ({ classes, expansionItems, handleChange, activeFil
               </ExpansionPanelSummary>
               <ExpansionPanelDetails className={classes.filterDetails}>
                 {expansionItem.items.map(item => (
-                  <div className={classes.formCntrlGrup} key={item}>
+                  <div className={classes.formCntrlGrup} key={item.key}>
                     <FormControlLabel
                       control={
                         <Checkbox
                           name={expansionItem.name}
-                          checked={activeFilterItem[expansionItem.name].includes(item)}
+                          checked={activeFilterItem[expansionItem.name].includes(item.key)}
                           onChange={handleChange}
-                          value={item}
+                          value={item.key}
                         />
                       }
-                      label={item}
+                      label={item.value}
                       classes={{
                         label: classes.checkboxLabel,
                       }}
