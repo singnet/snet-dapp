@@ -29,7 +29,7 @@ const ServiceListItem = props => {
             avatar={<Avatar aria-label="recipe" className={classes.avatar} src={SingularityLogo} />}
             classes={{ title: classes.cardTitle, subheader: classes.cardSubheader }}
             title={<h4>{props.cardTitle}</h4>}
-            subheader="SingularityNET"
+            subheader={props.cardSubheader}
           />
 
           <CardContent className={classes.cardContent}>
