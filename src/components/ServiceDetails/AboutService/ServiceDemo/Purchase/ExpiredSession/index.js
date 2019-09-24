@@ -8,15 +8,24 @@ import { useStyles } from "./styles";
 import MetamaskFlow from "./MetamaskFlow";
 import GeneralAccountWallet from "./GeneralAccountWallet";
 import Routes from "../../../../../../utility/constants/Routes";
+import { walletTypes } from "../../../../../../Redux/actionCreators/UserActions";
 
-const ExpiredSession = ({ classes, handleComplete, metamask, groupInfo, history, handlePurchaseError, isServiceAvailable, }) => {
+const ExpiredSession = ({
+  classes,
+  handleComplete,
+  groupInfo,
+  history,
+  handlePurchaseError,
+  isServiceAvailable,
+  wallet,
+}) => {
   const handleAddPayment = () => {
     history.push(`/${Routes.USER_PROFILE}`);
   };
 
-  if (metamask) {
+  if (wallet.type === walletTypes.GENERAL) {
     return (
-      <GeneralAccountWallet 
+      <GeneralAccountWallet
         paymentInfoCardTitle="Channel Balance"
         paymentInfoCardValue="0.06244168"
         paymentInfoCardUnit="AGI"
@@ -24,17 +33,17 @@ const ExpiredSession = ({ classes, handleComplete, metamask, groupInfo, history,
     );
   }
 
-  // if (metamask) {
-  //   return (
-  //     <MetamaskFlow
-  //       handleContinue={handleComplete}
-  //       classes={classes}
-  //       groupInfo={groupInfo}
-  //       handlePurchaseError={handlePurchaseError}
-  //       isServiceAvailable={isServiceAvailable}
-  //     />
-  //   );
-  // }
+  if (wallet.type === walletTypes.METAMASK) {
+    return (
+      <MetamaskFlow
+        handleContinue={handleComplete}
+        classes={classes}
+        groupInfo={groupInfo}
+        handlePurchaseError={handlePurchaseError}
+        isServiceAvailable={isServiceAvailable}
+      />
+    );
+  }
 
   return (
     <div className={classes.ExpiredSessionContainer}>
