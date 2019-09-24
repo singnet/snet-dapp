@@ -37,6 +37,11 @@ const UserProfileAccount = ({ updateWallet, classes, wallet }) => {
         setAlert({ type: alertTypes.ERROR, message: `Something went wrong. Please try again` });
       }
     }
+    if (value === walletTypes.GENERAL) {
+      sessionStorage.setItem("wallet", JSON.stringify({ type: walletTypes.GENERAL }));
+      updateWallet({ type: value });
+      return;
+    }
     //2. to be removed once wallet API is available
     sessionStorage.removeItem("wallet");
     //till here(2)
