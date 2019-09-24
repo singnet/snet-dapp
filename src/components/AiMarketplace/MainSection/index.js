@@ -8,11 +8,11 @@ import ServiceCollection from "./ServiceCollection";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../../Redux/actionCreators";
 import { filterAttributes, generateFilterObject } from "../../../utility/constants/Pagination";
+import { isDesktop } from "../../../utility/constants/UXProperties";
 
-const isDesktop = window.innerWidth > 768;
 class MainSection extends Component {
   state = {
-    listView: isDesktop,
+    listView: false,
   };
 
   componentDidMount = () => {
