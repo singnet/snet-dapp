@@ -1,24 +1,24 @@
 export const useStyles = theme => ({
-  aiMarketPlaceContainer: { 
+  aiMarketPlaceContainer: {
     backgroundColor: theme.palette.text.offWhiteColor,
-    "@media(min-width: 1281px)": { 
+    "@media(min-width: 1281px)": {
       width: 1281,
-      margin: '0 auto'
+      margin: "0 auto",
     },
-    "@media(min-width: 1024px) and (max-width: 1280px)": { 
+    "@media(min-width: 1024px) and (max-width: 1280px)": {
       width: 1024,
-      margin: '0 auto'
+      margin: "0 auto",
     },
-    "@media(min-width: 768px) and (max-width: 1024px)": { 
+    "@media(min-width: 768px) and (max-width: 1024px)": {
       width: 768,
-      margin: '0 auto'
-    }
+      margin: "0 auto",
+    },
   },
   mainWrapper: {
     width: "92%",
     margin: "0 auto",
     "@media(max-width: 1280px)": { width: "98%" },
-    "@media(min-width: 1281px)": { width: '100%' }
+    "@media(min-width: 1281px)": { width: "100%" },
   },
   topSectionCotainer: {
     "@media(max-width: 1024px)": {
@@ -34,7 +34,7 @@ export const useStyles = theme => ({
     color: theme.palette.text.darkShadedGray,
     fontSize: 32,
     lineHeight: "57px",
-    "@media(min-width: 1281px)": { padding: '0 35px' },
+    "@media(min-width: 1281px)": { padding: "0 35px" },
     "@media(max-width: 1280px)": { marginTop: 16 },
     "@media(max-width: 1024px)": { fontSize: 28 },
     "@media(max-width: 768px)": { marginTop: 0 },
