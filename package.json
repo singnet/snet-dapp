@@ -57,7 +57,7 @@
     "build-storybook": "build-storybook"
   },
   "lint-staged": {
-    "*.js": [
+    "*.{js,jsx}": [
       "eslint . --fix",
       "git add"
     ]
