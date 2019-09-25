@@ -63,8 +63,7 @@ export default class OpenCogMiner extends React.Component {
     const methodDescriptor = OpencogServices[methodName];
     const request = new methodDescriptor.requestType();
     
-    const cmd = ["sync",
-                 "Miner",
+    const cmd = ["Miner",
                  dataset,
                  minfreq,
                  minsup,
