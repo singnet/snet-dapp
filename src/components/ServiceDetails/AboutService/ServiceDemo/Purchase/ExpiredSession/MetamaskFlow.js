@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import Tooltip from "@material-ui/core/Tooltip";
 import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet";
 import InfoIcon from "@material-ui/icons/Info";
+import Typography from '@material-ui/core/Typography';
 
 import StyledButton from "../../../../../common/StyledButton";
 import StyledDropdown from "../../../../../common/StyledDropdown";
@@ -235,21 +236,21 @@ class MetamaskFlow extends Component {
     return (
       <div className={classes.PurchaseFlowContainer}>
         <PurchaseDialog show={showPurchaseDialog} onClose={this.handlePurchaseDialogClose} />
-        <p className={classes.PurchaseFlowDescription}>
+        <Typography variant="body1" className={classes.PurchaseFlowDescription}>
           Transfer the style of a “style Image” to a “content image” by choosing them in the boxes below. You can upload
           a a file from your computer, URL, or select image from the gallery. You can specify additional parameters in
           the panel below. “Mouse over” for tool tips.
-        </p>
+        </Typography>
         <div className={classes.paymentInfoCard}>
           <div className={classes.paymentChannelDropDownContainer}>
             <InfoIcon className={classes.infoIconContainer} />
             <div className={classes.paymentChannelDropDown}>
-              <span className={classes.dropDownTitle}>Payment Channel</span>
+              <Typography variant="body2" className={classes.dropDownTitle}>Payment Channel</Typography>
               <AccountBalanceWalletIcon className={classes.walletIcon} />
               <StyledDropdown
-                labelTxt={"Select a Wallet"}
+                labelTxt="Select a Wallet"
                 list={channelPaymentOptions}
-                value={" "}
+                value=" "
                 onChange={this.handlePayTypeChange}
               />
             </div>

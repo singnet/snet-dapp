@@ -8,7 +8,7 @@ class StyledTextField extends Component {
   state = { name: "" };
 
   render() {
-    const { classes, className } = this.props;
+    const { classes, className, label } = this.props;
     const { name } = this.state;
 
     const handleChange = name => event => {
@@ -20,7 +20,7 @@ class StyledTextField extends Component {
     return (
       <TextField
         id="outlined-name"
-        label={this.props.label}
+        label={label}
         className={`${classes.styledTextField} ${className}`}
         value={name}
         onChange={handleChange("name")}

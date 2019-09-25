@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
 import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet";
 import InfoIcon from "@material-ui/icons/Info";
+import Typography from '@material-ui/core/Typography';
 
 import StyledButton from "../../../../../../common/StyledButton";
 import StyledDropdown from "../../../../../../common/StyledDropdown";
@@ -35,18 +36,19 @@ class GeneralAccountWallet extends Component {
 		];
 		return (
 			<div className={classes.generalAccWalletContainer}>
-				<p className={classes.description}>You have run out of free trial. Please select a payment method to continue</p>
+				<Typography variant="body1" className={classes.description}>You have run out of free trial. Please select a payment method to continue</Typography>
 
-				<div className={classes.paymentChannelAndDetails}>				
+				<div className={classes.paymentChannelAndDetails}>	
+							
 					<div className={classes.paymentChannelDropDownContainer}>
 						<InfoIcon className={classes.infoIconContainer} />
 						<div className={classes.paymentChannelDropDown}>
-		          <span className={classes.dropDownTitle}>Payment Channel</span>
+						<Typography className={classes.dropDownTitle} variant="subtitle1">Payment Channel</Typography>
 		          <AccountBalanceWalletIcon className={classes.walletIcon} />
 		          <StyledDropdown
-		            labelTxt={"Select a Wallet"}
+		            labelTxt="Select a Wallet"
 		            list={channelPaymentOptions}
-		            value={" "}
+		            value=" "
 		            onChange={this.handlePayTypeChange}
 		          />
 		        </div>
