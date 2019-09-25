@@ -11,6 +11,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Avatar from "@material-ui/core/Avatar";
 
 import RatingsCount from "../../../../../common/RatingsCount";
+import CardImg from "../../../../../../assets/images/SnetDefaultServiceImage.png";
 import SingularityLogo from "../../../../../../assets/images/avatar.png";
 import { useStyles } from "./styles";
 import ServiceAvailabilityToggler from "../ServiceListItem/ServiceAvailabilityToggler";
@@ -21,7 +22,7 @@ const StyledCard = props => {
     <Card className={classes.card}>
       <CardHeader
         className={classes.cardHeader}
-        avatar={<Avatar aria-label="recipe" className={classes.avatar} src={SingularityLogo} />}
+        avatar={<Avatar aria-label="recipe" className={classes.avatar} src={props.orgImg || SingularityLogo} />}
         classes={{
           title: classes.cardTitle,
           subheader: classes.cardSubheader,
@@ -29,7 +30,7 @@ const StyledCard = props => {
         title={props.cardTitle}
         subheader={props.cardSubheader}
       />
-      <CardMedia className={classes.CardMedia} image={props.cardMedia} title={props.title} />
+      <CardMedia className={classes.CardMedia} image={props.cardMedia || CardImg} title={props.title} />
       <CardContent className={classes.cardContent}>
         <div className={classes.ratingSection}>
           <StarRatingComponent
