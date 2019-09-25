@@ -13,7 +13,7 @@ import FormLabel from '@material-ui/core/FormLabel'
 const initialUserInput = {
   methodName: "Execute",
   dataset: "https://raw.githubusercontent.com/singnet/miner/master/examples/miner/ugly-male-soda-drinker/kb.scm",
-  minfreq: 0.1,
+  minfreq: 0,
   minsup: 5,
   maximum_iterations: 100,
   max_conjuncts: 3,
@@ -97,7 +97,7 @@ export default class OpenCogMiner extends React.Component {
   handleRadialButtonUpdate(event) {
     if (event.target.value == "ugly-male-soda-drinker") {
         this.state.dataset = "https://raw.githubusercontent.com/singnet/miner/master/examples/miner/ugly-male-soda-drinker/kb.scm";
-        this.state.minfreq = 0.1;
+        this.state.minfreq = 0;
         this.state.minsup = 5;
         this.state.maximum_iterations = 100;
         this.state.max_conjuncts = 3;
@@ -107,7 +107,7 @@ export default class OpenCogMiner extends React.Component {
     if (event.target.value == "mozi-ai") {
       this.state.dataset = "https://raw.githubusercontent.com/Ophien/opencog-pattern-miner-examples/master/mozi-ai-sample.scm";
       this.state.minfreq = 0.001;
-      this.state.minsup = 5;
+      this.state.minsup = 0;
       this.state.maximum_iterations = 1000;
       this.state.max_conjuncts = 3;
       this.state.max_variables = 2;
