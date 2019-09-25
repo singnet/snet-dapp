@@ -58,14 +58,9 @@
   },
   "lint-staged": {
     "*.{js,jsx}": [
-      "eslint . --fix",
+      "npm run lint:fix",
       "git add"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "eslintConfig": {
     "extends": "react-app"
