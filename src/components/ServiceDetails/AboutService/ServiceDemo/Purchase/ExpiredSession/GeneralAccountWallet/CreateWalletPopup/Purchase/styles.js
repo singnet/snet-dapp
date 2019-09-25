@@ -1,29 +1,29 @@
 export const useStyles = theme => ({
-  purchaseErrorContainer: { 
-    padding: '0 25px',
-    '& p': { margin: 0 }
+  purchaseErrorContainer: {
+    padding: "0 25px",
+    "& p": { margin: 0 },
   },
-  btnContainer:{
+  btnContainer: {
     marginTop: 35,
-    textAlign: 'center'
+    textAlign: "center",
   },
-  purchaseContainer: { paddingBottom: 0   },
-  purchaseDesc:{
-    padding: '0 100px',
+  purchaseContainer: { paddingBottom: 0 },
+  purchaseDesc: {
+    padding: "0 100px",
     fontFamily: theme.typography.primary.main,
     fontSize: 14,
     color: theme.palette.text.mediumShadeGray,
     letterSpacing: 0.25,
-    textAlign: 'center',
-    lineHeight: '20px'
+    textAlign: "center",
+    lineHeight: "20px",
   },
   circularProgressContainer: {
-    padding: '30px 0 33px',
+    padding: "30px 0 33px",
     textAlign: "center",
-    "& div": { 
-      width: '48px !important',
-      height: '48px !important',
-      color: theme.palette.text.primary 
+    "& div": {
+      width: "48px !important",
+      height: "48px !important",
+      color: theme.palette.text.primary,
     },
   },
   circularProgress: { display: "inline-block" },
