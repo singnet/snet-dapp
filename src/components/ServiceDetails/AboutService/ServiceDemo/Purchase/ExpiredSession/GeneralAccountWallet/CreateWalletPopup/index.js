@@ -22,20 +22,24 @@ import { useStyles } from "./styles";
 class CreateWalletPopup extends Component {
 	state = {
     progressText: ["Details", "Purchase", "Private Key", "Summary"],
-    activeSection: 1
+    activeSection: 2
   }
 
 	handleCancel = () => {
     this.props.handleClose();
   };
 
+  handleNextSection = () => {
+  	this.setState({ activeSection: this.state.activeSection + 1 });
+  }
+
 	render(){
 		const { classes, open } = this.props;
 		const { progressText, activeSection } = this.state;
 
 		const PopupProgressBarComponents = [ 
-			{ component: <Details/> },
-			{ component: <Purchase /> },
+			{ component: <Details handleNextSection={this.handleNextSection}/> },
+			{ component: <Purchase error /> },
 			{ component: <PrivateKey /> },
 			{ component: <Summary /> }
 		];

@@ -19,6 +19,10 @@ const handlePayTypeChange = () => {
 		console.log('test')
 }
 
+const handleContinue = () =>{
+	// this.props.handleNextSection();	
+}
+
 const Details = ({ classes }) => {
   return (
   	<div className={classes.deatilsTabContainer}>
@@ -57,7 +61,7 @@ const Details = ({ classes }) => {
 
 		  <div className={classes.btnContainer}>
 		  	<StyledButton btnText="cancel" type="transparent" />
-	      <StyledButton btnText="Continue" type="blue"/>
+	      <StyledButton btnText="Continue" type="blue" onClick={handleContinue}/>
 		  </div>
  		</div>
   )
