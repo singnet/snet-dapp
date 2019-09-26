@@ -7,15 +7,15 @@ export const useStyles = makeStyles(theme => ({
     paddingTop: 10,
     margin: "0 25px 25px 0",
     display: "inline-block",
-    position: 'relative',
+    position: "relative",
     fontFamily: theme.typography.primary.main,
     fontSize: 18,
     "&:hover": {
       backgroundColor: theme.palette.text.offWhiteColor,
       "& h4": { color: theme.palette.text.primary },
-    },    
+    },
     "@media(min-width: 1281px)": { marginRight: 19 },
-    "@media(max-width: 1280px)": { marginRight: 38  },
+    "@media(max-width: 1280px)": { marginRight: 38 },
   },
   cardHeader: {
     padding: "0 18px",
@@ -32,7 +32,7 @@ export const useStyles = makeStyles(theme => ({
     fontWeight: 600,
     color: theme.palette.text.darkShadedGray,
     letterSpacing: 0.23,
-    lineHeight: '23px'
+    lineHeight: "23px",
   },
   cardSubheader: {
     margin: 0,
@@ -63,9 +63,9 @@ export const useStyles = makeStyles(theme => ({
     lineHeight: "21px",
   },
   cardActions: {
-    boxSizing: 'border-box',
-    width: '100%',
-    position: 'absolute',
+    boxSizing: "border-box",
+    width: "100%",
+    position: "absolute",
     bottom: 20,
     padding: "0 11px",
     justifyContent: "space-between",
@@ -76,8 +76,8 @@ export const useStyles = makeStyles(theme => ({
     margin: 0,
     color: theme.palette.text.lightShadedGray,
   },
-  ratingStars: { 
-    '& label': { fontSize: 24 },
-    '& .dv-star-rating-empty-star i':{ color: theme.palette.text.disabledBtnBg }
-  }
+  ratingStars: {
+    "& label": { fontSize: 24 },
+    "& .dv-star-rating-empty-star i": { color: theme.palette.text.disabledBtnBg },
+  },
 }));

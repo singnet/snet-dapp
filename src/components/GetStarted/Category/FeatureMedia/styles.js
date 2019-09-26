@@ -1,3 +1,3 @@
 export const useStyles = theme => ({
-  FullWidth: { width: "100%" }  
+  FullWidth: { width: "100%" },
 });
