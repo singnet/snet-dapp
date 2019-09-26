@@ -13,10 +13,10 @@ export const useStyles = theme => ({
       lineHeight: "18px",
     },
   },
-  providersName:{
+  providersName: {
     margin: 0,
-    fontSize: '10px !important',
-    lineHeight: '13px'
+    fontSize: "10px !important",
+    lineHeight: "13px",
   },
   computerVisionContent: {
     marginLeft: 25,
