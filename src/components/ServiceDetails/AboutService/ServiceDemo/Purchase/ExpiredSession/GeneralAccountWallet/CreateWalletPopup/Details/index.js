@@ -13,15 +13,14 @@ import { useStyles } from "./styles";
 
 const channelTypeOptions = [{ value: "pay_pal", label: "Pay pal" }];
 
-const handlePayTypeChange = () => {
-  // TODO
-};
-
-const handleContinue = () => {
-  // this.props.handleNextSection();
-};
-
 const Details = ({ classes }) => {
+  const handlePayTypeChange = () => {
+    // TODO
+  };
+
+  const handleContinue = () => {
+    // this.props.handleNextSection();
+  };
   return (
     <div className={classes.deatilsTabContainer}>
       <Typography variant="body1" className={classes.deatilsTabDesc}>
@@ -52,9 +51,9 @@ const Details = ({ classes }) => {
               Payment Channel
             </Typography>
             <StyledDropdown
-              labelTxt="Select a Wallet"
+              labelTxt="Select a Payment Gateway"
               list={channelTypeOptions}
-              value=" "
+              value="default"
               onChange={handlePayTypeChange}
             />
           </div>
