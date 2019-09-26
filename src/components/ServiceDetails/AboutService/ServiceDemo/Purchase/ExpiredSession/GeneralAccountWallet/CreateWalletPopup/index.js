@@ -18,7 +18,7 @@ import { useStyles } from "./styles";
 class CreateWalletPopup extends Component {
   state = {
     progressText: ["Details", "Purchase", "Private Key", "Summary"],
-    activeSection: 2,
+    activeSection: 3,
   };
 
   handleCancel = () => {
