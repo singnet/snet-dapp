@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import Tooltip from "@material-ui/core/Tooltip";
 import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet";
 import InfoIcon from "@material-ui/icons/Info";
-import Typography from '@material-ui/core/Typography';
+import Typography from "@material-ui/core/Typography";
 
 import StyledButton from "../../../../../common/StyledButton";
 import StyledDropdown from "../../../../../common/StyledDropdown";
@@ -221,7 +221,7 @@ class MetamaskFlow extends Component {
 
     const channelPaymentOptions = [
       { value: "general_account_wallet", label: "General Account Wallet" },
-      { value: "metamask", label: "Metamask" }
+      { value: "metamask", label: "Metamask" },
     ];
 
     if (!MMconnected) {
@@ -245,7 +245,9 @@ class MetamaskFlow extends Component {
           <div className={classes.paymentChannelDropDownContainer}>
             <InfoIcon className={classes.infoIconContainer} />
             <div className={classes.paymentChannelDropDown}>
-              <Typography variant="body2" className={classes.dropDownTitle}>Payment Channel</Typography>
+              <Typography variant="body2" className={classes.dropDownTitle}>
+                Payment Channel
+              </Typography>
               <AccountBalanceWalletIcon className={classes.walletIcon} />
               <StyledDropdown
                 labelTxt="Select a Wallet"
