@@ -1,0 +1,56 @@
+export const useStyles = theme => ({
+  VerifyKeyContainer: { padding: "0 25px !important" },
+  VerifyKeyDesc: {
+    margin: 0,
+    fontSize: 16,
+    color: "#2A2A2A",
+    lineHeight: "24px",
+    "& span": {
+      color: theme.palette.text.mediumShadeGray,
+      fontWeight: "600",
+    },
+    "& a": {
+      color: theme.palette.text.primary,
+      textDecoration: "none",
+    },
+  },
+  textField: {
+    padding: "0 49px",
+    margin: "41px 0 32px",
+    position: "relative",
+    "& span": {
+      padding: 5,
+      marginLeft: 49,
+      position: "absolute",
+      top: -14,
+      left: 10,
+      backgroundColor: theme.palette.text.white,
+      color: theme.palette.text.black1,
+      fontSize: 12,
+      letterSpacing: 0.4,
+      lineHeight: "16px",
+    },
+    "& input": {
+      width: "100%",
+      border: 1,
+      borderStyle: "solid",
+      borderColor: "rgba(25,25,25,0.32)",
+      borderRadius: 4,
+      padding: "19px 0",
+    },
+    "& + p": { margin: "0 49px 16px" },
+  },
+  error: {
+    "& span": { color: theme.palette.text.errorRed },
+    "& input": { borderColor: theme.palette.text.errorRed },
+  },
+  errorMsg: {
+    padding: "5px 0 0 16px",
+    fontFamily: theme.typography.primary.main,
+    fontSize: 12,
+    color: theme.palette.text.errorRed,
+    letterSpacing: 0.4,
+    lineHeight: "16px",
+  },
+  btnContainer: { textAlign: "center" },
+});
