@@ -70,7 +70,7 @@ class ThirdPartyAIService extends Component {
             <AIServiceCustomComponent
               serviceClient={serviceClient}
               isComplete={isServiceExecutionComplete}
-              sliderWidth={"550px"}
+              sliderWidth="550px"
             />
           </ThirdPartyServiceErrorBoundary>
         </Suspense>

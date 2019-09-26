@@ -10,22 +10,12 @@ import { useStyles } from "./styles";
 import { walletTypes } from "../../../../../../Redux/actionCreators/UserActions";
 import StyledDropdown from "../../../../../common/StyledDropdown";
 import PaymentInfoCard from "../PaymentInfoCard";
-import CreateWalletPopup from "./GeneralAccountWallet/CreateWalletPopup";
 import { initSdk } from "../../../../../../utility/sdk";
 import isEmpty from "lodash/isEmpty";
 import { userActions } from "../../../../../../Redux/actionCreators";
 import WalletDetailsToggler from "./WalletDetailsToggler";
 
 class ExpiredSession extends Component {
-  state = {
-    showCreateWalletPopup: false,
-    alert: {},
-  };
-
-  handleCreateWallet = () => {
-    this.setState({ showCreateWalletPopup: true });
-  };
-
   handlePayTypeChange = async event => {
     const { value } = event.target;
     const { updateWallet } = this.props;
@@ -59,10 +49,6 @@ class ExpiredSession extends Component {
     //till here(2)
     updateWallet({ type: value });
   };
-
-  handlePopupClose = () => {
-    this.setState({ showCreateWalletPopup: false });
-  };
   // handleAddPayment = () => {
   //   history.push(`/${Routes.USER_PROFILE}`);
   // };
@@ -79,7 +65,6 @@ class ExpiredSession extends Component {
       handlePurchaseError,
       isServiceAvailable,
     } = this.props;
-    const { showCreateWalletPopup } = this.state;
     const channelPaymentOptions = [
       { value: walletTypes.GENERAL, label: "General Account Wallet" },
       { value: walletTypes.METAMASK, label: "Metamask" },
@@ -124,8 +109,6 @@ class ExpiredSession extends Component {
             isServiceAvailable,
           }}
         />
-
-        <CreateWalletPopup open={showCreateWalletPopup} handleClose={this.handlePopupClose} />
       </div>
     );
   }

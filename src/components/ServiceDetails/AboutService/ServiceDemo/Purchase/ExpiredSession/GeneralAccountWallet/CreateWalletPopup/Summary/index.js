@@ -1,6 +1,7 @@
 import React from "react";
 import { withStyles } from "@material-ui/styles";
 import Typography from "@material-ui/core/Typography";
+import InfoIcon from "@material-ui/icons/Info";
 
 import StyledButton from "../../../../../../../../common/StyledButton";
 import { useStyles } from "./styles";
@@ -21,15 +22,24 @@ const Summary = ({ classes }) => {
             <Typography variant="body2">$4.00</Typography>
           </div>
           <div className={classes.summaryTableData}>
-            <Typography variant="body2">AGI tokens issued</Typography>
+            <div>
+              <InfoIcon className={classes.infoIconContainer} />
+              <Typography variant="body2">AGI tokens issued</Typography>
+            </div>
             <Typography variant="body2">0.01000020 AGI</Typography>
           </div>
-          <div className={classes.summaryTableColumn}>
-            <Typography variant="body2">Conversion (gas) charges</Typography>
+          <div className={classes.summaryTableData}>
+            <div>
+              <InfoIcon className={classes.infoIconContainer} />
+              <Typography variant="body2">Conversion (gas) charges</Typography>
+            </div>
             <Typography variant="body2">-0.00000020 AGI</Typography>
           </div>
           <div className={classes.summaryTableDataTotal}>
-            <Typography variant="body2">Total AGI tokens </Typography>
+            <div>
+              <InfoIcon className={classes.infoIconContainer} />
+              <Typography variant="body2">Total AGI tokens </Typography>
+            </div>
             <Typography variant="body2">0.01000000 AGI</Typography>
           </div>
         </div>
