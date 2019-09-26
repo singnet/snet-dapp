@@ -301,7 +301,9 @@ export default class OpenCogMiner extends React.Component {
         <h4> Results</h4>
         <div style={{ padding: "10px 10px 0 10px", fontSize: "14px", color: "#9b9b9b" }}>
           <div style={{ padding: "10px 0" }}>
+          <pre>
             {response.mined}
+          </pre>
           </div>
         </div>
       </div>
