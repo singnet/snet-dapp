@@ -4,16 +4,19 @@ export const useStyles = theme => ({
     "@media(max-width:490px)": { display: "inline-block" },
   },
   companyName: {
-    paddingLeft: 20,
     "& h4": {
       display: "block",
+      paddingTop: 2,
       margin: 0,
       color: theme.palette.text.primary,
-      fontSize: 18,
-      fontWeight: 600,
-      letterSpacing: "0.23px",
-      lineHeight: "24px",
+      fontSize: 14,
+      lineHeight: "18px",
     },
+  },
+  providersName:{
+    margin: 0,
+    fontSize: '10px !important',
+    lineHeight: '13px'
   },
   computerVisionContent: {
     marginLeft: 25,
