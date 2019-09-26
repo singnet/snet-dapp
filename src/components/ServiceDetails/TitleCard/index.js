@@ -8,8 +8,9 @@ import CardImg from "../../../assets/images/SnetDefaultServiceImage.png";
 import { useStyles } from "./styles";
 import RatingsCount from "../../common/RatingsCount";
 import SingularityLogo from "../../../assets/images/avatar.png";
+import Typography from "@material-ui/core/Typography";
 
-const TitleCard = ({ classes, org_id, display_name, star_rating, api_calls, serviceImg, orgImg, totalRating }) => {
+const TitleCard = ({ classes, display_name, star_rating, organizationName, serviceImg, orgImg, totalRating }) => {
   return (
     <Grid item xs={12} sm={12} md={8} lg={8} className={classes.computerVisionContainer}>
       <div className={classes.titleImg}>
@@ -18,7 +19,12 @@ const TitleCard = ({ classes, org_id, display_name, star_rating, api_calls, serv
       <div className={classes.computerVisionContent}>
         <div className={classes.serviceCreatorDetails}>
           <Avatar alt="Singularity" src={orgImg || SingularityLogo} className={classes.avatar} />
-          <span>By {org_id}</span>
+          <p>Provider</p>
+          <div className={classes.companyName}>
+            <Typography variant="h4" display="block">
+              {organizationName}
+            </Typography>
+          </div>
         </div>
         <h2>{display_name}</h2>
         <div>

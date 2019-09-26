@@ -3,6 +3,18 @@ export const useStyles = theme => ({
     display: "flex",
     "@media(max-width:490px)": { display: "inline-block" },
   },
+  companyName: {
+    paddingLeft: 20,
+    "& h4": {
+      display: "block",
+      margin: 0,
+      color: theme.palette.text.primary,
+      fontSize: 18,
+      fontWeight: 600,
+      letterSpacing: "0.23px",
+      lineHeight: "24px",
+    },
+  },
   computerVisionContent: {
     marginLeft: 25,
     "& h2": {
@@ -51,7 +63,7 @@ export const useStyles = theme => ({
   serviceCreatorDetails: {
     display: "flex",
     alignItems: "center",
-    "& span": {
+    "& p": {
       color: theme.palette.text.lightShadedGray,
       fontSize: 14,
       textTransform: "uppercase",
