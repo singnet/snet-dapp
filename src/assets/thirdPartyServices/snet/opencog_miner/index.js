@@ -1,6 +1,6 @@
 import React from "react";
 
-import OpencogServices from "./opencog_pb_service"
+import { OpencogServices } from "./opencog_pb_service"
 import TextField from "@material-ui/core/TextField"
 import { makeStyles } from '@material-ui/core/styles'
 import Radio from '@material-ui/core/Radio'
@@ -71,7 +71,7 @@ export default class OpenCogMiner extends React.Component {
                  max_conjuncts,
                  max_variables];
 
-    request.setInput(cmd);
+    request.setInputList(cmd);
 
     const props = {
       request,
@@ -81,7 +81,7 @@ export default class OpenCogMiner extends React.Component {
           throw new Error(statusMessage);
         }
         this.setState({
-          response: { status: "success", mined: message.toObject() },
+          response: { status: "success", mined: message.getOutput() },
         });
       },
     };
