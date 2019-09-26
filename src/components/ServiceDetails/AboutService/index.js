@@ -21,7 +21,10 @@ const AboutService = ({ classes, isLoggedIn, service, history }) => {
       </Grid>
 
       <Grid item xs={12} sm={4} md={4} lg={4} className={classes.rightSideSection}>
-        <CreatorDetails organizationName={service.org_id} />
+        <CreatorDetails
+          organizationName={service.organization_name}
+          orgImg={service.org_assets_url && service.org_assets_url.hero_image}
+        />
         <ProjectDetails projectURL={service.url} />
       </Grid>
 

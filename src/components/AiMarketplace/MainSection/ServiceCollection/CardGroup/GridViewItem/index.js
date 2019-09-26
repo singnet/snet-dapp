@@ -9,11 +9,14 @@ import Typography from "@material-ui/core/Typography";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import IconButton from "@material-ui/core/IconButton";
 import Avatar from "@material-ui/core/Avatar";
+import truncate from "lodash/truncate";
 
 import RatingsCount from "../../../../../common/RatingsCount";
+import CardImg from "../../../../../../assets/images/SnetDefaultServiceImage.png";
 import SingularityLogo from "../../../../../../assets/images/avatar.png";
 import { useStyles } from "./styles";
 import ServiceAvailabilityToggler from "../ServiceListItem/ServiceAvailabilityToggler";
+import { GridViewHeaderLength } from "../../../../../../utility/constants/UXProperties";
 
 const StyledCard = props => {
   const classes = useStyles();
@@ -21,15 +24,15 @@ const StyledCard = props => {
     <Card className={classes.card}>
       <CardHeader
         className={classes.cardHeader}
-        avatar={<Avatar aria-label="recipe" className={classes.avatar} src={SingularityLogo} />}
+        avatar={<Avatar aria-label="recipe" className={classes.avatar} src={props.orgImg || SingularityLogo} />}
         classes={{
           title: classes.cardTitle,
           subheader: classes.cardSubheader,
         }}
-        title={props.cardTitle}
+        title={truncate(props.cardTitle, { length: GridViewHeaderLength })}
         subheader={props.cardSubheader}
       />
-      <CardMedia className={classes.CardMedia} image={props.cardMedia} title={props.title} />
+      <CardMedia className={classes.CardMedia} image={props.cardMedia || CardImg} title={props.title} />
       <CardContent className={classes.cardContent}>
         <div className={classes.ratingSection}>
           <StarRatingComponent
@@ -40,7 +43,7 @@ const StyledCard = props => {
           />
           <RatingsCount ratingGiven={props.ratingGiven.rating} totalRating={props.ratingGiven.total_users_rated} />
         </div>
-        <Typography className={classes.cardTypograpy} component="p" noWrap>
+        <Typography className={classes.cardTypograpy} component="p">
           {props.cardDescription}
         </Typography>
       </CardContent>
