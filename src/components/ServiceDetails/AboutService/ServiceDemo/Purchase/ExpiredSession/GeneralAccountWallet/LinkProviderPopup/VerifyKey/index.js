@@ -5,9 +5,40 @@ import Typography from "@material-ui/core/Typography";
 
 import AlertBox from "../../../../../../../../common/AlertBox";
 import StyledButton from "../../../../../../../../common/StyledButton";
+import BulletPoint from "../../../../../../../../common/BulletPoint";
 import { useStyles } from "./styles";
 
-const VerifyKey = ({ classes, wrongKey }) => {
+const warningMessage = [
+  "You wil still be able to topup your General Account Wallet and use it with all providers that you have linked with.",
+  "You wont be able to link General Account Wallet with any new providers.",
+  "Lorem ipsum dolor sit amet, simul vivendo vim ea, ut possim torquatos definiebas eam. Feugiat maiorum urbanitas ei quo.",
+  "Lorem ipsum dolor sit amet, simul vivendo vim ea, ut possim torquatos definiebas eam. Feugiat maiorum urbanitas ei quo.",
+];
+
+const VerifyKey = ({ classes, wrongKey, keyLost }) => {
+  if (keyLost) {
+    return (
+      <div className={classes.lostKeyContainer}>
+        <Typography variant="body1" className={classes.lostKeyInfo}>
+          If you lost your key for “General Account Wallet”, we can create a new wallet for you. Please keep in mind
+          that:
+        </Typography>
+        <div className={classes.WarningBoxConatiner}>
+          {warningMessage.map(msg => (
+            <BulletPoint key={msg} type="warning" message={msg} />
+          ))}
+        </div>
+        <Typography variant="body1" className={classes.lostKeyNotification}>
+          Are you sure you want to go ahead and create a new wallet?
+        </Typography>
+        <div className={classes.btnContainer}>
+          <StyledButton type="transparent" btnText="back" />
+          <StyledButton type="blue" btnText="create new wallet" />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={classes.VerifyKeyContainer}>
       <p className={classes.VerifyKeyDesc}>

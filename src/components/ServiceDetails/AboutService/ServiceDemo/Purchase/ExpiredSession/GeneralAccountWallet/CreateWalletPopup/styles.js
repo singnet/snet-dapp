@@ -19,6 +19,7 @@ export const useStyles = theme => ({
     "& > div": {
       paddingTop: 0,
       paddingBottom: 25,
+      "&:first-of-type": { width: "100%" },
       "& ul": {
         justifyContent: "center",
         "& li": {
