@@ -19,6 +19,10 @@ export const APIEndpoints = {
     name: "Signer Service",
     endpoint: process.env.REACT_APP_SIGNER_ENDPOINT,
   },
+  ORCHESTRATOR: {
+    name: "Orchestrator",
+    endpoint: process.env.REACT_APP_ORCHESTRATOR_ENDPOINT,
+  },
 };
 
 export const APIPaths = {
@@ -35,4 +39,6 @@ export const APIPaths = {
   FREE_CALL_USAGE: "/usage/freecalls",
   SIGNER_FREE_CALL: "/free-call",
   SIGNER_REGULAR_CALL: "/regular-call",
+  INITIATE_PAYMNET: "/order/initiate",
+  EXECUTE_PAYMENT: "/order/execute",
 };

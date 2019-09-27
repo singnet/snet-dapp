@@ -6,6 +6,7 @@ import CardHeader from "@material-ui/core/CardHeader";
 import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
 import CardContent from "@material-ui/core/CardContent";
+import { connect } from "react-redux";
 
 import Details from "./Details";
 import Purchase from "./Purchase";
@@ -14,11 +15,12 @@ import Summary from "./Summary";
 import PopupDetails from "../PopupDetails";
 
 import { useStyles } from "./styles";
+import { paymentActions } from "../../../../../../../../Redux/actionCreators";
 
 class CreateWalletPopup extends Component {
   state = {
     progressText: ["Details", "Purchase", "Private Key", "Summary"],
-    activeSection: 4,
+    activeSection: 1,
   };
 
   handleCancel = () => {
@@ -30,11 +32,11 @@ class CreateWalletPopup extends Component {
   };
 
   render() {
-    const { classes, open } = this.props;
+    const { classes, open, initiatePayment } = this.props;
     const { progressText, activeSection } = this.state;
 
     const PopupProgressBarComponents = [
-      { component: <Details handleNextSection={this.handleNextSection} /> },
+      { component: <Details handleNextSection={this.handleNextSection} initiatePayment={initiatePayment} /> },
       { component: <Purchase error /> },
       { component: <PrivateKey /> },
       { component: <Summary /> },
@@ -71,4 +73,11 @@ class CreateWalletPopup extends Component {
   }
 }
 
-export default withStyles(useStyles)(CreateWalletPopup);
+const mapDispatchToProps = dispatch => ({
+  initiatePayment: payMethod => dispatch(paymentActions.initiatePayment(payMethod)),
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(withStyles(useStyles)(CreateWalletPopup));

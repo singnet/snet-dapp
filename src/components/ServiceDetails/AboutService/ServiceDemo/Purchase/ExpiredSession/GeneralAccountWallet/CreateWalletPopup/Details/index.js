@@ -13,14 +13,11 @@ import { useStyles } from "./styles";
 
 const channelTypeOptions = [{ value: "pay_pal", label: "Pay pal" }];
 
-const Details = ({ classes }) => {
+const Details = ({ classes, initiatePayment }) => {
   const handlePayTypeChange = () => {
     // TODO
   };
 
-  const handleContinue = () => {
-    // this.props.handleNextSection();
-  };
   return (
     <div className={classes.deatilsTabContainer}>
       <Typography variant="body1" className={classes.deatilsTabDesc}>
@@ -66,7 +63,7 @@ const Details = ({ classes }) => {
 
       <div className={classes.btnContainer}>
         <StyledButton btnText="cancel" type="transparent" />
-        <StyledButton btnText="Continue" type="blue" onClick={handleContinue} />
+        <StyledButton btnText="Continue" type="blue" onClick={initiatePayment} />
       </div>
     </div>
   );
