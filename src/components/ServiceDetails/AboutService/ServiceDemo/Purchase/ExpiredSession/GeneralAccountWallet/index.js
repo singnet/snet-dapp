@@ -13,6 +13,7 @@ const GeneralAccountWallet = ({ classes }) => {
         <StyledButton type="transparentBlueBorderDisable" btnText="transaction history" />
         <StyledButton type="transparentBlueBorderDisable" btnText="top up wallet" />
         <StyledButton type="blue" btnText="create wallet" onClick={() => setShowCreateWalletPopup(true)} />
+        {/*<StyledButton type="blue" btnText="link provider" onClick={() => setShowLinkProviderPopup(true)} /> */}
       </div>
       <CreateWalletPopup open={showCreateWalletPopup} handleClose={() => setShowCreateWalletPopup(false)} />
     </Fragment>

@@ -6,41 +6,27 @@ import CardHeader from "@material-ui/core/CardHeader";
 import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
 import CardContent from "@material-ui/core/CardContent";
-import { connect } from "react-redux";
 
-import Details from "./Details";
-import Purchase from "./Purchase";
-import PrivateKey from "./PrivateKey";
-import Summary from "./Summary";
+import VerifyKey from "./VerifyKey";
 import PopupDetails from "../PopupDetails";
 
 import { useStyles } from "./styles";
-import { paymentActions } from "../../../../../../../../Redux/actionCreators";
 
-class CreateWalletPopup extends Component {
+class LinkProviderPopup extends Component {
   state = {
-    progressText: ["Details", "Purchase", "Private Key", "Summary"],
-    activeSection: 4,
+    progressText: ["Verify Key", "Details", "Purchase", "Summary"],
+    activeSection: 1,
   };
 
   handleCancel = () => {
     this.props.handleClose();
   };
 
-  handleNextSection = () => {
-    this.setState({ activeSection: this.state.activeSection + 1 });
-  };
-
   render() {
-    const { classes, open, initiatePayment } = this.props;
+    const { classes, open } = this.props;
     const { progressText, activeSection } = this.state;
 
-    const PopupProgressBarComponents = [
-      { component: <Details handleNextSection={this.handleNextSection} initiatePayment={initiatePayment} /> },
-      { component: <Purchase error /> },
-      { component: <PrivateKey /> },
-      { component: <Summary /> },
-    ];
+    const PopupProgressBarComponents = [{ component: <VerifyKey /> }];
 
     return (
       <div className={classes.generalAccWalletContainer}>
@@ -48,7 +34,7 @@ class CreateWalletPopup extends Component {
           <Card className={classes.card}>
             <CardHeader
               className={classes.CardHeader}
-              title="Create General Account Wallet"
+              title="Link Provider to General Account Wallet"
               action={
                 <IconButton onClick={this.handleCancel}>
                   <CloseIcon />
@@ -73,11 +59,4 @@ class CreateWalletPopup extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  initiatePayment: payMethod => dispatch(paymentActions.initiatePayment(payMethod)),
-});
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(withStyles(useStyles)(CreateWalletPopup));
+export default withStyles(useStyles)(LinkProviderPopup);

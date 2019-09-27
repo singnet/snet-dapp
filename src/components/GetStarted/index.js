@@ -13,10 +13,8 @@ const GetStarted = ({ classes, history }) => {
     <Grid container spacing={24} className={classes.GetStartedMainContaienr}>
       <Grid item xs={12} sm={12} md={12} lg={12} className={classes.TopSection}>
         <GetStartedDescription
-          title={"One AI Marketplace For All"}
-          description={
-            "The SingularityNET AI Marketplace is a distributed platform created to democratize the use and development of AI applications. Built for you, powered by open collaboration."
-          }
+          title="One AI Marketplace For All"
+          description="The SingularityNET AI Marketplace is a distributed platform created to democratize the use and development of AI applications. Built for you, powered by open collaboration."
         />
       </Grid>
       {GetStartedCategoriesData.map((item, index) => (
@@ -31,11 +29,11 @@ const GetStarted = ({ classes, history }) => {
       ))}
       <Grid item xs={12} sm={12} md={12} lg={12} className={classes.SignUpFree}>
         <GetStartedDescription
-          title={"Get Started"}
-          description={"We’ve made the marketplace fast, secure, private and easy to use. Start with a free trial now!"}
+          title="Get Started"
+          description="We’ve made the marketplace fast, secure, private and easy to use. Start with a free trial now!"
           button
-          btnType={"blue"}
-          btnText={"Sign up free"}
+          btnType="blue"
+          btnText="Sign up free"
           history={history}
         />
       </Grid>

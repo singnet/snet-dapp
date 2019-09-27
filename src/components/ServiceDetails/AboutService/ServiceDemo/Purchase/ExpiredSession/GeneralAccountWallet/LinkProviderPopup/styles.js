@@ -1,6 +1,6 @@
 export const useStyles = theme => ({
   card: {
-    width: 628,
+    width: 645,
     margin: "50px auto 0",
   },
   CardHeader: {
@@ -15,10 +15,11 @@ export const useStyles = theme => ({
     },
   },
   CardContent: {
-    paddingTop: 25,
+    paddingTop: 32,
+    paddingBottom: 32,
     "& > div": {
       paddingTop: 0,
-      paddingBottom: 25,
+      paddingBottom: 35,
       "&:first-of-type": { width: "100%" },
       "& ul": {
         justifyContent: "center",
