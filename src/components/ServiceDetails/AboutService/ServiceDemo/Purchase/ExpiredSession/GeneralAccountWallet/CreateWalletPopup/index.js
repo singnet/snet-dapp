@@ -20,7 +20,7 @@ import { paymentActions } from "../../../../../../../../Redux/actionCreators";
 class CreateWalletPopup extends Component {
   state = {
     progressText: ["Details", "Purchase", "Private Key", "Summary"],
-    activeSection: 4,
+    activeSection: 1,
   };
 
   handleCancel = () => {
