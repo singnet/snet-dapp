@@ -46,8 +46,9 @@ export const useStyles = theme => ({
   // },
   // walletIcon: { color: theme.palette.text.lightShadedGray },
   btnsContainer: {
-    marginTop: 64,
-    textAlign: "center",
-    "& button": { marginRight: "32px !important" },
+    margin: "64px 90px 0",
+    display: "flex",
+    justifyContent: "space-between",
+    "& button": { marginTop: "0 !important" },
   },
 });

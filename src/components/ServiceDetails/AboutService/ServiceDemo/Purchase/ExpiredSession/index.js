@@ -98,7 +98,7 @@ class ExpiredSession extends Component {
               unit={paymentInfoCardUnit || "s"}
             />
           </div>
-          <div className={classes.alertBoxConatiner} />
+          {alert ? <div className={classes.alertBoxConatiner} /> : null}
         </div>
         <WalletDetailsToggler
           metamask={wallet.type === walletTypes.METAMASK}

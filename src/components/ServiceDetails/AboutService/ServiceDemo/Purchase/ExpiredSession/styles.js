@@ -1,6 +1,6 @@
 export const useStyles = theme => ({
   mainContainer: {
-    textAlign: "center",
+    paddingTop: 35,
     "& button": {
       marginTop: 36,
       marginRight: "0 !important",
@@ -11,6 +11,7 @@ export const useStyles = theme => ({
     paddingLeft: 20,
     margin: 0,
     color: theme.palette.text.alertBoxColor,
+    fontFamily: theme.typography.primary.main,
     fontSize: 14,
     letterSpacing: 0.25,
     lineHeight: "20px",
