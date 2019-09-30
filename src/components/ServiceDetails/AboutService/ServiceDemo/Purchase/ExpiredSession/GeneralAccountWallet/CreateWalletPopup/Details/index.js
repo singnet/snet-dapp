@@ -38,7 +38,7 @@ const Details = ({ classes, initiatePayment }) => {
       setAlert({ type: alertTypes.ERROR, message: isNotValid[0] });
       return;
     }
-    initiatePayment();
+    initiatePayment(payType, amount);
   };
 
   return (

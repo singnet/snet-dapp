@@ -74,7 +74,7 @@ class CreateWalletPopup extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  initiatePayment: payMethod => dispatch(paymentActions.initiatePayment(payMethod)),
+  initiatePayment: (payType, amount) => dispatch(paymentActions.initiatePayment(payType, amount)),
 });
 
 export default connect(

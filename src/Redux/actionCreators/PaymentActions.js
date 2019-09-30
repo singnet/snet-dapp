@@ -1,8 +1,10 @@
-/* eslint-disable no-console */
-import { userActions } from ".";
+import { userActions, loaderActions } from ".";
 import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { initializeAPIOptions } from "../../utility/API";
 import { API } from "aws-amplify";
+import { LoaderContent } from "../../utility/constants/LoaderContent";
+
+export const UPDATE_PAYPAL_IN_PROGRESS = "UPDATE_PAYPAL_IN_PROGRESS";
 
 const initiatePaymentAPI = token => {
   // TODO remove hardcoded payobj
@@ -21,27 +23,32 @@ const initiatePaymentAPI = token => {
     },
     payment_method: "paypal",
   };
-  //   const apiName = APIEndpoints.ORCHESTRATOR.name;
-  //   const apiPath = APIPaths.INITIATE_PAYMNET;
-  //   const apiOptions = { body: payObj };
-  //   const api = API.post(apiName, apiPath, apiOptions);
-  const api = fetch("https://ropsten-marketplace.singularitynet.io/orchestrator/order/initiate", {
-    method: "POST",
-    body: JSON.stringify(payObj),
-    redirect: "follow",
-  });
-  return api;
+  const apiName = APIEndpoints.ORCHESTRATOR.name;
+  const apiPath = APIPaths.INITIATE_PAYMNET;
+  // const apiPath = APIPaths.DEBUG_PAYPAL_INITIATE;
+  const apiOptions = initializeAPIOptions(token, payObj);
+  return API.post(apiName, apiPath, apiOptions);
+  // return fetch("https://ropsten-marketplace.singularitynet.io/orchestrator/order/initiate", {
+  //   method: "POST",
+  //   headers: { Authorization: token },
+  //   body: JSON.stringify(payObj),
+  //   redirect: "follow",
+  // });
 };
 
-export const initiatePayment = payMethod => async dispatch => {
+export const initiatePayment = (payType, amount) => async dispatch => {
   try {
+    dispatch(loaderActions.startAppLoader(LoaderContent.INITIATE_PAYPAL));
     const { token } = await userActions.fetchAuthenticatedUser();
-    console.log("payment initiated");
+    // console.log("payment initiated");
     const response = await initiatePaymentAPI(token);
+    dispatch(loaderActions.stopAppLoader);
     // const json = await response.json();
-    console.log("initiatePayment", response);
+    // console.log("initiatePayment", response);
+    window.location.href = response.data.payment.payment_url;
   } catch (error) {
-    console.log("init payment err", error);
+    // console.log("init payment err", error);
+    dispatch(loaderActions.stopAppLoader);
   }
 };
 
@@ -62,7 +69,12 @@ const executePaymentAPI = token => {
 
 export const executePayment = (orderId, paymentId, payerId) => async () => {
   const { token } = await userActions.fetchAuthenticatedUser();
-  console.log("payment execution started");
-  const response = await executePaymentAPI(token);
-  console.log("payment executed", response);
+  // console.log("payment execution started");
+  await executePaymentAPI(token);
+  // console.log("payment executed", response);
+};
+
+export const updatePaypalInProgress = (orderId, paymentId, payerId) => dispatch => {
+  // console.log(orderId, paymentId, payerId);
+  dispatch({ type: UPDATE_PAYPAL_IN_PROGRESS, payload: { orderId, paymentId, payerId } });
 };

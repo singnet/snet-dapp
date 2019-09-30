@@ -103,7 +103,15 @@ class App extends Component {
                 <PrivateRoute
                   isAllowed={isTermsAccepted}
                   redirectTo={`/${Routes.ONBOARDING}`}
+                  exact
                   path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId`}
+                  {...this.props}
+                  component={withInAppWrapper(ServiceDetails)}
+                />
+                <PrivateRoute
+                  isAllowed={isTermsAccepted}
+                  redirectTo={`/${Routes.ONBOARDING}`}
+                  path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId/order/:orderId/payment/:paymentId/execute`}
                   {...this.props}
                   component={withInAppWrapper(ServiceDetails)}
                 />

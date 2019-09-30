@@ -1,9 +1,13 @@
-const InitialPaymentDetails = {};
+import { paymentActions } from "../actionCreators";
+
+const InitialPaymentDetails = {
+  paypalInProgress: {},
+};
 
 const paymentReducer = (state = InitialPaymentDetails, action) => {
   switch (action.type) {
-    case "123": {
-      return {};
+    case paymentActions.UPDATE_PAYPAL_IN_PROGRESS: {
+      return { ...state, paypalInProgress: action.payload };
     }
 
     default: {
