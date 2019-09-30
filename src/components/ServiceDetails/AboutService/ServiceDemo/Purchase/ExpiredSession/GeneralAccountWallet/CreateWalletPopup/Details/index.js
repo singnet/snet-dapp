@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { withStyles } from "@material-ui/styles";
 import Typography from "@material-ui/core/Typography";
 import InfoIcon from "@material-ui/icons/Info";
@@ -10,12 +10,35 @@ import StyledButton from "../../../../../../../../common/StyledButton";
 import StyledTextField from "../../../../../../../../common/StyledTextField";
 import SingularityLogo from "../../../../../../../../../assets/images/avatar.png";
 import { useStyles } from "./styles";
+import snetValidator from "../../../../../../../../../utility/snetValidator";
+import { paymentGatewayConstraints } from "./validationConstraints";
+import AlertBox, { alertTypes } from "../../../../../../../../common/AlertBox";
+import { USDToAgi } from "../../../../../../../../../utility/PricingStrategy";
 
-const channelTypeOptions = [{ value: "pay_pal", label: "Pay pal" }];
+export const paymentTypes = [{ value: "payPal", label: "Pay pal" }];
 
 const Details = ({ classes, initiatePayment }) => {
-  const handlePayTypeChange = () => {
-    // TODO
+  const [payType, setPayType] = useState("default");
+  const [amount, setAmount] = useState(null);
+  const [alert, setAlert] = useState({});
+
+  const handlePayTypeChange = event => {
+    const { value } = event.target;
+    if (value !== "default") {
+      setPayType(value);
+    }
+  };
+
+  const handleAmountChange = event => setAmount(event.target.value);
+
+  const handleContinue = () => {
+    setAlert({});
+    const isNotValid = snetValidator({ payType, amount }, paymentGatewayConstraints);
+    if (isNotValid) {
+      setAlert({ type: alertTypes.ERROR, message: isNotValid[0] });
+      return;
+    }
+    initiatePayment();
   };
 
   return (
@@ -49,21 +72,22 @@ const Details = ({ classes, initiatePayment }) => {
             </Typography>
             <StyledDropdown
               labelTxt="Select a Payment Gateway"
-              list={channelTypeOptions}
-              value="default"
+              list={paymentTypes}
+              value={payType}
               onChange={handlePayTypeChange}
             />
           </div>
         </div>
         <div className={classes.purchaseAmtTextfield}>
-          <StyledTextField label="Purchase Amount (in $USD)" />
-          <Typography variant="body2">= 0.0 AGI Tokens</Typography>
+          <StyledTextField label="Purchase Amount (in $USD)" value={amount} onChange={handleAmountChange} />
+          <Typography variant="body2">{USDToAgi(amount) || 0} AGI Tokens</Typography>
         </div>
       </div>
+      <AlertBox type={alert.type} message={alert.message} />
 
       <div className={classes.btnContainer}>
         <StyledButton btnText="cancel" type="transparent" />
-        <StyledButton btnText="Continue" type="blue" onClick={initiatePayment} />
+        <StyledButton btnText="Continue" type="blue" onClick={handleContinue} />
       </div>
     </div>
   );

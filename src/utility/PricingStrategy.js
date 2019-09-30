@@ -3,6 +3,7 @@ const priceData = {
   fixed_price_per_method: "fixed_price_per_method",
   agi_precision: 100000000,
   agi_divisibility: 8,
+  usd_ratio: 100000,
 };
 
 const priceModelNames = {
@@ -99,6 +100,8 @@ class MethodPricing {
 export const cogsToAgi = cogs => (cogs / priceData.agi_precision).toFixed(priceData.agi_divisibility);
 
 export const agiToCogs = agi => agi * priceData.agi_precision;
+
+export const USDToAgi = usd => (usd / priceData.usd_ratio).toFixed(5);
 
 export const txnTypes = {
   DEPOSIT: "deposit",
