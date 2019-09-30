@@ -41,4 +41,5 @@ export const APIPaths = {
   SIGNER_REGULAR_CALL: "/regular-call",
   INITIATE_PAYMNET: "/order/initiate",
   EXECUTE_PAYMENT: "/order/execute",
+  DEBUG_PAYPAL_INITIATE: "/v2/order/initiate",
 };
