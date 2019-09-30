@@ -93,14 +93,15 @@ class ExpiredSession extends Component {
           </div>
           <div className={classes.channelBalance}>
             <PaymentInfoCard
+              show={Boolean(wallet.type)}
               title={paymentInfoCardTitle || "s: channel balance"}
               value={paymentInfoCardValue || "s : 0.00134"}
               unit={paymentInfoCardUnit || "s"}
             />
           </div>
-          {alert ? <div className={classes.alertBoxConatiner} /> : null}
         </div>
         <WalletDetailsToggler
+          show={Boolean(wallet.type)}
           metamask={wallet.type === walletTypes.METAMASK}
           metamaskProps={{
             handleContinue: handleComplete,
