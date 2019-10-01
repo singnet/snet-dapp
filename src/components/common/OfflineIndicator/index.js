@@ -2,6 +2,7 @@ import React from "react";
 import { withStyles } from "@material-ui/styles";
 import clsx from "clsx";
 import Icon from "@material-ui/core/Icon";
+import PropTypes from "prop-types";
 
 import { useStyles } from "./styles";
 
@@ -15,6 +16,10 @@ const OfflineIndicator = ({ classes, show }) => {
     );
   }
   return null;
+};
+
+OfflineIndicator.propTypes = {
+  show: PropTypes.bool
 };
 
 export default withStyles(useStyles)(OfflineIndicator);

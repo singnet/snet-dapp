@@ -1,5 +1,6 @@
 import React from "react";
 import { withStyles } from "@material-ui/styles";
+import PropTypes from "prop-types";
 
 import NoConnectionImg from "../../../assets/images/error.svg";
 import { useStyles } from "./styles";
@@ -21,5 +22,11 @@ const ErrorBox = ({ classes, errImg, errText }) => {
     </div>
   );
 };
+
+ErrorBox.propTypes = {
+  errImg: PropTypes.string,
+  errText: PropTypes.string,
+};
+
 
 export default withStyles(useStyles)(ErrorBox);

@@ -4,6 +4,7 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { withStyles } from "@material-ui/styles";
 import CaretIcon from "@material-ui/icons/ArrowDropDown";
+import PropTypes from "prop-types";
 
 import { useStyles } from "./styles";
 import AnchorLink from "../AnchorLink";
@@ -34,5 +35,10 @@ const StyledMenu = ({ classes, label, list }) => {
     </Fragment>
   );
 };
+
+StyledMenu.propTypes = {
+  label: PropTypes.string,
+  list: PropTypes.string
+}
 
 export default withStyles(useStyles)(StyledMenu);

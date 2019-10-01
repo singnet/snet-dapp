@@ -28,4 +28,3 @@ storiesOf("SNETImageUpload", module)
     "live source",
     `const galleryImagesSample = styleGallery; return <SNETImageUpload imageDataFunc={setImagePath} disableUploadTab />`
   )
-  .add("Disabled Upload Tab", () => <SNETImageUpload imageDataFunc={setImagePath} disableUploadTab />);
