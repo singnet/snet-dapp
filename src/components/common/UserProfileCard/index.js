@@ -19,7 +19,7 @@ const UserProfileCard = ({ classes, nickName, onClose }) => {
   );
 };
 
-UserProfileCard.propTypes{
+UserProfileCard.propTypes = {
 	nickName: PropTypes.string,
 	onClose: PropTypes.func
 }

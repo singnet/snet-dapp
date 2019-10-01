@@ -38,7 +38,13 @@ const StyledMenu = ({ classes, label, list }) => {
 
 StyledMenu.propTypes = {
   label: PropTypes.string,
-  list: PropTypes.string
+  list: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string,
+      link: PropTypes.string,
+      newTab: PropTypes.bool
+    })
+  ),
 }
 
 export default withStyles(useStyles)(StyledMenu);
