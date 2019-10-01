@@ -22,8 +22,12 @@ import { groupInfo } from "../../../../../../../../Redux/reducers/ServiceDetails
 class CreateWalletPopup extends Component {
   state = {
     progressText: ["Details", "Purchase", "Private Key", "Summary"],
-    activeSection: 1,
+    activeSection: 4,
+    privateKey: undefined,
+    amount: null,
   };
+
+  handleAmountChange = event => this.setState({ amount: event.target.value });
 
   componentDidMount = () => {
     if (!isEmpty(this.props.paypalInProgress)) {
@@ -36,7 +40,7 @@ class CreateWalletPopup extends Component {
     this.props.setShowCreateWalletPopup(true);
   };
 
-  handleCancel = () => {
+  handleClose = () => {
     this.props.setShowCreateWalletPopup(false);
   };
 
@@ -64,7 +68,7 @@ class CreateWalletPopup extends Component {
         service_id: serviceId,
         group_id,
         receipient: payment_address,
-        order_type: "CREATE_WALLET_AND_CHANNEL,",
+        order_type: "CREATE_WALLET_AND_CHANNEL",
       },
       payment_method: payType,
     };
@@ -89,26 +93,33 @@ class CreateWalletPopup extends Component {
 
   render() {
     const { classes, open, paypalInProgress } = this.props;
-    const { progressText, activeSection } = this.state;
+    const { progressText, activeSection, privateKey, amount } = this.state;
 
     const PopupProgressBarComponents = [
       {
-        component: <Details handleNextSection={this.handleNextSection} initiatePayment={this.handleInitiatePayment} />,
+        component: (
+          <Details
+            handleNextSection={this.handleNextSection}
+            initiatePayment={this.handleInitiatePayment}
+            amount={amount}
+            handleAmountChange={this.handleAmountChange}
+          />
+        ),
       },
       { component: <Purchase paypalInProgress={paypalInProgress} executePayment={this.handleExecutePayment} /> },
-      { component: <PrivateKey /> },
-      { component: <Summary /> },
+      { component: <PrivateKey privateKey={privateKey} handleNextSection={this.handleNextSection} /> },
+      { component: <Summary handleClose={this.handleClose} /> },
     ];
 
     return (
       <div className={classes.generalAccWalletContainer}>
-        <Modal open={open} onClose={this.handleCancel} className={classes.Modal}>
+        <Modal open={open} onClose={this.handleClose} className={classes.Modal}>
           <Card className={classes.card}>
             <CardHeader
               className={classes.CardHeader}
               title="Create General Account Wallet"
               action={
-                <IconButton onClick={this.handleCancel}>
+                <IconButton onClick={this.handleClose}>
                   <CloseIcon />
                 </IconButton>
               }

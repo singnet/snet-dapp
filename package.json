@@ -29,6 +29,7 @@
     "query-string": "^6.8.3",
     "react": "^16.8.6",
     "react-async-script-loader": "^0.3.0",
+    "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.8.6",
     "react-dropzone": "^8.0.4",
     "react-file-drop": "^0.2.8",

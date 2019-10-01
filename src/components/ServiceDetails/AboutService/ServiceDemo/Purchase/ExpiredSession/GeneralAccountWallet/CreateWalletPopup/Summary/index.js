@@ -1,51 +1,27 @@
 import React from "react";
 import { withStyles } from "@material-ui/styles";
 import Typography from "@material-ui/core/Typography";
-import InfoIcon from "@material-ui/icons/Info";
+// import InfoIcon from "@material-ui/icons/Info";
 
 import StyledButton from "../../../../../../../../common/StyledButton";
 import { useStyles } from "./styles";
+import StyledTable from "../../../../../../../../common/StyledTable";
+import InfoIcon from "@material-ui/icons/Info";
 
-const Summary = ({ classes }) => {
+const Summary = ({ classes, handleClose, amount, agi }) => {
+  const columns = [{ key: "item", label: "Total $USD spent" }, { key: "amount", label: `$${amount}` }];
+  const rows = [
+    { key: 1, values: [{ label: "Total AGI tokens", icon: InfoIcon }, { label: `${agi} AGI` }], highlight: true },
+  ];
+
   return (
     <div className={classes.summaryContainer}>
       <Typography variant="body2" className={classes.successMsg}>
         Successfully Created Wallet for : Service Provider 1
       </Typography>
-      <div className={classes.summaryTable}>
-        <Typography variant="h5" className={classes.summaryTableHeader}>
-          Transaction Receipt
-        </Typography>
-        <div className={classes.summaryTableContent}>
-          <div className={classes.summaryTableColumn}>
-            <Typography variant="body2">Total $USD spent</Typography>
-            <Typography variant="body2">$4.00</Typography>
-          </div>
-          <div className={classes.summaryTableData}>
-            <div>
-              <InfoIcon className={classes.infoIconContainer} />
-              <Typography variant="body2">AGI tokens issued</Typography>
-            </div>
-            <Typography variant="body2">0.01000020 AGI</Typography>
-          </div>
-          <div className={classes.summaryTableData}>
-            <div>
-              <InfoIcon className={classes.infoIconContainer} />
-              <Typography variant="body2">Conversion (gas) charges</Typography>
-            </div>
-            <Typography variant="body2">-0.00000020 AGI</Typography>
-          </div>
-          <div className={classes.summaryTableDataTotal}>
-            <div>
-              <InfoIcon className={classes.infoIconContainer} />
-              <Typography variant="body2">Total AGI tokens </Typography>
-            </div>
-            <Typography variant="body2">0.01000000 AGI</Typography>
-          </div>
-        </div>
-      </div>
+      <StyledTable title="Transaction Receipt" columns={columns} rows={rows} />
       <div className={classes.btnContainer}>
-        <StyledButton type="blue" btnText="finish" />
+        <StyledButton type="blue" btnText="finish" onClick={handleClose} />
       </div>
     </div>
   );

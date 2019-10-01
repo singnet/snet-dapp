@@ -28,10 +28,9 @@ export const initiatePayment = paymentObj => async dispatch => {
     const { token } = await userActions.fetchAuthenticatedUser();
     // console.log("payment initiated");
     const response = await initiatePaymentAPI(token, paymentObj);
-    dispatch(loaderActions.stopAppLoader);
     // const json = await response.json();
     // console.log("initiatePayment", response);
-    window.location.href = response.data.payment.payment_url;
+    window.location.replace(response.data.payment.payment_url);
   } catch (error) {
     // console.log("init payment err", error);
     dispatch(loaderActions.stopAppLoader);

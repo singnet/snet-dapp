@@ -17,9 +17,8 @@ import { USDToAgi } from "../../../../../../../../../utility/PricingStrategy";
 
 export const paymentTypes = [{ value: "paypal", label: "Pay pal" }];
 
-const Details = ({ classes, initiatePayment }) => {
+const Details = ({ classes, initiatePayment, amount, handleAmountChange }) => {
   const [payType, setPayType] = useState("default");
-  const [amount, setAmount] = useState(null);
   const [alert, setAlert] = useState({});
   const [currency] = useState("USD");
 
@@ -29,8 +28,6 @@ const Details = ({ classes, initiatePayment }) => {
       setPayType(value);
     }
   };
-
-  const handleAmountChange = event => setAmount(event.target.value);
 
   const handleContinue = () => {
     setAlert({});
