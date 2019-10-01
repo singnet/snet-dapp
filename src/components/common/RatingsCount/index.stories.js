@@ -5,9 +5,6 @@ import withLiveEditScope from "storybook-addon-react-live-edit/dist/withLiveEdit
 import RatingsCount from "./";
 
 storiesOf("RatingsCount", module)
-  .addParameters({ props: { propTables: [RatingsCount], },})
+  .addParameters({ props: { propTables: [RatingsCount] } })
   .addDecorator(withLiveEditScope({ React, RatingsCount }))
-  .addLiveSource(
-    "live source",
-    `return <RatingsCount ratingGiven="10" totalRating="35" />`
-  )
+  .addLiveSource("live source", `return <RatingsCount ratingGiven="10" totalRating="35" />`);

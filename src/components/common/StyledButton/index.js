@@ -39,7 +39,7 @@ StyledButton.propTypes = {
   btnText: PropTypes.string,
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
-  iconClass: PropTypes.string
+  iconClass: PropTypes.string,
 };
 
 StyledButton.defaultProps = {

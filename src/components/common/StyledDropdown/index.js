@@ -35,7 +35,7 @@ StyledDropdown.propTypes = {
       label: PropTypes.string,
     })
   ),
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
 };
 
 StyledDropdown.defaultProps = {

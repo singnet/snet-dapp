@@ -19,7 +19,7 @@ const OfflineIndicator = ({ classes, show }) => {
 };
 
 OfflineIndicator.propTypes = {
-  show: PropTypes.bool
+  show: PropTypes.bool,
 };
 
 export default withStyles(useStyles)(OfflineIndicator);

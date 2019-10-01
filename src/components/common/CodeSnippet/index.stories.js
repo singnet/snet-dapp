@@ -9,7 +9,7 @@ import ValueString from "./ValueString";
 import ValueNumber from "./ValueNumber";
 
 storiesOf("CodeSnippet", module)
-  .addParameters({ props: { propTables: [CodeSnippet], },})
+  .addParameters({ props: { propTables: [CodeSnippet] } })
   .addDecorator(withLiveEditScope({ React, CodeSnippet, Function, Key, ValueNumber, ValueString }))
   .addLiveSource(
     "live source",
@@ -20,4 +20,4 @@ storiesOf("CodeSnippet", module)
     		<ValueNumber number="25" />
     		<ValueString text="Function" />
     	</CodeSnippet>)`
-  )
+  );

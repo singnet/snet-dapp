@@ -20,8 +20,8 @@ const UserProfileCard = ({ classes, nickName, onClose }) => {
 };
 
 UserProfileCard.propTypes = {
-	nickName: PropTypes.string,
-	onClose: PropTypes.func
-}
+  nickName: PropTypes.string,
+  onClose: PropTypes.func,
+};
 
 export default withStyles(useStyles)(UserProfileCard);

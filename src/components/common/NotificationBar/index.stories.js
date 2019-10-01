@@ -5,9 +5,9 @@ import withLiveEditScope from "storybook-addon-react-live-edit/dist/withLiveEdit
 import NotificationBar from "./";
 
 storiesOf("NotificationBar", module)
-  .addParameters({ props: { propTables: [NotificationBar], },})
+  .addParameters({ props: { propTables: [NotificationBar] } })
   .addDecorator(withLiveEditScope({ React, NotificationBar }))
   .addLiveSource(
     "live source",
     `return <NotificationBar showNotification="true" message="Notification Bar" type="WARNING" />`
-  )
+  );

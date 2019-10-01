@@ -42,9 +42,9 @@ StyledMenu.propTypes = {
     PropTypes.shape({
       label: PropTypes.string,
       link: PropTypes.string,
-      newTab: PropTypes.bool
+      newTab: PropTypes.bool,
     })
   ),
-}
+};
 
 export default withStyles(useStyles)(StyledMenu);

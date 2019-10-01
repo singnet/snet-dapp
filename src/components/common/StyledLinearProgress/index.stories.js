@@ -5,9 +5,6 @@ import withLiveEditScope from "storybook-addon-react-live-edit/dist/withLiveEdit
 import StyledLinearProgress from "./";
 
 storiesOf("StyledLinearProgress", module)
-  .addParameters({ props: { propTables: [StyledLinearProgress], },})
+  .addParameters({ props: { propTables: [StyledLinearProgress] } })
   .addDecorator(withLiveEditScope({ React, StyledLinearProgress }))
-  .addLiveSource(
-    "live source",
-    `return <StyledLinearProgress value="25" />`
-  )
+  .addLiveSource("live source", `return <StyledLinearProgress value="25" />`);

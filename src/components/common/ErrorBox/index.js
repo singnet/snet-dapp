@@ -28,5 +28,4 @@ ErrorBox.propTypes = {
   errText: PropTypes.string,
 };
 
-
 export default withStyles(useStyles)(ErrorBox);

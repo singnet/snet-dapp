@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { withStyles } from "@material-ui/styles";
 import TextField from "@material-ui/core/TextField";
 
@@ -17,6 +17,6 @@ const StyledTextField = ({ classes, className, label, handleChange, value, ...re
       {...restProps}
     />
   );
-}
+};
 
 export default withStyles(useStyles)(StyledTextField);

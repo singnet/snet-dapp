@@ -5,9 +5,6 @@ import withLiveEditScope from "storybook-addon-react-live-edit/dist/withLiveEdit
 import OfflineIndicator from "./";
 
 storiesOf("OfflineIndicator", module)
-  .addParameters({ props: { propTables: [OfflineIndicator], },})
+  .addParameters({ props: { propTables: [OfflineIndicator] } })
   .addDecorator(withLiveEditScope({ React, OfflineIndicator }))
-  .addLiveSource(
-    "live source",
-    `return <OfflineIndicator show="true" />`
-  )
+  .addLiveSource("live source", `return <OfflineIndicator show="true" />`);

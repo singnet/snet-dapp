@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/styles";
-import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";

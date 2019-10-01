@@ -5,9 +5,6 @@ import withLiveEditScope from "storybook-addon-react-live-edit/dist/withLiveEdit
 import UserProfileCard from "./";
 
 storiesOf("UserProfileCard", module)
-  .addParameters({ props: { propTables: [UserProfileCard], },})
+  .addParameters({ props: { propTables: [UserProfileCard] } })
   .addDecorator(withLiveEditScope({ React, UserProfileCard }))
-  .addLiveSource(
-    "live source",
-    `return <UserProfileCard nickName="User Name" />`
-  )
+  .addLiveSource("live source", `return <UserProfileCard nickName="User Name" />`);

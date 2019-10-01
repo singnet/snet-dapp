@@ -18,7 +18,7 @@ export const useStyles = makeStyles(theme => ({
     display: "flex",
     alignItems: "baseline",
     "& svg": { color: theme.palette.text.primary },
-    '& .MuiSelect-selectMenu':{ color: theme.palette.text.primary }
+    "& .MuiSelect-selectMenu": { color: theme.palette.text.primary },
   },
   sortbyTxt: {
     padding: "0 17px 0 0",
