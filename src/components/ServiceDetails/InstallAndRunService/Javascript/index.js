@@ -1,7 +1,5 @@
 import React from "react";
-import { withStyles } from "@material-ui/styles";
 
-import { useStyles } from "./styles";
 import CodeSnippet from "../../../common/CodeSnippet";
 
 const Javascript = ({ classes }) => {
@@ -34,4 +32,4 @@ const Javascript = ({ classes }) => {
   );
 };
 
-export default withStyles(useStyles)(Javascript);
+export default Javascript;

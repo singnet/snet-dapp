@@ -42,7 +42,8 @@ StyledButton.propTypes = {
     "transparent",
     "red",
     "redBg",
-    "transparentBlueBorder, transparentBlueBorderDisable",
+    "transparentBlueBorder",
+    "transparentBlueBorderDisable",
   ]),
   btnType: PropTypes.oneOf(["submit", "reset", "button"]),
 };
