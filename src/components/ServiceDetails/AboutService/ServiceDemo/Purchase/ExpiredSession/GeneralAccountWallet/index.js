@@ -15,7 +15,7 @@ const GeneralAccountWallet = ({ classes }) => {
         <StyledButton type="blue" btnText="create wallet" onClick={() => setShowCreateWalletPopup(true)} />
         {/*<StyledButton type="blue" btnText="link provider" onClick={() => setShowLinkProviderPopup(true)} /> */}
       </div>
-      <CreateWalletPopup open={showCreateWalletPopup} handleClose={() => setShowCreateWalletPopup(false)} />
+      <CreateWalletPopup open={showCreateWalletPopup} setShowCreateWalletPopup={setShowCreateWalletPopup} />
     </Fragment>
   );
 };

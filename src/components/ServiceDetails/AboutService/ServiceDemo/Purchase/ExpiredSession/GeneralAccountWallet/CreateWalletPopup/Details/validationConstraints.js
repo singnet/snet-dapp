@@ -1,4 +1,4 @@
-const allowedPayTypes = ["payPal"];
+const allowedPayTypes = ["paypal"];
 
 export const paymentGatewayConstraints = {
   payType: {

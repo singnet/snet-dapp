@@ -15,12 +15,13 @@ import { paymentGatewayConstraints } from "./validationConstraints";
 import AlertBox, { alertTypes } from "../../../../../../../../common/AlertBox";
 import { USDToAgi } from "../../../../../../../../../utility/PricingStrategy";
 
-export const paymentTypes = [{ value: "payPal", label: "Pay pal" }];
+export const paymentTypes = [{ value: "paypal", label: "Pay pal" }];
 
 const Details = ({ classes, initiatePayment }) => {
   const [payType, setPayType] = useState("default");
   const [amount, setAmount] = useState(null);
   const [alert, setAlert] = useState({});
+  const [currency] = useState("USD");
 
   const handlePayTypeChange = event => {
     const { value } = event.target;
@@ -38,7 +39,7 @@ const Details = ({ classes, initiatePayment }) => {
       setAlert({ type: alertTypes.ERROR, message: isNotValid[0] });
       return;
     }
-    initiatePayment(payType, amount);
+    initiatePayment(payType, amount, currency, "AGI", USDToAgi(amount));
   };
 
   return (

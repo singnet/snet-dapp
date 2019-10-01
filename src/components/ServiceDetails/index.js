@@ -59,9 +59,9 @@ class ServiceDetails extends Component {
       },
       updatePaypalInProgress,
     } = this.props;
-    const { PayerID } = queryString.parse(search);
-    if ((orderId, paymentId, PayerID)) {
-      updatePaypalInProgress(orderId, paymentId, PayerID);
+    const { paymentId: paypalPaymentId, PayerID } = queryString.parse(search);
+    if ((orderId, paymentId, paypalPaymentId, PayerID)) {
+      updatePaypalInProgress(orderId, paymentId, paypalPaymentId, PayerID);
     }
   };
 
@@ -143,8 +143,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => ({
   fetchServiceDetails: (orgId, serviceId) => dispatch(serviceDetailsActions.fetchServiceDetails(orgId, serviceId)),
-  updatePaypalInProgress: (orderId, paymentId, payerId) =>
-    dispatch(paymentActions.updatePaypalInProgress(orderId, paymentId, payerId)),
+  updatePaypalInProgress: (orderId, paymentId, paypalPaymentId, PayerID) =>
+    dispatch(paymentActions.updatePaypalInProgress(orderId, paymentId, paypalPaymentId, PayerID)),
 });
 
 export default connect(
