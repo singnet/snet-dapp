@@ -16,7 +16,7 @@ const NotificationBar = ({ classes, showNotification, icon: Icon, message, type 
   return (
     <Grid container className={classes.NotificationBar}>
       <Grid item xs={12} sm={12} md={12} lg={12} className={clsx(classes.notificationText, classes[notificationBarTypes[type]])} >
-        <Icon />
+         {Icon & <Icon /> }
         <span>{message}</span>
       </Grid>
     </Grid>
@@ -24,7 +24,7 @@ const NotificationBar = ({ classes, showNotification, icon: Icon, message, type 
 };
 
 NotificationBar.propTypes = {
-  type: PropTypes.oneOf(["warning", "information"]),
+  type: PropTypes.oneOf(["WARNING", "INFORMATION"]),
   message: PropTypes.string,
   showNotification: PropTypes.bool
 };

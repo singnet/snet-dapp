@@ -9,5 +9,5 @@ storiesOf("NotificationBar", module)
   .addDecorator(withLiveEditScope({ React, NotificationBar }))
   .addLiveSource(
     "live source",
-    `return <NotificationBar showNotification="true" message="Notification Bar" type="INFORMATION" />`
+    `return <NotificationBar showNotification="true" message="Notification Bar" type="WARNING" />`
   )
