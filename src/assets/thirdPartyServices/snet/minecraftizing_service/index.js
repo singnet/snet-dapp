@@ -7,17 +7,7 @@ import RandomDropDown from "./DropDown";
 import MethodNamesDropDown from "../../common/MethodNamesDropDown";
 import SNETImageUpload from "../../standardComponents/SNETImageUpload";
 
-// const outsideWrapper = {
-//   width: "256px",
-//   height: "256px",
-//   margin: "0px 0px",
-//   border: "0px",
-// };
-// const insideWrapper = {
-//   width: "100%",
-//   height: "100%",
-//   position: "relative",
-// };
+
 const coveredImage = {
   width: "100%",
   height: "100%",
@@ -25,13 +15,7 @@ const coveredImage = {
   top: "0px",
   left: "0px",
 };
-// const coveringCanvas = {
-//   width: "100%",
-//   height: "100%",
-//   position: "absolute",
-//   top: "0px",
-//   left: "0px",
-// };
+
 
 const initialUserInput = {
   methodName: "Select a method",
@@ -46,11 +30,14 @@ export default class MinecraftService extends React.Component {
     this.submitAction = this.submitAction.bind(this);
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
     this.getImageData = this.getImageData.bind(this);
+    this.repeatedDropdown = this.repeatedDropdown.bind(this);
+    this.methodDropdownWrap = this.methodDropdownWrap.bind(this);
+    this.repeatedButton = this.repeatedButton.bind(this);
 
     this.state = {
       ...initialUserInput,
-      users_guide: "",
-      code_repo: "",
+      users_guide: "https://github.com/singnet/semantic-vision/blob/master/services/MinecraftService/README.md",
+      code_repo: "https://github.com/singnet/semantic-vision/tree/master/services/MinecraftService",
       response: undefined,
     };
   }
@@ -91,6 +78,48 @@ export default class MinecraftService extends React.Component {
     this.setState({input_image: data})
   }
 
+  repeatedDropdown(data, modelNames, name, value, handler)
+  {
+      return (
+      <div className="row" align="left">
+          <div style={{ padding: "10px", fontSize: "13px", marginLeft: "10px" }}>
+              <ul>{data}</ul>
+          </div>
+          <RandomDropDown
+              name={name}
+              list={modelNames}
+              value={value}
+              onChange={handler}
+          />
+      </div>
+      );
+  }
+
+  methodDropdownWrap(serviceNameOptions)
+  {
+      return (
+      <div className="row">
+          <div style={{ padding: "10px", fontSize: "13px", marginLeft: "10px" }}>
+              Method Name:{" "}
+          </div>
+          <MethodNamesDropDown
+              list={serviceNameOptions}
+              value={this.state.methodName}
+              onChange={this.handleFormUpdate}
+          />
+      </div>
+      );
+  }
+
+  repeatedButton(hrf, data)
+  {
+      return (
+      <Button target="_blank" href={hrf} style={{ fontSize: "13px", marginLeft: "10px" }}>
+          <ul>{data}</ul>
+      </Button>
+      );
+  }
+
   renderForm() {
     const serviceNameOptions = ["Select a method", ...this.props.serviceClient.getMethodNames(MinecraftizingService)];
     const modelNames = ["Select model", "UGATIT", "cycle_gan"];
@@ -98,69 +127,21 @@ export default class MinecraftService extends React.Component {
 
     return (
       <React.Fragment>
-        <div className="row">
-          <div className="col-md-3 col-lg-3" style={{ padding: "10px", fontSize: "13px", marginLeft: "10px" }}>
-            Method Name:{" "}
-          </div>
-          <div className="col-md-3 col-lg-3">
-            <MethodNamesDropDown
-                list={serviceNameOptions}
-                value={this.state.methodName}
-                onChange={this.handleFormUpdate}
-            />
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-md-3 col-lg-3" style={{ padding: "10px", fontSize: "13px", marginLeft: "10px" }}>
-            Detector Name:{" "}
-          </div>
-          <div className="col-md-3 col-lg-3">
-            <RandomDropDown
-                name={"model_name"}
-                list={modelNames}
-                value={this.state.model_name}
-                onChange={this.handleFormUpdate}
-            />
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-md-3 col-lg-3" style={{ padding: "10px", fontSize: "13px", marginLeft: "10px" }}>
-            Detector Name:{" "}
-          </div>
-          <div className="col-md-3 col-lg-3">
-            <RandomDropDown
-                name={"dataset"}
-                list={datasetNames}
-                value={this.state.dataset}
-                onChange={this.handleFormUpdate}
-            />
-          </div>
-        </div>
+        <ul>{this.methodDropdownWrap(serviceNameOptions)}</ul>
+        <ul>{this.repeatedDropdown("Detector Name:", modelNames, "model_name", this.state.model_name, this.handleFormUpdate)}</ul>
+        <ul>{this.repeatedDropdown("Dataset Name:", datasetNames, "dataset", this.state.dataset, this.handleFormUpdate)}</ul>
         <div className="row" align="center">
           <SNETImageUpload imageName={""} imageDataFunc={this.getImageData} instantUrlFetch={true} allowURL={true} />
         </div>
         <div className="row">
-          <div className="col-md-3 col-lg-3" style={{ padding: "10px", fontSize: "13px", marginLeft: "10px" }}>
+          <div style={{ padding: "10px", fontSize: "13px", marginLeft: "10px" }}>
             About:{" "}
           </div>
-          <div className="col-xs-3 col-xs-2">
-            <Button target="_blank" href={this.state.users_guide} style={{ fontSize: "13px", marginLeft: "10px" }}>
-              Guide
-            </Button>
-          </div>
-          <div className="col-xs-3 col-xs-2">
-            <Button target="_blank" href={this.state.code_repo} style={{ fontSize: "13px", marginLeft: "10px" }}>
-              Code
-            </Button>
-          </div>
-          <div className="col-xs-3 col-xs-2">
-            <Button target="_blank" href={this.state.reference} style={{ fontSize: "13px", marginLeft: "10px" }}>
-              Reference
-            </Button>
-          </div>
+            <ul>{this.repeatedButton(this.state.users_guide, "Guide")}</ul>
+            <ul>{this.repeatedButton(this.state.code_repo, "Code")}</ul>
         </div>
         <div className="row">
-          <div className="col-md-6 col-lg-6" style={{ textAlign: "right" }}>
+          <div style={{ textAlign: "right" }}>
             <button
               type="button"
               className="btn btn-primary"
