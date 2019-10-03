@@ -4,12 +4,14 @@ import { connect } from "react-redux";
 
 import ProgressBar from "../../../common/ProgressBar";
 import { useStyles } from "./styles";
-import { serviceDetailsActions, loaderActions } from "../../../../Redux/actionCreators";
+import { serviceDetailsActions, loaderActions, userActions } from "../../../../Redux/actionCreators";
 import PurchaseToggler from "./PurchaseToggler";
 import { freeCalls, groupInfo } from "../../../../Redux/reducers/ServiceDetailsReducer";
 import { LoaderContent } from "../../../../utility/constants/LoaderContent";
 import AlertBox, { alertTypes } from "../../../common/AlertBox";
 import Routes from "../../../../utility/constants/Routes";
+import { initSdk } from "../../../../utility/sdk";
+import { walletTypes } from "../../../../Redux/actionCreators/UserActions";
 
 const demoProgressStatus = {
   purchasing: 1,
@@ -31,7 +33,14 @@ class ServiceDemo extends Component {
     }
 
     await this.fetchFreeCallsUsage();
+    this.fetchWalletDetails();
     this.scrollToHash();
+  };
+
+  componentDidUpdate = () => {
+    if (this.props.wallet.type === walletTypes.METAMASK) {
+      initSdk();
+    }
   };
 
   fetchFreeCallsUsage = () => {
@@ -41,6 +50,15 @@ class ServiceDemo extends Component {
       serviceId: service.service_id,
       username: email,
     });
+  };
+
+  fetchWalletDetails = async () => {
+    const {
+      service: { org_id: orgId },
+      groupInfo: { group_id: groupId },
+      fetchWallet,
+    } = this.props;
+    await fetchWallet(orgId, groupId);
   };
 
   scrollToHash = () => {
@@ -157,6 +175,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     dispatch(loaderActions.startAppLoader(LoaderContent.SERVICE_INVOKATION(ownProps.service.display_name))),
   stopLoader: () => dispatch(loaderActions.stopAppLoader),
   fetchMeteringData: args => dispatch(serviceDetailsActions.fetchMeteringData(args)),
+  fetchWallet: (orgId, groupId) => dispatch(userActions.fetchWallet(orgId, groupId)),
 });
 
 export default connect(

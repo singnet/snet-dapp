@@ -17,8 +17,9 @@ import { USDToAgi } from "../../../../../../../../../utility/PricingStrategy";
 
 export const paymentTypes = [{ value: "paypal", label: "Pay pal" }];
 
-const Details = ({ classes, initiatePayment, amount, handleAmountChange }) => {
+const Details = ({ classes, initiatePayment }) => {
   const [payType, setPayType] = useState("default");
+  const [amount, setAmount] = useState("");
   const [alert, setAlert] = useState({});
   const [currency] = useState("USD");
 
@@ -77,7 +78,7 @@ const Details = ({ classes, initiatePayment, amount, handleAmountChange }) => {
           </div>
         </div>
         <div className={classes.purchaseAmtTextfield}>
-          <StyledTextField label="Purchase Amount (in $USD)" value={amount} onChange={handleAmountChange} />
+          <StyledTextField label="Purchase Amount (in $USD)" value={amount} onChange={e => setAmount(e.target.value)} />
           <Typography variant="body2">{USDToAgi(amount) || 0} AGI Tokens</Typography>
         </div>
       </div>

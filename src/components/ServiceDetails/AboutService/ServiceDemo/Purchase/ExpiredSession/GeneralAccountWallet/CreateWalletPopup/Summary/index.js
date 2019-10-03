@@ -8,10 +8,14 @@ import { useStyles } from "./styles";
 import StyledTable from "../../../../../../../../common/StyledTable";
 import InfoIcon from "@material-ui/icons/Info";
 
-const Summary = ({ classes, handleClose, amount, agi }) => {
+const Summary = ({ classes, handleClose, amount, item, quantity }) => {
   const columns = [{ key: "item", label: "Total $USD spent" }, { key: "amount", label: `$${amount}` }];
   const rows = [
-    { key: 1, values: [{ label: "Total AGI tokens", icon: InfoIcon }, { label: `${agi} AGI` }], highlight: true },
+    {
+      key: 1,
+      values: [{ label: "Total AGI tokens", icon: InfoIcon }, { label: `${quantity} ${item}` }],
+      highlight: true,
+    },
   ];
 
   return (

@@ -22,12 +22,12 @@ import { groupInfo } from "../../../../../../../../Redux/reducers/ServiceDetails
 class CreateWalletPopup extends Component {
   state = {
     progressText: ["Details", "Purchase", "Private Key", "Summary"],
-    activeSection: 4,
+    activeSection: 1,
     privateKey: undefined,
-    amount: null,
+    amount: "",
+    item: "",
+    quantity: "",
   };
-
-  handleAmountChange = event => this.setState({ amount: event.target.value });
 
   componentDidMount = () => {
     if (!isEmpty(this.props.paypalInProgress)) {
@@ -60,10 +60,10 @@ class CreateWalletPopup extends Component {
       initiatePayment,
     } = this.props;
     const paymentObj = {
-      price: { amount, currency },
+      price: { amount: Number(amount), currency },
       item_details: {
         item,
-        quantity,
+        quantity: Number(quantity),
         org_id: orgId,
         service_id: serviceId,
         group_id,
@@ -72,10 +72,11 @@ class CreateWalletPopup extends Component {
       },
       payment_method: payType,
     };
+
     initiatePayment(paymentObj);
   };
 
-  handleExecutePayment = async () => {
+  handleExecutePayment = () => {
     const {
       paypalInProgress: { orderId, paymentId, paypalPaymentId, PayerID },
       executePayment,
@@ -88,27 +89,32 @@ class CreateWalletPopup extends Component {
         payment_id: paypalPaymentId,
       },
     };
-    return await executePayment(paymentExecObj);
+    return executePayment(paymentExecObj).then(response => {
+      const {
+        private_key: privateKey,
+        item_details: { item, quantity },
+        price: { amount },
+      } = response.data;
+      this.setState({ privateKey, amount, quantity, item });
+      this.handleNextSection();
+    });
   };
 
   render() {
     const { classes, open, paypalInProgress } = this.props;
-    const { progressText, activeSection, privateKey, amount } = this.state;
+    const { progressText, activeSection, privateKey, amount, item, quantity } = this.state;
 
     const PopupProgressBarComponents = [
       {
-        component: (
-          <Details
-            handleNextSection={this.handleNextSection}
-            initiatePayment={this.handleInitiatePayment}
-            amount={amount}
-            handleAmountChange={this.handleAmountChange}
-          />
-        ),
+        key: 1,
+        component: <Details handleNextSection={this.handleNextSection} initiatePayment={this.handleInitiatePayment} />,
       },
-      { component: <Purchase paypalInProgress={paypalInProgress} executePayment={this.handleExecutePayment} /> },
-      { component: <PrivateKey privateKey={privateKey} handleNextSection={this.handleNextSection} /> },
-      { component: <Summary handleClose={this.handleClose} /> },
+      {
+        key: 2,
+        component: <Purchase paypalInProgress={paypalInProgress} executePayment={this.handleExecutePayment} />,
+      },
+      { key: 3, component: <PrivateKey privateKey={privateKey} handleNextSection={this.handleNextSection} /> },
+      { key: 4, component: <Summary amount={amount} item={item} quantity={quantity} handleClose={this.handleClose} /> },
     ];
 
     return (
@@ -128,7 +134,7 @@ class CreateWalletPopup extends Component {
               {PopupProgressBarComponents.map((item, index) => (
                 <PopupDetails
                   item={item}
-                  key={item}
+                  key={item.key}
                   active={activeSection === index + 1}
                   activeSection={activeSection}
                   progressText={progressText}

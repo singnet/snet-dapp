@@ -54,17 +54,7 @@ class ExpiredSession extends Component {
   // };
 
   render() {
-    const {
-      classes,
-      paymentInfoCardTitle,
-      paymentInfoCardValue,
-      paymentInfoCardUnit,
-      wallet,
-      handleComplete,
-      groupInfo,
-      handlePurchaseError,
-      isServiceAvailable,
-    } = this.props;
+    const { classes, wallet, handleComplete, groupInfo, handlePurchaseError, isServiceAvailable } = this.props;
     const channelPaymentOptions = [
       { value: walletTypes.GENERAL, label: "General Account Wallet" },
       { value: walletTypes.METAMASK, label: "Metamask" },
@@ -92,12 +82,7 @@ class ExpiredSession extends Component {
             </div>
           </div>
           <div className={classes.channelBalance}>
-            <PaymentInfoCard
-              show={Boolean(wallet.type)}
-              title={paymentInfoCardTitle || "s: channel balance"}
-              value={paymentInfoCardValue || "s : 0.00134"}
-              unit={paymentInfoCardUnit || "s"}
-            />
+            <PaymentInfoCard show={Boolean(wallet.type)} title="channel balance" value={wallet.channelId} unit="AGI" />
           </div>
         </div>
         <WalletDetailsToggler
@@ -127,12 +112,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(withStyles(useStyles)(ExpiredSession));
-
-//props
-// classes,
-//   handleComplete,
-//   groupInfo,
-//   history,
-//   handlePurchaseError,
-//   isServiceAvailable,
-//   wallet,

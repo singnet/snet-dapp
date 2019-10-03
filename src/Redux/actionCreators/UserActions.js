@@ -6,6 +6,7 @@ import { userActions, errorActions, loaderActions } from ".";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
 import { initializeAPIOptions } from "../../utility/API";
 import Routes from "../../utility/constants/Routes";
+import isEmpty from "lodash/isEmpty";
 
 export const SET_USER_DETAILS = "SET_USER_DETAILS";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
@@ -76,12 +77,8 @@ const fetchUserProfile = token => dispatch => {
   });
 };
 
-export const updateWallet = ({ type, address }) => dispatch => {
-  if (address) {
-    dispatch({ type: UPDATE_WALLET, payload: { type, address } });
-    return;
-  }
-  dispatch({ type: UPDATE_WALLET, payload: { type } });
+export const updateWallet = walletDetails => dispatch => {
+  dispatch({ type: UPDATE_WALLET, payload: { ...walletDetails } });
 };
 
 const noAuthenticatedUser = dispatch => {
@@ -359,4 +356,32 @@ export const forgotPasswordSubmit = ({ email, code, password, history, route }) 
     .catch(err => {
       dispatch(forgotPasswordSubmitFailure(err.message));
     });
+};
+
+const fetchWalletSuccess = response => dispatch => {
+  const defaultWallet = response.data.wallets.find(wallet => Boolean(wallet.is_default));
+  if (!isEmpty(defaultWallet)) {
+    dispatch(updateWallet(defaultWallet));
+  }
+};
+
+const fetchWalletAPI = (token, orgId, groupId) => {
+  const apiName = APIEndpoints.USER.name;
+  const apiPath = APIPaths.WALLET;
+  const apiOptions = initializeAPIOptions(token);
+  apiOptions.queryStringParameters = {
+    org_id: orgId,
+    group_id: groupId,
+  };
+  return API.get(apiName, apiPath, apiOptions);
+};
+
+export const fetchWallet = (orgId, groupId) => async dispatch => {
+  try {
+    const { token } = await fetchAuthenticatedUser();
+    const response = await fetchWalletAPI(token, orgId, groupId);
+    dispatch(fetchWalletSuccess(response));
+  } catch (error) {
+    // console.log("fetchWallet err", error);
+  }
 };
