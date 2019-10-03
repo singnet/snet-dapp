@@ -10,6 +10,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import SearchIcon from "@material-ui/icons/Search";
 import ClearIcon from "@material-ui/icons/Clear";
 import ShuffleIcon from "@material-ui/icons/Shuffle";
+import BubbleChartIcon from "@material-ui/icons/BubbleChart";
 import CategoryIcon from "@material-ui/icons/CategoryOutlined";
 import AdjustIcon from "@material-ui/icons/Adjust";
 import CameraAltIcon from "@material-ui/icons/CameraAltOutlined";
@@ -54,6 +55,17 @@ const AnnotationGroups = [
     subgroups: [],
   },
 ];
+
+const COSE = {
+  name: "cose",
+  randomize: false,
+  fit: true,
+  animate: false,
+  nodeRepulsion: 999999,
+  edgeElasticity: function(edge) {
+    return Math.min(edge.source().degree(), edge.target().degree()) * 10000;
+  },
+};
 
 const CYTOSCAPE_COLA_CONFIG = {
   name: "cola",
@@ -261,6 +273,10 @@ const Visualizer = props => {
 
   const randomLayout = () => {
     setLayout(cy.layout(CYTOSCAPE_COLA_CONFIG));
+  };
+
+  const coseLayout = () => {
+    setLayout(cy.layout(COSE));
   };
 
   const breadthFirstLayout = () => {
@@ -506,6 +522,14 @@ const Visualizer = props => {
         <Tooltip placement="right" title={<Typography variant="body1">Randomize layout</Typography>}>
           <IconButton onClick={randomLayout}>
             <ShuffleIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip
+          placement="right"
+          title={<Typography variant="body1">Cose layout ( this might take awhile to render )</Typography>}
+        >
+          <IconButton onClick={coseLayout}>
+            <BubbleChartIcon />
           </IconButton>
         </Tooltip>
         <Tooltip placement="right" title={<Typography variant="body1">Breadth-first layout</Typography>}>
