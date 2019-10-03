@@ -1,8 +1,6 @@
 export const signupFormConstraints = {
-  nickname: {
-    presence: { allowEmpty: false },
-  },
-  email: { presence: { allowEmpty: false }, email: true },
+  nickname: { presence: { allowEmpty: false } },
+  email: { presence: { allowEmpty: false }, email: { message: "'%{value}' is not valid" } },
   password: {
     presence: { allowEmpty: false },
     hasLowerCase: true,
@@ -13,6 +11,14 @@ export const signupFormConstraints = {
   },
 };
 
-export const singup_otp_contraints = {
+export const singupOtpContraints = {
   otp: { presence: { allowEmpty: false }, length: { minimum: 6 } },
+};
+
+export const passwordInlineConstraints = {
+  lowerCase: { hasLowerCase: true },
+  upperCase: { hasUpperCase: true },
+  number: { hasNumber: true },
+  AWSSplChars: { hasAWSPasswordSplChar: true },
+  length: { length: { minimum: 8 } },
 };

@@ -67,6 +67,9 @@ const userReducer = (state = InitialUserDetails, action) => {
     case RESET_LOGIN_ERROR: {
       return { ...state, login: { ...state.login, error: undefined } };
     }
+    case userActions.UPDATE_LOGIN_ERROR: {
+      return { ...state, login: { ...state.login, error: action.payload } };
+    }
     case userActions.SIGN_OUT: {
       return {
         ...state,

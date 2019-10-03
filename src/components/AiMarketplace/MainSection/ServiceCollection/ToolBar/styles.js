@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/styles";
 
 export const useStyles = makeStyles(theme => ({
   toolBar: {
-    padding: "10px 0",
+    padding: "0 0 10px",
     "@media(max-width: 1023px)": { marginTop: 30 },
     "@media(max-width: 768px)": {
       padding: "10px 15px",
@@ -18,6 +18,7 @@ export const useStyles = makeStyles(theme => ({
     display: "flex",
     alignItems: "baseline",
     "& svg": { color: theme.palette.text.primary },
+    "& .MuiSelect-selectMenu": { color: theme.palette.text.primary },
   },
   sortbyTxt: {
     padding: "0 17px 0 0",
@@ -29,11 +30,11 @@ export const useStyles = makeStyles(theme => ({
     fontSize: 16,
     "&::after": {
       content: "' '",
-      width: 1,
+      width: 2,
       height: 15,
       marginLeft: 10,
       display: "inline-block",
-      backgroundColor: theme.palette.text.mediumShadeGray,
+      backgroundColor: theme.palette.text.lightShadedGray,
       verticalAlign: "middle",
       "@media(max-width: 480px)": { display: "none" },
     },
@@ -50,7 +51,7 @@ export const useStyles = makeStyles(theme => ({
     justifyContent: "flex-end",
     "& button": {
       border: "none",
-      paddingLeft: 12,
+      paddingLeft: 19,
       backgroundColor: "transparent",
       outline: "none",
       cursor: "pointer",

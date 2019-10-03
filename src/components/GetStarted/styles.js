@@ -15,7 +15,7 @@ export const useStyles = theme => ({
     maxWidth: "47%",
     margin: "0 auto ",
     textAlign: "center",
-    "@media(max-width:768px)": { maxWidth: '100%' },
+    "@media(max-width:768px)": { maxWidth: "100%" },
   },
   FeaturesMainContainer: { marginTop: 60 },
   FreeTrialSignUp: {

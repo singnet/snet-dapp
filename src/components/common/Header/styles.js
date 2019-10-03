@@ -92,7 +92,7 @@ export const useStyles = makeStyles(theme => ({
   loginBtnsSection: {
     width: "30%",
     marginBottom: 6,
-    "@media (max-width:1024px)": { width: "59%" }    
+    "@media (max-width:1024px)": { width: "59%" },
   },
   loginBtnsUl: {
     margin: 0,
@@ -100,7 +100,7 @@ export const useStyles = makeStyles(theme => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-end",
-    "& a": { textDecoration: "none" }    
+    "& a": { textDecoration: "none" },
   },
   loginBtnsLi: {
     marginRight: 30,

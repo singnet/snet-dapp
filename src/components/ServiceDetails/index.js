@@ -90,9 +90,10 @@ class ServiceDetails extends Component {
           />
           <div className={classes.TopSection}>
             <TitleCard
-              org_id={service.org_id}
+              organizationName={service.organization_name}
               display_name={service.display_name}
-              img_url={service.assets_url && service.assets_url.hero_image}
+              serviceImg={service.assets_url && service.assets_url.hero_image}
+              orgImg={service.org_assets_url && service.org_assets_url.hero_image}
               star_rating={service.service_rating && service.service_rating.rating}
               totalRating={service.service_rating ? service.service_rating.total_users_rated : 0}
             />
