@@ -28,9 +28,14 @@ const parseSignature = data => {
 const parseRegularCallMetadata = ({ data }) => {
   return {
     "snet-payment-type": "escrow",
-    "snet-payment-channel-id": data["snet-payment-channel-id"],
-    "snet-payment-channel-nonce": data["snet-payment-channel-nonce"],
-    "snet-payment-channel-amount": data["snet-payment-channel-amount"],
+    // TODO: check with chetan and anand
+    // "snet-payment-channel-id": data["snet-payment-channel-id"],
+
+    // "snet-payment-channel-nonce": data["snet-payment-channel-nonce"],
+    // "snet-payment-channel-amount": data["snet-payment-channel-amount"],
+    "snet-payment-channel-id": data.channel_id,
+    "snet-payment-channel-nonce": 2,
+    "snet-payment-channel-amount": 3,
     "snet-payment-channel-signature-bin": parseSignature(data),
   };
 };
@@ -44,36 +49,52 @@ const parseFreeCallMetadata = ({ data }) => {
   };
 };
 
-const metadataGenerator = (callType, serviceRequestErrorHandler) => async (serviceClient, serviceName, method) => {
+const metadataGenerator = (callType, serviceRequestErrorHandler, channelId) => async (
+  serviceClient,
+  serviceName,
+  method
+) => {
   try {
     const { orgId: org_id, serviceId: service_id } = serviceClient.metadata;
     const { email, token } = await fetchAuthenticatedUser();
-    const payload = { org_id, service_id, service_name: serviceName, method, username: email };
+    const freeCallPayload = { org_id, service_id, service_name: serviceName, method, username: email };
     const apiName = APIEndpoints.SIGNER_SERVICE.name;
-    const apiOptions = initializeAPIOptions(token, payload);
+    const freeCallOptions = initializeAPIOptions(token, freeCallPayload);
 
     if (callType === callTypes.REGULAR) {
-      return await API.post(apiName, APIPaths.SIGNER_REGULAR_CALL, apiOptions).then(parseRegularCallMetadata);
+      const stateServicePayload = { channel_id: channelId };
+      const stateServiceOptions = initializeAPIOptions(token, stateServicePayload);
+      await API.post(apiName, APIPaths.SIGNER_REGULAR_CALL_STATE_SERVICE, stateServiceOptions);
+      // console.log("State service", response);
+      // TODO amount and nonce
+      // from where can we get nonce ? ask Anand & Chetan
+      const mpeClaimPayload = { channel_id: channelId, amount: 1, nonce: 2 };
+      const mpeClaimOptions = initializeAPIOptions(token, mpeClaimPayload);
+      return await API.post(apiName, APIPaths.SIGNER_REGULAR_CALL_MPE_CLAIM, mpeClaimOptions).then(
+        parseRegularCallMetadata
+      );
     }
-    return await API.post(apiName, APIPaths.SIGNER_FREE_CALL, apiOptions).then(parseFreeCallMetadata);
+    return await API.post(apiName, APIPaths.SIGNER_FREE_CALL, freeCallOptions).then(parseFreeCallMetadata);
   } catch (err) {
     serviceRequestErrorHandler(err);
   }
 };
 
-const generateOptions = (callType, wallet, serviceRequestErrorHandler) => {
+const generateOptions = (callType, wallet, serviceRequestErrorHandler, channelInfo) => {
   if (process.env.REACT_APP_SANDBOX) {
     return {
       endpoint: process.env.REACT_APP_SANDBOX_SERVICE_ENDPOINT,
       disableBlockchainOperations: true,
     };
   }
-  if (callType === callTypes.FREE) {
-    return { metadataGenerator: metadataGenerator(callType, serviceRequestErrorHandler) };
-  }
+  // if (callType === callTypes.FREE) {
+  //   return { metadataGenerator: metadataGenerator(callType, serviceRequestErrorHandler) };
+  // }
   if (wallet && wallet.type === walletTypes.METAMASK) {
     return {};
   }
+
+  return { metadataGenerator: metadataGenerator(callType, serviceRequestErrorHandler, channelInfo.id) };
 };
 
 export const initSdk = async address => {
@@ -142,12 +163,13 @@ export const createServiceClient = (
   serviceRequestCompleteHandler,
   serviceRequestErrorHandler,
   callType,
-  wallet
+  wallet,
+  channelInfo
 ) => {
   if (sdk && sdk.currentChannel) {
     sdk.paymentChannelManagementStrategy = new ProxyPaymentChannelManagementStrategy(sdk.currentChannel);
   }
-  const options = generateOptions(callType, wallet, serviceRequestErrorHandler);
+  const options = generateOptions(callType, wallet, serviceRequestErrorHandler, channelInfo);
   const serviceClient = new ServiceClient(
     sdk,
     org_id,

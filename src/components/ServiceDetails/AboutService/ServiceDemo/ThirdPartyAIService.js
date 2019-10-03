@@ -8,6 +8,7 @@ import { serviceActions, loaderActions } from "../../../../Redux/actionCreators"
 import CompletedActions from "./CompletedActions";
 import { createServiceClient, callTypes } from "../../../../utility/sdk";
 import ThirdPartyServiceErrorBoundary from "./ThirdPartyServiceErrorBoundary";
+import { channelInfo } from "../../../../Redux/reducers/UserReducer";
 
 class ThirdPartyAIService extends Component {
   state = {
@@ -19,7 +20,7 @@ class ThirdPartyAIService extends Component {
   };
 
   componentDidMount = async () => {
-    const { org_id, service_id, freeCallsRemaining, groupInfo, wallet } = this.props;
+    const { org_id, service_id, freeCallsRemaining, groupInfo, wallet, channelInfo } = this.props;
     const callType = freeCallsRemaining > 0 ? callTypes.FREE : callTypes.REGULAR;
     this.serviceClient = await createServiceClient(
       org_id,
@@ -29,7 +30,8 @@ class ThirdPartyAIService extends Component {
       this.props.serviceRequestCompleteHandler,
       this.props.serviceRequestErrorHandler,
       callType,
-      wallet
+      wallet,
+      channelInfo
     );
     await this.setupComponent();
     this.setState({ loading: false });
@@ -91,6 +93,7 @@ const mapStateToProps = state => ({
   isComplete: state.serviceReducer.serviceMethodExecution.isComplete,
   email: state.userReducer.email,
   wallet: state.userReducer.wallet,
+  channelInfo: channelInfo(state),
 });
 
 const mapDispatchToProps = dispatch => ({
