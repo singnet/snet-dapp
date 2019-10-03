@@ -109,6 +109,7 @@ class ExpiredSession extends Component {
         <WalletDetailsToggler
           show={Boolean(wallet.type)}
           metamask={wallet.type === walletTypes.METAMASK}
+          generalWalletProps={{ handleContinue: handleComplete }}
           metamaskProps={{
             handleContinue: handleComplete,
             groupInfo,

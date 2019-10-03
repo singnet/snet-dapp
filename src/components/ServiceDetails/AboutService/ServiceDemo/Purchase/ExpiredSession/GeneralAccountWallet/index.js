@@ -8,14 +8,18 @@ import CreateWalletPopup from "./CreateWalletPopup";
 import NextAction from "./NextAction";
 import { channelInfo } from "../../../../../../../Redux/reducers/UserReducer";
 
-const GeneralAccountWallet = ({ classes, channelInfo }) => {
+const GeneralAccountWallet = ({ classes, channelInfo, handleContinue }) => {
   const [showCreateWalletPopup, setShowCreateWalletPopup] = useState(false);
   return (
     <Fragment>
       <div className={classes.btnsContainer}>
         <StyledButton type="transparentBlueBorderDisable" btnText="transaction history" />
         <StyledButton type="transparentBlueBorderDisable" btnText="top up wallet" />
-        <NextAction channel={channelInfo} setShowCreateWalletPopup={setShowCreateWalletPopup} />
+        <NextAction
+          channel={channelInfo}
+          setShowCreateWalletPopup={setShowCreateWalletPopup}
+          handleContinue={handleContinue}
+        />
       </div>
       <CreateWalletPopup open={showCreateWalletPopup} setShowCreateWalletPopup={setShowCreateWalletPopup} />
     </Fragment>
