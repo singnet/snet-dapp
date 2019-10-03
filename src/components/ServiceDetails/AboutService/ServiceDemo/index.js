@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
+import isEmpty from "lodash/isEmpty";
 
 import ProgressBar from "../../../common/ProgressBar";
 import { useStyles } from "./styles";
@@ -27,13 +28,15 @@ class ServiceDemo extends Component {
     alert: {},
   };
 
+  walletPollingInterval;
+
   componentDidMount = async () => {
     if (process.env.REACT_APP_SANDBOX) {
       return;
     }
 
     await this.fetchFreeCallsUsage();
-    this.fetchWalletDetails();
+    this.pollWalletDetails();
     this.scrollToHash();
   };
 
@@ -41,6 +44,10 @@ class ServiceDemo extends Component {
     if (this.props.wallet.type === walletTypes.METAMASK) {
       initSdk();
     }
+  };
+
+  componentWillUnmount = () => {
+    clearInterval(this.walletPollingInterval);
   };
 
   fetchFreeCallsUsage = () => {
@@ -52,13 +59,31 @@ class ServiceDemo extends Component {
     });
   };
 
+  pollWalletDetails = () => {
+    this.fetchWalletDetails();
+    const { wallet } = this.props;
+    this.walletPollingInterval = setInterval(this.fetchWalletDetails, 15000);
+    if (!isEmpty(wallet) && wallet.status !== "PENDING") {
+      clearInterval(this.walletPollingInterval);
+    }
+  };
+
   fetchWalletDetails = async () => {
     const {
       service: { org_id: orgId },
       groupInfo: { group_id: groupId },
+      wallet,
       fetchWallet,
+      startFetchWalletLoader,
+      stopLoader,
     } = this.props;
+    if (isEmpty(wallet)) {
+      startFetchWalletLoader();
+    }
     await fetchWallet(orgId, groupId);
+    if (isEmpty(wallet)) {
+      stopLoader();
+    }
   };
 
   scrollToHash = () => {
@@ -176,6 +201,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   stopLoader: () => dispatch(loaderActions.stopAppLoader),
   fetchMeteringData: args => dispatch(serviceDetailsActions.fetchMeteringData(args)),
   fetchWallet: (orgId, groupId) => dispatch(userActions.fetchWallet(orgId, groupId)),
+  startFetchWalletLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.FETCH_WALLET)),
 });
 
 export default connect(

@@ -5,20 +5,20 @@ import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet";
 import InfoIcon from "@material-ui/icons/Info";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/styles";
-
-import StyledButton from "../../../../../common/StyledButton";
-import StyledDropdown from "../../../../../common/StyledDropdown";
-import PaymentInfoCard from "../PaymentInfoCard";
-import PurchaseDialog from "../PurchaseDialog";
-import ChannelSelectionBox from "../ChannelSelectionBox";
-import AlertBox, { alertTypes } from "../../../../../common/AlertBox";
-import { initSdk } from "../../../../../../utility/sdk";
-import { cogsToAgi } from "../../../../../../utility/PricingStrategy";
-import { currentServiceDetails, pricing } from "../../../../../../Redux/reducers/ServiceDetailsReducer";
 import { WebServiceClient as ServiceClient } from "snet-sdk-web";
-import PaymentChannelManagement from "../../../../../../utility/PaymentChannelManagement";
-import { loaderActions } from "../../../../../../Redux/actionCreators";
-import { LoaderContent } from "../../../../../../utility/constants/LoaderContent";
+
+import StyledButton from "../../../../../../common/StyledButton";
+import StyledDropdown from "../../../../../../common/StyledDropdown";
+import PaymentInfoCard from "../../PaymentInfoCard";
+import PurchaseDialog from "../../PurchaseDialog";
+import ChannelSelectionBox from "../../ChannelSelectionBox";
+import AlertBox, { alertTypes } from "../../../../../../common/AlertBox";
+import { initSdk } from "../../../../../../../utility/sdk";
+import { cogsToAgi } from "../../../../../../../utility/PricingStrategy";
+import { currentServiceDetails, pricing } from "../../../../../../../Redux/reducers/ServiceDetailsReducer";
+import PaymentChannelManagement from "../../../../../../../utility/PaymentChannelManagement";
+import { loaderActions } from "../../../../../../../Redux/actionCreators";
+import { LoaderContent } from "../../../../../../../utility/constants/LoaderContent";
 import { useStyles } from "./style";
 
 const payTypes = {

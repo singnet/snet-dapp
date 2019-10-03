@@ -68,4 +68,8 @@ export const LoaderContent = {
     loaderHeader: "Setting up Paypal",
     loaderText: "Please wait while we redirect you to the paypal page",
   },
+  FETCH_WALLET: {
+    loaderHeader: "Fetching Wallet Info",
+    loaderText: "Please wait. we're fetching your wallet details",
+  },
 };

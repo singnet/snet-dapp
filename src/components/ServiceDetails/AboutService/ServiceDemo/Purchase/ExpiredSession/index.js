@@ -5,7 +5,7 @@ import InfoIcon from "@material-ui/icons/Info";
 import Typography from "@material-ui/core/Typography";
 import { connect } from "react-redux";
 
-import { alertTypes } from "../../../../../common/AlertBox";
+import AlertBox, { alertTypes } from "../../../../../common/AlertBox";
 import { useStyles } from "./styles";
 import { walletTypes } from "../../../../../../Redux/actionCreators/UserActions";
 import StyledDropdown from "../../../../../common/StyledDropdown";
@@ -14,6 +14,12 @@ import { initSdk } from "../../../../../../utility/sdk";
 import isEmpty from "lodash/isEmpty";
 import { userActions } from "../../../../../../Redux/actionCreators";
 import WalletDetailsToggler from "./WalletDetailsToggler";
+import { channelInfo } from "../../../../../../Redux/reducers/UserReducer";
+
+const TransactionAlert = {
+  PENDING: { type: alertTypes.WARNING, message: "Transaction Confirmed. Pending token allocation" },
+  FAILED: { type: alertTypes.ERROR, message: "Transaction Failed. See history for more details" },
+};
 
 class ExpiredSession extends Component {
   handlePayTypeChange = async event => {
@@ -54,7 +60,15 @@ class ExpiredSession extends Component {
   // };
 
   render() {
-    const { classes, wallet, handleComplete, groupInfo, handlePurchaseError, isServiceAvailable } = this.props;
+    const {
+      classes,
+      wallet,
+      handleComplete,
+      groupInfo,
+      handlePurchaseError,
+      isServiceAvailable,
+      channelInfo,
+    } = this.props;
     const channelPaymentOptions = [
       { value: walletTypes.GENERAL, label: "General Account Wallet" },
       { value: walletTypes.METAMASK, label: "Metamask" },
@@ -74,6 +88,7 @@ class ExpiredSession extends Component {
               </Typography>
               <AccountBalanceWalletIcon className={classes.walletIcon} />
               <StyledDropdown
+                disabled={!isEmpty(wallet)}
                 labelTxt="Select a Wallet"
                 list={channelPaymentOptions}
                 value={wallet.type || "default"}
@@ -82,8 +97,14 @@ class ExpiredSession extends Component {
             </div>
           </div>
           <div className={classes.channelBalance}>
-            <PaymentInfoCard show={Boolean(wallet.type)} title="channel balance" value={wallet.channelId} unit="AGI" />
+            <PaymentInfoCard
+              show={!isEmpty(channelInfo)}
+              title="channel balance"
+              value={!isEmpty(channelInfo) && channelInfo.balanceInAgi}
+              unit="AGI"
+            />
           </div>
+          <AlertBox {...(TransactionAlert[wallet.status] || {})} />
         </div>
         <WalletDetailsToggler
           show={Boolean(wallet.type)}
@@ -102,6 +123,7 @@ class ExpiredSession extends Component {
 
 const mapStateToProps = state => ({
   wallet: state.userReducer.wallet,
+  channelInfo: channelInfo(state),
 });
 
 const mapDispatchToProps = dispatch => ({

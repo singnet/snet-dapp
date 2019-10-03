@@ -11,7 +11,7 @@ const NextAction = ({ channel, setShowCreateWalletPopup }) => {
     <StyledButton
       type="blue"
       btnText="continue"
-      disabled={channel.balance <= 0}
+      disabled={channel.balanceInAgi <= 0}
       onClick={() => setShowCreateWalletPopup(true)}
     />
   );

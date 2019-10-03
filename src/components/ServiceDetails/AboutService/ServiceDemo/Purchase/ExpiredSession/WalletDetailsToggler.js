@@ -7,7 +7,7 @@ const WalletDetailsToggler = ({ metamask, metamaskProps, show }) => {
     return null;
   }
   if (metamask) {
-    return <MetamaskFlow classes={{}} {...metamaskProps} />;
+    return <MetamaskFlow {...metamaskProps} />;
   }
   return <GeneralAccountWallet />;
 };

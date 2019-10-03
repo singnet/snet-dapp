@@ -1,5 +1,8 @@
+import isEmpty from "lodash/isEmpty";
+
 import { userActions } from "../actionCreators";
 import { walletTypes, RESET_LOGIN_ERROR } from "../actionCreators/UserActions";
+import { cogsToAgi } from "../../utility/PricingStrategy";
 
 const InitialUserDetails = {
   login: {
@@ -102,6 +105,18 @@ const userReducer = (state = InitialUserDetails, action) => {
       return state;
     }
   }
+};
+
+export const channelInfo = state => {
+  const { wallet } = state.userReducer;
+  if (isEmpty(wallet) || isEmpty(wallet.channels)) {
+    return {};
+  }
+  const selectedChannel = wallet.channels[0];
+  return {
+    id: selectedChannel.channel_id,
+    balanceInAgi: cogsToAgi(selectedChannel.balance_in_cogs),
+  };
 };
 
 export default userReducer;
