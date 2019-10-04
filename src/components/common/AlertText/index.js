@@ -16,7 +16,7 @@ const AlertText = ({ type, message, inline }) => {
   const classes = useStyles();
 
   if (message) {
-    return <p className={clsx(classes.errorMsg, classes[textColor[type]])}>{message}</p>;
+    return <span className={clsx(classes.errorMsg, classes[textColor[type]])}>{message}</span>;
   }
   return null;
 };

@@ -7,8 +7,9 @@ import { connect } from "react-redux";
 
 import UserProfileSettings from "./UserProfileSettings";
 import UserProfileHeader from "./UserProfileHeader";
-import { useStyles } from "./styles";
 import UserProfileAccount from "./UserProfileAccount";
+import UserProfileTransactionHistory from "./UserProfileTransactionHistory";
+import { useStyles } from "./styles";
 
 const UserProfileTabs = {
   account: 0,
@@ -38,6 +39,7 @@ class UserProfile extends Component {
     const tabs = [
       { name: "Account", activeIndex: 0, component: <UserProfileAccount /> },
       { name: "Settings", activeIndex: 1, component: <UserProfileSettings history={history} /> },
+      { name: "Transactions", activeIndex: 2, component: <UserProfileTransactionHistory history={history} /> },
     ];
     const activeComponent = tabs.filter(el => el.activeIndex === activeTab)[0].component;
     return (
