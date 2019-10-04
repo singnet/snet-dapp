@@ -21,8 +21,7 @@ const Filter = ({ activeFilterItem, pagination, filterDataProps, handleFilterCha
   );
 
   const handleActiveFilterItemChange = event => {
-    const name = event.currentTarget.name;
-    const value = event.currentTarget.value;
+    const { name, value } = event.currentTarget;
     const currentFilterItem = [...activeFilterItem[name]];
     if (!currentFilterItem.includes(value)) {
       currentFilterItem.push(value);
