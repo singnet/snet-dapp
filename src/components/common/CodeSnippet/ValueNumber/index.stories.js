@@ -6,4 +6,4 @@ import withLiveEditScope from "storybook-addon-react-live-edit/dist/withLiveEdit
 storiesOf("Code Snippet | ValueNumber", module)
   .addParameters({ props: { propTables: [ValueNumber] } })
   .addDecorator(withLiveEditScope({ React, ValueNumber }))
-  .addLiveSource("live source", `return <ValueNumber number="25" />`);
+  .addLiveSource("live source", `return <ValueNumber number="Value of the object - Number" />`);

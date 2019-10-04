@@ -4,7 +4,7 @@ import withLiveEditScope from "storybook-addon-react-live-edit/dist/withLiveEdit
 
 import AlertText from "./";
 
-storiesOf("AlertText", module)
+storiesOf("Alerts | AlertText", module)
   .addParameters({ props: { propTables: [AlertText] } })
   .addDecorator(withLiveEditScope({ React, AlertText }))
   .addLiveSource("live source", `return <AlertText type="success" message="Success alert !" />`);

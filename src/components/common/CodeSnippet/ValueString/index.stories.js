@@ -6,4 +6,4 @@ import withLiveEditScope from "storybook-addon-react-live-edit/dist/withLiveEdit
 storiesOf("Code Snippet | ValueString", module)
   .addParameters({ props: { propTables: [ValueString] } })
   .addDecorator(withLiveEditScope({ React, ValueString }))
-  .addLiveSource("live source", `return <ValueString text="ValueString component of Code Snippet" />`);
+  .addLiveSource("live source", `return <ValueString text="Value of the object - String" />`);
