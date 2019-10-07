@@ -64,7 +64,6 @@ export default class NamedEntityRecognitionService extends React.Component {
   }
 
   handleInputText(event) {
-    console.log(event.target);
     this.setState({ [event.target.name]: event.target.value });
   }
 
@@ -187,9 +186,6 @@ export default class NamedEntityRecognitionService extends React.Component {
         highlitedText = highlitedText.replace(item.entity.name, `<b>${item.entity.name}</b>`);
       });
     }
-
-    console.log("REPLACED");
-    console.log(highlitedText);
 
     return (
 

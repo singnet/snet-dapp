@@ -47,7 +47,6 @@ class SentimentAnalysisService extends React.Component {
     }
 
     handleFormUpdate(event) {
-        console.log(event.target);
         this.setState({[event.target.name]: event.target.value});
     }
 
@@ -69,7 +68,6 @@ class SentimentAnalysisService extends React.Component {
     }
 
     handleInputText(event) {
-        console.log(event.target);
         this.setState({[event.target.name]: event.target.value});
     }
 
