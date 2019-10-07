@@ -4,7 +4,7 @@ import withLiveEditScope from "storybook-addon-react-live-edit/dist/withLiveEdit
 
 import ProgressSection from "./";
 
-storiesOf("ProgressSection", module)
+storiesOf("Progress | ProgressSection", module)
   .addParameters({ props: { propTables: [ProgressSection] } })
   .addDecorator(withLiveEditScope({ React, ProgressSection }))
   .addLiveSource(

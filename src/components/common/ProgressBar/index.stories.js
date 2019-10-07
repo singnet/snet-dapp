@@ -6,7 +6,7 @@ import ProgressBar from "./";
 
 const sampleList = ["completed", "active", "idle"];
 
-storiesOf("ProgressBar", module)
+storiesOf("Progress | ProgressBar", module)
   .addParameters({ props: { propTables: [ProgressBar] } })
   .addDecorator(withLiveEditScope({ React, ProgressBar, sampleList }))
   .addLiveSource("live source", `return <ProgressBar activeSection="2" progressText={sampleList} />`);

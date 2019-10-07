@@ -4,7 +4,7 @@ import withLiveEditScope from "storybook-addon-react-live-edit/dist/withLiveEdit
 
 import ErrorBox from "./";
 
-storiesOf("ErrorBox", module)
+storiesOf("Alerts | ErrorBox", module)
   .addParameters({ props: { propTables: [ErrorBox] } })
   .addDecorator(withLiveEditScope({ React, ErrorBox }))
   .addLiveSource("live source", `return <ErrorBox errText="Some error text" />`);
