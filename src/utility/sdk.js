@@ -5,6 +5,7 @@ import { APIEndpoints, APIPaths } from "../config/APIEndpoints";
 import { initializeAPIOptions } from "./API";
 import { fetchAuthenticatedUser, walletTypes } from "../Redux/actionCreators/UserActions";
 import ProxyPaymentChannelManagementStrategy from "./ProxyPaymentChannelManagementStrategy";
+import PaypalPaymentMgmtStrategy from "./PaypalPaymentMgmtStrategy";
 
 const DEFAULT_GAS_PRICE = 4700000;
 const DEFAULT_GAS_LIMIT = 210000;
@@ -62,9 +63,6 @@ const metadataGenerator = (callType, serviceRequestErrorHandler, channelId) => a
     const freeCallOptions = initializeAPIOptions(token, freeCallPayload);
 
     if (callType === callTypes.REGULAR) {
-      const stateServicePayload = { channel_id: channelId };
-      const stateServiceOptions = initializeAPIOptions(token, stateServicePayload);
-      await API.post(apiName, APIPaths.SIGNER_REGULAR_CALL_STATE_SERVICE, stateServiceOptions);
       // console.log("State service", response);
       // TODO amount and nonce
       // from where can we get nonce ? ask Anand & Chetan
@@ -80,6 +78,36 @@ const metadataGenerator = (callType, serviceRequestErrorHandler, channelId) => a
   }
 };
 
+const channelStateRequestSigner = async channelId => {
+  const apiName = APIEndpoints.SIGNER_SERVICE.name;
+  const stateServicePayload = { channel_id: channelId };
+  const { token } = await fetchAuthenticatedUser();
+  const stateServiceOptions = initializeAPIOptions(token, stateServicePayload);
+  const response = await API.post(apiName, APIPaths.SIGNER_REGULAR_CALL_STATE_SERVICE, stateServiceOptions);
+
+  const { currentBlockNumber, signatureBytes } = response;
+  // TODO: parse the response
+  return {
+    currentBlockNumber,
+    signatureBytes,
+  };
+};
+
+const paidCallMetadataGenerator = async (serviceRequestErrorHandler, channelId) => {
+  try {
+    // TODO get amount and nonce from sdk
+    const apiName = APIEndpoints.SIGNER_SERVICE.name;
+    const mpeClaimPayload = { channel_id: channelId, amount: 1, nonce: 2 };
+    const { token } = await fetchAuthenticatedUser();
+    const mpeClaimOptions = initializeAPIOptions(token, mpeClaimPayload);
+    return await API.post(apiName, APIPaths.SIGNER_REGULAR_CALL_MPE_CLAIM, mpeClaimOptions).then(
+      parseRegularCallMetadata
+    );
+  } catch (error) {
+    serviceRequestErrorHandler(error);
+  }
+};
+
 const generateOptions = (callType, wallet, serviceRequestErrorHandler, channelInfo) => {
   if (process.env.REACT_APP_SANDBOX) {
     return {
@@ -87,14 +115,50 @@ const generateOptions = (callType, wallet, serviceRequestErrorHandler, channelIn
       disableBlockchainOperations: true,
     };
   }
-  // if (callType === callTypes.FREE) {
-  //   return { metadataGenerator: metadataGenerator(callType, serviceRequestErrorHandler) };
-  // }
+  if (callType === callTypes.FREE) {
+    return { metadataGenerator: metadataGenerator(callType, serviceRequestErrorHandler) };
+  }
   if (wallet && wallet.type === walletTypes.METAMASK) {
     return {};
   }
+  if (callType === callTypes.REGULAR) {
+    return {
+      channelStateRequestSigner: channelStateRequestSigner(channelInfo.id),
+      paidCallMetadataGenerator: paidCallMetadataGenerator(serviceRequestErrorHandler, channelInfo.id),
+    };
+  }
+  return {
+    metadataGenerator: metadataGenerator(callType, serviceRequestErrorHandler, channelInfo.id),
+    channelStateRequestSigner,
+  };
+};
 
-  return { metadataGenerator: metadataGenerator(callType, serviceRequestErrorHandler, channelInfo.id) };
+class PaypalIdentity {
+  constructor(address, web3) {
+    this._web3 = web3;
+    this._web3.eth.defaultAccount = address;
+  }
+
+  get address() {
+    return this._web3.eth.defaultAccount;
+  }
+}
+
+class PaypalSDK extends SnetSDK {
+  _createIdentity() {
+    return new PaypalIdentity("", this._web3);
+  }
+}
+
+export const initPaypalSdk = channelInfo => {
+  const config = {
+    networkId: process.env.REACT_APP_ETH_NETWORK,
+    web3Provider: process.env.REACT_APP_WEB3_PROVIDER,
+    defaultGasPrice: DEFAULT_GAS_PRICE,
+    defaultGasLimit: DEFAULT_GAS_LIMIT,
+  };
+  sdk = new PaypalSDK(config, {});
+  sdk.paymentChannelManagementStrategy = new PaypalPaymentMgmtStrategy(channelInfo);
 };
 
 export const initSdk = async address => {
@@ -106,6 +170,7 @@ export const initSdk = async address => {
       defaultGasPrice: DEFAULT_GAS_PRICE,
       defaultGasLimit: DEFAULT_GAS_LIMIT,
     };
+
     sdk = new SnetSDK(config);
   };
 

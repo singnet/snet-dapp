@@ -11,8 +11,9 @@ import { freeCalls, groupInfo } from "../../../../Redux/reducers/ServiceDetailsR
 import { LoaderContent } from "../../../../utility/constants/LoaderContent";
 import AlertBox, { alertTypes } from "../../../common/AlertBox";
 import Routes from "../../../../utility/constants/Routes";
-import { initSdk } from "../../../../utility/sdk";
+import { initSdk, initPaypalSdk } from "../../../../utility/sdk";
 import { walletTypes } from "../../../../Redux/actionCreators/UserActions";
+import { channelInfo } from "../../../../Redux/reducers/UserReducer";
 
 const demoProgressStatus = {
   purchasing: 1,
@@ -40,9 +41,13 @@ class ServiceDemo extends Component {
     this.scrollToHash();
   };
 
-  componentDidUpdate = () => {
-    if (this.props.wallet.type === walletTypes.METAMASK) {
+  componentDidUpdate = prevProps => {
+    const { wallet, channelInfo } = this.props;
+    if (wallet.type === walletTypes.METAMASK) {
       initSdk();
+    }
+    if (wallet.type === walletTypes.GENERAL && prevProps.channelInfo.id !== channelInfo.id) {
+      initPaypalSdk(channelInfo);
     }
   };
 
@@ -193,6 +198,7 @@ const mapStateToProps = state => ({
   groupInfo: groupInfo(state),
   email: state.userReducer.email,
   wallet: state.userReducer.wallet,
+  channelInfo: channelInfo(state),
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
