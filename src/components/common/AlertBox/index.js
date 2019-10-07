@@ -32,7 +32,7 @@ const AlertBox = ({ classes, message, type, link }) => {
 };
 
 AlertBox.propTypes = {
-  type: PropTypes.oneOf(Object.values(alertTypes)),
+  type: PropTypes.oneOf(["error", "success", "warning", "info"]),
   message: PropTypes.string,
 };
 

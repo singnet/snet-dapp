@@ -36,6 +36,10 @@ const StyledButton = ({ disabled, onClick, type, btnType, iconClass, btnText, ..
 StyledButton.propTypes = {
   type: PropTypes.oneOf(["blue", "gradient", "black", "transparent", "red", "redBg", "transparentBlueBorder"]),
   btnType: PropTypes.oneOf(["submit", "reset", "button"]),
+  btnText: PropTypes.string,
+  disabled: PropTypes.bool,
+  onClick: PropTypes.func,
+  iconClass: PropTypes.string,
 };
 
 StyledButton.defaultProps = {
