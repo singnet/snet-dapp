@@ -101,7 +101,7 @@ class CreateWalletPopup extends Component {
   };
 
   render() {
-    const { classes, open, paypalInProgress } = this.props;
+    const { classes, open, paypalInProgress, topup } = this.props;
     const { progressText, activeSection, privateKey, amount, item, quantity } = this.state;
 
     const PopupProgressBarComponents = [
@@ -113,9 +113,15 @@ class CreateWalletPopup extends Component {
         key: 2,
         component: <Purchase paypalInProgress={paypalInProgress} executePayment={this.handleExecutePayment} />,
       },
-      { key: 3, component: <PrivateKey privateKey={privateKey} handleNextSection={this.handleNextSection} /> },
       { key: 4, component: <Summary amount={amount} item={item} quantity={quantity} handleClose={this.handleClose} /> },
     ];
+
+    if (!topup) {
+      PopupProgressBarComponents.splice(2, 0, {
+        key: 3,
+        component: <PrivateKey privateKey={privateKey} handleNextSection={this.handleNextSection} />,
+      });
+    }
 
     return (
       <div className={classes.generalAccWalletContainer}>
