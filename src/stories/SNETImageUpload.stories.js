@@ -18,14 +18,9 @@ const styleGallery = [
 ];
 
 storiesOf("SNETImageUpload", module)
-  .addParameters({
-    props: {
-      propTables: [SNETImageUpload],
-    },
-  })
+  .addParameters({ props: { propTables: [SNETImageUpload] } })
   .addDecorator(withLiveEditScope({ React, SNETImageUpload, setImagePath, styleGallery }))
   .addLiveSource(
     "live source",
     `const galleryImagesSample = styleGallery; return <SNETImageUpload imageDataFunc={setImagePath} disableUploadTab />`
-  )
-  .add("Disabled Upload Tab", () => <SNETImageUpload imageDataFunc={setImagePath} disableUploadTab />);
+  );

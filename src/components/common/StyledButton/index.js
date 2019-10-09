@@ -46,6 +46,10 @@ StyledButton.propTypes = {
     "transparentBlueBorderDisable",
   ]),
   btnType: PropTypes.oneOf(["submit", "reset", "button"]),
+  btnText: PropTypes.string,
+  disabled: PropTypes.bool,
+  onClick: PropTypes.func,
+  iconClass: PropTypes.string,
 };
 
 StyledButton.defaultProps = {

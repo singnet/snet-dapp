@@ -34,6 +34,7 @@ const StyledDropdown = ({ labelTxt, list, value, onChange, formControlProps, inp
 };
 
 StyledDropdown.propTypes = {
+  inputLabel: PropTypes.string,
   labelTxt: PropTypes.string,
   list: PropTypes.arrayOf(
     PropTypes.shape({
@@ -41,6 +42,7 @@ StyledDropdown.propTypes = {
       label: PropTypes.string,
     })
   ),
+  onChange: PropTypes.func,
 };
 
 StyledDropdown.defaultProps = {

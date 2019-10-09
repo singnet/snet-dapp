@@ -23,7 +23,7 @@ const NotificationBar = ({ classes, showNotification, icon: Icon, message, type 
         lg={12}
         className={clsx(classes.notificationText, classes[notificationBarTypes[type]])}
       >
-        <Icon />
+        {Icon & <Icon />}
         <span>{message}</span>
       </Grid>
     </Grid>
@@ -32,6 +32,9 @@ const NotificationBar = ({ classes, showNotification, icon: Icon, message, type 
 
 NotificationBar.propTypes = {
   type: PropTypes.oneOf(["WARNING", "INFORMATION"]),
+  message: PropTypes.string,
+  showNotification: PropTypes.bool,
+  icon: PropTypes.node,
 };
 
 export default withStyles(useStyles)(NotificationBar);

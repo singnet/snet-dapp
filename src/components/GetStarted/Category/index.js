@@ -28,7 +28,7 @@ const Category = ({ classes, icon: Icon, title, description, tabs, rightAlign })
     >
       <Grid item xs={12} sm={6} md={6} lg={6} className={classes.CategoryContent}>
         <div className={classes.Title}>
-          <Icon />
+          {Icon & <Icon />}
           <h3>{title}</h3>
         </div>
         <p>{description}</p>
