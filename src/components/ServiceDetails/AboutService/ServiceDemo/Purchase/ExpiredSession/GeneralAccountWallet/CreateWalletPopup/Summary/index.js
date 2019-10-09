@@ -18,6 +18,7 @@ const Summary = ({
   match: {
     params: { orgId, serviceId },
   },
+  handleClose,
 }) => {
   const columns = [{ key: "item", label: "Total $USD spent" }, { key: "amount", label: `$${amount}` }];
   const rows = [
@@ -28,7 +29,8 @@ const Summary = ({
     },
   ];
 
-  const handleClose = () => {
+  const handleFinish = () => {
+    handleClose();
     history.push(`/${Routes.SERVICE_DETAILS}/org/${orgId}/service/${serviceId}`);
   };
 
@@ -39,7 +41,7 @@ const Summary = ({
       </Typography>
       <StyledTable title="Transaction Receipt" columns={columns} rows={rows} />
       <div className={classes.btnContainer}>
-        <StyledButton type="blue" btnText="finish" onClick={handleClose} />
+        <StyledButton type="blue" btnText="finish" onClick={handleFinish} />
       </div>
     </div>
   );
