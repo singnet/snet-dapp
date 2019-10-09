@@ -21,7 +21,11 @@ const Category = ({ classes, icon: Icon, title, description, tabs, rightAlign })
   };
 
   return (
-    <Grid container spacing={24} className={`${classes.CategoryWrapper} ${rightAlign ? classes.reverseDirection : null}`} >
+    <Grid
+      container
+      spacing={24}
+      className={`${classes.CategoryWrapper} ${rightAlign ? classes.reverseDirection : null}`}
+    >
       <Grid item xs={12} sm={6} md={6} lg={6} className={classes.CategoryContent}>
         <div className={classes.Title}>
           {Icon & <Icon />}

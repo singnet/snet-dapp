@@ -1,15 +1,19 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
+import isEmpty from "lodash/isEmpty";
 
 import ProgressBar from "../../../common/ProgressBar";
 import { useStyles } from "./styles";
-import { serviceDetailsActions, loaderActions } from "../../../../Redux/actionCreators";
+import { serviceDetailsActions, loaderActions, userActions } from "../../../../Redux/actionCreators";
 import PurchaseToggler from "./PurchaseToggler";
 import { freeCalls, groupInfo } from "../../../../Redux/reducers/ServiceDetailsReducer";
 import { LoaderContent } from "../../../../utility/constants/LoaderContent";
 import AlertBox, { alertTypes } from "../../../common/AlertBox";
 import Routes from "../../../../utility/constants/Routes";
+import { initSdk, initPaypalSdk } from "../../../../utility/sdk";
+import { walletTypes } from "../../../../Redux/actionCreators/UserActions";
+import { channelInfo } from "../../../../Redux/reducers/UserReducer";
 
 const demoProgressStatus = {
   purchasing: 1,
@@ -25,13 +29,30 @@ class ServiceDemo extends Component {
     alert: {},
   };
 
+  walletPollingInterval;
+
   componentDidMount = async () => {
     if (process.env.REACT_APP_SANDBOX) {
       return;
     }
 
     await this.fetchFreeCallsUsage();
+    this.pollWalletDetails();
     this.scrollToHash();
+  };
+
+  componentDidUpdate = prevProps => {
+    const { wallet, channelInfo } = this.props;
+    if (wallet.type === walletTypes.METAMASK) {
+      initSdk();
+    }
+    if (wallet.type === walletTypes.GENERAL && prevProps.channelInfo.id !== channelInfo.id) {
+      initPaypalSdk(wallet.address, channelInfo);
+    }
+  };
+
+  componentWillUnmount = () => {
+    clearInterval(this.walletPollingInterval);
   };
 
   fetchFreeCallsUsage = () => {
@@ -41,6 +62,33 @@ class ServiceDemo extends Component {
       serviceId: service.service_id,
       username: email,
     });
+  };
+
+  pollWalletDetails = () => {
+    this.fetchWalletDetails();
+    const { wallet } = this.props;
+    this.walletPollingInterval = setInterval(this.fetchWalletDetails, 15000);
+    if (!isEmpty(wallet) && wallet.status !== "PENDING") {
+      clearInterval(this.walletPollingInterval);
+    }
+  };
+
+  fetchWalletDetails = async () => {
+    const {
+      service: { org_id: orgId },
+      groupInfo: { group_id: groupId },
+      wallet,
+      fetchWallet,
+      startFetchWalletLoader,
+      stopLoader,
+    } = this.props;
+    if (isEmpty(wallet)) {
+      startFetchWalletLoader();
+    }
+    await fetchWallet(orgId, groupId);
+    if (isEmpty(wallet)) {
+      stopLoader();
+    }
   };
 
   scrollToHash = () => {
@@ -150,6 +198,7 @@ const mapStateToProps = state => ({
   groupInfo: groupInfo(state),
   email: state.userReducer.email,
   wallet: state.userReducer.wallet,
+  channelInfo: channelInfo(state),
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -157,6 +206,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     dispatch(loaderActions.startAppLoader(LoaderContent.SERVICE_INVOKATION(ownProps.service.display_name))),
   stopLoader: () => dispatch(loaderActions.stopAppLoader),
   fetchMeteringData: args => dispatch(serviceDetailsActions.fetchMeteringData(args)),
+  fetchWallet: (orgId, groupId) => dispatch(userActions.fetchWallet(orgId, groupId)),
+  startFetchWalletLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.FETCH_WALLET)),
 });
 
 export default connect(

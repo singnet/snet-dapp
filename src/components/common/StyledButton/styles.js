@@ -71,4 +71,9 @@ export const useStyles = makeStyles(theme => ({
       color: theme.palette.text.transBlueBorderTextHover,
     },
   },
+  transparentBlueBorderDisable: {
+    borderWidth: 2,
+    borderColor: theme.palette.text.disabledBtnBg,
+    color: theme.palette.text.disabledBtnBg,
+  },
 }));

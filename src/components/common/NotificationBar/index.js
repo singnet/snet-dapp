@@ -15,7 +15,14 @@ const NotificationBar = ({ classes, showNotification, icon: Icon, message, type 
   if (!showNotification) return null;
   return (
     <Grid container className={classes.NotificationBar}>
-      <Grid item xs={12} sm={12} md={12} lg={12} className={clsx(classes.notificationText, classes[notificationBarTypes[type]])} >
+      <Grid
+        item
+        xs={12}
+        sm={12}
+        md={12}
+        lg={12}
+        className={clsx(classes.notificationText, classes[notificationBarTypes[type]])}
+      >
         {Icon & <Icon />}
         <span>{message}</span>
       </Grid>

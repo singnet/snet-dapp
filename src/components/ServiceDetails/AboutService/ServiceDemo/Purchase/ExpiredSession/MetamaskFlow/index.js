@@ -1,19 +1,25 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Tooltip from "@material-ui/core/Tooltip";
-
-import StyledButton from "../../../../../common/StyledButton";
-import PaymentInfoCard from "../PaymentInfoCard";
-import PurchaseDialog from "../PurchaseDialog";
-import ChannelSelectionBox from "../ChannelSelectionBox";
-import AlertBox, { alertTypes } from "../../../../../common/AlertBox";
-import { initSdk } from "../../../../../../utility/sdk";
-import { cogsToAgi } from "../../../../../../utility/PricingStrategy";
-import { currentServiceDetails, pricing } from "../../../../../../Redux/reducers/ServiceDetailsReducer";
+import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet";
+import InfoIcon from "@material-ui/icons/Info";
+import Typography from "@material-ui/core/Typography";
+import { withStyles } from "@material-ui/styles";
 import { WebServiceClient as ServiceClient } from "snet-sdk-web";
-import PaymentChannelManagement from "../../../../../../utility/PaymentChannelManagement";
-import { loaderActions } from "../../../../../../Redux/actionCreators";
-import { LoaderContent } from "../../../../../../utility/constants/LoaderContent";
+
+import StyledButton from "../../../../../../common/StyledButton";
+import StyledDropdown from "../../../../../../common/StyledDropdown";
+import PaymentInfoCard from "../../PaymentInfoCard";
+import PurchaseDialog from "../../PurchaseDialog";
+import ChannelSelectionBox from "../../ChannelSelectionBox";
+import AlertBox, { alertTypes } from "../../../../../../common/AlertBox";
+import { initSdk } from "../../../../../../../utility/sdk";
+import { cogsToAgi } from "../../../../../../../utility/PricingStrategy";
+import { currentServiceDetails, pricing } from "../../../../../../../Redux/reducers/ServiceDetailsReducer";
+import PaymentChannelManagement from "../../../../../../../utility/PaymentChannelManagement";
+import { loaderActions } from "../../../../../../../Redux/actionCreators";
+import { LoaderContent } from "../../../../../../../utility/constants/LoaderContent";
+import { useStyles } from "./style";
 
 const payTypes = {
   CHANNEL_BALANCE: "CHANNEL_BALANCE",
@@ -63,10 +69,6 @@ class MetamaskFlow extends Component {
   };
 
   PaymentInfoCardData = [
-    {
-      title: "Payment Channel",
-      value: "Metamask",
-    },
     {
       title: "Escrow Balance",
       value: this.state.mpeBal,
@@ -219,6 +221,11 @@ class MetamaskFlow extends Component {
       showTooltip,
     } = this.state;
 
+    const channelPaymentOptions = [
+      { value: "general_account_wallet", label: "General Account Wallet" },
+      { value: "metamask", label: "Metamask" },
+    ];
+
     if (!MMconnected) {
       return (
         <div className={classes.ExpiredSessionContainer}>
@@ -231,12 +238,27 @@ class MetamaskFlow extends Component {
     return (
       <div className={classes.PurchaseFlowContainer}>
         <PurchaseDialog show={showPurchaseDialog} onClose={this.handlePurchaseDialogClose} />
-        <p className={classes.PurchaseFlowDescription}>
+        <Typography variant="body1" className={classes.PurchaseFlowDescription}>
           Transfer the style of a “style Image” to a “content image” by choosing them in the boxes below. You can upload
           a a file from your computer, URL, or select image from the gallery. You can specify additional parameters in
           the panel below. “Mouse over” for tool tips.
-        </p>
+        </Typography>
         <div className={classes.paymentInfoCard}>
+          <div className={classes.paymentChannelDropDownContainer}>
+            <InfoIcon className={classes.infoIconContainer} />
+            <div className={classes.paymentChannelDropDown}>
+              <Typography variant="body2" className={classes.dropDownTitle}>
+                Payment Channel
+              </Typography>
+              <AccountBalanceWalletIcon className={classes.walletIcon} />
+              <StyledDropdown
+                labelTxt="Select a Wallet"
+                list={channelPaymentOptions}
+                value=" "
+                onChange={this.handlePayTypeChange}
+              />
+            </div>
+          </div>
           {this.PaymentInfoCardData.map(item => (
             <PaymentInfoCard key={item.title} title={item.title} value={item.value} unit={item.unit} />
           ))}
@@ -332,4 +354,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(MetamaskFlow);
+)(withStyles(useStyles)(MetamaskFlow));

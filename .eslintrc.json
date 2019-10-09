@@ -5,12 +5,7 @@
   "rules": {
     "prettier/prettier": [
       "error",
-      {
-        "singleQuote": false,
-        "semi": true,
-        "max-len": { "code": 120, "ignoreUrls": true },
-        "tab-width": 2
-      }
+      { "singleQuote": false, "semi": true, "max-len": { "code": 120, "ignoreUrls": true }, "tab-width": 2 }
     ],
     "lines-between-class-members": ["error", "always"],
     "jsx-a11y/anchor-is-valid": false,
@@ -18,13 +13,8 @@
     "no-empty-function": ["error"],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    "react/self-closing-comp": [
-      "error",
-      {
-        "component": true,
-        "html": true
-      }
-    ],
+    "react/self-closing-comp": ["error", { "component": true, "html": true }],
+    "react/jsx-curly-brace-presence": ["warn", { "props": "never", "children": "never" }],
     "no-extra-boolean-cast": "off",
     "no-unused-vars": "error",
     "react/jsx-key": "error",

@@ -1,46 +1,146 @@
-import React from "react";
+import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
-import { withRouter } from "react-router-dom";
+import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet";
+import InfoIcon from "@material-ui/icons/Info";
+import Typography from "@material-ui/core/Typography";
+import { connect } from "react-redux";
 
-import AlertBox from "../../../../../common/AlertBox";
-import StyledButton from "../../../../../common/StyledButton";
+import AlertBox, { alertTypes } from "../../../../../common/AlertBox";
 import { useStyles } from "./styles";
-import MetamaskFlow from "./MetamaskFlow";
-import Routes from "../../../../../../utility/constants/Routes";
+import { walletTypes } from "../../../../../../Redux/actionCreators/UserActions";
+import StyledDropdown from "../../../../../common/StyledDropdown";
+import PaymentInfoCard from "../PaymentInfoCard";
+import { initSdk } from "../../../../../../utility/sdk";
+import isEmpty from "lodash/isEmpty";
+import { userActions } from "../../../../../../Redux/actionCreators";
+import WalletDetailsToggler from "./WalletDetailsToggler";
+import { channelInfo } from "../../../../../../Redux/reducers/UserReducer";
 
-const ExpiredSession = ({
-  classes,
-  handleComplete,
-  metamask,
-  groupInfo,
-  history,
-  handlePurchaseError,
-  isServiceAvailable,
-}) => {
-  const handleAddPayment = () => {
-    history.push(`/${Routes.USER_PROFILE}`);
-  };
-
-  if (metamask) {
-    return (
-      <MetamaskFlow
-        handleContinue={handleComplete}
-        classes={classes}
-        groupInfo={groupInfo}
-        handlePurchaseError={handlePurchaseError}
-        isServiceAvailable={isServiceAvailable}
-      />
-    );
-  }
-  return (
-    <div className={classes.ExpiredSessionContainer}>
-      <AlertBox
-        type="warning"
-        message="You have used all your free quota for this service.  Please add a payment method to continue using this service. "
-      />
-      <StyledButton type="blue" btnText="add payment" onClick={handleAddPayment} />
-    </div>
-  );
+const TransactionAlert = {
+  PENDING: { type: alertTypes.WARNING, message: "Transaction Confirmed. Pending token allocation" },
+  FAILED: { type: alertTypes.ERROR, message: "Transaction Failed. See history for more details" },
 };
 
-export default withRouter(withStyles(useStyles)(ExpiredSession));
+class ExpiredSession extends Component {
+  handlePayTypeChange = async event => {
+    const { value } = event.target;
+    const { updateWallet } = this.props;
+    this.setState({ alert: {} });
+    if (value === walletTypes.METAMASK) {
+      try {
+        const selectedEthAddress = window.ethereum && window.ethereum.selectedAddress;
+        const sdk = await initSdk(selectedEthAddress);
+        const address = sdk.account.address;
+        //1. To be replaced with wallet API
+        if (!isEmpty(address)) {
+          sessionStorage.setItem("wallet", JSON.stringify({ type: walletTypes.METAMASK, address }));
+          updateWallet({ type: value, address });
+          return;
+        }
+        this.setState({
+          alert: { type: alertTypes.ERROR, message: `Unable to fetch Metamask address. Please try again` },
+        });
+        //till here(1)
+      } catch (error) {
+        this.setState({ alert: { type: alertTypes.ERROR, message: `Something went wrong. Please try again` } });
+      }
+    }
+    if (value === walletTypes.GENERAL) {
+      sessionStorage.setItem("wallet", JSON.stringify({ type: walletTypes.GENERAL }));
+      updateWallet({ type: value });
+      return;
+    }
+    //2. to be removed once wallet API is available
+    sessionStorage.removeItem("wallet");
+    //till here(2)
+    updateWallet({ type: value });
+  };
+
+  transactionAlert = () => {
+    const { wallet } = this.props;
+    const anyPendingTxn = wallet.transactions && wallet.transactions.some(txn => txn.status === "PENDING");
+    if (!isEmpty(anyPendingTxn)) {
+      return TransactionAlert.PENDING;
+    }
+    const anyFailedTxn = wallet.transactions && wallet.transactions.some(txn => txn.status === "FAILED");
+    if (!isEmpty(anyFailedTxn)) {
+      return TransactionAlert.FAILED;
+    }
+    return {};
+  };
+
+  render() {
+    const {
+      classes,
+      wallet,
+      handleComplete,
+      groupInfo,
+      handlePurchaseError,
+      isServiceAvailable,
+      channelInfo,
+    } = this.props;
+    const channelPaymentOptions = [
+      { value: walletTypes.GENERAL, label: "General Account Wallet" },
+      { value: walletTypes.METAMASK, label: "Metamask" },
+    ];
+    return (
+      <div className={classes.mainContainer}>
+        <Typography variant="body1" className={classes.description}>
+          You have run out of free trial. Please select a payment method to continue
+        </Typography>
+
+        <div className={classes.paymentChannelAndDetails}>
+          <div className={classes.paymentChannelDropDownContainer}>
+            <InfoIcon className={classes.infoIconContainer} />
+            <div className={classes.paymentChannelDropDown}>
+              <Typography className={classes.dropDownTitle} variant="subtitle1">
+                Payment Channel
+              </Typography>
+              <AccountBalanceWalletIcon className={classes.walletIcon} />
+              <StyledDropdown
+                labelTxt="Select a Wallet"
+                list={channelPaymentOptions}
+                value={wallet.type || "default"}
+                onChange={this.handlePayTypeChange}
+              />
+            </div>
+          </div>
+          <div className={classes.channelBalance}>
+            <PaymentInfoCard
+              show={!isEmpty(channelInfo)}
+              title="channel balance"
+              value={!isEmpty(channelInfo) && channelInfo.balanceInAgi}
+              unit="AGI"
+            />
+          </div>
+          <AlertBox {...this.transactionAlert()} />
+        </div>
+        <WalletDetailsToggler
+          show={Boolean(wallet.type)}
+          metamask={wallet.type === walletTypes.METAMASK}
+          generalWalletProps={{ handleContinue: handleComplete }}
+          metamaskProps={{
+            handleContinue: handleComplete,
+            groupInfo,
+            handlePurchaseError,
+            isServiceAvailable,
+          }}
+        />
+      </div>
+    );
+  }
+}
+
+const mapStateToProps = state => ({
+  wallet: state.userReducer.wallet,
+  channelInfo: channelInfo(state),
+});
+
+const mapDispatchToProps = dispatch => ({
+  updateWallet: args => dispatch(userActions.updateWallet(args)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(useStyles)(ExpiredSession));
