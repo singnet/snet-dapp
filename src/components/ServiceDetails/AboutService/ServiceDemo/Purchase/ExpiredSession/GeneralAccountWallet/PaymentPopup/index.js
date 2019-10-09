@@ -37,11 +37,11 @@ class CreateWalletPopup extends Component {
 
   purchaseWallet = () => {
     this.setState({ activeSection: 2 });
-    this.props.setShowCreateWalletPopup(true);
+    this.props.setVisibility(true);
   };
 
   handleClose = () => {
-    this.props.setShowCreateWalletPopup(false);
+    this.props.setVisibility(false);
   };
 
   handleNextSection = () => {
@@ -58,6 +58,7 @@ class CreateWalletPopup extends Component {
         payment: { payment_address },
       },
       initiatePayment,
+      orderType,
     } = this.props;
     const paymentObj = {
       price: { amount: Number(amount), currency },
@@ -68,7 +69,7 @@ class CreateWalletPopup extends Component {
         service_id: serviceId,
         group_id,
         receipient: payment_address,
-        order_type: "CREATE_WALLET_AND_CHANNEL",
+        order_type: orderType,
       },
       payment_method: payType,
     };
@@ -101,9 +102,10 @@ class CreateWalletPopup extends Component {
   };
 
   render() {
-    const { classes, open, paypalInProgress, topup } = this.props;
-    const { progressText, activeSection, privateKey, amount, item, quantity } = this.state;
+    const { classes, visible, paypalInProgress, topup } = this.props;
+    const { activeSection, privateKey, amount, item, quantity } = this.state;
 
+    const progressText = ["Details", "Purchase", "Summary"];
     const PopupProgressBarComponents = [
       {
         key: 1,
@@ -117,6 +119,7 @@ class CreateWalletPopup extends Component {
     ];
 
     if (!topup) {
+      progressText.splice(2, 0, "Private Key");
       PopupProgressBarComponents.splice(2, 0, {
         key: 3,
         component: <PrivateKey privateKey={privateKey} handleNextSection={this.handleNextSection} />,
@@ -125,7 +128,7 @@ class CreateWalletPopup extends Component {
 
     return (
       <div className={classes.generalAccWalletContainer}>
-        <Modal open={open} onClose={this.handleClose} className={classes.Modal}>
+        <Modal open={visible} onClose={this.handleClose} className={classes.Modal}>
           <Card className={classes.card}>
             <CardHeader
               className={classes.CardHeader}

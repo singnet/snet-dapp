@@ -48,5 +48,3 @@ class Purchase extends Component {
   }
 }
 export default withStyles(useStyles)(Purchase);
-
-//({ classes, error })

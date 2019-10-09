@@ -51,17 +51,21 @@ class ServiceDetails extends Component {
     }
   };
 
-  checkForPaymentsInProgress = () => {
+  checkForPaymentsInProgress = async () => {
     const {
       location: { search },
       match: {
         params: { orderId, paymentId },
       },
       updatePaypalInProgress,
+      fetchOrderDetails,
     } = this.props;
     const { paymentId: paypalPaymentId, PayerID } = queryString.parse(search);
-    if ((orderId, paymentId, paypalPaymentId, PayerID)) {
-      updatePaypalInProgress(orderId, paymentId, paypalPaymentId, PayerID);
+    if (orderId && paymentId && paypalPaymentId && PayerID) {
+      const { data } = await fetchOrderDetails(orderId);
+      const order = data.orders.find(order => order.order_id === orderId);
+      const orderType = order.item_details.order_type;
+      updatePaypalInProgress(orderId, orderType, paymentId, paypalPaymentId, PayerID);
     }
   };
 
@@ -145,6 +149,7 @@ const mapDispatchToProps = dispatch => ({
   fetchServiceDetails: (orgId, serviceId) => dispatch(serviceDetailsActions.fetchServiceDetails(orgId, serviceId)),
   updatePaypalInProgress: (orderId, paymentId, paypalPaymentId, PayerID) =>
     dispatch(paymentActions.updatePaypalInProgress(orderId, paymentId, paypalPaymentId, PayerID)),
+  fetchOrderDetails: orderId => dispatch(paymentActions.fetchOrderDetails(orderId)),
 });
 
 export default connect(
