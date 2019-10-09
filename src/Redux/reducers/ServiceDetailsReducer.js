@@ -47,6 +47,13 @@ const groups = state => {
   return state.serviceDetailsReducer.details.groups;
 };
 
+const firstGroup = serviceGroups => {
+  const firstGroup = first(serviceGroups);
+  if (firstGroup) {
+    return { ...firstGroup, endpoints: map(firstGroup.endpoints, ({ endpoint }) => endpoint) };
+  }
+};
+
 export const groupInfo = state => {
   const serviceGroups = groups(state);
   const availableGroup = find(serviceGroups, ({ endpoints }) =>
@@ -55,10 +62,7 @@ export const groupInfo = state => {
   if (availableGroup) {
     return { ...availableGroup, endpoints: map(availableGroup.endpoints, ({ endpoint }) => endpoint) };
   }
-  const firstGroup = first(serviceGroups);
-  if (firstGroup) {
-    return { ...firstGroup, endpoints: map(firstGroup.endpoints, ({ endpoint }) => endpoint) };
-  }
+  return firstGroup(serviceGroups);
 };
 
 export const pricing = state => {
