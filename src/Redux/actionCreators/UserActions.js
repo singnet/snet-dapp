@@ -377,11 +377,7 @@ const fetchWalletAPI = (token, orgId, groupId) => {
 };
 
 export const fetchWallet = (orgId, groupId) => async dispatch => {
-  try {
-    const { token } = await fetchAuthenticatedUser();
-    const response = await fetchWalletAPI(token, orgId, groupId);
-    dispatch(fetchWalletSuccess(response));
-  } catch (error) {
-    // console.log("fetchWallet err", error);
-  }
+  const { token } = await fetchAuthenticatedUser();
+  const response = await fetchWalletAPI(token, orgId, groupId);
+  dispatch(fetchWalletSuccess(response));
 };

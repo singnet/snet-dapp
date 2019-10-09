@@ -9,17 +9,19 @@ import StyledTable from "../../../../../../../../common/StyledTable";
 import InfoIcon from "@material-ui/icons/Info";
 import Routes from "../../../../../../../../../utility/constants/Routes";
 
-const Summary = ({
-  classes,
-  amount,
-  item,
-  quantity,
-  history,
-  match: {
-    params: { orgId, serviceId },
-  },
-  handleClose,
-}) => {
+const Summary = props => {
+  const {
+    classes,
+    amount,
+    item,
+    quantity,
+    history,
+    match: {
+      params: { orgId, serviceId },
+    },
+    handleClose,
+  } = props;
+
   const columns = [{ key: "item", label: "Total $USD spent" }, { key: "amount", label: `$${amount}` }];
   const rows = [
     {

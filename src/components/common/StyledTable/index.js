@@ -1,7 +1,6 @@
 import React from "react";
 import { withStyles } from "@material-ui/styles";
 import Typography from "@material-ui/core/Typography";
-// import InfoIcon from "@material-ui/icons/Info";
 import PropTypes from "prop-types";
 
 import { useStyles } from "./styles";

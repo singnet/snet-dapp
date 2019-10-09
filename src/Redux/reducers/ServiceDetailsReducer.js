@@ -47,17 +47,19 @@ const groups = state => {
   return state.serviceDetailsReducer.details.groups;
 };
 
+const enhanceGroup = group => ({ ...group, endpoints: map(group.endpoints, ({ endpoint }) => endpoint) });
+
 export const groupInfo = state => {
   const serviceGroups = groups(state);
   const availableGroup = find(serviceGroups, ({ endpoints }) =>
     some(endpoints, endpoint => endpoint.is_available === 1)
   );
   if (availableGroup) {
-    return { ...availableGroup, endpoints: map(availableGroup.endpoints, ({ endpoint }) => endpoint) };
+    return enhanceGroup(availableGroup);
   }
   const firstGroup = first(serviceGroups);
   if (firstGroup) {
-    return { ...firstGroup, endpoints: map(firstGroup.endpoints, ({ endpoint }) => endpoint) };
+    return enhanceGroup(firstGroup);
   }
 };
 
