@@ -14,6 +14,12 @@ export default class PaypalPaymentChannelMgmtStrategy {
   }
 
   _channel(serviceClient) {
-    new PaymentChannel(this._channelId, this._sdk.web3, this._sdk.account, serviceClient, this._sdk._mpeContract);
+    return new PaymentChannel(
+      this._channelId,
+      this._sdk.web3,
+      this._sdk.account,
+      serviceClient,
+      this._sdk._mpeContract
+    );
   }
 }

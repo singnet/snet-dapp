@@ -1,14 +1,24 @@
 import React from "react";
 import { withStyles } from "@material-ui/styles";
 import Typography from "@material-ui/core/Typography";
-// import InfoIcon from "@material-ui/icons/Info";
+import { withRouter } from "react-router-dom";
 
 import StyledButton from "../../../../../../../../common/StyledButton";
 import { useStyles } from "./styles";
 import StyledTable from "../../../../../../../../common/StyledTable";
 import InfoIcon from "@material-ui/icons/Info";
+import Routes from "../../../../../../../../../utility/constants/Routes";
 
-const Summary = ({ classes, handleClose, amount, item, quantity }) => {
+const Summary = ({
+  classes,
+  amount,
+  item,
+  quantity,
+  history,
+  match: {
+    params: { orgId, serviceId },
+  },
+}) => {
   const columns = [{ key: "item", label: "Total $USD spent" }, { key: "amount", label: `$${amount}` }];
   const rows = [
     {
@@ -17,6 +27,10 @@ const Summary = ({ classes, handleClose, amount, item, quantity }) => {
       highlight: true,
     },
   ];
+
+  const handleClose = () => {
+    history.push(`/${Routes.SERVICE_DETAILS}/org/${orgId}/service/${serviceId}`);
+  };
 
   return (
     <div className={classes.summaryContainer}>
@@ -31,4 +45,4 @@ const Summary = ({ classes, handleClose, amount, item, quantity }) => {
   );
 };
 
-export default withStyles(useStyles)(Summary);
+export default withRouter(withStyles(useStyles)(Summary));

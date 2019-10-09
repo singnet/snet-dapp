@@ -55,9 +55,19 @@ class ExpiredSession extends Component {
     //till here(2)
     updateWallet({ type: value });
   };
-  // handleAddPayment = () => {
-  //   history.push(`/${Routes.USER_PROFILE}`);
-  // };
+
+  transactionAlert = () => {
+    const { wallet } = this.props;
+    const anyPendingTxn = wallet.transactions && wallet.transactions.some(txn => txn.status === "PENDING");
+    if (!isEmpty(anyPendingTxn)) {
+      return TransactionAlert.PENDING;
+    }
+    const anyFailedTxn = wallet.transactions && wallet.transactions.some(txn => txn.status === "FAILED");
+    if (!isEmpty(anyFailedTxn)) {
+      return TransactionAlert.FAILED;
+    }
+    return {};
+  };
 
   render() {
     const {
@@ -88,7 +98,7 @@ class ExpiredSession extends Component {
               </Typography>
               <AccountBalanceWalletIcon className={classes.walletIcon} />
               <StyledDropdown
-                disabled={!isEmpty(wallet)}
+                // disabled={!isEmpty(wallet)}
                 labelTxt="Select a Wallet"
                 list={channelPaymentOptions}
                 value={wallet.type || "default"}
@@ -104,7 +114,7 @@ class ExpiredSession extends Component {
               unit="AGI"
             />
           </div>
-          <AlertBox {...(TransactionAlert[wallet.status] || {})} />
+          <AlertBox {...this.transactionAlert()} />
         </div>
         <WalletDetailsToggler
           show={Boolean(wallet.type)}

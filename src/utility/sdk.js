@@ -20,95 +20,65 @@ export const callTypes = {
   REGULAR: "REGULAR",
 };
 
-const parseSignature = data => {
-  const hexSignature = data["snet-payment-channel-signature-bin"];
+const parseSignature = hexSignature => {
   const signatureBuffer = Buffer.from(hexSignature.slice(2), "hex");
   return signatureBuffer.toString("base64");
 };
 
-const parseRegularCallMetadata = ({ data }) => {
-  return {
-    "snet-payment-type": "escrow",
-    // TODO: check with chetan and anand
-    // "snet-payment-channel-id": data["snet-payment-channel-id"],
+const parseRegularCallMetadata = ({ data }) => ({
+  signatureBytes: parseSignature(data["snet-payment-channel-signature-bin"]),
+});
 
-    // "snet-payment-channel-nonce": data["snet-payment-channel-nonce"],
-    // "snet-payment-channel-amount": data["snet-payment-channel-amount"],
-    "snet-payment-channel-id": data.channel_id,
-    "snet-payment-channel-nonce": 2,
-    "snet-payment-channel-amount": 3,
-    "snet-payment-channel-signature-bin": parseSignature(data),
-  };
-};
+const parseFreeCallMetadata = ({ data }) => ({
+  "snet-payment-type": data["snet-payment-type"],
+  "snet-free-call-user-id": data["snet-free-call-user-id"],
+  "snet-current-block-number": `${data["snet-current-block-number"]}`,
+  "snet-payment-channel-signature-bin": parseSignature(data["snet-payment-channel-signature-bin"]),
+});
 
-const parseFreeCallMetadata = ({ data }) => {
-  return {
-    "snet-payment-type": data["snet-payment-type"],
-    "snet-free-call-user-id": data["snet-free-call-user-id"],
-    "snet-current-block-number": `${data["snet-current-block-number"]}`,
-    "snet-payment-channel-signature-bin": parseSignature(data),
-  };
-};
-
-const metadataGenerator = (callType, serviceRequestErrorHandler, channelId) => async (
-  serviceClient,
-  serviceName,
-  method
-) => {
+const metadataGenerator = (callType, serviceRequestErrorHandler) => async (serviceClient, serviceName, method) => {
   try {
     const { orgId: org_id, serviceId: service_id } = serviceClient.metadata;
     const { email, token } = await fetchAuthenticatedUser();
-    const freeCallPayload = { org_id, service_id, service_name: serviceName, method, username: email };
+    const payload = { org_id, service_id, service_name: serviceName, method, username: email };
     const apiName = APIEndpoints.SIGNER_SERVICE.name;
-    const freeCallOptions = initializeAPIOptions(token, freeCallPayload);
-
-    if (callType === callTypes.REGULAR) {
-      // console.log("State service", response);
-      // TODO amount and nonce
-      // from where can we get nonce ? ask Anand & Chetan
-      const mpeClaimPayload = { channel_id: channelId, amount: 1, nonce: 2 };
-      const mpeClaimOptions = initializeAPIOptions(token, mpeClaimPayload);
-      return await API.post(apiName, APIPaths.SIGNER_REGULAR_CALL_MPE_CLAIM, mpeClaimOptions).then(
-        parseRegularCallMetadata
-      );
-    }
-    return await API.post(apiName, APIPaths.SIGNER_FREE_CALL, freeCallOptions).then(parseFreeCallMetadata);
+    const apiOptions = initializeAPIOptions(token, payload);
+    return await API.post(apiName, APIPaths.SIGNER_FREE_CALL, apiOptions).then(parseFreeCallMetadata);
   } catch (err) {
     serviceRequestErrorHandler(err);
   }
 };
+
+const parseChannelStateRequestSigner = ({ data }) => ({
+  currentBlockNumber: data["snet-current-block-number"],
+  signatureBytes: parseSignature(data.signature),
+});
 
 const channelStateRequestSigner = async channelId => {
   const apiName = APIEndpoints.SIGNER_SERVICE.name;
   const stateServicePayload = { channel_id: channelId };
   const { token } = await fetchAuthenticatedUser();
   const stateServiceOptions = initializeAPIOptions(token, stateServicePayload);
-  const response = await API.post(apiName, APIPaths.SIGNER_REGULAR_CALL_STATE_SERVICE, stateServiceOptions);
-
-  const { currentBlockNumber, signatureBytes } = response;
-  // TODO: parse the response
-  return {
-    currentBlockNumber,
-    signatureBytes,
-  };
+  return await API.post(apiName, APIPaths.SIGNER_STATE_SERVICE, stateServiceOptions).then(
+    parseChannelStateRequestSigner
+  );
 };
 
-const paidCallMetadataGenerator = async (serviceRequestErrorHandler, channelId) => {
+const paidCallMetadataGenerator = serviceRequestErrorHandler => async (channelId, signingAmount, nonce) => {
   try {
-    // TODO get amount and nonce from sdk
     const apiName = APIEndpoints.SIGNER_SERVICE.name;
-    const mpeClaimPayload = { channel_id: channelId, amount: 1, nonce: 2 };
+    const RegCallPayload = { channel_id: channelId, amount: Number(signingAmount), nonce: Number(nonce) };
     const { token } = await fetchAuthenticatedUser();
-    const mpeClaimOptions = initializeAPIOptions(token, mpeClaimPayload);
-    return await API.post(apiName, APIPaths.SIGNER_REGULAR_CALL_MPE_CLAIM, mpeClaimOptions).then(
-      parseRegularCallMetadata
-    );
+    const RegCallOptions = initializeAPIOptions(token, RegCallPayload);
+    const response = await API.post(apiName, APIPaths.SIGNER_REGULAR_CALL, RegCallOptions);
+    const paidCallMetadata = parseRegularCallMetadata(response);
+    return Promise.resolve(paidCallMetadata);
   } catch (error) {
     serviceRequestErrorHandler(error);
   }
 };
 
-const generateOptions = (callType, wallet, serviceRequestErrorHandler, channelInfo) => {
+const generateOptions = (callType, wallet, serviceRequestErrorHandler) => {
   if (process.env.REACT_APP_SANDBOX) {
     return {
       endpoint: process.env.REACT_APP_SANDBOX_SERVICE_ENDPOINT,
@@ -123,14 +93,10 @@ const generateOptions = (callType, wallet, serviceRequestErrorHandler, channelIn
   }
   if (callType === callTypes.REGULAR) {
     return {
-      channelStateRequestSigner: channelStateRequestSigner(channelInfo.id),
-      paidCallMetadataGenerator: paidCallMetadataGenerator(serviceRequestErrorHandler, channelInfo.id),
+      channelStateRequestSigner,
+      paidCallMetadataGenerator: paidCallMetadataGenerator(serviceRequestErrorHandler),
     };
   }
-  return {
-    metadataGenerator: metadataGenerator(callType, serviceRequestErrorHandler, channelInfo.id),
-    channelStateRequestSigner,
-  };
 };
 
 class PaypalIdentity {
@@ -145,20 +111,25 @@ class PaypalIdentity {
 }
 
 class PaypalSDK extends SnetSDK {
+  constructor(address, ...args) {
+    super(...args);
+    this._address = address;
+  }
+
   _createIdentity() {
-    return new PaypalIdentity("", this._web3);
+    return new PaypalIdentity(this._address, this._web3);
   }
 }
 
-export const initPaypalSdk = channelInfo => {
+export const initPaypalSdk = (address, channelInfo) => {
   const config = {
     networkId: process.env.REACT_APP_ETH_NETWORK,
     web3Provider: process.env.REACT_APP_WEB3_PROVIDER,
     defaultGasPrice: DEFAULT_GAS_PRICE,
     defaultGasLimit: DEFAULT_GAS_LIMIT,
   };
-  sdk = new PaypalSDK(config, {});
-  sdk.paymentChannelManagementStrategy = new PaypalPaymentMgmtStrategy(channelInfo);
+  sdk = new PaypalSDK(address, config, {});
+  sdk.paymentChannelManagementStrategy = new PaypalPaymentMgmtStrategy(sdk, channelInfo.id);
 };
 
 export const initSdk = async address => {

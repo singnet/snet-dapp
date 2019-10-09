@@ -47,7 +47,7 @@ class ServiceDemo extends Component {
       initSdk();
     }
     if (wallet.type === walletTypes.GENERAL && prevProps.channelInfo.id !== channelInfo.id) {
-      initPaypalSdk(channelInfo);
+      initPaypalSdk(wallet.address, channelInfo);
     }
   };
 

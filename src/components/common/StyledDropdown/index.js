@@ -19,7 +19,7 @@ const StyledDropdown = ({ labelTxt, list, value, onChange, formControlProps, inp
         name={labelTxt}
         className={classes.selectEmpty}
         variant="outlined"
-        disabled
+        disabled={disabled}
       >
         <MenuItem value="default">{labelTxt || "Select a value"}</MenuItem>
         {list &&
