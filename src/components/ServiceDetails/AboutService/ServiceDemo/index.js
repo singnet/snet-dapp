@@ -85,7 +85,12 @@ class ServiceDemo extends Component {
     if (isEmpty(wallet)) {
       startFetchWalletLoader();
     }
-    await fetchWallet(orgId, groupId);
+    try {
+      await fetchWallet(orgId, groupId);
+    } catch (error) {
+      console.log("fetchWalletDetails error", error);
+    }
+
     if (isEmpty(wallet)) {
       stopLoader();
     }
