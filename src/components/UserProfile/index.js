@@ -14,6 +14,7 @@ import { useStyles } from "./styles";
 const UserProfileTabs = {
   account: 0,
   settings: 1,
+  transactions: 2,
 };
 
 class UserProfile extends Component {
