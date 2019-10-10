@@ -146,8 +146,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => ({
   fetchServiceDetails: (orgId, serviceId) => dispatch(serviceDetailsActions.fetchServiceDetails(orgId, serviceId)),
-  updatePaypalInProgress: (orderId, paymentId, paypalPaymentId, PayerID) =>
-    dispatch(paymentActions.updatePaypalInProgress(orderId, paymentId, paypalPaymentId, PayerID)),
+  updatePaypalInProgress: (orderId, orderType, paymentId, paypalPaymentId, PayerID) =>
+    dispatch(paymentActions.updatePaypalInProgress(orderId, orderType, paymentId, paypalPaymentId, PayerID)),
   fetchOrderDetails: orderId => dispatch(paymentActions.fetchOrderDetails(orderId)),
 });
 

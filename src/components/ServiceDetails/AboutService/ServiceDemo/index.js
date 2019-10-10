@@ -66,9 +66,11 @@ class ServiceDemo extends Component {
 
   pollWalletDetails = () => {
     this.fetchWalletDetails();
-    const { wallet } = this.props;
+    const { wallet, channelInfo } = this.props;
     this.walletPollingInterval = setInterval(this.fetchWalletDetails, 15000);
-    if (!isEmpty(wallet) && wallet.status !== "PENDING") {
+    const anyPendingTxn = wallet.transactions && wallet.transactions.some(txn => txn.status === "PENDING");
+    const anyFailedTxn = wallet.transactions && wallet.transactions.some(txn => txn.status === "FAILED");
+    if (!isEmpty(channelInfo) && !(anyPendingTxn || anyFailedTxn)) {
       clearInterval(this.walletPollingInterval);
     }
   };

@@ -5,6 +5,7 @@ import { API } from "aws-amplify";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
 
 export const UPDATE_PAYPAL_IN_PROGRESS = "UPDATE_PAYPAL_IN_PROGRESS";
+export const UPDATE_PAYPAL_COMPLETED = "UPDATE_PAYPAL_COMPLETED";
 
 const initiatePaymentAPI = (token, paymentObj) => {
   const apiName = APIEndpoints.ORCHESTRATOR.name;
@@ -51,4 +52,8 @@ export const fetchOrderDetails = orderId => async () => {
 
 export const updatePaypalInProgress = (orderId, orderType, paymentId, paypalPaymentId, PayerID) => dispatch => {
   dispatch({ type: UPDATE_PAYPAL_IN_PROGRESS, payload: { orderId, orderType, paymentId, paypalPaymentId, PayerID } });
+};
+
+export const updatePaypalCompleted = dispatch => {
+  dispatch({ type: UPDATE_PAYPAL_COMPLETED });
 };

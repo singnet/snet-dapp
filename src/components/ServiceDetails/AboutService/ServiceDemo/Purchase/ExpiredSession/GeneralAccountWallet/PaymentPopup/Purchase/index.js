@@ -28,10 +28,10 @@ class Purchase extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, handleCancel } = this.props;
     const { alert } = this.state;
     if (!isEmpty(alert)) {
-      return <PurchaseAlert alert={alert} />;
+      return <PurchaseAlert alert={alert} handleCancel={handleCancel} />;
     }
 
     return (
