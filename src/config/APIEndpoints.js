@@ -35,4 +35,5 @@ export const APIPaths = {
   FREE_CALL_USAGE: "/usage/freecalls",
   SIGNER_FREE_CALL: "/free-call",
   SIGNER_REGULAR_CALL: "/regular-call",
+  ORDERS_LIST: "/orders",
 };
