@@ -366,18 +366,27 @@ const fetchWalletSuccess = response => dispatch => {
 };
 
 const fetchWalletAPI = (token, orgId, groupId) => {
-  const apiName = APIEndpoints.ORCHESTRATOR.name;
-  const apiPath = APIPaths.WALLET;
-  const apiOptions = initializeAPIOptions(token);
-  apiOptions.queryStringParameters = {
-    org_id: orgId,
-    group_id: groupId,
-  };
-  return API.get(apiName, apiPath, apiOptions);
+  try {
+    const apiName = APIEndpoints.ORCHESTRATOR.name;
+    const apiPath = APIPaths.WALLET;
+    const queryStringParameters = {
+      org_id: orgId,
+      group_id: groupId,
+    };
+    const apiOptions = initializeAPIOptions(token, null, queryStringParameters);
+
+    return API.get(apiName, apiPath, apiOptions);
+  } catch (error) {
+    console.log("fetchWalletAPI error", error);
+  }
 };
 
 export const fetchWallet = (orgId, groupId) => async dispatch => {
-  const { token } = await fetchAuthenticatedUser();
-  const response = await fetchWalletAPI(token, orgId, groupId);
-  dispatch(fetchWalletSuccess(response));
+  try {
+    const { token } = await fetchAuthenticatedUser();
+    const response = await fetchWalletAPI(token, orgId, groupId);
+    dispatch(fetchWalletSuccess(response));
+  } catch (error) {
+    console.log("fetchWallet error", error);
+  }
 };
