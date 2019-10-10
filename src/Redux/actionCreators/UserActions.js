@@ -22,6 +22,7 @@ export const UPDATE_EMAIL_ALERTS_SUBSCRIPTION = "UPDATE_EMAIL_ALERTS_SUBSCRIPTIO
 export const UPDATE_WALLET = "UPDATE_WALLET";
 export const APP_INITIALIZATION_SUCCESS = "APP_INITIALIZATION_SUCCESS";
 export const UPDATE_IS_TERMS_ACCEPTED = "UPDATE_IS_TERMS_ACCEPTED";
+export const UPDATE_FIRST_TIME_FETCH_WALLET = "FIRST_TIME_FETCH_WALLET";
 
 export const walletTypes = {
   GENERAL: "GENERAL",
@@ -356,6 +357,10 @@ export const forgotPasswordSubmit = ({ email, code, password, history, route }) 
     .catch(err => {
       dispatch(forgotPasswordSubmitFailure(err.message));
     });
+};
+
+export const updateFirstTimeFetchWallet = value => dispatch => {
+  dispatch({ type: UPDATE_FIRST_TIME_FETCH_WALLET, payload: value });
 };
 
 const fetchWalletSuccess = response => dispatch => {

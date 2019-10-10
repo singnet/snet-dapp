@@ -77,16 +77,18 @@ class ServiceDemo extends Component {
     const {
       service: { org_id: orgId },
       groupInfo: { group_id: groupId },
-      wallet,
       fetchWallet,
       startFetchWalletLoader,
       stopLoader,
+      firstTimeFetchWallet,
+      updateFirstTimeFetchWallet,
     } = this.props;
-    if (isEmpty(wallet)) {
+    if (firstTimeFetchWallet) {
       startFetchWalletLoader();
     }
     await fetchWallet(orgId, groupId);
-    if (isEmpty(wallet)) {
+    updateFirstTimeFetchWallet(false);
+    if (firstTimeFetchWallet) {
       stopLoader();
     }
   };
@@ -198,6 +200,7 @@ const mapStateToProps = state => ({
   groupInfo: groupInfo(state),
   email: state.userReducer.email,
   wallet: state.userReducer.wallet,
+  firstTimeFetchWallet: state.userReducer.firstTimeFetchWallet,
   channelInfo: channelInfo(state),
 });
 
@@ -207,6 +210,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   stopLoader: () => dispatch(loaderActions.stopAppLoader),
   fetchMeteringData: args => dispatch(serviceDetailsActions.fetchMeteringData(args)),
   fetchWallet: (orgId, groupId) => dispatch(userActions.fetchWallet(orgId, groupId)),
+  updateFirstTimeFetchWallet: value => dispatch(userActions.updateFirstTimeFetchWallet(value)),
   startFetchWalletLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.FETCH_WALLET)),
 });
 
