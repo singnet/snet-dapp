@@ -10,7 +10,71 @@ import Usage from "./Usage";
 import { useStyles } from "./styles";
 
 class UserProfileTransactionHistory extends Component {
-  state = { activeTab: 0 };
+  state = {
+    activeTab: 0,
+    paymentResult: [
+      {
+        date: "08 Sep 2019",
+        time: "02:32 AM EST",
+        providerName: "Provider Name 1",
+        providerId: "ID-8783As670D",
+        paymentChannel: "General Account Wallet",
+        type: "Paypal",
+        statusType: "success",
+        statusMessage: "Success",
+        cost: "$12.00",
+        agiReceived: "+ 0.98352378",
+      },
+      {
+        date: "08 Sep 2019",
+        time: "02:32 AM EST",
+        providerName: "Provider Name 2",
+        providerId: "ID-8783As670D",
+        paymentChannel: "Metamask",
+        type: "Deposit",
+        statusType: "success",
+        statusMessage: "Success",
+        cost: "-",
+        agiReceived: "+ 0.98352378",
+      },
+      {
+        date: "08 Sep 2019",
+        time: "02:32 AM EST",
+        providerName: "Provider Name 3",
+        providerId: "ID-8783As670D",
+        paymentChannel: "General Account Wallet 2",
+        type: "Paypal",
+        statusType: "warning",
+        statusMessage: "Pending",
+        cost: "$12.00",
+        agiReceived: "+ 0.98352378",
+      },
+      {
+        date: "08 Sep 2019",
+        time: "02:32 AM EST",
+        providerName: "Provider Name 4 ",
+        providerId: "ID-8783As670D",
+        paymentChannel: "General Account Wallet",
+        type: "Paypal",
+        statusType: "error",
+        statusMessage: "Failure",
+        cost: "$12.00",
+        agiReceived: "+ 0.98352378",
+      },
+      {
+        date: "08 Sep 2019",
+        time: "02:32 AM EST",
+        providerName: "Provider Name 5",
+        providerId: "ID-8783As670D",
+        paymentChannel: "Metamask",
+        type: "Withdraw",
+        statusType: "success",
+        statusMessage: "Success",
+        cost: "-",
+        agiReceived: "- 0.98352378",
+      },
+    ],
+  };
 
   onTabChange = activeTab => {
     this.setState({ activeTab });
@@ -18,10 +82,10 @@ class UserProfileTransactionHistory extends Component {
 
   render() {
     const { classes } = this.props;
-    const { activeTab } = this.state;
+    const { activeTab, paymentResult } = this.state;
 
     const tabs = [
-      { name: "Payments", activeIndex: 0, component: <Payments /> },
+      { name: "Payments", activeIndex: 0, component: <Payments data={paymentResult} /> },
       { name: "Usage", activeIndex: 1, component: <Usage /> },
     ];
 
