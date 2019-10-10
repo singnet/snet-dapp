@@ -71,6 +71,8 @@ class ServiceDemo extends Component {
     if (!isEmpty(wallet) && wallet.status !== "PENDING") {
       clearInterval(this.walletPollingInterval);
     }
+    //Remove the below line
+    clearInterval(this.walletPollingInterval);
   };
 
   fetchWalletDetails = async () => {
@@ -85,12 +87,7 @@ class ServiceDemo extends Component {
     if (isEmpty(wallet)) {
       startFetchWalletLoader();
     }
-    try {
-      await fetchWallet(orgId, groupId);
-    } catch (error) {
-      console.log("fetchWalletDetails error", error);
-    }
-
+    await fetchWallet(orgId, groupId);
     if (isEmpty(wallet)) {
       stopLoader();
     }

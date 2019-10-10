@@ -24,7 +24,7 @@ const TransactionAlert = {
 class ExpiredSession extends Component {
   handlePayTypeChange = async event => {
     const { value } = event.target;
-    const { updateWallet } = this.props;
+    const { updateWallet, registerWallet } = this.props;
     this.setState({ alert: {} });
     if (value === walletTypes.METAMASK) {
       try {
@@ -32,6 +32,7 @@ class ExpiredSession extends Component {
         const sdk = await initSdk(selectedEthAddress);
         const address = sdk.account.address;
         //1. To be replaced with wallet API
+        await registerWallet(address, walletTypes.METAMASK);
         if (!isEmpty(address)) {
           sessionStorage.setItem("wallet", JSON.stringify({ type: walletTypes.METAMASK, address }));
           updateWallet({ type: value, address });
@@ -138,6 +139,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   updateWallet: args => dispatch(userActions.updateWallet(args)),
+  registerWallet: (address, type) => dispatch(userActions.registerWallet(address, type)),
 });
 
 export default connect(

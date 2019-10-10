@@ -77,10 +77,6 @@ const fetchUserProfile = token => dispatch => {
   });
 };
 
-export const updateWallet = walletDetails => dispatch => {
-  dispatch({ type: UPDATE_WALLET, payload: { ...walletDetails } });
-};
-
 const noAuthenticatedUser = dispatch => {
   dispatch({
     type: SET_USER_DETAILS,
@@ -358,6 +354,10 @@ export const forgotPasswordSubmit = ({ email, code, password, history, route }) 
     });
 };
 
+export const updateWallet = walletDetails => dispatch => {
+  dispatch({ type: UPDATE_WALLET, payload: { ...walletDetails } });
+};
+
 const fetchWalletSuccess = response => dispatch => {
   const defaultWallet = response.data.wallets.find(wallet => Boolean(wallet.is_default));
   if (!isEmpty(defaultWallet)) {
@@ -366,27 +366,50 @@ const fetchWalletSuccess = response => dispatch => {
 };
 
 const fetchWalletAPI = (token, orgId, groupId) => {
-  try {
-    const apiName = APIEndpoints.ORCHESTRATOR.name;
-    const apiPath = APIPaths.WALLET;
-    const queryStringParameters = {
-      org_id: orgId,
-      group_id: groupId,
-    };
-    const apiOptions = initializeAPIOptions(token, null, queryStringParameters);
+  const apiName = APIEndpoints.ORCHESTRATOR.name;
+  const apiPath = APIPaths.WALLET;
+  const queryStringParameters = {
+    org_id: orgId,
+    group_id: groupId,
+  };
+  const apiOptions = initializeAPIOptions(token, null, queryStringParameters);
 
-    return API.get(apiName, apiPath, apiOptions);
-  } catch (error) {
-    console.log("fetchWalletAPI error", error);
-  }
+  return API.get(apiName, apiPath, apiOptions);
 };
 
 export const fetchWallet = (orgId, groupId) => async dispatch => {
-  try {
-    const { token } = await fetchAuthenticatedUser();
-    const response = await fetchWalletAPI(token, orgId, groupId);
-    dispatch(fetchWalletSuccess(response));
-  } catch (error) {
-    console.log("fetchWallet error", error);
-  }
+  const { token } = await fetchAuthenticatedUser();
+  const response = await fetchWalletAPI(token, orgId, groupId);
+  dispatch(fetchWalletSuccess(response));
+};
+
+const updateDefaultWalletAPI = (token, address) => {
+  const apiName = APIEndpoints.ORCHESTRATOR.name;
+  const apiPath = APIPaths.UPDATE_DEFAULT_WALLET;
+  const postObj = { address };
+  const apiOptions = initializeAPIOptions(token, postObj);
+  return API.post(apiName, apiPath, apiOptions);
+};
+
+const updateDefaultWallet = address => async () => {
+  const { token } = await fetchAuthenticatedUser();
+  return await updateDefaultWalletAPI(token, address);
+};
+
+const registerWalletSuccess = address => dispatch => {
+  return dispatch(updateDefaultWallet(address));
+};
+
+const registerWalletAPI = (token, address, type) => {
+  const apiName = APIEndpoints.ORCHESTRATOR.name;
+  const apiPath = APIPaths.REGISTER_WALLET;
+  const postObj = { address, type };
+  const apiOptions = initializeAPIOptions(token, postObj);
+  return API.post(apiName, apiPath, apiOptions);
+};
+
+export const registerWallet = (address, type) => async dispatch => {
+  const { token } = await fetchAuthenticatedUser();
+  await registerWalletAPI(token, address, type);
+  return dispatch(registerWalletSuccess(address));
 };
