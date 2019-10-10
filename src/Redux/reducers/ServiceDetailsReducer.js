@@ -2,6 +2,7 @@ import { serviceDetailsActions } from "../actionCreators";
 import find from "lodash/find";
 import first from "lodash/first";
 import some from "lodash/some";
+import map from "lodash/map";
 
 const InitialServiceDetails = {
   details: {},
@@ -46,16 +47,20 @@ const groups = state => {
   return state.serviceDetailsReducer.details.groups;
 };
 
+const enhanceGroup = group => ({ ...group, endpoints: map(group.endpoints, ({ endpoint }) => endpoint) });
+
 export const groupInfo = state => {
   const serviceGroups = groups(state);
   const availableGroup = find(serviceGroups, ({ endpoints }) =>
     some(endpoints, endpoint => endpoint.is_available === 1)
   );
   if (availableGroup) {
-    return availableGroup;
+    return enhanceGroup(availableGroup);
   }
   const firstGroup = first(serviceGroups);
-  return firstGroup;
+  if (firstGroup) {
+    return enhanceGroup(firstGroup);
+  }
 };
 
 export const pricing = state => {

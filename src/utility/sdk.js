@@ -5,6 +5,7 @@ import { APIEndpoints, APIPaths } from "../config/APIEndpoints";
 import { initializeAPIOptions } from "./API";
 import { fetchAuthenticatedUser, walletTypes } from "../Redux/actionCreators/UserActions";
 import ProxyPaymentChannelManagementStrategy from "./ProxyPaymentChannelManagementStrategy";
+import PaypalPaymentMgmtStrategy from "./PaypalPaymentMgmtStrategy";
 
 const DEFAULT_GAS_PRICE = 4700000;
 const DEFAULT_GAS_LIMIT = 210000;
@@ -19,30 +20,21 @@ export const callTypes = {
   REGULAR: "REGULAR",
 };
 
-const parseSignature = data => {
-  const hexSignature = data["snet-payment-channel-signature-bin"];
+const parseSignature = hexSignature => {
   const signatureBuffer = Buffer.from(hexSignature.slice(2), "hex");
   return signatureBuffer.toString("base64");
 };
 
-const parseRegularCallMetadata = ({ data }) => {
-  return {
-    "snet-payment-type": "escrow",
-    "snet-payment-channel-id": data["snet-payment-channel-id"],
-    "snet-payment-channel-nonce": data["snet-payment-channel-nonce"],
-    "snet-payment-channel-amount": data["snet-payment-channel-amount"],
-    "snet-payment-channel-signature-bin": parseSignature(data),
-  };
-};
+const parseRegularCallMetadata = ({ data }) => ({
+  signatureBytes: parseSignature(data["snet-payment-channel-signature-bin"]),
+});
 
-const parseFreeCallMetadata = ({ data }) => {
-  return {
-    "snet-payment-type": data["snet-payment-type"],
-    "snet-free-call-user-id": data["snet-free-call-user-id"],
-    "snet-current-block-number": `${data["snet-current-block-number"]}`,
-    "snet-payment-channel-signature-bin": parseSignature(data),
-  };
-};
+const parseFreeCallMetadata = ({ data }) => ({
+  "snet-payment-type": data["snet-payment-type"],
+  "snet-free-call-user-id": data["snet-free-call-user-id"],
+  "snet-current-block-number": `${data["snet-current-block-number"]}`,
+  "snet-payment-channel-signature-bin": parseSignature(data["snet-payment-channel-signature-bin"]),
+});
 
 const metadataGenerator = (callType, serviceRequestErrorHandler) => async (serviceClient, serviceName, method) => {
   try {
@@ -51,13 +43,38 @@ const metadataGenerator = (callType, serviceRequestErrorHandler) => async (servi
     const payload = { org_id, service_id, service_name: serviceName, method, username: email };
     const apiName = APIEndpoints.SIGNER_SERVICE.name;
     const apiOptions = initializeAPIOptions(token, payload);
-
-    if (callType === callTypes.REGULAR) {
-      return await API.post(apiName, APIPaths.SIGNER_REGULAR_CALL, apiOptions).then(parseRegularCallMetadata);
-    }
     return await API.post(apiName, APIPaths.SIGNER_FREE_CALL, apiOptions).then(parseFreeCallMetadata);
   } catch (err) {
     serviceRequestErrorHandler(err);
+  }
+};
+
+const parseChannelStateRequestSigner = ({ data }) => ({
+  currentBlockNumber: data["snet-current-block-number"],
+  signatureBytes: parseSignature(data.signature),
+});
+
+const channelStateRequestSigner = async channelId => {
+  const apiName = APIEndpoints.SIGNER_SERVICE.name;
+  const stateServicePayload = { channel_id: channelId };
+  const { token } = await fetchAuthenticatedUser();
+  const stateServiceOptions = initializeAPIOptions(token, stateServicePayload);
+  return await API.post(apiName, APIPaths.SIGNER_STATE_SERVICE, stateServiceOptions).then(
+    parseChannelStateRequestSigner
+  );
+};
+
+const paidCallMetadataGenerator = serviceRequestErrorHandler => async (channelId, signingAmount, nonce) => {
+  try {
+    const apiName = APIEndpoints.SIGNER_SERVICE.name;
+    const RegCallPayload = { channel_id: channelId, amount: Number(signingAmount), nonce: Number(nonce) };
+    const { token } = await fetchAuthenticatedUser();
+    const RegCallOptions = initializeAPIOptions(token, RegCallPayload);
+    const response = await API.post(apiName, APIPaths.SIGNER_REGULAR_CALL, RegCallOptions);
+    const paidCallMetadata = parseRegularCallMetadata(response);
+    return Promise.resolve(paidCallMetadata);
+  } catch (error) {
+    serviceRequestErrorHandler(error);
   }
 };
 
@@ -74,6 +91,45 @@ const generateOptions = (callType, wallet, serviceRequestErrorHandler) => {
   if (wallet && wallet.type === walletTypes.METAMASK) {
     return {};
   }
+  if (callType === callTypes.REGULAR) {
+    return {
+      channelStateRequestSigner,
+      paidCallMetadataGenerator: paidCallMetadataGenerator(serviceRequestErrorHandler),
+    };
+  }
+};
+
+class PaypalIdentity {
+  constructor(address, web3) {
+    this._web3 = web3;
+    this._web3.eth.defaultAccount = address;
+  }
+
+  get address() {
+    return this._web3.eth.defaultAccount;
+  }
+}
+
+class PaypalSDK extends SnetSDK {
+  constructor(address, ...args) {
+    super(...args);
+    this._address = address;
+  }
+
+  _createIdentity() {
+    return new PaypalIdentity(this._address, this._web3);
+  }
+}
+
+export const initPaypalSdk = (address, channelInfo) => {
+  const config = {
+    networkId: process.env.REACT_APP_ETH_NETWORK,
+    web3Provider: process.env.REACT_APP_WEB3_PROVIDER,
+    defaultGasPrice: DEFAULT_GAS_PRICE,
+    defaultGasLimit: DEFAULT_GAS_LIMIT,
+  };
+  sdk = new PaypalSDK(address, config, {});
+  sdk.paymentChannelManagementStrategy = new PaypalPaymentMgmtStrategy(sdk, channelInfo.id);
 };
 
 export const initSdk = async address => {
@@ -85,6 +141,7 @@ export const initSdk = async address => {
       defaultGasPrice: DEFAULT_GAS_PRICE,
       defaultGasLimit: DEFAULT_GAS_LIMIT,
     };
+
     sdk = new SnetSDK(config);
   };
 
@@ -142,12 +199,13 @@ export const createServiceClient = (
   serviceRequestCompleteHandler,
   serviceRequestErrorHandler,
   callType,
-  wallet
+  wallet,
+  channelInfo
 ) => {
   if (sdk && sdk.currentChannel) {
     sdk.paymentChannelManagementStrategy = new ProxyPaymentChannelManagementStrategy(sdk.currentChannel);
   }
-  const options = generateOptions(callType, wallet, serviceRequestErrorHandler);
+  const options = generateOptions(callType, wallet, serviceRequestErrorHandler, channelInfo);
   const serviceClient = new ServiceClient(
     sdk,
     org_id,

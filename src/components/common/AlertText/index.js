@@ -23,7 +23,7 @@ const AlertText = ({ type, message, inline }) => {
 
 AlertText.propTypes = {
   message: PropTypes.string,
-  type: PropTypes.oneOf([...Object.values(alertTypes)]),
+  type: PropTypes.oneOf(["error", "success", "warning", "info"]),
   inline: PropTypes.bool,
 };
 

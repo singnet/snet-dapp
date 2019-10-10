@@ -1,11 +1,20 @@
 export const useStyles = theme => ({
-  ExpiredSessionContainer: {
-    textAlign: "center",
+  mainContainer: {
+    paddingTop: 35,
     "& button": {
       marginTop: 36,
       marginRight: "0 !important",
       paddingBottomg: 15,
     },
+  },
+  description: {
+    paddingLeft: 20,
+    margin: 0,
+    color: theme.palette.text.alertBoxColor,
+    fontFamily: theme.typography.primary.main,
+    fontSize: 14,
+    letterSpacing: 0.25,
+    lineHeight: "20px",
   },
   PurchaseFlowContainer: { padding: "0 50px 50px" },
   PurchaseFlowDescription: {
@@ -35,7 +44,45 @@ export const useStyles = theme => ({
     fontSize: 16,
     fontWeight: 600,
   },
-  tooltip: {
-    fontSize: 14,
+  tooltip: { fontSize: 14 },
+  paymentChannelAndDetails: {
+    marginTop: 35,
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  paymentChannelDropDownContainer: { display: "flex" },
+  infoIconContainer: {
+    marginRight: 10,
+    alignSelf: "center",
+    color: theme.palette.text.lightShadedGray,
+    fontSize: 20,
+  },
+  paymentChannelDropDown: {
+    width: 278,
+    padding: "0 10px",
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderColor: "rgba(25,25,25,0.32)",
+    borderRadius: 4,
+    display: "flex",
+    alignItems: "center",
+    position: "relative",
+    "& .MuiFormControl-root": { width: "90%" },
+  },
+  dropDownTitle: {
+    padding: "0 5px",
+    position: "absolute",
+    top: -11,
+    left: 10,
+    backgroundColor: theme.palette.text.white,
+    color: theme.palette.text.dialogTitle,
+    fontSize: 12,
+    letterSpacing: 0.4,
+  },
+  walletIcon: { color: theme.palette.text.lightShadedGray },
+  btnsContainer: {
+    marginTop: 64,
+    textAlign: "center",
+    "& button": { marginRight: "32px" },
   },
 });

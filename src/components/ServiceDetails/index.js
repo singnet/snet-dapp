@@ -4,6 +4,7 @@ import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
 import CardGiftcardIcon from "@material-ui/icons/CardGiftcard";
 import isEmpty from "lodash/isEmpty";
+import queryString from "query-string";
 
 import TitleCard from "./TitleCard";
 import PricingDetails from "./PricingDetails";
@@ -12,7 +13,7 @@ import AboutService from "./AboutService";
 import InstallAndRunService from "./InstallAndRunService";
 import { useStyles } from "./styles";
 import NotificationBar, { notificationBarTypes } from "../common/NotificationBar";
-import { serviceDetailsActions } from "../../Redux/actionCreators";
+import { serviceDetailsActions, paymentActions } from "../../Redux/actionCreators";
 import { pricing, serviceDetails } from "../../Redux/reducers/ServiceDetailsReducer";
 import ErrorBox from "../common/ErrorBox";
 
@@ -33,6 +34,7 @@ class ServiceDetails extends Component {
     if (isEmpty(this.props.service)) {
       this.fetchServiceDetails();
     }
+    this.checkForPaymentsInProgress();
   }
 
   fetchServiceDetails = async () => {
@@ -46,6 +48,20 @@ class ServiceDetails extends Component {
       await fetchServiceDetails(orgId, serviceId);
     } catch (error) {
       this.setState({ error: true });
+    }
+  };
+
+  checkForPaymentsInProgress = () => {
+    const {
+      location: { search },
+      match: {
+        params: { orderId, paymentId },
+      },
+      updatePaypalInProgress,
+    } = this.props;
+    const { paymentId: paypalPaymentId, PayerID } = queryString.parse(search);
+    if ((orderId, paymentId, paypalPaymentId, PayerID)) {
+      updatePaypalInProgress(orderId, paymentId, paypalPaymentId, PayerID);
     }
   };
 
@@ -127,6 +143,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => ({
   fetchServiceDetails: (orgId, serviceId) => dispatch(serviceDetailsActions.fetchServiceDetails(orgId, serviceId)),
+  updatePaypalInProgress: (orderId, paymentId, paypalPaymentId, PayerID) =>
+    dispatch(paymentActions.updatePaypalInProgress(orderId, paymentId, paypalPaymentId, PayerID)),
 });
 
 export default connect(

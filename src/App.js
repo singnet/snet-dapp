@@ -15,10 +15,8 @@ import withInAppWrapper from "./components/HOC/WithInAppHeader";
 import { userActions } from "./Redux/actionCreators";
 import PrivateRoute from "./components/common/PrivateRoute";
 import AppLoader from "./components/common/AppLoader";
-import { initSdk } from "./utility/sdk";
 import { CircularProgress } from "@material-ui/core";
 import NetworkChangeOverlay from "./components/common/NetworkChangeOverlay";
-import { walletTypes } from "./Redux/actionCreators/UserActions";
 import initHotjar from "./assets/externalScripts/hotjar";
 import initGDPRNotification from "./assets/externalScripts/gdpr";
 
@@ -51,12 +49,6 @@ initGDPRNotification();
 class App extends Component {
   componentDidMount = () => {
     this.props.fetchUserDetails();
-  };
-
-  componentDidUpdate = () => {
-    if (this.props.wallet.type === walletTypes.METAMASK) {
-      initSdk();
-    }
   };
 
   render() {
@@ -103,7 +95,15 @@ class App extends Component {
                 <PrivateRoute
                   isAllowed={isTermsAccepted}
                   redirectTo={`/${Routes.ONBOARDING}`}
+                  exact
                   path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId`}
+                  {...this.props}
+                  component={withInAppWrapper(ServiceDetails)}
+                />
+                <PrivateRoute
+                  isAllowed={isTermsAccepted}
+                  redirectTo={`/${Routes.ONBOARDING}`}
+                  path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId/order/:orderId/payment/:paymentId/execute`}
                   {...this.props}
                   component={withInAppWrapper(ServiceDetails)}
                 />
@@ -140,7 +140,6 @@ const mapStateToProps = state => ({
   isTermsAccepted: state.userReducer.isTermsAccepted,
   isInitialized: state.userReducer.isInitialized,
   hamburgerMenu: state.stylesReducer.hamburgerMenu,
-  wallet: state.userReducer.wallet,
 });
 
 const mapDispatchToProps = dispatch => ({
