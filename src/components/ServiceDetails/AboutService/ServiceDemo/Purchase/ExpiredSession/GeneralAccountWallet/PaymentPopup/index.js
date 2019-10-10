@@ -37,7 +37,6 @@ class CreateWalletPopup extends Component {
 
   purchaseWallet = () => {
     this.setState({ activeSection: 2 });
-    this.props.setVisibility(true);
   };
 
   handleClose = () => {

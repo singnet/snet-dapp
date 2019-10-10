@@ -63,8 +63,7 @@ class ServiceDetails extends Component {
     const { paymentId: paypalPaymentId, PayerID } = queryString.parse(search);
     if (orderId && paymentId && paypalPaymentId && PayerID) {
       const { data } = await fetchOrderDetails(orderId);
-      const order = data.orders.find(order => order.order_id === orderId);
-      const orderType = order.item_details.order_type;
+      const orderType = data.item_details.order_type;
       updatePaypalInProgress(orderId, orderType, paymentId, paypalPaymentId, PayerID);
     }
   };

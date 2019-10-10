@@ -38,9 +38,9 @@ export const executePayment = paymentExecObj => async () => {
 
 const orderDetailsAPI = (token, orderId) => {
   const apiName = APIEndpoints.ORCHESTRATOR.name;
-  const apiPath = APIPaths.ORDER_DETAILS;
-  const queryParams = { order_id: orderId };
-  const apiOptions = initializeAPIOptions(token, null, queryParams);
+  const apiPath = `${APIPaths.ORDER_DETAILS}/${orderId}`;
+  // const queryParams = { order_id: orderId };
+  const apiOptions = initializeAPIOptions(token);
   return API.get(apiName, apiPath, apiOptions);
 };
 
