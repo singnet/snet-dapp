@@ -24,6 +24,7 @@
     "material-ui": "^1.0.0-beta.47",
     "material-ui-flat-pagination": "^3.2.0",
     "material-ui-rating": "^3.1.1",
+    "moment": "^2.24.0",
     "notistack": "^0.8.9",
     "papaparse": "^5.0.2",
     "query-string": "^6.8.3",

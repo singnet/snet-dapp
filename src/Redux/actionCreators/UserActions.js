@@ -1,4 +1,5 @@
 import { Auth, API } from "aws-amplify";
+import moment from "moment";
 
 import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { parseError } from "../../utility/ErrorHandling";
@@ -6,7 +7,6 @@ import { userActions, errorActions, loaderActions } from ".";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
 import { initializeAPIOptions } from "../../utility/API";
 import Routes from "../../utility/constants/Routes";
-import { FormatTime12Hours } from "../../utility/JSHelper";
 
 export const SET_USER_DETAILS = "SET_USER_DETAILS";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
@@ -95,10 +95,10 @@ export const fetchUserTransactions = async dispatch => {
 
 const fetchUserTransactionsSuccess = response => dispatch => {
   const transactionHistory = response.data.orders.map(value => {
-    const [date, time] = value.created_at.split(" ");
+    const timestamp = moment(value.created_at);
     return {
-      date,
-      time: FormatTime12Hours(time),
+      date: timestamp.format("DD MMM YYYY"),
+      time: timestamp.format("hh:mm A"),
       organizationName: value.item_details.organization_name,
       orderId: value.order_id,
       paymentChannel: value.wallet_type,
