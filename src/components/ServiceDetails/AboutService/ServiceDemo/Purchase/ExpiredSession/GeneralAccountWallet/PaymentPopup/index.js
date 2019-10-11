@@ -23,7 +23,6 @@ import Routes from "../../../../../../../../utility/constants/Routes";
 
 class CreateWalletPopup extends Component {
   state = {
-    progressText: ["Details", "Purchase", "Private Key", "Summary"],
     activeSection: 1,
     privateKey: undefined,
     amount: "",
@@ -54,6 +53,12 @@ class CreateWalletPopup extends Component {
     setVisibility(false);
     this.setState({ activeSection: 1 });
     history.push(`/${Routes.SERVICE_DETAILS}/org/${orgId}/service/${serviceId}`);
+  };
+
+  handleClose = () => {
+    if (this.state.activeSection === 1) {
+      this.props.setVisibility(false);
+    }
   };
 
   handleNextSection = () => {
@@ -114,14 +119,20 @@ class CreateWalletPopup extends Component {
   };
 
   render() {
-    const { classes, visible, paypalInProgress, orderType } = this.props;
+    const { classes, visible, paypalInProgress, orderType, title } = this.props;
     const { activeSection, privateKey, amount, item, quantity } = this.state;
 
     const progressText = ["Details", "Purchase", "Summary"];
     const PopupProgressBarComponents = [
       {
         key: 1,
-        component: <Details handleNextSection={this.handleNextSection} initiatePayment={this.handleInitiatePayment} />,
+        component: (
+          <Details
+            handleNextSection={this.handleNextSection}
+            initiatePayment={this.handleInitiatePayment}
+            handleClose={this.handleClose}
+          />
+        ),
       },
       {
         key: 2,
@@ -155,7 +166,7 @@ class CreateWalletPopup extends Component {
           <Card className={classes.card}>
             <CardHeader
               className={classes.CardHeader}
-              title="Create General Account Wallet"
+              title={title}
               action={
                 <IconButton onClick={this.handleClose}>
                   <CloseIcon />

@@ -15,6 +15,11 @@ export const orderTypes = {
   TOPUP_WALLET: "FUND_CHANNEL",
 };
 
+export const paymentTitles = {
+  CREATE_WALLET: "Create General Account Wallet",
+  TOPUP_WALLET: "Topup General Account Wallet",
+};
+
 const GeneralAccountWallet = props => {
   const { classes, channelInfo, handleContinue, paypalInProgress } = props;
 
