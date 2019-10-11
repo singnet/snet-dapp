@@ -2,7 +2,7 @@ import { Auth, API } from "aws-amplify";
 
 import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { parseError } from "../../utility/ErrorHandling";
-import { userActions, errorActions, loaderActions } from ".";
+import { userActions, errorActions, loaderActions } from "./";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
 import { initializeAPIOptions } from "../../utility/API";
 import Routes from "../../utility/constants/Routes";
@@ -22,6 +22,7 @@ export const UPDATE_EMAIL_ALERTS_SUBSCRIPTION = "UPDATE_EMAIL_ALERTS_SUBSCRIPTIO
 export const UPDATE_WALLET = "UPDATE_WALLET";
 export const APP_INITIALIZATION_SUCCESS = "APP_INITIALIZATION_SUCCESS";
 export const UPDATE_IS_TERMS_ACCEPTED = "UPDATE_IS_TERMS_ACCEPTED";
+export const UPDATE_FIRST_TIME_FETCH_WALLET = "FIRST_TIME_FETCH_WALLET";
 
 let walletPollingInterval;
 
@@ -358,6 +359,10 @@ export const updateWallet = walletDetails => dispatch => {
   dispatch({ type: UPDATE_WALLET, payload: { ...walletDetails } });
 };
 
+export const updateFirstTimeFetchWallet = value => dispatch => {
+  dispatch({ type: UPDATE_FIRST_TIME_FETCH_WALLET, payload: value });
+};
+
 const fetchWalletSuccess = response => dispatch => {
   const defaultWallet = response.data.wallets.find(wallet => Boolean(wallet.is_default));
   if (!isEmpty(defaultWallet)) {
@@ -373,7 +378,6 @@ const fetchWalletAPI = (token, orgId, groupId) => {
     group_id: groupId,
   };
   const apiOptions = initializeAPIOptions(token, null, queryStringParameters);
-
   return API.get(apiName, apiPath, apiOptions);
 };
 

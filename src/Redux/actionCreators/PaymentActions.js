@@ -1,10 +1,12 @@
-import { userActions, loaderActions } from ".";
+import { API } from "aws-amplify";
+
+import { userActions, loaderActions } from "./";
 import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { initializeAPIOptions } from "../../utility/API";
-import { API } from "aws-amplify";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
 
 export const UPDATE_PAYPAL_IN_PROGRESS = "UPDATE_PAYPAL_IN_PROGRESS";
+export const UPDATE_PAYPAL_COMPLETED = "UPDATE_PAYPAL_COMPLETED";
 
 const initiatePaymentAPI = (token, paymentObj) => {
   const apiName = APIEndpoints.ORCHESTRATOR.name;
@@ -36,6 +38,22 @@ export const executePayment = paymentExecObj => async () => {
   return await executePaymentAPI(token, paymentExecObj);
 };
 
-export const updatePaypalInProgress = (orderId, paymentId, paypalPaymentId, PayerID) => dispatch => {
-  dispatch({ type: UPDATE_PAYPAL_IN_PROGRESS, payload: { orderId, paymentId, paypalPaymentId, PayerID } });
+const orderDetailsAPI = (token, orderId) => {
+  const apiName = APIEndpoints.ORCHESTRATOR.name;
+  const apiPath = `${APIPaths.ORDER_DETAILS}/${orderId}`;
+  const apiOptions = initializeAPIOptions(token);
+  return API.get(apiName, apiPath, apiOptions);
+};
+
+export const fetchOrderDetails = orderId => async () => {
+  const { token } = await userActions.fetchAuthenticatedUser();
+  return await orderDetailsAPI(token, orderId);
+};
+
+export const updatePaypalInProgress = (orderId, orderType, paymentId, paypalPaymentId, PayerID) => dispatch => {
+  dispatch({ type: UPDATE_PAYPAL_IN_PROGRESS, payload: { orderId, orderType, paymentId, paypalPaymentId, PayerID } });
+};
+
+export const updatePaypalCompleted = dispatch => {
+  dispatch({ type: UPDATE_PAYPAL_COMPLETED });
 };

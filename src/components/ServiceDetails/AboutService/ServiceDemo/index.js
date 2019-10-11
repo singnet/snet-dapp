@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
-import isEmpty from "lodash/isEmpty";
 
 import ProgressBar from "../../../common/ProgressBar";
 import { useStyles } from "./styles";
@@ -66,14 +65,12 @@ class ServiceDemo extends Component {
     const {
       service: { org_id: orgId },
       groupInfo: { group_id: groupId },
-      wallet,
       startWalletDetailsPolling,
       startFetchWalletLoader,
       stopLoader,
     } = this.props;
-    const showLoader = isEmpty(wallet);
     startFetchWalletLoader();
-    await startWalletDetailsPolling(orgId, groupId, showLoader);
+    await startWalletDetailsPolling(orgId, groupId);
     stopLoader();
   };
 
@@ -184,6 +181,7 @@ const mapStateToProps = state => ({
   groupInfo: groupInfo(state),
   email: state.userReducer.email,
   wallet: state.userReducer.wallet,
+  firstTimeFetchWallet: state.userReducer.firstTimeFetchWallet,
   channelInfo: channelInfo(state),
 });
 
@@ -193,8 +191,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   stopLoader: () => dispatch(loaderActions.stopAppLoader),
   fetchMeteringData: args => dispatch(serviceDetailsActions.fetchMeteringData(args)),
   startFetchWalletLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.FETCH_WALLET)),
-  startWalletDetailsPolling: (orgId, groupId, showLoader) =>
-    dispatch(userActions.startWalletDetailsPolling(orgId, groupId, showLoader)),
+  startWalletDetailsPolling: (orgId, groupId) => dispatch(userActions.startWalletDetailsPolling(orgId, groupId)),
   stopWalletDetailsPolling: () => dispatch(userActions.stopWalletDetailsPolling),
 });
 

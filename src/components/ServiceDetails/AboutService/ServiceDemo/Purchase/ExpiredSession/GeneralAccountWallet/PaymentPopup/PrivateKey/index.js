@@ -36,7 +36,6 @@ const PrivateKey = ({ classes, privateKey, handleNextSection }) => {
         message="Please keep the private key secured. Once the private key is lost, it can not be recovered."
       />
       <div className={classes.btnContainer}>
-        {/* <StyledButton type="transparent" btnText="cancel" /> */}
         <StyledButton type="blue" disabled={!keyCopied} btnText="continue" onClick={handleNextSection} />
       </div>
     </div>
