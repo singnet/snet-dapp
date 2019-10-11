@@ -2,7 +2,7 @@ import { Auth, API } from "aws-amplify";
 
 import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { parseError } from "../../utility/ErrorHandling";
-import { userActions, errorActions, loaderActions } from ".";
+import { userActions, errorActions, loaderActions } from "./";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
 import { initializeAPIOptions } from "../../utility/API";
 import Routes from "../../utility/constants/Routes";
@@ -22,6 +22,7 @@ export const UPDATE_EMAIL_ALERTS_SUBSCRIPTION = "UPDATE_EMAIL_ALERTS_SUBSCRIPTIO
 export const UPDATE_WALLET = "UPDATE_WALLET";
 export const APP_INITIALIZATION_SUCCESS = "APP_INITIALIZATION_SUCCESS";
 export const UPDATE_IS_TERMS_ACCEPTED = "UPDATE_IS_TERMS_ACCEPTED";
+export const UPDATE_FIRST_TIME_FETCH_WALLET = "FIRST_TIME_FETCH_WALLET";
 
 export const walletTypes = {
   GENERAL: "GENERAL",
@@ -358,6 +359,10 @@ export const forgotPasswordSubmit = ({ email, code, password, history, route }) 
     });
 };
 
+export const updateFirstTimeFetchWallet = value => dispatch => {
+  dispatch({ type: UPDATE_FIRST_TIME_FETCH_WALLET, payload: value });
+};
+
 const fetchWalletSuccess = response => dispatch => {
   const defaultWallet = response.data.wallets.find(wallet => Boolean(wallet.is_default));
   if (!isEmpty(defaultWallet)) {
@@ -366,27 +371,18 @@ const fetchWalletSuccess = response => dispatch => {
 };
 
 const fetchWalletAPI = (token, orgId, groupId) => {
-  try {
-    const apiName = APIEndpoints.ORCHESTRATOR.name;
-    const apiPath = APIPaths.WALLET;
-    const queryStringParameters = {
-      org_id: orgId,
-      group_id: groupId,
-    };
-    const apiOptions = initializeAPIOptions(token, null, queryStringParameters);
-
-    return API.get(apiName, apiPath, apiOptions);
-  } catch (error) {
-    console.log("fetchWalletAPI error", error);
-  }
+  const apiName = APIEndpoints.ORCHESTRATOR.name;
+  const apiPath = APIPaths.WALLET;
+  const queryStringParameters = {
+    org_id: orgId,
+    group_id: groupId,
+  };
+  const apiOptions = initializeAPIOptions(token, null, queryStringParameters);
+  return API.get(apiName, apiPath, apiOptions);
 };
 
 export const fetchWallet = (orgId, groupId) => async dispatch => {
-  try {
-    const { token } = await fetchAuthenticatedUser();
-    const response = await fetchWalletAPI(token, orgId, groupId);
-    dispatch(fetchWalletSuccess(response));
-  } catch (error) {
-    console.log("fetchWallet error", error);
-  }
+  const { token } = await fetchAuthenticatedUser();
+  const response = await fetchWalletAPI(token, orgId, groupId);
+  dispatch(fetchWalletSuccess(response));
 };

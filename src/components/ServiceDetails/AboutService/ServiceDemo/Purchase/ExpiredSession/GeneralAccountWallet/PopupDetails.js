@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 
 import ProgressBar from "../../../../../../common/ProgressBar";
 
-const PopupDetails = ({ classes, item, active, activeSection, progressText }) => {
+const PopupDetails = ({ item, active, activeSection, progressText }) => {
   if (!active) {
     return null;
   }

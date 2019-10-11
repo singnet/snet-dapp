@@ -66,9 +66,11 @@ class ServiceDemo extends Component {
 
   pollWalletDetails = () => {
     this.fetchWalletDetails();
-    const { wallet } = this.props;
+    const { wallet, channelInfo } = this.props;
     this.walletPollingInterval = setInterval(this.fetchWalletDetails, 15000);
-    if (!isEmpty(wallet) && wallet.status !== "PENDING") {
+    const anyPendingTxn = wallet.transactions && wallet.transactions.some(txn => txn.status === "PENDING");
+    const anyFailedTxn = wallet.transactions && wallet.transactions.some(txn => txn.status === "FAILED");
+    if (!isEmpty(channelInfo) && !(anyPendingTxn || anyFailedTxn)) {
       clearInterval(this.walletPollingInterval);
     }
   };
@@ -77,21 +79,18 @@ class ServiceDemo extends Component {
     const {
       service: { org_id: orgId },
       groupInfo: { group_id: groupId },
-      wallet,
       fetchWallet,
       startFetchWalletLoader,
       stopLoader,
+      firstTimeFetchWallet,
+      updateFirstTimeFetchWallet,
     } = this.props;
-    if (isEmpty(wallet)) {
+    if (firstTimeFetchWallet) {
       startFetchWalletLoader();
     }
-    try {
-      await fetchWallet(orgId, groupId);
-    } catch (error) {
-      console.log("fetchWalletDetails error", error);
-    }
-
-    if (isEmpty(wallet)) {
+    await fetchWallet(orgId, groupId);
+    updateFirstTimeFetchWallet(false);
+    if (firstTimeFetchWallet) {
       stopLoader();
     }
   };
@@ -203,6 +202,7 @@ const mapStateToProps = state => ({
   groupInfo: groupInfo(state),
   email: state.userReducer.email,
   wallet: state.userReducer.wallet,
+  firstTimeFetchWallet: state.userReducer.firstTimeFetchWallet,
   channelInfo: channelInfo(state),
 });
 
@@ -212,6 +212,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   stopLoader: () => dispatch(loaderActions.stopAppLoader),
   fetchMeteringData: args => dispatch(serviceDetailsActions.fetchMeteringData(args)),
   fetchWallet: (orgId, groupId) => dispatch(userActions.fetchWallet(orgId, groupId)),
+  updateFirstTimeFetchWallet: value => dispatch(userActions.updateFirstTimeFetchWallet(value)),
   startFetchWalletLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.FETCH_WALLET)),
 });
 

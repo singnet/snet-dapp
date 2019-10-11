@@ -13,6 +13,7 @@ const InitialUserDetails = {
   isInitialized: false,
   isEmailVerified: false,
   wallet: {},
+  firstTimeFetchWallet: true,
   email: "",
   nickname: "",
   emailAlerts: false,
@@ -85,6 +86,9 @@ const userReducer = (state = InitialUserDetails, action) => {
     }
     case userActions.UPDATE_WALLET: {
       return { ...state, wallet: action.payload };
+    }
+    case userActions.UPDATE_FIRST_TIME_FETCH_WALLET: {
+      return { ...state, firstTimeFetchWallet: action.payload };
     }
     case userActions.UPDATE_NICKNAME: {
       return { ...state, ...action.payload };

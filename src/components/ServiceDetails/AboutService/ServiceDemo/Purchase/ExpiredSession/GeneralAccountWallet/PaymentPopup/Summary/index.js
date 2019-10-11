@@ -7,20 +7,9 @@ import StyledButton from "../../../../../../../../common/StyledButton";
 import { useStyles } from "./styles";
 import StyledTable from "../../../../../../../../common/StyledTable";
 import InfoIcon from "@material-ui/icons/Info";
-import Routes from "../../../../../../../../../utility/constants/Routes";
 
 const Summary = props => {
-  const {
-    classes,
-    amount,
-    item,
-    quantity,
-    history,
-    match: {
-      params: { orgId, serviceId },
-    },
-    handleClose,
-  } = props;
+  const { classes, amount, item, quantity, handlePaymentComplete } = props;
 
   const columns = [{ key: "item", label: "Total $USD spent" }, { key: "amount", label: `$${amount}` }];
   const rows = [
@@ -31,11 +20,6 @@ const Summary = props => {
     },
   ];
 
-  const handleFinish = () => {
-    handleClose();
-    history.push(`/${Routes.SERVICE_DETAILS}/org/${orgId}/service/${serviceId}`);
-  };
-
   return (
     <div className={classes.summaryContainer}>
       <Typography variant="body2" className={classes.successMsg}>
@@ -43,7 +27,7 @@ const Summary = props => {
       </Typography>
       <StyledTable title="Transaction Receipt" columns={columns} rows={rows} />
       <div className={classes.btnContainer}>
-        <StyledButton type="blue" btnText="finish" onClick={handleFinish} />
+        <StyledButton type="blue" btnText="finish" onClick={handlePaymentComplete} />
       </div>
     </div>
   );

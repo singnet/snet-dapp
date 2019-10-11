@@ -18,10 +18,11 @@ import PopupDetails from "../PopupDetails";
 import { useStyles } from "./styles";
 import { paymentActions } from "../../../../../../../../Redux/actionCreators";
 import { groupInfo } from "../../../../../../../../Redux/reducers/ServiceDetailsReducer";
+import { orderTypes } from "..";
+import Routes from "../../../../../../../../utility/constants/Routes";
 
 class CreateWalletPopup extends Component {
   state = {
-    progressText: ["Details", "Purchase", "Private Key", "Summary"],
     activeSection: 1,
     privateKey: undefined,
     amount: "",
@@ -37,11 +38,27 @@ class CreateWalletPopup extends Component {
 
   purchaseWallet = () => {
     this.setState({ activeSection: 2 });
-    this.props.setShowCreateWalletPopup(true);
+  };
+
+  handlePaymentComplete = () => {
+    const {
+      paypalCompleted,
+      setVisibility,
+      match: {
+        params: { orgId, serviceId },
+      },
+      history,
+    } = this.props;
+    paypalCompleted();
+    setVisibility(false);
+    this.setState({ activeSection: 1 });
+    history.push(`/${Routes.SERVICE_DETAILS}/org/${orgId}/service/${serviceId}`);
   };
 
   handleClose = () => {
-    this.props.setShowCreateWalletPopup(false);
+    if (this.state.activeSection === 1) {
+      this.props.setVisibility(false);
+    }
   };
 
   handleNextSection = () => {
@@ -58,6 +75,7 @@ class CreateWalletPopup extends Component {
         payment: { payment_address },
       },
       initiatePayment,
+      orderType,
     } = this.props;
     const paymentObj = {
       price: { amount: Number(amount), currency },
@@ -68,7 +86,7 @@ class CreateWalletPopup extends Component {
         service_id: serviceId,
         group_id,
         receipient: payment_address,
-        order_type: "CREATE_WALLET_AND_CHANNEL",
+        order_type: orderType,
       },
       payment_method: payType,
     };
@@ -101,29 +119,54 @@ class CreateWalletPopup extends Component {
   };
 
   render() {
-    const { classes, open, paypalInProgress } = this.props;
-    const { progressText, activeSection, privateKey, amount, item, quantity } = this.state;
+    const { classes, visible, paypalInProgress, orderType, title } = this.props;
+    const { activeSection, privateKey, amount, item, quantity } = this.state;
 
+    const progressText = ["Details", "Purchase", "Summary"];
     const PopupProgressBarComponents = [
       {
         key: 1,
-        component: <Details handleNextSection={this.handleNextSection} initiatePayment={this.handleInitiatePayment} />,
+        component: (
+          <Details
+            handleNextSection={this.handleNextSection}
+            initiatePayment={this.handleInitiatePayment}
+            handleClose={this.handleClose}
+          />
+        ),
       },
       {
         key: 2,
-        component: <Purchase paypalInProgress={paypalInProgress} executePayment={this.handleExecutePayment} />,
+        component: (
+          <Purchase
+            paypalInProgress={paypalInProgress}
+            executePayment={this.handleExecutePayment}
+            handleCancel={this.handleClose}
+          />
+        ),
       },
-      { key: 3, component: <PrivateKey privateKey={privateKey} handleNextSection={this.handleNextSection} /> },
-      { key: 4, component: <Summary amount={amount} item={item} quantity={quantity} handleClose={this.handleClose} /> },
+      {
+        key: 4,
+        component: (
+          <Summary amount={amount} item={item} quantity={quantity} handlePaymentComplete={this.handlePaymentComplete} />
+        ),
+      },
     ];
+
+    if (orderType === orderTypes.CREATE_WALLET) {
+      progressText.splice(2, 0, "Private Key");
+      PopupProgressBarComponents.splice(2, 0, {
+        key: 3,
+        component: <PrivateKey privateKey={privateKey} handleNextSection={this.handleNextSection} />,
+      });
+    }
 
     return (
       <div className={classes.generalAccWalletContainer}>
-        <Modal open={open} onClose={this.handleClose} className={classes.Modal}>
+        <Modal open={visible} onClose={this.handleClose} className={classes.Modal}>
           <Card className={classes.card}>
             <CardHeader
               className={classes.CardHeader}
-              title="Create General Account Wallet"
+              title={title}
               action={
                 <IconButton onClick={this.handleClose}>
                   <CloseIcon />
@@ -156,6 +199,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   initiatePayment: paymentObj => dispatch(paymentActions.initiatePayment(paymentObj)),
   executePayment: paymentExecObj => dispatch(paymentActions.executePayment(paymentExecObj)),
+  paypalCompleted: () => dispatch(paymentActions.updatePaypalCompleted),
 });
 
 export default withRouter(

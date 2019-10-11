@@ -59,11 +59,11 @@ class ExpiredSession extends Component {
   transactionAlert = () => {
     const { wallet } = this.props;
     const anyPendingTxn = wallet.transactions && wallet.transactions.some(txn => txn.status === "PENDING");
-    if (!isEmpty(anyPendingTxn)) {
+    if (anyPendingTxn) {
       return TransactionAlert.PENDING;
     }
     const anyFailedTxn = wallet.transactions && wallet.transactions.some(txn => txn.status === "FAILED");
-    if (!isEmpty(anyFailedTxn)) {
+    if (anyFailedTxn) {
       return TransactionAlert.FAILED;
     }
     return {};

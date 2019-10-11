@@ -72,4 +72,8 @@ export const LoaderContent = {
     loaderHeader: "Fetching Wallet Info",
     loaderText: "Please wait. we're fetching your wallet details",
   },
+  FETCH_ORDER_DETAILS: {
+    loaderHeader: "Fetching order details",
+    loaderText: "Please wait. we're fetching your order details",
+  },
 };
