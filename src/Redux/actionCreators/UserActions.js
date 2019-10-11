@@ -106,7 +106,7 @@ const fetchUserTransactionsSuccess = response => dispatch => {
       status: value.order_status,
       cost: value.price.amount,
       itemQuantity: value.item_details.quantity,
-      itemUnit: value.item_details.unit,
+      itemUnit: value.item_details.item,
     };
   });
   dispatch(updateTransactionHistory(transactionHistory));

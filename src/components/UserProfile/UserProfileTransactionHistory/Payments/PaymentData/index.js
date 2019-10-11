@@ -46,10 +46,7 @@ const PaymentData = ({
         <Typography>${cost}</Typography>
       </Grid>
       <Grid item xs={12} sm={12} md={2} lg={1}>
-        <Typography>
-          {itemQuantity}
-          {itemUnit}
-        </Typography>
+        <Typography>{`${itemQuantity} ${itemUnit}`}</Typography>
       </Grid>
     </Grid>
   );
