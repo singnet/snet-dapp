@@ -31,6 +31,8 @@ export const APIPaths = {
   GET_USER_PROFILE: "/profile",
   UPDATE_USER_PROFILE: "/profile",
   WALLET: "/wallet/channel",
+  REGISTER_WALLET: "/wallet/register",
+  UPDATE_DEFAULT_WALLET: "/wallet/status",
   INVOKE_SERVICE: "/invoke",
   FILTER_DATA: "/service?attribute=",
   FEEDBACK: "/feedback",

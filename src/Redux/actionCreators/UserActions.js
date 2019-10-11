@@ -24,6 +24,8 @@ export const APP_INITIALIZATION_SUCCESS = "APP_INITIALIZATION_SUCCESS";
 export const UPDATE_IS_TERMS_ACCEPTED = "UPDATE_IS_TERMS_ACCEPTED";
 export const UPDATE_FIRST_TIME_FETCH_WALLET = "FIRST_TIME_FETCH_WALLET";
 
+let walletPollingInterval;
+
 export const walletTypes = {
   GENERAL: "GENERAL",
   METAMASK: "METAMASK",
@@ -78,10 +80,6 @@ const fetchUserProfile = token => dispatch => {
   });
 };
 
-export const updateWallet = walletDetails => dispatch => {
-  dispatch({ type: UPDATE_WALLET, payload: { ...walletDetails } });
-};
-
 const noAuthenticatedUser = dispatch => {
   dispatch({
     type: SET_USER_DETAILS,
@@ -93,7 +91,6 @@ const noAuthenticatedUser = dispatch => {
 };
 
 const fetchUserDetailsSuccess = (isEmailVerified, email, nickname) => dispatch => {
-  const wallet = JSON.parse(sessionStorage.getItem("wallet")) || {};
   dispatch({
     type: SET_USER_DETAILS,
     payload: {
@@ -102,7 +99,6 @@ const fetchUserDetailsSuccess = (isEmailVerified, email, nickname) => dispatch =
       isEmailVerified,
       email,
       nickname,
-      wallet,
     },
   });
   dispatch(loaderActions.stopAppLoader);
@@ -359,6 +355,10 @@ export const forgotPasswordSubmit = ({ email, code, password, history, route }) 
     });
 };
 
+export const updateWallet = walletDetails => dispatch => {
+  dispatch({ type: UPDATE_WALLET, payload: { ...walletDetails } });
+};
+
 export const updateFirstTimeFetchWallet = value => dispatch => {
   dispatch({ type: UPDATE_FIRST_TIME_FETCH_WALLET, payload: value });
 };
@@ -384,5 +384,45 @@ const fetchWalletAPI = (token, orgId, groupId) => {
 export const fetchWallet = (orgId, groupId) => async dispatch => {
   const { token } = await fetchAuthenticatedUser();
   const response = await fetchWalletAPI(token, orgId, groupId);
-  dispatch(fetchWalletSuccess(response));
+  return dispatch(fetchWalletSuccess(response));
+};
+
+export const startWalletDetailsPolling = (orgId, groupId) => dispatch => {
+  walletPollingInterval = setInterval(() => dispatch(fetchWallet(orgId, groupId)), 15000);
+  return dispatch(fetchWallet(orgId, groupId));
+};
+
+export const stopWalletDetailsPolling = () => {
+  clearInterval(walletPollingInterval);
+};
+
+const updateDefaultWalletAPI = (token, address) => {
+  const apiName = APIEndpoints.ORCHESTRATOR.name;
+  const apiPath = APIPaths.UPDATE_DEFAULT_WALLET;
+  const postObj = { address };
+  const apiOptions = initializeAPIOptions(token, postObj);
+  return API.post(apiName, apiPath, apiOptions);
+};
+
+const updateDefaultWallet = address => async () => {
+  const { token } = await fetchAuthenticatedUser();
+  return await updateDefaultWalletAPI(token, address);
+};
+
+const registerWalletSuccess = address => dispatch => {
+  return dispatch(updateDefaultWallet(address));
+};
+
+const registerWalletAPI = (token, address, type) => {
+  const apiName = APIEndpoints.ORCHESTRATOR.name;
+  const apiPath = APIPaths.REGISTER_WALLET;
+  const postObj = { address, type };
+  const apiOptions = initializeAPIOptions(token, postObj);
+  return API.post(apiName, apiPath, apiOptions);
+};
+
+export const registerWallet = (address, type) => async dispatch => {
+  const { token } = await fetchAuthenticatedUser();
+  await registerWalletAPI(token, address, type);
+  return dispatch(registerWalletSuccess(address));
 };
