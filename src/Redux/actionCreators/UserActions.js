@@ -99,18 +99,17 @@ const fetchUserTransactionsSuccess = response => dispatch => {
     return {
       date,
       time: FormatTime12Hours(time),
-      organizationName: value.item_details.org_id,
+      organizationName: value.item_details.organization_name,
       orderId: value.order_id,
       paymentChannel: value.wallet_type,
       orderType: value.item_details.order_type,
       status: value.order_status,
       cost: value.price.amount,
-      itemQuantity: value.quantity,
-      itemUnit: value.unit,
+      itemQuantity: value.item_details.quantity,
+      itemUnit: value.item_details.unit,
     };
   });
   dispatch(updateTransactionHistory(transactionHistory));
-  dispatch(loaderActions.stopAppLoader);
 };
 
 export const updateTransactionHistory = transactionHistory => dispatch => {

@@ -5,7 +5,6 @@ import Typography from "@material-ui/core/Typography";
 import truncate from "lodash/truncate";
 
 import PaymentData from "./PaymentData";
-// import StyledPagination from "../../../AiMarketplace/MainSection/ServiceCollection/StyledPagination";
 import { useStyles } from "./styles";
 
 const Payments = ({ classes, transactionHistory }) => {
@@ -21,16 +20,16 @@ const Payments = ({ classes, transactionHistory }) => {
         <Grid item xs={12} sm={12} md={2} lg={2}>
           <Typography>payment channel</Typography>
         </Grid>
-        <Grid item xs={12} sm={12} md={1} lg={1}>
+        <Grid item xs={12} sm={12} md={1} lg={2}>
           <Typography>type</Typography>
         </Grid>
-        <Grid item xs={12} sm={12} md={1} lg={1}>
+        <Grid item xs={12} sm={12} md={1} lg={2}>
           <Typography>status</Typography>
         </Grid>
-        <Grid item xs={12} sm={12} md={2} lg={2}>
+        <Grid item xs={12} sm={12} md={2} lg={1}>
           <Typography>cost ($ USD)</Typography>
         </Grid>
-        <Grid item xs={12} sm={12} md={2} lg={2}>
+        <Grid item xs={12} sm={12} md={2} lg={1}>
           <Typography>item received</Typography>
         </Grid>
       </Grid>
@@ -51,12 +50,6 @@ const Payments = ({ classes, transactionHistory }) => {
           />
         ))}
       </Grid>
-      {/* <StyledPagination 
-        limit: pagination.limit,
-        offset: pagination.offset,
-        total_count: pagination.total_count,
-        handleChange: this.handlePaginationChange,
-      /> */}
     </Grid>
   );
 };
