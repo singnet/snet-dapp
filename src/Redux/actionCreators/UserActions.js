@@ -23,6 +23,8 @@ export const UPDATE_WALLET = "UPDATE_WALLET";
 export const APP_INITIALIZATION_SUCCESS = "APP_INITIALIZATION_SUCCESS";
 export const UPDATE_IS_TERMS_ACCEPTED = "UPDATE_IS_TERMS_ACCEPTED";
 
+let walletPollingInterval;
+
 export const walletTypes = {
   GENERAL: "GENERAL",
   METAMASK: "METAMASK",
@@ -88,7 +90,6 @@ const noAuthenticatedUser = dispatch => {
 };
 
 const fetchUserDetailsSuccess = (isEmailVerified, email, nickname) => dispatch => {
-  const wallet = JSON.parse(sessionStorage.getItem("wallet")) || {};
   dispatch({
     type: SET_USER_DETAILS,
     payload: {
@@ -97,7 +98,6 @@ const fetchUserDetailsSuccess = (isEmailVerified, email, nickname) => dispatch =
       isEmailVerified,
       email,
       nickname,
-      wallet,
     },
   });
   dispatch(loaderActions.stopAppLoader);
@@ -380,7 +380,16 @@ const fetchWalletAPI = (token, orgId, groupId) => {
 export const fetchWallet = (orgId, groupId) => async dispatch => {
   const { token } = await fetchAuthenticatedUser();
   const response = await fetchWalletAPI(token, orgId, groupId);
-  dispatch(fetchWalletSuccess(response));
+  return dispatch(fetchWalletSuccess(response));
+};
+
+export const startWalletDetailsPolling = (orgId, groupId) => dispatch => {
+  walletPollingInterval = setInterval(() => dispatch(fetchWallet(orgId, groupId)), 15000);
+  return dispatch(fetchWallet(orgId, groupId));
+};
+
+export const stopWalletDetailsPolling = () => {
+  clearInterval(walletPollingInterval);
 };
 
 const updateDefaultWalletAPI = (token, address) => {

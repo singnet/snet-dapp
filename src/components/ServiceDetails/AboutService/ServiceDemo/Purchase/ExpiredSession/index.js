@@ -24,36 +24,31 @@ const TransactionAlert = {
 class ExpiredSession extends Component {
   handlePayTypeChange = async event => {
     const { value } = event.target;
-    const { updateWallet, registerWallet } = this.props;
+    const { updateWallet, stopWalletDetailsPolling } = this.props;
     this.setState({ alert: {} });
     if (value === walletTypes.METAMASK) {
       try {
         const selectedEthAddress = window.ethereum && window.ethereum.selectedAddress;
         const sdk = await initSdk(selectedEthAddress);
         const address = sdk.account.address;
-        //1. To be replaced with wallet API
-        await registerWallet(address, walletTypes.METAMASK);
+
         if (!isEmpty(address)) {
-          sessionStorage.setItem("wallet", JSON.stringify({ type: walletTypes.METAMASK, address }));
+          stopWalletDetailsPolling();
           updateWallet({ type: value, address });
           return;
         }
         this.setState({
           alert: { type: alertTypes.ERROR, message: `Unable to fetch Metamask address. Please try again` },
         });
-        //till here(1)
       } catch (error) {
         this.setState({ alert: { type: alertTypes.ERROR, message: `Something went wrong. Please try again` } });
       }
     }
     if (value === walletTypes.GENERAL) {
-      sessionStorage.setItem("wallet", JSON.stringify({ type: walletTypes.GENERAL }));
+      stopWalletDetailsPolling();
       updateWallet({ type: value });
       return;
     }
-    //2. to be removed once wallet API is available
-    sessionStorage.removeItem("wallet");
-    //till here(2)
     updateWallet({ type: value });
   };
 
@@ -99,6 +94,7 @@ class ExpiredSession extends Component {
               </Typography>
               <AccountBalanceWalletIcon className={classes.walletIcon} />
               <StyledDropdown
+                disabled={wallet.type}
                 labelTxt="Select a Wallet"
                 list={channelPaymentOptions}
                 value={wallet.type || "default"}
@@ -140,6 +136,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   updateWallet: args => dispatch(userActions.updateWallet(args)),
   registerWallet: (address, type) => dispatch(userActions.registerWallet(address, type)),
+  stopWalletDetailsPolling: () => dispatch(userActions.stopWalletDetailsPolling),
 });
 
 export default connect(

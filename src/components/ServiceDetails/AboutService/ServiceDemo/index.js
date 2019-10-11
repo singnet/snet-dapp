@@ -29,8 +29,6 @@ class ServiceDemo extends Component {
     alert: {},
   };
 
-  walletPollingInterval;
-
   componentDidMount = async () => {
     if (process.env.REACT_APP_SANDBOX) {
       return;
@@ -52,7 +50,7 @@ class ServiceDemo extends Component {
   };
 
   componentWillUnmount = () => {
-    clearInterval(this.walletPollingInterval);
+    this.props.stopWalletDetailsPolling();
   };
 
   fetchFreeCallsUsage = () => {
@@ -64,33 +62,19 @@ class ServiceDemo extends Component {
     });
   };
 
-  pollWalletDetails = () => {
-    this.fetchWalletDetails();
-    const { wallet } = this.props;
-    this.walletPollingInterval = setInterval(this.fetchWalletDetails, 15000);
-    if (!isEmpty(wallet) && wallet.status !== "PENDING") {
-      clearInterval(this.walletPollingInterval);
-    }
-    //Remove the below line
-    clearInterval(this.walletPollingInterval);
-  };
-
-  fetchWalletDetails = async () => {
+  pollWalletDetails = async () => {
     const {
       service: { org_id: orgId },
       groupInfo: { group_id: groupId },
       wallet,
-      fetchWallet,
+      startWalletDetailsPolling,
       startFetchWalletLoader,
       stopLoader,
     } = this.props;
-    if (isEmpty(wallet)) {
-      startFetchWalletLoader();
-    }
-    await fetchWallet(orgId, groupId);
-    if (isEmpty(wallet)) {
-      stopLoader();
-    }
+    const showLoader = isEmpty(wallet);
+    startFetchWalletLoader();
+    await startWalletDetailsPolling(orgId, groupId, showLoader);
+    stopLoader();
   };
 
   scrollToHash = () => {
@@ -208,8 +192,10 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     dispatch(loaderActions.startAppLoader(LoaderContent.SERVICE_INVOKATION(ownProps.service.display_name))),
   stopLoader: () => dispatch(loaderActions.stopAppLoader),
   fetchMeteringData: args => dispatch(serviceDetailsActions.fetchMeteringData(args)),
-  fetchWallet: (orgId, groupId) => dispatch(userActions.fetchWallet(orgId, groupId)),
   startFetchWalletLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.FETCH_WALLET)),
+  startWalletDetailsPolling: (orgId, groupId, showLoader) =>
+    dispatch(userActions.startWalletDetailsPolling(orgId, groupId, showLoader)),
+  stopWalletDetailsPolling: () => dispatch(userActions.stopWalletDetailsPolling),
 });
 
 export default connect(

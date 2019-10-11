@@ -17,9 +17,10 @@ import { initSdk } from "../../../../../../../utility/sdk";
 import { cogsToAgi } from "../../../../../../../utility/PricingStrategy";
 import { currentServiceDetails, pricing } from "../../../../../../../Redux/reducers/ServiceDetailsReducer";
 import PaymentChannelManagement from "../../../../../../../utility/PaymentChannelManagement";
-import { loaderActions } from "../../../../../../../Redux/actionCreators";
+import { loaderActions, userActions } from "../../../../../../../Redux/actionCreators";
 import { LoaderContent } from "../../../../../../../utility/constants/LoaderContent";
 import { useStyles } from "./style";
+import { walletTypes } from "../../../../../../../Redux/actionCreators/UserActions";
 
 const payTypes = {
   CHANNEL_BALANCE: "CHANNEL_BALANCE",
@@ -101,13 +102,15 @@ class MetamaskFlow extends Component {
   };
 
   handleConnectMM = async () => {
-    const { startMMconnectLoader, stopLoader } = this.props;
+    const { startMMconnectLoader, stopLoader, registerWallet } = this.props;
     this.setState({ alert: {} });
     try {
       startMMconnectLoader();
       const sdk = await initSdk();
       const mpeBal = await sdk.account.escrowBalance();
       await this.paymentChannelManagement.updateChannelInfo();
+      const address = sdk.account.address;
+      await registerWallet(address, walletTypes.METAMASK);
 
       this.PaymentInfoCardData.map(el => {
         if (el.title === "Escrow Balance") {
@@ -348,6 +351,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   startMMconnectLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.CONNECT_METAMASK)),
   startChannelSetupLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.SETUP_CHANNEL_FOR_SERV_EXEC)),
+  registerWallet: (address, type) => dispatch(userActions.registerWallet(address, type)),
   stopLoader: () => dispatch(loaderActions.stopAppLoader),
 });
 
