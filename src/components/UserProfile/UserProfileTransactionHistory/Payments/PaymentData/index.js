@@ -10,14 +10,14 @@ const PaymentData = ({
   classes,
   date,
   time,
-  providerName,
-  providerId,
+  organizationName,
+  orderId,
   paymentChannel,
-  type,
+  orderType,
   statusType,
-  statusMessage,
   cost,
-  agiReceived,
+  itemQuantity,
+  itemUnit,
 }) => {
   return (
     <Grid item xs={12} sm={12} md={12} lg={12} className={classes.paymentsDataRow}>
@@ -29,24 +29,27 @@ const PaymentData = ({
       </Grid>
       <Grid item xs={12} sm={12} md={2} lg={2}>
         <div className={classes.providerNameID}>
-          <Typography>{providerName}</Typography>
-          <Typography className={classes.providersId}>{providerId}</Typography>
+          <Typography>{organizationName}</Typography>
+          <Typography className={classes.providersId}>ID-{orderId}</Typography>
         </div>
       </Grid>
       <Grid item xs={12} sm={12} md={2} lg={2}>
         <Typography>{paymentChannel}</Typography>
       </Grid>
       <Grid item xs={12} sm={12} md={1} lg={1}>
-        <Typography>{type}</Typography>
+        <Typography>{orderType}</Typography>
       </Grid>
       <Grid item xs={12} sm={12} md={1} lg={1} className={classes.alertBox}>
-        <AlertText type={statusType} message={statusMessage} />
+        <AlertText type={statusType} message={statusType} />
       </Grid>
       <Grid item xs={12} sm={12} md={2} lg={2}>
         <Typography>{cost}</Typography>
       </Grid>
       <Grid item xs={12} sm={12} md={2} lg={2}>
-        <Typography>{agiReceived})</Typography>
+        <Typography>
+          {itemQuantity}
+          {itemUnit}
+        </Typography>
       </Grid>
     </Grid>
   );

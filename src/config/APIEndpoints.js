@@ -40,7 +40,7 @@ export const APIPaths = {
   SIGNER_FREE_CALL: "/free-call",
   SIGNER_STATE_SERVICE: "/state-service",
   SIGNER_REGULAR_CALL: "/regular-call",
-  ORDERS_LIST: "/orders",
+  ORDERS_LIST: "/order",
   INITIATE_PAYMNET: "/order/initiate",
   EXECUTE_PAYMENT: "/order/execute",
   DEBUG_PAYPAL_INITIATE: "/v2/order/initiate",
