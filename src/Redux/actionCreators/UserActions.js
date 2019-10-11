@@ -87,8 +87,10 @@ const fetchUserTransactionsAPI = token => {
 
 export const fetchUserTransactions = async dispatch => {
   const { token } = await fetchAuthenticatedUser();
+  dispatch(loaderActions.startAppLoader(LoaderContent.TRANSACTION_HISTORY));
   const response = await fetchUserTransactionsAPI(token);
-  return dispatch(fetchUserTransactionsSuccess(response));
+  dispatch(fetchUserTransactionsSuccess(response));
+  dispatch(loaderActions.stopAppLoader);
 };
 
 const fetchUserTransactionsSuccess = response => dispatch => {

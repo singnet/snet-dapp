@@ -7,7 +7,6 @@ import Tab from "@material-ui/core/Tab";
 import { connect } from "react-redux";
 
 import { userActions } from "../../../Redux/actionCreators";
-// import { fetchUserTransactions } from "../../../Redux/actionCreators/UserActions";
 import Payments from "./Payments";
 import Usage from "./Usage";
 import { useStyles } from "./styles";
