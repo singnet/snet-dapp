@@ -373,11 +373,11 @@ const fetchWalletSuccess = response => dispatch => {
 const fetchWalletAPI = (token, orgId, groupId) => {
   const apiName = APIEndpoints.ORCHESTRATOR.name;
   const apiPath = APIPaths.WALLET;
-  const apiOptions = initializeAPIOptions(token);
-  apiOptions.queryStringParameters = {
+  const queryStringParameters = {
     org_id: orgId,
     group_id: groupId,
   };
+  const apiOptions = initializeAPIOptions(token, null, queryStringParameters);
   return API.get(apiName, apiPath, apiOptions);
 };
 
