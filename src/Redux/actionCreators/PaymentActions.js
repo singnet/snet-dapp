@@ -1,7 +1,8 @@
-import { userActions, loaderActions } from ".";
+import { API } from "aws-amplify";
+
+import { userActions, loaderActions } from "./";
 import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { initializeAPIOptions } from "../../utility/API";
-import { API } from "aws-amplify";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
 
 export const UPDATE_PAYPAL_IN_PROGRESS = "UPDATE_PAYPAL_IN_PROGRESS";
@@ -40,7 +41,6 @@ export const executePayment = paymentExecObj => async () => {
 const orderDetailsAPI = (token, orderId) => {
   const apiName = APIEndpoints.ORCHESTRATOR.name;
   const apiPath = `${APIPaths.ORDER_DETAILS}/${orderId}`;
-  // const queryParams = { order_id: orderId };
   const apiOptions = initializeAPIOptions(token);
   return API.get(apiName, apiPath, apiOptions);
 };
