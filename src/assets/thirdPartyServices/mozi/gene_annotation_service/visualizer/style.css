@@ -103,3 +103,23 @@ div button:first-of-type {
   left: 90px;
   z-index: 10;
 }
+
+.loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(126, 146, 179, 0.5);
+  z-index: 999;
+}
+
+.loader .content {
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 10px 15px;
+}

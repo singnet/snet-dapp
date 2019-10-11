@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect } from "react";
 import removeSvg from "../assets/remove.svg";
 import addSvg from "../assets/add.svg";
 import filterSvg from "../assets/filter.svg";
+import copySvg from "../assets/copy.svg";
 import "cytoscape-context-menus/cytoscape-context-menus.css";
 import $ from "jquery";
 import IconButton from "@material-ui/core/IconButton";
@@ -26,6 +27,8 @@ import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import HelpIcon from "@material-ui/icons/HelpOutline";
+
+import LinearProgress from "@material-ui/core/LinearProgress";
 import { useSnackbar } from "notistack";
 import "./style.css";
 
@@ -55,17 +58,6 @@ const AnnotationGroups = [
     subgroups: [],
   },
 ];
-
-const COSE = {
-  name: "cose",
-  randomize: false,
-  fit: true,
-  animate: false,
-  nodeRepulsion: 999999,
-  edgeElasticity: function(edge) {
-    return Math.min(edge.source().degree(), edge.target().degree()) * 10000;
-  },
-};
 
 const CYTOSCAPE_COLA_CONFIG = {
   name: "cola",
@@ -157,7 +149,11 @@ const Visualizer = props => {
     });
 
   const [visibleNodeTypes, setVisibleNodeTypes] = useState(["Genes", "Uniprot", "ChEBI"]);
-  const [visibleAnnotations, setVisibleAnnotations] = useState(["main%"]);
+  const [visibleAnnotations, setVisibleAnnotations] = useState([
+    "main%",
+    "gene-pathway-annotation%",
+    "biogrid-interaction-annotation%",
+  ]);
   const [selectedNode, setSelectedNode] = useState({
     node: null,
     position: null,
@@ -166,6 +162,15 @@ const Visualizer = props => {
     pubmed: null,
   });
   const [searchToken, setSearchToken] = useState(undefined);
+  const [loaderText, setLoaderText] = useState(undefined);
+  const [MLLPositions, setMLLPositions] = useState(undefined);
+  // Save MLL positions
+  !MLLPositions &&
+    setMLLPositions(
+      JSON.parse(JSON.stringify(props.graph.nodes)).reduce(function(prevVal, n, i) {
+        return { ...prevVal, [n.data.id]: n.position };
+      }, {})
+    );
 
   useEffect(function() {
     setCy(
@@ -254,6 +259,21 @@ const Visualizer = props => {
               onClickFunction: e => removeFromFilter(e.target.data().id),
               show: false,
             },
+            {
+              id: "copy",
+              content: "Copy ID",
+              selector: "node",
+              image: { src: copySvg, width: 18, height: 18, x: 8, y: 8 },
+              onClickFunction: e => {
+                const el = document.createElement("textarea");
+                el.value = e.target.data().id;
+                document.body.appendChild(el);
+                el.select();
+                document.execCommand("copy");
+                document.body.removeChild(el);
+              },
+              show: true,
+            },
           ],
           menuItemClasses: ["context-menu-item"],
           contextMenuClasses: ["context-menu"],
@@ -266,7 +286,13 @@ const Visualizer = props => {
 
   useEffect(
     function() {
-      if (layout) layout.run();
+      if (layout) {
+        setLoaderText("Applying layout, please wait ...");
+        layout.pon("layoutstop").then(function(e) {
+          setLoaderText(undefined);
+        });
+        layout.run();
+      }
     },
     [layout]
   );
@@ -275,8 +301,11 @@ const Visualizer = props => {
     setLayout(cy.layout(CYTOSCAPE_COLA_CONFIG));
   };
 
-  const coseLayout = () => {
-    setLayout(cy.layout(COSE));
+  const MLLLayout = () => {
+    cy.nodes().positions(function(n) {
+      return MLLPositions[n.id()];
+    });
+    setLayout(cy.layout({ name: "preset" }));
   };
 
   const breadthFirstLayout = () => {
@@ -388,7 +417,7 @@ const Visualizer = props => {
     });
     cy.json({ elements: { nodes: visibleNodes } });
     cy.add(visibleEdges);
-    randomLayout();
+    setLayout(cy.layout({ name: "preset" }));
     registerEventListeners();
   };
 
@@ -510,8 +539,20 @@ const Visualizer = props => {
     );
   };
 
+  const renderLoader = () => {
+    return (
+      <div className="loader">
+        <div className="content">
+          <LinearProgress />
+          <Typography variant="body1">{loaderText}</Typography>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <Fragment>
+      {loaderText && renderLoader()}
       <div className="visualizer-wrapper" ref={cy_wrapper} />
       <div className="visualizer-controls-wrapper">
         <Tooltip placement="right" title={<Typography variant="body1">Go back</Typography>}>
@@ -524,11 +565,8 @@ const Visualizer = props => {
             <ShuffleIcon />
           </IconButton>
         </Tooltip>
-        <Tooltip
-          placement="right"
-          title={<Typography variant="body1">COSE layout ( This might take a while to render )</Typography>}
-        >
-          <IconButton onClick={coseLayout}>
+        <Tooltip placement="right" title={<Typography variant="body1">Multi-level layout</Typography>}>
+          <IconButton onClick={MLLLayout}>
             <BubbleChartIcon />
           </IconButton>
         </Tooltip>
