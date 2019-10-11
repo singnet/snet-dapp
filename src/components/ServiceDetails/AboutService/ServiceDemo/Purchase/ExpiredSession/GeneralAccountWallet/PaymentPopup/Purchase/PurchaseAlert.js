@@ -12,7 +12,6 @@ const PurchaseAlert = ({ classes, alert, handleCancel }) => {
       <div className={classes.btnContainer}>
         <StyledButton type="transparent" btnText="cancel" onClick={handleCancel} />
         <StyledButton type="transparent" btnText="support" />
-        {/* <StyledButton type="blue" btnText="retry" /> */}
       </div>
     </div>
   );

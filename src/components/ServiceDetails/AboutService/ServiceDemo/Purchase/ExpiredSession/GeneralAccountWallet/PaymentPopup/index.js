@@ -140,7 +140,7 @@ class CreateWalletPopup extends Component {
           <Purchase
             paypalInProgress={paypalInProgress}
             executePayment={this.handleExecutePayment}
-            handleCancel={this.handlePaymentComplete}
+            handleCancel={this.handleClose}
           />
         ),
       },
