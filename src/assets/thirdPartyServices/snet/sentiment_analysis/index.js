@@ -9,7 +9,9 @@ import OutlinedLabel from "../../common/OutlinedLabel";
 import PositiveIcon from "@material-ui/icons/SentimentVerySatisfied";
 import NeutralIcon from "@material-ui/icons/SentimentSatisfied";
 import NegativeIcon from "@material-ui/icons/SentimentVeryDissatisfied";
-import HtmlTooltip from "../../common/HtmlTooltip";
+import InfoIcon from "@material-ui/core/SvgIcon/SvgIcon";
+import Tooltip from "@material-ui/core/Tooltip";
+import Typography from "@material-ui/core/Typography";
 
 class SentimentAnalysisService extends React.Component {
     constructor(props) {
@@ -225,18 +227,32 @@ class SentimentAnalysisService extends React.Component {
                             <Grid item xs={5}><span style={{color: "#212121"}}>Sentence</span></Grid>
                             <Grid item xs={2}><span style={{color: "#212121"}}>Sentiment</span></Grid>
                             <Grid item xs={5}>
-                                <HtmlTooltip placement="top">
-                                    <span><b>About scoring: </b></span><br/>
-                                    <br/>
-                                    <span>The <b>compound</b> score is computed by summing the valence scores of each word in the lexicon, adjusted according to the rules, and then normalized to be between -1 (most extreme negative) and +1 (most extreme positive). This is the most useful metric if you want a single unidimensional measure of sentiment for a given sentence. Calling it a 'normalized, weighted composite score' is accurate.</span>
-                                    <br/><br/>
-                                    <span>The <b>pos</b>, <b>neu</b>, and <b>neg</b> scores are ratios for proportions of text that fall in each category (so these should all add up to be 1... or close to it with float operation). These are the most useful metrics if you want multidimensional measures of sentiment for a given sentence.</span>
-                                    <br/><br/>
-                                    <span><b>Positive sentiment: </b>{`compound score >= 0.05`}</span><br/>
-                                    <span><b>Neutral sentiment: </b>{`(compound score > -0.05) and (compound score < 0.05)`}</span><br/>
-                                    <span><b>Negative sentiment: </b>{`compound score <= -0.05`}</span>
-                                    <br/><br/>
-                                </HtmlTooltip>
+                                <Tooltip
+                                    style={{width: "200px"}}
+                                    title={
+                                        <Typography>
+                                            <span><b>About scoring: </b></span><br/>
+                                            <br/>
+                                            <span>The <b>compound</b> score is computed by summing the valence scores of each word in the lexicon, adjusted according to the rules, and then normalized to be between -1 (most extreme negative) and +1 (most extreme positive). This is the most useful metric if you want a single unidimensional measure of sentiment for a given sentence. Calling it a 'normalized, weighted composite score' is accurate.</span>
+                                            <br/><br/>
+                                            <span>The <b>pos</b>, <b>neu</b>, and <b>neg</b> scores are ratios for proportions of text that fall in each category (so these should all add up to be 1... or close to it with float operation). These are the most useful metrics if you want multidimensional measures of sentiment for a given sentence.</span>
+                                            <br/><br/>
+                                            <span><b>Positive sentiment: </b>{`compound score >= 0.05`}</span><br/>
+                                            <span><b>Neutral sentiment: </b>{`(compound score > -0.05) and (compound score < 0.05)`}</span><br/>
+                                            <span><b>Negative sentiment: </b>{`compound score <= -0.05`}</span>
+                                            <br/><br/>
+                                        </Typography>
+                                    }
+                                    placement="top"
+                                >
+                                    <InfoIcon
+                                        style={{
+                                            color: "#D6D6D6",
+                                            "&:hover": {color: "#008BF9",},
+                                            verticalAlign: "middle"
+                                        }}
+                                    />
+                                </Tooltip>
                                 <span style={{color: "#212121"}}>Intensivity scores</span>
                             </Grid>
                             {

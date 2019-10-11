@@ -2,7 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import MenuItem from "@material-ui/core/MenuItem/index";
 import TextField from "@material-ui/core/TextField/index";
-import HtmlTooltip from "./HtmlTooltip";
+import InfoIcon from "@material-ui/icons/Info";
+import Tooltip from "@material-ui/core/Tooltip";
 
 class OutlinedDropDown extends React.Component {
   constructor(props, context) {
@@ -17,9 +18,22 @@ class OutlinedDropDown extends React.Component {
 
         {htmlTooltip ?
           (<div style={{paddingTop: 33, textAlign: "right", width: "25px", float: "left"}}>
-              <HtmlTooltip placement="top">
-                {htmlTooltip}
-              </HtmlTooltip>
+                <Tooltip
+                    title={
+                      <React.Fragment>
+                        {htmlTooltip}
+                      </React.Fragment>
+                    }
+                    placement="top"
+                >
+                  <InfoIcon
+                      style={{
+                        color: "#D6D6D6",
+                        "&:hover": {color: "#008BF9",},
+                        verticalAlign: "middle"
+                      }}
+                  />
+                </Tooltip>
             </div>
           ) : null
         }
