@@ -603,7 +603,6 @@ const Visualizer = props => {
               <p>Use the checkboxes to the right to filter the graph by annotations and node types.</p>
               <p>Right click on a node to perform actions on it.</p>
               <p>You may download the graph JSON and view it on Cytoscape desktop.</p>
-              <p>The search is case sensitive.</p>
             </Typography>
           }
         >
