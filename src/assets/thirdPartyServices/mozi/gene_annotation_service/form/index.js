@@ -113,7 +113,7 @@ const AnnotationForm = props => {
     namespace.setValue(GOSubgroups.join(" "));
     const nop = new Filter();
     nop.setFilter("parents");
-    nop.setValue(parents);
+    nop.setValue(parents.toString());
     annotationRequest.setAnnotationsList(
       annotations.map(sa => {
         const annotation = new Annotation();
@@ -132,7 +132,7 @@ const AnnotationForm = props => {
           ip.setValue(capitalizeFirstLetter(includeProtiens.toString()));
           const capb = new Filter();
           capb.setFilter("biogrid");
-          capb.setValue(annotatePathwayWithBiogrid ? 1 : 0);
+          capb.setValue(annotatePathwayWithBiogrid ? "1" : "0");
           annotation.setFiltersList([
             ps,
             ip,
