@@ -206,11 +206,13 @@ const Visualizer = props => {
         contextMenu.showMenuItem("add");
         contextMenu.showMenuItem("remove");
         contextMenu.hideMenuItem("filter");
+        filteredElements.layout({ name: "concentric" }).run();
       } else {
         cy.batch(() => cy.elements().style({ opacity: 1 }));
         contextMenu.showMenuItem("filter");
         contextMenu.hideMenuItem("add");
         contextMenu.hideMenuItem("remove");
+        layout.run();
       }
     },
     [filteredElements]
@@ -302,10 +304,14 @@ const Visualizer = props => {
   };
 
   const MLLLayout = () => {
-    cy.nodes().positions(function(n) {
-      return MLLPositions[n.id()];
-    });
-    setLayout(cy.layout({ name: "preset" }));
+    setLayout(
+      cy.layout({
+        name: "preset",
+        positions: function(n) {
+          return MLLPositions[n.id()];
+        },
+      })
+    );
   };
 
   const breadthFirstLayout = () => {
