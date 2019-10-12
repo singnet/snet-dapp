@@ -31,6 +31,8 @@ export const APIPaths = {
   GET_USER_PROFILE: "/profile",
   UPDATE_USER_PROFILE: "/profile",
   WALLET: "/wallet/channel",
+  REGISTER_WALLET: "/wallet/register",
+  UPDATE_DEFAULT_WALLET: "/wallet/status",
   INVOKE_SERVICE: "/invoke",
   FILTER_DATA: "/service?attribute=",
   FEEDBACK: "/feedback",
@@ -42,6 +44,7 @@ export const APIPaths = {
   SIGNER_REGULAR_CALL: "/regular-call",
   ORDERS_LIST: "/order",
   INITIATE_PAYMNET: "/order/initiate",
+  ORDER_DETAILS: "/order",
   EXECUTE_PAYMENT: "/order/execute",
   DEBUG_PAYPAL_INITIATE: "/v2/order/initiate",
 };

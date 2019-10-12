@@ -17,7 +17,7 @@ import { USDToAgi } from "../../../../../../../../../utility/PricingStrategy";
 
 export const paymentTypes = [{ value: "paypal", label: "Pay pal" }];
 
-const Details = ({ classes, initiatePayment }) => {
+const Details = ({ classes, initiatePayment, handleClose }) => {
   const [payType, setPayType] = useState("default");
   const [amount, setAmount] = useState("");
   const [alert, setAlert] = useState({});
@@ -85,7 +85,7 @@ const Details = ({ classes, initiatePayment }) => {
       <AlertBox type={alert.type} message={alert.message} />
 
       <div className={classes.btnContainer}>
-        <StyledButton btnText="cancel" type="transparent" />
+        <StyledButton btnText="cancel" type="transparent" onClick={handleClose} />
         <StyledButton btnText="Continue" type="blue" onClick={handleContinue} />
       </div>
     </div>

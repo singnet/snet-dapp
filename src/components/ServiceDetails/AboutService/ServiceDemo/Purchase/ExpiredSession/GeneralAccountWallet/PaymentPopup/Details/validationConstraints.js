@@ -7,6 +7,6 @@ export const paymentGatewayConstraints = {
   },
   amount: {
     presence: { allowEmpty: false },
-    numericality: { greaterThan: 0 },
+    numericality: { greaterThan: 0, lessThan: 10000 },
   },
 };

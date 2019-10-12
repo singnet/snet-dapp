@@ -14,7 +14,7 @@ import AlertBox, { alertTypes } from "../../common/AlertBox";
 
 const walletDropdownList = Object.entries(walletTypes).map(([key, value]) => ({ value, label: key }));
 
-const UserProfileAccount = ({ updateWallet, classes, wallet }) => {
+const UserProfileAccount = ({ classes, wallet, updateWallet, stopWalletDetailsPolling }) => {
   const [alert, setAlert] = useState({});
 
   const handleWalletTypeChange = async event => {
@@ -25,26 +25,22 @@ const UserProfileAccount = ({ updateWallet, classes, wallet }) => {
         const selectedEthAddress = window.ethereum && window.ethereum.selectedAddress;
         const sdk = await initSdk(selectedEthAddress);
         const address = sdk.account.address;
-        //1. To be replaced with wallet API
         if (!isEmpty(address)) {
-          sessionStorage.setItem("wallet", JSON.stringify({ type: walletTypes.METAMASK, address }));
+          stopWalletDetailsPolling();
           updateWallet({ type: value, address });
           return;
         }
         setAlert({ type: alertTypes.ERROR, message: `Unable to fetch Metamask address. Please try again` });
-        //till here(1)
       } catch (error) {
         setAlert({ type: alertTypes.ERROR, message: `Something went wrong. Please try again` });
       }
     }
     if (value === walletTypes.GENERAL) {
-      sessionStorage.setItem("wallet", JSON.stringify({ type: walletTypes.GENERAL }));
+      stopWalletDetailsPolling();
       updateWallet({ type: value });
       return;
     }
-    //2. to be removed once wallet API is available
-    sessionStorage.removeItem("wallet");
-    //till here(2)
+
     updateWallet({ type: value });
   };
 
@@ -82,6 +78,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   updateWallet: args => dispatch(userActions.updateWallet(args)),
+  stopWalletDetailsPolling: () => dispatch(userActions.stopWalletDetailsPolling),
 });
 
 export default connect(
