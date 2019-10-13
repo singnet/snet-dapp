@@ -1,62 +1,70 @@
-import React, { Component } from "react";
+import React from "react";
 import { withStyles } from "@material-ui/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import { connect } from "react-redux";
+import { Switch, Route } from "react-router-dom";
 
 import UserProfileSettings from "./UserProfileSettings";
 import UserProfileHeader from "./UserProfileHeader";
-import { useStyles } from "./styles";
 import UserProfileAccount from "./UserProfileAccount";
+import UserProfileTransactionHistory from "./UserProfileTransactionHistory";
+import { useStyles } from "./styles";
+import Routes from "../../utility/constants/Routes";
 
-const UserProfileTabs = {
-  account: 0,
-  settings: 1,
+const userProfileRoutes = {
+  ACCOUNT: { path: `/${Routes.USER_PROFILE}/account`, component: () => <UserProfileAccount /> },
+  SETTINGS: { path: `/${Routes.USER_PROFILE}/settings`, component: () => <UserProfileSettings /> },
+  TRANSACTIONS: { path: `/${Routes.USER_PROFILE}/transactions`, component: () => <UserProfileTransactionHistory /> },
 };
 
-class UserProfile extends Component {
-  state = {
-    activeTab: 0,
+const activeIndexEnum = {
+  [`${userProfileRoutes.ACCOUNT.path}`]: 0,
+  [`${userProfileRoutes.SETTINGS.path}`]: 1,
+  [`${userProfileRoutes.TRANSACTIONS.path}`]: 2,
+};
+
+const tabs = [
+  { name: "Account", activeIndex: 0, path: userProfileRoutes.ACCOUNT.path },
+  { name: "Settings", activeIndex: 1, path: userProfileRoutes.SETTINGS.path },
+  { name: "Transactions", activeIndex: 2, path: userProfileRoutes.TRANSACTIONS.path },
+];
+
+const UserProfile = ({ classes, nickname, history, location }) => {
+  const onTabChange = (activeTab, activePath) => {
+    history.push(activePath);
   };
 
-  componentDidMount = () => {
-    const { activeTab } = this.props.match.params;
-    if (activeTab && UserProfileTabs[activeTab.toLowerCase()]) {
-      this.setState({ activeTab: UserProfileTabs[activeTab.toLowerCase()] });
+  const activeTab = () => {
+    const { pathname } = location;
+    const activeIndex = activeIndexEnum[`${pathname.toLowerCase()}`];
+    if (activeIndex) {
+      return activeIndex;
     }
+    return 0;
   };
 
-  onTabChange = activeTab => {
-    this.setState({ activeTab });
-  };
-
-  render() {
-    const { classes, history, nickname } = this.props;
-    const { activeTab } = this.state;
-
-    const tabs = [
-      { name: "Account", activeIndex: 0, component: <UserProfileAccount /> },
-      { name: "Settings", activeIndex: 1, component: <UserProfileSettings history={history} /> },
-    ];
-    const activeComponent = tabs.filter(el => el.activeIndex === activeTab)[0].component;
-    return (
-      <div className={classes.UserProfileContainer}>
-        <UserProfileHeader nickname={nickname} />
-        <div>
-          <AppBar position="static" className={classes.tabsHeader}>
-            <Tabs value={activeTab}>
-              {tabs.map(value => (
-                <Tab key={value.name} label={value.name} onClick={() => this.onTabChange(value.activeIndex)} />
-              ))}
-            </Tabs>
-          </AppBar>
-          {activeComponent}
-        </div>
+  return (
+    <div className={classes.UserProfileContainer}>
+      <UserProfileHeader nickname={nickname} />
+      <div>
+        <AppBar position="static" className={classes.tabsHeader}>
+          <Tabs value={activeTab()}>
+            {tabs.map(value => (
+              <Tab key={value.name} label={value.name} onClick={() => onTabChange(value.activeIndex, value.path)} />
+            ))}
+          </Tabs>
+        </AppBar>
+        <Switch>
+          <Route path={userProfileRoutes.TRANSACTIONS.path} component={userProfileRoutes.TRANSACTIONS.component} />
+          <Route path={userProfileRoutes.SETTINGS.path} component={userProfileRoutes.SETTINGS.component} />
+          <Route path={Routes.userProfileRoutes} component={userProfileRoutes.ACCOUNT.component} />
+        </Switch>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 const mapStateToProps = state => ({
   nickname: state.userReducer.nickname,

@@ -18,6 +18,7 @@ const InitialUserDetails = {
   nickname: "",
   emailAlerts: false,
   isTermsAccepted: true,
+  transactionHistory: [],
 };
 
 const userReducer = (state = InitialUserDetails, action) => {
@@ -104,6 +105,9 @@ const userReducer = (state = InitialUserDetails, action) => {
     }
     case userActions.UPDATE_IS_TERMS_ACCEPTED: {
       return { ...state, isTermsAccepted: action.payload };
+    }
+    case userActions.UPDATE_TRANSACTION_HISTORY: {
+      return { ...state, transactionHistory: action.payload };
     }
     default: {
       return state;

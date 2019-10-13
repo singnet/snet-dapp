@@ -1,4 +1,6 @@
 import { Auth, API } from "aws-amplify";
+import isEmpty from "lodash/isEmpty";
+import moment from "moment";
 
 import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { parseError } from "../../utility/ErrorHandling";
@@ -6,7 +8,6 @@ import { userActions, errorActions, loaderActions } from "./";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
 import { initializeAPIOptions } from "../../utility/API";
 import Routes from "../../utility/constants/Routes";
-import isEmpty from "lodash/isEmpty";
 
 export const SET_USER_DETAILS = "SET_USER_DETAILS";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
@@ -22,6 +23,7 @@ export const UPDATE_EMAIL_ALERTS_SUBSCRIPTION = "UPDATE_EMAIL_ALERTS_SUBSCRIPTIO
 export const UPDATE_WALLET = "UPDATE_WALLET";
 export const APP_INITIALIZATION_SUCCESS = "APP_INITIALIZATION_SUCCESS";
 export const UPDATE_IS_TERMS_ACCEPTED = "UPDATE_IS_TERMS_ACCEPTED";
+export const UPDATE_TRANSACTION_HISTORY = "UPDATE_TRANSACTION_HISTORY";
 export const UPDATE_FIRST_TIME_FETCH_WALLET = "FIRST_TIME_FETCH_WALLET";
 
 let walletPollingInterval;
@@ -78,6 +80,44 @@ const fetchUserProfile = token => dispatch => {
     dispatch(updateEmailAlertsSubscription(Boolean(res.data.data[0].email_alerts)));
     dispatch(updateIsTermsAccepted(Boolean(res.data.data[0].is_terms_accepted)));
   });
+};
+
+const fetchUserTransactionsAPI = token => {
+  const apiName = APIEndpoints.ORCHESTRATOR.name;
+  const path = APIPaths.ORDERS_LIST;
+  const apiOptions = initializeAPIOptions(token);
+  return API.get(apiName, path, apiOptions);
+};
+
+export const fetchUserTransactions = async dispatch => {
+  const { token } = await fetchAuthenticatedUser();
+  dispatch(loaderActions.startAppLoader(LoaderContent.TRANSACTION_HISTORY));
+  const response = await fetchUserTransactionsAPI(token);
+  dispatch(fetchUserTransactionsSuccess(response));
+  dispatch(loaderActions.stopAppLoader);
+};
+
+const fetchUserTransactionsSuccess = response => dispatch => {
+  const transactionHistory = response.data.orders.map(value => {
+    const timestamp = moment(value.created_at);
+    return {
+      date: timestamp.format("DD MMM YYYY"),
+      time: timestamp.format("hh:mm A"),
+      organizationName: value.item_details.organization_name,
+      orderId: value.order_id,
+      paymentChannel: value.wallet_type,
+      orderType: value.item_details.order_type,
+      status: value.order_status,
+      cost: value.price.amount,
+      itemQuantity: value.item_details.quantity,
+      itemUnit: value.item_details.item,
+    };
+  });
+  dispatch(updateTransactionHistory(transactionHistory));
+};
+
+export const updateTransactionHistory = transactionHistory => dispatch => {
+  dispatch({ type: UPDATE_TRANSACTION_HISTORY, payload: transactionHistory });
 };
 
 const noAuthenticatedUser = dispatch => {
