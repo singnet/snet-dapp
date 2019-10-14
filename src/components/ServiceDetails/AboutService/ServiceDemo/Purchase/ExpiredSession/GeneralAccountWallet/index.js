@@ -39,6 +39,12 @@ const GeneralAccountWallet = props => {
     }
   }, [paypalInProgress.orderType]);
 
+  const anyPendingTxn = () => {
+    const { wallet } = props;
+    const anyPending = wallet.transactions && wallet.transactions.some(txn => txn.status === "PENDING");
+    return anyPending;
+  };
+
   return (
     <Fragment>
       <div className={classes.btnsContainer}>
@@ -52,6 +58,7 @@ const GeneralAccountWallet = props => {
           channel={channelInfo}
           setShowCreateWalletPopup={setShowCreateWalletPopup}
           handleContinue={handleContinue}
+          anyPendingTxn={anyPendingTxn}
         />
       </div>
       <CreateWallet visible={showCreateWalletPopup} setVisibility={setShowCreateWalletPopup} />
@@ -63,6 +70,7 @@ const GeneralAccountWallet = props => {
 const mapStateToProps = state => ({
   channelInfo: channelInfo(state),
   paypalInProgress: state.paymentReducer.paypalInProgress,
+  wallet: state.userReducer.wallet,
 });
 
 const mapDispatchToProps = dispatch => ({
