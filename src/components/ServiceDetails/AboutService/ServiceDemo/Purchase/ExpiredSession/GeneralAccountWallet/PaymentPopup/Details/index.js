@@ -17,7 +17,7 @@ import { USDToAgi } from "../../../../../../../../../utility/PricingStrategy";
 
 export const paymentTypes = [{ value: "paypal", label: "Pay pal" }];
 
-const Details = ({ classes, initiatePayment, handleClose }) => {
+const Details = ({ classes, initiatePayment, handleClose, channelInfo }) => {
   const [payType, setPayType] = useState("default");
   const [amount, setAmount] = useState("");
   const [alert, setAlert] = useState({});
@@ -59,7 +59,12 @@ const Details = ({ classes, initiatePayment, handleClose }) => {
             </Typography>
           </div>
         </div>
-        <PaymentInfoCard title="Channel Balance" value=".00000000" unit />
+        <PaymentInfoCard
+          title="Channel Balance"
+          show={channelInfo.balanceInAgi}
+          value={channelInfo.balanceInAgi}
+          unit="AGI"
+        />
       </div>
 
       <div className={classes.dropDownTextfield}>

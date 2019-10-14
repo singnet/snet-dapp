@@ -20,6 +20,7 @@ import { paymentActions } from "../../../../../../../../Redux/actionCreators";
 import { groupInfo } from "../../../../../../../../Redux/reducers/ServiceDetailsReducer";
 import { orderTypes } from "..";
 import Routes from "../../../../../../../../utility/constants/Routes";
+import { channelInfo } from "../../../../../../../../Redux/reducers/UserReducer";
 
 class CreateWalletPopup extends Component {
   state = {
@@ -119,7 +120,7 @@ class CreateWalletPopup extends Component {
   };
 
   render() {
-    const { classes, visible, paypalInProgress, orderType, title } = this.props;
+    const { classes, visible, paypalInProgress, orderType, title, channelInfo } = this.props;
     const { activeSection, privateKey, amount, item, quantity } = this.state;
 
     const progressText = ["Details", "Purchase", "Summary"];
@@ -131,6 +132,7 @@ class CreateWalletPopup extends Component {
             handleNextSection={this.handleNextSection}
             initiatePayment={this.handleInitiatePayment}
             handleClose={this.handleClose}
+            channelInfo={channelInfo}
           />
         ),
       },
@@ -194,6 +196,7 @@ class CreateWalletPopup extends Component {
 const mapStateToProps = state => ({
   paypalInProgress: state.paymentReducer.paypalInProgress,
   group: groupInfo(state),
+  channelInfo: channelInfo(state),
 });
 
 const mapDispatchToProps = dispatch => ({
