@@ -4,6 +4,7 @@ import { userActions, loaderActions } from "./";
 import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { initializeAPIOptions } from "../../utility/API";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
+import { walletTypes } from "./UserActions";
 
 export const UPDATE_PAYPAL_IN_PROGRESS = "UPDATE_PAYPAL_IN_PROGRESS";
 export const UPDATE_PAYPAL_COMPLETED = "UPDATE_PAYPAL_COMPLETED";
@@ -52,6 +53,7 @@ export const fetchOrderDetails = orderId => async () => {
 
 export const updatePaypalInProgress = (orderId, orderType, paymentId, paypalPaymentId, PayerID) => dispatch => {
   dispatch({ type: UPDATE_PAYPAL_IN_PROGRESS, payload: { orderId, orderType, paymentId, paypalPaymentId, PayerID } });
+  dispatch(userActions.updateWallet({ type: walletTypes.GENERAL }));
 };
 
 export const updatePaypalCompleted = dispatch => {
