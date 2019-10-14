@@ -56,7 +56,7 @@ class CreateWalletPopup extends Component {
   };
 
   handleClose = () => {
-    if (this.state.activeSection === 1) {
+    if (this.state.activeSection === 1 || this.state.activeSection === 2) {
       this.props.setVisibility(false);
     }
   };
