@@ -13,6 +13,7 @@ const ON_ACCOUNT_CHANGE = "accountsChanged";
 const ON_NETWORK_CHANGE = "networkChanged";
 
 let sdk;
+let channel;
 let web3Provider;
 
 export const callTypes = {
@@ -36,7 +37,7 @@ const parseFreeCallMetadata = ({ data }) => ({
   "snet-payment-channel-signature-bin": parseSignature(data["snet-payment-channel-signature-bin"]),
 });
 
-const metadataGenerator = (callType, serviceRequestErrorHandler) => async (serviceClient, serviceName, method) => {
+const metadataGenerator = serviceRequestErrorHandler => async (serviceClient, serviceName, method) => {
   try {
     const { orgId: org_id, serviceId: service_id } = serviceClient.metadata;
     const { email, token } = await fetchAuthenticatedUser();
@@ -86,7 +87,7 @@ const generateOptions = (callType, wallet, serviceRequestErrorHandler) => {
     };
   }
   if (callType === callTypes.FREE) {
-    return { metadataGenerator: metadataGenerator(callType, serviceRequestErrorHandler) };
+    return { metadataGenerator: metadataGenerator(serviceRequestErrorHandler) };
   }
   if (wallet && wallet.type === walletTypes.METAMASK) {
     return {};
@@ -132,6 +133,10 @@ export const initPaypalSdk = (address, channelInfo) => {
   sdk.paymentChannelManagementStrategy = new PaypalPaymentMgmtStrategy(sdk, channelInfo.id);
 };
 
+export const updateChannel = newChannel => {
+  channel = newChannel;
+};
+
 export const initSdk = async address => {
   const updateSDK = () => {
     const networkId = web3Provider.networkVersion;
@@ -151,11 +156,11 @@ export const initSdk = async address => {
       window.web3.eth.defaultAccount = address;
       updateSDK();
     }
-    return sdk;
+    return Promise.resolve(sdk);
   }
 
   if (sdk) {
-    return sdk;
+    return Promise.resolve(sdk);
   }
 
   const hasEth = typeof window.ethereum !== "undefined";
@@ -179,7 +184,7 @@ export const initSdk = async address => {
     throw error;
   }
 
-  return sdk;
+  return Promise.resolve(sdk);
 };
 
 const getMethodNames = service => {
@@ -202,8 +207,8 @@ export const createServiceClient = (
   wallet,
   channelInfo
 ) => {
-  if (sdk && sdk.currentChannel) {
-    sdk.paymentChannelManagementStrategy = new ProxyPaymentChannelManagementStrategy(sdk.currentChannel);
+  if (sdk && channel) {
+    sdk.paymentChannelManagementStrategy = new ProxyPaymentChannelManagementStrategy(channel);
   }
   const options = generateOptions(callType, wallet, serviceRequestErrorHandler, channelInfo);
   const serviceClient = new ServiceClient(
