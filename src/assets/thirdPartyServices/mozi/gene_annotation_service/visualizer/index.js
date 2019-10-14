@@ -221,6 +221,7 @@ const Visualizer = props => {
   useEffect(
     function() {
       if (cy) {
+        MLLLayout();
         cy.style([
           ...CYTOSCAPE_STYLE,
           ...assignColorToAnnotations(),
