@@ -38,10 +38,10 @@ class ServiceDemo extends Component {
     this.scrollToHash();
   };
 
-  componentDidUpdate = prevProps => {
+  componentDidUpdate = async prevProps => {
     const { wallet, channelInfo } = this.props;
     if (wallet.type === walletTypes.METAMASK) {
-      initSdk();
+      await initSdk();
     }
     if (wallet.type === walletTypes.GENERAL && prevProps.channelInfo.id !== channelInfo.id) {
       initPaypalSdk(wallet.address, channelInfo);

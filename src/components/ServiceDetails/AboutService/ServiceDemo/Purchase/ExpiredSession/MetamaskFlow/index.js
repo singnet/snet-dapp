@@ -1,14 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Tooltip from "@material-ui/core/Tooltip";
-import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet";
-import InfoIcon from "@material-ui/icons/Info";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/styles";
 import { WebServiceClient as ServiceClient } from "snet-sdk-web";
 
 import StyledButton from "../../../../../../common/StyledButton";
-import StyledDropdown from "../../../../../../common/StyledDropdown";
 import PaymentInfoCard from "../../PaymentInfoCard";
 import PurchaseDialog from "../../PurchaseDialog";
 import ChannelSelectionBox from "../../ChannelSelectionBox";
@@ -102,7 +99,7 @@ class MetamaskFlow extends Component {
   };
 
   handleConnectMM = async () => {
-    const { startMMconnectLoader, stopLoader, registerWallet } = this.props;
+    const { startMMconnectLoader, stopLoader, registerWallet, wallet } = this.props;
     this.setState({ alert: {} });
     try {
       startMMconnectLoader();
@@ -110,8 +107,9 @@ class MetamaskFlow extends Component {
       const mpeBal = await sdk.account.escrowBalance();
       await this.paymentChannelManagement.updateChannelInfo();
       const address = sdk.account.address;
-      await registerWallet(address, walletTypes.METAMASK);
-
+      if (!Boolean(wallet.is_default)) {
+        await registerWallet(address, walletTypes.METAMASK);
+      }
       this.PaymentInfoCardData.map(el => {
         if (el.title === "Escrow Balance") {
           el.value = cogsToAgi(mpeBal);
@@ -224,11 +222,6 @@ class MetamaskFlow extends Component {
       showTooltip,
     } = this.state;
 
-    const channelPaymentOptions = [
-      { value: "general_account_wallet", label: "General Account Wallet" },
-      { value: "metamask", label: "Metamask" },
-    ];
-
     if (!MMconnected) {
       return (
         <div className={classes.ExpiredSessionContainer}>
@@ -247,21 +240,6 @@ class MetamaskFlow extends Component {
           the panel below. “Mouse over” for tool tips.
         </Typography>
         <div className={classes.paymentInfoCard}>
-          <div className={classes.paymentChannelDropDownContainer}>
-            <InfoIcon className={classes.infoIconContainer} />
-            <div className={classes.paymentChannelDropDown}>
-              <Typography variant="body2" className={classes.dropDownTitle}>
-                Payment Channel
-              </Typography>
-              <AccountBalanceWalletIcon className={classes.walletIcon} />
-              <StyledDropdown
-                labelTxt="Select a Wallet"
-                list={channelPaymentOptions}
-                value=" "
-                onChange={this.handlePayTypeChange}
-              />
-            </div>
-          </div>
           {this.PaymentInfoCardData.map(item => (
             <PaymentInfoCard key={item.title} title={item.title} value={item.value} unit={item.unit} />
           ))}
@@ -346,6 +324,7 @@ class MetamaskFlow extends Component {
 const mapStateToProps = state => ({
   serviceDetails: currentServiceDetails(state),
   pricing: pricing(state),
+  wallet: state.userReducer.wallet,
 });
 
 const mapDispatchToProps = dispatch => ({
