@@ -16,7 +16,7 @@ import PrivateKey from "./PrivateKey";
 import Summary from "./Summary";
 import PopupDetails from "../PopupDetails";
 import { useStyles } from "./styles";
-import { paymentActions } from "../../../../../../../../Redux/actionCreators";
+import { paymentActions, userActions } from "../../../../../../../../Redux/actionCreators";
 import { groupInfo } from "../../../../../../../../Redux/reducers/ServiceDetailsReducer";
 import { orderTypes } from "..";
 import Routes from "../../../../../../../../utility/constants/Routes";
@@ -95,10 +95,15 @@ class CreateWalletPopup extends Component {
     initiatePayment(paymentObj);
   };
 
-  handleExecutePayment = () => {
+  handleExecutePayment = async () => {
     const {
       paypalInProgress: { orderId, paymentId, paypalPaymentId, PayerID },
+      match: {
+        params: { orgId },
+      },
+      group: { group_id },
       executePayment,
+      fetchWalletDetails,
     } = this.props;
     const paymentExecObj = {
       order_id: orderId,
@@ -108,15 +113,16 @@ class CreateWalletPopup extends Component {
         payment_id: paypalPaymentId,
       },
     };
-    return executePayment(paymentExecObj).then(response => {
-      const {
-        private_key: privateKey,
-        item_details: { item, quantity },
-        price: { amount },
-      } = response.data;
-      this.setState({ privateKey, amount, quantity, item });
-      this.handleNextSection();
-    });
+    const response = await executePayment(paymentExecObj);
+    await fetchWalletDetails(orgId, group_id);
+    const {
+      private_key: privateKey,
+      item_details: { item, quantity },
+      price: { amount },
+    } = response.data;
+    this.setState({ privateKey, amount, quantity, item });
+    this.handleNextSection();
+    return;
   };
 
   render() {
@@ -202,6 +208,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   initiatePayment: paymentObj => dispatch(paymentActions.initiatePayment(paymentObj)),
   executePayment: paymentExecObj => dispatch(paymentActions.executePayment(paymentExecObj)),
+  fetchWalletDetails: (orgId, groupId) => dispatch(userActions.fetchWallet),
   paypalCompleted: () => dispatch(paymentActions.updatePaypalCompleted),
 });
 
