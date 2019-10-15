@@ -10,6 +10,7 @@ import { walletTypes } from "../../../Redux/actionCreators/UserActions";
 import { userActions } from "../../../Redux/actionCreators";
 import MetamaskDetails from "./MetamaskDetails";
 import { initSdk } from "../../../utility/sdk";
+import ProviderBalance from "./ProviderBalance";
 import AlertBox, { alertTypes } from "../../common/AlertBox";
 
 const walletDropdownList = Object.entries(walletTypes).map(([key, value]) => ({ value, label: key }));
@@ -67,6 +68,9 @@ const UserProfileAccount = ({ classes, wallet, updateWallet, stopWalletDetailsPo
           )}
           <AlertBox type={alert.type} message={alert.message} />
         </div>
+      </Grid>
+      <Grid xs={12} sm={12} md={8} lg={8} className={classes.providerBalMaincontainer}>
+        <ProviderBalance />
       </Grid>
     </Grid>
   );
