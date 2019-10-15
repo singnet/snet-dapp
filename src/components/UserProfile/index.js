@@ -13,7 +13,7 @@ import UserProfileTransactionHistory from "./UserProfileTransactionHistory";
 import { useStyles } from "./styles";
 import Routes from "../../utility/constants/Routes";
 
-const userProfileRoutes = {
+export const userProfileRoutes = {
   ACCOUNT: { path: `/${Routes.USER_PROFILE}/account`, component: () => <UserProfileAccount /> },
   SETTINGS: { path: `/${Routes.USER_PROFILE}/settings`, component: () => <UserProfileSettings /> },
   TRANSACTIONS: { path: `/${Routes.USER_PROFILE}/transactions`, component: () => <UserProfileTransactionHistory /> },
