@@ -11,7 +11,7 @@ import StyledButton from "../../../common/StyledButton";
 import SingularityLogo from "../../../../assets/images/avatar.png";
 import { useStyles } from "./styles";
 
-const ProviderBalance = ({ classes, orgImg }) => {
+const ProviderBalance = ({ classes, orgImg, totalProviderLinked }) => {
   return (
     <Grid container spacing={10} className={classes.providerBalContent}>
       <h3>Provider Balances</h3>
@@ -24,29 +24,29 @@ const ProviderBalance = ({ classes, orgImg }) => {
       </Grid>
       <Grid xs={12} sm={12} md={12} lg={12} className={classes.BalDetails}>
         <Grid xs={12} sm={12} md={12} lg={12} className={classes.columnTitle}>
-          <Grid xs={12} sm={12} md={4} lg={4}>
+          <Grid xs={12} sm={12} md={5} lg={5} className={classes.providerChannelLinkedWalletContainer}>
             <Typography>provider channels</Typography>
-          </Grid>
-          <Grid xs={12} sm={12} md={1} lg={1}>
-            <Typography>linked wallets</Typography>
+            {totalProviderLinked < 3 ? <Typography>linked wallets</Typography> : null}
           </Grid>
           <Grid xs={12} sm={12} md={3} lg={3}>
             <Typography>available tokens</Typography>
           </Grid>
         </Grid>
         <Grid xs={12} sm={12} md={12} lg={12} className={classes.tableData}>
-          <Grid xs={12} sm={12} md={4} lg={4} className={classes.providerChannelDetails}>
-            <div>
+          <Grid xs={12} sm={12} md={5} lg={5} className={classes.providerChannelDetails}>
+            <div className={classes.avatarContainer}>
               <Avatar alt="Singularity" src={orgImg || SingularityLogo} className={classes.avatar} />
+              <div>
+                <Typography className={classes.channelName}>Singularitynetty</Typography>
+                <Typography className={classes.algorithmCount}>30 Algorithms</Typography>
+              </div>
             </div>
-            <div>
-              <Typography className={classes.channelName}>Singularitynetty</Typography>
-              <Typography className={classes.algorithmCount}>30 Algorithms</Typography>
-            </div>
-          </Grid>
-          <Grid xs={12} sm={12} md={1} lg={1}>
-            <InfoIcon className={classes.infoIcon} />
-            <span className={classes.linkedWalletCount}>12</span>
+            {totalProviderLinked < 3 ? (
+              <div>
+                <InfoIcon className={classes.infoIcon} />
+                <span className={classes.linkedWalletCount}>12</span>
+              </div>
+            ) : null}
           </Grid>
           <Grid xs={12} sm={12} md={3} lg={3}>
             <span className={classes.availableTokenCount}>0.00000000 AGI</span>

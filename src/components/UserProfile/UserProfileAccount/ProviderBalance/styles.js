@@ -33,9 +33,13 @@ export const useStyles = theme => ({
     },
     "& > div": {
       textAlign: "right",
-      "&:first-of-type": { textAlign: "left" },
+      "&:first-of-type": {
+        display: "flex",
+        justifyContent: "space-between",
+      },
     },
   },
+  avatarContainer: { display: "flex" },
   tableData: {
     paddingBottom: 17,
     borderBottomWidth: 1,
@@ -47,7 +51,7 @@ export const useStyles = theme => ({
       display: "flex",
       alignItems: "center",
       justifyContent: "flex-end",
-      "&:first-of-type": { justifyContent: "flex-start" },
+      "&:first-of-type": { justifyContent: "space-between" },
     },
   },
   providerChannelDetails: {
