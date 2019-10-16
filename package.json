@@ -17,6 +17,7 @@
     "date-fns": "^2.0.1",
     "google-protobuf": "^3.8.0",
     "history": "^4.9.0",
+    "html-react-parser": "^0.9.1",
     "html2canvas": "^1.0.0-alpha.12",
     "jquery": "^3.4.1",
     "lodash": "latest",
