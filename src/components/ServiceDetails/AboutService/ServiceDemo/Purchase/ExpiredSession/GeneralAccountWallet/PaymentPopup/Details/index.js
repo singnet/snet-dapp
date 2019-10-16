@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { withStyles } from "@material-ui/styles";
 import Typography from "@material-ui/core/Typography";
 import InfoIcon from "@material-ui/icons/Info";
@@ -15,14 +15,14 @@ import { useStyles } from "./styles";
 import snetValidator from "../../../../../../../../../utility/snetValidator";
 import { paymentGatewayConstraints } from "./validationConstraints";
 import AlertBox, { alertTypes } from "../../../../../../../../common/AlertBox";
-import { USDToAgi, agiToCogs } from "../../../../../../../../../utility/PricingStrategy";
+import { USDToAgi, agiToCogs, tenYearBlockOffset } from "../../../../../../../../../utility/PricingStrategy";
 import { orderTypes } from "../../";
 import { parseSignature } from "../../../../../../../../../utility/sdk";
 import { groupInfo } from "../../../../../../../../../Redux/reducers/ServiceDetailsReducer";
 
 export const paymentTypes = [{ value: "paypal", label: "Pay pal" }];
 
-let web3;
+const web3 = new Web3(process.env.REACT_APP_WEB3_PROVIDER, null, {});
 
 const Details = props => {
   const {
@@ -39,12 +39,6 @@ const Details = props => {
   const [amount, setAmount] = useState("");
   const [alert, setAlert] = useState({});
   const [currency] = useState("USD");
-
-  useEffect(() => {
-    if (!web3) {
-      web3 = new Web3(process.env.REACT_APP_WEB3_PROVIDER, null, {});
-    }
-  });
 
   const handlePayTypeChange = event => {
     const { value } = event.target;
@@ -75,7 +69,7 @@ const Details = props => {
         const amountInCogs = agiToCogs(amountInAGI);
         currentBlockNumber = await web3.eth.getBlockNumber();
         // 1 block no is mined in 15 sec on average, setting expiration as 10 years
-        const expiration = currentBlockNumber + 10 * 365 * 24 * 60 * 4;
+        const expiration = currentBlockNumber + tenYearBlockOffset;
         const sha3Message = web3.utils.soliditySha3(
           { t: "string", v: "__openChannelByThirdParty" },
           { t: "address", v: process.env.REACT_APP_MPE_CONTRACT_ADDRESS },

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { withStyles } from "@material-ui/styles";
 import { Link } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
@@ -18,18 +18,12 @@ const warningMessage = [
   "Lorem ipsum dolor sit amet, simul vivendo vim ea, ut possim torquatos definiebas eam. Feugiat maiorum urbanitas ei quo.",
 ];
 
-let web3;
+const web3 = new Web3(process.env.REACT_APP_WEB3_PROVIDER, null, {});
 
 const VerifyKey = ({ classes, handleLostPrivateKey, walletList, handleUserProvidedPrivateKey, handleNextSection }) => {
   const [keyLost, setKeyLost] = useState(false);
   const [privateKey, setPrivateKey] = useState("");
   const [alert, setAlert] = useState({});
-
-  useEffect(() => {
-    if (!web3) {
-      web3 = new Web3(process.env.REACT_APP_WEB3_PROVIDER, null, {});
-    }
-  });
 
   const handleConfirmNewWallet = () => {
     handleLostPrivateKey();
