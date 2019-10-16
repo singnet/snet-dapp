@@ -3,6 +3,8 @@ import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
 import isEmpty from "lodash/isEmpty";
+import InfoIcon from "@material-ui/icons/Info";
+import Typography from "@material-ui/core/Typography";
 
 import StyledDropdown from "../../common/StyledDropdown";
 import { useStyles } from "./styles";
@@ -67,6 +69,13 @@ const UserProfileAccount = ({ classes, wallet, updateWallet, stopWalletDetailsPo
             <AlertBox type={alertTypes.INFO} message="Please select a wallet to proceed" />
           )}
           <AlertBox type={alert.type} message={alert.message} />
+          <div className={classes.totalProviderLinkedContainer}>
+            <div className={classes.infoTitleContainer}>
+              <InfoIcon className={classes.infoIcon} />
+              <Typography className={classes.totalProviderLinkedTitle}>Total providers linked</Typography>
+            </div>
+            <div className={classes.totalProviderLinkedCount}>3</div>
+          </div>
         </div>
       </Grid>
       <Grid xs={12} sm={12} md={8} lg={8} className={classes.providerBalMaincontainer}>
