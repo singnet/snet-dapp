@@ -23,6 +23,7 @@ export const useStyles = theme => ({
   },
   columnTitle: {
     padding: "0 22px",
+    marginBottom: 10,
     display: "flex",
     "& p": {
       color: theme.palette.text.lightShadedGray,
@@ -86,7 +87,9 @@ export const useStyles = theme => ({
       padding: "9px 10px !important",
     },
   },
-  downArrowIcon: {
-    color: theme.palette.text.lightShadedGray,
+  downArrowIcon: { color: theme.palette.text.lightShadedGray },
+  paginationContainer: {
+    padding: "0 22px",
+    marginBottom: 32,
   },
 });

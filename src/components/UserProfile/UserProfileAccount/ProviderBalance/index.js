@@ -6,6 +6,7 @@ import InfoIcon from "@material-ui/icons/Info";
 import ArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import Avatar from "@material-ui/core/Avatar";
 
+import StyledPagination from "../../../AiMarketplace/MainSection/ServiceCollection/StyledPagination";
 import StyledButton from "../../../common/StyledButton";
 import SingularityLogo from "../../../../assets/images/avatar.png";
 import { useStyles } from "./styles";
@@ -57,6 +58,9 @@ const ProviderBalance = ({ classes, orgImg }) => {
             <ArrowDownIcon className={classes.downArrowIcon} />
           </Grid>
         </Grid>
+      </Grid>
+      <Grid xs={12} sm={12} md={12} lg={12} className={classes.paginationContainer}>
+        <StyledPagination limit={4} offset={1} total_count={100} />
       </Grid>
     </Grid>
   );
