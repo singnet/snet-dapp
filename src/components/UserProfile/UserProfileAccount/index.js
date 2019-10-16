@@ -1,24 +1,22 @@
 import React, { useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
-import { connect } from "react-redux";
 import isEmpty from "lodash/isEmpty";
-import InfoIcon from "@material-ui/icons/Info";
-import Typography from "@material-ui/core/Typography";
 
 import StyledDropdown from "../../common/StyledDropdown";
 import { useStyles } from "./styles";
 import { walletTypes } from "../../../Redux/actionCreators/UserActions";
-import { userActions } from "../../../Redux/actionCreators";
 import MetamaskDetails from "./MetamaskDetails";
 import { initSdk } from "../../../utility/sdk";
 import ProviderBalance from "./ProviderBalance";
 import AlertBox, { alertTypes } from "../../common/AlertBox";
+import ProvidersLinkedCount from "./ProvidersLinkedCount";
 
 const walletDropdownList = Object.entries(walletTypes).map(([key, value]) => ({ value, label: key }));
 
-const UserProfileAccount = ({ classes, wallet, updateWallet, stopWalletDetailsPolling }) => {
+const UserProfileAccount = ({ classes }) => {
   const [alert, setAlert] = useState({});
+  const [wallet, updateWallet] = useState({ type: "default" });
 
   const handleWalletTypeChange = async event => {
     setAlert({});
@@ -29,7 +27,6 @@ const UserProfileAccount = ({ classes, wallet, updateWallet, stopWalletDetailsPo
         const sdk = await initSdk(selectedEthAddress);
         const address = sdk.account.address;
         if (!isEmpty(address)) {
-          stopWalletDetailsPolling();
           updateWallet({ type: value, address });
           return;
         }
@@ -39,7 +36,6 @@ const UserProfileAccount = ({ classes, wallet, updateWallet, stopWalletDetailsPo
       }
     }
     if (value === walletTypes.GENERAL) {
-      stopWalletDetailsPolling();
       updateWallet({ type: value });
       return;
     }
@@ -65,17 +61,9 @@ const UserProfileAccount = ({ classes, wallet, updateWallet, stopWalletDetailsPo
               onChange={handleWalletTypeChange}
             />
           </div>
-          {walletDetails[wallet.type] || (
-            <AlertBox type={alertTypes.INFO} message="Please select a wallet to proceed" />
-          )}
+          {walletDetails[wallet.type]}
           <AlertBox type={alert.type} message={alert.message} />
-          <div className={classes.totalProviderLinkedContainer}>
-            <div className={classes.infoTitleContainer}>
-              <InfoIcon className={classes.infoIcon} />
-              <Typography className={classes.totalProviderLinkedTitle}>Total providers linked</Typography>
-            </div>
-            <div className={classes.totalProviderLinkedCount}>3</div>
-          </div>
+          <ProvidersLinkedCount />
         </div>
       </Grid>
       <Grid xs={12} sm={12} md={8} lg={8} className={classes.providerBalMaincontainer}>
@@ -85,16 +73,4 @@ const UserProfileAccount = ({ classes, wallet, updateWallet, stopWalletDetailsPo
   );
 };
 
-const mapStateToProps = state => ({
-  wallet: state.userReducer.wallet,
-});
-
-const mapDispatchToProps = dispatch => ({
-  updateWallet: args => dispatch(userActions.updateWallet(args)),
-  stopWalletDetailsPolling: () => dispatch(userActions.stopWalletDetailsPolling),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(useStyles)(UserProfileAccount));
+export default withStyles(useStyles)(UserProfileAccount);
