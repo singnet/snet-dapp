@@ -19,11 +19,21 @@ import PopupDetails from "../PopupDetails";
 import { useStyles } from "./styles";
 import { paymentActions, userActions } from "../../../../../../../../Redux/actionCreators";
 import { groupInfo } from "../../../../../../../../Redux/reducers/ServiceDetailsReducer";
-import { orderTypes } from "..";
 import Routes from "../../../../../../../../utility/constants/Routes";
 import { channelInfo } from "../../../../../../../../Redux/reducers/UserReducer";
 import VerifyKey from "./VerifyKey";
 
+export const orderTypes = {
+  CREATE_WALLET: "CREATE_WALLET_AND_CHANNEL",
+  TOPUP_WALLET: "FUND_CHANNEL",
+  CREATE_CHANNEL: "CREATE_CHANNEL",
+};
+
+const paypalSuccessRedirectionSection = {
+  [orderTypes.CREATE_WALLET]: 2,
+  [orderTypes.TOPUP_WALLET]: 2,
+  [orderTypes.CREATE_CHANNEL]: 3,
+};
 class PaymentPopup extends Component {
   state = {
     activeSection: 1,
@@ -40,8 +50,16 @@ class PaymentPopup extends Component {
     }
   };
 
-  purchaseWallet = () => {
-    this.setState({ activeSection: 2 });
+  purchaseWallet = async () => {
+    const {
+      fetchOrderDetails,
+      paypalInProgress: { orderId },
+    } = this.props;
+    const orderType = await fetchOrderDetails(orderId);
+    if (orderType === this.props.orderType) {
+      this.props.handleOpen();
+      this.setState({ activeSection: paypalSuccessRedirectionSection[orderType] });
+    }
   };
 
   handlePaymentComplete = () => {
@@ -64,10 +82,10 @@ class PaymentPopup extends Component {
   };
 
   handleClose = () => {
-    if (this.state.activeSection === 1 || this.state.activeSection === 2) {
-      this.setState({ activeSection: 1 });
-      this.props.handleClose();
-    }
+    // if (this.state.activeSection === 1 || this.state.activeSection === 2) {
+    //   this.setState({ activeSection: 1 });
+    this.props.handleClose();
+    // }
   };
 
   handleNextSection = () => {
@@ -252,6 +270,7 @@ const mapDispatchToProps = dispatch => ({
   executePayment: paymentExecObj => dispatch(paymentActions.executePayment(paymentExecObj)),
   fetchWalletDetails: (orgId, groupId) => dispatch(userActions.fetchWallet(orgId, groupId)),
   paypalCompleted: () => dispatch(paymentActions.updatePaypalCompleted),
+  fetchOrderDetails: orderId => dispatch(userActions.fetchOrderDetails(orderId)),
 });
 
 export default withRouter(

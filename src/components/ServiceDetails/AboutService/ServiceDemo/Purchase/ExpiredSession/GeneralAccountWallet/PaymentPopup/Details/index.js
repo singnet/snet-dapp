@@ -16,9 +16,9 @@ import snetValidator from "../../../../../../../../../utility/snetValidator";
 import { paymentGatewayConstraints } from "./validationConstraints";
 import AlertBox, { alertTypes } from "../../../../../../../../common/AlertBox";
 import { USDToAgi, agiToCogs, tenYearBlockOffset } from "../../../../../../../../../utility/PricingStrategy";
-import { orderTypes } from "../../";
 import { parseSignature } from "../../../../../../../../../utility/sdk";
 import { groupInfo } from "../../../../../../../../../Redux/reducers/ServiceDetailsReducer";
+import { orderTypes } from "../";
 
 export const paymentTypes = [{ value: "paypal", label: "Pay pal" }];
 

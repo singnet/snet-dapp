@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
 
 import { useStyles } from "./styles";
-import PaymentPopup from "../PaymentPopup";
-import { orderTypes, paymentTitles } from "..";
+import PaymentPopup, { orderTypes } from "../PaymentPopup";
+import { paymentTitles } from "../";
 
 class LinkProviderPopup extends Component {
   state = {
@@ -34,6 +34,7 @@ class LinkProviderPopup extends Component {
       <PaymentPopup
         orderType={orderType}
         visible={visible}
+        handleOpen={() => this.props.setVisibility(true)}
         handleClose={this.handleClose}
         title={title}
         handleLostPrivateKey={this.handleLostPrivateKey}

@@ -12,12 +12,7 @@ import CreateWallet from "./CreateWallet";
 import { paymentActions } from "../../../../../../../Redux/actionCreators";
 import LinkProvider from "./LinkProvider";
 import { userProfileRoutes } from "../../../../../../UserProfile";
-
-export const orderTypes = {
-  CREATE_WALLET: "CREATE_WALLET_AND_CHANNEL",
-  TOPUP_WALLET: "FUND_CHANNEL",
-  CREATE_CHANNEL: "CREATE_CHANNEL",
-};
+import { orderTypes } from "./PaymentPopup";
 
 export const paymentTitles = {
   CREATE_WALLET: "Create General Account Wallet",
