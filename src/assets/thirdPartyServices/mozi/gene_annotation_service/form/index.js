@@ -122,10 +122,10 @@ const AnnotationForm = props => {
           annotation.setFiltersList([namespace, nop]);
         } else if (sa === "gene-pathway-annotation") {
           const ps = new Filter();
-          ps.setFilter("namespace");
+          ps.setFilter("pathway");
           ps.setValue(pathways.join(" "));
           const ism = new Filter();
-          ism.setFilter("include_small_molecule");
+          ism.setFilter("include_sm");
           ism.setValue(capitalizeFirstLetter(includeSmallMolecules.toString()));
           const ip = new Filter();
           ip.setFilter("include_prot");
