@@ -10,7 +10,6 @@ import StyledButton from "../../../../../../../../common/StyledButton";
 import BulletPoint from "../../../../../../../../common/BulletPoint";
 import { useStyles } from "./styles";
 import AlertText from "../../../../../../../../common/AlertText";
-import { parseSignature } from "../../../../../../../../../utility/sdk";
 
 const warningMessage = [
   "You wil still be able to topup your General Account Wallet and use it with all providers that you have linked with.",
@@ -21,7 +20,7 @@ const warningMessage = [
 
 let web3;
 
-const VerifyKey = ({ classes, handleLostPrivateKey, updateSignature, walletList }) => {
+const VerifyKey = ({ classes, handleLostPrivateKey, walletList, handleUserProvidedPrivateKey, handleNextSection }) => {
   const [keyLost, setKeyLost] = useState(false);
   const [privateKey, setPrivateKey] = useState("");
   const [alert, setAlert] = useState({});
@@ -36,28 +35,45 @@ const VerifyKey = ({ classes, handleLostPrivateKey, updateSignature, walletList 
     handleLostPrivateKey();
   };
 
-  const validatePrivateKey = async () => {
-    const account = web3.eth.accounts.privateKeyToAccount(privateKey);
-    const accMatchesAnyGenWallet = walletList.some(wallet => wallet.address);
-    if (!accMatchesAnyGenWallet) {
+  const validatePrivateKey = () => {
+    try {
+      handleUserProvidedPrivateKey(privateKey);
+      const account = web3.eth.accounts.privateKeyToAccount(privateKey);
+      const GenWalletMatchingAcc = walletList.find(wallet => wallet.address === account.address);
+      if (!GenWalletMatchingAcc) {
+        setAlert({
+          type: alertTypes.ERROR,
+          message: "The private key doesn't belong to any of the General Account Wallets",
+        });
+        return;
+      }
+      handleNextSection();
+    } catch (error) {
       setAlert({
         type: alertTypes.ERROR,
-        message: "The private key doesn't belong to any of the General Account Wallets",
+        message: "The private key is not valid",
       });
       return;
     }
-    web3.eth.accounts.wallet.add(account);
-    web3.eth.defaultAccount = account.address;
-    const sha3Message = web3.utils.soliditySha3(
-      { t: "uint256", v: "channelIdStr" },
-      { t: "uint256", v: "nonceStr" },
-      { t: "uint256", v: "signingAmountStr" }
-    );
 
-    const signature = await web3.eth.accounts.sign(sha3Message, privateKey);
+    // web3.eth.accounts.wallet.add(account);
+    // web3.eth.defaultAccount = account.address;
+    // const sha3Message = web3.utils.soliditySha3(
+    //   { t: "string", v: "__openChannelByThirdParty" },
+    //   { t: "address", v: "mpe_address" },
+    //   { t: "address", v: "executor_wallet_address" },
+    //   { t: "address", v: "SIGNER_ADDRESS" },
+    //   { t: "address", v: "recipient" },
+    //   { t: "bytes32", v: "group_id" },
+    //   { t: "uint256", v: "amount_in_cogs" },
+    //   { t: "uint256", v: "expiration" },
+    //   { t: "uint256", v: "message_nonce" }
+    // );
 
-    const base64Signature = parseSignature(signature);
-    return base64Signature;
+    // const signature = await web3.eth.accounts.sign(sha3Message, privateKey);
+
+    // const base64Signature = parseSignature(signature);
+    // return base64Signature;
   };
 
   if (keyLost) {

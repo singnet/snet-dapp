@@ -26,7 +26,8 @@ import VerifyKey from "./VerifyKey";
 class PaymentPopup extends Component {
   state = {
     activeSection: 1,
-    privateKey: undefined,
+    privateKeyGenerated: undefined,
+    userProvidedPrivateKey: undefined,
     amount: "",
     item: "",
     quantity: "",
@@ -57,6 +58,10 @@ class PaymentPopup extends Component {
     history.push(`/${Routes.SERVICE_DETAILS}/org/${orgId}/service/${serviceId}`);
   };
 
+  handleUserProvidedPrivateKey = userProvidedPrivateKey => {
+    this.setState({ userProvidedPrivateKey });
+  };
+
   handleClose = () => {
     if (this.state.activeSection === 1 || this.state.activeSection === 2) {
       this.props.handleClose();
@@ -67,7 +72,7 @@ class PaymentPopup extends Component {
     this.setState({ activeSection: this.state.activeSection + 1 });
   };
 
-  handleInitiatePayment = (payType, amount, currency, item, quantity) => {
+  handleInitiatePayment = (payType, amount, currency, item, quantity, base64Signature, address) => {
     const {
       match: {
         params: { orgId, serviceId },
@@ -89,6 +94,8 @@ class PaymentPopup extends Component {
         group_id,
         receipient: payment_address,
         order_type: orderType,
+        signature: base64Signature,
+        wallet_address: address,
       },
       payment_method: payType,
     };
@@ -117,11 +124,11 @@ class PaymentPopup extends Component {
     const response = await executePayment(paymentExecObj);
     await fetchWalletDetails(orgId, group_id);
     const {
-      private_key: privateKey,
+      private_key: privateKeyGenerated,
       item_details: { item, quantity },
       price: { amount },
     } = response.data;
-    this.setState({ privateKey, amount, quantity, item });
+    this.setState({ privateKeyGenerated, amount, quantity, item });
     this.handleNextSection();
     return;
   };
@@ -137,7 +144,7 @@ class PaymentPopup extends Component {
       handleLostPrivateKey,
       updateSignature,
     } = this.props;
-    const { activeSection, privateKey, amount, item, quantity } = this.state;
+    const { activeSection, privateKeyGenerated, amount, item, quantity, userProvidedPrivateKey } = this.state;
 
     const progressText = ["Details", "Purchase", "Summary"];
     const PopupProgressBarComponents = [
@@ -149,6 +156,8 @@ class PaymentPopup extends Component {
             initiatePayment={this.handleInitiatePayment}
             handleClose={this.handleClose}
             channelInfo={channelInfo}
+            userProvidedPrivateKey={userProvidedPrivateKey}
+            orderType={orderType}
           />
         ),
       },
@@ -174,7 +183,7 @@ class PaymentPopup extends Component {
       progressText.splice(2, 0, "Verify Key");
       PopupProgressBarComponents.splice(2, 0, {
         key: "privateKey",
-        component: <PrivateKey privateKey={privateKey} handleNextSection={this.handleNextSection} />,
+        component: <PrivateKey privateKey={privateKeyGenerated} handleNextSection={this.handleNextSection} />,
       });
     }
 
@@ -187,6 +196,7 @@ class PaymentPopup extends Component {
             handleNextSection={this.handleNextSection}
             handleLostPrivateKey={handleLostPrivateKey}
             updateSignature={updateSignature}
+            handleUserProvidedPrivateKey={this.handleUserProvidedPrivateKey}
           />
         ),
       });
@@ -232,7 +242,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   initiatePayment: paymentObj => dispatch(paymentActions.initiatePayment(paymentObj)),
   executePayment: paymentExecObj => dispatch(paymentActions.executePayment(paymentExecObj)),
-  fetchWalletDetails: (orgId, groupId) => dispatch(userActions.fetchWallet),
+  fetchWalletDetails: (orgId, groupId) => dispatch(userActions.fetchWallet(orgId, groupId)),
   paypalCompleted: () => dispatch(paymentActions.updatePaypalCompleted),
 });
 
