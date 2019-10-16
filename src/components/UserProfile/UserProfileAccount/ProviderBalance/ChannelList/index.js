@@ -24,8 +24,8 @@ const ChannelList = ({ classes, linkedProviders }) => {
         {map(linkedProviders, provider => {
           const { org_name, hero_image, groups } = provider;
           const firstGroup = groups[0];
-          const firstChannel = firstGroup.channels[0];
-          const balance_in_cogs = firstChannel.balance_in_cogs;
+          const firstChannel = firstGroup && firstGroup.channels[0];
+          const balance_in_cogs = firstChannel && firstChannel.balance_in_cogs;
           return (
             <Grid xs={12} sm={12} md={12} lg={12} className={classes.tableData}>
               <Grid xs={12} sm={12} md={7} lg={7} className={classes.providerChannelDetails}>
@@ -37,7 +37,7 @@ const ChannelList = ({ classes, linkedProviders }) => {
                 </div>
               </Grid>
               <Grid xs={12} sm={12} md={5} lg={5}>
-                <span className={classes.availableTokenCount}>{cogsToAgi(balance_in_cogs)} AGI</span>
+                <span className={classes.availableTokenCount}>{cogsToAgi(balance_in_cogs || 0)} AGI</span>
               </Grid>
             </Grid>
           );
