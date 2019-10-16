@@ -86,26 +86,29 @@ class PaymentPopup extends Component {
       initiatePayment,
       orderType,
     } = this.props;
+
+    const itemDetails = {
+      item,
+      quantity: Number(quantity),
+      org_id: orgId,
+      service_id: serviceId,
+      group_id,
+      receipient: payment_address,
+      order_type: orderType,
+      signature: base64Signature,
+      wallet_address: address,
+      current_block_number: currentBlockNumber,
+    };
+
+    const enhancedItemDetails = pickBy(itemDetails, el => el !== undefined);
+
     const paymentObj = {
       price: { amount: Number(amount), currency },
-      item_details: {
-        item,
-        quantity: Number(quantity),
-        org_id: orgId,
-        service_id: serviceId,
-        group_id,
-        receipient: payment_address,
-        order_type: orderType,
-        signature: base64Signature,
-        wallet_address: address,
-        current_block_number: currentBlockNumber,
-      },
+      item_details: enhancedItemDetails,
       payment_method: payType,
     };
 
-    const enhancedPaymentObj = pickBy(paymentObj, el => el !== undefined);
-
-    initiatePayment(enhancedPaymentObj);
+    initiatePayment(paymentObj);
   };
 
   handleExecutePayment = async () => {
