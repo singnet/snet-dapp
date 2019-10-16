@@ -13,9 +13,10 @@ import AboutService from "./AboutService";
 import InstallAndRunService from "./InstallAndRunService";
 import { useStyles } from "./styles";
 import NotificationBar, { notificationBarTypes } from "../common/NotificationBar";
-import { serviceDetailsActions, paymentActions } from "../../Redux/actionCreators";
+import { serviceDetailsActions, paymentActions, userActions } from "../../Redux/actionCreators";
 import { pricing, serviceDetails } from "../../Redux/reducers/ServiceDetailsReducer";
 import ErrorBox from "../common/ErrorBox";
+import { walletTypes } from "../../Redux/actionCreators/UserActions";
 
 class ServiceDetails extends Component {
   state = {
@@ -59,12 +60,14 @@ class ServiceDetails extends Component {
       },
       updatePaypalInProgress,
       fetchOrderDetails,
+      updateWallet,
     } = this.props;
     const { paymentId: paypalPaymentId, PayerID } = queryString.parse(search);
     if (orderId && paymentId && paypalPaymentId && PayerID) {
       const { data } = await fetchOrderDetails(orderId);
       const orderType = data.item_details.order_type;
       updatePaypalInProgress(orderId, orderType, paymentId, paypalPaymentId, PayerID);
+      updateWallet({ type: walletTypes.GENERAL });
     }
   };
 
@@ -149,6 +152,7 @@ const mapDispatchToProps = dispatch => ({
   updatePaypalInProgress: (orderId, orderType, paymentId, paypalPaymentId, PayerID) =>
     dispatch(paymentActions.updatePaypalInProgress(orderId, orderType, paymentId, paypalPaymentId, PayerID)),
   fetchOrderDetails: orderId => dispatch(paymentActions.fetchOrderDetails(orderId)),
+  updateWallet: walletDetails => dispatch(userActions.updateWallet(walletDetails)),
 });
 
 export default connect(
