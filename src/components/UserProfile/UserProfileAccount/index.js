@@ -21,7 +21,7 @@ import ProvidersLinkedCount from "./ProvidersLinkedCount";
 import { startAppLoader, stopAppLoader } from "../../../Redux/actionCreators/LoaderActions";
 import { LoaderContent } from "../../../utility/constants/LoaderContent";
 
-const UserProfileAccount = ({ classes, dispatch }) => {
+const UserProfileAccount = ({ classes, startAppLoader, stopAppLoader }) => {
   const [alert, setAlert] = useState({});
   const initialWallet = { value: "default", type: "default" };
   const [wallet, updateWallet] = useState(initialWallet);
@@ -49,9 +49,9 @@ const UserProfileAccount = ({ classes, dispatch }) => {
       return;
     }
 
-    dispatch(startAppLoader(LoaderContent.FETCH_LINKED_PROVIDERS));
+    startAppLoader();
     const organizations = await fetchWalletLinkedProviders(selectedWallet.address);
-    dispatch(stopAppLoader);
+    stopAppLoader();
     updateLinkedProviders(organizations);
     updateWallet(selectedWallet);
 
@@ -101,4 +101,14 @@ const UserProfileAccount = ({ classes, dispatch }) => {
   );
 };
 
-export default connect()(withStyles(useStyles)(UserProfileAccount));
+const mapDispatchToProps = dispatch => {
+  return {
+    startAppLoader: () => dispatch(startAppLoader(LoaderContent.FETCH_LINKED_PROVIDERS)),
+    stopAppLoader: () => dispatch(stopAppLoader),
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(withStyles(useStyles)(UserProfileAccount));
