@@ -21,6 +21,7 @@ export const UPDATE_EMAIL = "UPDATE_EMAIL";
 export const UPDATE_EMAIL_VERIFIED = "UPDATE_EMAIL_VERIFIED";
 export const UPDATE_EMAIL_ALERTS_SUBSCRIPTION = "UPDATE_EMAIL_ALERTS_SUBSCRIPTION";
 export const UPDATE_WALLET = "UPDATE_WALLET";
+export const UPDATE_WALLET_LIST = "UPDATE_WALLET_LIST";
 export const APP_INITIALIZATION_SUCCESS = "APP_INITIALIZATION_SUCCESS";
 export const UPDATE_IS_TERMS_ACCEPTED = "UPDATE_IS_TERMS_ACCEPTED";
 export const UPDATE_TRANSACTION_HISTORY = "UPDATE_TRANSACTION_HISTORY";
@@ -399,14 +400,21 @@ export const updateWallet = walletDetails => dispatch => {
   dispatch({ type: UPDATE_WALLET, payload: { ...walletDetails } });
 };
 
+export const updateWalletList = walletList => dispatch => {
+  dispatch({ type: UPDATE_WALLET_LIST, payload: walletList });
+};
+
 export const updateFirstTimeFetchWallet = value => dispatch => {
   dispatch({ type: UPDATE_FIRST_TIME_FETCH_WALLET, payload: value });
 };
 
 const fetchWalletSuccess = response => dispatch => {
-  const defaultWallet = response.data.wallets.find(wallet => Boolean(wallet.is_default));
-  if (!isEmpty(defaultWallet)) {
-    dispatch(updateWallet(defaultWallet));
+  if (!isEmpty(response.data.wallets)) {
+    dispatch(updateWalletList(response.data.wallets));
+    const defaultWallet = response.data.wallets.find(wallet => Boolean(wallet.is_default));
+    if (!isEmpty(defaultWallet)) {
+      dispatch(updateWallet(defaultWallet));
+    }
   }
 };
 
