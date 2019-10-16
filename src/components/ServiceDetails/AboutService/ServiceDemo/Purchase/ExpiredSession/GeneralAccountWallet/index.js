@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 import StyledButton from "../../../../../../common/StyledButton";
 import { useStyles } from "./styles";
@@ -10,6 +11,7 @@ import TopupWallet from "./TopupWallet";
 import CreateWallet from "./CreateWallet";
 import { paymentActions } from "../../../../../../../Redux/actionCreators";
 import LinkProvider from "./LinkProvider";
+import { userProfileRoutes } from "../../../../../../UserProfile";
 
 export const orderTypes = {
   CREATE_WALLET: "CREATE_WALLET_AND_CHANNEL",
@@ -52,7 +54,9 @@ const GeneralAccountWallet = props => {
   return (
     <Fragment>
       <div className={classes.btnsContainer}>
-        <StyledButton type="transparentBlueBorderDisable" btnText="transaction history" />
+        <Link to={userProfileRoutes.TRANSACTIONS.path} className={classes.routerLink}>
+          <StyledButton type="transparentBlueBorderDisable" btnText="transaction history" />
+        </Link>
         <StyledButton
           type="transparentBlueBorderDisable"
           btnText="top up wallet"
