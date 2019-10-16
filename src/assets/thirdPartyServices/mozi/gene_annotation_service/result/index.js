@@ -80,9 +80,9 @@ const AnnotationResult = props => {
         <Typography variant="body2">
           The result contains {nodes.length} entities and {edges.length} connections between them.
         </Typography>
-        <Typography variant="body2">
+        {/* <Typography variant="body2">
           This page will expire in {formatDistanceToNow(toDate(response.expire_time * 1000))}.
-        </Typography>
+        </Typography> */}
         <div className="inline-buttons">
           <Button variant="contained" onClick={e => setTableShown(true)}>
             <TableChartOutlinedIcon style={{ marginRight: 15 }} /> View results table
