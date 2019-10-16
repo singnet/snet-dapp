@@ -47,7 +47,8 @@
     "redux-thunk": "^2.3.0",
     "snet-sdk-web": "^1.0.0-beta.7",
     "utf8": "^3.0.0",
-    "validate.js": "^0.13.1"
+    "validate.js": "^0.13.1",
+    "web3": "1.0.0-beta.52"
   },
   "scripts": {
     "start": "react-scripts start",

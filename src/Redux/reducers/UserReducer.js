@@ -13,6 +13,7 @@ const InitialUserDetails = {
   isInitialized: false,
   isEmailVerified: false,
   wallet: {},
+  walletList: [],
   firstTimeFetchWallet: true,
   email: "",
   nickname: "",
@@ -88,6 +89,9 @@ const userReducer = (state = InitialUserDetails, action) => {
     case userActions.UPDATE_WALLET: {
       return { ...state, wallet: action.payload };
     }
+    case userActions.UPDATE_WALLET_LIST: {
+      return { ...state, walletList: action.payload };
+    }
     case userActions.UPDATE_FIRST_TIME_FETCH_WALLET: {
       return { ...state, firstTimeFetchWallet: action.payload };
     }
@@ -116,15 +120,24 @@ const userReducer = (state = InitialUserDetails, action) => {
 };
 
 export const channelInfo = state => {
-  const { wallet } = state.userReducer;
-  if (isEmpty(wallet) || isEmpty(wallet.channels)) {
+  const { walletList } = state.userReducer;
+  if (isEmpty(walletList)) {
     return {};
   }
-  const selectedChannel = wallet.channels[0];
-  return {
-    id: selectedChannel.channel_id,
-    balanceInAgi: cogsToAgi(selectedChannel.balance_in_cogs),
-  };
+  const walletWithChannel = walletList.find(wallet => !isEmpty(wallet.channels[0]));
+  if (walletWithChannel) {
+    const selectedChannel = walletWithChannel.channels[0];
+    return {
+      id: selectedChannel.channel_id,
+      balanceInAgi: cogsToAgi(selectedChannel.balance_in_cogs),
+    };
+  }
+  return {};
+};
+
+export const anyGeneralWallet = state => {
+  const { walletList } = state.userReducer;
+  return walletList.some(wallet => wallet.type === walletTypes.GENERAL);
 };
 
 export default userReducer;

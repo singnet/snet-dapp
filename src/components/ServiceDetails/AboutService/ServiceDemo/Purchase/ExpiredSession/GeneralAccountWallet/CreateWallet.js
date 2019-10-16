@@ -6,7 +6,7 @@ const CreateWallet = ({ visible, setVisibility }) => {
   return (
     <PaymentPopup
       visible={visible}
-      setVisibility={setVisibility}
+      handleClose={() => setVisibility(false)}
       orderType={orderTypes.CREATE_WALLET}
       title={paymentTitles.CREATE_WALLET}
     />
