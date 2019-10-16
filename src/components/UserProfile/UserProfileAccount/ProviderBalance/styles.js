@@ -30,10 +30,24 @@ export const useStyles = theme => ({
       lineHeight: "16px",
       textTransform: "uppercase",
     },
+    "& > div": {
+      textAlign: "right",
+      "&:first-of-type": { textAlign: "left" },
+    },
   },
   tableData: {
-    padding: "0 22px",
+    paddingBottom: 17,
+    borderBottomWidth: 1,
+    borderBottomStyle: "solid",
+    borderBottomColor: theme.palette.text.disabledBtnBg,
+    margin: "0 22px 20px",
     display: "flex",
+    "& > div": {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "flex-end",
+      "&:first-of-type": { justifyContent: "flex-start" },
+    },
   },
   providerChannelDetails: {
     display: "flex",
