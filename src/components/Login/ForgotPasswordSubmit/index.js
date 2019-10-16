@@ -9,16 +9,19 @@ import { userActions, errorActions } from "../../../Redux/actionCreators";
 import AlertBox from "../../common/AlertBox";
 import { useStyles } from "./styles";
 import StyledButton from "../../common/StyledButton";
+import snetValidator from "../../../utility/snetValidator";
+import { forgotPassworSubmitConstraints } from "./validationConstraints";
 
-const ForgotPasswordSubmit = ({ classes, history, error, username, forgotPasswordSubmit, updateError }) => {
-  const [showEmailSentAlert] = useState(true);
+const ForgotPasswordSubmit = ({ classes, history, error, email, forgotPasswordSubmit, updateError, resetError }) => {
+  const [showEmailSentAlert, setShowEmailSentAlert] = useState(true);
   const [code, setCode] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  // const handleShowEmailSentAlert = () => {
-  //   setShowEmailSentAlert(false);
-  // };
+  const handleEnterOtp = event => {
+    event.preventDefault();
+    setShowEmailSentAlert(false);
+  };
 
   const handleCode = event => {
     setCode(event.currentTarget.value);
@@ -34,19 +37,23 @@ const ForgotPasswordSubmit = ({ classes, history, error, username, forgotPasswor
 
   const handleSubmit = event => {
     event.preventDefault();
-    if (password !== confirmPassword) {
-      updateError("password and confirm password do not match");
+    resetError();
+    const isNotValid = snetValidator({ password, confirmPassword, code }, forgotPassworSubmitConstraints);
+    if (isNotValid) {
+      updateError(isNotValid[0]);
       return;
     }
     const route = `/${Routes.AI_MARKETPLACE}`;
-    forgotPasswordSubmit({ username, code, password, history, error, route });
+    forgotPasswordSubmit({ email, code, password, history, error, route });
   };
 
   if (showEmailSentAlert) {
     return (
       <section className={classes.resetPasswordContainer}>
         <span>Reset Password Email Sent.</span>
-        <p>Check your email for instructions. </p>
+        <p>
+          Click <a onClick={handleEnterOtp}>here</a> to enter the verification code.
+        </p>
       </section>
     );
   }
@@ -62,7 +69,7 @@ const ForgotPasswordSubmit = ({ classes, history, error, username, forgotPasswor
             label="Code"
             className={classes.textField}
             type="text"
-            name="username"
+            name="code"
             margin="normal"
             variant="outlined"
             value={code}
@@ -73,7 +80,7 @@ const ForgotPasswordSubmit = ({ classes, history, error, username, forgotPasswor
             label="New Password"
             className={classes.textField}
             type="password"
-            name="username"
+            name="email"
             margin="normal"
             variant="outlined"
             value={password}
@@ -84,7 +91,7 @@ const ForgotPasswordSubmit = ({ classes, history, error, username, forgotPasswor
             label="Confirm Password"
             className={classes.textField}
             type="password"
-            name="username"
+            name="email"
             margin="normal"
             variant="outlined"
             value={confirmPassword}
@@ -99,12 +106,13 @@ const ForgotPasswordSubmit = ({ classes, history, error, username, forgotPasswor
 };
 
 const mapStateToProps = state => ({
-  username: state.userReducer.username,
+  email: state.userReducer.email,
   error: state.errorReducer.forgotPasswordSubmit,
 });
 
 const mapDispatchToProps = dispatch => ({
-  forgotPasswordSubmit: args => dispatch(userActions.forgotPasswordSubmit({ ...args })),
+  forgotPasswordSubmit: args => dispatch(userActions.forgotPasswordSubmit(args)),
+  resetError: () => dispatch(errorActions.resetForgotPasswordSubmitError),
   updateError: error => dispatch(errorActions.updateForgotPasswordSubmitError(error)),
 });
 

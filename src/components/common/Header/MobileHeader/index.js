@@ -1,9 +1,8 @@
 import React, { Fragment } from "react";
 import { withStyles } from "@material-ui/styles";
-import Icon from "@material-ui/core/Icon";
-import clsx from "clsx";
 import { connect } from "react-redux";
 import { stylesActions } from "../../../../Redux/actionCreators";
+import CloseIcon from "@material-ui/icons/Close";
 
 import HeaderActions from "../HeaderActions";
 import NavItem from "../NavItem";
@@ -28,7 +27,7 @@ const MobileHeader = ({ classes, data, isLoggedIn, hamburgerMenu, updateHamburge
     <Fragment>
       <div className={classes.mobileNavContainer}>
         <div className={classes.closeMenuIcon}>
-          <Icon className={clsx(classes.icon, "fas fa-times")} onClick={toggleMobileMenu} />
+          <CloseIcon onClick={toggleMobileMenu} />
         </div>
         <nav className={classes.mobileNavigation}>
           <ul>
@@ -40,7 +39,7 @@ const MobileHeader = ({ classes, data, isLoggedIn, hamburgerMenu, updateHamburge
                 <Fragment>
                   <NavItem title={dropdown.label} subHeader />
                   {dropdown.list.map(item => (
-                    <NavItem key={item.label} title={item.label} link={dropdown.link} subListItem />
+                    <NavItem key={item.label} title={item.label} link={item.link} subListItem />
                   ))}
                 </Fragment>
               </div>

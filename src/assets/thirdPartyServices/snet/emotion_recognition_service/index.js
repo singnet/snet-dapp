@@ -1,20 +1,20 @@
 import React from "react";
 import SNETImageUpload from "../../standardComponents/SNETImageUpload";
-import EmotionVisualizer from "../../emotion-recognition-service/EmotionVisualizer";
+import EmotionVisualizer from "./EmotionVisualizer";
+import MethodNamesDropDown from "../../common/MethodNamesDropDown";
+import {EmotionRecognition} from "./EmotionService_pb_service"
 
 export default class EmotionRecognitionService extends React.Component {
   constructor(props) {
     super(props);
     this.handleImageUpload = this.handleImageUpload.bind(this);
-    this.handleServiceName = this.handleServiceName.bind(this);
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
     this.submitAction = this.submitAction.bind(this);
 
     this.state = {
       serviceName: "EmotionRecognition",
-      methodName: "Select a method",
+      methodName: "classify",
       uploadedImage: null,
-      uploadedImageType: null,
     };
   }
 
@@ -36,30 +36,28 @@ export default class EmotionRecognitionService extends React.Component {
     });
   }
 
-  handleServiceName(event) {
-    let strService = event.target.value;
-    this.setState({
-      serviceName: strService,
-    });
-  }
-
-  renderServiceMethodNames(serviceMethodNames) {
-    const serviceNameOptions = ["Select a method", ...serviceMethodNames];
-    return serviceNameOptions.map((serviceMethodName, index) => {
-      return <option key={index}>{serviceMethodName}</option>;
-    });
-  }
-
   submitAction() {
-    this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
-      image: this.state.uploadedImage,
-      image_type: this.state.uploadedImageType,
-    });
+    const { methodName, uploadedImage, uploadedImageType } = this.state;
+    const methodDescriptor = EmotionRecognition[methodName];
+    const request = new methodDescriptor.requestType();
+
+    request.setImageType(uploadedImageType);
+    request.setImage(uploadedImage);
+
+    const props = {
+      request,
+      onEnd: ({message}) => {
+        this.setState({
+          response: message.toObject(),
+        });
+      },
+    };
+
+    this.props.serviceClient.unary(methodDescriptor, props);  
   }
 
   renderForm() {
-    const service = this.props.protoSpec.findServiceByName(this.state.serviceName);
-    const serviceMethodNames = service.methodNames;
+    const serviceNameOptions = ["Select a method", ...this.props.serviceClient.getMethodNames(EmotionRecognition)];
 
     return (
       <React.Fragment>
@@ -68,14 +66,11 @@ export default class EmotionRecognitionService extends React.Component {
             Method Name:
           </div>
           <div className="col-md-3 col-lg-3">
-            <select
-              name="methodName"
+          <MethodNamesDropDown
+              list={serviceNameOptions}
               value={this.state.methodName}
-              style={{ height: "30px", width: "250px", fontSize: "13px", marginBottom: "5px" }}
               onChange={this.handleFormUpdate}
-            >
-              {this.renderServiceMethodNames(serviceMethodNames)}
-            </select>
+            />
           </div>
         </div>
         <div className="row">
@@ -91,7 +86,7 @@ export default class EmotionRecognitionService extends React.Component {
   }
 
   parseResponse() {
-    const { response } = this.props;
+    const { response } = this.state;
     if (typeof response !== "undefined") {
       if (typeof response === "string") {
         return response;

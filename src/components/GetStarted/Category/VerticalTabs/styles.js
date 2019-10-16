@@ -3,8 +3,8 @@ export const useStyles = theme => ({
     display: "flex",
     "& button": {
       maxWidth: "100%",
-      padding: "13px 25px",
-      borderLeft: 1,
+      padding: "0 0 0 25px",
+      borderLeftWidth: 1,
       borderLeftStyle: "solid",
       borderLeftColor: theme.palette.text.verticalTabLeftBorder,
       color: theme.palette.text.lightShadedGray,
@@ -21,9 +21,6 @@ export const useStyles = theme => ({
         fontWeight: 600,
       },
       "&:hover": {
-        borderWidth: 1,
-        borderStyle: "solid",
-        borderColor: theme.palette.text.primary,
         backgroundColor: theme.palette.text.white,
         color: theme.palette.text.primary,
         fontWeight: 600,

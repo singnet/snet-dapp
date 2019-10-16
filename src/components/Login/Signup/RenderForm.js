@@ -3,23 +3,35 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/styles";
 import { Icon } from "@material-ui/core";
+import isEmpty from "lodash/isEmpty";
 
 import StyledButton from "../../common/StyledButton";
-import AlertBox from "../../common/AlertBox";
-import { isValidEmail } from "../../../utility/Validation";
+import AlertBox, { alertTypes } from "../../common/AlertBox";
 import { useStyles } from "./styles";
+import AlertText from "../../common/AlertText";
+import { PasswordCriteria } from "../../../utility/constants/ValidtionMessages";
+import { signupFormConstraints, passwordInlineConstraints } from "./validationConstraints";
+import snetValidator from "../../../utility/snetValidator";
 
 const RenderForm = ({
   classes,
-  username,
-  handleUsername,
+  nickname,
+  handleNickname,
   email,
   handleEmail,
   password,
   handlePassword,
-  error,
+  alert,
   handleSubmit,
 }) => {
+  const validEmail = () => {
+    const isNotValid = snetValidator({ email }, { email: signupFormConstraints.email });
+    if (isNotValid && !isEmpty(email)) {
+      return isNotValid[0];
+    }
+    return null;
+  };
+
   return (
     <Fragment>
       <Grid item xs={12} sm={12} md={6} lg={6} className={classes.signupInfo}>
@@ -31,7 +43,7 @@ const RenderForm = ({
         <ul>
           <li>
             <Icon className="fas fa-check-circle" />
-            <p>Get free credits to try out all the available AI services.</p>
+            <p>Use the free trial to try out all the available AI services.</p>
           </li>
           <li>
             <Icon className="fas fa-check-circle" />
@@ -40,14 +52,14 @@ const RenderForm = ({
         </ul>
       </Grid>
 
-      <Grid item xs={12} sm={12} md={6} lg={6}>
+      <Grid item xs={12} sm={12} md={6} lg={6} className={classes.signupFormWrapper}>
         <form noValidate autoComplete="off" className={classes.signupForm}>
           <TextField
             id="outlined-user-name"
-            label="Username"
+            label="Nickname"
             className={classes.textField}
-            value={username}
-            onChange={handleUsername}
+            value={nickname}
+            onChange={handleNickname}
             margin="normal"
             variant="outlined"
             autoFocus
@@ -65,7 +77,7 @@ const RenderForm = ({
               value={email}
               onChange={handleEmail}
             />
-            {email !== "" && !isValidEmail(email) && <span className={classes.usernameError}>invalid email</span>}
+            <AlertText type={alertTypes.ERROR} message={validEmail()} />
           </div>
           <TextField
             id="outlined-password-input"
@@ -78,9 +90,52 @@ const RenderForm = ({
             value={password}
             onChange={handlePassword}
           />
-          <AlertBox type="error" message={error} />
+          <div className={classes.passwordCriteriaContainer}>
+            <p>Include:</p>
+            <AlertText
+              type={
+                isEmpty(snetValidator.single(password, passwordInlineConstraints.upperCase))
+                  ? alertTypes.SUCCESS
+                  : alertTypes.ERROR
+              }
+              message={`${PasswordCriteria.UPPER_CASE}, `}
+            />
+            <AlertText
+              type={
+                isEmpty(snetValidator.single(password, passwordInlineConstraints.lowerCase))
+                  ? alertTypes.SUCCESS
+                  : alertTypes.ERROR
+              }
+              message={`${PasswordCriteria.LOWER_CASE}, `}
+            />
+            <AlertText
+              type={
+                isEmpty(snetValidator.single(password, passwordInlineConstraints.length))
+                  ? alertTypes.SUCCESS
+                  : alertTypes.ERROR
+              }
+              message={`${PasswordCriteria.MIN_CHARS}, `}
+            />
+            <AlertText
+              type={
+                isEmpty(snetValidator.single(password, passwordInlineConstraints.AWSSplChars))
+                  ? alertTypes.SUCCESS
+                  : alertTypes.ERROR
+              }
+              message={`${PasswordCriteria.SPECIAL_CHAR}, `}
+            />
+            <AlertText
+              type={
+                isEmpty(snetValidator.single(password, passwordInlineConstraints.number))
+                  ? alertTypes.SUCCESS
+                  : alertTypes.ERROR
+              }
+              message={PasswordCriteria.NUMBER}
+            />
+          </div>
+          <AlertBox type={alert.type} message={alert.message} />
           <div style={{ marginTop: 20 }} />
-          <StyledButton type="blue" btnText="Create Account" onClick={handleSubmit} />
+          <StyledButton type="blue" btnText="Create Account" onClick={handleSubmit} btnType="submit" />
         </form>
       </Grid>
     </Fragment>

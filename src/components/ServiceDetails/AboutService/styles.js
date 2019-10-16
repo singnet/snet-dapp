@@ -1,7 +1,9 @@
 export const useStyles = theme => ({
   aboutContainer: {
-    paddingBottom: 100,
-    marginTop: 15,
+    padding: "15px 0 100px",
+    borderTopWidth: 1,
+    borderTopStyle: "solid",
+    borderTopColor: theme.palette.text.verticalTabLeftBorder,
     "& h3": {
       padding: "11px 22px",
       borderBottomWidth: 1,
@@ -10,25 +12,40 @@ export const useStyles = theme => ({
       margin: 0,
       color: theme.palette.text.darkShadedGray,
       fontSize: 20,
+      fontWeight: 400,
+    },
+    "@media(max-width:768px)": {
+      padding: " 20px 10px 0",
+      flexDirection: "column",
     },
   },
-  leftSideSection: { paddingRight: 25 },
+  leftSideSection: {
+    paddingRight: 25,
+    "@media(max-width:768px)": {
+      maxWidth: "100%",
+      paddingRight: 0,
+    },
+  },
+  rightSideSection: {
+    "@media(max-width:768px)": {
+      maxWidth: "100%",
+      marginTop: 25,
+    },
+  },
   overViewContainer: {
     boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
     backgroundColor: theme.palette.text.white,
     borderRadius: 4,
-    paddingBottom: 30,
+    paddingBottom: 20,
     "& p": {
       padding: "15px 22px 0",
       margin: 0,
       fontSize: 14,
       color: theme.palette.text.mediumShadeGray,
-      fontFamily: theme.typography.secondary.main,
       letterSpacing: "0.25px",
       lineHeight: "20px",
     },
     "& h4": {
-      paddingLeft: 22,
       margin: "30px 0 0",
       color: theme.palette.text.mediumShadeGray,
       fontSize: 18,
@@ -43,7 +60,6 @@ export const useStyles = theme => ({
       "& li": {
         display: "flex",
         color: theme.palette.text.mediumShadeGray,
-        fontFamily: theme.typography.secondary.main,
         fontSize: 14,
         lineHeight: "24px",
         letterSpacing: "0.25px",
@@ -51,11 +67,11 @@ export const useStyles = theme => ({
       },
     },
     "& h5": {
-      paddingLeft: 22,
       margin: "40px 45px 0 0",
       display: "inline-block",
       color: theme.palette.text.lightShadedGray,
       fontSize: 16,
+      "@media(max-width:800px)": { paddingLeft: 0 },
     },
   },
   tags: {
@@ -64,7 +80,7 @@ export const useStyles = theme => ({
     borderColor: theme.palette.text.lightGray,
     borderRadius: 16,
     padding: "5px 15px",
-    marginRight: 5,
+    margin: "0 5px 10px 0",
     display: "inline-block",
     color: theme.palette.text.lightShadedGray,
     fontSize: 12,
@@ -86,17 +102,20 @@ export const useStyles = theme => ({
     },
   },
   backToLink: {
-    marginTop: 30,
-    "& span": {
-      color: theme.palette.text.primary,
-      verticalAlign: "bottom",
-    },
+    margin: "30px 0 0",
+    display: "flex",
+    alignItems: "center",
+    "& span": { color: theme.palette.text.primary },
     "& a": {
       marginLeft: 11,
       color: theme.palette.text.primary,
       textDecoration: "none",
       fontSize: 16,
       "&:hover": { fontWeight: 600 },
+    },
+    "@media(max-width:768px)": {
+      marginTop: 15,
+      marginBottom: 15,
     },
   },
   creatorDetailsContainer: {
@@ -115,8 +134,9 @@ export const useStyles = theme => ({
     "& h4": {
       margin: 0,
       color: theme.palette.text.primary,
+      fontWeight: 600,
       fontSize: 18,
-      letterSpacing: "0.23px",
+      letterSpacing: "0.25px",
       lineHeight: "24px",
     },
     "& span": {
@@ -157,6 +177,7 @@ export const useStyles = theme => ({
         width: 150,
         margin: 0,
         color: theme.palette.text.darkShadedGray,
+        fontWeight: 400,
         fontSize: 16,
         lineHeight: "22px",
       },
@@ -165,8 +186,8 @@ export const useStyles = theme => ({
         display: "block",
         color: theme.palette.text.primary,
         fontSize: 14,
-        fontFamily: theme.typography.secondary.main,
-        fontWeight: 600,
+        fontWeight: 400,
+        letterSpacing: "0.25px",
         textDecoration: "none",
       },
       "& p": {
@@ -181,6 +202,20 @@ export const useStyles = theme => ({
     "& p": { marginLeft: "30px !important" },
   },
   demoToggler: {
-    "& a": { textDecoration: "none !important" },
+    "& a": {
+      textDecoration: "none !important",
+      "& button": {
+        "@media(max-width:545px)": { marginRight: "0 !important" },
+      },
+    },
+    "@media(max-width: 545px)": {
+      display: "flex",
+      flexDirection: "column",
+    },
+  },
+  tagsContainer: {
+    padding: "0 22px",
+    display: "flex",
+    alignItems: "baseline",
   },
 });

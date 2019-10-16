@@ -9,11 +9,7 @@ const ServiceOverview = ({ classes, description, service_url, tags }) => {
     <div className={classes.overViewContainer}>
       <h3>Overview</h3>
       <p>{description}</p>
-      <h4>Service URL</h4>
-      <p>
-        <a href={service_url}>{service_url}</a>
-      </p>
-      <Tags tags={tags} />
+      <Tags className={classes.tagsContainer} tags={tags} />
     </div>
   );
 };

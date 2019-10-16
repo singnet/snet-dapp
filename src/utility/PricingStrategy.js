@@ -3,6 +3,7 @@ const priceData = {
   fixed_price_per_method: "fixed_price_per_method",
   agi_precision: 100000000,
   agi_divisibility: 8,
+  usd_conv_rate: 41.925594,
 };
 
 const priceModelNames = {
@@ -11,13 +12,12 @@ const priceModelNames = {
 };
 
 export class PricingStrategy {
-  constructor(pricingJSON) {
-    const pricingData = JSON.parse(pricingJSON);
-    this.priceModel = pricingData.price_model;
+  constructor(pricing) {
+    this.priceModel = pricing.price_model;
     if (this.priceModel === priceData.fixed_price_model) {
-      this.pricingModel = new FixedPricing(pricingData);
+      this.pricingModel = new FixedPricing(pricing);
     } else if (this.priceModel === priceData.fixed_price_per_method) {
-      this.pricingModel = new MethodPricing(pricingData);
+      this.pricingModel = new MethodPricing(pricing);
     }
   }
 
@@ -96,3 +96,14 @@ class MethodPricing {
     return this.maxPriceInCogs;
   }
 }
+
+export const cogsToAgi = cogs => (cogs / priceData.agi_precision).toFixed(priceData.agi_divisibility);
+
+export const agiToCogs = agi => agi * priceData.agi_precision;
+
+export const USDToAgi = usd => (usd * priceData.usd_conv_rate).toFixed(priceData.agi_divisibility);
+
+export const txnTypes = {
+  DEPOSIT: "deposit",
+  WITHDRAW: "withdraw",
+};

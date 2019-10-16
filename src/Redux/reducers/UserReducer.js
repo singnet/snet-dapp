@@ -1,4 +1,8 @@
+import isEmpty from "lodash/isEmpty";
+
 import { userActions } from "../actionCreators";
+import { walletTypes, RESET_LOGIN_ERROR } from "../actionCreators/UserActions";
+import { cogsToAgi } from "../../utility/PricingStrategy";
 
 const InitialUserDetails = {
   login: {
@@ -8,10 +12,13 @@ const InitialUserDetails = {
   },
   isInitialized: false,
   isEmailVerified: false,
-  isWalletAssigned: false,
+  wallet: {},
+  firstTimeFetchWallet: true,
   email: "",
-  username: "",
+  nickname: "",
   emailAlerts: false,
+  isTermsAccepted: true,
+  transactionHistory: [],
 };
 
 const userReducer = (state = InitialUserDetails, action) => {
@@ -62,6 +69,12 @@ const userReducer = (state = InitialUserDetails, action) => {
         },
       };
     }
+    case RESET_LOGIN_ERROR: {
+      return { ...state, login: { ...state.login, error: undefined } };
+    }
+    case userActions.UPDATE_LOGIN_ERROR: {
+      return { ...state, login: { ...state.login, error: action.payload } };
+    }
     case userActions.SIGN_OUT: {
       return {
         ...state,
@@ -69,32 +82,49 @@ const userReducer = (state = InitialUserDetails, action) => {
           ...state.login,
           ...action.payload.login,
         },
-        isWalletAssigned: false,
+        wallet: { type: walletTypes.SNET },
       };
     }
-    case userActions.CHECK_WALLET_STATUS: {
-      return { ...state, isWalletAssigned: action.payload.isWalletAssigned };
+    case userActions.UPDATE_WALLET: {
+      return { ...state, wallet: action.payload };
     }
-    case userActions.WALLET_CREATION_SUCCESS: {
+    case userActions.UPDATE_FIRST_TIME_FETCH_WALLET: {
+      return { ...state, firstTimeFetchWallet: action.payload };
+    }
+    case userActions.UPDATE_NICKNAME: {
       return { ...state, ...action.payload };
     }
-    case userActions.UPDATE_USERNAME: {
+    case userActions.UPDATE_EMAIL: {
       return { ...state, ...action.payload };
     }
     case userActions.UPDATE_EMAIL_VERIFIED: {
       return { ...state, isEmailVerified: action.payload.isEmailVerified };
     }
-    case userActions.SUBSCRIBE_TO_EMAIL_ALERTS: {
-      return { ...state, emailAlerts: true };
+    case userActions.UPDATE_EMAIL_ALERTS_SUBSCRIPTION: {
+      return { ...state, emailAlerts: action.payload };
     }
-    case userActions.UNSUBSCRIBE_TO_EMAIL_ALERTS: {
-      return { ...state, emailAlerts: false };
+    case userActions.UPDATE_IS_TERMS_ACCEPTED: {
+      return { ...state, isTermsAccepted: action.payload };
     }
-
+    case userActions.UPDATE_TRANSACTION_HISTORY: {
+      return { ...state, transactionHistory: action.payload };
+    }
     default: {
       return state;
     }
   }
+};
+
+export const channelInfo = state => {
+  const { wallet } = state.userReducer;
+  if (isEmpty(wallet) || isEmpty(wallet.channels)) {
+    return {};
+  }
+  const selectedChannel = wallet.channels[0];
+  return {
+    id: selectedChannel.channel_id,
+    balanceInAgi: cogsToAgi(selectedChannel.balance_in_cogs),
+  };
 };
 
 export default userReducer;

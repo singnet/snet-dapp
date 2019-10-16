@@ -1,16 +1,24 @@
 import React from "react";
 import { hasOwnDefinedProperty } from "../../../../utility/JSHelper";
 import Button from "@material-ui/core/Button";
+import { AlphaZero } from "./alpha_zero_pb_service";
+
+
+const initialUserInput = {
+  uid: "",
+  move: "",
+  cmd: "",
+};
+
 
 export default class Zeta36ChessAlphaZero extends React.Component {
   constructor(props) {
     super(props);
     this.submitAction = this.submitAction.bind(this);
-    this.handleServiceName = this.handleServiceName.bind(this);
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
-    this.getServiceMethods = this.getServiceMethods.bind(this);
 
     this.state = {
+      ...initialUserInput,
       users_guide:
         "https://github.com/singnet/dnn-model-services/blob/master/docs/users_guide/zeta36-chess-alpha-zero.md",
       code_repo: "https://github.com/singnet/dnn-model-services/blob/master/Services/gRPC/zeta36-chess-alpha-zero",
@@ -18,14 +26,8 @@ export default class Zeta36ChessAlphaZero extends React.Component {
 
       serviceName: "AlphaZero",
       methodName: "play",
-
-      uid: "",
-      move: "",
-      cmd: "",
-
       response: undefined,
     };
-    this.parseProps(props);
   }
 
   canBeInvoked() {
@@ -42,13 +44,29 @@ export default class Zeta36ChessAlphaZero extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   }
 
-
   submitAction() {
-    this.props.callApiCallback(this.state.serviceName, this.state.methodName, {
-      uid: this.state.uid,
-      move: this.state.move,
-      cmd: this.state.cmd,
-    });
+    const { methodName, uid, move, cmd } = this.state;
+    const methodDescriptor = AlphaZero[methodName];
+    const request = new methodDescriptor.requestType();
+
+    request.setUid(uid);
+    request.setMove(move);
+    request.setCmd(cmd);
+
+    const props = {
+      request,
+      onEnd: response => {
+        const { message, status, statusMessage } = response;
+        if (status !== 0) {
+          throw new Error(statusMessage);
+        }
+        this.setState({
+          ...initialUserInput,
+          response: { status: "success", uid: message.getUid(), board: message.getBoard(), resStatus: message.getStatus()},
+        });
+      },
+    };
+    this.props.serviceClient.unary(methodDescriptor, props);
   }
 
   renderForm() {
@@ -141,26 +159,33 @@ export default class Zeta36ChessAlphaZero extends React.Component {
     let board = "\n";
 
     if (typeof this.state.response === "object") {
-      status = this.state.response.status + "\n";
+      status = this.state.response.resStatus + "\n";
       uid = this.state.response.uid + "\n";
       board = "\n" + this.state.response.board;
     } else {
       status = this.state.response + "\n";
     }
     return (
-      <div>
-        <p style={{ fontSize: "13px" }}>Response from service is: </p>
-        <pre>
-          Status: {status}
-          UID : {uid}
-          {board}
-        </pre>
-      </div>
+        
+<div style={{background:"#F8F8F8", padding: "24px"}}>
+    <h4> Results</h4>
+    <div style={{ padding: "10px 10px 0 10px", fontSize: "14px", color:"#9b9b9b" }}>
+        <div style={{ padding: "10px 0",borderBottom: "1px solid #eee" }}>Status: <span style={{color:"#212121"}}>{status}</span></div>
+        <div style={{ padding: "10px 0",borderBottom: "1px solid #eee" }}>UID: <span style={{color:"#212121"}}>{uid}</span></div>        
+        <div style={{ padding: "10px 0" }}>Board: 
+            <div style={{color:"#212121", marginTop:"5px",padding:"10px", background:"#f1f1f1",borderRadius:"4px"}}>
+                <pre>
+                    {board}
+                </pre>
+            </div>
+        </div>       
+    </div>
+</div>          
     );
   }
 
   render() {
-    if (this.isComplete) return <div>{this.renderComplete()}</div>;
+    if (this.props.isComplete) return <div>{this.renderComplete()}</div>;
     else {
       return <div>{this.renderForm()}</div>;
     }

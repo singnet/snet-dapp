@@ -12,15 +12,22 @@ const buttonColor = {
   black: "blackBg",
   transparent: "transparentBg",
   transparentBlueBorder: "transparentBlueBorder",
+  transparentBlueBorderDisable: "transparentBlueBorderDisable",
   red: "red",
   redBg: "redBg",
 };
 
-const StyledButton = ({ disabled, onClick, type, iconClass, btnText }) => {
+const StyledButton = ({ disabled, onClick, type, btnType, iconClass, btnText, ...rest }) => {
   const classes = useStyles();
 
   return (
-    <Button className={clsx(classes.styledButton, classes[buttonColor[type]])} disabled={disabled} onClick={onClick}>
+    <Button
+      className={clsx(classes.styledButton, classes[buttonColor[type]])}
+      disabled={disabled}
+      onClick={onClick}
+      type={btnType}
+      {...rest}
+    >
       {iconClass ? <Icon className={iconClass} /> : null}
       {btnText}
     </Button>
@@ -28,11 +35,26 @@ const StyledButton = ({ disabled, onClick, type, iconClass, btnText }) => {
 };
 
 StyledButton.propTypes = {
-  type: PropTypes.oneOf(["blue", "gradient", "black", "transparent", "red", "redBg", "transparentBlueBorder"]),
+  type: PropTypes.oneOf([
+    "blue",
+    "gradient",
+    "black",
+    "transparent",
+    "red",
+    "redBg",
+    "transparentBlueBorder",
+    "transparentBlueBorderDisable",
+  ]),
+  btnType: PropTypes.oneOf(["submit", "reset", "button"]),
+  btnText: PropTypes.string,
+  disabled: PropTypes.bool,
+  onClick: PropTypes.func,
+  iconClass: PropTypes.string,
 };
 
 StyledButton.defaultProps = {
   type: "blue",
+  btnType: "button",
 };
 
 export default StyledButton;

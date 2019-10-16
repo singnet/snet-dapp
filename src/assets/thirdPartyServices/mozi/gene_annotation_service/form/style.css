@@ -1,0 +1,45 @@
+.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionStatic.MuiAppBar-colorDefault {
+  box-shadow: none;
+}
+
+.annotation-list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.gene-list {
+  margin: 15px 0 45px 0;
+}
+
+.gene-list .ant-tag {
+  font-size: 1em;
+}
+
+.annotation-parameters {
+  border-left: dashed 1px #aaa;
+  padding: 15px;
+  padding-left: 30px;
+}
+
+.annotation-parameters .parameter {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.annotation-parameters .parameter .label {
+  display: inline;
+  margin-right: 10px;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.actions {
+  margin-top: 45px;
+  width: 100%;
+  text-align: end;
+}
+
+.form-wrapper .title {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 10px;
+}

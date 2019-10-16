@@ -9,7 +9,7 @@ export const useStyles = makeStyles(theme => ({
     color: theme.palette.text.white,
     textTransform: "uppercase",
     fontFamily: theme.typography.primary.main,
-    fontWeight: theme.typography.fontweight,
+    fontWeight: 600,
     letterSpacing: "1.25px",
     lineHeight: "16px",
     "&:disabled": {
@@ -70,5 +70,10 @@ export const useStyles = makeStyles(theme => ({
       backgroundColor: "rgba(0,90,203,0.05) !important",
       color: theme.palette.text.transBlueBorderTextHover,
     },
+  },
+  transparentBlueBorderDisable: {
+    borderWidth: 2,
+    borderColor: theme.palette.text.disabledBtnBg,
+    color: theme.palette.text.disabledBtnBg,
   },
 }));

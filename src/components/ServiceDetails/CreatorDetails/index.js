@@ -1,14 +1,15 @@
 import React from "react";
 import { withStyles } from "@material-ui/styles";
 
+import SingularityLogo from "../../../assets/images/avatar.png";
 import { useStyles } from "./styles";
 
-const CreatorDetails = ({ classes, organizationName }) => {
+const CreatorDetails = ({ classes, organizationName, orgImg }) => {
   return (
     <div className={classes.creatorDetailsContainer}>
-      <h3>Creator Details</h3>
+      <h3>Provider</h3>
       <div className={classes.companyInfo}>
-        <img src="http://placehold.it/72x72" alt="" />
+        <img src={orgImg || SingularityLogo} alt="SingularityNET" />
         <div className={classes.companyName}>
           <h4>{organizationName}</h4>
         </div>

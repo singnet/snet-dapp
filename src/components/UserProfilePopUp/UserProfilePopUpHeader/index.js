@@ -5,10 +5,10 @@ import { withStyles } from "@material-ui/styles";
 import UserProfileCard from "../../common/UserProfileCard";
 import { useStyles } from "./styles";
 
-const UserProfilePopUpHeader = ({ classes, userName, remainingCredits, usedCredits }) => {
+const UserProfilePopUpHeader = ({ classes, nickName, remainingCredits, usedCredits, onClose }) => {
   return (
     <div className={classes.UserProfilePopUpHeader}>
-      <UserProfileCard userName={userName} />
+      <UserProfileCard nickName={nickName} onClose={onClose} />
       <div className={classes.creditsCount}>
         <span className={classes.creditsRemaining}>{remainingCredits} credits remaining</span>
         <LinearProgress className={classes.styledProgressBar} variant="determinate" value={80} />

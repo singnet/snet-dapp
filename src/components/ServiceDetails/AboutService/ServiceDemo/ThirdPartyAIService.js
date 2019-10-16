@@ -4,12 +4,11 @@ import { withStyles } from "@material-ui/styles";
 
 import thirdPartyCustomUIComponents from "../../../../assets/thirdPartyServices";
 import { useStyles } from "./styles";
-import { serviceActions, serviceDetailsActions, loaderActions } from "../../../../Redux/actionCreators";
-import { APIEndpoints } from "../../../../config/APIEndpoints";
+import { serviceActions, loaderActions } from "../../../../Redux/actionCreators";
 import CompletedActions from "./CompletedActions";
 import { createServiceClient, callTypes } from "../../../../utility/sdk";
 import ThirdPartyServiceErrorBoundary from "./ThirdPartyServiceErrorBoundary";
-import { LoaderContent } from "../../../../utility/constants/LoaderContent";
+import { channelInfo } from "../../../../Redux/reducers/UserReducer";
 
 class ThirdPartyAIService extends Component {
   state = {
@@ -18,47 +17,32 @@ class ThirdPartyAIService extends Component {
       rating: "",
     },
     loading: true,
-    serviceRequestComplete: false,
   };
 
   componentDidMount = async () => {
-    const { org_id, service_id, freeCallsRemaining, serviceMetadata } = this.props;
+    const { org_id, service_id, freeCallsRemaining, groupInfo, wallet, channelInfo } = this.props;
     const callType = freeCallsRemaining > 0 ? callTypes.FREE : callTypes.REGULAR;
     this.serviceClient = await createServiceClient(
       org_id,
       service_id,
-      serviceMetadata,
-      this.serviceRequestStartHandler,
-      this.serviceRequestCompleteHandler,
-      callType
+      groupInfo,
+      this.props.serviceRequestStartHandler,
+      this.props.serviceRequestCompleteHandler,
+      this.props.serviceRequestErrorHandler,
+      callType,
+      wallet,
+      channelInfo
     );
     await this.setupComponent();
     this.setState({ loading: false });
   };
 
-  setupComponent = async () => {
+  setupComponent = () => {
     if (process.env.REACT_APP_SANDBOX) {
       return;
     }
 
-    const { serviceSpecJSON, protoSpec } = await this.fetchServiceSpec();
-    this.serviceSpecJSON = serviceSpecJSON;
-    this.protoSpec = protoSpec;
     this.fetchUserFeedback();
-  };
-
-  serviceRequestStartHandler = () => {
-    this.props.startLoader();
-    this.setState({ serviceRequestComplete: false });
-  };
-
-  serviceRequestCompleteHandler = () => {
-    const { org_id, service_id, fetchMeteringData, freeCallsRemaining } = this.props;
-    if (freeCallsRemaining > 0) {
-      fetchMeteringData({ orgId: org_id, serviceId: service_id });
-    }
-    this.setState({ serviceRequestComplete: true });
-    this.props.stopLoader();
   };
 
   fetchUserFeedback = async () => {
@@ -70,69 +54,35 @@ class ThirdPartyAIService extends Component {
     this.setState({ feedback: { comment: feedback.data[0].comment[0], rating: feedback.data[0].rating } });
   };
 
-  fetchServiceSpec = async () => {
-    const { org_id, service_id } = this.props;
-    const servicebufURL = `${APIEndpoints.SERVICE_BUF.endpoint}/${org_id}/${service_id}`;
-    return this.props.fetchProtoSpec(servicebufURL);
-  };
-
-  handleServiceInvokation = (serviceName, methodName, requestObject) => {
-    const { org_id, service_id, username } = this.props;
-    const data = {
-      org_id,
-      service_id,
-      method: methodName,
-      service_name: serviceName,
-      input: JSON.stringify(requestObject),
-      user_address: "",
-      username,
-      isBase64Encoded: true,
-    };
-    this.props.invokeServiceMethod(data);
-  };
-
-  handleResetAndRun = () => {
-    const { isComplete, resetServiceExecution } = this.props;
-    if (isComplete) {
-      resetServiceExecution();
-      return;
-    }
-    this.setState({ serviceRequestComplete: false });
-  };
-
   render() {
     const { loading } = this.state;
     if (loading) {
       return null;
     }
 
-    const { org_id, service_id, classes, grpcResponse, isComplete } = this.props;
-    const { feedback, serviceRequestComplete } = this.state;
-    const { serviceClient, serviceSpecJSON, protoSpec } = this;
+    const { org_id, service_id, classes, stopLoader, isServiceExecutionComplete, handleResetAndRun } = this.props;
+    const { feedback } = this.state;
+    const { serviceClient } = this;
     const AIServiceCustomComponent = thirdPartyCustomUIComponents.componentFor(org_id, service_id);
 
     return (
       <div className={classes.serviceDetailsTab}>
         <Suspense fallback={<div>Loading Service...</div>}>
-          <ThirdPartyServiceErrorBoundary>
+          <ThirdPartyServiceErrorBoundary stopLoader={stopLoader}>
             <AIServiceCustomComponent
               serviceClient={serviceClient}
-              callApiCallback={this.handleServiceInvokation}
-              protoSpec={protoSpec}
-              serviceSpec={serviceSpecJSON}
-              isComplete={isComplete | serviceRequestComplete}
-              response={grpcResponse}
-              sliderWidth={"550px"}
+              isComplete={isServiceExecutionComplete}
+              sliderWidth="550px"
             />
           </ThirdPartyServiceErrorBoundary>
         </Suspense>
         <CompletedActions
-          isComplete={isComplete || serviceRequestComplete}
+          isComplete={isServiceExecutionComplete}
           feedback={feedback}
           orgId={org_id}
           serviceId={service_id}
           refetchFeedback={this.fetchUserFeedback}
-          handleResetAndRun={this.handleResetAndRun}
+          handleResetAndRun={handleResetAndRun}
         />
       </div>
     );
@@ -140,20 +90,15 @@ class ThirdPartyAIService extends Component {
 }
 
 const mapStateToProps = state => ({
-  grpcResponse: state.serviceReducer.serviceMethodExecution.response,
   isComplete: state.serviceReducer.serviceMethodExecution.isComplete,
-  username: state.userReducer.username,
-  serviceMetadata: state.serviceDetailsReducer.serviceMetadata,
+  email: state.userReducer.email,
+  wallet: state.userReducer.wallet,
+  channelInfo: channelInfo(state),
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchProtoSpec: servicebufURL => dispatch(serviceActions.fetchProtoSpec(servicebufURL)),
-  invokeServiceMethod: data => dispatch(serviceActions.invokeServiceMethod(data)),
-  startLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.SERVICE_INVOKATION)),
-  stopLoader: () => dispatch(loaderActions.stopAppLoader),
-  resetServiceExecution: () => dispatch(serviceActions.resetServiceExecution),
   fetchFeedback: (orgId, serviceId) => dispatch(serviceActions.fetchFeedback(orgId, serviceId)),
-  fetchMeteringData: args => dispatch(serviceDetailsActions.fetchMeteringData({ ...args })),
+  stopLoader: () => dispatch(loaderActions.startAppLoader),
 });
 
 export default connect(

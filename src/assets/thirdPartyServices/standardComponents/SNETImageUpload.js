@@ -136,7 +136,6 @@ export default class SNETImageUpload extends React.Component {
     this.tabStyle = {
       position: "relative",
       overflow: "hidden",
-      padding: spacingUnit,
       height: this.tabHeight + "px",
     };
 
@@ -161,7 +160,7 @@ export default class SNETImageUpload extends React.Component {
     this.urlErrorMessage = "Incorrect URL or permission denied by server.";
     this.fileSizeError = "File size exceeds limits (" + this.props.maxImageSize / 1000000 + "mb).";
     this.fileTypeError = "File type not accepted. Allowed: " + this.props.allowedInputTypes + ".";
-    this.inputImageErrorMessage = "Input image could not be rendered.";
+    this.inputImageErrorMessage = "Content image could not be rendered.";
     this.outputImageErrorMessage = "Output image could not be rendered.";
 
     // Refs
@@ -470,15 +469,15 @@ export default class SNETImageUpload extends React.Component {
           <div
             onClick={() => this.inputElement.click()}
             style={{
-              borderWidth: 2,
-              borderColor: this.mainColor,
+              borderWidth: 1,
+              borderColor: '#d6d6d6',
               borderStyle: "dashed",
-              borderRadius: 5,
-              backgroundColor: dropzoneBackgroundGrey,
+              borderRadius: 4,
               cursor: "pointer",
               overflow: "hidden",
-              height: this.tabHeight - this.dropzoneHeightOffset + "px",
-              padding: spacingUnit,
+              height: this.tabHeight - this.dropzoneHeightOffset + 10 + "px",
+              display: 'flex',
+              flexDirection: 'column'
             }}
           >
             <Grid
@@ -492,10 +491,10 @@ export default class SNETImageUpload extends React.Component {
               }}
               spacing={spacingUnit}
             >
-              <Grid item>
+              <Grid item style={{ padding: '0 40px'}}>
                 <CloudUpload style={{ fontSize: 48, color: this.mainColor }} />
               </Grid>
-              <Grid item>
+              <Grid item style={{ padding: '0 40px'}}>
                 <Typography
                   style={{
                     fontFamily: snetFont,
@@ -509,20 +508,22 @@ export default class SNETImageUpload extends React.Component {
                   <span style={{ color: this.mainColor }}> click</span>
                 </Typography>
               </Grid>
-              <Grid item>
+              <Grid item style={{ padding: '20px 40px'}}>
                 <Typography
                   style={{
+                    width: '58%',
+                    margin: '0 auto',
                     fontFamily: snetFont,
                     fontVariantCaps: "normal",
                     textTransform: "initial",
-                    fontSize: 14,
-                    color: snetGrey,
+                    fontSize: 12,
+                    color: '#9b9b9b',
                     textAlign: "center",
                     padding: spacingUnit,
                   }}
                 >
-                  Image file must be smaller than {this.props.maxImageSize / 1000000}mb. Source images are not saved on
-                  the servers after the job is processed.
+                  (Image must be under {this.props.maxImageSize / 1000000}mb. Source images are not saved on
+                  the servers after the job is processed.)
                 </Typography>
               </Grid>
             </Grid>
@@ -628,6 +629,12 @@ export default class SNETImageUpload extends React.Component {
         alignItems="center"
         style={{
           height: this.tabHeight + "px",
+          borderWidth: 1,
+          borderColor: '#d6d6d6',
+          borderStyle: "dashed",
+          borderRadius: 4,
+          cursor: "pointer",
+          overflow: "hidden",
         }}
       >
         <Grid
@@ -656,6 +663,8 @@ export default class SNETImageUpload extends React.Component {
                   <InputAdornment position="end">
                     <IconButton
                       style={{
+                        marginRight: 0,
+                        padding: 0,
                         color: this.mainColor,
                       }}
                       onClick={this.state.searchText !== null ? () => this.handleSearchSubmit(null) : undefined}
@@ -1074,7 +1083,7 @@ export default class SNETImageUpload extends React.Component {
             overflow: "hidden",
             padding: spacingUnit,
             width: "100%",
-            height: this.tabHeight + "px",
+            height: this.tabHeight + "px",  
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -1173,34 +1182,17 @@ export default class SNETImageUpload extends React.Component {
           position: "relative",
         }}
       >
-        <Grid
-          container
-          direction="row"
-          justify="flex-start"
-          alignItems="center"
-          style={{
-            color: "black",
-            backgroundColor: "white",
-          }}
-          spacing={0}
-        >
+        <Grid container direction="row" justify="flex-start" alignItems="center" style={{ color: "black",
+            backgroundColor: "white" }} spacing={0} >
           <Grid item xs={12}>
-            <Grid container direction="row" alignItems="center" justify="space-around">
-              <Grid item xs={3}>
-                <Typography
-                  color="inherit"
-                  noWrap
-                  variant="h6"
-                  style={{
-                    fontSize: 18,
-                    fontFamily: snetFont,
-                    padding: spacingUnit / 2,
-                  }}
-                >
+            <Grid container direction="row" alignItems="flex-end" justify="space-around" style={{ paddingBottom: 5 }}>
+              <Grid item xs={4}>
+                <Typography color="inherit" noWrap variant="h6" style={{ fontSize: 18, fontFamily: snetFont,
+                    padding: spacingUnit / 2}}>
                   {this.state.mainState === "display" ? this.props.displayModeTitle : this.props.imageName}
                 </Typography>
               </Grid>
-              <Grid item xs={7}>
+              <Grid item xs={6}>
                 <MuiThemeProvider theme={this.theme}>
                   <Tabs
                     value={this.state.value}
@@ -1211,33 +1203,42 @@ export default class SNETImageUpload extends React.Component {
                     style={{
                       color: snetGrey,
                     }}
+                    TabIndicatorProps={{style:{ 
+                      bottom: 8,
+                      backgroundColor: '#4086ff'
+                    }}}
                   >
                     {this.state.mainState !== "uploaded" &&
                       !(this.state.mainState === "display") &&
                       !this.props.disableUploadTab && (
                         <Tab
-                          style={{ minWidth: "5%" }}
-                          value={0}
-                          label={<span style={this.tabLabelStyle}>Upload</span>}
+                          style={{ marginRight: "0", minWidth: 'fit-content',
+                            paddingBottom: 0, flexGrow: 0, flexBasis: 0,  paddingLeft: 10 }} 
+                          value={0} label={<span style={this.tabLabelStyle}>Upload</span>}                          
                         />
                       )}
                     {this.state.mainState !== "uploaded" &&
                       !(this.state.mainState === "display") &&
                       !this.props.disableUrlTab && (
-                        <Tab style={{ minWidth: "5%" }} value={1} label={<span style={this.tabLabelStyle}>URL</span>} />
+                        <Tab 
+                          style={{ marginRight: "0", minWidth: 'fit-content',
+                            paddingBottom: 0, flexGrow: 0, flexBasis: 0,  paddingLeft: 10 }} 
+                          value={1} label={<span style={this.tabLabelStyle}>URL</span>} />
                       )}
                     {this.state.mainState !== "uploaded" &&
                       !(this.state.mainState === "display") &&
                       this.props.imageGallery.length > 0 && (
                         <Tab
-                          style={{ minWidth: "5%" }}
+                          style={{ marginRight: "0", minWidth: 'fit-content',
+                          paddingBottom: 0, flexGrow: 0, flexBasis: 0, paddingLeft: 10  }}
                           value={2}
                           label={<span style={this.tabLabelStyle}>Gallery</span>}
                         />
                       )}
                     {this.state.mainState === "display" && !this.props.disableInputTab && (
                       <Tab
-                        style={{ minWidth: "5%" }}
+                        style={{ marginRight: "0", minWidth: 'fit-content',
+                          paddingBottom: 0, flexGrow: 0, flexBasis: 0 }}
                         value={3}
                         label={<span style={this.tabLabelStyle}>{this.props.inputTabTitle}</span>}
                       />
@@ -1286,15 +1287,7 @@ export default class SNETImageUpload extends React.Component {
                   </Tooltip>
                 )}
               </Grid>
-              <Grid
-                item
-                xs={1}
-                style={{
-                  flexGrow: 1,
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
+              <Grid item xs={1} style={{ flexGrow: 1, display: "flex", justifyContent: "center", alignItems: "center", }}
               >
                 {this.state.mainState === "uploaded" && !this.props.disableResetButton && (
                   <Fade in={this.state.mainState === "uploaded"}>
@@ -1398,7 +1391,7 @@ SNETImageUpload.propTypes = {
 SNETImageUpload.defaultProps = {
   width: "500px",
   tabHeight: 300,
-  imageName: "Input Image",
+  imageName: "Content Image",
   disableUploadTab: false, // If true disables upload tab
   disableUrlTab: false, // If true disables url tab
   disableResetButton: false,

@@ -1,6 +1,10 @@
-export const initializeAPIOptions = (token, body) => {
+export const initializeAPIOptions = (token, body, queryStringParameters) => {
+  const options = { headers: { Authorization: token } };
   if (body) {
-    return { headers: { Authorization: token }, body };
+    options.body = body;
   }
-  return { headers: { Authorization: token } };
+  if (queryStringParameters) {
+    options.queryStringParameters = queryStringParameters;
+  }
+  return options;
 };

@@ -4,8 +4,15 @@ import { connect } from "react-redux";
 
 import ProgressBar from "../../../common/ProgressBar";
 import { useStyles } from "./styles";
-import { serviceDetailsActions } from "../../../../Redux/actionCreators";
+import { serviceDetailsActions, loaderActions, userActions } from "../../../../Redux/actionCreators";
 import PurchaseToggler from "./PurchaseToggler";
+import { freeCalls, groupInfo } from "../../../../Redux/reducers/ServiceDetailsReducer";
+import { LoaderContent } from "../../../../utility/constants/LoaderContent";
+import AlertBox, { alertTypes } from "../../../common/AlertBox";
+import Routes from "../../../../utility/constants/Routes";
+import { initSdk, initPaypalSdk } from "../../../../utility/sdk";
+import { walletTypes } from "../../../../Redux/actionCreators/UserActions";
+import { channelInfo } from "../../../../Redux/reducers/UserReducer";
 
 const demoProgressStatus = {
   purchasing: 1,
@@ -15,13 +22,34 @@ const demoProgressStatus = {
 
 class ServiceDemo extends Component {
   state = {
-    error: "error state message",
     progressText: ["Purchase", "Configure", "Results"],
     purchaseCompleted: false,
+    isServiceExecutionComplete: false,
+    alert: {},
   };
 
   componentDidMount = async () => {
+    if (process.env.REACT_APP_SANDBOX) {
+      return;
+    }
+
     await this.fetchFreeCallsUsage();
+    this.pollWalletDetails();
+    this.scrollToHash();
+  };
+
+  componentDidUpdate = async prevProps => {
+    const { wallet, channelInfo } = this.props;
+    if (wallet.type === walletTypes.METAMASK) {
+      await initSdk();
+    }
+    if (wallet.type === walletTypes.GENERAL && prevProps.channelInfo.id !== channelInfo.id) {
+      initPaypalSdk(wallet.address, channelInfo);
+    }
+  };
+
+  componentWillUnmount = () => {
+    this.props.stopWalletDetailsPolling();
   };
 
   fetchFreeCallsUsage = () => {
@@ -33,44 +61,138 @@ class ServiceDemo extends Component {
     });
   };
 
+  pollWalletDetails = async () => {
+    const {
+      service: { org_id: orgId },
+      groupInfo: { group_id: groupId },
+      startWalletDetailsPolling,
+      startFetchWalletLoader,
+      stopLoader,
+    } = this.props;
+    startFetchWalletLoader();
+    await startWalletDetailsPolling(orgId, groupId);
+    stopLoader();
+  };
+
+  scrollToHash = () => {
+    if (this.props.history.location.hash === Routes.hash.SERVICE_DEMO) {
+      window.scroll({
+        top: 520,
+        behavior: "smooth",
+      });
+    }
+  };
+
   computeActiveSection = () => {
-    const { purchaseCompleted } = this.state;
-    const { isServiceExecutionComplete } = this.props;
+    const { purchaseCompleted, isServiceExecutionComplete } = this.state;
     const { purchasing, executingAIservice, displayingResponse } = demoProgressStatus;
 
     return purchaseCompleted ? (isServiceExecutionComplete ? displayingResponse : executingAIservice) : purchasing;
+  };
+
+  serviceRequestStartHandler = () => {
+    this.setState({ alert: {} });
+    this.props.startLoader();
+  };
+
+  serviceRequestCompleteHandler = () => {
+    this.setState({ isServiceExecutionComplete: true });
+    this.props.stopLoader();
+  };
+
+  handleResetAndRun = () => {
+    this.setState({ purchaseCompleted: false, isServiceExecutionComplete: false, alert: {} });
+    this.fetchFreeCallsUsage();
+  };
+
+  serviceRequestErrorHandler = error => {
+    this.setState({
+      isServiceExecutionComplete: false,
+      alert: { type: alertTypes.ERROR, message: "Service Execution went wrong. Please try again" },
+    });
+    this.props.stopLoader();
   };
 
   handlePurchaseComplete = () => {
     this.setState({ purchaseCompleted: true });
   };
 
+  handlePurchaseError = error => {
+    this.setState({
+      purchaseCompleted: false,
+      alert: { type: alertTypes.ERROR, message: "Purchase could not be completed. Please try again" },
+    });
+    this.props.stopLoader();
+  };
+
   render() {
-    const { classes, service, freeCallsRemaining, freeCallsAllowed } = this.props;
-    const { progressText, purchaseCompleted } = this.state;
+    const {
+      classes,
+      service,
+      freeCalls: { remaining: freeCallsRemaining, allowed: freeCallsAllowed },
+      groupInfo,
+      wallet,
+    } = this.props;
+
+    const { progressText, purchaseCompleted, isServiceExecutionComplete, alert } = this.state;
+
+    const {
+      handleResetAndRun,
+      serviceRequestStartHandler,
+      serviceRequestCompleteHandler,
+      serviceRequestErrorHandler,
+      handlePurchaseError,
+    } = this;
+
     return (
       <div className={classes.demoExampleContainer}>
         <h4>Process</h4>
         <ProgressBar activeSection={this.computeActiveSection()} progressText={progressText} />
         <PurchaseToggler
+          groupInfo={groupInfo}
           purchaseCompleted={purchaseCompleted}
-          purchaseProps={{ handleComplete: this.handlePurchaseComplete, freeCallsRemaining, freeCallsAllowed }}
-          thirdPartyProps={{ service_id: service.service_id, org_id: service.org_id, freeCallsRemaining }}
+          purchaseProps={{
+            handleComplete: this.handlePurchaseComplete,
+            freeCallsRemaining,
+            freeCallsAllowed,
+            wallet,
+            handlePurchaseError,
+            isServiceAvailable: Boolean(service.is_available),
+          }}
+          thirdPartyProps={{
+            service_id: service.service_id,
+            org_id: service.org_id,
+            freeCallsRemaining,
+            isServiceExecutionComplete,
+            handleResetAndRun,
+            serviceRequestStartHandler,
+            serviceRequestCompleteHandler,
+            serviceRequestErrorHandler,
+          }}
         />
+        <AlertBox type={alert.type} message={alert.message} />
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  isServiceExecutionComplete: state.serviceReducer.serviceMethodExecution.isComplete,
-  freeCallsRemaining: state.serviceDetailsReducer.freeCallsRemaining,
-  freeCallsAllowed: state.serviceDetailsReducer.freeCallsAllowed,
+  freeCalls: freeCalls(state),
+  groupInfo: groupInfo(state),
   email: state.userReducer.email,
+  wallet: state.userReducer.wallet,
+  firstTimeFetchWallet: state.userReducer.firstTimeFetchWallet,
+  channelInfo: channelInfo(state),
 });
 
-const mapDispatchToProps = dispatch => ({
-  fetchMeteringData: args => dispatch(serviceDetailsActions.fetchMeteringData({ ...args })),
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  startLoader: () =>
+    dispatch(loaderActions.startAppLoader(LoaderContent.SERVICE_INVOKATION(ownProps.service.display_name))),
+  stopLoader: () => dispatch(loaderActions.stopAppLoader),
+  fetchMeteringData: args => dispatch(serviceDetailsActions.fetchMeteringData(args)),
+  startFetchWalletLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.FETCH_WALLET)),
+  startWalletDetailsPolling: (orgId, groupId) => dispatch(userActions.startWalletDetailsPolling(orgId, groupId)),
+  stopWalletDetailsPolling: () => dispatch(userActions.stopWalletDetailsPolling),
 });
 
 export default connect(

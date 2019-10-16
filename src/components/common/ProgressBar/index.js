@@ -1,5 +1,6 @@
 import React from "react";
 import { withStyles } from "@material-ui/styles";
+import PropTypes from "prop-types";
 
 import ProgressSection, { ProgressStatusList } from "./ProgressSection";
 import { useStyles } from "./styles";
@@ -31,6 +32,11 @@ const ProgressBar = ({ classes, activeSection, progressText }) => {
       </ul>
     </div>
   );
+};
+
+ProgressBar.propTypes = {
+  activeSection: PropTypes.number,
+  progressText: PropTypes.string,
 };
 
 export default withStyles(useStyles)(ProgressBar);

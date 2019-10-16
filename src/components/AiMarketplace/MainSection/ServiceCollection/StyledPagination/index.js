@@ -9,7 +9,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { useStyles } from "./styles";
 
 const StyledPagination = ({ limit, offset, total_count, handleChange }) => {
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(12);
   const classes = useStyles();
 
   const handleItemsPerPage = event => {
@@ -34,16 +34,17 @@ const StyledPagination = ({ limit, offset, total_count, handleChange }) => {
 
   return (
     <Grid container spacing={24} className={classes.paginationContainer}>
-      <Grid item xs={12} sm={6} md={6} lg={6} className={classes.pagination}>
+      <Grid item xs={6} sm={6} md={6} lg={6} className={classes.pagination}>
         <Pagination
           limit={limit}
           offset={offset}
           total={total_count}
           reduced={true}
           onClick={(e, offset) => handlePageChange(offset)}
+          className={classes.styledPagination}
         />
       </Grid>
-      <Grid item xs={12} sm={6} md={6} lg={6} className={classes.pageCountSection}>
+      <Grid item xs={6} sm={6} md={6} lg={6} className={classes.pageCountSection}>
         <span className={classes.itemPerPageTxt}>Items per page</span>
         <FormControl variant="outlined" className={classes.pageListformControl}>
           <Select
@@ -51,9 +52,9 @@ const StyledPagination = ({ limit, offset, total_count, handleChange }) => {
             input={<OutlinedInput labelWidth={75} name="age" id="outlined-age-simple" onChange={handleItemsPerPage} />}
             className={classes.selectBox}
           >
-            <MenuItem value={10}>10</MenuItem>
-            <MenuItem value={20}>20</MenuItem>
-            <MenuItem value={30}>30</MenuItem>
+            <MenuItem value={12}>12</MenuItem>
+            <MenuItem value={24}>24</MenuItem>
+            <MenuItem value={36}>36</MenuItem>
           </Select>
         </FormControl>
         <span>

@@ -61,7 +61,23 @@ const redBtnBg = "#E67381";
 
 const verticalTabLeftBorder = "#e2e2e2";
 
+const inputBoxBorder = "#979797";
+
+const dialogTitle = "rgba(0,0,0,0.87)";
+
+const outlinedBtnHoverBg = "rgba(241,241,241,0.15)";
+
 const h2 = { size: 32, color: darkShadedGray };
+
+const offlineRed = "#EF5265";
+const offlineRedBg = "rgba(239,82,101,0.15)";
+
+const informationBarBg = "#2196F3";
+
+const infoBg = "#DEEAFF";
+
+const warningBg = "#FDF3E5";
+const warningBorder = "#F18D5A";
 
 const theme = createMuiTheme({
   palette: {
@@ -89,6 +105,7 @@ const theme = createMuiTheme({
       iconColor,
       errorRed,
       RatingStarColor,
+      offlineRed,
       successBoxBorder,
       grayTitleText,
       redBtnText,
@@ -99,36 +116,37 @@ const theme = createMuiTheme({
       alertBoxBorder,
       alertBoxColor,
       alertBoxBackgroundColor,
+      infoBg,
+      warningBg,
+      warningBorder,
       verticalTabLeftBorder,
       redBtnBg,
       warningBoxBorder,
       warningBoxBg,
       infoBoxBg,
       infoBoxLink,
+      inputBoxBorder,
+      dialogTitle,
+      outlinedBtnHoverBg,
+      informationBarBg,
     },
-  },
-  typography: {
-    primary: {
-      main: ["OpenSans"],
-    },
-    secondary: {
-      main: ["Raleway"],
-    },
-    tertiary: {
-      main: ["Roboto"],
-    },
-    fontweight: 600,
   },
   backgroundColor: {
     blue: customBlue,
     red: errorBgColor,
     white: whiteColor,
     githubBlack,
+    offlineRedBg,
     footerBgColor,
     succesBoxBg,
   },
   font: {
     h2,
+  },
+  typography: {
+    primary: {
+      main: "Muli, sans-serif",
+    },
   },
 });
 

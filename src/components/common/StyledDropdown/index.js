@@ -1,34 +1,40 @@
 import React from "react";
 import FormControl from "@material-ui/core/FormControl";
-import NativeSelect from "@material-ui/core/NativeSelect";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import InputLabel from "@material-ui/core/InputLabel";
 import PropTypes from "prop-types";
 
 import { useStyles } from "./styles";
 
-const StyledDropdown = ({ labelTxt, list, value, onChange, formControlProps, nativeSelectProps }) => {
+const StyledDropdown = ({ labelTxt, list, value, onChange, formControlProps, inputLabel, disabled }) => {
   const classes = useStyles();
 
   return (
-    <FormControl className={classes.formControl} {...formControlProps}>
-      <NativeSelect
+    <FormControl variant="outlined" className={classes.formControl} {...formControlProps}>
+      {inputLabel ? <InputLabel htmlFor="age-simple">{inputLabel}</InputLabel> : null}
+      <Select
         value={value}
         onChange={onChange}
         name={labelTxt}
         className={classes.selectEmpty}
-        {...nativeSelectProps}
+        variant="outlined"
+        disabled={disabled}
       >
-        <option value="">{labelTxt}</option>
-        {list.map(item => (
-          <option key={item.value} value={item.value}>
-            {item.label}
-          </option>
-        ))}
-      </NativeSelect>
+        <MenuItem value="default">{labelTxt || "Select a value"}</MenuItem>
+        {list &&
+          list.map(item => (
+            <MenuItem key={item.value} value={item.value}>
+              {item.label}
+            </MenuItem>
+          ))}
+      </Select>
     </FormControl>
   );
 };
 
 StyledDropdown.propTypes = {
+  inputLabel: PropTypes.string,
   labelTxt: PropTypes.string,
   list: PropTypes.arrayOf(
     PropTypes.shape({
@@ -36,11 +42,11 @@ StyledDropdown.propTypes = {
       label: PropTypes.string,
     })
   ),
+  onChange: PropTypes.func,
 };
 
 StyledDropdown.defaultProps = {
   labelTxt: "",
-  list: [{ value: "", label: "" }],
 };
 
 export default StyledDropdown;

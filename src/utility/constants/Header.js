@@ -31,15 +31,13 @@ export const headerData = {
 const tabs = [
   {
     title: "AI Marketplace",
-    active: true,
     link: `/${Routes.AI_MARKETPLACE}`,
-    openInNewTab: false,
+    newTab: false,
   },
   {
     title: "Get Started",
-    active: false,
     link: `/${Routes.GET_STARTED}`,
-    openInNewTab: true,
+    newTab: false,
   },
 ];
 
@@ -47,12 +45,10 @@ const dropdowns = [
   {
     label: "Resources",
     list: [
-      { value: "", label: "Documentation" },
-      { value: "", label: "Dataset Download" },
-      { value: "", label: "API Library" },
-      { value: "", label: "Telegram" },
-      { value: "", label: "Forum" },
-      { value: "", label: "Blog" },
+      { label: "Documentation", link: "https://github.com/singnet", newTab: true },
+      { label: "Telegram", link: "https://telegram.me/singularitynet", newTab: true },
+      { label: "Forum", link: "https://community.singularitynet.io/", newTab: true },
+      { label: "Blog", link: "http://blog.singularitynet.io/", newTab: true },
     ],
   },
 ];
