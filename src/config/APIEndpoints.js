@@ -48,4 +48,5 @@ export const APIPaths = {
   EXECUTE_PAYMENT: "/order/execute",
   DEBUG_PAYPAL_INITIATE: "/v2/order/initiate",
   WALLETS: "/wallet",
+  LINKED_PROVIDERS: "/v2/channel",
 };

@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import { useStyles } from "./styles";
 import ChannelList from "./ChannelList";
 
-const ProviderBalance = ({ classes }) => {
+const ProviderBalance = ({ classes, linkedProviders }) => {
   return (
     <Grid container spacing={10} className={classes.providerBalContent}>
       <h3>Provider Balances</h3>
@@ -17,7 +17,7 @@ const ProviderBalance = ({ classes }) => {
           ornatus consectetuer an. Pro atqui labore saperet id. In qui sanctus definiebas, ut vidit assum mel.{" "}
         </Typography>
       </Grid>
-      <ChannelList />
+      <ChannelList linkedProviders={linkedProviders} />
     </Grid>
   );
 };

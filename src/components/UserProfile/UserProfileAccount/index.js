@@ -8,18 +8,25 @@ import lowerCase from "lodash/lowerCase";
 
 import StyledDropdown from "../../common/StyledDropdown";
 import { useStyles } from "./styles";
-import { fetchAvailableUserWallets, walletTypes } from "../../../Redux/actionCreators/UserActions";
+import {
+  fetchAvailableUserWallets,
+  fetchWalletLinkedProviders,
+  walletTypes,
+} from "../../../Redux/actionCreators/UserActions";
 import MetamaskDetails from "./MetamaskDetails";
 import { initSdk } from "../../../utility/sdk";
 import ProviderBalance from "./ProviderBalance";
 import AlertBox, { alertTypes } from "../../common/AlertBox";
 import ProvidersLinkedCount from "./ProvidersLinkedCount";
+import { startAppLoader, stopAppLoader } from "../../../Redux/actionCreators/LoaderActions";
+import { LoaderContent } from "../../../utility/constants/LoaderContent";
 
 const UserProfileAccount = ({ classes, dispatch }) => {
   const [alert, setAlert] = useState({});
   const initialWallet = { value: "default", type: "default" };
   const [wallet, updateWallet] = useState(initialWallet);
   const [wallets, updateWallets] = useState([]);
+  const [linkedProviders, updateLinkedProviders] = useState([]);
   useEffect(() => {
     const fetchWallets = async () => {
       const availableWallets = await fetchAvailableUserWallets();
@@ -42,6 +49,10 @@ const UserProfileAccount = ({ classes, dispatch }) => {
       return;
     }
 
+    dispatch(startAppLoader(LoaderContent.FETCH_LINKED_PROVIDERS));
+    const organizations = await fetchWalletLinkedProviders(selectedWallet.address);
+    dispatch(stopAppLoader);
+    updateLinkedProviders(organizations);
     updateWallet(selectedWallet);
 
     if (selectedWallet.type === walletTypes.METAMASK) {
@@ -78,12 +89,12 @@ const UserProfileAccount = ({ classes, dispatch }) => {
           </div>
           {walletDetails[wallet.type]}
           <AlertBox type={alert.type} message={alert.message} />
-          {hasSelectedWallet && <ProvidersLinkedCount />}
+          {hasSelectedWallet && <ProvidersLinkedCount providerCount={linkedProviders.length} />}
         </div>
       </Grid>
       {hasSelectedWallet && (
         <Grid xs={12} sm={12} md={8} lg={8} className={classes.providerBalMaincontainer}>
-          <ProviderBalance />
+          <ProviderBalance linkedProviders={linkedProviders} />
         </Grid>
       )}
     </Grid>
