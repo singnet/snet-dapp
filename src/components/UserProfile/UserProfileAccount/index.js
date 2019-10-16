@@ -61,7 +61,14 @@ const UserProfileAccount = ({ classes, startAppLoader, stopAppLoader }) => {
           await initSdk(selectedEthAddress);
           return;
         }
-        setAlert({ type: alertTypes.ERROR, message: `Unable to fetch Metamask address. Please try again` });
+        if (!isSameMetaMaskAddress) {
+          setAlert({
+            type: alertTypes.ERROR,
+            message: `The selected wallet address does not match the address in the current metamask account. Please select the correct account in metamask and try again.`,
+          });
+        } else {
+          setAlert({ type: alertTypes.ERROR, message: `Unable to fetch Metamask address. Please try again` });
+        }
       } catch (error) {
         setAlert({ type: alertTypes.ERROR, message: `Something went wrong. Please try again` });
       }
