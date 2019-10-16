@@ -55,25 +55,6 @@ const VerifyKey = ({ classes, handleLostPrivateKey, walletList, handleUserProvid
       });
       return;
     }
-
-    // web3.eth.accounts.wallet.add(account);
-    // web3.eth.defaultAccount = account.address;
-    // const sha3Message = web3.utils.soliditySha3(
-    //   { t: "string", v: "__openChannelByThirdParty" },
-    //   { t: "address", v: "mpe_address" },
-    //   { t: "address", v: "executor_wallet_address" },
-    //   { t: "address", v: "SIGNER_ADDRESS" },
-    //   { t: "address", v: "recipient" },
-    //   { t: "bytes32", v: "group_id" },
-    //   { t: "uint256", v: "amount_in_cogs" },
-    //   { t: "uint256", v: "expiration" },
-    //   { t: "uint256", v: "message_nonce" }
-    // );
-
-    // const signature = await web3.eth.accounts.sign(sha3Message, privateKey);
-
-    // const base64Signature = parseSignature(signature);
-    // return base64Signature;
   };
 
   if (keyLost) {

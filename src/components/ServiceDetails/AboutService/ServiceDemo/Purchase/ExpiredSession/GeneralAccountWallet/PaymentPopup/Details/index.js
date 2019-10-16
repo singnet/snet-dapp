@@ -64,25 +64,25 @@ const Details = props => {
       const amountInAGI = USDToAgi(amount);
       let base64Signature;
       let address;
+      let currentBlockNumber;
       if (orderType === orderTypes.CREATE_CHANNEL) {
         const account = web3.eth.accounts.privateKeyToAccount(privateKey);
-        // const GenWalletMatchingAcc = walletList.find(wallet => wallet.address === account.address);
         address = account.address;
         web3.eth.accounts.wallet.add(account);
         web3.eth.defaultAccount = address;
         const recipient = groupInfo.payment.payment_address;
-        const decodedGroupId = atob(groupInfo.group_id);
+        const hexGroupId = `0x${atob(groupInfo.group_id)}`;
         const amountInCogs = agiToCogs(amountInAGI);
-        const currentBlockNumber = await web3.eth.getBlockNumber();
+        currentBlockNumber = await web3.eth.getBlockNumber();
         // 1 block no is mined in 15 sec on average, setting expiration as 10 years
         const expiration = currentBlockNumber + 10 * 365 * 24 * 60 * 4;
         const sha3Message = web3.utils.soliditySha3(
           { t: "string", v: "__openChannelByThirdParty" },
           { t: "address", v: process.env.REACT_APP_MPE_CONTRACT_ADDRESS },
-          { t: "address", v: account.address }, //"executor_wallet_address"
+          { t: "address", v: process.env.REACT_APP_EXECUTOR_WALLET_ADDRESS },
           { t: "address", v: process.env.REACT_APP_SNET_SIGNER_ADDRESS },
           { t: "address", v: recipient },
-          { t: "bytes32", v: decodedGroupId },
+          { t: "bytes32", v: hexGroupId },
           { t: "uint256", v: amountInCogs },
           { t: "uint256", v: expiration },
           { t: "uint256", v: currentBlockNumber }
@@ -92,7 +92,7 @@ const Details = props => {
 
         base64Signature = parseSignature(signature);
       }
-      initiatePayment(payType, amount, currency, "AGI", amountInAGI, base64Signature, address);
+      initiatePayment(payType, amount, currency, "AGI", amountInAGI, base64Signature, address, currentBlockNumber);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log("error", error);

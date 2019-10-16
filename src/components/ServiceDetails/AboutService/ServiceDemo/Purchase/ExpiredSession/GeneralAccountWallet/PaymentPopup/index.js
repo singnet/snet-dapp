@@ -9,6 +9,7 @@ import CardContent from "@material-ui/core/CardContent";
 import { connect } from "react-redux";
 import isEmpty from "lodash/isEmpty";
 import { withRouter } from "react-router-dom";
+import pickBy from "lodash/pickBy";
 
 import Details from "./Details";
 import Purchase from "./Purchase";
@@ -64,6 +65,7 @@ class PaymentPopup extends Component {
 
   handleClose = () => {
     if (this.state.activeSection === 1 || this.state.activeSection === 2) {
+      this.setState({ activeSection: 1 });
       this.props.handleClose();
     }
   };
@@ -72,7 +74,7 @@ class PaymentPopup extends Component {
     this.setState({ activeSection: this.state.activeSection + 1 });
   };
 
-  handleInitiatePayment = (payType, amount, currency, item, quantity, base64Signature, address) => {
+  handleInitiatePayment = (payType, amount, currency, item, quantity, base64Signature, address, currentBlockNumber) => {
     const {
       match: {
         params: { orgId, serviceId },
@@ -96,11 +98,14 @@ class PaymentPopup extends Component {
         order_type: orderType,
         signature: base64Signature,
         wallet_address: address,
+        current_block_number: currentBlockNumber,
       },
       payment_method: payType,
     };
 
-    initiatePayment(paymentObj);
+    const enhancedPaymentObj = pickBy(paymentObj, el => el !== undefined);
+
+    initiatePayment(enhancedPaymentObj);
   };
 
   handleExecutePayment = async () => {
