@@ -1,33 +1,52 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 import isEmpty from "lodash/isEmpty";
+import map from "lodash/map";
+import find from "lodash/find";
 
 import StyledDropdown from "../../common/StyledDropdown";
 import { useStyles } from "./styles";
-import { walletTypes } from "../../../Redux/actionCreators/UserActions";
+import { fetchAvailableUserWallets, walletTypes } from "../../../Redux/actionCreators/UserActions";
 import MetamaskDetails from "./MetamaskDetails";
 import { initSdk } from "../../../utility/sdk";
 import ProviderBalance from "./ProviderBalance";
 import AlertBox, { alertTypes } from "../../common/AlertBox";
 import ProvidersLinkedCount from "./ProvidersLinkedCount";
 
-const walletDropdownList = Object.entries(walletTypes).map(([key, value]) => ({ value, label: key }));
-
-const UserProfileAccount = ({ classes }) => {
+const UserProfileAccount = ({ classes, dispatch }) => {
   const [alert, setAlert] = useState({});
-  const [wallet, updateWallet] = useState({ type: "default" });
+  const initialWallet = { type: "default" };
+  const [wallet, updateWallet] = useState(initialWallet);
+  const [wallets, updateWallets] = useState([]);
+  useEffect(() => {
+    const fetchWallets = async () => {
+      const availableWallets = await fetchAvailableUserWallets();
+      const enhancedWallets = map(availableWallets, ({ address, type }) => {
+        return { address, type, value: address, label: `${type} (${address})` };
+      });
+      updateWallets(enhancedWallets);
+    };
+    fetchWallets();
+  }, []);
 
   const handleWalletTypeChange = async event => {
     setAlert({});
-    const { value } = event.target;
-    if (value === walletTypes.METAMASK) {
+    const { value: selectedValue } = event.target;
+    const selectedWallet = find(wallets, ({ value }) => selectedValue === value);
+    if (!selectedWallet) {
+      updateWallet(initialWallet);
+      return;
+    }
+    updateWallet(selectedWallet);
+
+    if (selectedWallet.type === walletTypes.METAMASK) {
       try {
         const selectedEthAddress = window.ethereum && window.ethereum.selectedAddress;
         const sdk = await initSdk(selectedEthAddress);
         const address = sdk.account.address;
         if (!isEmpty(address)) {
-          updateWallet({ type: value, address });
           return;
         }
         setAlert({ type: alertTypes.ERROR, message: `Unable to fetch Metamask address. Please try again` });
@@ -35,18 +54,13 @@ const UserProfileAccount = ({ classes }) => {
         setAlert({ type: alertTypes.ERROR, message: `Something went wrong. Please try again` });
       }
     }
-    if (value === walletTypes.GENERAL) {
-      updateWallet({ type: value });
-      return;
-    }
-
-    updateWallet({ type: value });
   };
 
   const walletDetails = {
     [walletTypes.METAMASK]: <MetamaskDetails />,
   };
 
+  const hasSelectedWallet = wallet.type !== initialWallet.type;
   return (
     <Grid container spacing={10} className={classes.accountMainContainer}>
       <Grid xs={12} sm={12} md={4} lg={4} className={classes.accountContainer}>
@@ -56,21 +70,23 @@ const UserProfileAccount = ({ classes }) => {
             <span className={classes.dropDownTitle}>Wallet</span>
             <StyledDropdown
               labelTxt="Select a Wallet"
-              list={walletDropdownList}
+              list={wallets}
               value={wallet.type}
               onChange={handleWalletTypeChange}
             />
           </div>
           {walletDetails[wallet.type]}
           <AlertBox type={alert.type} message={alert.message} />
-          <ProvidersLinkedCount />
+          {hasSelectedWallet && <ProvidersLinkedCount />}
         </div>
       </Grid>
-      <Grid xs={12} sm={12} md={8} lg={8} className={classes.providerBalMaincontainer}>
-        <ProviderBalance />
-      </Grid>
+      {hasSelectedWallet && (
+        <Grid xs={12} sm={12} md={8} lg={8} className={classes.providerBalMaincontainer}>
+          <ProviderBalance />
+        </Grid>
+      )}
     </Grid>
   );
 };
 
-export default withStyles(useStyles)(UserProfileAccount);
+export default connect()(withStyles(useStyles)(UserProfileAccount));
