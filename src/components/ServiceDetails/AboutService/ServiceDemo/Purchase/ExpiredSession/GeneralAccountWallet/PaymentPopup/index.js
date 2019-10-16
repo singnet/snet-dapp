@@ -21,8 +21,9 @@ import { groupInfo } from "../../../../../../../../Redux/reducers/ServiceDetails
 import { orderTypes } from "..";
 import Routes from "../../../../../../../../utility/constants/Routes";
 import { channelInfo } from "../../../../../../../../Redux/reducers/UserReducer";
+import VerifyKey from "./VerifyKey";
 
-class CreateWalletPopup extends Component {
+class PaymentPopup extends Component {
   state = {
     activeSection: 1,
     privateKey: undefined,
@@ -58,7 +59,7 @@ class CreateWalletPopup extends Component {
 
   handleClose = () => {
     if (this.state.activeSection === 1 || this.state.activeSection === 2) {
-      this.props.setVisibility(false);
+      this.props.handleClose();
     }
   };
 
@@ -126,13 +127,22 @@ class CreateWalletPopup extends Component {
   };
 
   render() {
-    const { classes, visible, paypalInProgress, orderType, title, channelInfo } = this.props;
+    const {
+      classes,
+      visible,
+      paypalInProgress,
+      orderType,
+      title,
+      channelInfo,
+      handleLostPrivateKey,
+      updateSignature,
+    } = this.props;
     const { activeSection, privateKey, amount, item, quantity } = this.state;
 
     const progressText = ["Details", "Purchase", "Summary"];
     const PopupProgressBarComponents = [
       {
-        key: 1,
+        key: "details",
         component: (
           <Details
             handleNextSection={this.handleNextSection}
@@ -143,7 +153,7 @@ class CreateWalletPopup extends Component {
         ),
       },
       {
-        key: 2,
+        key: "purchase",
         component: (
           <Purchase
             paypalInProgress={paypalInProgress}
@@ -153,7 +163,7 @@ class CreateWalletPopup extends Component {
         ),
       },
       {
-        key: 4,
+        key: "summary",
         component: (
           <Summary amount={amount} item={item} quantity={quantity} handlePaymentComplete={this.handlePaymentComplete} />
         ),
@@ -161,10 +171,24 @@ class CreateWalletPopup extends Component {
     ];
 
     if (orderType === orderTypes.CREATE_WALLET) {
-      progressText.splice(2, 0, "Private Key");
+      progressText.splice(2, 0, "Verify Key");
       PopupProgressBarComponents.splice(2, 0, {
-        key: 3,
+        key: "privateKey",
         component: <PrivateKey privateKey={privateKey} handleNextSection={this.handleNextSection} />,
+      });
+    }
+
+    if (orderType === orderTypes.CREATE_CHANNEL) {
+      progressText.splice(0, 0, "Verify Key");
+      PopupProgressBarComponents.splice(0, 0, {
+        key: "verifyKey",
+        component: (
+          <VerifyKey
+            handleNextSection={this.handleNextSection}
+            handleLostPrivateKey={handleLostPrivateKey}
+            updateSignature={updateSignature}
+          />
+        ),
       });
     }
 
@@ -216,5 +240,5 @@ export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(withStyles(useStyles)(CreateWalletPopup))
+  )(withStyles(useStyles)(PaymentPopup))
 );

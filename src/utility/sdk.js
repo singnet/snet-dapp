@@ -21,7 +21,7 @@ export const callTypes = {
   REGULAR: "REGULAR",
 };
 
-const parseSignature = hexSignature => {
+export const parseSignature = hexSignature => {
   const signatureBuffer = Buffer.from(hexSignature.slice(2), "hex");
   return signatureBuffer.toString("base64");
 };
