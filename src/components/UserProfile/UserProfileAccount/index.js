@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
-import isEmpty from "lodash/isEmpty";
 import map from "lodash/map";
 import find from "lodash/find";
+import lowerCase from "lodash/lowerCase";
 
 import StyledDropdown from "../../common/StyledDropdown";
 import { useStyles } from "./styles";
@@ -17,7 +17,7 @@ import ProvidersLinkedCount from "./ProvidersLinkedCount";
 
 const UserProfileAccount = ({ classes, dispatch }) => {
   const [alert, setAlert] = useState({});
-  const initialWallet = { type: "default" };
+  const initialWallet = { value: "default", type: "default" };
   const [wallet, updateWallet] = useState(initialWallet);
   const [wallets, updateWallets] = useState([]);
   useEffect(() => {
@@ -31,6 +31,8 @@ const UserProfileAccount = ({ classes, dispatch }) => {
     fetchWallets();
   }, []);
 
+  const selectedEthAddress = window.ethereum && window.ethereum.selectedAddress;
+  const isSameMetaMaskAddress = lowerCase(selectedEthAddress) === lowerCase(wallet.address);
   const handleWalletTypeChange = async event => {
     setAlert({});
     const { value: selectedValue } = event.target;
@@ -39,14 +41,13 @@ const UserProfileAccount = ({ classes, dispatch }) => {
       updateWallet(initialWallet);
       return;
     }
+
     updateWallet(selectedWallet);
 
     if (selectedWallet.type === walletTypes.METAMASK) {
       try {
-        const selectedEthAddress = window.ethereum && window.ethereum.selectedAddress;
-        const sdk = await initSdk(selectedEthAddress);
-        const address = sdk.account.address;
-        if (!isEmpty(address)) {
+        if (isSameMetaMaskAddress) {
+          await initSdk(selectedEthAddress);
           return;
         }
         setAlert({ type: alertTypes.ERROR, message: `Unable to fetch Metamask address. Please try again` });
@@ -57,7 +58,7 @@ const UserProfileAccount = ({ classes, dispatch }) => {
   };
 
   const walletDetails = {
-    [walletTypes.METAMASK]: <MetamaskDetails />,
+    [walletTypes.METAMASK]: isSameMetaMaskAddress ? <MetamaskDetails wallet={wallet} /> : undefined,
   };
 
   const hasSelectedWallet = wallet.type !== initialWallet.type;
@@ -71,7 +72,7 @@ const UserProfileAccount = ({ classes, dispatch }) => {
             <StyledDropdown
               labelTxt="Select a Wallet"
               list={wallets}
-              value={wallet.type}
+              value={wallet.value}
               onChange={handleWalletTypeChange}
             />
           </div>
