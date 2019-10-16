@@ -80,4 +80,8 @@ export const LoaderContent = {
     loaderHeader: "Fetching order details",
     loaderText: "Please wait. we're fetching your order details",
   },
+  FETCH_LINKED_PROVIDERS: {
+    loaderHeader: "Fetching linked providers",
+    loaderText: "Please wait while we fetch all the linked providers for the selected wallet",
+  },
 };

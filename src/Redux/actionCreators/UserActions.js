@@ -435,6 +435,25 @@ export const fetchWallet = (orgId, groupId) => async dispatch => {
   return dispatch(fetchWalletSuccess(response));
 };
 
+const fetchAvailableUserWalletsAPI = token => {
+  const apiName = APIEndpoints.ORCHESTRATOR.name;
+  const apiPath = APIPaths.WALLETS;
+  const apiOptions = initializeAPIOptions(token);
+  return API.get(apiName, apiPath, apiOptions);
+};
+
+export const fetchAvailableUserWallets = async () => {
+  const { token } = await fetchAuthenticatedUser();
+  const response = await fetchAvailableUserWalletsAPI(token);
+  return response.data.wallets;
+};
+
+export const fetchWalletLinkedProviders = async address => {
+  const url = `${APIEndpoints.CONTRACT.endpoint}${APIPaths.LINKED_PROVIDERS}?wallet_address=${address}`;
+  const response = await fetch(url).then(res => res.json());
+  return response.organizations || [];
+};
+
 export const startWalletDetailsPolling = (orgId, groupId) => dispatch => {
   walletPollingInterval = setInterval(() => dispatch(fetchWallet(orgId, groupId)), 15000);
   return dispatch(fetchWallet(orgId, groupId));
