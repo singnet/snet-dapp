@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography";
 
 import { useStyles } from "./styles";
 
-const ProvidersLinkedCount = ({ classes, providerCount = 0 }) => {
+const ProvidersLinkedCount = ({ classes, providerCount }) => {
   return (
     <div className={classes.totalProviderLinkedContainer}>
       <div className={classes.infoTitleContainer}>
@@ -15,6 +15,10 @@ const ProvidersLinkedCount = ({ classes, providerCount = 0 }) => {
       <div className={classes.totalProviderLinkedCount}>{providerCount}</div>
     </div>
   );
+};
+
+ProvidersLinkedCount.defaultProps = {
+  providerCount: 0,
 };
 
 export default withStyles(useStyles)(ProvidersLinkedCount);
