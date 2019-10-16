@@ -16,7 +16,6 @@ import snetValidator from "../../../../../../../../../utility/snetValidator";
 import { paymentGatewayConstraints } from "./validationConstraints";
 import AlertBox, { alertTypes } from "../../../../../../../../common/AlertBox";
 import { USDToAgi, agiToCogs, tenYearBlockOffset } from "../../../../../../../../../utility/PricingStrategy";
-import { parseSignature } from "../../../../../../../../../utility/sdk";
 import { groupInfo } from "../../../../../../../../../Redux/reducers/ServiceDetailsReducer";
 import { orderTypes } from "../";
 
@@ -56,7 +55,7 @@ const Details = props => {
     }
     try {
       const amountInAGI = USDToAgi(amount);
-      let base64Signature;
+      let signature;
       let address;
       let currentBlockNumber;
       if (orderType === orderTypes.CREATE_CHANNEL) {
@@ -82,11 +81,10 @@ const Details = props => {
           { t: "uint256", v: currentBlockNumber }
         );
 
-        const { signature } = await web3.eth.accounts.sign(sha3Message, privateKey);
-
-        base64Signature = parseSignature(signature);
+        const generatedSignature = await web3.eth.accounts.sign(sha3Message, privateKey);
+        signature = generatedSignature.signature;
       }
-      initiatePayment(payType, amount, currency, "AGI", amountInAGI, base64Signature, address, currentBlockNumber);
+      initiatePayment(payType, amount, currency, "AGI", amountInAGI, signature, address, currentBlockNumber);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log("error", error);
