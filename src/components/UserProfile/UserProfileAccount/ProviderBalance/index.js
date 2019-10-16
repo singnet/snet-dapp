@@ -34,25 +34,27 @@ const ProviderBalance = ({ classes, orgImg }) => {
           </Grid>
         </Grid>
         <Grid xs={12} sm={12} md={12} lg={12} className={classes.tableData}>
-          <Grid xs={12} sm={12} md={4} lg={4}>
+          <Grid xs={12} sm={12} md={4} lg={4} className={classes.providerChannelDetails}>
             <div>
               <Avatar alt="Singularity" src={orgImg || SingularityLogo} className={classes.avatar} />
             </div>
             <div>
-              <Typography>Singularitynetty</Typography>
-              <Typography>30 Algorithms</Typography>
+              <Typography className={classes.channelName}>Singularitynetty</Typography>
+              <Typography className={classes.algorithmCount}>30 Algorithms</Typography>
             </div>
           </Grid>
           <Grid xs={12} sm={12} md={1} lg={1}>
-            <InfoIcon />
-            <span>12</span>
+            <InfoIcon className={classes.infoIcon} />
+            <span className={classes.linkedWalletCount}>12</span>
           </Grid>
-          <Grid xs={12} sm={12} md={3} lg={3} />
           <Grid xs={12} sm={12} md={3} lg={3}>
-            <StyledButton btnText="link provider" type="transparent" />
+            <span className={classes.availableTokenCount}>0.00000000 AGI</span>
+          </Grid>
+          <Grid xs={12} sm={12} md={3} lg={3} className={classes.linkProviderBtn}>
+            <StyledButton btnText="link provider" type="transparentBlueBorder" />
           </Grid>
           <Grid xs={12} sm={12} md={1} lg={1}>
-            <ArrowDownIcon />
+            <ArrowDownIcon className={classes.downArrowIcon} />
           </Grid>
         </Grid>
       </Grid>
