@@ -11,7 +11,6 @@ export const useStyles = makeStyles(theme => ({
       verticalAlign: "top",
     },
   },
-
   circularProgressContainer: {
     paddingTop: 20,
     textAlign: "center",
@@ -51,21 +50,26 @@ export const useStyles = makeStyles(theme => ({
     },
   },
   gridViewCardCollection: {
-    marginTop: 20,
+    marginTop: 9,
     display: "flex",
     flexWrap: "wrap",
     "& a": {
-      width: "100%",
       textDecoration: "none ",
       display: "inline-block",
       verticalAlign: "top",
-      flex: 1,
+      "&:nth-child(2n) > div": {
+        "@media(max-width: 1280px)": { marginRight: 0 },
+      },
+      "&:nth-child(3n) > div": {
+        "@media(min-width: 1281px)": { marginRight: 0 },
+      },
       "@media(max-width: 1024px)": { textAlign: "center" },
       "& > div": {
         "@media(max-width: 768px)": { marginRight: 0 },
       },
       "@media(max-width: 768px)": { textAlign: "center" },
     },
+    "@media(min-width: 768px) and (max-width: 1024px)": { justifyContent: "center" },
     "@media(max-width: 768px)": { flexDirection: "column" },
   },
 }));

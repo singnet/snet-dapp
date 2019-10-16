@@ -8,11 +8,11 @@ import ServiceCollection from "./ServiceCollection";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../../Redux/actionCreators";
 import { filterAttributes, generateFilterObject } from "../../../utility/constants/Pagination";
+import { isDesktop } from "../../../utility/constants/UXProperties";
 
-const isDesktop = window.innerWidth > 768;
 class MainSection extends Component {
   state = {
-    listView: isDesktop,
+    listView: false,
   };
 
   componentDidMount = () => {
@@ -47,10 +47,10 @@ class MainSection extends Component {
     const { listView } = this.state;
     return (
       <Grid container spacing={24} className={classes.mainSection}>
-        <Grid item xs={12} sm={3} md={3} lg={3}>
+        <Grid item xs={12} sm={3} md={3} lg={3} className={classes.filterMainContainer}>
           <Filter />
         </Grid>
-        <Grid item xs={12} sm={9} md={9} lg={9}>
+        <Grid item xs={12} sm={9} md={9} lg={9} className={classes.servieMainContainer}>
           <ServiceCollection
             toolbarProps={{
               listView,

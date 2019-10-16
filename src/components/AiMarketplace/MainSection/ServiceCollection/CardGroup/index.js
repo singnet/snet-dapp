@@ -2,9 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import truncate from "lodash/truncate";
 
 import ServiceListItem from "./ServiceListItem";
-import CardImg from "../../../../../assets/images/SnetDefaultServiceImage.png";
 import { useStyles } from "./styles";
 import Routes from "../../../../../utility/constants/Routes";
 import GridViewItem from "./GridViewItem";
@@ -40,12 +40,13 @@ const CardGroup = ({ data: cards, listView, loading }) => {
             key={card.service_id}
           >
             <ServiceListItem
-              cardMedia={card.assets_url.hero_image ? card.assets_url.hero_image : CardImg}
+              cardMedia={card.assets_url.hero_image}
+              orgImg={card.org_assets_url.hero_image}
               cardTitle={card.display_name}
-              cardSubheader={card.org_id}
+              cardSubheader={card.organization_name}
               ratingGiven={card.service_rating}
               totalRating={card.total_users_rated}
-              cardDescription={card.description}
+              cardDescription={truncate(card.description, { length: 180 })}
               isAvailable={Boolean(card.is_available)}
             />
           </Link>
@@ -62,12 +63,13 @@ const CardGroup = ({ data: cards, listView, loading }) => {
           className={classes.routerLink}
         >
           <GridViewItem
-            cardMedia={card.assets_url.hero_image ? card.assets_url.hero_image : CardImg}
+            cardMedia={card.assets_url.hero_image}
+            orgImg={card.org_assets_url.hero_image}
             cardTitle={card.display_name}
-            cardSubheader={card.org_id}
+            cardSubheader={card.organization_name}
             ratingGiven={card.service_rating}
             totalRating={card.total_users_rated}
-            cardDescription={card.description}
+            cardDescription={truncate(card.description, { length: 180 })}
             isAvailable={Boolean(card.is_available)}
           />
         </Link>
