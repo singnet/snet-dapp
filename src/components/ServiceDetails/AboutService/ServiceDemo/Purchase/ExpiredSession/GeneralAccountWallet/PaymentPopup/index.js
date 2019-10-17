@@ -111,7 +111,7 @@ class PaymentPopup extends Component {
       org_id: orgId,
       service_id: serviceId,
       group_id,
-      receipient: payment_address,
+      recipient: payment_address,
       order_type: orderType,
       signature: base64Signature,
       wallet_address: address,
