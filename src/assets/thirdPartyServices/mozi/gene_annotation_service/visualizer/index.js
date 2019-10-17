@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect } from "react";
 import removeSvg from "../assets/remove.svg";
 import addSvg from "../assets/add.svg";
 import filterSvg from "../assets/filter.svg";
+import copySvg from "../assets/copy.svg";
 import "cytoscape-context-menus/cytoscape-context-menus.css";
 import $ from "jquery";
 import IconButton from "@material-ui/core/IconButton";
@@ -26,6 +27,11 @@ import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import HelpIcon from "@material-ui/icons/HelpOutline";
+import MenuIcon from "@material-ui/icons/Menu";
+
+import Drawer from "@material-ui/core/Drawer";
+
+import LinearProgress from "@material-ui/core/LinearProgress";
 import { useSnackbar } from "notistack";
 import "./style.css";
 
@@ -56,20 +62,9 @@ const AnnotationGroups = [
   },
 ];
 
-const COSE = {
-  name: "cose",
-  randomize: false,
-  fit: true,
-  animate: false,
-  nodeRepulsion: 999999,
-  edgeElasticity: function(edge) {
-    return Math.min(edge.source().degree(), edge.target().degree()) * 10000;
-  },
-};
-
 const CYTOSCAPE_COLA_CONFIG = {
   name: "cola",
-  // fit: true,
+  fit: true,
   animate: true,
   padding: 10,
   nodeSpacing: 10,
@@ -143,6 +138,7 @@ const CYTOSCAPE_STYLE = [
 ];
 
 const Visualizer = props => {
+  window.scrollTo(0, 0);
   const { enqueueSnackbar } = useSnackbar();
   cytoscape.use(cola);
   const cy_wrapper = React.createRef();
@@ -155,9 +151,23 @@ const Visualizer = props => {
     .filter((s, i, arr) => {
       return arr.indexOf(s) === i && ["Genes", "Uniprot", "ChEBI"].includes(s);
     });
-
-  const [visibleNodeTypes, setVisibleNodeTypes] = useState(["Genes", "Uniprot", "ChEBI"]);
-  const [visibleAnnotations, setVisibleAnnotations] = useState(["main%"]);
+  const [linkTypes, setLinkTypes] = useState(
+    props.graph.edges
+      .map(e => e.data.subgroup)
+      .filter((s, i, arr) => {
+        return arr.indexOf(s) === i;
+      })
+  );
+  const [visibleNodeTypes, setVisibleNodeTypes] = useState(nodeTypes);
+  const [visibleLinkTypes, setVisibleLinkTypes] = useState(linkTypes);
+  const [visibleAnnotations, setVisibleAnnotations] = useState([
+    "main%",
+    "gene-go-annotation%biological_process",
+    "gene-go-annotation%cellular_component",
+    "gene-go-annotation%molecular_function",
+    "gene-pathway-annotation%Reactome",
+    "biogrid-interaction-annotation%",
+  ]);
   const [selectedNode, setSelectedNode] = useState({
     node: null,
     position: null,
@@ -166,6 +176,16 @@ const Visualizer = props => {
     pubmed: null,
   });
   const [searchToken, setSearchToken] = useState(undefined);
+  const [loaderText, setLoaderText] = useState(undefined);
+  const [isDrawerOpen, setDrawerOpen] = useState(true);
+  const [MLLPositions, setMLLPositions] = useState(undefined);
+  // Save MLL positions
+  !MLLPositions &&
+    setMLLPositions(
+      JSON.parse(JSON.stringify(props.graph.nodes)).reduce(function(prevVal, n, i) {
+        return { ...prevVal, [n.data.id]: n.position };
+      }, {})
+    );
 
   useEffect(function() {
     setCy(
@@ -181,7 +201,7 @@ const Visualizer = props => {
     function() {
       cy && toggleAnnotationVisibility(visibleAnnotations);
     },
-    [visibleAnnotations, visibleNodeTypes, cy]
+    [visibleAnnotations, visibleNodeTypes, visibleLinkTypes, cy]
   );
 
   useEffect(
@@ -201,11 +221,13 @@ const Visualizer = props => {
         contextMenu.showMenuItem("add");
         contextMenu.showMenuItem("remove");
         contextMenu.hideMenuItem("filter");
+        filteredElements.layout(layout).run();
       } else {
         cy.batch(() => cy.elements().style({ opacity: 1 }));
         contextMenu.showMenuItem("filter");
         contextMenu.hideMenuItem("add");
         contextMenu.hideMenuItem("remove");
+        cy.layout(layout).run();
       }
     },
     [filteredElements]
@@ -214,6 +236,7 @@ const Visualizer = props => {
   useEffect(
     function() {
       if (cy) {
+        MLLLayout();
         cy.style([
           ...CYTOSCAPE_STYLE,
           ...assignColorToAnnotations(),
@@ -254,6 +277,21 @@ const Visualizer = props => {
               onClickFunction: e => removeFromFilter(e.target.data().id),
               show: false,
             },
+            {
+              id: "copy",
+              content: "Copy ID",
+              selector: "node",
+              image: { src: copySvg, width: 18, height: 18, x: 8, y: 8 },
+              onClickFunction: e => {
+                const el = document.createElement("textarea");
+                el.value = e.target.data().id;
+                document.body.appendChild(el);
+                el.select();
+                document.execCommand("copy");
+                document.body.removeChild(el);
+              },
+              show: true,
+            },
           ],
           menuItemClasses: ["context-menu-item"],
           contextMenuClasses: ["context-menu"],
@@ -266,31 +304,41 @@ const Visualizer = props => {
 
   useEffect(
     function() {
-      if (layout) layout.run();
+      if (layout) {
+        const l = filteredElements ? filteredElements.layout(layout) : cy.layout(layout);
+        setLoaderText("Applying layout, please wait ...");
+        l.pon("layoutstop").then(function(e) {
+          setLoaderText(undefined);
+        });
+        l.run();
+      }
     },
     [layout]
   );
 
   const randomLayout = () => {
-    setLayout(cy.layout(CYTOSCAPE_COLA_CONFIG));
+    setLayout(CYTOSCAPE_COLA_CONFIG);
   };
 
-  const coseLayout = () => {
-    setLayout(cy.layout(COSE));
+  const MLLLayout = () => {
+    setLayout({
+      name: "preset",
+      positions: function(n) {
+        return MLLPositions[n.id()];
+      },
+    });
   };
 
   const breadthFirstLayout = () => {
-    setLayout(cy.layout({ name: "breadthfirst" }));
+    setLayout({ name: "breadthfirst" });
   };
 
   const concentricLayout = () => {
-    setLayout(
-      cy.layout({
-        name: "concentric",
-        concentric: node => node.degree(),
-        levelWidth: () => 3,
-      })
-    );
+    setLayout({
+      name: "concentric",
+      concentric: node => node.degree(),
+      levelWidth: () => 3,
+    });
   };
 
   const takeScreenshot = () => {
@@ -383,12 +431,16 @@ const Visualizer = props => {
       );
     });
     const visibleEdges = edges.filter(e => {
-      const { source, target } = e.data;
-      return visibleNodes.some(n => n.data.id === source) && visibleNodes.some(n => n.data.id === target);
+      const { source, target, subgroup } = e.data;
+      return (
+        visibleNodes.some(n => n.data.id === source) &&
+        visibleNodes.some(n => n.data.id === target) &&
+        visibleLinkTypes.some(s => s === subgroup)
+      );
     });
     cy.json({ elements: { nodes: visibleNodes } });
     cy.add(visibleEdges);
-    randomLayout();
+    clearFilter();
     registerEventListeners();
   };
 
@@ -510,8 +562,171 @@ const Visualizer = props => {
     );
   };
 
+  const renderLoader = () => {
+    return (
+      <div className="loader">
+        <div className="content">
+          <LinearProgress />
+          <Typography variant="body1">{loaderText}</Typography>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <Fragment>
+      {loaderText && renderLoader()}
+      <Button
+        color="primary"
+        variant="contained"
+        style={{
+          position: "absolute",
+          right: 0,
+          top: 45,
+          borderTopRightRadius: 0,
+          borderBottomRightRadius: 0,
+          boxShadow: "-2px 0 8px rgba(0,0,0,.15)",
+          zIndex: 1002,
+        }}
+        onClick={() => setDrawerOpen(true)}
+      >
+        <MenuIcon />
+      </Button>
+      <Drawer anchor="right" open={isDrawerOpen} onClose={() => setDrawerOpen(false)}>
+        <div className="annotation-toggle-wrapper">
+          <Paper style={{ display: "flex", marginBottom: 15, padding: 5, paddingLeft: 15 }}>
+            <InputBase
+              style={{ flexGrow: 1 }}
+              placeholder="Node ID"
+              onChange={e => setSearchToken(e.target.value)}
+              onKeyPress={e => {
+                if (e.key === "Enter" && searchToken) search(searchToken);
+              }}
+            />
+            <IconButton
+              onClick={() => {
+                if (searchToken) search(searchToken);
+              }}
+            >
+              <SearchIcon />
+            </IconButton>
+          </Paper>
+
+          <ExpansionPanel defaultExpanded={true}>
+            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} id="genes">
+              <Typography>Node Types</Typography>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails>
+              {nodeTypes.map(n => (
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      color="primary"
+                      defaultChecked={visibleNodeTypes.includes(n)}
+                      onChange={e => {
+                        return setVisibleNodeTypes(va =>
+                          e.target.checked ? (va.includes(n) ? va : [...va, n]) : va.filter(a => a !== n)
+                        );
+                      }}
+                    />
+                  }
+                  label={n}
+                  key={n}
+                />
+              ))}
+            </ExpansionPanelDetails>
+          </ExpansionPanel>
+          <ExpansionPanel defaultExpanded={true}>
+            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} id="links">
+              <Typography>Link Types</Typography>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails>
+              {linkTypes.map(n => (
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      color="primary"
+                      defaultChecked={visibleLinkTypes.includes(n)}
+                      onChange={e => {
+                        return setVisibleLinkTypes(va =>
+                          e.target.checked ? (va.includes(n) ? va : [...va, n]) : va.filter(a => a !== n)
+                        );
+                      }}
+                    />
+                  }
+                  label={n}
+                  key={n}
+                />
+              ))}
+            </ExpansionPanelDetails>
+          </ExpansionPanel>
+          <ExpansionPanel defaultExpanded={true}>
+            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} id="annotations">
+              <Typography>Annotations</Typography>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails>
+              <div>
+                {AnnotationGroups.filter(a => props.annotations.includes(a.group)).map((a, i) => {
+                  return (
+                    <div key={a}>
+                      <span>
+                        <Typography variant="body1" gutterBottom>
+                          {a.group.includes("biogrid") && (
+                            <Checkbox
+                              color="primary"
+                              style={{ padding: 0 }}
+                              defaultChecked={true}
+                              onChange={e => {
+                                const key = `${a.group}%`;
+                                return setVisibleAnnotations(va =>
+                                  e.target.checked ? (va.includes(key) ? va : [...va, key]) : va.filter(a => a !== key)
+                                );
+                              }}
+                            />
+                          )}
+
+                          {a.group}
+                        </Typography>
+                        {renderProgressBar(getAnnotationPercentage(a.group), a.color || "#565656")}
+                      </span>
+                      {a.subgroups
+                        .filter(s => props.annotations.includes(s.subgroup))
+                        .map(s => (
+                          <span style={{ paddingLeft: 15 }} key={s}>
+                            <FormControlLabel
+                              control={
+                                <Checkbox
+                                  color="primary"
+                                  defaultChecked={true}
+                                  onChange={e => {
+                                    const key = `${a.group}%${s.subgroup}`;
+                                    return setVisibleAnnotations(va =>
+                                      e.target.checked
+                                        ? va.includes(key)
+                                          ? va
+                                          : [...va, key]
+                                        : va.filter(a => a !== key)
+                                    );
+                                  }}
+                                />
+                              }
+                              label={
+                                <span>
+                                  {s.subgroup}
+                                  {renderProgressBar(getAnnotationPercentage(a.group, s.subgroup), a.color || s.color)}
+                                </span>
+                              }
+                            />
+                          </span>
+                        ))}
+                    </div>
+                  );
+                })}
+              </div>
+            </ExpansionPanelDetails>
+          </ExpansionPanel>
+        </div>
+      </Drawer>
       <div className="visualizer-wrapper" ref={cy_wrapper} />
       <div className="visualizer-controls-wrapper">
         <Tooltip placement="right" title={<Typography variant="body1">Go back</Typography>}>
@@ -519,17 +734,14 @@ const Visualizer = props => {
             <ArrowBackIcon />
           </IconButton>
         </Tooltip>
+        <Tooltip placement="right" title={<Typography variant="body1">Multi-level layout</Typography>}>
+          <IconButton onClick={MLLLayout}>
+            <BubbleChartIcon />
+          </IconButton>
+        </Tooltip>
         <Tooltip placement="right" title={<Typography variant="body1">Randomize layout</Typography>}>
           <IconButton onClick={randomLayout}>
             <ShuffleIcon />
-          </IconButton>
-        </Tooltip>
-        <Tooltip
-          placement="right"
-          title={<Typography variant="body1">COSE layout ( This might take a while to render )</Typography>}
-        >
-          <IconButton onClick={coseLayout}>
-            <BubbleChartIcon />
           </IconButton>
         </Tooltip>
         <Tooltip placement="right" title={<Typography variant="body1">Breadth-first layout</Typography>}>
@@ -559,7 +771,6 @@ const Visualizer = props => {
               <p>Use the checkboxes to the right to filter the graph by annotations and node types.</p>
               <p>Right click on a node to perform actions on it.</p>
               <p>You may download the graph JSON and view it on Cytoscape desktop.</p>
-              <p>The search is case sensitive.</p>
             </Typography>
           }
         >
@@ -568,113 +779,7 @@ const Visualizer = props => {
           </IconButton>
         </Tooltip>
       </div>
-      <div className="annotation-toggle-wrapper">
-        <Paper style={{ display: "flex", marginBottom: 15, padding: 5, paddingLeft: 15 }}>
-          <InputBase
-            style={{ flexGrow: 1 }}
-            placeholder="Node ID"
-            onChange={e => setSearchToken(e.target.value)}
-            onKeyPress={e => {
-              if (e.key === "Enter" && searchToken) search(searchToken);
-            }}
-          />
-          <IconButton
-            onClick={() => {
-              if (searchToken) search(searchToken);
-            }}
-          >
-            <SearchIcon />
-          </IconButton>
-        </Paper>
 
-        <ExpansionPanel defaultExpanded={true}>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} id="genes">
-            <Typography>Node Types</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            {nodeTypes.map(n => (
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    color="primary"
-                    defaultChecked={visibleNodeTypes.includes(n)}
-                    onChange={e => {
-                      return setVisibleNodeTypes(va =>
-                        e.target.checked ? (va.includes(n) ? va : [...va, n]) : va.filter(a => a !== n)
-                      );
-                    }}
-                  />
-                }
-                label={n}
-                key={n}
-              />
-            ))}
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
-        <ExpansionPanel defaultExpanded={true}>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} id="annotations">
-            <Typography>Annotations</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <div>
-              {AnnotationGroups.filter(a => props.annotations.includes(a.group)).map((a, i) => {
-                return (
-                  <div key={a}>
-                    <span>
-                      <Typography variant="body1" gutterBottom>
-                        {a.group.includes("biogrid") && (
-                          <Checkbox
-                            color="primary"
-                            style={{ padding: 0 }}
-                            onChange={e => {
-                              const key = `${a.group}%`;
-                              return setVisibleAnnotations(va =>
-                                e.target.checked ? (va.includes(key) ? va : [...va, key]) : va.filter(a => a !== key)
-                              );
-                            }}
-                          />
-                        )}
-
-                        {a.group}
-                      </Typography>
-                      {renderProgressBar(getAnnotationPercentage(a.group), a.color || "#565656")}
-                    </span>
-                    {a.subgroups
-                      .filter(s => props.annotations.includes(s.subgroup))
-                      .map(s => (
-                        <span style={{ paddingLeft: 15 }} key={s}>
-                          <FormControlLabel
-                            control={
-                              <Checkbox
-                                color="primary"
-                                onChange={e => {
-                                  const key = `${a.group}%${s.subgroup}`;
-                                  return setVisibleAnnotations(va =>
-                                    e.target.checked
-                                      ? va.includes(key)
-                                        ? va
-                                        : [...va, key]
-                                      : va.filter(a => a !== key)
-                                  );
-                                }}
-                              />
-                            }
-                            label={
-                              <span>
-                                {s.subgroup}
-                                {renderProgressBar(getAnnotationPercentage(a.group, s.subgroup), a.color || s.color)}
-                              </span>
-                            }
-                          />
-                        </span>
-                      ))}
-                  </div>
-                );
-              })}
-            </div>
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
-      </div>
       {selectedNode.node &&
         renderDescriptionBox(
           `${selectedNode.node.name} ( ${selectedNode.node.id.slice(selectedNode.node.id.indexOf(":") + 1)} )`,
