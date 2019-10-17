@@ -3,6 +3,8 @@ import { withStyles } from "@material-ui/styles";
 import Typography from "@material-ui/core/Typography";
 import InfoIcon from "@material-ui/icons/Info";
 import Avatar from "@material-ui/core/Avatar";
+import { connect } from "react-redux";
+import Web3 from "web3";
 
 import PaymentInfoCard from "../../../../PaymentInfoCard";
 import StyledDropdown from "../../../../../../../../common/StyledDropdown";
@@ -13,11 +15,25 @@ import { useStyles } from "./styles";
 import snetValidator from "../../../../../../../../../utility/snetValidator";
 import { paymentGatewayConstraints } from "./validationConstraints";
 import AlertBox, { alertTypes } from "../../../../../../../../common/AlertBox";
-import { USDToAgi } from "../../../../../../../../../utility/PricingStrategy";
+import { USDToAgi, agiToCogs, tenYearBlockOffset } from "../../../../../../../../../utility/PricingStrategy";
+import { groupInfo } from "../../../../../../../../../Redux/reducers/ServiceDetailsReducer";
+import { orderTypes } from "../";
 
 export const paymentTypes = [{ value: "paypal", label: "Pay pal" }];
 
-const Details = ({ classes, initiatePayment, handleClose, channelInfo }) => {
+const web3 = new Web3(process.env.REACT_APP_WEB3_PROVIDER, null, {});
+
+const Details = props => {
+  const {
+    classes,
+    initiatePayment,
+    handleClose,
+    channelInfo,
+    orderType,
+    userProvidedPrivateKey: privateKey,
+    groupInfo,
+  } = props;
+
   const [payType, setPayType] = useState("default");
   const [amount, setAmount] = useState("");
   const [alert, setAlert] = useState({});
@@ -30,14 +46,49 @@ const Details = ({ classes, initiatePayment, handleClose, channelInfo }) => {
     }
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     setAlert({});
     const isNotValid = snetValidator({ payType, amount }, paymentGatewayConstraints);
     if (isNotValid) {
       setAlert({ type: alertTypes.ERROR, message: isNotValid[0] });
       return;
     }
-    initiatePayment(payType, amount, currency, "AGI", USDToAgi(amount));
+    try {
+      const amountInAGI = USDToAgi(amount);
+      let signature;
+      let address;
+      let currentBlockNumber;
+      if (orderType === orderTypes.CREATE_CHANNEL) {
+        const account = web3.eth.accounts.privateKeyToAccount(privateKey);
+        address = account.address;
+        web3.eth.accounts.wallet.add(account);
+        web3.eth.defaultAccount = address;
+        const recipient = groupInfo.payment.payment_address;
+        const hexGroupId = `0x${atob(groupInfo.group_id)}`;
+        const amountInCogs = agiToCogs(amountInAGI);
+        currentBlockNumber = await web3.eth.getBlockNumber();
+        // 1 block no is mined in 15 sec on average, setting expiration as 10 years
+        const expiration = currentBlockNumber + tenYearBlockOffset;
+        const sha3Message = web3.utils.soliditySha3(
+          { t: "string", v: "__openChannelByThirdParty" },
+          { t: "address", v: process.env.REACT_APP_MPE_CONTRACT_ADDRESS },
+          { t: "address", v: process.env.REACT_APP_EXECUTOR_WALLET_ADDRESS },
+          { t: "address", v: process.env.REACT_APP_SNET_SIGNER_ADDRESS },
+          { t: "address", v: recipient },
+          { t: "bytes32", v: hexGroupId },
+          { t: "uint256", v: amountInCogs },
+          { t: "uint256", v: expiration },
+          { t: "uint256", v: currentBlockNumber }
+        );
+
+        const generatedSignature = await web3.eth.accounts.sign(sha3Message, privateKey);
+        signature = generatedSignature.signature;
+      }
+      initiatePayment(payType, amount, currency, "AGI", amountInAGI, signature, address, currentBlockNumber);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log("error", error);
+    }
   };
 
   return (
@@ -97,4 +148,8 @@ const Details = ({ classes, initiatePayment, handleClose, channelInfo }) => {
   );
 };
 
-export default withStyles(useStyles)(Details);
+const mapStateToProps = state => ({
+  groupInfo: groupInfo(state),
+});
+
+export default connect(mapStateToProps)(withStyles(useStyles)(Details));

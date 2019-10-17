@@ -17,7 +17,11 @@ export const useStyles = makeStyles(theme => ({
   sortBySection: {
     display: "flex",
     alignItems: "baseline",
-    "& svg": { color: theme.palette.text.primary },
+    "& svg": {
+      color: theme.palette.text.primary,
+      right: "0 !important",
+    },
+    "& fieldset": { display: "none" },
     "& .MuiSelect-selectMenu": { color: theme.palette.text.primary },
   },
   sortbyTxt: {

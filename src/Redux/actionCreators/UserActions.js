@@ -21,6 +21,7 @@ export const UPDATE_EMAIL = "UPDATE_EMAIL";
 export const UPDATE_EMAIL_VERIFIED = "UPDATE_EMAIL_VERIFIED";
 export const UPDATE_EMAIL_ALERTS_SUBSCRIPTION = "UPDATE_EMAIL_ALERTS_SUBSCRIPTION";
 export const UPDATE_WALLET = "UPDATE_WALLET";
+export const UPDATE_WALLET_LIST = "UPDATE_WALLET_LIST";
 export const APP_INITIALIZATION_SUCCESS = "APP_INITIALIZATION_SUCCESS";
 export const UPDATE_IS_TERMS_ACCEPTED = "UPDATE_IS_TERMS_ACCEPTED";
 export const UPDATE_TRANSACTION_HISTORY = "UPDATE_TRANSACTION_HISTORY";
@@ -114,6 +115,20 @@ const fetchUserTransactionsSuccess = response => dispatch => {
     };
   });
   dispatch(updateTransactionHistory(transactionHistory));
+};
+
+const fetchOrderDetailsAPI = (token, orderId) => dispatch => {
+  const apiName = APIEndpoints.ORCHESTRATOR.name;
+  const path = `${APIPaths.ORDERS_LIST}/${orderId}`;
+  const apiOptions = initializeAPIOptions(token);
+  return API.get(apiName, path, apiOptions);
+};
+
+export const fetchOrderDetails = orderId => async dispatch => {
+  const { token } = await fetchAuthenticatedUser();
+  const response = await dispatch(fetchOrderDetailsAPI(token, orderId));
+  const orderType = response.data.item_details.order_type;
+  return Promise.resolve(orderType);
 };
 
 export const updateTransactionHistory = transactionHistory => dispatch => {
@@ -399,14 +414,21 @@ export const updateWallet = walletDetails => dispatch => {
   dispatch({ type: UPDATE_WALLET, payload: { ...walletDetails } });
 };
 
+export const updateWalletList = walletList => dispatch => {
+  dispatch({ type: UPDATE_WALLET_LIST, payload: walletList });
+};
+
 export const updateFirstTimeFetchWallet = value => dispatch => {
   dispatch({ type: UPDATE_FIRST_TIME_FETCH_WALLET, payload: value });
 };
 
 const fetchWalletSuccess = response => dispatch => {
-  const defaultWallet = response.data.wallets.find(wallet => Boolean(wallet.is_default));
-  if (!isEmpty(defaultWallet)) {
-    dispatch(updateWallet(defaultWallet));
+  if (!isEmpty(response.data.wallets)) {
+    dispatch(updateWalletList(response.data.wallets));
+    // const defaultWallet = response.data.wallets.find(wallet => Boolean(wallet.is_default));
+    // if (!isEmpty(defaultWallet)) {
+    //   dispatch(updateWallet(defaultWallet));
+    // }
   }
 };
 
@@ -425,6 +447,25 @@ export const fetchWallet = (orgId, groupId) => async dispatch => {
   const { token } = await fetchAuthenticatedUser();
   const response = await fetchWalletAPI(token, orgId, groupId);
   return dispatch(fetchWalletSuccess(response));
+};
+
+const fetchAvailableUserWalletsAPI = token => {
+  const apiName = APIEndpoints.ORCHESTRATOR.name;
+  const apiPath = APIPaths.WALLETS;
+  const apiOptions = initializeAPIOptions(token);
+  return API.get(apiName, apiPath, apiOptions);
+};
+
+export const fetchAvailableUserWallets = async () => {
+  const { token } = await fetchAuthenticatedUser();
+  const response = await fetchAvailableUserWalletsAPI(token);
+  return response.data.wallets;
+};
+
+export const fetchWalletLinkedProviders = async address => {
+  const url = `${APIEndpoints.CONTRACT.endpoint}${APIPaths.LINKED_PROVIDERS}?wallet_address=${address}`;
+  const response = await fetch(url).then(res => res.json());
+  return response.organizations || [];
 };
 
 export const startWalletDetailsPolling = (orgId, groupId) => dispatch => {

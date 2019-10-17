@@ -94,7 +94,6 @@ class ExpiredSession extends Component {
               </Typography>
               <AccountBalanceWalletIcon className={classes.walletIcon} />
               <StyledDropdown
-                disabled={wallet.type}
                 labelTxt="Select a Wallet"
                 list={channelPaymentOptions}
                 value={wallet.type || "default"}

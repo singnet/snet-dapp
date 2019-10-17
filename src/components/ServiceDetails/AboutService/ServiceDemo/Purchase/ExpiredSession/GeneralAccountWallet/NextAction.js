@@ -3,8 +3,17 @@ import isEmpty from "lodash/isEmpty";
 
 import StyledButton from "../../../../../../common/StyledButton";
 
-const NextAction = ({ channel, setShowCreateWalletPopup, handleContinue, anyPendingTxn }) => {
-  if (isEmpty(channel)) {
+const NextAction = props => {
+  const {
+    channel,
+    setShowCreateWalletPopup,
+    setShowLinkProvider,
+    handleContinue,
+    anyPendingTxn,
+    anyGeneralWallet,
+  } = props;
+
+  if (!anyGeneralWallet) {
     return (
       <StyledButton
         type="blue"
@@ -13,6 +22,9 @@ const NextAction = ({ channel, setShowCreateWalletPopup, handleContinue, anyPend
         disabled={anyPendingTxn()}
       />
     );
+  }
+  if (isEmpty(channel)) {
+    return <StyledButton type="blue" btnText="link provider" onClick={() => setShowLinkProvider(true)} />;
   }
   return <StyledButton type="blue" btnText="continue" disabled={channel.balanceInAgi <= 0} onClick={handleContinue} />;
 };

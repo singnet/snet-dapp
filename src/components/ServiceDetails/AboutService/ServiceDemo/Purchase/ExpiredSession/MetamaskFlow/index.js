@@ -99,7 +99,7 @@ class MetamaskFlow extends Component {
   };
 
   handleConnectMM = async () => {
-    const { startMMconnectLoader, stopLoader, registerWallet, wallet } = this.props;
+    const { startMMconnectLoader, stopLoader, registerWallet, walletList } = this.props;
     this.setState({ alert: {} });
     try {
       startMMconnectLoader();
@@ -107,7 +107,8 @@ class MetamaskFlow extends Component {
       const mpeBal = await sdk.account.escrowBalance();
       await this.paymentChannelManagement.updateChannelInfo();
       const address = sdk.account.address;
-      if (!Boolean(wallet.is_default)) {
+      const addressAlreadyRegistered = walletList.some(wallet => wallet.address === address);
+      if (!addressAlreadyRegistered) {
         await registerWallet(address, walletTypes.METAMASK);
       }
       this.PaymentInfoCardData.map(el => {
@@ -325,6 +326,7 @@ const mapStateToProps = state => ({
   serviceDetails: currentServiceDetails(state),
   pricing: pricing(state),
   wallet: state.userReducer.wallet,
+  walletList: state.userReducer.walletList,
 });
 
 const mapDispatchToProps = dispatch => ({

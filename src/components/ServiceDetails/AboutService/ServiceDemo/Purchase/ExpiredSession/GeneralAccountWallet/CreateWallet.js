@@ -1,12 +1,13 @@
 import React from "react";
-import PaymentPopup from "./PaymentPopup";
-import { orderTypes, paymentTitles } from "./";
+import PaymentPopup, { orderTypes } from "./PaymentPopup";
+import { paymentTitles } from "./";
 
 const CreateWallet = ({ visible, setVisibility }) => {
   return (
     <PaymentPopup
       visible={visible}
-      setVisibility={setVisibility}
+      handleOpen={() => setVisibility(true)}
+      handleClose={() => setVisibility(false)}
       orderType={orderTypes.CREATE_WALLET}
       title={paymentTitles.CREATE_WALLET}
     />

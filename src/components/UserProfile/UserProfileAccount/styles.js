@@ -40,6 +40,7 @@ export const useStyles = theme => ({
       width: "100%",
       "& select": { color: theme.palette.text.alertBoxColor },
     },
+    "& fieldset": { display: "none" },
   },
   dropDownTitle: {
     padding: "0 5px",
@@ -116,5 +117,11 @@ export const useStyles = theme => ({
     "& .MuiTabs-indicator": {
       backgroundColor: theme.palette.text.primary,
     },
+  },
+  providerBalMaincontainer: {
+    borderRadius: 4,
+    marginLeft: 16,
+    backgroundColor: theme.palette.text.white,
+    boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
   },
 });

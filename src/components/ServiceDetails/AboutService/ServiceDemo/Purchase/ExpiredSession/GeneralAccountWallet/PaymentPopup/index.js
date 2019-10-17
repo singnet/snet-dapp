@@ -9,6 +9,7 @@ import CardContent from "@material-ui/core/CardContent";
 import { connect } from "react-redux";
 import isEmpty from "lodash/isEmpty";
 import { withRouter } from "react-router-dom";
+import pickBy from "lodash/pickBy";
 
 import Details from "./Details";
 import Purchase from "./Purchase";
@@ -18,14 +19,26 @@ import PopupDetails from "../PopupDetails";
 import { useStyles } from "./styles";
 import { paymentActions, userActions } from "../../../../../../../../Redux/actionCreators";
 import { groupInfo } from "../../../../../../../../Redux/reducers/ServiceDetailsReducer";
-import { orderTypes } from "..";
 import Routes from "../../../../../../../../utility/constants/Routes";
 import { channelInfo } from "../../../../../../../../Redux/reducers/UserReducer";
+import VerifyKey from "./VerifyKey";
 
-class CreateWalletPopup extends Component {
+export const orderTypes = {
+  CREATE_WALLET: "CREATE_WALLET_AND_CHANNEL",
+  TOPUP_WALLET: "FUND_CHANNEL",
+  CREATE_CHANNEL: "CREATE_CHANNEL",
+};
+
+const paypalSuccessRedirectionSection = {
+  [orderTypes.CREATE_WALLET]: 2,
+  [orderTypes.TOPUP_WALLET]: 2,
+  [orderTypes.CREATE_CHANNEL]: 3,
+};
+class PaymentPopup extends Component {
   state = {
     activeSection: 1,
-    privateKey: undefined,
+    privateKeyGenerated: undefined,
+    userProvidedPrivateKey: undefined,
     amount: "",
     item: "",
     quantity: "",
@@ -37,8 +50,16 @@ class CreateWalletPopup extends Component {
     }
   };
 
-  purchaseWallet = () => {
-    this.setState({ activeSection: 2 });
+  purchaseWallet = async () => {
+    const {
+      fetchOrderDetails,
+      paypalInProgress: { orderId },
+    } = this.props;
+    const orderType = await fetchOrderDetails(orderId);
+    if (orderType === this.props.orderType) {
+      this.props.handleOpen();
+      this.setState({ activeSection: paypalSuccessRedirectionSection[orderType] });
+    }
   };
 
   handlePaymentComplete = () => {
@@ -56,17 +77,22 @@ class CreateWalletPopup extends Component {
     history.push(`/${Routes.SERVICE_DETAILS}/org/${orgId}/service/${serviceId}`);
   };
 
+  handleUserProvidedPrivateKey = userProvidedPrivateKey => {
+    this.setState({ userProvidedPrivateKey });
+  };
+
   handleClose = () => {
-    if (this.state.activeSection === 1 || this.state.activeSection === 2) {
-      this.props.setVisibility(false);
-    }
+    // if (this.state.activeSection === 1 || this.state.activeSection === 2) {
+    //   this.setState({ activeSection: 1 });
+    this.props.handleClose();
+    // }
   };
 
   handleNextSection = () => {
     this.setState({ activeSection: this.state.activeSection + 1 });
   };
 
-  handleInitiatePayment = (payType, amount, currency, item, quantity) => {
+  handleInitiatePayment = (payType, amount, currency, item, quantity, base64Signature, address, currentBlockNumber) => {
     const {
       match: {
         params: { orgId, serviceId },
@@ -78,17 +104,25 @@ class CreateWalletPopup extends Component {
       initiatePayment,
       orderType,
     } = this.props;
+
+    const itemDetails = {
+      item,
+      quantity: Number(quantity),
+      org_id: orgId,
+      service_id: serviceId,
+      group_id,
+      recipient: payment_address,
+      order_type: orderType,
+      signature: base64Signature,
+      wallet_address: address,
+      current_block_number: currentBlockNumber,
+    };
+
+    const enhancedItemDetails = pickBy(itemDetails, el => el !== undefined);
+
     const paymentObj = {
       price: { amount: Number(amount), currency },
-      item_details: {
-        item,
-        quantity: Number(quantity),
-        org_id: orgId,
-        service_id: serviceId,
-        group_id,
-        receipient: payment_address,
-        order_type: orderType,
-      },
+      item_details: enhancedItemDetails,
       payment_method: payType,
     };
 
@@ -116,34 +150,45 @@ class CreateWalletPopup extends Component {
     const response = await executePayment(paymentExecObj);
     await fetchWalletDetails(orgId, group_id);
     const {
-      private_key: privateKey,
+      private_key: privateKeyGenerated,
       item_details: { item, quantity },
       price: { amount },
     } = response.data;
-    this.setState({ privateKey, amount, quantity, item });
+    this.setState({ privateKeyGenerated, amount, quantity, item });
     this.handleNextSection();
     return;
   };
 
   render() {
-    const { classes, visible, paypalInProgress, orderType, title, channelInfo } = this.props;
-    const { activeSection, privateKey, amount, item, quantity } = this.state;
+    const {
+      classes,
+      visible,
+      paypalInProgress,
+      orderType,
+      title,
+      channelInfo,
+      handleLostPrivateKey,
+      updateSignature,
+    } = this.props;
+    const { activeSection, privateKeyGenerated, amount, item, quantity, userProvidedPrivateKey } = this.state;
 
     const progressText = ["Details", "Purchase", "Summary"];
     const PopupProgressBarComponents = [
       {
-        key: 1,
+        key: "details",
         component: (
           <Details
             handleNextSection={this.handleNextSection}
             initiatePayment={this.handleInitiatePayment}
             handleClose={this.handleClose}
             channelInfo={channelInfo}
+            userProvidedPrivateKey={userProvidedPrivateKey}
+            orderType={orderType}
           />
         ),
       },
       {
-        key: 2,
+        key: "purchase",
         component: (
           <Purchase
             paypalInProgress={paypalInProgress}
@@ -153,7 +198,7 @@ class CreateWalletPopup extends Component {
         ),
       },
       {
-        key: 4,
+        key: "summary",
         component: (
           <Summary amount={amount} item={item} quantity={quantity} handlePaymentComplete={this.handlePaymentComplete} />
         ),
@@ -161,10 +206,25 @@ class CreateWalletPopup extends Component {
     ];
 
     if (orderType === orderTypes.CREATE_WALLET) {
-      progressText.splice(2, 0, "Private Key");
+      progressText.splice(2, 0, "Verify Key");
       PopupProgressBarComponents.splice(2, 0, {
-        key: 3,
-        component: <PrivateKey privateKey={privateKey} handleNextSection={this.handleNextSection} />,
+        key: "privateKey",
+        component: <PrivateKey privateKey={privateKeyGenerated} handleNextSection={this.handleNextSection} />,
+      });
+    }
+
+    if (orderType === orderTypes.CREATE_CHANNEL) {
+      progressText.splice(0, 0, "Verify Key");
+      PopupProgressBarComponents.splice(0, 0, {
+        key: "verifyKey",
+        component: (
+          <VerifyKey
+            handleNextSection={this.handleNextSection}
+            handleLostPrivateKey={handleLostPrivateKey}
+            updateSignature={updateSignature}
+            handleUserProvidedPrivateKey={this.handleUserProvidedPrivateKey}
+          />
+        ),
       });
     }
 
@@ -208,13 +268,14 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   initiatePayment: paymentObj => dispatch(paymentActions.initiatePayment(paymentObj)),
   executePayment: paymentExecObj => dispatch(paymentActions.executePayment(paymentExecObj)),
-  fetchWalletDetails: (orgId, groupId) => dispatch(userActions.fetchWallet),
+  fetchWalletDetails: (orgId, groupId) => dispatch(userActions.fetchWallet(orgId, groupId)),
   paypalCompleted: () => dispatch(paymentActions.updatePaypalCompleted),
+  fetchOrderDetails: orderId => dispatch(userActions.fetchOrderDetails(orderId)),
 });
 
 export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(withStyles(useStyles)(CreateWalletPopup))
+  )(withStyles(useStyles)(PaymentPopup))
 );
