@@ -50,7 +50,10 @@ export const useStyles = theme => ({
     display: "flex",
     justifyContent: "space-between",
   },
-  paymentChannelDropDownContainer: { display: "flex" },
+  paymentChannelDropDownContainer: {
+    display: "flex",
+    "& fieldset": { display: "none" },
+  },
   infoIconContainer: {
     marginRight: 10,
     alignSelf: "center",
