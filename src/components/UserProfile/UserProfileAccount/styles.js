@@ -40,6 +40,7 @@ export const useStyles = theme => ({
       width: "100%",
       "& select": { color: theme.palette.text.alertBoxColor },
     },
+    "& fieldset": { display: "none" },
   },
   dropDownTitle: {
     padding: "0 5px",

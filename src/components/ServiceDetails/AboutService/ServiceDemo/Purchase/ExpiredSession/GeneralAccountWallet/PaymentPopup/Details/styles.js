@@ -47,7 +47,10 @@ export const useStyles = theme => ({
     color: theme.palette.text.lightShadedGray,
     fontSize: 20,
   },
-  paymentTypeDropDownContainer: { display: "flex" },
+  paymentTypeDropDownContainer: {
+    display: "flex",
+    "& fieldset": { display: "none" },
+  },
   paymentTypeDropDown: {
     width: "100%",
     padding: "0 10px",
