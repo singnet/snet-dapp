@@ -11,7 +11,7 @@ const PurchaseAlert = ({ classes, alert, handleCancel }) => {
       <AlertBox type={alert.type} message={alert.message} />
       <div className={classes.btnContainer}>
         <StyledButton type="transparent" btnText="cancel" onClick={handleCancel} />
-        <StyledButton type="transparent" btnText="support" />
+        <StyledButton type="transparent" btnText="support" href={`mailto:${process.env.REACT_APP_SNET_SUPPORT_MAIL}`} />
       </div>
     </div>
   );
