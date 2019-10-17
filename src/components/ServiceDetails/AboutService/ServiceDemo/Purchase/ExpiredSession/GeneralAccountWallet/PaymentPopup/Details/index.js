@@ -15,7 +15,7 @@ import { useStyles } from "./styles";
 import snetValidator from "../../../../../../../../../utility/snetValidator";
 import { paymentGatewayConstraints } from "./validationConstraints";
 import AlertBox, { alertTypes } from "../../../../../../../../common/AlertBox";
-import { USDToAgi, agiToCogs, tenYearBlockOffset } from "../../../../../../../../../utility/PricingStrategy";
+import { USDToAgi, tenYearBlockOffset, USDToCogs } from "../../../../../../../../../utility/PricingStrategy";
 import { groupInfo } from "../../../../../../../../../Redux/reducers/ServiceDetailsReducer";
 import { orderTypes } from "../";
 
@@ -65,7 +65,7 @@ const Details = props => {
         web3.eth.defaultAccount = address;
         const recipient = groupInfo.payment.payment_address;
         const hexGroupId = `0x${atob(groupInfo.group_id)}`;
-        const amountInCogs = agiToCogs(amountInAGI);
+        const amountInCogs = USDToCogs(amount);
         currentBlockNumber = await web3.eth.getBlockNumber();
         // 1 block no is mined in 15 sec on average, setting expiration as 10 years
         const expiration = currentBlockNumber + tenYearBlockOffset;
