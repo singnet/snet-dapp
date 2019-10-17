@@ -65,7 +65,7 @@ export const useStyles = theme => ({
       width: "100%",
       padding: "12px 0",
       "& .MuiOutlinedInput-input": { padding: "7px 0 !important" },
-      "& fieldset": { color: "#4A4A4A !important" },
+      "& fieldset": { color: `${theme.palette.text.grayTitleText} !important` },
     },
   },
   purchaseAmtTextfield: {
