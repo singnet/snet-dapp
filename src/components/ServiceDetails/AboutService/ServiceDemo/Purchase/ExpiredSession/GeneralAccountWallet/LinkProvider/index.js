@@ -34,7 +34,6 @@ class LinkProviderPopup extends Component {
       <PaymentPopup
         orderType={orderType}
         visible={visible}
-        handleOpen={() => this.props.setVisibility(true)}
         handleClose={this.handleClose}
         title={title}
         handleLostPrivateKey={this.handleLostPrivateKey}

@@ -50,14 +50,11 @@ class PaymentPopup extends Component {
     }
   };
 
-  purchaseWallet = async () => {
+  purchaseWallet = () => {
     const {
-      fetchOrderDetails,
-      paypalInProgress: { orderId },
+      paypalInProgress: { orderType },
     } = this.props;
-    const orderType = await fetchOrderDetails(orderId);
     if (orderType === this.props.orderType) {
-      this.props.handleOpen();
       this.setState({ activeSection: paypalSuccessRedirectionSection[orderType] });
     }
   };
