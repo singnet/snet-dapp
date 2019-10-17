@@ -18,6 +18,7 @@ import AlertBox, { alertTypes } from "../../../../../../../../common/AlertBox";
 import { USDToAgi, tenYearBlockOffset, USDToCogs } from "../../../../../../../../../utility/PricingStrategy";
 import { groupInfo } from "../../../../../../../../../Redux/reducers/ServiceDetailsReducer";
 import { orderTypes } from "../";
+import { decodeGroupId } from "../../../../../../../../../utility/sdk";
 
 export const paymentTypes = [{ value: "paypal", label: "Pay pal" }];
 
@@ -64,10 +65,10 @@ const Details = props => {
         web3.eth.accounts.wallet.add(account);
         web3.eth.defaultAccount = address;
         const recipient = groupInfo.payment.payment_address;
-        const hexGroupId = `0x${atob(groupInfo.group_id)}`;
+        const hexGroupId = decodeGroupId(groupInfo.group_id);
         const amountInCogs = USDToCogs(amount);
         currentBlockNumber = await web3.eth.getBlockNumber();
-        // 1 block no is mined in 15 sec on average, setting expiration as 10 years
+        // block no is mined in 15 sec on average, setting expiration as 10 years
         const expiration = currentBlockNumber + tenYearBlockOffset;
         const sha3Message = web3.utils.soliditySha3(
           { t: "string", v: "__openChannelByThirdParty" },
@@ -80,7 +81,6 @@ const Details = props => {
           { t: "uint256", v: expiration },
           { t: "uint256", v: currentBlockNumber }
         );
-
         const generatedSignature = await web3.eth.accounts.sign(sha3Message, privateKey);
         signature = generatedSignature.signature;
       }
