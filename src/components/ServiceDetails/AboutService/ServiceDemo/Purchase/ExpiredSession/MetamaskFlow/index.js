@@ -99,7 +99,7 @@ class MetamaskFlow extends Component {
   };
 
   handleConnectMM = async () => {
-    const { startMMconnectLoader, stopLoader, registerWallet, walletList } = this.props;
+    const { startMMconnectLoader, stopLoader, registerWallet, walletList, updateWallet } = this.props;
     this.setState({ alert: {} });
     try {
       startMMconnectLoader();
@@ -111,6 +111,7 @@ class MetamaskFlow extends Component {
       if (!addressAlreadyRegistered) {
         await registerWallet(address, walletTypes.METAMASK);
       }
+      updateWallet({ type: walletTypes.METAMASK, address });
       this.PaymentInfoCardData.map(el => {
         if (el.title === "Escrow Balance") {
           el.value = cogsToAgi(mpeBal);
@@ -332,6 +333,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   startMMconnectLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.CONNECT_METAMASK)),
   startChannelSetupLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.SETUP_CHANNEL_FOR_SERV_EXEC)),
+  updateWallet: ({ type, address }) => dispatch(userActions.updateWallet({ type, address })),
   registerWallet: (address, type) => dispatch(userActions.registerWallet(address, type)),
   stopLoader: () => dispatch(loaderActions.stopAppLoader),
 });
