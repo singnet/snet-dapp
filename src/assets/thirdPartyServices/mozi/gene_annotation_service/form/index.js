@@ -9,6 +9,7 @@ import Button from "@material-ui/core/Button";
 import FormGroup from "@material-ui/core/FormGroup";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
+import WarningIcon from "@material-ui/icons/Warning";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Switch from "@material-ui/core/Switch";
@@ -46,6 +47,7 @@ const AnnotationForm = props => {
   const [loading, setLoading] = useState(false);
   const [GOSubgroups, setGOSubgroups] = useState(["biological_process", "cellular_component", "molecular_function"]);
   const [geneInputMethod, setGeneInputMethod] = useState(GeneInputMethods.Manual);
+  const [annotatePathwayWithBiogrid, setAnnotatePathwayWithBiogrid] = useState(false);
 
   const addGene = e => {
     const gene = e
@@ -111,7 +113,7 @@ const AnnotationForm = props => {
     namespace.setValue(GOSubgroups.join(" "));
     const nop = new Filter();
     nop.setFilter("parents");
-    nop.setValue(parents);
+    nop.setValue(parents.toString());
     annotationRequest.setAnnotationsList(
       annotations.map(sa => {
         const annotation = new Annotation();
@@ -120,32 +122,36 @@ const AnnotationForm = props => {
           annotation.setFiltersList([namespace, nop]);
         } else if (sa === "gene-pathway-annotation") {
           const ps = new Filter();
-          ps.setFilter("namespace");
+          ps.setFilter("pathway");
           ps.setValue(pathways.join(" "));
           const ism = new Filter();
-          ism.setFilter("include_small_molecule");
+          ism.setFilter("include_sm");
           ism.setValue(capitalizeFirstLetter(includeSmallMolecules.toString()));
           const ip = new Filter();
           ip.setFilter("include_prot");
           ip.setValue(capitalizeFirstLetter(includeProtiens.toString()));
+          const capb = new Filter();
+          capb.setFilter("biogrid");
+          capb.setValue(annotatePathwayWithBiogrid ? "1" : "0");
           annotation.setFiltersList([
             ps,
             ip,
             ism,
+            capb,
             // ...(annotations.includes("gene-go-annotation") ? [namespace, nop] : []),
           ]);
         } else if (sa === "biogrid-interaction-annotation") {
           const int = new Filter();
           int.setFilter("interaction");
           int.setValue(includeProtiens ? "Proteins" : "Genes");
-          annotation.setFiltersList([int
+          annotation.setFiltersList([
+            int,
             // , ...(annotations.includes("gene-go-annotation") ? [namespace, nop] : [])
           ]);
         }
         return annotation;
       })
     );
-
 
     const requestProps = {
       request: annotationRequest,
@@ -367,6 +373,20 @@ const AnnotationForm = props => {
                   />
                 </FormGroup>
               </div>
+              <div className="parameter">
+                <FormGroup row>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={annotatePathwayWithBiogrid}
+                        onChange={e => setAnnotatePathwayWithBiogrid(e.target.checked)}
+                        color="primary"
+                      />
+                    }
+                    label="Cross annotate with biogrid"
+                  />
+                </FormGroup>
+              </div>
             </div>
           )}
         </li>
@@ -392,6 +412,16 @@ const AnnotationForm = props => {
         }
         label="Include protiens"
       />
+      {annotatePathwayWithBiogrid && (
+        <div style={{ backgroundColor: "beige", border: "solid 1px orange", padding: 10 }}>
+          <Typography variant="h6" gutterBottom>
+            <WarningIcon style={{ marginRight: 10, color: "orange" }} /> Cross annotation will increase the size
+          </Typography>
+          <Typography variant="subtitle1" gutterBottom>
+            If the result is too large, you might have difficulties visualizing it.
+          </Typography>
+        </div>
+      )}
       <div className="actions">
         <Button
           variant="contained"
