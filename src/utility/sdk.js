@@ -26,6 +26,11 @@ export const parseSignature = hexSignature => {
   return signatureBuffer.toString("base64");
 };
 
+export const decodeGroupId = encodedGroupId => {
+  const groupIdBuffer = Buffer.from(encodedGroupId, "base64");
+  return `0x${groupIdBuffer.toString("hex")}`;
+};
+
 const parseRegularCallMetadata = ({ data }) => ({
   signatureBytes: parseSignature(data["snet-payment-channel-signature-bin"]),
 });

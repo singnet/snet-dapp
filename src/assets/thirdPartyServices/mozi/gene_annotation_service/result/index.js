@@ -74,15 +74,15 @@ const AnnotationResult = props => {
   );
 
   const renderComplete = () => {
-    const { nodes, edges } = response.result;
+    const { nodes, edges } = response.result.elements;
     return (
       <Fragment>
         <Typography variant="body2">
           The result contains {nodes.length} entities and {edges.length} connections between them.
         </Typography>
-        <Typography variant="body2">
+        {/* <Typography variant="body2">
           This page will expire in {formatDistanceToNow(toDate(response.expire_time * 1000))}.
-        </Typography>
+        </Typography> */}
         <div className="inline-buttons">
           <Button variant="contained" onClick={e => setTableShown(true)}>
             <TableChartOutlinedIcon style={{ marginRight: 15 }} /> View results table
@@ -121,8 +121,8 @@ const AnnotationResult = props => {
       </div>
       {isVisualizerShown && (
         <Visualizer
-          graph={response.result}
-          annotations={response.result.nodes
+          graph={{ ...response.result.elements }}
+          annotations={response.result.elements.nodes
             .reduce((acc, n) => [...acc, ...n.data.group, n.data.subgroup], [])
             .filter((a, i, self) => a && self.indexOf(a) === i)}
           onClose={() => setVisualizerShown(false)}

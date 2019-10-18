@@ -38,6 +38,10 @@ const GeneralAccountWallet = props => {
         setShowTopupWallet(true);
         return;
       }
+      case orderTypes.CREATE_CHANNEL: {
+        setShowLinkProvider(true);
+        return;
+      }
     }
   }, [paypalInProgress.orderType]);
 

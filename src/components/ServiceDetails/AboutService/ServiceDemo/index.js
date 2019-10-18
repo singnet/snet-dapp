@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import queryString from "query-string";
 
 import ProgressBar from "../../../common/ProgressBar";
 import { useStyles } from "./styles";
-import { serviceDetailsActions, loaderActions, userActions } from "../../../../Redux/actionCreators";
+import { serviceDetailsActions, loaderActions, userActions, paymentActions } from "../../../../Redux/actionCreators";
 import PurchaseToggler from "./PurchaseToggler";
 import { freeCalls, groupInfo } from "../../../../Redux/reducers/ServiceDetailsReducer";
 import { LoaderContent } from "../../../../utility/constants/LoaderContent";
@@ -32,10 +34,16 @@ class ServiceDemo extends Component {
     if (process.env.REACT_APP_SANDBOX) {
       return;
     }
-
-    await this.fetchFreeCallsUsage();
-    this.pollWalletDetails();
-    this.scrollToHash();
+    try {
+      this.props.startInitServiceDemoLoader();
+      await this.checkForPaymentsInProgress();
+      await this.pollWalletDetails();
+      await this.fetchFreeCallsUsage();
+      this.scrollToHash();
+      this.props.stopLoader();
+    } catch (error) {
+      this.props.stopLoader();
+    }
   };
 
   componentDidUpdate = async prevProps => {
@@ -52,6 +60,25 @@ class ServiceDemo extends Component {
     this.props.stopWalletDetailsPolling();
   };
 
+  checkForPaymentsInProgress = async () => {
+    const {
+      location: { search },
+      match: {
+        params: { orderId, paymentId },
+      },
+      updatePaypalInProgress,
+      fetchOrderDetails,
+      updateWallet,
+    } = this.props;
+    const { paymentId: paypalPaymentId, PayerID } = queryString.parse(search);
+    if (orderId && paymentId && paypalPaymentId && PayerID) {
+      const { data } = await fetchOrderDetails(orderId);
+      const orderType = data.item_details.order_type;
+      updatePaypalInProgress(orderId, orderType, paymentId, paypalPaymentId, PayerID);
+      return updateWallet({ type: walletTypes.GENERAL });
+    }
+  };
+
   fetchFreeCallsUsage = () => {
     const { service, fetchMeteringData, email } = this.props;
     return fetchMeteringData({
@@ -66,12 +93,8 @@ class ServiceDemo extends Component {
       service: { org_id: orgId },
       groupInfo: { group_id: groupId },
       startWalletDetailsPolling,
-      startFetchWalletLoader,
-      stopLoader,
     } = this.props;
-    startFetchWalletLoader();
-    await startWalletDetailsPolling(orgId, groupId);
-    stopLoader();
+    return await startWalletDetailsPolling(orgId, groupId);
   };
 
   scrollToHash = () => {
@@ -190,12 +213,16 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     dispatch(loaderActions.startAppLoader(LoaderContent.SERVICE_INVOKATION(ownProps.service.display_name))),
   stopLoader: () => dispatch(loaderActions.stopAppLoader),
   fetchMeteringData: args => dispatch(serviceDetailsActions.fetchMeteringData(args)),
-  startFetchWalletLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.FETCH_WALLET)),
   startWalletDetailsPolling: (orgId, groupId) => dispatch(userActions.startWalletDetailsPolling(orgId, groupId)),
   stopWalletDetailsPolling: () => dispatch(userActions.stopWalletDetailsPolling),
+  fetchOrderDetails: orderId => dispatch(paymentActions.fetchOrderDetails(orderId)),
+  updateWallet: walletDetails => dispatch(userActions.updateWallet(walletDetails)),
+  updatePaypalInProgress: (orderId, orderType, paymentId, paypalPaymentId, PayerID) =>
+    dispatch(paymentActions.updatePaypalInProgress(orderId, orderType, paymentId, paypalPaymentId, PayerID)),
+  startInitServiceDemoLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.INIT_SERVICE_DEMO)),
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(useStyles)(ServiceDemo));
+)(withStyles(useStyles)(withRouter(ServiceDemo)));

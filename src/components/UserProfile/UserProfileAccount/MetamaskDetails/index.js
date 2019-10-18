@@ -178,6 +178,10 @@ class MetamaskDetails extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  wallet: state.userReducer.wallet,
+});
+
 const mapDispatchToProps = dispatch => ({
   startAccBalLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.FETCH_MM_ACC_DETAILS)),
   startDepositLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.DEPOSIT)),
@@ -186,6 +190,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(withStyles(useStyles)(MetamaskDetails));
