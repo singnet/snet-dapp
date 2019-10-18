@@ -135,11 +135,14 @@ export const useStyles = makeStyles(theme => ({
       fontWeight: 600,
     },
   },
+  loginBtn: {
+    "&:hover": { fontWeight: 400 },
+  },
   signupBtnText: {
     fontWeight: 600,
     letterSpacing: 1.79,
     lineHeight: "16px",
-    "&:hover": { textDecoration: "none" },
+    "&:hover": { borderBottom: "none" },
   },
   UppercaseText: { textTransform: "uppercase" },
   loggedInActions: {

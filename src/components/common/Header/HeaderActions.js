@@ -18,7 +18,10 @@ const HeaderActions = ({ isLoggedIn, history }) => {
       ) : (
         <Fragment>
           <li className={classes.loginBtnsLi}>
-            <span className={classes.loginBtnsAnchor} onClick={() => handleRedirection(`/${Routes.LOGIN}`)}>
+            <span
+              className={`${classes.loginBtnsAnchor} ${classes.loginBtn}`}
+              onClick={() => handleRedirection(`/${Routes.LOGIN}`)}
+            >
               Login
             </span>
           </li>
