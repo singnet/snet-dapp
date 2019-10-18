@@ -79,10 +79,7 @@ class PaymentPopup extends Component {
   };
 
   handleClose = () => {
-    // if (this.state.activeSection === 1 || this.state.activeSection === 2) {
-    //   this.setState({ activeSection: 1 });
     this.props.handleClose();
-    // }
   };
 
   handleNextSection = () => {
