@@ -29,11 +29,12 @@ export const orderTypes = {
   CREATE_CHANNEL: "CREATE_CHANNEL",
 };
 
-const paypalSuccessRedirectionSection = {
+const indexOfPurchaseSection = {
   [orderTypes.CREATE_WALLET]: 2,
   [orderTypes.TOPUP_WALLET]: 2,
   [orderTypes.CREATE_CHANNEL]: 3,
 };
+
 class PaymentPopup extends Component {
   state = {
     activeSection: 1,
@@ -55,7 +56,7 @@ class PaymentPopup extends Component {
       paypalInProgress: { orderType },
     } = this.props;
     if (orderType === this.props.orderType) {
-      this.setState({ activeSection: paypalSuccessRedirectionSection[orderType] });
+      this.setState({ activeSection: indexOfPurchaseSection[orderType] });
     }
   };
 
@@ -69,6 +70,19 @@ class PaymentPopup extends Component {
   };
 
   handleClose = () => {
+    const { orderType } = this.props;
+    if (this.state.activeSection === indexOfPurchaseSection[orderType]) {
+      return;
+    }
+    this.handleCancel();
+  };
+
+  handleCancel = () => {
+    this.props.paypalCompleted();
+    this.resetPaymentPopup();
+  };
+
+  resetPaymentPopup = () => {
     const {
       handleClose,
       match: {
@@ -186,7 +200,7 @@ class PaymentPopup extends Component {
           <Purchase
             paypalInProgress={paypalInProgress}
             executePayment={this.handleExecutePayment}
-            handleCancel={this.handleClose}
+            handleCancel={this.handleCancel}
           />
         ),
       },
