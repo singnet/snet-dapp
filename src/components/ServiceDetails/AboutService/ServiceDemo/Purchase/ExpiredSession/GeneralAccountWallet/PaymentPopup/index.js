@@ -60,18 +60,8 @@ class PaymentPopup extends Component {
   };
 
   handlePaymentComplete = () => {
-    const {
-      paypalCompleted,
-      handleClose,
-      match: {
-        params: { orgId, serviceId },
-      },
-      history,
-    } = this.props;
-    paypalCompleted();
-    handleClose();
-    this.setState({ activeSection: 1 });
-    history.push(`/${Routes.SERVICE_DETAILS}/org/${orgId}/service/${serviceId}`);
+    this.props.paypalCompleted();
+    this.handleClose();
   };
 
   handleUserProvidedPrivateKey = userProvidedPrivateKey => {
@@ -79,7 +69,16 @@ class PaymentPopup extends Component {
   };
 
   handleClose = () => {
-    this.props.handleClose();
+    const {
+      handleClose,
+      match: {
+        params: { orgId, serviceId },
+      },
+      history,
+    } = this.props;
+    handleClose();
+    this.setState({ activeSection: 1 });
+    history.push(`/${Routes.SERVICE_DETAILS}/org/${orgId}/service/${serviceId}`);
   };
 
   handleNextSection = () => {
