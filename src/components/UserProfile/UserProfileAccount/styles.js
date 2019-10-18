@@ -2,6 +2,7 @@ export const useStyles = theme => ({
   accountMainContainer: {
     width: "100%",
     margin: "13px 0 50px",
+    flexWrap: "nowrap",
   },
   accountContainer: {
     maxWidth: 412,
@@ -119,6 +120,7 @@ export const useStyles = theme => ({
     },
   },
   providerBalMaincontainer: {
+    maxWidth: 941,
     borderRadius: 4,
     marginLeft: 16,
     backgroundColor: theme.palette.text.white,

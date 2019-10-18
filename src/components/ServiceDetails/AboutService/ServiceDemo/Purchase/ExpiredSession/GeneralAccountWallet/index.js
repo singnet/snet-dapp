@@ -58,7 +58,7 @@ const GeneralAccountWallet = props => {
           <StyledButton type="transparentBlueBorder" disabled={!anyGeneralWallet} btnText="transaction history" />
         </Link>
         <StyledButton
-          type={isEmpty(channelInfo) ? "disabled" : "transparentBlueBorder"}
+          type="transparentBlueBorder"
           btnText="top up wallet"
           onClick={() => setShowTopupWallet(true)}
           disabled={isEmpty(channelInfo)}
@@ -75,6 +75,7 @@ const GeneralAccountWallet = props => {
       <CreateWallet visible={showCreateWalletPopup} setVisibility={setShowCreateWalletPopup} />
       <TopupWallet visible={showTopupWallet} setVisibility={setShowTopupWallet} />
       <LinkProvider visible={showLinkProvider} setVisibility={setShowLinkProvider} />
+      */}
     </Fragment>
   );
 };
