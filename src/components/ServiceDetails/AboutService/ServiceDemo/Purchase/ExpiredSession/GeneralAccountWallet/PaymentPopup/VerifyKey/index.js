@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { withStyles } from "@material-ui/styles";
-import { Link } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
 import Web3 from "web3";
 import { connect } from "react-redux";
@@ -29,7 +28,8 @@ const VerifyKey = ({ classes, handleLostPrivateKey, walletList, handleUserProvid
     handleLostPrivateKey();
   };
 
-  const validatePrivateKey = () => {
+  const validatePrivateKey = event => {
+    event.preventDefault();
     try {
       handleUserProvidedPrivateKey(privateKey);
       const account = web3.eth.accounts.privateKeyToAccount(privateKey);
@@ -79,18 +79,20 @@ const VerifyKey = ({ classes, handleLostPrivateKey, walletList, handleUserProvid
       <p className={classes.VerifyKeyDesc}>
         <span>Please enter the Private key for your “General Account Wallet”.</span> We need the private key to link
         your general wallet with the new provider. Lorem ipsum dolor sit amet, malis integre menandri at sed, essent
-        facete albu ci us ut has. <Link to="">Click here </Link>if you want to know more.
+        facete albu ci us ut has.
       </p>
-      <div className={`${classes.textField} ${alert.message ? classes.error : ""}`}>
-        <span>Private Key</span>
-        <input type="password" value={privateKey} onChange={e => setPrivateKey(e.target.value)} />
-        <AlertText type={alert.type} message={alert.message} />
-      </div>
-      <AlertBox type={alert.type} message={alert.message} />
-      <div className={classes.btnContainer}>
-        <StyledButton type="transparent" btnText="i lost my key" onClick={() => setKeyLost(true)} />
-        <StyledButton type="blue" btnText="validate" onClick={validatePrivateKey} />
-      </div>
+      <form>
+        <div className={`${classes.textField} ${alert.message ? classes.error : ""}`}>
+          <span>Private Key</span>
+          <input type="password" value={privateKey} onChange={e => setPrivateKey(e.target.value)} />
+          <AlertText type={alert.type} message={alert.message} />
+        </div>
+        <AlertBox type={alert.type} message={alert.message} />
+        <div className={classes.btnContainer}>
+          <StyledButton type="transparent" btnText="i lost my key" onClick={() => setKeyLost(true)} />
+          <StyledButton type="blue" btnText="validate" onClick={validatePrivateKey} btnType="submit" />
+        </div>
+      </form>
     </div>
   );
 };
