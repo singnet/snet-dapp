@@ -75,7 +75,6 @@ const GeneralAccountWallet = props => {
       <CreateWallet visible={showCreateWalletPopup} setVisibility={setShowCreateWalletPopup} />
       <TopupWallet visible={showTopupWallet} setVisibility={setShowTopupWallet} />
       <LinkProvider visible={showLinkProvider} setVisibility={setShowLinkProvider} />
-      */}
     </Fragment>
   );
 };
