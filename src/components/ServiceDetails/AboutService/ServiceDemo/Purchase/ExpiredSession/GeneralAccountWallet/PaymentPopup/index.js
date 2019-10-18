@@ -74,8 +74,7 @@ class PaymentPopup extends Component {
     if (this.state.activeSection === indexOfPurchaseSection[orderType]) {
       return;
     }
-    this.props.paypalCompleted();
-    this.resetPaymentPopup();
+    this.handleCancel();
   };
 
   handleCancel = () => {
