@@ -62,14 +62,14 @@ class PaymentPopup extends Component {
   handlePaymentComplete = () => {
     const {
       paypalCompleted,
-      setVisibility,
+      handleClose,
       match: {
         params: { orgId, serviceId },
       },
       history,
     } = this.props;
     paypalCompleted();
-    setVisibility(false);
+    handleClose();
     this.setState({ activeSection: 1 });
     history.push(`/${Routes.SERVICE_DETAILS}/org/${orgId}/service/${serviceId}`);
   };

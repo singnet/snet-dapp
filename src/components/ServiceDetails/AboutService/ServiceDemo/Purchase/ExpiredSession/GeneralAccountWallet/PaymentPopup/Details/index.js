@@ -5,6 +5,7 @@ import InfoIcon from "@material-ui/icons/Info";
 import Avatar from "@material-ui/core/Avatar";
 import { connect } from "react-redux";
 import Web3 from "web3";
+import isEmpty from "lodash/isEmpty";
 
 import PaymentInfoCard from "../../../../PaymentInfoCard";
 import StyledDropdown from "../../../../../../../../common/StyledDropdown";
@@ -16,7 +17,7 @@ import snetValidator from "../../../../../../../../../utility/snetValidator";
 import { paymentGatewayConstraints } from "./validationConstraints";
 import AlertBox, { alertTypes } from "../../../../../../../../common/AlertBox";
 import { USDToAgi, tenYearBlockOffset, USDToCogs } from "../../../../../../../../../utility/PricingStrategy";
-import { groupInfo } from "../../../../../../../../../Redux/reducers/ServiceDetailsReducer";
+import { groupInfo, currentServiceDetails } from "../../../../../../../../../Redux/reducers/ServiceDetailsReducer";
 import { orderTypes } from "../";
 import { decodeGroupId } from "../../../../../../../../../utility/sdk";
 
@@ -33,6 +34,7 @@ const Details = props => {
     orderType,
     userProvidedPrivateKey: privateKey,
     groupInfo,
+    serviceDetails,
   } = props;
 
   const [payType, setPayType] = useState("default");
@@ -103,16 +105,13 @@ const Details = props => {
           <Avatar alt="Singularity" src={SingularityLogo} className={classes.avatar} />
           <div>
             <Typography variant="body2" className={classes.providerName}>
-              Service Provider 1
-            </Typography>
-            <Typography variant="body2" className={classes.noOfService}>
-              3 AI Services
+              {serviceDetails.organization_name}
             </Typography>
           </div>
         </div>
         <PaymentInfoCard
           title="Channel Balance"
-          show={channelInfo.balanceInAgi}
+          show={!isEmpty(channelInfo)}
           value={channelInfo.balanceInAgi}
           unit="AGI"
         />
@@ -150,6 +149,7 @@ const Details = props => {
 
 const mapStateToProps = state => ({
   groupInfo: groupInfo(state),
+  serviceDetails: currentServiceDetails(state),
 });
 
 export default connect(mapStateToProps)(withStyles(useStyles)(Details));
