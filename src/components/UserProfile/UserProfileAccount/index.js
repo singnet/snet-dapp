@@ -88,8 +88,8 @@ const UserProfileAccount = ({ classes, startAppLoader, stopAppLoader, wallet, up
 
   const hasSelectedWallet = wallet.type !== initialWallet.type;
   return (
-    <Grid container spacing={10} className={classes.accountMainContainer}>
-      <Grid xs={12} sm={12} md={4} lg={4} className={classes.accountContainer}>
+    <Grid container spacing={24} className={classes.accountMainContainer}>
+      <Grid item xs={12} sm={12} md={4} lg={4} className={classes.accountContainer}>
         <h3>Payment / Transfer Method</h3>
         <div className={classes.accountWrapper}>
           <div className={classes.dropDown}>
@@ -107,7 +107,7 @@ const UserProfileAccount = ({ classes, startAppLoader, stopAppLoader, wallet, up
         </div>
       </Grid>
       {hasSelectedWallet && (
-        <Grid xs={12} sm={12} md={8} lg={8} className={classes.providerBalMaincontainer}>
+        <Grid item xs={12} sm={12} md={8} lg={8} className={classes.providerBalMaincontainer}>
           <ProviderBalance linkedProviders={linkedProviders} />
         </Grid>
       )}

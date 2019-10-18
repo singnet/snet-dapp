@@ -8,9 +8,9 @@ import ChannelList from "./ChannelList";
 
 const ProviderBalance = ({ classes, linkedProviders }) => {
   return (
-    <Grid container spacing={10} className={classes.providerBalContent}>
+    <Grid container spacing={24} className={classes.providerBalContent}>
       <h3>Provider Balances</h3>
-      <Grid xs={12} sm={12} md={12} lg={12} className={classes.description}>
+      <Grid item xs={12} sm={12} md={12} lg={12} className={classes.description}>
         <Typography>
           Message explaining about wallets and how tokens are locked to channels in each wallet. Lorem ipsum dolor sit
           amet, mel debet dissentiet philosophia ut. Sed nibh solum temporibus in. An insolens electram pro, qui nobis

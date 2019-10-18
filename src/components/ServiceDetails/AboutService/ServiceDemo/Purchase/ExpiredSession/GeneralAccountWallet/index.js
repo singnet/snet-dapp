@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect } from "react";
 import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import isEmpty from "lodash/isEmpty";
 
 import StyledButton from "../../../../../../common/StyledButton";
 import { useStyles } from "./styles";
@@ -54,12 +55,13 @@ const GeneralAccountWallet = props => {
     <Fragment>
       <div className={classes.btnsContainer}>
         <Link to={userProfileRoutes.TRANSACTIONS.path} className={classes.routerLink}>
-          <StyledButton type="transparentBlueBorderDisable" btnText="transaction history" />
+          <StyledButton type="transparentBlueBorder" disabled={!anyGeneralWallet} btnText="transaction history" />
         </Link>
         <StyledButton
-          type="transparentBlueBorderDisable"
+          type="transparentBlueBorder"
           btnText="top up wallet"
           onClick={() => setShowTopupWallet(true)}
+          disabled={isEmpty(channelInfo)}
         />
         <NextAction
           channel={channelInfo}

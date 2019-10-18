@@ -7,5 +7,6 @@ export const useStyles = theme => ({
   },
   routerLink: {
     textDecoration: "none",
+    "& button": { borderWidth: "2px !important" },
   },
 });

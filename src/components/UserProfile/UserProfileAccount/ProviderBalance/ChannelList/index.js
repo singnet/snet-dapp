@@ -12,12 +12,12 @@ import { cogsToAgi } from "../../../../../utility/PricingStrategy";
 const ChannelList = ({ classes, linkedProviders }) => {
   return (
     <React.Fragment>
-      <Grid xs={12} sm={12} md={12} lg={12} className={classes}>
-        <Grid xs={12} sm={12} md={12} lg={12} className={classes.columnTitle}>
-          <Grid xs={12} sm={12} md={7} lg={7} className={classes}>
+      <Grid item xs={12} sm={12} md={12} lg={12} className={classes}>
+        <Grid item xs={12} sm={12} md={12} lg={12} className={classes.columnTitle}>
+          <Grid item xs={12} sm={12} md={7} lg={7} className={classes}>
             <Typography>provider channels</Typography>
           </Grid>
-          <Grid xs={12} sm={12} md={5} lg={5}>
+          <Grid item xs={12} sm={12} md={5} lg={5}>
             <Typography>available tokens</Typography>
           </Grid>
         </Grid>
@@ -27,8 +27,8 @@ const ChannelList = ({ classes, linkedProviders }) => {
           const firstChannel = firstGroup && firstGroup.channels[0];
           const balance_in_cogs = firstChannel && firstChannel.balance_in_cogs;
           return (
-            <Grid xs={12} sm={12} md={12} lg={12} className={classes.tableData}>
-              <Grid xs={12} sm={12} md={7} lg={7} className={classes.providerChannelDetails}>
+            <Grid item xs={12} sm={12} md={12} lg={12} className={classes.tableData}>
+              <Grid item xs={12} sm={12} md={7} lg={7} className={classes.providerChannelDetails}>
                 <div className={classes.avatarContainer}>
                   <Avatar alt="Singularity" src={hero_image || SingularityLogo} className={classes.avatar} />
                   <div>
@@ -36,7 +36,7 @@ const ChannelList = ({ classes, linkedProviders }) => {
                   </div>
                 </div>
               </Grid>
-              <Grid xs={12} sm={12} md={5} lg={5}>
+              <Grid item xs={12} sm={12} md={5} lg={5}>
                 <span className={classes.availableTokenCount}>{cogsToAgi(balance_in_cogs || 0)} AGI</span>
               </Grid>
             </Grid>
