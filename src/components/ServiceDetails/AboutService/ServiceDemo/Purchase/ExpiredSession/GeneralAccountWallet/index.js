@@ -52,13 +52,13 @@ const GeneralAccountWallet = props => {
       <div className={classes.btnsContainer}>
         <Link to={userProfileRoutes.TRANSACTIONS.path} className={classes.routerLink}>
           <StyledButton
-            type={anyGeneralWallet ? "transparentBlueBorder" : "transparentBlueBorderDisable"}
-            disabled={anyGeneralWallet ? false : true}
+            type={anyGeneralWallet ? "transparentBlueBorder" : "disabled"}
+            disabled={!anyGeneralWallet}
             btnText="transaction history"
           />
         </Link>
         <StyledButton
-          type={isEmpty(channelInfo) ? "transparentBlueBorderDisable" : "transparentBlueBorder"}
+          type={isEmpty(channelInfo) ? "disabled" : "transparentBlueBorder"}
           btnText="top up wallet"
           onClick={() => setShowTopupWallet(true)}
           disabled={isEmpty(channelInfo) ? true : false}

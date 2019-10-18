@@ -70,10 +70,10 @@ export const useStyles = makeStyles(theme => ({
       backgroundColor: "rgba(0,90,203,0.05) !important",
       color: theme.palette.text.transBlueBorderTextHover,
     },
-  },
-  transparentBlueBorderDisable: {
-    borderWidth: 2,
-    borderColor: theme.palette.text.disabledBtnBg,
-    color: theme.palette.text.disabledBtnBg,
+    "&:disabled": {
+      borderWidth: 2,
+      borderColor: theme.palette.text.disabledBtnBg,
+      color: theme.palette.text.disabledBtnBg,
+    },
   },
 }));
