@@ -32,6 +32,7 @@ let walletPollingInterval;
 export const walletTypes = {
   GENERAL: "GENERAL",
   METAMASK: "METAMASK",
+  DEFAULT: "default",
 };
 
 export const fetchAuthenticatedUser = async () => {

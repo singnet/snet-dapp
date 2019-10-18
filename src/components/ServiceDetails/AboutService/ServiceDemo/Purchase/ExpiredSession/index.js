@@ -112,7 +112,7 @@ class ExpiredSession extends Component {
           <AlertBox {...this.transactionAlert()} />
         </div>
         <WalletDetailsToggler
-          show={Boolean(wallet.type)}
+          show={wallet.type !== walletTypes.DEFAULT}
           metamask={wallet.type === walletTypes.METAMASK}
           generalWalletProps={{ handleContinue: handleComplete }}
           metamaskProps={{
