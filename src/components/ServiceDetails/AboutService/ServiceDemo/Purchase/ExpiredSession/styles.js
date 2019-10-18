@@ -48,17 +48,17 @@ export const useStyles = theme => ({
   paymentChannelAndDetails: {
     marginTop: 35,
     display: "flex",
-    justifyContent: "space-between",
   },
   paymentChannelDropDownContainer: {
     display: "flex",
+    marginRight: 40,
     "& fieldset": { display: "none" },
   },
   infoIconContainer: {
     marginRight: 10,
     alignSelf: "center",
     color: theme.palette.text.lightShadedGray,
-    fontSize: 20,
+    fontSize: 18,
   },
   paymentChannelDropDown: {
     width: 278,
