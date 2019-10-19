@@ -121,7 +121,7 @@ const AnnotationResult = props => {
       </div>
       {isVisualizerShown && (
         <Visualizer
-          graph={{ ...response.result.elements }}
+          graph={JSON.parse(JSON.stringify({ ...response.result.elements }))}
           annotations={response.result.elements.nodes
             .reduce((acc, n) => [...acc, ...n.data.group, n.data.subgroup], [])
             .filter((a, i, self) => a && self.indexOf(a) === i)}
