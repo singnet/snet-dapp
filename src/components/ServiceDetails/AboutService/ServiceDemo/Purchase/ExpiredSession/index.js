@@ -104,7 +104,7 @@ class ExpiredSession extends Component {
           <div className={classes.channelBalance}>
             <PaymentInfoCard
               show={!isEmpty(channelInfo) && wallet.type === walletTypes.GENERAL}
-              title="channel balance"
+              title="Channel Balance"
               value={!isEmpty(channelInfo) && channelInfo.balanceInAgi}
               unit="AGI"
             />
