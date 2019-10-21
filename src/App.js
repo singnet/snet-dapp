@@ -108,6 +108,13 @@ class App extends Component {
                   component={withInAppWrapper(ServiceDetails)}
                 />
                 <PrivateRoute
+                  isAllowed={isTermsAccepted}
+                  redirectTo={`/${Routes.ONBOARDING}`}
+                  path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId/order/:orderId/payment/:paymentId/cancel`}
+                  {...this.props}
+                  component={withInAppWrapper(ServiceDetails)}
+                />
+                <PrivateRoute
                   isAllowed={isLoggedIn && isTermsAccepted}
                   redirectTo={isLoggedIn ? `/${Routes.ONBOARDING}` : `/${Routes.LOGIN}`}
                   path={`/${Routes.USER_PROFILE}/:activeTab?`}

@@ -42,6 +42,8 @@ export const APIPaths = {
   SIGNER_FREE_CALL: "/free-call",
   SIGNER_STATE_SERVICE: "/state-service",
   SIGNER_REGULAR_CALL: "/regular-call",
+  //TODO update cancel_order once API is ready
+  CANCEL_ORDER: "/order/cancel",
   ORDERS_LIST: "/order",
   INITIATE_PAYMNET: "/order/initiate",
   ORDER_DETAILS: "/order",
