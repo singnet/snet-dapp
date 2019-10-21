@@ -89,8 +89,7 @@ const Details = props => {
       }
       await initiatePayment(payType, amount, currency, "AGI", amountInAGI, signature, address, currentBlockNumber);
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log("error", error);
+      setAlert({ type: alertTypes.ERROR, message: "Unable to initiate paypal transaction. Please try again" });
     }
   };
 
