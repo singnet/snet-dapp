@@ -37,7 +37,7 @@ const indexOfPurchaseSection = {
 
 class PaymentPopup extends Component {
   state = {
-    activeSection: 3,
+    activeSection: 1,
     privateKeyGenerated: undefined,
     userProvidedPrivateKey: undefined,
     amount: "",
