@@ -80,6 +80,11 @@ const addMoziCustomUI = (serviceId, CustomUIComponent) => {
   thirdPartyCustomUIComponents.addCustomUIComponent("mozi", serviceId, CustomUIComponent);
 };
 
+//TODO remove before deploying to mainnet
+const addOrg2CustomUI = (serviceId, CustomUIComponent ) => {
+  thirdPartyCustomUIComponents.addCustomUIComponent("org2", serviceId, CustomUIComponent);
+}
+
 addSnetCustomUI("example-service", ExampleService);
 addSnetCustomUI("freecall", ExampleService);
 addSnetCustomUI("cntk-image-recon", CNTKImageRecognition);
@@ -127,5 +132,8 @@ addSnetCustomUI("pneumonia-diagnosis", PneumoniaDiagnosis);
 addSnetCustomUI("opencog-miner", OpenCogMiner);
 addMoziCustomUI("gene-annotation-service", GeneAnnotationService);
 addSnetCustomUI("minecraftizing-service", MinecraftService);
+
+//TODO remove before deploying to mainnet
+addOrg2CustomUI("freecall", ExampleService)
 
 export default thirdPartyCustomUIComponents;
