@@ -20,16 +20,16 @@ const Payments = ({ classes, transactionHistory }) => {
         <Grid item xs={12} sm={12} md={2} lg={2}>
           <Typography>payment channel</Typography>
         </Grid>
-        <Grid item xs={12} sm={12} md={1} lg={3}>
+        <Grid item xs={12} sm={12} md={3} lg={3}>
           <Typography>type</Typography>
         </Grid>
         <Grid item xs={12} sm={12} md={1} lg={1}>
           <Typography>status</Typography>
         </Grid>
-        <Grid item xs={12} sm={12} md={2} lg={1}>
+        <Grid item xs={12} sm={12} md={1} lg={1}>
           <Typography>cost ($ USD)</Typography>
         </Grid>
-        <Grid item xs={12} sm={12} md={2} lg={1}>
+        <Grid item xs={12} sm={12} md={1} lg={1}>
           <Typography>item received</Typography>
         </Grid>
       </Grid>
