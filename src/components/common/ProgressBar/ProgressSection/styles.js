@@ -7,6 +7,10 @@ export const useStyles = makeStyles(theme => ({
     marginRight: 10,
     backgroundColor: theme.palette.text.lightShadedGray,
     color: theme.palette.text.white,
+    "@media(max-width:480px)": {
+      padding: "4px 8px",
+      fontSize: 12,
+    },
   },
   TabTitle: {
     color: theme.palette.text.lightShadedGray,
@@ -17,6 +21,11 @@ export const useStyles = makeStyles(theme => ({
       color: theme.palette.text.successBoxBorder,
       fontSize: 28,
       marginRight: 10,
+      "@media(max-width:480px)": { fontSize: 21 },
+    },
+    "@media(max-width:480px)": {
+      padding: 0,
+      margin: 0,
     },
   },
   active: {
@@ -27,15 +36,5 @@ export const useStyles = makeStyles(theme => ({
   },
   completed: {
     "&:last-of-type span": { color: theme.palette.text.darkShadedGray },
-    "@media(max-width:480px)": {
-      "&:first-of-type span": {
-        padding: 0,
-        margin: 0,
-        "& span": {
-          margin: 0,
-          fontSize: 21,
-        },
-      },
-    },
   },
 }));
