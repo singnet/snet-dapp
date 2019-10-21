@@ -48,11 +48,14 @@ export const useStyles = theme => ({
   paymentChannelAndDetails: {
     marginTop: 35,
     display: "flex",
+    "& > p": { margin: "0 0 0 40px" },
+    "@media(max-width:940px)": { flexDirection: "column" },
   },
   paymentChannelDropDownContainer: {
     display: "flex",
     marginRight: 40,
     "& fieldset": { display: "none" },
+    "@media(max-width:940px)": { marginBottom: 30 },
   },
   infoIconContainer: {
     marginRight: 10,

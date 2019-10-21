@@ -27,5 +27,15 @@ export const useStyles = makeStyles(theme => ({
   },
   completed: {
     "&:last-of-type span": { color: theme.palette.text.darkShadedGray },
+    "@media(max-width:480px)": {
+      "&:first-of-type span": {
+        padding: 0,
+        margin: 0,
+        "& span": {
+          margin: 0,
+          fontSize: 21,
+        },
+      },
+    },
   },
 }));

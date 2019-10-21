@@ -292,13 +292,11 @@ class MetamaskFlow extends Component {
         </div>
         <AlertBox type={alert.type} message={alert.message} />
         <div className={classes.buttonContainer}>
-          <div>
-            <StyledButton
-              type={this.shouldDepositToEscrowBeHighlighted() ? "blue" : "transparent"}
-              btnText="Deposit into Escrow"
-              onClick={this.handlePurchaseDialogOpen}
-            />
-          </div>
+          <StyledButton
+            type={this.shouldDepositToEscrowBeHighlighted() ? "blue" : "transparent"}
+            btnText="Deposit into Escrow"
+            onClick={this.handlePurchaseDialogOpen}
+          />
           <Tooltip
             title="Service is currently offline. Please try after sometime"
             aria-label="add-payment"
