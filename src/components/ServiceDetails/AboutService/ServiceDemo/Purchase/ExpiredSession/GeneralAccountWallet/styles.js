@@ -3,7 +3,10 @@ export const useStyles = theme => ({
     margin: "64px 0 0",
     display: "flex",
     justifyContent: "center",
-    "& button": { marginTop: "0 !important" },
+    "& button": {
+      marginTop: "0 !important",
+      borderWidth: 2,
+    },
     "& > button": {
       marginLeft: 32,
       "@media(max-width:940px)": {
@@ -18,6 +21,5 @@ export const useStyles = theme => ({
   },
   routerLink: {
     textDecoration: "none",
-    "& button": { borderWidth: "2px !important" },
   },
 });

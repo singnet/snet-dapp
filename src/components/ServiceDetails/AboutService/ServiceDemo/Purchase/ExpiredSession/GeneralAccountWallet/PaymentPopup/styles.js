@@ -1,4 +1,5 @@
 export const useStyles = theme => ({
+  Modal: { overflow: "auto" },
   card: {
     width: 628,
     margin: "50px auto 0",

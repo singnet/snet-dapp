@@ -23,6 +23,7 @@ export const useStyles = theme => ({
       fontSize: "28px !important",
       lineHeight: "28px",
     },
+    "@media(max-width:480px)": { textAlign: "left" },
   },
   unit: {
     marginLeft: 8,
