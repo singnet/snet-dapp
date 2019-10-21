@@ -110,7 +110,6 @@ class ExpiredSession extends Component {
             />
           </div>
           <AlertBox {...this.transactionAlert()} />
-          <AlertBox type="error" message="error" />
         </div>
         <WalletDetailsToggler
           show={Boolean(wallet.type)}
