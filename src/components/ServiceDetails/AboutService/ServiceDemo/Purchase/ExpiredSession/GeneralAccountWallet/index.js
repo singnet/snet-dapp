@@ -14,6 +14,7 @@ import { paymentActions } from "../../../../../../../Redux/actionCreators";
 import LinkProvider from "./LinkProvider";
 import { userProfileRoutes } from "../../../../../../UserProfile";
 import { orderTypes } from "./PaymentPopup";
+import { anyPendingTxn } from "../../../../../../../Redux/reducers/PaymentReducer";
 
 export const paymentTitles = {
   CREATE_WALLET: "Create General Account Wallet",
@@ -22,7 +23,7 @@ export const paymentTitles = {
 };
 
 const GeneralAccountWallet = props => {
-  const { classes, channelInfo, handleContinue, paypalInProgress, anyGeneralWallet } = props;
+  const { classes, channelInfo, handleContinue, paypalInProgress, anyGeneralWallet, anyPendingTxn } = props;
 
   const [showCreateWalletPopup, setShowCreateWalletPopup] = useState(false);
   const [showTopupWallet, setShowTopupWallet] = useState(false);
@@ -45,11 +46,11 @@ const GeneralAccountWallet = props => {
     }
   }, [paypalInProgress.orderType]);
 
-  const anyPendingTxn = () => {
-    const { wallet } = props;
-    const anyPending = wallet.transactions && wallet.transactions.some(txn => txn.status === "PENDING");
-    return anyPending;
-  };
+  // const anyPendingTxn = () => {
+  //   const { wallet } = props;
+  //   const anyPending = wallet.transactions && wallet.transactions.some(txn => txn.status === "PENDING");
+  //   return anyPending;
+  // };
 
   return (
     <Fragment>
@@ -84,6 +85,7 @@ const mapStateToProps = state => ({
   paypalInProgress: state.paymentReducer.paypalInProgress,
   wallet: state.userReducer.wallet,
   anyGeneralWallet: anyGeneralWallet(state),
+  anyPendingTxn: anyPendingTxn(state),
 });
 
 const mapDispatchToProps = dispatch => ({
