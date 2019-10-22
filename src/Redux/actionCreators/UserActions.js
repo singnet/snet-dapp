@@ -120,7 +120,7 @@ const fetchUserTransactionsSuccess = response => dispatch => {
 
 const cancelOrderAPI = (token, orderId) => () => {
   const apiName = APIEndpoints.ORCHESTRATOR.name;
-  const path = `${APIPaths.CANCEL_ORDER}/${orderId}`;
+  const path = APIPaths.CANCEL_ORDER(orderId);
   const apiOptions = initializeAPIOptions(token);
   return API.get(apiName, path, apiOptions);
 };
