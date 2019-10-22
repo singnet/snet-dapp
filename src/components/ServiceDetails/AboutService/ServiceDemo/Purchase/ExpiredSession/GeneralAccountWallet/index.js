@@ -46,12 +46,6 @@ const GeneralAccountWallet = props => {
     }
   }, [paypalInProgress.orderType]);
 
-  // const anyPendingTxn = () => {
-  //   const { wallet } = props;
-  //   const anyPending = wallet.transactions && wallet.transactions.some(txn => txn.status === "PENDING");
-  //   return anyPending;
-  // };
-
   return (
     <Fragment>
       <div className={classes.btnsContainer}>
