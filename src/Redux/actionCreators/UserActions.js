@@ -118,18 +118,6 @@ const fetchUserTransactionsSuccess = response => dispatch => {
   dispatch(updateTransactionHistory(transactionHistory));
 };
 
-const cancelOrderAPI = (token, orderId) => () => {
-  const apiName = APIEndpoints.ORCHESTRATOR.name;
-  const path = APIPaths.CANCEL_ORDER(orderId);
-  const apiOptions = initializeAPIOptions(token);
-  return API.get(apiName, path, apiOptions);
-};
-
-export const cancelOrder = orderId => async dispatch => {
-  const { token } = await fetchAuthenticatedUser();
-  await dispatch(cancelOrderAPI(token, orderId));
-};
-
 const fetchOrderDetailsAPI = (token, orderId) => dispatch => {
   const apiName = APIEndpoints.ORCHESTRATOR.name;
   const path = `${APIPaths.ORDERS_LIST}/${orderId}`;

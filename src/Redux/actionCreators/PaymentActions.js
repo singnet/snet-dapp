@@ -4,7 +4,7 @@ import { userActions, loaderActions } from "./";
 import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { initializeAPIOptions } from "../../utility/API";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
-import { walletTypes } from "./UserActions";
+import { walletTypes, fetchAuthenticatedUser } from "./UserActions";
 
 export const UPDATE_PAYPAL_IN_PROGRESS = "UPDATE_PAYPAL_IN_PROGRESS";
 export const UPDATE_PAYPAL_COMPLETED = "UPDATE_PAYPAL_COMPLETED";
@@ -58,4 +58,16 @@ export const updatePaypalInProgress = (orderId, orderType, paymentId, paypalPaym
 
 export const updatePaypalCompleted = dispatch => {
   dispatch({ type: UPDATE_PAYPAL_COMPLETED });
+};
+
+const cancelOrderAPI = (token, orderId) => () => {
+  const apiName = APIEndpoints.ORCHESTRATOR.name;
+  const path = APIPaths.CANCEL_ORDER(orderId);
+  const apiOptions = initializeAPIOptions(token);
+  return API.get(apiName, path, apiOptions);
+};
+
+export const cancelOrder = orderId => async dispatch => {
+  const { token } = await fetchAuthenticatedUser();
+  await dispatch(cancelOrderAPI(token, orderId));
 };
