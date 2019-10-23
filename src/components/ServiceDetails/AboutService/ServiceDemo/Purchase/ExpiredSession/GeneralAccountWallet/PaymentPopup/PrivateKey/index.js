@@ -24,9 +24,7 @@ const PrivateKey = ({ classes, privateKey, handleNextSection }) => {
         <span>Information about the wallet and key. </span>Lorem ipsum dolor sit amet, vim natum dolore cu. It will take
         some time for the tokens to reflect on your channel. Please go ahead.
       </p>
-      <div className={classes.infoBox}>
-        <AlertBox type={alertTypes.INFO} message={privateKey} />
-      </div>
+      <AlertBox type={alertTypes.INFO} message={privateKey} />
       <div className={classes.downloadKeyBtn}>
         <CopyToClipboard text={privateKey} onCopy={handleCopyToClipboard}>
           <StyledButton type="transparent" btnText="copy private key" />

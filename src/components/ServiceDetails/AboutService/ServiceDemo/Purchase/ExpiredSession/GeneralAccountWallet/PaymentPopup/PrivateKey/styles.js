@@ -22,7 +22,4 @@ export const useStyles = theme => ({
     marginTop: 35,
     textAlign: "center",
   },
-  infoBox: {
-    "& p": { wordBreak: "break-all" },
-  },
 });
