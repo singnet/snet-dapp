@@ -79,6 +79,7 @@ export const useStyles = theme => ({
     alignItems: "center",
     position: "relative",
     "& .MuiFormControl-root": { width: "90%" },
+    "& .MuiSelect-outlined": { padding: "15px 14px !important" },
     "@media(min-width: 768px) and (max-width: 960px)": { width: 178 },
   },
   dropDownTitle: {
