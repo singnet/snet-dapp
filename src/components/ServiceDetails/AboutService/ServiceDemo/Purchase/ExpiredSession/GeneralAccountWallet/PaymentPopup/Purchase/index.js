@@ -22,16 +22,20 @@ class Purchase extends Component {
       await this.props.executePayment();
     } catch (error) {
       this.setState({
-        alert: { type: alertTypes.ERROR, message: "Paypal returned some error. Please Retry or contact support." },
+        alert: {
+          type: alertTypes.ERROR,
+          message: "Paypal returned some error. Please Retry or contact support.",
+          mailerErrContent: error.message,
+        },
       });
     }
   };
 
   render() {
-    const { classes, handleCancel } = this.props;
+    const { classes, handleCancel, paypalInProgress } = this.props;
     const { alert } = this.state;
     if (!isEmpty(alert)) {
-      return <PurchaseAlert alert={alert} handleCancel={handleCancel} />;
+      return <PurchaseAlert alert={alert} handleCancel={handleCancel} orderId={paypalInProgress.orderId} />;
     }
 
     return (
