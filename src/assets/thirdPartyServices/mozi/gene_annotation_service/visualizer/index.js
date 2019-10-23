@@ -248,6 +248,16 @@ const Visualizer = props => {
               "text-outline-color": "blue",
             },
           },
+          {
+            selector: n =>
+              n.data().subgroup.includes("Uniprot") &&
+              n.neighborhood().some(function(e) {
+                return e.data().group.includes("main");
+              }),
+            style: {
+              "background-color": "blue",
+            },
+          },
         ]);
         var options = {
           menuItems: [
