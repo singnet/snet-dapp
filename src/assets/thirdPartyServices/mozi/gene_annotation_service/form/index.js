@@ -21,6 +21,7 @@ import Dropzone from "react-dropzone";
 import { useSnackbar } from "notistack";
 import { Annotate } from "../proto/annotation_pb_service";
 import { AnnotationRequest, Annotation, Gene, Filter } from "../proto/annotation_pb";
+import AnchorLink from "../../../../../components/common/AnchorLink";
 import "./style.css";
 const grpc = require("@improbable-eng/grpc-web").grpc;
 
@@ -200,11 +201,7 @@ const AnnotationForm = props => {
     <div className="container form-wrapper">
       {/* Gene List */}
       <Typography variant="h6" gutterBottom>
-        Input{" "}
-        <a href="http://www.genenames.org" target="_blank">
-          HGNC
-        </a>{" "}
-        Gene Symbols
+        Input <AnchorLink href="http://www.genenames.org" label="HGNC" newTab /> Gene Symbols
       </Typography>
       <AppBar position="static" color="default" style={{ marginBottom: 15 }}>
         <Tabs
@@ -295,11 +292,7 @@ const AnnotationForm = props => {
           <FormGroup row>
             <FormControlLabel
               control={<Checkbox color="primary" onChange={e => toggleAnnotation("gene-go-annotation", e)} />}
-              label={
-                <a href="http://www.geneontology.org" target="_blank">
-                  Gene Ontology
-                </a>
-              }
+              label={<AnchorLink href="http://www.geneontology.org" label="Gene Ontology" newTab />}
             />
           </FormGroup>
 
@@ -361,11 +354,7 @@ const AnnotationForm = props => {
                       defaultChecked={pathways.includes("reactome")}
                     />
                   }
-                  label={
-                    <a href="http://www.reactome.org" target="_blank">
-                      Reactome
-                    </a>
-                  }
+                  label={<AnchorLink href="http://www.reactome.org" label="Reactome" newTab />}
                 />
               </div>
               <div className="parameter">
