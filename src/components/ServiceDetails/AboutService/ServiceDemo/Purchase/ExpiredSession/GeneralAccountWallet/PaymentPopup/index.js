@@ -133,7 +133,7 @@ class PaymentPopup extends Component {
       payment_method: payType,
     };
 
-    initiatePayment(paymentObj);
+    return initiatePayment(paymentObj);
   };
 
   handleExecutePayment = async () => {

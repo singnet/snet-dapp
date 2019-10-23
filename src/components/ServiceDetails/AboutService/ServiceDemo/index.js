@@ -224,6 +224,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   fetchMeteringData: args => dispatch(serviceDetailsActions.fetchMeteringData(args)),
   startWalletDetailsPolling: (orgId, groupId) => dispatch(userActions.startWalletDetailsPolling(orgId, groupId)),
   stopWalletDetailsPolling: () => dispatch(userActions.stopWalletDetailsPolling),
+
   fetchOrderDetails: orderId => dispatch(paymentActions.fetchOrderDetails(orderId)),
   updateWallet: walletDetails => dispatch(userActions.updateWallet(walletDetails)),
   updatePaypalInProgress: (orderId, orderType, paymentId, paypalPaymentId, PayerID) =>

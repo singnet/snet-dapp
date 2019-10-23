@@ -49,6 +49,32 @@ const Details = props => {
     }
   };
 
+  const generateSignature = async () => {
+    const account = web3.eth.accounts.privateKeyToAccount(privateKey);
+    const address = account.address;
+    web3.eth.accounts.wallet.add(account);
+    web3.eth.defaultAccount = address;
+    const recipient = groupInfo.payment.payment_address;
+    const hexGroupId = decodeGroupId(groupInfo.group_id);
+    const amountInCogs = USDToCogs(amount);
+    const currentBlockNumber = await web3.eth.getBlockNumber();
+    // block no is mined in 15 sec on average, setting expiration as 10 years
+    const expiration = currentBlockNumber + tenYearBlockOffset;
+    const sha3Message = web3.utils.soliditySha3(
+      { t: "string", v: "__openChannelByThirdParty" },
+      { t: "address", v: process.env.REACT_APP_MPE_CONTRACT_ADDRESS },
+      { t: "address", v: process.env.REACT_APP_EXECUTOR_WALLET_ADDRESS },
+      { t: "address", v: process.env.REACT_APP_SNET_SIGNER_ADDRESS },
+      { t: "address", v: recipient },
+      { t: "bytes32", v: hexGroupId },
+      { t: "uint256", v: amountInCogs },
+      { t: "uint256", v: expiration },
+      { t: "uint256", v: currentBlockNumber }
+    );
+    const { signature } = await web3.eth.accounts.sign(sha3Message, privateKey);
+    return Promise.resolve({ signature, address, currentBlockNumber });
+  };
+
   const handleContinue = async () => {
     setAlert({});
     const isNotValid = snetValidator({ payType, amount }, paymentGatewayConstraints);
@@ -58,38 +84,12 @@ const Details = props => {
     }
     try {
       const amountInAGI = USDToAgi(amount);
-      let signature;
-      let address;
-      let currentBlockNumber;
       if (orderType === orderTypes.CREATE_CHANNEL) {
-        const account = web3.eth.accounts.privateKeyToAccount(privateKey);
-        address = account.address;
-        web3.eth.accounts.wallet.add(account);
-        web3.eth.defaultAccount = address;
-        const recipient = groupInfo.payment.payment_address;
-        const hexGroupId = decodeGroupId(groupInfo.group_id);
-        const amountInCogs = USDToCogs(amount);
-        currentBlockNumber = await web3.eth.getBlockNumber();
-        // block no is mined in 15 sec on average, setting expiration as 10 years
-        const expiration = currentBlockNumber + tenYearBlockOffset;
-        const sha3Message = web3.utils.soliditySha3(
-          { t: "string", v: "__openChannelByThirdParty" },
-          { t: "address", v: process.env.REACT_APP_MPE_CONTRACT_ADDRESS },
-          { t: "address", v: process.env.REACT_APP_EXECUTOR_WALLET_ADDRESS },
-          { t: "address", v: process.env.REACT_APP_SNET_SIGNER_ADDRESS },
-          { t: "address", v: recipient },
-          { t: "bytes32", v: hexGroupId },
-          { t: "uint256", v: amountInCogs },
-          { t: "uint256", v: expiration },
-          { t: "uint256", v: currentBlockNumber }
-        );
-        const generatedSignature = await web3.eth.accounts.sign(sha3Message, privateKey);
-        signature = generatedSignature.signature;
+        var { signature, address, currentBlockNumber } = await generateSignature();
       }
-      initiatePayment(payType, amount, currency, "AGI", amountInAGI, signature, address, currentBlockNumber);
+      await initiatePayment(payType, amount, currency, "AGI", amountInAGI, signature, address, currentBlockNumber);
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log("error", error);
+      setAlert({ type: alertTypes.ERROR, message: "Unable to initiate paypal transaction. Please try again" });
     }
   };
 
