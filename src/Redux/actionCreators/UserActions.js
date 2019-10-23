@@ -118,20 +118,6 @@ const fetchUserTransactionsSuccess = response => dispatch => {
   dispatch(updateTransactionHistory(transactionHistory));
 };
 
-const fetchOrderDetailsAPI = (token, orderId) => dispatch => {
-  const apiName = APIEndpoints.ORCHESTRATOR.name;
-  const path = `${APIPaths.ORDERS_LIST}/${orderId}`;
-  const apiOptions = initializeAPIOptions(token);
-  return API.get(apiName, path, apiOptions);
-};
-
-export const fetchOrderDetails = orderId => async dispatch => {
-  const { token } = await fetchAuthenticatedUser();
-  const response = await dispatch(fetchOrderDetailsAPI(token, orderId));
-  const orderType = response.data.item_details.order_type;
-  return Promise.resolve(orderType);
-};
-
 export const updateTransactionHistory = transactionHistory => dispatch => {
   dispatch({ type: UPDATE_TRANSACTION_HISTORY, payload: transactionHistory });
 };

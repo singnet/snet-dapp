@@ -277,7 +277,6 @@ const mapDispatchToProps = dispatch => ({
   executePayment: paymentExecObj => dispatch(paymentActions.executePayment(paymentExecObj)),
   fetchWalletDetails: (orgId, groupId) => dispatch(userActions.fetchWallet(orgId, groupId)),
   paypalCompleted: () => dispatch(paymentActions.updatePaypalCompleted),
-  fetchOrderDetails: orderId => dispatch(userActions.fetchOrderDetails(orderId)),
 });
 
 export default withRouter(
