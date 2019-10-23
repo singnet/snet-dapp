@@ -19,4 +19,12 @@ const paymentReducer = (state = InitialPaymentDetails, action) => {
   }
 };
 
+export const anyPendingTxn = state => {
+  const { walletList } = state.userReducer;
+  const istransactionsPending = walletList.some(
+    wallet => wallet.transactions && wallet.transactions.some(txn => txn.status === "PENDING")
+  );
+  return istransactionsPending;
+};
+
 export default paymentReducer;

@@ -42,6 +42,7 @@ export const useStyles = theme => ({
       "& select": { color: theme.palette.text.alertBoxColor },
     },
     "& fieldset": { display: "none" },
+    "& .MuiSelect-select": { padding: 0 },
   },
   dropDownTitle: {
     padding: "0 5px",

@@ -12,6 +12,7 @@ export const useStyles = theme => ({
       display: "inline-block",
       color: theme.palette.text.lightShadedGray,
       fontSize: 16,
+      fontWeight: "normal",
       lineHeight: "20px",
     },
     "& h3": {
@@ -23,6 +24,7 @@ export const useStyles = theme => ({
       fontSize: "28px !important",
       lineHeight: "28px",
     },
+    "@media(max-width:480px)": { textAlign: "left" },
   },
   unit: {
     marginLeft: 8,

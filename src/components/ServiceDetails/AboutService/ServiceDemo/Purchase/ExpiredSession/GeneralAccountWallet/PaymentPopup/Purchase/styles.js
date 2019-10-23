@@ -16,6 +16,7 @@ export const useStyles = theme => ({
     letterSpacing: 0.25,
     textAlign: "center",
     lineHeight: "20px",
+    "@media(max-width:480px)": { padding: 0 },
   },
   circularProgressContainer: {
     padding: "30px 0 33px",

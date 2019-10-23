@@ -15,6 +15,7 @@ import Routes from "../../../../utility/constants/Routes";
 import { initSdk, initPaypalSdk } from "../../../../utility/sdk";
 import { walletTypes } from "../../../../Redux/actionCreators/UserActions";
 import { channelInfo } from "../../../../Redux/reducers/UserReducer";
+import { anyPendingTxn } from "../../../../Redux/reducers/PaymentReducer";
 
 const demoProgressStatus = {
   purchasing: 1,
@@ -48,12 +49,19 @@ class ServiceDemo extends Component {
   };
 
   componentDidUpdate = async prevProps => {
-    const { wallet, channelInfo } = this.props;
+    const { wallet, channelInfo, anyPendingTxn, stopWalletDetailsPolling } = this.props;
     if (wallet.type === walletTypes.METAMASK) {
       await initSdk();
     }
-    if (wallet.type === walletTypes.GENERAL && prevProps.channelInfo.id !== channelInfo.id) {
-      initPaypalSdk(wallet.address, channelInfo);
+    if (wallet.type === walletTypes.GENERAL) {
+      if (prevProps.channelInfo.id !== channelInfo.id) {
+        initPaypalSdk(wallet.address, channelInfo);
+      }
+      if (!anyPendingTxn) {
+        stopWalletDetailsPolling();
+        return;
+      }
+      this.pollWalletDetails();
     }
   };
 
@@ -222,6 +230,7 @@ const mapStateToProps = state => ({
   wallet: state.userReducer.wallet,
   firstTimeFetchWallet: state.userReducer.firstTimeFetchWallet,
   channelInfo: channelInfo(state),
+  anyPendingTxn: anyPendingTxn(state),
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

@@ -48,11 +48,19 @@ export const useStyles = theme => ({
   paymentChannelAndDetails: {
     marginTop: 35,
     display: "flex",
+    "& > p": {
+      width: "100%",
+      margin: "0 0 0 40px",
+      "@media(max-width:1280px)": { margin: "25px 0 0 0" },
+    },
+    "@media(max-width:767px)": { flexDirection: "column" },
+    "@media(max-width:1280px)": { flexWrap: "wrap" },
   },
   paymentChannelDropDownContainer: {
     display: "flex",
     marginRight: 40,
     "& fieldset": { display: "none" },
+    "@media(max-width:940px)": { marginBottom: 30 },
   },
   infoIconContainer: {
     marginRight: 10,
@@ -71,6 +79,7 @@ export const useStyles = theme => ({
     alignItems: "center",
     position: "relative",
     "& .MuiFormControl-root": { width: "90%" },
+    "@media(min-width: 768px) and (max-width: 960px)": { width: 178 },
   },
   dropDownTitle: {
     padding: "0 5px",
