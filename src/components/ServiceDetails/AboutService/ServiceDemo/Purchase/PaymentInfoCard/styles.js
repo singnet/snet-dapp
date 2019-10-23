@@ -12,6 +12,7 @@ export const useStyles = theme => ({
       display: "inline-block",
       color: theme.palette.text.lightShadedGray,
       fontSize: 16,
+      fontWeight: "normal",
       lineHeight: "20px",
     },
     "& h3": {
