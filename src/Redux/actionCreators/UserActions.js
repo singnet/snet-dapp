@@ -27,7 +27,7 @@ export const UPDATE_IS_TERMS_ACCEPTED = "UPDATE_IS_TERMS_ACCEPTED";
 export const UPDATE_TRANSACTION_HISTORY = "UPDATE_TRANSACTION_HISTORY";
 export const UPDATE_FIRST_TIME_FETCH_WALLET = "FIRST_TIME_FETCH_WALLET";
 
-let walletPollingInterval;
+let walletPollingInterval = false;
 
 export const walletTypes = {
   GENERAL: "GENERAL",
@@ -160,7 +160,6 @@ export const fetchUserDetails = async dispatch => {
     const { nickname, token, email, email_verified } = await fetchAuthenticatedUser();
     await dispatch(fetchUserProfile(token));
     if (email === null || email === undefined) {
-      //Username review - test for no authernticated user
       dispatch(noAuthenticatedUser);
       return;
     }
@@ -412,10 +411,6 @@ export const updateFirstTimeFetchWallet = value => dispatch => {
 const fetchWalletSuccess = response => dispatch => {
   if (!isEmpty(response.data.wallets)) {
     dispatch(updateWalletList(response.data.wallets));
-    // const defaultWallet = response.data.wallets.find(wallet => Boolean(wallet.is_default));
-    // if (!isEmpty(defaultWallet)) {
-    //   dispatch(updateWallet(defaultWallet));
-    // }
   }
 };
 
@@ -456,12 +451,17 @@ export const fetchWalletLinkedProviders = async address => {
 };
 
 export const startWalletDetailsPolling = (orgId, groupId) => dispatch => {
-  walletPollingInterval = setInterval(() => dispatch(fetchWallet(orgId, groupId)), 15000);
-  return dispatch(fetchWallet(orgId, groupId));
+  if (!walletPollingInterval) {
+    walletPollingInterval = setInterval(() => dispatch(fetchWallet(orgId, groupId)), 15000);
+    return dispatch(fetchWallet(orgId, groupId));
+  }
 };
 
 export const stopWalletDetailsPolling = () => {
-  clearInterval(walletPollingInterval);
+  if (walletPollingInterval) {
+    clearInterval(walletPollingInterval);
+    walletPollingInterval = false;
+  }
 };
 
 const updateDefaultWalletAPI = (token, address) => {
