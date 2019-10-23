@@ -1,9 +1,12 @@
-import React from "react";
+import React, { lazy } from "react";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
 
 import Routes from "../../utility/constants/Routes";
 import { paymentActions } from "../../Redux/actionCreators";
+import withInAppWrapper from "../HOC/WithInAppHeader";
+
+const _serviceDetails = lazy(() => import("./"));
+const ServiceDetails = withInAppWrapper(_serviceDetails);
 
 const PaymentCanceled = props => {
   const {
@@ -11,9 +14,11 @@ const PaymentCanceled = props => {
       params: { orgId, serviceId, orderId },
     },
     cancelOrder,
+    history,
   } = props;
   cancelOrder(orderId);
-  return <Redirect to={`/${Routes.SERVICE_DETAILS}/org/${orgId}/service/${serviceId}`} />;
+  history.push(`/${Routes.SERVICE_DETAILS}/org/${orgId}/service/${serviceId}`);
+  return <ServiceDetails {...props} />;
 };
 
 const mapDispatchToProps = dispatch => ({
