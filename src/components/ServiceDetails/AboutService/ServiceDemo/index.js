@@ -37,7 +37,6 @@ class ServiceDemo extends Component {
     }
     try {
       this.props.startInitServiceDemoLoader();
-      await this.checkIfPaymentIsCancelled();
       await this.checkForPaymentsInProgress();
       await this.pollWalletDetails();
       await this.fetchFreeCallsUsage();
@@ -67,21 +66,6 @@ class ServiceDemo extends Component {
 
   componentWillUnmount = () => {
     this.props.stopWalletDetailsPolling();
-  };
-
-  checkIfPaymentIsCancelled = async () => {
-    const {
-      location: { pathname },
-      match: {
-        params: { orgId, serviceId, orderId },
-      },
-      history,
-      cancelOrder,
-    } = this.props;
-    if (pathname.includes("cancel")) {
-      await cancelOrder(orderId);
-      history.push(`/${Routes.SERVICE_DETAILS}/org/${orgId}/service/${serviceId}`);
-    }
   };
 
   checkForPaymentsInProgress = async () => {
@@ -240,7 +224,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   fetchMeteringData: args => dispatch(serviceDetailsActions.fetchMeteringData(args)),
   startWalletDetailsPolling: (orgId, groupId) => dispatch(userActions.startWalletDetailsPolling(orgId, groupId)),
   stopWalletDetailsPolling: () => dispatch(userActions.stopWalletDetailsPolling),
-  cancelOrder: orderId => dispatch(paymentActions.cancelOrder(orderId)),
+
   fetchOrderDetails: orderId => dispatch(paymentActions.fetchOrderDetails(orderId)),
   updateWallet: walletDetails => dispatch(userActions.updateWallet(walletDetails)),
   updatePaypalInProgress: (orderId, orderType, paymentId, paypalPaymentId, PayerID) =>

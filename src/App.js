@@ -19,6 +19,7 @@ import { CircularProgress } from "@material-ui/core";
 import NetworkChangeOverlay from "./components/common/NetworkChangeOverlay";
 import initHotjar from "./assets/externalScripts/hotjar";
 import initGDPRNotification from "./assets/externalScripts/gdpr";
+import PaymentCanceled from "./components/ServiceDetails/PaymentCanceled";
 
 const ForgotPassword = lazy(() => import("./components/Login/ForgotPassword"));
 const ForgotPasswordSubmit = lazy(() => import("./components/Login/ForgotPasswordSubmit"));
@@ -112,7 +113,7 @@ class App extends Component {
                   redirectTo={`/${Routes.ONBOARDING}`}
                   path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId/order/:orderId/payment/:paymentId/cancel`}
                   {...this.props}
-                  component={withInAppWrapper(ServiceDetails)}
+                  component={PaymentCanceled}
                 />
                 <PrivateRoute
                   isAllowed={isLoggedIn && isTermsAccepted}
