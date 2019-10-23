@@ -64,7 +64,6 @@ div button:first-of-type {
   top: 0;
   left: 0;
   background-color: #fff;
-  z-index: 1000;
 }
 
 .visualizer-controls-wrapper {
