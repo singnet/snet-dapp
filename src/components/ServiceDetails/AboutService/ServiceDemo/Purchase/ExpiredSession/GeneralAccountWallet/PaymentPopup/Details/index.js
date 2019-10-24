@@ -89,7 +89,7 @@ const Details = props => {
       }
       await initiatePayment(payType, amount, currency, "AGI", amountInAGI, signature, address, currentBlockNumber);
     } catch (error) {
-      setAlert({ type: alertTypes.ERROR, message: "Unable to initiate paypal transaction. Please try again" });
+      setAlert({ type: alertTypes.ERROR, message: `${error.message}. Please try again` });
     }
   };
 
