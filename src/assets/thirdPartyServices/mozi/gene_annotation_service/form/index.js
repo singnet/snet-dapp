@@ -21,6 +21,7 @@ import Dropzone from "react-dropzone";
 import { useSnackbar } from "notistack";
 import { Annotate } from "../proto/annotation_pb_service";
 import { AnnotationRequest, Annotation, Gene, Filter } from "../proto/annotation_pb";
+import AnchorLink from "../../../../../components/common/AnchorLink";
 import "./style.css";
 const grpc = require("@improbable-eng/grpc-web").grpc;
 
@@ -200,7 +201,7 @@ const AnnotationForm = props => {
     <div className="container form-wrapper">
       {/* Gene List */}
       <Typography variant="h6" gutterBottom>
-        Input Genes
+        Input <AnchorLink href="http://www.genenames.org" label="HGNC" newTab /> Gene Symbols
       </Typography>
       <AppBar position="static" color="default" style={{ marginBottom: 15 }}>
         <Tabs
@@ -291,7 +292,7 @@ const AnnotationForm = props => {
           <FormGroup row>
             <FormControlLabel
               control={<Checkbox color="primary" onChange={e => toggleAnnotation("gene-go-annotation", e)} />}
-              label="Gene-GO"
+              label={<AnchorLink href="http://www.geneontology.org" label="Gene Ontology" newTab />}
             />
           </FormGroup>
 
@@ -338,25 +339,23 @@ const AnnotationForm = props => {
           <FormGroup row>
             <FormControlLabel
               control={<Checkbox color="primary" onChange={e => toggleAnnotation("gene-pathway-annotation", e)} />}
-              label="Gene Pathway"
+              label="Curated Pathways"
             />
           </FormGroup>
           {annotations.includes("gene-pathway-annotation") && (
             <div className="annotation-parameters">
               <div className="parameter">
-                {Pathways.map(p => (
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        color="primary"
-                        value={p.value}
-                        onChange={e => togglePathways(p.value, e)}
-                        defaultChecked={pathways.includes(p.value)}
-                      />
-                    }
-                    label={p.label}
-                  />
-                ))}
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      color="primary"
+                      value="reactome"
+                      onChange={e => togglePathways("reactome", e)}
+                      defaultChecked={pathways.includes("reactome")}
+                    />
+                  }
+                  label={<AnchorLink href="http://www.reactome.org" label="Reactome" newTab />}
+                />
               </div>
               <div className="parameter">
                 <FormGroup row>
