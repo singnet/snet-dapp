@@ -6,6 +6,7 @@ import truncate from "lodash/truncate";
 
 import PaymentData from "./PaymentData";
 import { useStyles } from "./styles";
+import { agiInDecimal } from "../../../../utility/PricingStrategy";
 
 const Payments = ({ classes, transactionHistory }) => {
   return (
@@ -45,7 +46,7 @@ const Payments = ({ classes, transactionHistory }) => {
             orderType={transaction.orderType}
             statusType={transaction.status}
             cost={transaction.cost}
-            itemQuantity={transaction.itemQuantity}
+            itemQuantity={agiInDecimal(transaction.itemQuantity)}
             itemUnit={transaction.itemUnit}
           />
         ))}
