@@ -154,13 +154,16 @@ class PaymentPopup extends Component {
         payment_id: paypalPaymentId,
       },
     };
-    const response = await executePayment(paymentExecObj);
+    const { data, error } = await executePayment(paymentExecObj);
+    if (error.code) {
+      throw error;
+    }
     await fetchWalletDetails(orgId, group_id);
     const {
       private_key: privateKeyGenerated,
       item_details: { item, quantity },
       price: { amount },
-    } = response.data;
+    } = data;
     this.setState({ privateKeyGenerated, amount, quantity, item });
     this.handleNextSection();
     return;

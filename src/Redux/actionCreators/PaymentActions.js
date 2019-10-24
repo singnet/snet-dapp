@@ -20,10 +20,14 @@ export const initiatePayment = paymentObj => async dispatch => {
   try {
     dispatch(loaderActions.startAppLoader(LoaderContent.INITIATE_PAYPAL));
     const { token } = await userActions.fetchAuthenticatedUser();
-    const response = await initiatePaymentAPI(token, paymentObj);
-    window.location.replace(response.data.payment.payment_url);
+    const { data, error } = await initiatePaymentAPI(token, paymentObj);
+    if (error.code) {
+      throw error;
+    }
+    window.location.replace(data.payment.payment_url);
   } catch (error) {
     dispatch(loaderActions.stopAppLoader);
+    throw error;
   }
 };
 

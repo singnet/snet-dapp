@@ -24,7 +24,7 @@ class Purchase extends Component {
       this.setState({
         alert: {
           type: alertTypes.ERROR,
-          message: "Paypal returned some error. Please Retry or contact support.",
+          message: `${error.message}. Please Retry or contact support.`,
           mailerErrContent: error.message,
         },
       });
