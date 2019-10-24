@@ -53,7 +53,7 @@ class ServiceDemo extends Component {
       await initSdk();
     }
     if (wallet.type === walletTypes.GENERAL) {
-      if (prevProps.channelInfo.id !== channelInfo.id) {
+      if (prevProps.channelInfo.id !== channelInfo.id || prevProps.wallet.type !== wallet.type) {
         initPaypalSdk(wallet.address, channelInfo);
       }
       if (!anyPendingTxn) {
