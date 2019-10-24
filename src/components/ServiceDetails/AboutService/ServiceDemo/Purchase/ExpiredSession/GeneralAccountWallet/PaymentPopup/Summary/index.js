@@ -7,6 +7,7 @@ import StyledButton from "../../../../../../../../common/StyledButton";
 import { useStyles } from "./styles";
 import StyledTable from "../../../../../../../../common/StyledTable";
 import InfoIcon from "@material-ui/icons/Info";
+import { agiInDecimal } from "../../../../../../../../../utility/PricingStrategy";
 
 const Summary = props => {
   const { classes, amount, item, quantity, handlePaymentComplete } = props;
@@ -15,7 +16,7 @@ const Summary = props => {
   const rows = [
     {
       key: 1,
-      values: [{ label: "Total AGI tokens", icon: InfoIcon }, { label: `${quantity} ${item}` }],
+      values: [{ label: "Total AGI tokens", icon: InfoIcon }, { label: `${agiInDecimal(quantity)} ${item}` }],
       highlight: true,
     },
   ];
