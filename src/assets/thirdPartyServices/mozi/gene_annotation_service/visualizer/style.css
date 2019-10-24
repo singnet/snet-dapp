@@ -64,7 +64,6 @@ div button:first-of-type {
   top: 0;
   left: 0;
   background-color: #fff;
-  z-index: 1000;
 }
 
 .visualizer-controls-wrapper {
@@ -89,9 +88,9 @@ div button:first-of-type {
 
 .filter-controls {
   position: absolute;
-  top: 15px;
+  top: 20px;
   left: 90px;
-  z-index: 10;
+  z-index: 1001;
 }
 
 .loader {
@@ -117,4 +116,25 @@ div button:first-of-type {
 .annotation-toggle-wrapper {
   padding: 45px 15px;
   width: 400px;
+}
+
+.annotation-toggle-wrapper .MuiPaper-elevation1 {
+  box-shadow: none;
+  border-bottom: solid 1px #ddd;
+}
+
+.annotation-toggle-wrapper .MuiPaper-rounded:not(.MuiExpansionPanel-root) {
+  background-color: #f5f5f5;
+}
+
+.annotation-toggle-wrapper .MuiExpansionPanelSummary-content .MuiTypography-root.MuiTypography-subtitle2 {
+  font-weight: bold;
+}
+
+.annotation-toggle-wrapper .MuiButtonBase-root.MuiExpansionPanelSummary-root.Mui-expanded {
+  min-height: 0;
+}
+
+.annotation-toggle-wrapper .MuiExpansionPanelSummary-content.Mui-expanded {
+  margin: 0;
 }
