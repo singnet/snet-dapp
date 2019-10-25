@@ -27,4 +27,12 @@ export const anyPendingTxn = state => {
   return istransactionsPending;
 };
 
+export const anyFailedTxn = state => {
+  const { walletList } = state.userReducer;
+  const istransactionsFailed = walletList.some(
+    wallet => wallet.transactions && wallet.transactions.some(txn => txn.status === "FAILED")
+  );
+  return istransactionsFailed;
+};
+
 export default paymentReducer;
