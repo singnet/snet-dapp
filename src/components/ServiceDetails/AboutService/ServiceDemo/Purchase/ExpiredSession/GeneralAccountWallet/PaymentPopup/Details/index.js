@@ -96,8 +96,7 @@ const Details = props => {
   return (
     <div className={classes.deatilsTabContainer}>
       <Typography variant="body1" className={classes.deatilsTabDesc}>
-        Information about the Payment type and Amount. Lorem ipsum dolor sita am et, at euismod tincidunt per. Vix case
-        discere ne, ea erant singulis vels. Nibhas aliquip prompta quo ex, hinc nobis no his.
+        Information about the Payment type and Amount.
       </Typography>
 
       <div className={classes.providerAndBalanceInfo}>
