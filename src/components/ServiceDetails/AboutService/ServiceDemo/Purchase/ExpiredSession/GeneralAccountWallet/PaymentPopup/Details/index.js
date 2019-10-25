@@ -21,7 +21,7 @@ import { groupInfo, currentServiceDetails } from "../../../../../../../../../Red
 import { orderTypes } from "../";
 import { decodeGroupId } from "../../../../../../../../../utility/sdk";
 
-export const paymentTypes = [{ value: "paypal", label: "Pay pal" }];
+export const paymentTypes = [{ value: "paypal", label: "Paypal" }];
 
 const web3 = new Web3(process.env.REACT_APP_WEB3_PROVIDER, null, {});
 
