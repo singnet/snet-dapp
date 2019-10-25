@@ -15,6 +15,7 @@ import isEmpty from "lodash/isEmpty";
 import { userActions } from "../../../../../../Redux/actionCreators";
 import WalletDetailsToggler from "./WalletDetailsToggler";
 import { channelInfo } from "../../../../../../Redux/reducers/UserReducer";
+import { anyPendingTxn, anyFailedTxn } from "../../../../../../Redux/reducers/PaymentReducer";
 
 const TransactionAlert = {
   PENDING: { type: alertTypes.WARNING, message: "Transaction Confirmed. Pending token allocation" },
@@ -53,12 +54,10 @@ class ExpiredSession extends Component {
   };
 
   transactionAlert = () => {
-    const { wallet } = this.props;
-    const anyPendingTxn = wallet.transactions && wallet.transactions.some(txn => txn.status === "PENDING");
+    const { anyPendingTxn, anyFailedTxn } = this.props;
     if (anyPendingTxn) {
       return TransactionAlert.PENDING;
     }
-    const anyFailedTxn = wallet.transactions && wallet.transactions.some(txn => txn.status === "FAILED");
     if (anyFailedTxn) {
       return TransactionAlert.FAILED;
     }
@@ -130,6 +129,8 @@ class ExpiredSession extends Component {
 const mapStateToProps = state => ({
   wallet: state.userReducer.wallet,
   channelInfo: channelInfo(state),
+  anyPendingTxn: anyPendingTxn(state),
+  anyFailedTxn: anyFailedTxn(state),
 });
 
 const mapDispatchToProps = dispatch => ({
