@@ -21,8 +21,8 @@ const PrivateKey = ({ classes, privateKey, handleNextSection }) => {
         Successfully Created Wallet for : Service Provider 1
       </Typography>
       <p className={classes.description}>
-        <span>Information about the wallet and key. </span>Lorem ipsum dolor sit amet, vim natum dolore cu. It will take
-        some time for the tokens to reflect on your channel. Please go ahead.
+        <span>Information about the wallet and key.</span>It will take some time for the tokens to reflect on your
+        channel. Please go ahead.
       </p>
       <AlertBox type={alertTypes.INFO} message={privateKey} />
       <div className={classes.downloadKeyBtn}>

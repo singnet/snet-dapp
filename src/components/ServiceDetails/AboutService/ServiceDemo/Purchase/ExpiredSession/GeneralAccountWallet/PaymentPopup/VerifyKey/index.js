@@ -11,10 +11,8 @@ import { useStyles } from "./styles";
 import AlertText from "../../../../../../../../common/AlertText";
 
 const warningMessage = [
-  "You wil still be able to topup your General Account Wallet and use it with all providers that you have linked with.",
-  "You wont be able to link General Account Wallet with any new providers.",
-  "Lorem ipsum dolor sit amet, simul vivendo vim ea, ut possim torquatos definiebas eam. Feugiat maiorum urbanitas ei quo.",
-  "Lorem ipsum dolor sit amet, simul vivendo vim ea, ut possim torquatos definiebas eam. Feugiat maiorum urbanitas ei quo.",
+  "You will still be able to top up your General Account Wallet and use it with all providers that you have linked with.",
+  "You won't be able to link General Account Wallet with any other new providers.",
 ];
 
 const web3 = new Web3(process.env.REACT_APP_WEB3_PROVIDER, null, {});
@@ -55,8 +53,8 @@ const VerifyKey = ({ classes, handleLostPrivateKey, walletList, handleUserProvid
     return (
       <div className={classes.lostKeyContainer}>
         <Typography variant="body1" className={classes.lostKeyInfo}>
-          If you lost your key for “General Account Wallet”, we can create a new wallet for you. Please keep in mind
-          that:
+          If you have lost your key for “General Account Wallet”, we can create a new wallet. Please take a note of the
+          below :
         </Typography>
         <div className={classes.WarningBoxConatiner}>
           {warningMessage.map(msg => (
@@ -78,8 +76,7 @@ const VerifyKey = ({ classes, handleLostPrivateKey, walletList, handleUserProvid
     <div className={classes.VerifyKeyContainer}>
       <p className={classes.VerifyKeyDesc}>
         <span>Please enter the Private key for your “General Account Wallet”.</span> We need the private key to link
-        your general wallet with the new provider. Lorem ipsum dolor sit amet, malis integre menandri at sed, essent
-        facete albu ci us ut has.
+        your general wallet with the new provider.
       </p>
       <form>
         <div className={`${classes.textField} ${alert.message ? classes.error : ""}`}>

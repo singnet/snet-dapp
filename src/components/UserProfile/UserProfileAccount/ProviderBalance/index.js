@@ -11,11 +11,7 @@ const ProviderBalance = ({ classes, linkedProviders }) => {
     <Grid container spacing={24} className={classes.providerBalContent}>
       <h3>Provider Balances</h3>
       <Grid item xs={12} sm={12} md={12} lg={12} className={classes.description}>
-        <Typography>
-          Message explaining about wallets and how tokens are locked to channels in each wallet. Lorem ipsum dolor sit
-          amet, mel debet dissentiet philosophia ut. Sed nibh solum temporibus in. An insolens electram pro, qui nobis
-          ornatus consectetuer an. Pro atqui labore saperet id. In qui sanctus definiebas, ut vidit assum mel.{" "}
-        </Typography>
+        <Typography>Message explaining about wallets and how tokens are locked to channels in each wallet. </Typography>
       </Grid>
       <ChannelList linkedProviders={linkedProviders} />
     </Grid>
