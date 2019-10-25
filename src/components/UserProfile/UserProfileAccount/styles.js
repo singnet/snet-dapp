@@ -2,6 +2,7 @@ export const useStyles = theme => ({
   accountMainContainer: {
     width: "100%",
     margin: "13px 0 50px",
+    flexWrap: "nowrap",
   },
   accountContainer: {
     maxWidth: 412,
@@ -41,6 +42,7 @@ export const useStyles = theme => ({
       "& select": { color: theme.palette.text.alertBoxColor },
     },
     "& fieldset": { display: "none" },
+    "& .MuiSelect-select": { padding: 0 },
   },
   dropDownTitle: {
     padding: "0 5px",
@@ -119,6 +121,7 @@ export const useStyles = theme => ({
     },
   },
   providerBalMaincontainer: {
+    maxWidth: 941,
     borderRadius: 4,
     marginLeft: 16,
     backgroundColor: theme.palette.text.white,

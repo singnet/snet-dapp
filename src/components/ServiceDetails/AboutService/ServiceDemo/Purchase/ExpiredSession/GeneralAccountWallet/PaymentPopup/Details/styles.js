@@ -11,6 +11,10 @@ export const useStyles = theme => ({
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
+    "@media(max-width:480px)": {
+      flexDirection: "column",
+      alignItems: "flex-start",
+    },
   },
   providerDetails: {
     display: "flex",
@@ -18,6 +22,7 @@ export const useStyles = theme => ({
     "& div": {
       marginRight: 10,
     },
+    "@media(max-width:480px)": { marginBottom: 25 },
   },
   providerName: {
     color: theme.palette.text.darkShadedGray,
@@ -30,7 +35,10 @@ export const useStyles = theme => ({
     fontFamily: theme.typography.primary.main,
     fontSize: 16,
   },
-  dropDownTextfield: { padding: "20px 55px 30px" },
+  dropDownTextfield: {
+    padding: "20px 55px 30px",
+    "@media(max-width:480px)": { padding: "20px 0 30px" },
+  },
   dropDownTitle: {
     padding: "0 5px",
     position: "absolute",
@@ -64,6 +72,8 @@ export const useStyles = theme => ({
     "& .MuiFormControl-root": {
       width: "100%",
       padding: "12px 0",
+      "& .MuiOutlinedInput-input": { padding: "7px 0 !important" },
+      "& fieldset": { color: `${theme.palette.text.grayTitleText} !important` },
     },
   },
   purchaseAmtTextfield: {

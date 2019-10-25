@@ -5,6 +5,7 @@ import InfoIcon from "@material-ui/icons/Info";
 import Avatar from "@material-ui/core/Avatar";
 import { connect } from "react-redux";
 import Web3 from "web3";
+import isEmpty from "lodash/isEmpty";
 
 import PaymentInfoCard from "../../../../PaymentInfoCard";
 import StyledDropdown from "../../../../../../../../common/StyledDropdown";
@@ -15,9 +16,10 @@ import { useStyles } from "./styles";
 import snetValidator from "../../../../../../../../../utility/snetValidator";
 import { paymentGatewayConstraints } from "./validationConstraints";
 import AlertBox, { alertTypes } from "../../../../../../../../common/AlertBox";
-import { USDToAgi, agiToCogs, tenYearBlockOffset } from "../../../../../../../../../utility/PricingStrategy";
-import { groupInfo } from "../../../../../../../../../Redux/reducers/ServiceDetailsReducer";
+import { USDToAgi, tenYearBlockOffset, USDToCogs } from "../../../../../../../../../utility/PricingStrategy";
+import { groupInfo, currentServiceDetails } from "../../../../../../../../../Redux/reducers/ServiceDetailsReducer";
 import { orderTypes } from "../";
+import { decodeGroupId } from "../../../../../../../../../utility/sdk";
 
 export const paymentTypes = [{ value: "paypal", label: "Pay pal" }];
 
@@ -32,6 +34,7 @@ const Details = props => {
     orderType,
     userProvidedPrivateKey: privateKey,
     groupInfo,
+    serviceDetails,
   } = props;
 
   const [payType, setPayType] = useState("default");
@@ -46,6 +49,32 @@ const Details = props => {
     }
   };
 
+  const generateSignature = async () => {
+    const account = web3.eth.accounts.privateKeyToAccount(privateKey);
+    const address = account.address;
+    web3.eth.accounts.wallet.add(account);
+    web3.eth.defaultAccount = address;
+    const recipient = groupInfo.payment.payment_address;
+    const hexGroupId = decodeGroupId(groupInfo.group_id);
+    const amountInCogs = USDToCogs(amount);
+    const currentBlockNumber = await web3.eth.getBlockNumber();
+    // block no is mined in 15 sec on average, setting expiration as 10 years
+    const expiration = currentBlockNumber + tenYearBlockOffset;
+    const sha3Message = web3.utils.soliditySha3(
+      { t: "string", v: "__openChannelByThirdParty" },
+      { t: "address", v: process.env.REACT_APP_MPE_CONTRACT_ADDRESS },
+      { t: "address", v: process.env.REACT_APP_EXECUTOR_WALLET_ADDRESS },
+      { t: "address", v: process.env.REACT_APP_SNET_SIGNER_ADDRESS },
+      { t: "address", v: recipient },
+      { t: "bytes32", v: hexGroupId },
+      { t: "uint256", v: amountInCogs },
+      { t: "uint256", v: expiration },
+      { t: "uint256", v: currentBlockNumber }
+    );
+    const { signature } = await web3.eth.accounts.sign(sha3Message, privateKey);
+    return Promise.resolve({ signature, address, currentBlockNumber });
+  };
+
   const handleContinue = async () => {
     setAlert({});
     const isNotValid = snetValidator({ payType, amount }, paymentGatewayConstraints);
@@ -55,39 +84,12 @@ const Details = props => {
     }
     try {
       const amountInAGI = USDToAgi(amount);
-      let signature;
-      let address;
-      let currentBlockNumber;
       if (orderType === orderTypes.CREATE_CHANNEL) {
-        const account = web3.eth.accounts.privateKeyToAccount(privateKey);
-        address = account.address;
-        web3.eth.accounts.wallet.add(account);
-        web3.eth.defaultAccount = address;
-        const recipient = groupInfo.payment.payment_address;
-        const hexGroupId = `0x${atob(groupInfo.group_id)}`;
-        const amountInCogs = agiToCogs(amountInAGI);
-        currentBlockNumber = await web3.eth.getBlockNumber();
-        // 1 block no is mined in 15 sec on average, setting expiration as 10 years
-        const expiration = currentBlockNumber + tenYearBlockOffset;
-        const sha3Message = web3.utils.soliditySha3(
-          { t: "string", v: "__openChannelByThirdParty" },
-          { t: "address", v: process.env.REACT_APP_MPE_CONTRACT_ADDRESS },
-          { t: "address", v: process.env.REACT_APP_EXECUTOR_WALLET_ADDRESS },
-          { t: "address", v: process.env.REACT_APP_SNET_SIGNER_ADDRESS },
-          { t: "address", v: recipient },
-          { t: "bytes32", v: hexGroupId },
-          { t: "uint256", v: amountInCogs },
-          { t: "uint256", v: expiration },
-          { t: "uint256", v: currentBlockNumber }
-        );
-
-        const generatedSignature = await web3.eth.accounts.sign(sha3Message, privateKey);
-        signature = generatedSignature.signature;
+        var { signature, address, currentBlockNumber } = await generateSignature();
       }
-      initiatePayment(payType, amount, currency, "AGI", amountInAGI, signature, address, currentBlockNumber);
+      await initiatePayment(payType, amount, currency, "AGI", amountInAGI, signature, address, currentBlockNumber);
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log("error", error);
+      setAlert({ type: alertTypes.ERROR, message: `${error.message}. Please try again` });
     }
   };
 
@@ -103,16 +105,13 @@ const Details = props => {
           <Avatar alt="Singularity" src={SingularityLogo} className={classes.avatar} />
           <div>
             <Typography variant="body2" className={classes.providerName}>
-              Service Provider 1
-            </Typography>
-            <Typography variant="body2" className={classes.noOfService}>
-              3 AI Services
+              {serviceDetails.organization_name}
             </Typography>
           </div>
         </div>
         <PaymentInfoCard
           title="Channel Balance"
-          show={channelInfo.balanceInAgi}
+          show={!isEmpty(channelInfo)}
           value={channelInfo.balanceInAgi}
           unit="AGI"
         />
@@ -150,6 +149,7 @@ const Details = props => {
 
 const mapStateToProps = state => ({
   groupInfo: groupInfo(state),
+  serviceDetails: currentServiceDetails(state),
 });
 
 export default connect(mapStateToProps)(withStyles(useStyles)(Details));

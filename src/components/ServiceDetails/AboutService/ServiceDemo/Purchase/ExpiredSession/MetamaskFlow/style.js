@@ -7,7 +7,10 @@ export const useStyles = theme => ({
       paddingBottomg: 15,
     },
   },
-  PurchaseFlowContainer: { padding: "0 50px 50px" },
+  PurchaseFlowContainer: {
+    padding: "0 50px 50px",
+    "@media(max-width:1280px)": { padding: 0 },
+  },
   PurchaseFlowDescription: {
     margin: "33px 0 45px",
     color: theme.palette.text.alertBoxColor,
@@ -53,7 +56,8 @@ export const useStyles = theme => ({
   buttonContainer: {
     marginTop: 35,
     textAlign: "center",
-    justifyContent: "center",
+    display: "flex",
+    justifyContent: "space-evenly",
     "& div": {
       display: "inline-block",
     },

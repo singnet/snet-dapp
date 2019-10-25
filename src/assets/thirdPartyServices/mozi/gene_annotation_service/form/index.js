@@ -9,6 +9,7 @@ import Button from "@material-ui/core/Button";
 import FormGroup from "@material-ui/core/FormGroup";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
+import WarningIcon from "@material-ui/icons/Warning";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Switch from "@material-ui/core/Switch";
@@ -20,6 +21,7 @@ import Dropzone from "react-dropzone";
 import { useSnackbar } from "notistack";
 import { Annotate } from "../proto/annotation_pb_service";
 import { AnnotationRequest, Annotation, Gene, Filter } from "../proto/annotation_pb";
+import AnchorLink from "../../../../../components/common/AnchorLink";
 import "./style.css";
 const grpc = require("@improbable-eng/grpc-web").grpc;
 
@@ -46,6 +48,7 @@ const AnnotationForm = props => {
   const [loading, setLoading] = useState(false);
   const [GOSubgroups, setGOSubgroups] = useState(["biological_process", "cellular_component", "molecular_function"]);
   const [geneInputMethod, setGeneInputMethod] = useState(GeneInputMethods.Manual);
+  const [annotatePathwayWithBiogrid, setAnnotatePathwayWithBiogrid] = useState(false);
 
   const addGene = e => {
     const gene = e
@@ -111,7 +114,7 @@ const AnnotationForm = props => {
     namespace.setValue(GOSubgroups.join(" "));
     const nop = new Filter();
     nop.setFilter("parents");
-    nop.setValue(parents);
+    nop.setValue(parents.toString());
     annotationRequest.setAnnotationsList(
       annotations.map(sa => {
         const annotation = new Annotation();
@@ -120,32 +123,36 @@ const AnnotationForm = props => {
           annotation.setFiltersList([namespace, nop]);
         } else if (sa === "gene-pathway-annotation") {
           const ps = new Filter();
-          ps.setFilter("namespace");
+          ps.setFilter("pathway");
           ps.setValue(pathways.join(" "));
           const ism = new Filter();
-          ism.setFilter("include_small_molecule");
+          ism.setFilter("include_sm");
           ism.setValue(capitalizeFirstLetter(includeSmallMolecules.toString()));
           const ip = new Filter();
           ip.setFilter("include_prot");
           ip.setValue(capitalizeFirstLetter(includeProtiens.toString()));
+          const capb = new Filter();
+          capb.setFilter("biogrid");
+          capb.setValue(annotatePathwayWithBiogrid ? "1" : "0");
           annotation.setFiltersList([
             ps,
             ip,
             ism,
+            capb,
             // ...(annotations.includes("gene-go-annotation") ? [namespace, nop] : []),
           ]);
         } else if (sa === "biogrid-interaction-annotation") {
           const int = new Filter();
           int.setFilter("interaction");
           int.setValue(includeProtiens ? "Proteins" : "Genes");
-          annotation.setFiltersList([int
+          annotation.setFiltersList([
+            int,
             // , ...(annotations.includes("gene-go-annotation") ? [namespace, nop] : [])
           ]);
         }
         return annotation;
       })
     );
-
 
     const requestProps = {
       request: annotationRequest,
@@ -194,7 +201,7 @@ const AnnotationForm = props => {
     <div className="container form-wrapper">
       {/* Gene List */}
       <Typography variant="h6" gutterBottom>
-        Input Genes
+        Input <AnchorLink href="http://www.genenames.org" label="HGNC" newTab /> Gene Symbols
       </Typography>
       <AppBar position="static" color="default" style={{ marginBottom: 15 }}>
         <Tabs
@@ -285,7 +292,7 @@ const AnnotationForm = props => {
           <FormGroup row>
             <FormControlLabel
               control={<Checkbox color="primary" onChange={e => toggleAnnotation("gene-go-annotation", e)} />}
-              label="Gene-GO"
+              label={<AnchorLink href="http://www.geneontology.org" label="Gene Ontology" newTab />}
             />
           </FormGroup>
 
@@ -332,25 +339,23 @@ const AnnotationForm = props => {
           <FormGroup row>
             <FormControlLabel
               control={<Checkbox color="primary" onChange={e => toggleAnnotation("gene-pathway-annotation", e)} />}
-              label="Gene Pathway"
+              label="Curated Pathways"
             />
           </FormGroup>
           {annotations.includes("gene-pathway-annotation") && (
             <div className="annotation-parameters">
               <div className="parameter">
-                {Pathways.map(p => (
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        color="primary"
-                        value={p.value}
-                        onChange={e => togglePathways(p.value, e)}
-                        defaultChecked={pathways.includes(p.value)}
-                      />
-                    }
-                    label={p.label}
-                  />
-                ))}
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      color="primary"
+                      value="reactome"
+                      onChange={e => togglePathways("reactome", e)}
+                      defaultChecked={pathways.includes("reactome")}
+                    />
+                  }
+                  label={<AnchorLink href="http://www.reactome.org" label="Reactome" newTab />}
+                />
               </div>
               <div className="parameter">
                 <FormGroup row>
@@ -364,6 +369,20 @@ const AnnotationForm = props => {
                       />
                     }
                     label="Small molecules"
+                  />
+                </FormGroup>
+              </div>
+              <div className="parameter">
+                <FormGroup row>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={annotatePathwayWithBiogrid}
+                        onChange={e => setAnnotatePathwayWithBiogrid(e.target.checked)}
+                        color="primary"
+                      />
+                    }
+                    label="Cross annotate with biogrid"
                   />
                 </FormGroup>
               </div>
@@ -392,6 +411,16 @@ const AnnotationForm = props => {
         }
         label="Include protiens"
       />
+      {annotatePathwayWithBiogrid && (
+        <div style={{ backgroundColor: "beige", border: "solid 1px orange", padding: 10 }}>
+          <Typography variant="h6" gutterBottom>
+            <WarningIcon style={{ marginRight: 10, color: "orange" }} /> Cross annotation will increase the size
+          </Typography>
+          <Typography variant="subtitle1" gutterBottom>
+            If the result is too large, you might have difficulties visualizing it.
+          </Typography>
+        </div>
+      )}
       <div className="actions">
         <Button
           variant="contained"

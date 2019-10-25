@@ -36,16 +36,16 @@ const PaymentData = ({
       <Grid item xs={12} sm={12} md={2} lg={2}>
         <Typography>{paymentChannel}</Typography>
       </Grid>
-      <Grid item xs={12} sm={12} md={1} lg={2}>
+      <Grid item xs={12} sm={12} md={3} lg={3}>
         <Typography>{orderType}</Typography>
       </Grid>
-      <Grid item xs={12} sm={12} md={1} lg={2} className={classes.alertBox}>
+      <Grid item xs={12} sm={12} md={1} lg={1} className={classes.alertBox}>
         <AlertText type={statusType} message={statusType} />
       </Grid>
-      <Grid item xs={12} sm={12} md={2} lg={1}>
+      <Grid item xs={12} sm={12} md={1} lg={1}>
         <Typography>${cost}</Typography>
       </Grid>
-      <Grid item xs={12} sm={12} md={2} lg={1}>
+      <Grid item xs={12} sm={12} md={1} lg={1}>
         <Typography>{`${itemQuantity} ${itemUnit}`}</Typography>
       </Grid>
     </Grid>

@@ -1,26 +1,30 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+import { useStyles } from "./styles";
+import { withStyles } from "@material-ui/styles";
 
 import { Recognizer } from "./image_recon_pb_service";
-import MethodNamesDropDown from "../../common/MethodNamesDropDown";
+
 import SNETImageUpload from "../../standardComponents/SNETImageUpload";
+import StyledDropdown from "../../../../components/common/StyledDropdown";
+import StyledButton from "../../../../components/common/StyledButton";
 
 const initialUserInput = {
   methodName: "Select a method",
   img_path: undefined,
 };
 
-export default class CNTKImageRecognition extends React.Component {
+class CNTKImageRecognition extends React.Component {
   constructor(props) {
     super(props);
     this.submitAction = this.submitAction.bind(this);
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
-    this.getImageURL = this.getImageURL.bind(this);
+    this.getImageData = this.getImageData.bind(this);
 
     this.state = {
       ...initialUserInput,
-      users_guide: "https://github.com/singnet/dnn-model-services/blob/master/docs/users_guide/cntk-image-recon.md",
-      code_repo: "https://github.com/singnet/dnn-model-services/blob/master/Services/gRPC/cntk-image-recon",
+      users_guide: "https://singnet.github.io/dnn-model-services/users_guide/cntk-image-recon.html",
+      code_repo: "https://github.com/singnet/dnn-model-services/tree/master/services/cntk-image-recon",
       reference: "https://cntk.ai/pythondocs/CNTK_301_Image_Recognition_with_Deep_Transfer_Learning.html",
       model: "ResNet152",
       response: undefined,
@@ -31,7 +35,7 @@ export default class CNTKImageRecognition extends React.Component {
     return this.state.img_path && this.state.methodName !== "Select a method";
   }
 
-  getImageURL(data) {
+  getImageData(data) {
     this.setState({ img_path: data });
   }
 
@@ -52,7 +56,7 @@ export default class CNTKImageRecognition extends React.Component {
       onEnd: ({ message }) => {
         this.setState({
           ...initialUserInput,
-          response: { status: "success", top_5: message.getTop5(), delta_time: message.getDeltaTime() },
+          response: { status: "Success", top_5: message.getTop5(), delta_time: message.getDeltaTime() },
         });
       },
     };
@@ -61,77 +65,83 @@ export default class CNTKImageRecognition extends React.Component {
   }
 
   renderForm() {
-    const serviceNameOptions = ["Select a method", ...this.props.serviceClient.getMethodNames(Recognizer)];
-
+    const { classes } = this.props;
+    const serviceNameOptions = Object.entries(Recognizer).map(([key, value]) => ({ value: value.methodName, label: key }));
+    serviceNameOptions.shift();
     return (
       <React.Fragment>
-        <div className="row">
-          <div className="col-md-3 col-lg-3" style={{ padding: "10px", fontSize: "13px", marginLeft: "10px" }}>
-            Method Name:{" "}
-          </div>
-          <div className="col-md-3 col-lg-3">
-            <MethodNamesDropDown
-              list={serviceNameOptions}
-              value={this.state.methodName}
-              onChange={this.handleFormUpdate}
-            />
-          </div>
-        </div>
-        <div className="row" align="center">
-          <SNETImageUpload imageName={""} imageDataFunc={this.getImageURL} instantUrlFetch={true} allowURL={true} />
-        </div>
-        <div className="row">
-          <div className="col-md-3 col-lg-3" style={{ padding: "10px", fontSize: "13px", marginLeft: "10px" }}>
-            About:{" "}
-          </div>
-          <div className="col-xs-3 col-xs-2">
-            <Button target="_blank" href={this.state.users_guide} style={{ fontSize: "13px", marginLeft: "10px" }}>
-              Guide
-            </Button>
-          </div>
-          <div className="col-xs-3 col-xs-2">
-            <Button target="_blank" href={this.state.code_repo} style={{ fontSize: "13px", marginLeft: "10px" }}>
-              Code
-            </Button>
-          </div>
-          <div className="col-xs-3 col-xs-2">
-            <Button target="_blank" href={this.state.reference} style={{ fontSize: "13px", marginLeft: "10px" }}>
-              Reference
-            </Button>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-md-6 col-lg-6" style={{ textAlign: "right" }}>
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={this.submitAction}
+        <Grid
+          container
+          direction="column"
+          justify="center">
+            <Grid xs={6} className={classes.dropDown} align="left">
+                  <span className={classes.dropDownTitle}>Method</span>
+              <StyledDropdown
+                labelTxt={"methodName"}
+                list={serviceNameOptions}
+                value={this.state.methodName}
+                onChange={this.handleFormUpdate}/>
+            </Grid>
+        
+            <Grid xs className={classes.upload} align="center">
+                <SNETImageUpload
+                imageName={"Content Image"}
+                imageDataFunc={this.getImageData}
+                instantUrlFetch={true}
+                allowURL={true} />
+            </Grid>
+
+            <Grid xs className={classes.about}>
+                About:{" "}
+                <StyledButton
+                  type="blue"
+                  btnText="Guide"
+                  target="_blank"
+                  href={this.state.users_guide}/>
+                <StyledButton
+                  type="blue"
+                  btnText="Code"
+                  target="_blank"
+                  href={this.state.code_repo}/>
+                <StyledButton
+                  type="blue"
+                  btnText="Reference"
+                  target="_blank"
+                  href={this.state.reference}/>
+            </Grid>
+
+            <Grid xs className={classes.invoke}>
+              <StyledButton
+              type="blue"
+              btnText="Invoke"
               disabled={!this.canBeInvoked()}
-            >
-              Invoke
-            </button>
-          </div>
-        </div>
+              onClick={this.submitAction}/>
+            </Grid>
+        </Grid>
       </React.Fragment>
     );
   }
 
   renderComplete() {
     const { response } = this.state;
+    var top5 = response.top5;
+    top5 = top5.replace('{', '');
+    top5 = top5.replace('}', '');
+    var topArray = top5.split(', ');
 
     return (
-      <div style={{ background: "#F8F8F8", padding: "24px" }}>
+      <Grid style={{ background: "#F8F8F8", padding: "24px" }}>
         <h4> Results</h4>
-        <div style={{ padding: "10px 10px 0 10px", fontSize: "14px", color: "#9b9b9b" }}>
-          <div style={{ padding: "10px 0", borderBottom: "1px solid #eee" }}>
+        <Grid style={{ padding: "10px 10px 0 10px", fontSize: "14px", color: "#9b9b9b" }}>
+          <Grid style={{ padding: "10px 0", borderBottom: "1px solid #eee" }}>
             Status: <span style={{ color: "#212121" }}>{response.status}</span>
-          </div>
-          <div style={{ padding: "10px 0", borderBottom: "1px solid #eee" }}>
+          </Grid>
+          <Grid style={{ padding: "10px 0", borderBottom: "1px solid #eee" }}>
             Time : <span style={{ color: "#212121" }}>{response.delta_time}</span>
-          </div>
-          <div style={{ padding: "10px 0" }}>
+          </Grid>
+          <Grid style={{ padding: "10px 0" }}>
             Output:
-            <div
+            <Grid
               style={{
                 color: "#212121",
                 marginTop: "5px",
@@ -140,11 +150,13 @@ export default class CNTKImageRecognition extends React.Component {
                 borderRadius: "4px",
               }}
             >
-              {response.top_5}
-            </div>
-          </div>
-        </div>
-      </div>
+              {topArray.map((elem) => {
+                return (<Grid><span style={{ color: "#212121" }}>{elem}</span></Grid>)
+              })}
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
     );
   }
 
@@ -155,3 +167,5 @@ export default class CNTKImageRecognition extends React.Component {
     }
   }
 }
+
+export default withStyles(useStyles)(CNTKImageRecognition);

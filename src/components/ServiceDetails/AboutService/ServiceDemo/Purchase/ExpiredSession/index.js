@@ -103,8 +103,8 @@ class ExpiredSession extends Component {
           </div>
           <div className={classes.channelBalance}>
             <PaymentInfoCard
-              show={!isEmpty(channelInfo) && wallet.type !== walletTypes.METAMASK}
-              title="channel balance"
+              show={!isEmpty(channelInfo) && wallet.type === walletTypes.GENERAL}
+              title="Channel Balance"
               value={!isEmpty(channelInfo) && channelInfo.balanceInAgi}
               unit="AGI"
             />
@@ -112,7 +112,7 @@ class ExpiredSession extends Component {
           <AlertBox {...this.transactionAlert()} />
         </div>
         <WalletDetailsToggler
-          show={Boolean(wallet.type)}
+          show={wallet.type !== walletTypes.DEFAULT}
           metamask={wallet.type === walletTypes.METAMASK}
           generalWalletProps={{ handleContinue: handleComplete }}
           metamaskProps={{

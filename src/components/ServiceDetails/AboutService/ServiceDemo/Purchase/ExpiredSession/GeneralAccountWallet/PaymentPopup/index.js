@@ -29,11 +29,12 @@ export const orderTypes = {
   CREATE_CHANNEL: "CREATE_CHANNEL",
 };
 
-const paypalSuccessRedirectionSection = {
+const indexOfPurchaseSection = {
   [orderTypes.CREATE_WALLET]: 2,
   [orderTypes.TOPUP_WALLET]: 2,
   [orderTypes.CREATE_CHANNEL]: 3,
 };
+
 class PaymentPopup extends Component {
   state = {
     activeSection: 1,
@@ -50,31 +51,18 @@ class PaymentPopup extends Component {
     }
   };
 
-  purchaseWallet = async () => {
+  purchaseWallet = () => {
     const {
-      fetchOrderDetails,
-      paypalInProgress: { orderId },
+      paypalInProgress: { orderType },
     } = this.props;
-    const orderType = await fetchOrderDetails(orderId);
     if (orderType === this.props.orderType) {
-      this.props.handleOpen();
-      this.setState({ activeSection: paypalSuccessRedirectionSection[orderType] });
+      this.setState({ activeSection: indexOfPurchaseSection[orderType] });
     }
   };
 
   handlePaymentComplete = () => {
-    const {
-      paypalCompleted,
-      setVisibility,
-      match: {
-        params: { orgId, serviceId },
-      },
-      history,
-    } = this.props;
-    paypalCompleted();
-    setVisibility(false);
-    this.setState({ activeSection: 1 });
-    history.push(`/${Routes.SERVICE_DETAILS}/org/${orgId}/service/${serviceId}`);
+    this.props.paypalCompleted();
+    this.handleClose();
   };
 
   handleUserProvidedPrivateKey = userProvidedPrivateKey => {
@@ -82,10 +70,29 @@ class PaymentPopup extends Component {
   };
 
   handleClose = () => {
-    // if (this.state.activeSection === 1 || this.state.activeSection === 2) {
-    //   this.setState({ activeSection: 1 });
-    this.props.handleClose();
-    // }
+    const { orderType } = this.props;
+    if (this.state.activeSection === indexOfPurchaseSection[orderType]) {
+      return;
+    }
+    this.handleCancel();
+  };
+
+  handleCancel = () => {
+    this.props.paypalCompleted();
+    this.resetPaymentPopup();
+  };
+
+  resetPaymentPopup = () => {
+    const {
+      handleClose,
+      match: {
+        params: { orgId, serviceId },
+      },
+      history,
+    } = this.props;
+    handleClose();
+    this.setState({ activeSection: 1 });
+    history.push(`/${Routes.SERVICE_DETAILS}/org/${orgId}/service/${serviceId}`);
   };
 
   handleNextSection = () => {
@@ -126,7 +133,7 @@ class PaymentPopup extends Component {
       payment_method: payType,
     };
 
-    initiatePayment(paymentObj);
+    return initiatePayment(paymentObj);
   };
 
   handleExecutePayment = async () => {
@@ -147,13 +154,16 @@ class PaymentPopup extends Component {
         payment_id: paypalPaymentId,
       },
     };
-    const response = await executePayment(paymentExecObj);
+    const { data, error } = await executePayment(paymentExecObj);
+    if (error.code) {
+      throw error;
+    }
     await fetchWalletDetails(orgId, group_id);
     const {
       private_key: privateKeyGenerated,
       item_details: { item, quantity },
       price: { amount },
-    } = response.data;
+    } = data;
     this.setState({ privateKeyGenerated, amount, quantity, item });
     this.handleNextSection();
     return;
@@ -193,7 +203,7 @@ class PaymentPopup extends Component {
           <Purchase
             paypalInProgress={paypalInProgress}
             executePayment={this.handleExecutePayment}
-            handleCancel={this.handleClose}
+            handleCancel={this.handleCancel}
           />
         ),
       },
@@ -270,7 +280,6 @@ const mapDispatchToProps = dispatch => ({
   executePayment: paymentExecObj => dispatch(paymentActions.executePayment(paymentExecObj)),
   fetchWalletDetails: (orgId, groupId) => dispatch(userActions.fetchWallet(orgId, groupId)),
   paypalCompleted: () => dispatch(paymentActions.updatePaypalCompleted),
-  fetchOrderDetails: orderId => dispatch(userActions.fetchOrderDetails(orderId)),
 });
 
 export default withRouter(

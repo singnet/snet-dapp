@@ -41,7 +41,7 @@ export const useStyles = makeStyles(theme => ({
     "& .MuiFlatPagination-rootCurrent": {
       padding: "0 8px",
       backgroundColor: theme.palette.text.primary,
-      color: "#fff !important",
+      color: `${theme.palette.text.white} !important`,
     },
     "& .MuiFlatPageButton-rootEnd": {
       color: theme.palette.text.grayTitleText,

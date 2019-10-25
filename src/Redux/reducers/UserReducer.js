@@ -4,6 +4,7 @@ import { userActions } from "../actionCreators";
 import { walletTypes, RESET_LOGIN_ERROR } from "../actionCreators/UserActions";
 import { cogsToAgi } from "../../utility/PricingStrategy";
 
+export const initialWallet = { value: walletTypes.DEFAULT, type: walletTypes.DEFAULT };
 const InitialUserDetails = {
   login: {
     isLoggedIn: false,
@@ -12,7 +13,7 @@ const InitialUserDetails = {
   },
   isInitialized: false,
   isEmailVerified: false,
-  wallet: {},
+  wallet: initialWallet,
   walletList: [],
   firstTimeFetchWallet: true,
   email: "",

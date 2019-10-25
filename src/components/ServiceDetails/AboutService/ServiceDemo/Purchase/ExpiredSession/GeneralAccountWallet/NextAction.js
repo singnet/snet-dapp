@@ -19,14 +19,28 @@ const NextAction = props => {
         type="blue"
         btnText="create wallet"
         onClick={() => setShowCreateWalletPopup(true)}
-        disabled={anyPendingTxn()}
+        disabled={anyPendingTxn}
       />
     );
   }
   if (isEmpty(channel)) {
-    return <StyledButton type="blue" btnText="link provider" onClick={() => setShowLinkProvider(true)} />;
+    return (
+      <StyledButton
+        type="blue"
+        btnText="link provider"
+        onClick={() => setShowLinkProvider(true)}
+        disabled={anyPendingTxn}
+      />
+    );
   }
-  return <StyledButton type="blue" btnText="continue" disabled={channel.balanceInAgi <= 0} onClick={handleContinue} />;
+  return (
+    <StyledButton
+      type="blue"
+      btnText="continue"
+      disabled={channel.balanceInAgi <= 0 || anyPendingTxn}
+      onClick={handleContinue}
+    />
+  );
 };
 
 export default NextAction;

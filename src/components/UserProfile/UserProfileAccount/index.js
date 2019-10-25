@@ -4,7 +4,6 @@ import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 import map from "lodash/map";
 import find from "lodash/find";
-import lowerCase from "lodash/lowerCase";
 
 import StyledDropdown from "../../common/StyledDropdown";
 import { useStyles } from "./styles";
@@ -13,6 +12,7 @@ import {
   fetchWalletLinkedProviders,
   walletTypes,
 } from "../../../Redux/actionCreators/UserActions";
+import { userActions } from "../../../Redux/actionCreators";
 import MetamaskDetails from "./MetamaskDetails";
 import { initSdk } from "../../../utility/sdk";
 import ProviderBalance from "./ProviderBalance";
@@ -20,11 +20,10 @@ import AlertBox, { alertTypes } from "../../common/AlertBox";
 import ProvidersLinkedCount from "./ProvidersLinkedCount";
 import { startAppLoader, stopAppLoader } from "../../../Redux/actionCreators/LoaderActions";
 import { LoaderContent } from "../../../utility/constants/LoaderContent";
+import { initialWallet } from "../../../Redux/reducers/UserReducer";
 
-const UserProfileAccount = ({ classes, startAppLoader, stopAppLoader }) => {
+const UserProfileAccount = ({ classes, startAppLoader, stopAppLoader, wallet, updateWallet }) => {
   const [alert, setAlert] = useState({});
-  const initialWallet = { value: "default", type: "default" };
-  const [wallet, updateWallet] = useState(initialWallet);
   const [wallets, updateWallets] = useState([]);
   const [linkedProviders, updateLinkedProviders] = useState([]);
   useEffect(() => {
@@ -38,8 +37,15 @@ const UserProfileAccount = ({ classes, startAppLoader, stopAppLoader }) => {
     fetchWallets();
   }, []);
 
-  const selectedEthAddress = window.ethereum && window.ethereum.selectedAddress;
-  const isSameMetaMaskAddress = lowerCase(selectedEthAddress) === lowerCase(wallet.address);
+  const isSameMetaMaskAddress = address => {
+    const selectedEthAddress = window.ethereum && window.ethereum.selectedAddress;
+    if (selectedEthAddress && address) {
+      return selectedEthAddress.toLowerCase() === address.toLowerCase();
+    }
+
+    return false;
+  };
+
   const handleWalletTypeChange = async event => {
     setAlert({});
     const { value: selectedValue } = event.target;
@@ -57,11 +63,12 @@ const UserProfileAccount = ({ classes, startAppLoader, stopAppLoader }) => {
 
     if (selectedWallet.type === walletTypes.METAMASK) {
       try {
-        if (isSameMetaMaskAddress) {
+        if (isSameMetaMaskAddress(selectedWallet.address)) {
+          const selectedEthAddress = window.ethereum && window.ethereum.selectedAddress;
           await initSdk(selectedEthAddress);
           return;
         }
-        if (!isSameMetaMaskAddress) {
+        if (!isSameMetaMaskAddress(selectedWallet.address)) {
           setAlert({
             type: alertTypes.ERROR,
             message: `The selected wallet address does not match the address in the current metamask account. Please select the correct account in metamask and try again.`,
@@ -76,13 +83,13 @@ const UserProfileAccount = ({ classes, startAppLoader, stopAppLoader }) => {
   };
 
   const walletDetails = {
-    [walletTypes.METAMASK]: isSameMetaMaskAddress ? <MetamaskDetails wallet={wallet} /> : undefined,
+    [walletTypes.METAMASK]: isSameMetaMaskAddress(wallet.address) ? <MetamaskDetails /> : undefined,
   };
 
   const hasSelectedWallet = wallet.type !== initialWallet.type;
   return (
-    <Grid container spacing={10} className={classes.accountMainContainer}>
-      <Grid xs={12} sm={12} md={4} lg={4} className={classes.accountContainer}>
+    <Grid container spacing={24} className={classes.accountMainContainer}>
+      <Grid item xs={12} sm={12} md={4} lg={4} className={classes.accountContainer}>
         <h3>Payment / Transfer Method</h3>
         <div className={classes.accountWrapper}>
           <div className={classes.dropDown}>
@@ -100,7 +107,7 @@ const UserProfileAccount = ({ classes, startAppLoader, stopAppLoader }) => {
         </div>
       </Grid>
       {hasSelectedWallet && (
-        <Grid xs={12} sm={12} md={8} lg={8} className={classes.providerBalMaincontainer}>
+        <Grid item xs={12} sm={12} md={8} lg={8} className={classes.providerBalMaincontainer}>
           <ProviderBalance linkedProviders={linkedProviders} />
         </Grid>
       )}
@@ -108,14 +115,19 @@ const UserProfileAccount = ({ classes, startAppLoader, stopAppLoader }) => {
   );
 };
 
+const mapStateToProps = state => ({
+  wallet: state.userReducer.wallet,
+});
+
 const mapDispatchToProps = dispatch => {
   return {
+    updateWallet: args => dispatch(userActions.updateWallet(args)),
     startAppLoader: () => dispatch(startAppLoader(LoaderContent.FETCH_LINKED_PROVIDERS)),
     stopAppLoader: () => dispatch(stopAppLoader),
   };
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(withStyles(useStyles)(UserProfileAccount));

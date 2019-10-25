@@ -4,7 +4,6 @@ import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
 import CardGiftcardIcon from "@material-ui/icons/CardGiftcard";
 import isEmpty from "lodash/isEmpty";
-import queryString from "query-string";
 
 import TitleCard from "./TitleCard";
 import PricingDetails from "./PricingDetails";
@@ -13,10 +12,9 @@ import AboutService from "./AboutService";
 import InstallAndRunService from "./InstallAndRunService";
 import { useStyles } from "./styles";
 import NotificationBar, { notificationBarTypes } from "../common/NotificationBar";
-import { serviceDetailsActions, paymentActions, userActions } from "../../Redux/actionCreators";
+import { serviceDetailsActions } from "../../Redux/actionCreators";
 import { pricing, serviceDetails } from "../../Redux/reducers/ServiceDetailsReducer";
 import ErrorBox from "../common/ErrorBox";
-import { walletTypes } from "../../Redux/actionCreators/UserActions";
 
 class ServiceDetails extends Component {
   state = {
@@ -35,7 +33,6 @@ class ServiceDetails extends Component {
     if (isEmpty(this.props.service)) {
       this.fetchServiceDetails();
     }
-    this.checkForPaymentsInProgress();
   }
 
   fetchServiceDetails = async () => {
@@ -49,25 +46,6 @@ class ServiceDetails extends Component {
       await fetchServiceDetails(orgId, serviceId);
     } catch (error) {
       this.setState({ error: true });
-    }
-  };
-
-  checkForPaymentsInProgress = async () => {
-    const {
-      location: { search },
-      match: {
-        params: { orderId, paymentId },
-      },
-      updatePaypalInProgress,
-      fetchOrderDetails,
-      updateWallet,
-    } = this.props;
-    const { paymentId: paypalPaymentId, PayerID } = queryString.parse(search);
-    if (orderId && paymentId && paypalPaymentId && PayerID) {
-      const { data } = await fetchOrderDetails(orderId);
-      const orderType = data.item_details.order_type;
-      updatePaypalInProgress(orderId, orderType, paymentId, paypalPaymentId, PayerID);
-      updateWallet({ type: walletTypes.GENERAL });
     }
   };
 
@@ -149,10 +127,6 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => ({
   fetchServiceDetails: (orgId, serviceId) => dispatch(serviceDetailsActions.fetchServiceDetails(orgId, serviceId)),
-  updatePaypalInProgress: (orderId, orderType, paymentId, paypalPaymentId, PayerID) =>
-    dispatch(paymentActions.updatePaypalInProgress(orderId, orderType, paymentId, paypalPaymentId, PayerID)),
-  fetchOrderDetails: orderId => dispatch(paymentActions.fetchOrderDetails(orderId)),
-  updateWallet: walletDetails => dispatch(userActions.updateWallet(walletDetails)),
 });
 
 export default connect(

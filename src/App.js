@@ -19,6 +19,7 @@ import { CircularProgress } from "@material-ui/core";
 import NetworkChangeOverlay from "./components/common/NetworkChangeOverlay";
 import initHotjar from "./assets/externalScripts/hotjar";
 import initGDPRNotification from "./assets/externalScripts/gdpr";
+import PaymentCancelled from "./components/ServiceDetails/PaymentCancelled";
 
 const ForgotPassword = lazy(() => import("./components/Login/ForgotPassword"));
 const ForgotPasswordSubmit = lazy(() => import("./components/Login/ForgotPasswordSubmit"));
@@ -60,7 +61,7 @@ class App extends Component {
       <ThemeProvider theme={theme}>
         <div className={hamburgerMenu ? "hide-overflow" : null}>
           <Router history={history}>
-            <Suspense fallback={<CircularProgress thickness={10} />}>
+            <Suspense fallback={<CircularProgress />}>
               <Switch>
                 <Route path={`/${Routes.SIGNUP}`} component={withRegistrationHeader(SignUp, headerData.SIGNUP)} />
                 <Route
@@ -106,6 +107,13 @@ class App extends Component {
                   path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId/order/:orderId/payment/:paymentId/execute`}
                   {...this.props}
                   component={withInAppWrapper(ServiceDetails)}
+                />
+                <PrivateRoute
+                  isAllowed={isTermsAccepted}
+                  redirectTo={`/${Routes.ONBOARDING}`}
+                  path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId/order/:orderId/payment/:paymentId/cancel`}
+                  {...this.props}
+                  component={PaymentCancelled}
                 />
                 <PrivateRoute
                   isAllowed={isLoggedIn && isTermsAccepted}

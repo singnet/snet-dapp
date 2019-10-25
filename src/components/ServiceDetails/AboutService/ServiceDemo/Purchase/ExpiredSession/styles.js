@@ -48,17 +48,25 @@ export const useStyles = theme => ({
   paymentChannelAndDetails: {
     marginTop: 35,
     display: "flex",
-    justifyContent: "space-between",
+    "& > p": {
+      width: "100%",
+      margin: "0 0 0 40px",
+      "@media(max-width:1280px)": { margin: "25px 0 0 0" },
+    },
+    "@media(max-width:767px)": { flexDirection: "column" },
+    "@media(max-width:1280px)": { flexWrap: "wrap" },
   },
   paymentChannelDropDownContainer: {
     display: "flex",
+    marginRight: 40,
     "& fieldset": { display: "none" },
+    "@media(max-width:940px)": { marginBottom: 30 },
   },
   infoIconContainer: {
     marginRight: 10,
     alignSelf: "center",
     color: theme.palette.text.lightShadedGray,
-    fontSize: 20,
+    fontSize: 18,
   },
   paymentChannelDropDown: {
     width: 278,
@@ -71,6 +79,9 @@ export const useStyles = theme => ({
     alignItems: "center",
     position: "relative",
     "& .MuiFormControl-root": { width: "90%" },
+    "& .MuiSelect-outlined": { padding: "15px 14px" },
+    "& .MuiSelect-icon": { color: theme.palette.text.darkShadedGray },
+    "@media(min-width: 768px) and (max-width: 960px)": { width: 178 },
   },
   dropDownTitle: {
     padding: "0 5px",
