@@ -105,6 +105,8 @@ export const USDToAgi = usd => (usd * priceData.usd_conv_rate).toFixed(priceData
 
 export const USDToCogs = usd => Number(usd);
 
+export const agiInDecimal = agi => parseFloat(agi).toFixed(priceData.agi_divisibility);
+
 export const tenYearBlockOffset = 10 * 365 * 24 * 60 * 4;
 
 export const txnTypes = {

@@ -8,7 +8,6 @@ import { connect } from "react-redux";
 
 import { userActions } from "../../../Redux/actionCreators";
 import Payments from "./Payments";
-// import Usage from "./Usage";
 import { useStyles } from "./styles";
 
 class UserProfileTransactionHistory extends Component {
@@ -29,7 +28,6 @@ class UserProfileTransactionHistory extends Component {
 
     const tabs = [
       { name: "Payments", activeIndex: 0, component: <Payments transactionHistory={transactionHistory} /> },
-      // { name: "Usage", activeIndex: 1, component: <Usage /> },
     ];
 
     const activeComponent = tabs.filter(el => el.activeIndex === activeTab)[0].component;
