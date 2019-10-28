@@ -11,11 +11,14 @@ export const useStyles = theme => ({
       margin: 0,
       color: theme.palette.text.darkShadedGray,
       fontSize: 20,
+      "@media(max-width:1280px)": {
+        boxSizing: "border-box",
+        width: 1280,
+      },
     },
   },
-  transactionHistoryContainer: {
-    "@media(max-width: 1280px)": { overflow: "auto" },
-  },
+  transactionHistoryContainer: { "@media(max-width: 1280px)": { overflow: "auto" } },
+  transactionHistoryContent: { "@media(max-width:1280px)": { width: 1280 } },
   tabsHeader: {
     padding: "7px 26px 0",
     borderBottomWidth: 1,

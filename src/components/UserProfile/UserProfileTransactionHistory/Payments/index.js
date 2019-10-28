@@ -12,25 +12,25 @@ const Payments = ({ classes, transactionHistory }) => {
   return (
     <Grid container spacing={24} className={classes.paymentsContainer}>
       <Grid item xs={12} sm={12} md={12} lg={12} className={classes.paymentsHeaders}>
-        <Grid item xs={12} sm={12} md={2} lg={2}>
+        <Grid item xs={2} sm={2} md={2} lg={2}>
           <Typography>date</Typography>
         </Grid>
-        <Grid item xs={12} sm={12} md={2} lg={2}>
+        <Grid item xs={2} sm={2} md={2} lg={2}>
           <Typography>description</Typography>
         </Grid>
-        <Grid item xs={12} sm={12} md={2} lg={2}>
+        <Grid item xs={2} sm={2} md={2} lg={2}>
           <Typography>payment channel</Typography>
         </Grid>
-        <Grid item xs={12} sm={12} md={3} lg={3}>
+        <Grid item xs={3} sm={3} md={3} lg={3}>
           <Typography>type</Typography>
         </Grid>
-        <Grid item xs={12} sm={12} md={1} lg={1}>
+        <Grid item xs={1} sm={1} md={1} lg={1}>
           <Typography>status</Typography>
         </Grid>
-        <Grid item xs={12} sm={12} md={1} lg={1}>
+        <Grid item xs={1} sm={1} md={1} lg={1}>
           <Typography>cost ($ USD)</Typography>
         </Grid>
-        <Grid item xs={12} sm={12} md={1} lg={1}>
+        <Grid item xs={1} sm={1} md={1} lg={1}>
           <Typography>item received</Typography>
         </Grid>
       </Grid>
