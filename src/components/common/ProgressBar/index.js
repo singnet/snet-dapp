@@ -36,7 +36,7 @@ const ProgressBar = ({ classes, activeSection, progressText }) => {
 
 ProgressBar.propTypes = {
   activeSection: PropTypes.number,
-  progressText: PropTypes.string,
+  progressText: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default withStyles(useStyles)(ProgressBar);
