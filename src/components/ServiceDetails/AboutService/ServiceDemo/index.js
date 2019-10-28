@@ -56,11 +56,12 @@ class ServiceDemo extends Component {
       if (prevProps.channelInfo.id !== channelInfo.id || prevProps.wallet.type !== wallet.type) {
         initPaypalSdk(wallet.address, channelInfo);
       }
-      if (!anyPendingTxn) {
-        stopWalletDetailsPolling();
-        return;
+      if (anyPendingTxn) {
+        this.pollWalletDetails();
       }
-      this.pollWalletDetails();
+    }
+    if (!anyPendingTxn) {
+      stopWalletDetailsPolling();
     }
   };
 
