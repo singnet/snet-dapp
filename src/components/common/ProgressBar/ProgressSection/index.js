@@ -24,7 +24,7 @@ const ProgressSection = ({ progressNumber, progressText, progressStatus }) => {
 ProgressSection.propTypes = {
   progressNumber: PropTypes.number.isRequired,
   progressText: PropTypes.string.isRequired,
-  progressStatus: PropTypes.oneOf("idle", "active", "completed"),
+  progressStatus: PropTypes.oneOf(["idle", "active", "completed"]),
 };
 
 export default ProgressSection;
