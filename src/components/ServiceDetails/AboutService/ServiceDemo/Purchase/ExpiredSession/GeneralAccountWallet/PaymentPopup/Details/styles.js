@@ -1,6 +1,6 @@
 export const useStyles = theme => ({
   deatilsTabDesc: {
-    padding: "0 20px",
+    marginTop: 32,
     color: theme.palette.text.mediumShadeGray,
     fontFamily: theme.typography.primary.main,
     fontSize: 16,
@@ -71,7 +71,7 @@ export const useStyles = theme => ({
     position: "relative",
     "& .MuiFormControl-root": {
       width: "100%",
-      padding: "12px 0",
+      padding: "8px 0",
       "& .MuiOutlinedInput-input": { padding: "7px 0 !important" },
       "& fieldset": { color: `${theme.palette.text.grayTitleText} !important` },
     },

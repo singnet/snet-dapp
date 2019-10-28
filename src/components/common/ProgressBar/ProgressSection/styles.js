@@ -4,7 +4,7 @@ export const useStyles = makeStyles(theme => ({
   number: {
     borderRadius: 25,
     padding: "4px 10px",
-    marginRight: 10,
+    marginRight: 8,
     backgroundColor: theme.palette.text.lightShadedGray,
     color: theme.palette.text.white,
     "@media(max-width:480px)": {

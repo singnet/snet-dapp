@@ -17,10 +17,9 @@ export const useStyles = theme => ({
     },
   },
   CardContent: {
-    paddingTop: 25,
+    padding: "32px 40px",
     "& > div": {
       paddingTop: 0,
-      paddingBottom: 25,
       "&:first-of-type": {
         width: "100%",
         "& ul": {
@@ -41,7 +40,7 @@ export const useStyles = theme => ({
         "& li": {
           "&:before": {
             width: 40,
-            margin: "0 10px",
+            margin: "0 6px 0 7px",
           },
         },
       },

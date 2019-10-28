@@ -1,4 +1,7 @@
 export const useStyles = theme => ({
+  paymentsContainer: {
+    "@media(max-width: 1280px)": { width: 1280 },
+  },
   paymentsHeaders: {
     padding: "30px 30px 10px",
     borderBottomWidth: 1,

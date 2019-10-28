@@ -13,6 +13,9 @@ export const useStyles = theme => ({
       fontSize: 20,
     },
   },
+  transactionHistoryContainer: {
+    "@media(max-width: 1280px)": { overflow: "auto" },
+  },
   tabsHeader: {
     padding: "7px 26px 0",
     borderBottomWidth: 1,
