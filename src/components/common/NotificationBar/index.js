@@ -34,7 +34,7 @@ NotificationBar.propTypes = {
   type: PropTypes.oneOf(["WARNING", "INFORMATION"]),
   message: PropTypes.string,
   showNotification: PropTypes.bool,
-  icon: PropTypes.node,
+  icon: PropTypes.object,
 };
 
 export default withStyles(useStyles)(NotificationBar);
