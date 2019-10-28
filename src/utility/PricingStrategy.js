@@ -3,7 +3,7 @@ const priceData = {
   fixed_price_per_method: "fixed_price_per_method",
   agi_precision: 100000000,
   agi_divisibility: 8,
-  usd_conv_rate: 0.00000001,
+  usd_conv_rate: 0.000001,
 };
 
 const priceModelNames = {
