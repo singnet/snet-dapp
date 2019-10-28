@@ -21,10 +21,14 @@ export const useStyles = makeStyles(theme => ({
       color: theme.palette.text.successBoxBorder,
       fontSize: 28,
       marginRight: 10,
-      "@media(max-width:480px)": { fontSize: 21 },
+      "@media(max-width:480px)": {
+        padding: "0 !important",
+        marginRight: "0 !important",
+        fontSize: "21px !important",
+      },
     },
     "@media(max-width:480px)": {
-      padding: 0,
+      padding: "0 !important",
       margin: 0,
     },
   },
