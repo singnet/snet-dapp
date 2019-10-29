@@ -347,14 +347,15 @@ class MatchingService extends React.Component {
                 </div>
                 <div className="row">
                     <div style={{ textAlign: "right" }}>
-                        <button
+                        <Button
+                            style={buttonStyle}
                             type="button"
                             className="btn btn-primary"
                             onClick={this.submitAction}
                             disabled={!this.canBeInvoked()}
                         >
                             Invoke
-                        </button>
+                        </Button>
                     </div>
                 </div>
                 <div className="row">
