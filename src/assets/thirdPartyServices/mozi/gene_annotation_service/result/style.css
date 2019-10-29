@@ -22,3 +22,16 @@
 .call-to-action {
   margin-top: 45px;
 }
+
+.mozi.modal {
+  margin-top: 30px;
+  min-height: 0;
+  width: 90vw;
+  margin-left: 5vw;
+}
+
+.mozi.modal .content {
+  background-color: #e5e5e5;
+  max-height: 90vh;
+  overflow-y: scroll;
+}
