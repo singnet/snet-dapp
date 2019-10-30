@@ -164,7 +164,7 @@ export const initSdk = async address => {
     return Promise.resolve(sdk);
   }
 
-  if (sdk) {
+  if (sdk && !(sdk instanceof PaypalSDK)) {
     return Promise.resolve(sdk);
   }
 
@@ -248,18 +248,21 @@ export const createServiceClient = (
       serviceRequestStartHandler();
     }
   };
-
-  return {
-    invoke(methodDescriptor, props) {
-      requestStartHandler();
-      serviceClient.invoke(methodDescriptor, { ...props, onEnd: onEnd(props) });
-    },
-    unary(methodDescriptor, props) {
-      requestStartHandler();
-      serviceClient.unary(methodDescriptor, { ...props, onEnd: onEnd(props) });
-    },
-    getMethodNames,
-  };
+  try {
+    return {
+      invoke(methodDescriptor, props) {
+        requestStartHandler();
+        serviceClient.invoke(methodDescriptor, { ...props, onEnd: onEnd(props) });
+      },
+      unary(methodDescriptor, props) {
+        requestStartHandler();
+        serviceClient.unary(methodDescriptor, { ...props, onEnd: onEnd(props) });
+      },
+      getMethodNames,
+    };
+  } catch (error) {
+    serviceRequestErrorHandler(error);
+  }
 };
 
 export default sdk;
