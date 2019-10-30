@@ -164,7 +164,7 @@ export const initSdk = async address => {
     return Promise.resolve(sdk);
   }
 
-  if (sdk) {
+  if (sdk && !(sdk instanceof PaypalSDK)) {
     return Promise.resolve(sdk);
   }
 
