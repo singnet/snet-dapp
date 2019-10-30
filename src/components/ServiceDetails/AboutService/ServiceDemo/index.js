@@ -138,9 +138,15 @@ class ServiceDemo extends Component {
   };
 
   serviceRequestErrorHandler = error => {
+    const alert = { type: alertTypes.ERROR };
+    if (error.response && error.response.data && error.response.data.error) {
+      alert.message = error.response.data.error;
+    } else {
+      alert.message = error.message;
+    }
     this.setState({
       isServiceExecutionComplete: false,
-      alert: { type: alertTypes.ERROR, message: "Service Execution went wrong. Please try again" },
+      alert,
     });
     this.props.stopLoader();
   };
