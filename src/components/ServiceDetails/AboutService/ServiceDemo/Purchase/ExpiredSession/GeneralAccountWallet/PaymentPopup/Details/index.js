@@ -25,6 +25,13 @@ export const paymentTypes = [{ value: "paypal", label: "Paypal" }];
 
 const web3 = new Web3(process.env.REACT_APP_WEB3_PROVIDER, null, {});
 
+const description = {
+  [orderTypes.CREATE_WALLET]: `Please enter the payment type in the box below, along with the amount you would 
+  like to enter into the paymentchannel.`,
+  [orderTypes.TOPUP_WALLET]: `Please enter the payment type in the box below, along with the amount you would like to top up.`,
+  [orderTypes.CREATE_CHANNEL]: `Please enter the payment type in the box below, along with the amount you would like to enter into the payment channel.`,
+};
+
 const Details = props => {
   const {
     classes,
@@ -96,9 +103,8 @@ const Details = props => {
   return (
     <div className={classes.deatilsTabContainer}>
       <Typography variant="body1" className={classes.deatilsTabDesc}>
-        Information about the Payment type and Amount.
+        {description[orderType]}
       </Typography>
-
       <div className={classes.providerAndBalanceInfo}>
         <div className={classes.providerDetails}>
           <Avatar alt="Singularity" src={SingularityLogo} className={classes.avatar} />

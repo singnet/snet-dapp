@@ -24,7 +24,7 @@ class Purchase extends Component {
       this.setState({
         alert: {
           type: alertTypes.ERROR,
-          message: `${error.message}. Please Retry or contact support.`,
+          message: "There was an error in communicating with PayPal. Please click retry or contact support.",
           mailerErrContent: error.message,
         },
       });
@@ -44,8 +44,8 @@ class Purchase extends Component {
           <CircularProgress className={classes.circularProgress} />
         </div>
         <Typography variant="body1" className={classes.purchaseDesc}>
-          Please wait while your transaction is being recorded into the block chain. The execution will proceed once its
-          done. Please don’t close or refresh the window.
+          Please wait while your transaction is being processed within the blockchain. Do not close or refresh the
+          window, the transaction request will proceed automatically once completed.
         </Typography>
       </div>
     );
