@@ -23,7 +23,7 @@ export const useStyles = theme => ({
       fontWeight: 400,
       lineHeight: "50px",
     },
-    "@media(maxWidth: 960px)": { maxWidth: "100%" },
+    "@media(max-width: 960px)": { maxWidth: "100%" },
   },
   accountWrapper: {
     padding: "0 22px",
