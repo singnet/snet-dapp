@@ -3,6 +3,7 @@ export const useStyles = theme => ({
     width: "100%",
     margin: "13px 0 50px",
     flexWrap: "nowrap",
+    "@media(max-width:960px)": { flexDirection: "column" },
   },
   accountContainer: {
     maxWidth: 412,
@@ -22,6 +23,7 @@ export const useStyles = theme => ({
       fontWeight: 400,
       lineHeight: "50px",
     },
+    "@media(maxWidth: 960px)": { maxWidth: "100%" },
   },
   accountWrapper: {
     padding: "0 22px",
@@ -126,5 +128,10 @@ export const useStyles = theme => ({
     marginLeft: 16,
     backgroundColor: theme.palette.text.white,
     boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
+    "@media(max-width:960px)": {
+      maxWidth: "100%",
+      marginLeft: 0,
+      marginTop: 25,
+    },
   },
 });
