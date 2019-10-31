@@ -8,6 +8,7 @@ import { userActions, errorActions, loaderActions } from "./";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
 import { initializeAPIOptions } from "../../utility/API";
 import Routes from "../../utility/constants/Routes";
+import { fetchUSDConversionRate } from "./PaymentActions";
 
 export const SET_USER_DETAILS = "SET_USER_DETAILS";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
@@ -157,6 +158,7 @@ const fetchUserDetailsError = err => dispatch => {
 export const fetchUserDetails = async dispatch => {
   dispatch(loaderActions.startAppLoader(LoaderContent.APP_INIT));
   try {
+    dispatch(fetchUSDConversionRate);
     const { nickname, token, email, email_verified } = await fetchAuthenticatedUser();
     await dispatch(fetchUserProfile(token));
     if (email === null || email === undefined) {

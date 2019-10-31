@@ -8,6 +8,8 @@ import { walletTypes, fetchAuthenticatedUser } from "./UserActions";
 
 export const UPDATE_PAYPAL_IN_PROGRESS = "UPDATE_PAYPAL_IN_PROGRESS";
 export const UPDATE_PAYPAL_COMPLETED = "UPDATE_PAYPAL_COMPLETED";
+export const UPDATE_USD_AGI_RATE = "UPDATE_USD_AGI_RATE";
+export const UPDATE_USD_COGS_RATE = "UPDATE_USD_COGS_RATE";
 
 const initiatePaymentAPI = (token, paymentObj) => {
   const apiName = APIEndpoints.ORCHESTRATOR.name;
@@ -74,4 +76,20 @@ const cancelOrderAPI = (token, orderId) => () => {
 export const cancelOrder = orderId => async dispatch => {
   const { token } = await fetchAuthenticatedUser();
   await dispatch(cancelOrderAPI(token, orderId));
+};
+
+const fetchUSDConversionRateSuccess = data => dispatch => {
+  dispatch({ type: UPDATE_USD_AGI_RATE, payload: data.amount_in_agi });
+  dispatch({ type: UPDATE_USD_COGS_RATE, payload: data.amount_in_cogs });
+};
+
+const USDConversionRateAPI = async amount => {
+  const url = new URL(`${APIEndpoints.ORCHESTRATOR.endpoint}${APIPaths.USD_RATE}?amount=${amount}`);
+  const response = await fetch(url);
+  return response.json();
+};
+
+export const fetchUSDConversionRate = async dispatch => {
+  const { data } = await USDConversionRateAPI(1);
+  dispatch(fetchUSDConversionRateSuccess(data));
 };

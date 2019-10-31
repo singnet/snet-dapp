@@ -16,10 +16,11 @@ import { useStyles } from "./styles";
 import snetValidator from "../../../../../../../../../utility/snetValidator";
 import { paymentGatewayConstraints } from "./validationConstraints";
 import AlertBox, { alertTypes } from "../../../../../../../../common/AlertBox";
-import { USDToAgi, tenYearBlockOffset, USDToCogs } from "../../../../../../../../../utility/PricingStrategy";
+import { tenYearBlockOffset } from "../../../../../../../../../utility/PricingStrategy";
 import { groupInfo, currentServiceDetails } from "../../../../../../../../../Redux/reducers/ServiceDetailsReducer";
 import { orderTypes } from "../";
 import { decodeGroupId } from "../../../../../../../../../utility/sdk";
+import { USDToAgi, USDToCogs } from "../../../../../../../../../Redux/reducers/PaymentReducer";
 
 export const paymentTypes = [{ value: "paypal", label: "Paypal" }];
 
@@ -35,6 +36,8 @@ const Details = props => {
     userProvidedPrivateKey: privateKey,
     groupInfo,
     serviceDetails,
+    USDToAgi,
+    USDToCogs,
   } = props;
 
   const [payType, setPayType] = useState("default");
@@ -149,6 +152,8 @@ const Details = props => {
 const mapStateToProps = state => ({
   groupInfo: groupInfo(state),
   serviceDetails: currentServiceDetails(state),
+  USDToAgi: USDToAgi(state),
+  USDToCogs: USDToCogs(state),
 });
 
 export default connect(mapStateToProps)(withStyles(useStyles)(Details));
