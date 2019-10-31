@@ -386,6 +386,20 @@ const AnnotationForm = props => {
                   />
                 </FormGroup>
               </div>
+              <div className="parameter">
+                <FormGroup row>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={annotatePathwayWithBiogrid}
+                        onChange={e => setAnnotatePathwayWithBiogrid(e.target.checked)}
+                        color="primary"
+                      />
+                    }
+                    label="Cross annotate with biogrid"
+                  />
+                </FormGroup>
+              </div>
             </div>
           )}
         </li>

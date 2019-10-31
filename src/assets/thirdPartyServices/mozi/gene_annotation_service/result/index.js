@@ -58,7 +58,7 @@ const AnnotationResult = props => {
           statusMessage: res.response,
         });
       });
-  }, []);
+  }, [id]);
 
   const fetchTableData = fileName => {
     fetch(`${RESULT_ADDR}/csv_file/${id}/${fileName.substr(0, fileName.length - 4)}`).then(data => {
@@ -134,7 +134,7 @@ const AnnotationResult = props => {
       <Table className="mozi modal-table" size="small" style={{ minWidth: width - 300 }}>
         <TableHead>
           <TableRow>
-            <TableCell></TableCell>
+            <TableCell />
             {Object.keys(rows).map(r => (
               <TableCell>{r.split("_").join(" ")}</TableCell>
             ))}
