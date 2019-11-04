@@ -138,7 +138,6 @@ const CYTOSCAPE_STYLE = [
 ];
 
 const Visualizer = props => {
-  window.scrollTo(0, 0);
   const { enqueueSnackbar } = useSnackbar();
   cytoscape.use(cola);
   const cy_wrapper = React.createRef();
