@@ -13,8 +13,8 @@ import CreateWallet from "./CreateWallet";
 import { paymentActions } from "../../../../../../../Redux/actionCreators";
 import LinkProvider from "./LinkProvider";
 import { userProfileRoutes } from "../../../../../../UserProfile";
-import { orderTypes } from "./PaymentPopup";
 import { anyPendingTxn } from "../../../../../../../Redux/reducers/PaymentReducer";
+import { orderTypes } from "../../../../../../../utility/constants/PaymentConstants";
 
 export const paymentTitles = {
   CREATE_WALLET: "Create General Account Wallet",

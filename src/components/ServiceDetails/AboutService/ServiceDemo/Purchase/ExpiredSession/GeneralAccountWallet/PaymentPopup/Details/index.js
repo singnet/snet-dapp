@@ -18,9 +18,9 @@ import { paymentGatewayConstraints } from "./validationConstraints";
 import AlertBox, { alertTypes } from "../../../../../../../../common/AlertBox";
 import { tenYearBlockOffset } from "../../../../../../../../../utility/PricingStrategy";
 import { groupInfo, currentServiceDetails } from "../../../../../../../../../Redux/reducers/ServiceDetailsReducer";
-import { orderTypes } from "../";
 import { decodeGroupId } from "../../../../../../../../../utility/sdk";
 import { USDToAgi, USDToCogs } from "../../../../../../../../../Redux/reducers/PaymentReducer";
+import { orderTypes } from "../../../../../../../../../utility/constants/PaymentConstants";
 
 export const paymentTypes = [{ value: "paypal", label: "Paypal" }];
 

@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
 
 import { useStyles } from "./styles";
-import PaymentPopup, { orderTypes } from "./PaymentPopup";
+import PaymentPopup from "./PaymentPopup";
 import { paymentTitles } from ".";
+import { orderTypes } from "../../../../../../../utility/constants/PaymentConstants";
 
 class LinkProviderPopup extends Component {
   state = {

@@ -1,7 +1,8 @@
 import React from "react";
 
-import PaymentPopup, { orderTypes } from "./PaymentPopup";
+import PaymentPopup from "./PaymentPopup";
 import { paymentTitles } from "./";
+import { orderTypes } from "../../../../../../../utility/constants/PaymentConstants";
 
 const TopupWallet = ({ visible, setVisibility }) => {
   return (
