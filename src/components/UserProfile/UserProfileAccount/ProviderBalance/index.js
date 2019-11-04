@@ -11,7 +11,10 @@ const ProviderBalance = ({ classes, linkedProviders }) => {
     <Grid container spacing={24} className={classes.providerBalContent}>
       <h3>Provider Balances</h3>
       <Grid item xs={12} sm={12} md={12} lg={12} className={classes.description}>
-        <Typography>Message explaining about wallets and how tokens are locked to channels in each wallet. </Typography>
+        <Typography>
+          Below is a list of service providers you have opened payment channels to. It is important to note that you
+          cannot transfer balances between wallets and tokens in the payment channel are locked to that channel.
+        </Typography>
       </Grid>
       <ChannelList linkedProviders={linkedProviders} />
     </Grid>

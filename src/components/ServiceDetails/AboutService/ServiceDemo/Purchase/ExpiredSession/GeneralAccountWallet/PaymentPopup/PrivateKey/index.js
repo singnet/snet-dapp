@@ -18,11 +18,11 @@ const PrivateKey = ({ classes, privateKey, handleNextSection }) => {
   return (
     <div className={classes.privateKeyContainer}>
       <Typography variant="body2" className={classes.successMsg}>
-        Successfully Created Wallet for : Service Provider 1
+        Congratulations your ‘General Account Wallet’ has been successfully opened.
       </Typography>
       <p className={classes.description}>
-        <span>Information about the wallet and key.</span>It will take some time for the tokens to reflect on your
-        channel. Please go ahead.
+        Please find below your private key. It is imperative that you copy this key and keep it in a safe and secure
+        place as it will be the only way you can access your secure wallet.
       </p>
       <AlertBox type={alertTypes.INFO} message={privateKey} />
       <div className={classes.downloadKeyBtn}>

@@ -11,8 +11,8 @@ import { useStyles } from "./styles";
 import AlertText from "../../../../../../../../common/AlertText";
 
 const warningMessage = [
-  "You will still be able to top up your General Account Wallet and use it with all providers that you have linked with.",
-  "You won't be able to link General Account Wallet with any other new providers.",
+  `You will still be able to top up your wallet and use it with all providers that you have already opened payment channels to.`,
+  `You won't be able to Link your wallet with any new providers`,
 ];
 
 const web3 = new Web3(process.env.REACT_APP_WEB3_PROVIDER, null, {});
@@ -43,7 +43,7 @@ const VerifyKey = ({ classes, handleLostPrivateKey, walletList, handleUserProvid
     } catch (error) {
       setAlert({
         type: alertTypes.ERROR,
-        message: "The private key is not valid",
+        message: "I’m sorry there was an error, please check the key you entered and try again.",
       });
       return;
     }
@@ -53,8 +53,7 @@ const VerifyKey = ({ classes, handleLostPrivateKey, walletList, handleUserProvid
     return (
       <div className={classes.lostKeyContainer}>
         <Typography variant="body1" className={classes.lostKeyInfo}>
-          If you have lost your key for “General Account Wallet”, we can create a new wallet. Please take a note of the
-          below :
+          If you have lost your wallet private key, we can create a new wallet for you, though please take note that:
         </Typography>
         <div className={classes.WarningBoxConatiner}>
           {warningMessage.map(msg => (
@@ -75,8 +74,8 @@ const VerifyKey = ({ classes, handleLostPrivateKey, walletList, handleUserProvid
   return (
     <div className={classes.VerifyKeyContainer}>
       <p className={classes.VerifyKeyDesc}>
-        <span>Please enter the Private key for your “General Account Wallet”.</span> We need the private key to link
-        your general wallet with the new provider.
+        <span>Please enter the private key for your 'General Account Wallet' </span>and we’ll create a payment channel
+        to the service provider.
       </p>
       <form>
         <div className={`${classes.textField} ${alert.message ? classes.error : ""}`}>
