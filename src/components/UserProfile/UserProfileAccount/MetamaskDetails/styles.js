@@ -4,6 +4,11 @@ export const useStyles = theme => ({
     "& div": {
       display: "flex",
       margin: "7px 0 13px",
+      "@media(max-width:600px)": {
+        flexDirection: "column",
+        alignItems: "center",
+        textAlign: "center",
+      },
       "& div": {
         width: "56%",
         marginTop: 0,
@@ -27,6 +32,15 @@ export const useStyles = theme => ({
         display: "inline-block",
         color: theme.palette.text.darkShadedGray,
         fontSize: 16,
+        "@media(max-width:600px)": { width: "100%" },
+      },
+    },
+    "& > div": {
+      "@media(max-width:600px)": {
+        paddingBottom: 20,
+        borderBottomWidth: 1,
+        borderBottomStyle: "solid",
+        borderBottomColor: theme.palette.text.disabledBtnBg,
       },
     },
   },
