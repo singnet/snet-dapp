@@ -138,7 +138,6 @@ const CYTOSCAPE_STYLE = [
 ];
 
 const Visualizer = props => {
-  window.scrollTo(0, 0);
   const { enqueueSnackbar } = useSnackbar();
   cytoscape.use(cola);
   const cy_wrapper = React.createRef();
@@ -195,6 +194,7 @@ const Visualizer = props => {
         wheelSensitivity: 0.3,
       })
     );
+    window.scrollTo(0, 0);
   }, []);
 
   useEffect(
@@ -246,6 +246,16 @@ const Visualizer = props => {
               "background-fill": "solid",
               "background-color": "blue",
               "text-outline-color": "blue",
+            },
+          },
+          {
+            selector: n =>
+              n.data().subgroup.includes("Uniprot") &&
+              n.neighborhood().some(function(e) {
+                return e.data().group.includes("main");
+              }),
+            style: {
+              "background-color": "blue",
             },
           },
         ]);
@@ -553,7 +563,7 @@ const Visualizer = props => {
     return (
       <div className="filter-controls">
         <Tooltip placement="bottom" title="Remove Filter">
-          <Button onClick={clearFilter} color="secondary" variant="contained">
+          <Button size="small" onClick={clearFilter} color="secondary" variant="contained">
             <ClearIcon />
             Remove filter
           </Button>
@@ -597,7 +607,7 @@ const Visualizer = props => {
           <Paper style={{ display: "flex", marginBottom: 15, padding: 5, paddingLeft: 15 }}>
             <InputBase
               style={{ flexGrow: 1 }}
-              placeholder="Node ID"
+              placeholder="Search by node ID"
               onChange={e => setSearchToken(e.target.value)}
               onKeyPress={e => {
                 if (e.key === "Enter" && searchToken) search(searchToken);
@@ -614,7 +624,9 @@ const Visualizer = props => {
 
           <ExpansionPanel defaultExpanded={true}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} id="genes">
-              <Typography>Node Types</Typography>
+              <Typography variant="subtitle2" gutterBottom>
+                Node Types
+              </Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
               {nodeTypes.map(n => (
@@ -638,7 +650,9 @@ const Visualizer = props => {
           </ExpansionPanel>
           <ExpansionPanel defaultExpanded={true}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} id="links">
-              <Typography>Link Types</Typography>
+              <Typography variant="subtitle2" gutterBottom>
+                Link Types
+              </Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
               {linkTypes.map(n => (
@@ -662,7 +676,9 @@ const Visualizer = props => {
           </ExpansionPanel>
           <ExpansionPanel defaultExpanded={true}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} id="annotations">
-              <Typography>Annotations</Typography>
+              <Typography variant="subtitle2" gutterBottom>
+                Annotations
+              </Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
               <div>
