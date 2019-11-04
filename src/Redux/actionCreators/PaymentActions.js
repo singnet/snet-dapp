@@ -78,9 +78,9 @@ export const cancelOrder = orderId => async dispatch => {
   await dispatch(cancelOrderAPI(token, orderId));
 };
 
-const fetchUSDConversionRateSuccess = data => dispatch => {
-  dispatch({ type: UPDATE_USD_AGI_RATE, payload: data.amount_in_agi });
-  dispatch({ type: UPDATE_USD_COGS_RATE, payload: data.amount_in_cogs });
+const fetchUSDConversionRateSuccess = data => async dispatch => {
+  await dispatch({ type: UPDATE_USD_AGI_RATE, payload: data.amount_in_agi });
+  return dispatch({ type: UPDATE_USD_COGS_RATE, payload: data.amount_in_cogs });
 };
 
 const USDConversionRateAPI = async amount => {
@@ -91,5 +91,5 @@ const USDConversionRateAPI = async amount => {
 
 export const fetchUSDConversionRate = async dispatch => {
   const { data } = await USDConversionRateAPI(1);
-  dispatch(fetchUSDConversionRateSuccess(data));
+  return dispatch(fetchUSDConversionRateSuccess(data));
 };

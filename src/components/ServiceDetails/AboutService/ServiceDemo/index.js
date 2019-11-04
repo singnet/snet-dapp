@@ -40,6 +40,7 @@ class ServiceDemo extends Component {
       await this.checkForPaymentsInProgress();
       await this.pollWalletDetails();
       await this.fetchFreeCallsUsage();
+      await this.props.fetchUSDConversionRate();
       this.scrollToHash();
       this.props.stopLoader();
     } catch (error) {
@@ -237,6 +238,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   updatePaypalInProgress: (orderId, orderType, paymentId, paypalPaymentId, PayerID) =>
     dispatch(paymentActions.updatePaypalInProgress(orderId, orderType, paymentId, paypalPaymentId, PayerID)),
   startInitServiceDemoLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.INIT_SERVICE_DEMO)),
+  fetchUSDConversionRate: () => dispatch(paymentActions.fetchUSDConversionRate),
 });
 
 export default connect(
