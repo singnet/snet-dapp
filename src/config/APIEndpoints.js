@@ -50,4 +50,5 @@ export const APIPaths = {
   DEBUG_PAYPAL_INITIATE: "/v2/order/initiate",
   WALLETS: "/wallet",
   LINKED_PROVIDERS: "/v2/channel",
+  USD_RATE: "/currency/USD/token",
 };
