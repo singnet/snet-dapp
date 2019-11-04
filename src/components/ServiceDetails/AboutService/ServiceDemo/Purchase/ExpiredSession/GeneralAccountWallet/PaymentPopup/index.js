@@ -22,12 +22,7 @@ import { groupInfo } from "../../../../../../../../Redux/reducers/ServiceDetails
 import Routes from "../../../../../../../../utility/constants/Routes";
 import { channelInfo } from "../../../../../../../../Redux/reducers/UserReducer";
 import VerifyKey from "./VerifyKey";
-
-export const orderTypes = {
-  CREATE_WALLET: "CREATE_WALLET_AND_CHANNEL",
-  TOPUP_WALLET: "FUND_CHANNEL",
-  CREATE_CHANNEL: "CREATE_CHANNEL",
-};
+import { orderTypes } from "../../../../../../../../utility/constants/PaymentConstants";
 
 const indexOfPurchaseSection = {
   [orderTypes.CREATE_WALLET]: 2,
