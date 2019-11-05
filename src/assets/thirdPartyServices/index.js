@@ -47,6 +47,7 @@ const TextGeneration = lazy(() => import("./snet/text_generation"));
 const PneumoniaDiagnosis = lazy(() => import("./snet/pneumonia_diagnosis"));
 const OpenCogMiner = lazy(() => import("./snet/opencog_miner"));
 const MinecraftService = lazy(() => import("./snet/minecraftizing_service"));
+const MatchingService = lazy(() => import("./snet/match_service"));
 
 class ThirdPartyCustomUIComponents {
   constructor() {
@@ -132,6 +133,7 @@ addSnetCustomUI("pneumonia-diagnosis", PneumoniaDiagnosis);
 addSnetCustomUI("opencog-miner", OpenCogMiner);
 addMoziCustomUI("gene-annotation-service", GeneAnnotationService);
 addSnetCustomUI("minecraftizing-service", MinecraftService);
+addSnetCustomUI("match-service", MatchingService);
 
 //TODO remove before deploying to mainnet
 addOrg2CustomUI("freecall", ExampleService)
