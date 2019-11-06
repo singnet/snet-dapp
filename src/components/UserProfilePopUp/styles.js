@@ -86,4 +86,8 @@ export const useStyles = theme => ({
       },
     },
   },
+  reactBlockies: {
+    borderRadius: 16,
+    cursor: "Pointer",
+  },
 });

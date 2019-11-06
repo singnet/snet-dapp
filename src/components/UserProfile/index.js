@@ -31,7 +31,7 @@ const tabs = [
   { name: "Transactions", activeIndex: 2, path: userProfileRoutes.TRANSACTIONS.path },
 ];
 
-const UserProfile = ({ classes, nickname, history, location }) => {
+const UserProfile = ({ classes, nickname, history, location, email }) => {
   const onTabChange = (activeTab, activePath) => {
     history.push(activePath);
   };
@@ -47,7 +47,7 @@ const UserProfile = ({ classes, nickname, history, location }) => {
 
   return (
     <div className={classes.UserProfileContainer}>
-      <UserProfileHeader nickname={nickname} />
+      <UserProfileHeader nickname={nickname} email={email} />
       <div>
         <AppBar position="static" className={classes.tabsHeader}>
           <Tabs value={activeTab()}>
@@ -68,6 +68,7 @@ const UserProfile = ({ classes, nickname, history, location }) => {
 
 const mapStateToProps = state => ({
   nickname: state.userReducer.nickname,
+  email: state.userReducer.email,
 });
 
 export default connect(mapStateToProps)(withStyles(useStyles)(UserProfile));
