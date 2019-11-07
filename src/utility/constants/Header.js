@@ -29,16 +29,8 @@ export const headerData = {
 };
 
 const tabs = [
-  {
-    title: "AI Marketplace",
-    link: `/${Routes.AI_MARKETPLACE}`,
-    newTab: false,
-  },
-  {
-    title: "Get Started",
-    link: `/${Routes.GET_STARTED}`,
-    newTab: false,
-  },
+  { title: "AI Marketplace", link: `/${Routes.AI_MARKETPLACE}` },
+  { title: "Get Started", link: `/${Routes.GET_STARTED}` },
 ];
 
 const dropdowns = [
