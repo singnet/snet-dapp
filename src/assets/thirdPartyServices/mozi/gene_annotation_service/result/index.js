@@ -104,7 +104,6 @@ const AnnotationResult = props => {
                     .clone()
                     .text()
                     .then(t => {
-                      console.log(t);
                       setSummary(JSON.parse(t));
                     });
                 });
@@ -242,7 +241,6 @@ const AnnotationResult = props => {
           handleClose={() => setTableShown(false)}
         />
       )}
-      {response && console.log("response.csv_files", response.csv_files)}
       {isSummaryShown && renderSummary(summary)}
     </div>
   );
