@@ -18,7 +18,7 @@ import { orderTypes } from "../../../../../../../utility/constants/PaymentConsta
 
 export const paymentTitles = {
   CREATE_WALLET: "Create General Account Wallet",
-  TOPUP_WALLET: "Topup General Account Wallet",
+  TOPUP_WALLET: "Top Up General Account Wallet",
   CREATE_CHANNEL: "Link Provider to General Account Wallet",
 };
 
