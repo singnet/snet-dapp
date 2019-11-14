@@ -78,6 +78,7 @@ export const useStyles = theme => ({
   },
   purchaseAmtTextfield: {
     paddingLeft: 30,
+    paddingRight: 22,
     "& > div": {
       width: "100%",
       marginTop: 25,
@@ -89,6 +90,7 @@ export const useStyles = theme => ({
       color: "#444",
       letterSpacing: 0.4,
       lineHeight: "16px",
+      paddingTop: 5,
     },
   },
   btnContainer: {
