@@ -47,6 +47,7 @@ StyledDropdown.propTypes = {
 
 StyledDropdown.defaultProps = {
   labelTxt: "",
+  value: "default",
 };
 
 export default StyledDropdown;

@@ -10,7 +10,6 @@ import isEmpty from "lodash/isEmpty";
 import PaymentInfoCard from "../../../../PaymentInfoCard";
 import StyledDropdown from "../../../../../../../../common/StyledDropdown";
 import StyledButton from "../../../../../../../../common/StyledButton";
-import StyledTextField from "../../../../../../../../common/StyledTextField";
 import SingularityLogo from "../../../../../../../../../assets/images/avatar.png";
 import { useStyles } from "./styles";
 import snetValidator from "../../../../../../../../../utility/snetValidator";
@@ -21,8 +20,10 @@ import { groupInfo, currentServiceDetails } from "../../../../../../../../../Red
 import { decodeGroupId } from "../../../../../../../../../utility/sdk";
 import { USDToAgi, USDToCogs } from "../../../../../../../../../Redux/reducers/PaymentReducer";
 import { orderTypes } from "../../../../../../../../../utility/constants/PaymentConstants";
+import AGITokens from "./AGITokens";
 
 export const paymentTypes = [{ value: "paypal", label: "Paypal" }];
+const paymentAmounts = [{ value: 2, label: "2" }, { value: 3, label: "3" }, { value: 5, label: "5" }];
 
 const web3 = new Web3(process.env.REACT_APP_WEB3_PROVIDER, null, {});
 
@@ -48,7 +49,7 @@ const Details = props => {
   } = props;
 
   const [payType, setPayType] = useState("default");
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState(undefined);
   const [alert, setAlert] = useState({});
   const [currency] = useState("USD");
 
@@ -56,6 +57,13 @@ const Details = props => {
     const { value } = event.target;
     if (value !== "default") {
       setPayType(value);
+    }
+  };
+
+  const handleAmountChange = event => {
+    const { value } = event.target;
+    if (value !== "default") {
+      setAmount(value);
     }
   };
 
@@ -141,12 +149,21 @@ const Details = props => {
           </div>
         </div>
         <div className={classes.purchaseAmtTextfield}>
-          <StyledTextField label="Purchase Amount (in $USD)" value={amount} onChange={e => setAmount(e.target.value)} />
-          <Typography variant="body2">{USDToAgi(amount) || 0} AGI Tokens</Typography>
+          <div className={classes.paymentTypeDropDown}>
+            <Typography className={classes.dropDownTitle} variant="subtitle1">
+              Amount in USD
+            </Typography>
+            <StyledDropdown
+              labelTxt="Select an Amount"
+              list={paymentAmounts}
+              value={amount}
+              onChange={handleAmountChange}
+            />
+          </div>
+          <AGITokens amount={USDToAgi(amount)} />
         </div>
       </div>
       <AlertBox type={alert.type} message={alert.message} />
-
       <div className={classes.btnContainer}>
         <StyledButton btnText="cancel" type="transparent" onClick={handleClose} />
         <StyledButton btnText="Continue" type="blue" onClick={handleContinue} />
