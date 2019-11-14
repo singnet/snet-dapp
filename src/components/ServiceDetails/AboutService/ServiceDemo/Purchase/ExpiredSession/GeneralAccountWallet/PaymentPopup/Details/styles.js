@@ -70,6 +70,7 @@ export const useStyles = theme => ({
     alignItems: "center",
     position: "relative",
     "& .MuiFormControl-root": {
+      border: "none",
       width: "100%",
       padding: "8px 0",
       "& .MuiOutlinedInput-input": { padding: "7px 0 !important" },
