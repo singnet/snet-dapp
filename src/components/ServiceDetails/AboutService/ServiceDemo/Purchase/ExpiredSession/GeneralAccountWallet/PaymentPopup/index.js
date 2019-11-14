@@ -131,28 +131,9 @@ class PaymentPopup extends Component {
     return initiatePayment(paymentObj);
   };
 
-  handleExecutePayment = async () => {
-    const {
-      paypalInProgress: { orderId, paymentId, paypalPaymentId, PayerID },
-      match: {
-        params: { orgId },
-      },
-      group: { group_id },
-      executePayment,
-      fetchWalletDetails,
-    } = this.props;
-    const paymentExecObj = {
-      order_id: orderId,
-      payment_id: paymentId,
-      payment_details: {
-        payer_id: PayerID,
-        payment_id: paypalPaymentId,
-      },
-    };
-    const { data, error } = await executePayment(paymentExecObj);
-    if (error.code) {
-      throw error;
-    }
+  executePaymentCompleted = async (data, orgId, group_id) => {
+    const { fetchWalletDetails } = this.props;
+
     await fetchWalletDetails(orgId, group_id);
     const {
       private_key: privateKeyGenerated,
@@ -162,6 +143,37 @@ class PaymentPopup extends Component {
     this.setState({ privateKeyGenerated, amount, quantity, item });
     this.handleNextSection();
     return;
+  };
+
+  handleExecutePayment = async () => {
+    const {
+      paypalInProgress: { orderId, paymentId, paypalPaymentId, PayerID },
+      match: {
+        params: { orgId },
+      },
+      group: { group_id },
+      executePayment,
+    } = this.props;
+
+    const paymentExecObj = {
+      order_id: orderId,
+      payment_id: paymentId,
+      payment_details: {
+        payer_id: PayerID,
+        payment_id: paypalPaymentId,
+      },
+    };
+
+    try {
+      const { data } = await executePayment(paymentExecObj);
+      await this.executePaymentCompleted(data, orgId, group_id);
+    } catch (error) {
+      if (error.response && error.response.data && error.response.data.data && error.response.data.data.private_key) {
+        await this.executePaymentCompleted(error.response.data.data, orgId, group_id);
+        return;
+      }
+      throw error;
+    }
   };
 
   render() {
