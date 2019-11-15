@@ -1,15 +1,21 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import queryString from "query-string";
 
 import ProgressBar from "../../../common/ProgressBar";
 import { useStyles } from "./styles";
-import { serviceDetailsActions, loaderActions } from "../../../../Redux/actionCreators";
+import { serviceDetailsActions, loaderActions, userActions, paymentActions } from "../../../../Redux/actionCreators";
 import PurchaseToggler from "./PurchaseToggler";
 import { freeCalls, groupInfo } from "../../../../Redux/reducers/ServiceDetailsReducer";
 import { LoaderContent } from "../../../../utility/constants/LoaderContent";
 import AlertBox, { alertTypes } from "../../../common/AlertBox";
 import Routes from "../../../../utility/constants/Routes";
+import { initSdk, initPaypalSdk } from "../../../../utility/sdk";
+import { walletTypes } from "../../../../Redux/actionCreators/UserActions";
+import { channelInfo } from "../../../../Redux/reducers/UserReducer";
+import { anyPendingTxn } from "../../../../Redux/reducers/PaymentReducer";
 
 const demoProgressStatus = {
   purchasing: 1,
@@ -29,9 +35,58 @@ class ServiceDemo extends Component {
     if (process.env.REACT_APP_SANDBOX) {
       return;
     }
+    try {
+      this.props.startInitServiceDemoLoader();
+      await this.checkForPaymentsInProgress();
+      await this.pollWalletDetails();
+      await this.fetchFreeCallsUsage();
+      await this.props.fetchUSDConversionRate();
+      this.scrollToHash();
+      this.props.stopLoader();
+    } catch (error) {
+      this.props.stopLoader();
+    }
+  };
 
-    await this.fetchFreeCallsUsage();
-    this.scrollToHash();
+  componentDidUpdate = async prevProps => {
+    const { wallet, channelInfo, anyPendingTxn, stopWalletDetailsPolling } = this.props;
+    if (wallet.type === walletTypes.METAMASK) {
+      await initSdk();
+    }
+    if (wallet.type === walletTypes.GENERAL) {
+      if (prevProps.channelInfo.id !== channelInfo.id || prevProps.wallet.type !== wallet.type) {
+        initPaypalSdk(wallet.address, channelInfo);
+      }
+      if (anyPendingTxn) {
+        this.pollWalletDetails();
+      }
+    }
+    if (!anyPendingTxn) {
+      stopWalletDetailsPolling();
+    }
+  };
+
+  componentWillUnmount = () => {
+    this.props.stopWalletDetailsPolling();
+  };
+
+  checkForPaymentsInProgress = async () => {
+    const {
+      location: { search },
+      match: {
+        params: { orderId, paymentId },
+      },
+      updatePaypalInProgress,
+      fetchOrderDetails,
+      updateWallet,
+    } = this.props;
+    const { paymentId: paypalPaymentId, PayerID } = queryString.parse(search);
+    if (orderId && paymentId && paypalPaymentId && PayerID) {
+      const { data } = await fetchOrderDetails(orderId);
+      const orderType = data.item_details.order_type;
+      updatePaypalInProgress(orderId, orderType, paymentId, paypalPaymentId, PayerID);
+      return updateWallet({ type: walletTypes.GENERAL });
+    }
   };
 
   fetchFreeCallsUsage = () => {
@@ -41,6 +96,15 @@ class ServiceDemo extends Component {
       serviceId: service.service_id,
       username: email,
     });
+  };
+
+  pollWalletDetails = async () => {
+    const {
+      service: { org_id: orgId },
+      groupInfo: { group_id: groupId },
+      startWalletDetailsPolling,
+    } = this.props;
+    return await startWalletDetailsPolling(orgId, groupId);
   };
 
   scrollToHash = () => {
@@ -75,9 +139,15 @@ class ServiceDemo extends Component {
   };
 
   serviceRequestErrorHandler = error => {
+    const alert = { type: alertTypes.ERROR };
+    if (error.response && error.response.data && error.response.data.error) {
+      alert.message = error.response.data.error;
+    } else {
+      alert.message = error.message;
+    }
     this.setState({
       isServiceExecutionComplete: false,
-      alert: { type: alertTypes.ERROR, message: "Service Execution went wrong. Please try again" },
+      alert,
     });
     this.props.stopLoader();
   };
@@ -150,6 +220,9 @@ const mapStateToProps = state => ({
   groupInfo: groupInfo(state),
   email: state.userReducer.email,
   wallet: state.userReducer.wallet,
+  firstTimeFetchWallet: state.userReducer.firstTimeFetchWallet,
+  channelInfo: channelInfo(state),
+  anyPendingTxn: anyPendingTxn(state),
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -157,9 +230,18 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     dispatch(loaderActions.startAppLoader(LoaderContent.SERVICE_INVOKATION(ownProps.service.display_name))),
   stopLoader: () => dispatch(loaderActions.stopAppLoader),
   fetchMeteringData: args => dispatch(serviceDetailsActions.fetchMeteringData(args)),
+  startWalletDetailsPolling: (orgId, groupId) => dispatch(userActions.startWalletDetailsPolling(orgId, groupId)),
+  stopWalletDetailsPolling: () => dispatch(userActions.stopWalletDetailsPolling),
+
+  fetchOrderDetails: orderId => dispatch(paymentActions.fetchOrderDetails(orderId)),
+  updateWallet: walletDetails => dispatch(userActions.updateWallet(walletDetails)),
+  updatePaypalInProgress: (orderId, orderType, paymentId, paypalPaymentId, PayerID) =>
+    dispatch(paymentActions.updatePaypalInProgress(orderId, orderType, paymentId, paypalPaymentId, PayerID)),
+  startInitServiceDemoLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.INIT_SERVICE_DEMO)),
+  fetchUSDConversionRate: () => dispatch(paymentActions.fetchUSDConversionRate),
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(useStyles)(ServiceDemo));
+)(withStyles(useStyles)(withRouter(ServiceDemo)));

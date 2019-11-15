@@ -1,19 +1,23 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Tooltip from "@material-ui/core/Tooltip";
-
-import StyledButton from "../../../../../common/StyledButton";
-import PaymentInfoCard from "../PaymentInfoCard";
-import PurchaseDialog from "../PurchaseDialog";
-import ChannelSelectionBox from "../ChannelSelectionBox";
-import AlertBox, { alertTypes } from "../../../../../common/AlertBox";
-import { initSdk } from "../../../../../../utility/sdk";
-import { cogsToAgi } from "../../../../../../utility/PricingStrategy";
-import { currentServiceDetails, pricing } from "../../../../../../Redux/reducers/ServiceDetailsReducer";
+import Typography from "@material-ui/core/Typography";
+import { withStyles } from "@material-ui/styles";
 import { WebServiceClient as ServiceClient } from "snet-sdk-web";
-import PaymentChannelManagement from "../../../../../../utility/PaymentChannelManagement";
-import { loaderActions } from "../../../../../../Redux/actionCreators";
-import { LoaderContent } from "../../../../../../utility/constants/LoaderContent";
+
+import StyledButton from "../../../../../../common/StyledButton";
+import PaymentInfoCard from "../../PaymentInfoCard";
+import PurchaseDialog from "../../PurchaseDialog";
+import ChannelSelectionBox from "../../ChannelSelectionBox";
+import AlertBox, { alertTypes } from "../../../../../../common/AlertBox";
+import { initSdk } from "../../../../../../../utility/sdk";
+import { cogsToAgi } from "../../../../../../../utility/PricingStrategy";
+import { currentServiceDetails, pricing } from "../../../../../../../Redux/reducers/ServiceDetailsReducer";
+import PaymentChannelManagement from "../../../../../../../utility/PaymentChannelManagement";
+import { loaderActions, userActions } from "../../../../../../../Redux/actionCreators";
+import { LoaderContent } from "../../../../../../../utility/constants/LoaderContent";
+import { useStyles } from "./style";
+import { walletTypes } from "../../../../../../../Redux/actionCreators/UserActions";
 
 const payTypes = {
   CHANNEL_BALANCE: "CHANNEL_BALANCE",
@@ -64,10 +68,6 @@ class MetamaskFlow extends Component {
 
   PaymentInfoCardData = [
     {
-      title: "Payment Channel",
-      value: "Metamask",
-    },
-    {
       title: "Escrow Balance",
       value: this.state.mpeBal,
       unit: "AGI",
@@ -99,14 +99,19 @@ class MetamaskFlow extends Component {
   };
 
   handleConnectMM = async () => {
-    const { startMMconnectLoader, stopLoader } = this.props;
+    const { startMMconnectLoader, stopLoader, registerWallet, walletList, updateWallet } = this.props;
     this.setState({ alert: {} });
     try {
       startMMconnectLoader();
       const sdk = await initSdk();
       const mpeBal = await sdk.account.escrowBalance();
       await this.paymentChannelManagement.updateChannelInfo();
-
+      const address = sdk.account.address;
+      const addressAlreadyRegistered = walletList.some(wallet => wallet.address === address);
+      if (!addressAlreadyRegistered) {
+        await registerWallet(address, walletTypes.METAMASK);
+      }
+      updateWallet({ type: walletTypes.METAMASK, address });
       this.PaymentInfoCardData.map(el => {
         if (el.title === "Escrow Balance") {
           el.value = cogsToAgi(mpeBal);
@@ -231,11 +236,11 @@ class MetamaskFlow extends Component {
     return (
       <div className={classes.PurchaseFlowContainer}>
         <PurchaseDialog show={showPurchaseDialog} onClose={this.handlePurchaseDialogClose} />
-        <p className={classes.PurchaseFlowDescription}>
+        <Typography variant="body1" className={classes.PurchaseFlowDescription}>
           Transfer the style of a “style Image” to a “content image” by choosing them in the boxes below. You can upload
           a a file from your computer, URL, or select image from the gallery. You can specify additional parameters in
           the panel below. “Mouse over” for tool tips.
-        </p>
+        </Typography>
         <div className={classes.paymentInfoCard}>
           {this.PaymentInfoCardData.map(item => (
             <PaymentInfoCard key={item.title} title={item.title} value={item.value} unit={item.unit} />
@@ -287,13 +292,11 @@ class MetamaskFlow extends Component {
         </div>
         <AlertBox type={alert.type} message={alert.message} />
         <div className={classes.buttonContainer}>
-          <div>
-            <StyledButton
-              type={this.shouldDepositToEscrowBeHighlighted() ? "blue" : "transparent"}
-              btnText="Deposit into Escrow"
-              onClick={this.handlePurchaseDialogOpen}
-            />
-          </div>
+          <StyledButton
+            type={this.shouldDepositToEscrowBeHighlighted() ? "blue" : "transparent"}
+            btnText="Deposit into Escrow"
+            onClick={this.handlePurchaseDialogOpen}
+          />
           <Tooltip
             title="Service is currently offline. Please try after sometime"
             aria-label="add-payment"
@@ -321,15 +324,19 @@ class MetamaskFlow extends Component {
 const mapStateToProps = state => ({
   serviceDetails: currentServiceDetails(state),
   pricing: pricing(state),
+  wallet: state.userReducer.wallet,
+  walletList: state.userReducer.walletList,
 });
 
 const mapDispatchToProps = dispatch => ({
   startMMconnectLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.CONNECT_METAMASK)),
   startChannelSetupLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.SETUP_CHANNEL_FOR_SERV_EXEC)),
+  updateWallet: ({ type, address }) => dispatch(userActions.updateWallet({ type, address })),
+  registerWallet: (address, type) => dispatch(userActions.registerWallet(address, type)),
   stopLoader: () => dispatch(loaderActions.stopAppLoader),
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(MetamaskFlow);
+)(withStyles(useStyles)(MetamaskFlow));

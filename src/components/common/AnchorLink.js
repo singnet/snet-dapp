@@ -1,5 +1,6 @@
 import React from "react";
 import MUILink from "@material-ui/core/Link";
+import PropTypes from "prop-types";
 
 const AnchorLink = ({ label, href, newTab, ...rest }) => {
   if (newTab) {
@@ -14,6 +15,12 @@ const AnchorLink = ({ label, href, newTab, ...rest }) => {
       {label}
     </MUILink>
   );
+};
+
+AnchorLink.propTypes = {
+  label: PropTypes.string,
+  href: PropTypes.string,
+  newTab: PropTypes.bool,
 };
 
 export default AnchorLink;

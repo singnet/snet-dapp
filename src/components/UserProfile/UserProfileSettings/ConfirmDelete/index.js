@@ -72,7 +72,7 @@ const ConfirmDelete = ({ open, handleClose, handleSubmit, error }) => {
               <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel htmlFor="outlined-age-simple">Help us improve, tell us why you are leaving</InputLabel>
                 <Select
-                  value={"Help us improve, tell us why you are leaving"}
+                  value="Help us improve, tell us why you are leaving"
                   input={<OutlinedInput labelWidth={320} name="age" id="outlined-age-simple" />}
                 >
                   {resonForLeaving.map(item => (

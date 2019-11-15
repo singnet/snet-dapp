@@ -4,15 +4,16 @@ export const useStyles = theme => ({
     textAlign: "right",
     "& svg": {
       color: theme.palette.text.lightShadedGray,
-      fontSize: 20,
+      fontSize: 18,
       verticalAlign: "middle",
     },
     "& h5": {
-      margin: "0 0 0 8px",
+      margin: "0 0 0 7px",
       display: "inline-block",
       color: theme.palette.text.lightShadedGray,
       fontSize: 16,
-      lineHeight: "22px",
+      fontWeight: "normal",
+      lineHeight: "20px",
     },
     "& h3": {
       padding: "0 !important",
@@ -21,13 +22,14 @@ export const useStyles = theme => ({
       display: "inline-block",
       color: theme.palette.text.darkShadedGray,
       fontSize: "28px !important",
-      lineHeight: "38px",
+      lineHeight: "28px",
     },
+    "@media(max-width:480px)": { textAlign: "left" },
   },
   unit: {
-    marginLeft: 10,
+    marginLeft: 8,
     display: "inline-block",
     color: theme.palette.text.lightShadedGray,
-    fontSize: 12,
+    fontSize: 16,
   },
 });

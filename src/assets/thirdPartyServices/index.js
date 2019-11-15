@@ -46,6 +46,8 @@ const SiggraphColorization = lazy(() => import("./snet/siggraph_colorization"));
 const TextGeneration = lazy(() => import("./snet/text_generation"));
 const PneumoniaDiagnosis = lazy(() => import("./snet/pneumonia_diagnosis"));
 const OpenCogMiner = lazy(() => import("./snet/opencog_miner"));
+const MinecraftService = lazy(() => import("./snet/minecraftizing_service"));
+const MatchingService = lazy(() => import("./snet/match_service"));
 
 class ThirdPartyCustomUIComponents {
   constructor() {
@@ -78,6 +80,11 @@ const addSnetCustomUI = (serviceId, CustomUIComponent) => {
 const addMoziCustomUI = (serviceId, CustomUIComponent) => {
   thirdPartyCustomUIComponents.addCustomUIComponent("mozi", serviceId, CustomUIComponent);
 };
+
+//TODO remove before deploying to mainnet
+const addOrg2CustomUI = (serviceId, CustomUIComponent ) => {
+  thirdPartyCustomUIComponents.addCustomUIComponent("org2", serviceId, CustomUIComponent);
+}
 
 addSnetCustomUI("example-service", ExampleService);
 addSnetCustomUI("freecall", ExampleService);
@@ -125,5 +132,10 @@ addSnetCustomUI("text-generation", TextGeneration);
 addSnetCustomUI("pneumonia-diagnosis", PneumoniaDiagnosis);
 addSnetCustomUI("opencog-miner", OpenCogMiner);
 addMoziCustomUI("gene-annotation-service", GeneAnnotationService);
+addSnetCustomUI("minecraftizing-service", MinecraftService);
+addSnetCustomUI("match-service", MatchingService);
+
+//TODO remove before deploying to mainnet
+addOrg2CustomUI("freecall", ExampleService)
 
 export default thirdPartyCustomUIComponents;

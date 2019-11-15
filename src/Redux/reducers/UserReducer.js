@@ -1,6 +1,10 @@
+import isEmpty from "lodash/isEmpty";
+
 import { userActions } from "../actionCreators";
 import { walletTypes, RESET_LOGIN_ERROR } from "../actionCreators/UserActions";
+import { cogsToAgi } from "../../utility/PricingStrategy";
 
+export const initialWallet = { value: walletTypes.DEFAULT, type: walletTypes.DEFAULT };
 const InitialUserDetails = {
   login: {
     isLoggedIn: false,
@@ -9,11 +13,14 @@ const InitialUserDetails = {
   },
   isInitialized: false,
   isEmailVerified: false,
-  wallet: {},
+  wallet: initialWallet,
+  walletList: [],
+  firstTimeFetchWallet: true,
   email: "",
   nickname: "",
   emailAlerts: false,
   isTermsAccepted: true,
+  transactionHistory: [],
 };
 
 const userReducer = (state = InitialUserDetails, action) => {
@@ -83,6 +90,12 @@ const userReducer = (state = InitialUserDetails, action) => {
     case userActions.UPDATE_WALLET: {
       return { ...state, wallet: action.payload };
     }
+    case userActions.UPDATE_WALLET_LIST: {
+      return { ...state, walletList: action.payload };
+    }
+    case userActions.UPDATE_FIRST_TIME_FETCH_WALLET: {
+      return { ...state, firstTimeFetchWallet: action.payload };
+    }
     case userActions.UPDATE_NICKNAME: {
       return { ...state, ...action.payload };
     }
@@ -98,10 +111,34 @@ const userReducer = (state = InitialUserDetails, action) => {
     case userActions.UPDATE_IS_TERMS_ACCEPTED: {
       return { ...state, isTermsAccepted: action.payload };
     }
+    case userActions.UPDATE_TRANSACTION_HISTORY: {
+      return { ...state, transactionHistory: action.payload };
+    }
     default: {
       return state;
     }
   }
+};
+
+export const channelInfo = state => {
+  const { walletList } = state.userReducer;
+  if (isEmpty(walletList)) {
+    return {};
+  }
+  const walletWithChannel = walletList.find(wallet => !isEmpty(wallet.channels[0]));
+  if (walletWithChannel) {
+    const selectedChannel = walletWithChannel.channels[0];
+    return {
+      id: selectedChannel.channel_id,
+      balanceInAgi: cogsToAgi(selectedChannel.balance_in_cogs),
+    };
+  }
+  return {};
+};
+
+export const anyGeneralWallet = state => {
+  const { walletList } = state.userReducer;
+  return walletList.some(wallet => wallet.type === walletTypes.GENERAL);
 };
 
 export default userReducer;

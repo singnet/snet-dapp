@@ -7,14 +7,21 @@ import PropTypes from "prop-types";
 
 import { useStyles } from "./styles";
 
-const StyledDropdown = ({ labelTxt, list, value, onChange, formControlProps, inputLabel }) => {
+const StyledDropdown = ({ labelTxt, list, value, onChange, formControlProps, inputLabel, disabled }) => {
   const classes = useStyles();
 
   return (
-    <FormControl className={classes.formControl} {...formControlProps}>
+    <FormControl variant="outlined" className={classes.formControl} {...formControlProps}>
       {inputLabel ? <InputLabel htmlFor="age-simple">{inputLabel}</InputLabel> : null}
-      <Select value={value} onChange={onChange} name={labelTxt} className={classes.selectEmpty}>
-        <MenuItem value="default">Select a value</MenuItem>
+      <Select
+        value={value}
+        onChange={onChange}
+        name={labelTxt}
+        className={classes.selectEmpty}
+        variant="outlined"
+        disabled={disabled}
+      >
+        <MenuItem value="default">{labelTxt || "Select a value"}</MenuItem>
         {list &&
           list.map(item => (
             <MenuItem key={item.value} value={item.value}>
@@ -27,6 +34,7 @@ const StyledDropdown = ({ labelTxt, list, value, onChange, formControlProps, inp
 };
 
 StyledDropdown.propTypes = {
+  inputLabel: PropTypes.string,
   labelTxt: PropTypes.string,
   list: PropTypes.arrayOf(
     PropTypes.shape({
@@ -34,10 +42,12 @@ StyledDropdown.propTypes = {
       label: PropTypes.string,
     })
   ),
+  onChange: PropTypes.func,
 };
 
 StyledDropdown.defaultProps = {
   labelTxt: "",
+  value: "default",
 };
 
 export default StyledDropdown;

@@ -10,6 +10,7 @@ export const useStyles = theme => ({
     lineHeight: "20px",
     letterSpacing: 0.25,
     textAlign: "left",
+    wordBreak: "break-all",
   },
   error: {
     borderColor: theme.palette.text.alertBoxBorder,

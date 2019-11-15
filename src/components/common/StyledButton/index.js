@@ -12,11 +12,12 @@ const buttonColor = {
   black: "blackBg",
   transparent: "transparentBg",
   transparentBlueBorder: "transparentBlueBorder",
+  transparentBlueBorderDisable: "transparentBlueBorderDisable",
   red: "red",
   redBg: "redBg",
 };
 
-const StyledButton = ({ disabled, onClick, type, btnType, iconClass, btnText, ...rest }) => {
+const StyledButton = ({ disabled, onClick, type, btnType, iconClass, href, newTab, btnText, ...rest }) => {
   const classes = useStyles();
 
   return (
@@ -25,6 +26,9 @@ const StyledButton = ({ disabled, onClick, type, btnType, iconClass, btnText, ..
       disabled={disabled}
       onClick={onClick}
       type={btnType}
+      href={href}
+      target={href && newTab ? "_blank" : ""}
+      rel={href && newTab ? "noopener" : ""}
       {...rest}
     >
       {iconClass ? <Icon className={iconClass} /> : null}
@@ -34,8 +38,23 @@ const StyledButton = ({ disabled, onClick, type, btnType, iconClass, btnText, ..
 };
 
 StyledButton.propTypes = {
-  type: PropTypes.oneOf(["blue", "gradient", "black", "transparent", "red", "redBg", "transparentBlueBorder"]),
+  type: PropTypes.oneOf([
+    "blue",
+    "gradient",
+    "black",
+    "transparent",
+    "red",
+    "redBg",
+    "transparentBlueBorder",
+    "transparentBlueBorderDisable",
+  ]),
   btnType: PropTypes.oneOf(["submit", "reset", "button"]),
+  btnText: PropTypes.string,
+  disabled: PropTypes.bool,
+  onClick: PropTypes.func,
+  iconClass: PropTypes.string,
+  href: PropTypes.string,
+  newTab: PropTypes.bool,
 };
 
 StyledButton.defaultProps = {
