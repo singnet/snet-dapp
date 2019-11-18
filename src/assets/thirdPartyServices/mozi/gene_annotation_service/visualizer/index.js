@@ -450,6 +450,12 @@ const Visualizer = props => {
     });
     cy.json({ elements: { nodes: visibleNodes } });
     cy.add(visibleEdges);
+    cy.remove(
+      cy.filter(
+        ele =>
+          ele.isNode() && !ele.degree() && !ele.data().group.includes("main")
+      )
+    );
     clearFilter();
     registerEventListeners();
   };
