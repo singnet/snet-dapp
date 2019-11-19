@@ -21,7 +21,7 @@ const UserProfilePopUp = ({ classes, handleClick, nickname, email }) => {
           onClose={handleClick}
           email={email}
         />
-        <UserMenu />
+        <UserMenu handleClick={handleClick} />
       </div>
     </div>
   );
