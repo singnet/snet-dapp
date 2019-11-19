@@ -13,6 +13,7 @@ export const useStyles = makeStyles(theme => ({
     "&:hover": {
       backgroundColor: theme.palette.text.offWhiteColor,
       "& h4": { color: theme.palette.text.primary },
+      "& .MuiCardActions-spacing": { backgroundColor: theme.palette.text.offWhiteColor },
     },
     "@media(min-width: 1281px)": { marginRight: 19 },
     "@media(max-width: 1280px)": { marginRight: 38 },
@@ -69,6 +70,7 @@ export const useStyles = makeStyles(theme => ({
     bottom: 20,
     padding: "0 11px",
     justifyContent: "space-between",
+    backgroundColor: theme.palette.text.white,
     "& button": { padding: 0 },
   },
   showMore: {
