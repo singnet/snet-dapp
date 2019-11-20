@@ -31,7 +31,6 @@
     "query-string": "^6.8.3",
     "react": "^16.8.6",
     "react-async-script-loader": "^0.3.0",
-    "react-blockies": "^1.4.1",
     "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.8.6",
     "react-dropzone": "^8.0.4",
