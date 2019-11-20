@@ -28,6 +28,9 @@ const paymentReducer = (state = InitialPaymentDetails, action) => {
 };
 
 export const anyPendingTxn = state => {
+  if (process.env.REACT_APP_SANDBOX) {
+    return false;
+  }
   const { walletList } = state.userReducer;
   const istransactionsPending = walletList.some(
     wallet => wallet.transactions && wallet.transactions.some(txn => txn.status === "PENDING")
@@ -36,6 +39,9 @@ export const anyPendingTxn = state => {
 };
 
 export const anyFailedTxn = state => {
+  if (process.env.REACT_APP_SANDBOX) {
+    return false;
+  }
   const { walletList } = state.userReducer;
   const istransactionsFailed = walletList.some(
     wallet => wallet.transactions && wallet.transactions.some(txn => txn.status === "FAILED")

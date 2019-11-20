@@ -50,6 +50,9 @@ class ServiceDemo extends Component {
 
   componentDidUpdate = async prevProps => {
     const { wallet, channelInfo, anyPendingTxn, stopWalletDetailsPolling } = this.props;
+    if (process.env.REACT_APP_SANDBOX) {
+      return;
+    }
     if (wallet.type === walletTypes.METAMASK) {
       await initSdk();
     }
