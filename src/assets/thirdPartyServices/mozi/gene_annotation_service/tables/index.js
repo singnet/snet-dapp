@@ -19,6 +19,7 @@ import CloudDownloadIcon from "@material-ui/icons/CloudDownloadOutlined";
 import { downloadCSVFile } from "../service";
 import * as papa from "papaparse";
 import "./style.css";
+import AnchorLink from "../../../../../components/common/AnchorLink";
 
 const parseTable = tableData => papa.parse(tableData);
 const width = document.body.clientWidth || window.screen.width;
@@ -51,7 +52,7 @@ const ResultTables = props => {
               <div>
                 <Typography>{table[1][i * 6 + 1]}</Typography>
                 <Typography variant="body1">
-                  <a href={`https://www.ncbi.nlm.nih.gov/gene/?term=${g}`}>Learn more about {g}</a>
+                  <AnchorLink href={`https://www.ncbi.nlm.nih.gov/gene/?term=${g}`} label={`Learn more about ${g}`} />
                 </Typography>
                 <Table size="small" style={{ minWidth: width - 300 }}>
                   <TableHead>
@@ -82,19 +83,24 @@ const ResultTables = props => {
                           <TableRow key={row.name}>
                             <TableCell>{j + 1}</TableCell>
                             <TableCell>
-                              <Typography variant="body1">
-                                <a href={`http://amigo.geneontology.org/amigo/term/${values[1]}`}>{values[1]}</a>
-                              </Typography>
+                              <AnchorLink
+                                href={`http://amigo.geneontology.org/amigo/term/${values[1]}`}
+                                label={values[1]}
+                              />
                             </TableCell>
                             <TableCell>{values[0]}</TableCell>
                             <TableCell>
-                              <a href={`http://amigo.geneontology.org/amigo/term/${values[3]}`}>{values[3]}</a>
+                              <AnchorLink
+                                href={`http://amigo.geneontology.org/amigo/term/${values[3]}`}
+                                label={values[3]}
+                              />
                             </TableCell>
                             <TableCell>{values[2]}</TableCell>
                             <TableCell>
-                              <Typography variant="body1">
-                                <a href={`http://amigo.geneontology.org/amigo/term/${values[5]}`}>{values[5]}</a>
-                              </Typography>
+                              <AnchorLink
+                                href={`http://amigo.geneontology.org/amigo/term/${values[5]}`}
+                                label={values[5]}
+                              />
                             </TableCell>
                             <TableCell>{values[4]}</TableCell>
                           </TableRow>
@@ -109,6 +115,13 @@ const ResultTables = props => {
       </div>
     );
   };
+
+  const renderChebi = c =>
+    c ? (
+      <AnchorLink href={`https://www.ebi.ac.uk/chebi/searchId.do?chebiId=${c.slice(c.indexOf(":") + 1)}`} label={c} />
+    ) : (
+      c
+    );
 
   const renderPathwayTable = () => {
     const data = tables.find(t => t.displayName === "PATHWAY").data;
@@ -126,7 +139,7 @@ const ResultTables = props => {
               <div>
                 <Typography>{table[1][i * 3 + 1]}</Typography>
                 <Typography variant="body1">
-                  <a href={` http://www.reactome.org/content/detail/${p}`}>Learn more about {p}</a>
+                  <AnchorLink href={` http://www.reactome.org/content/detail/${p}`} label={`Learn more about ${p}`} />
                 </Typography>
                 <Table size="small" style={{ minWidth: width - 300 }}>
                   <TableHead>
@@ -154,7 +167,10 @@ const ResultTables = props => {
                             <TableCell>{j + 1}</TableCell>
                             <TableCell>
                               <Typography variant="body1">
-                                <a href={`https://www.ncbi.nlm.nih.gov/gene/?term=${values[0]}`}>{values[0]}</a>{" "}
+                                <AnchorLink
+                                  href={`https://www.ncbi.nlm.nih.gov/gene/?term=${values[0]}`}
+                                  label={values[0]}
+                                />
                               </Typography>
                             </TableCell>
                             <TableCell>
@@ -173,22 +189,15 @@ const ResultTables = props => {
                                 )}
                                 {protien.length > 1 && (
                                   <Typography variant="body1">
-                                    <a href={`https://www.ncbi.nlm.nih.gov/gene/?term=${protien[1]}`}>{protien[1]}</a>{" "}
+                                    <AnchorLink
+                                      href={`https://www.ncbi.nlm.nih.gov/gene/?term=${protien[1]}`}
+                                      label={protien[1]}
+                                    />
                                   </Typography>
                                 )}
                               </Fragment>
                             </TableCell>
-                            <TableCell>
-                              <Typography variant="body1">
-                                <a
-                                  href={`https://www.ebi.ac.uk/chebi/searchId.do?chebiId=${values[2].slice(
-                                    values[2].indexOf(":") + 1
-                                  )}`}
-                                >
-                                  {values[2]}
-                                </a>
-                              </Typography>
-                            </TableCell>
+                            <TableCell>{renderChebi(values[2])}</TableCell>
                           </TableRow>
                         );
                       })}
@@ -218,7 +227,7 @@ const ResultTables = props => {
               <div>
                 <Typography>{table[1][i * 6 + 1]}</Typography>
                 <Typography variant="body1">
-                  <a href={`https://www.ncbi.nlm.nih.gov/gene/?term=${b}`}>Learn more about {b}</a>
+                  <AnchorLink href={`https://www.ncbi.nlm.nih.gov/gene/?term=${b}`} label={`Learn more about ${b}`} />
                 </Typography>
                 <Table size="small" style={{ minWidth: width - 300 }}>
                   <TableHead>
@@ -256,7 +265,10 @@ const ResultTables = props => {
                                       {values[1].slice(values[1].indexOf(":") + 1)}
                                     </a>
                                   ) : (
-                                    <a href={`https://www.ncbi.nlm.nih.gov/gene/?term=${values[1]}`}>{values[1]}</a>
+                                    <AnchorLink
+                                      href={`https://www.ncbi.nlm.nih.gov/gene/?term=${values[1]}`}
+                                      label={values[1]}
+                                    />
                                   )
                                 ) : (
                                   values[1]

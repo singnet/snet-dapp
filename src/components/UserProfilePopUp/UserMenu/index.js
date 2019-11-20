@@ -7,9 +7,9 @@ import { useStyles } from "./styles";
 import { UserMenuList, UserMenuActionList } from "../../../utility/constants/UserPopupMenu";
 import UserMenuAction from "./UserMenuAction";
 
-const UserMenu = ({ classes }) => {
+const UserMenu = ({ classes, handleClick }) => {
   return (
-    <ul className={classes.userMenuItemList}>
+    <ul className={classes.userMenuItemList} onClick={handleClick}>
       {UserMenuList.map(menu => (
         <UserMenuItem key={menu.menuTitle} icon={menu.menuIcon} title={menu.menuTitle} linkTo={menu.menuLink} />
       ))}
