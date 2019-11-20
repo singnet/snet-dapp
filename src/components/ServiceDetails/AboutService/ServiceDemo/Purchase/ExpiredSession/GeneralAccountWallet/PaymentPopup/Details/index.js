@@ -6,6 +6,7 @@ import Avatar from "@material-ui/core/Avatar";
 import { connect } from "react-redux";
 import Web3 from "web3";
 import isEmpty from "lodash/isEmpty";
+import MPEContract from "singularitynet-platform-contracts/networks/MultiPartyEscrow";
 
 import PaymentInfoCard from "../../../../PaymentInfoCard";
 import StyledDropdown from "../../../../../../../../common/StyledDropdown";
@@ -76,11 +77,12 @@ const Details = props => {
     const hexGroupId = decodeGroupId(groupInfo.group_id);
     const amountInCogs = USDToCogs(amount);
     const currentBlockNumber = await web3.eth.getBlockNumber();
+    const mpeContractAddress = web3.utils.toChecksumAddress(MPEContract[process.env.REACT_APP_ETH_NETWORK].address);
     // block no is mined in 15 sec on average, setting expiration as 10 years
     const expiration = currentBlockNumber + tenYearBlockOffset;
     const sha3Message = web3.utils.soliditySha3(
       { t: "string", v: "__openChannelByThirdParty" },
-      { t: "address", v: process.env.REACT_APP_MPE_CONTRACT_ADDRESS },
+      { t: "address", v: mpeContractAddress },
       { t: "address", v: process.env.REACT_APP_EXECUTOR_WALLET_ADDRESS },
       { t: "address", v: process.env.REACT_APP_SNET_SIGNER_ADDRESS },
       { t: "address", v: recipient },
