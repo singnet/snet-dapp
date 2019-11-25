@@ -45,7 +45,7 @@ const fetchMeteringDataSuccess = usageData => dispatch => {
   const freeCallsRemaining = usageData.free_calls_allowed - usageData.total_calls_made;
   dispatch({
     type: UPDATE_FREE_CALLS_INFO,
-    payload: { allowed: usageData.free_calls_allowed, remaining: freeCallsRemaining },
+    payload: freeCallsRemaining,
   });
 };
 
