@@ -6,8 +6,10 @@ export const useStyles = theme => ({
     paddingBottom: 1,
     marginBottom: 25,
   },
-  companyInfo: {
+  content: {
     paddingLeft: 22,
+  },
+  companyInfo: {
     margin: "10px 0 20px",
     display: "flex",
     alignItems: "center",
