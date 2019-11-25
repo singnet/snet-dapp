@@ -11,7 +11,7 @@ const Contacts = ({ contacts }) => {
     return null;
   }
 
-  const supportContact = contacts.find(el => el.contact_type === ContactTypes.SUPPORT);
+  const supportContact = contacts.find(el => el.contact_type.toLowerCase().trim() === ContactTypes.SUPPORT);
   return (
     <Fragment>
       <p>
