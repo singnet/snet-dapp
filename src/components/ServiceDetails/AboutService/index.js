@@ -25,7 +25,7 @@ const AboutService = ({ classes, isLoggedIn, service, history }) => {
           organizationName={service.organization_name}
           orgImg={service.org_assets_url && service.org_assets_url.hero_image}
         />
-        <ProjectDetails projectURL={service.url} />
+        <ProjectDetails projectURL={service.url} contributors={JSON.parse(service.contributors)} />
       </Grid>
 
       <div className={classes.backToLink}>

@@ -4,7 +4,7 @@ import { withStyles } from "@material-ui/styles";
 import { useStyles } from "./styles";
 import Tags from "./Tags";
 
-const ServiceOverview = ({ classes, description, service_url, tags }) => {
+const ServiceOverview = ({ classes, description, tags }) => {
   return (
     <div className={classes.overViewContainer}>
       <h3>Overview</h3>
