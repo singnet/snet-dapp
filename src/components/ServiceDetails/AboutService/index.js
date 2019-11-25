@@ -24,14 +24,9 @@ const AboutService = ({ classes, isLoggedIn, service, history }) => {
         <CreatorDetails
           organizationName={service.organization_name}
           orgImg={service.org_assets_url && service.org_assets_url.hero_image}
-          //TODO: Remove JSON.parse once it is hanlded in backend API
-          contacts={JSON.parse(service.contacts)}
+          contacts={service.contacts}
         />
-        <ProjectDetails
-          projectURL={service.url}
-          // TODO: Remove JSON.parse once it is hanlded in backend API
-          contributors={JSON.parse(service.contributors)}
-        />
+        <ProjectDetails projectURL={service.url} contributors={service.contributors} />
       </Grid>
 
       <div className={classes.backToLink}>
