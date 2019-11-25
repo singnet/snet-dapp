@@ -25,6 +25,7 @@ const AboutService = ({ classes, isLoggedIn, service, history }) => {
           organizationName={service.organization_name}
           orgImg={service.org_assets_url && service.org_assets_url.hero_image}
         />
+        {/* TODO: Remove JSON.parse once it is hanlded in backend API */}
         <ProjectDetails projectURL={service.url} contributors={JSON.parse(service.contributors)} />
       </Grid>
 
