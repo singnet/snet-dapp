@@ -39,7 +39,9 @@ class ServiceDemo extends Component {
       this.props.startInitServiceDemoLoader();
       await this.checkForPaymentsInProgress();
       await this.pollWalletDetails();
-      await this.fetchFreeCallsUsage();
+      if (this.props.freeCalls.allowed > 0) {
+        await this.fetchFreeCallsUsage();
+      }
       await this.props.fetchUSDConversionRate();
       this.scrollToHash();
       this.props.stopLoader();
