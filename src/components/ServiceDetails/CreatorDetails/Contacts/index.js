@@ -38,17 +38,17 @@ const Contacts = ({ contacts, show, handleClose, classes }) => {
     <Modal open={show} onClose={handleClose}>
       <Card className={classes.card}>
         <CardHeader
+          className={classes.header}
           title={
             <Fragment>
-              <span>Contact Details</span>
+              <span className={classes.headerTitle}>Contact Details</span>
               <span className={classes.closeIcon}>
                 <CloseIcon onClick={handleClose} />
               </span>
             </Fragment>
           }
-          className={classes.header}
         />
-        <CardContent>
+        <CardContent className={classes.cardContent}>
           <List>
             <ListItem alignItems="flex-start" divider>
               <ListItemText
@@ -66,7 +66,7 @@ const Contacts = ({ contacts, show, handleClose, classes }) => {
               <ListItemText
                 primary="Support phone"
                 secondary={supportContact.phone}
-                secondaryTypographyProps={{ component: "span" }}
+                secondaryTypographyProps={{ component: "span", className: classes.phoneNo }}
                 className={classes.listItemText}
               />
             </ListItem>

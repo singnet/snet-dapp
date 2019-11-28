@@ -62,6 +62,7 @@ export const useStyles = theme => ({
       cursor: "pointer",
       height: 24,
       marginTop: 14,
+      "& svg": { verticalAlign: "middle" },
     },
     height: 56,
   },

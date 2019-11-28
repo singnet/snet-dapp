@@ -1,8 +1,7 @@
 export const useStyles = theme => ({
   card: {
-    width: 500,
-    paddingTop: 10,
-    margin: "20% auto",
+    width: 519,
+    margin: "30% auto",
     fontSize: 22,
   },
   closeIcon: {
@@ -10,15 +9,42 @@ export const useStyles = theme => ({
     float: "right",
   },
   header: {
+    padding: "10px 22px",
     backgroundColor: theme.palette.text.offWhiteColor,
+  },
+  headerTitle: {
+    color: theme.palette.text.darkShadedGray,
+    fontFamily: theme.typography.primary.main,
+    fontSize: 20,
   },
   listItemText: {
     display: "grid",
     gridTemplateColumns: "30% auto",
+    "& span": {
+      "&:first-of-type": {
+        color: theme.palette.text.mediumShadeGray,
+        fontSize: 14,
+      },
+    },
   },
   anchor: {
     color: theme.palette.text.primary,
     cursor: "pointer",
+    fontSize: 16,
+    letterSpacing: 0.29,
     textDecoration: "none",
+  },
+  phoneNo: {
+    color: theme.palette.text.darkShadedGray,
+    fontSize: 16,
+    letterSpacing: 0.29,
+    lineHeight: "20px",
+  },
+  cardContent: {
+    padding: "15px 4px",
+    "& ul": {
+      padding: 0,
+      "& li": { padding: "8px 13px" },
+    },
   },
 });
