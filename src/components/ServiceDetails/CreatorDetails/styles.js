@@ -55,8 +55,14 @@ export const useStyles = theme => ({
     borderTop: `1px solid ${theme.palette.text.lightGray}`,
     color: theme.palette.text.mediumShadeGray,
     fontSize: 14,
+    textAlign: "center",
     "& span": {
+      display: "inline-block",
+      verticalAlign: "middle",
       cursor: "pointer",
+      height: 24,
+      marginTop: 14,
     },
+    height: 56,
   },
 });

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import { withStyles } from "@material-ui/styles";
 import PropTypes from "prop-types";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
@@ -11,23 +11,25 @@ const CreatorDetails = ({ classes, organizationName, orgImg, contacts }) => {
   const [showContacts, setShowContacts] = useState(false);
 
   return (
-    <div className={classes.creatorDetailsContainer}>
-      <h3>Provider</h3>
-      <div className={classes.content}>
-        <div className={classes.companyInfo}>
-          <img src={orgImg || SingularityLogo} alt="SingularityNET" />
-          <div className={classes.companyName}>
-            <h4>{organizationName}</h4>
+    <Fragment>
+      <div className={classes.creatorDetailsContainer}>
+        <h3>Provider</h3>
+        <div className={classes.content}>
+          <div className={classes.companyInfo}>
+            <img src={orgImg || SingularityLogo} alt="SingularityNET" />
+            <div className={classes.companyName}>
+              <h4>{organizationName}</h4>
+            </div>
           </div>
         </div>
-      </div>
-      <div className={classes.footer}>
-        <span onClick={() => setShowContacts(true)}>
-          <ChatBubbleOutlineIcon fontSize="small" /> Contact
-        </span>
+        <div className={classes.footer}>
+          <span onClick={() => setShowContacts(true)}>
+            <ChatBubbleOutlineIcon fontSize="small" /> Contact
+          </span>
+        </div>
       </div>
       <Contacts contacts={contacts} show={showContacts} handleClose={() => setShowContacts(false)} />
-    </div>
+    </Fragment>
   );
 };
 

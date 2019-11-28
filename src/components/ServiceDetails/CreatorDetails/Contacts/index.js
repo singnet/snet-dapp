@@ -1,10 +1,15 @@
-import React from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import Modal from "@material-ui/core/Modal";
 import Card from "@material-ui/core/Card";
 import { withStyles } from "@material-ui/styles";
 import CardHeader from "@material-ui/core/CardHeader";
+import CardContent from "@material-ui/core/CardContent";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import CloseIcon from "@material-ui/icons/Close";
 
 import { useStyles } from "./styles";
 import AlertBox from "../../../common/AlertBox";
@@ -32,15 +37,41 @@ const Contacts = ({ contacts, show, handleClose, classes }) => {
   return (
     <Modal open={show} onClose={handleClose}>
       <Card className={classes.card}>
-        <CardHeader title="Contact Details" />
-        <ul>
-          <li>
-            <strong>Support email:</strong> {supportContact.email_id}
-          </li>
-          <li>
-            <strong>Support phone:</strong> {supportContact.phone}
-          </li>
-        </ul>
+        <CardHeader
+          title={
+            <Fragment>
+              <span>Contact Details</span>
+              <span className={classes.closeIcon}>
+                <CloseIcon onClick={handleClose} />
+              </span>
+            </Fragment>
+          }
+          className={classes.header}
+        />
+        <CardContent>
+          <List>
+            <ListItem alignItems="flex-start" divider>
+              <ListItemText
+                primary="Support email"
+                secondary={supportContact.email_id}
+                secondaryTypographyProps={{
+                  component: "a",
+                  href: `mailTo:${supportContact.email_id}`,
+                  className: classes.anchor,
+                }}
+                className={classes.listItemText}
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemText
+                primary="Support phone"
+                secondary={supportContact.phone}
+                secondaryTypographyProps={{ component: "span" }}
+                className={classes.listItemText}
+              />
+            </ListItem>
+          </List>
+        </CardContent>
       </Card>
     </Modal>
   );
