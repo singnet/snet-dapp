@@ -50,4 +50,13 @@ export const useStyles = theme => ({
       fontSize: 12,
     },
   },
+  footer: {
+    backgroundColor: theme.palette.text.cardBackground,
+    borderTop: `1px solid ${theme.palette.text.lightGray}`,
+    color: theme.palette.text.mediumShadeGray,
+    fontSize: 14,
+    "& span": {
+      cursor: "pointer",
+    },
+  },
 });

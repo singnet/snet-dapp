@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { withStyles } from "@material-ui/styles";
 import PropTypes from "prop-types";
+import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 
 import SingularityLogo from "../../../assets/images/avatar.png";
 import { useStyles } from "./styles";
 import Contacts from "./Contacts";
 
 const CreatorDetails = ({ classes, organizationName, orgImg, contacts }) => {
+  const [showContacts, setShowContacts] = useState(false);
+
   return (
     <div className={classes.creatorDetailsContainer}>
       <h3>Provider</h3>
@@ -17,8 +20,13 @@ const CreatorDetails = ({ classes, organizationName, orgImg, contacts }) => {
             <h4>{organizationName}</h4>
           </div>
         </div>
-        <Contacts contacts={contacts} />
       </div>
+      <div className={classes.footer}>
+        <span onClick={() => setShowContacts(true)}>
+          <ChatBubbleOutlineIcon fontSize="small" /> Contact
+        </span>
+      </div>
+      <Contacts contacts={contacts} show={showContacts} handleClose={() => setShowContacts(false)} />
     </div>
   );
 };
