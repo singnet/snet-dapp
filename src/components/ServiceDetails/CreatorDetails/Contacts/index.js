@@ -7,6 +7,7 @@ import { withStyles } from "@material-ui/styles";
 import CardHeader from "@material-ui/core/CardHeader";
 
 import { useStyles } from "./styles";
+import AlertBox from "../../../common/AlertBox";
 
 const ContactTypes = {
   SUPPORT: "support",
@@ -18,6 +19,16 @@ const Contacts = ({ contacts, show, handleClose, classes }) => {
   }
 
   const supportContact = contacts.find(el => el.contact_type.toLowerCase().trim() === ContactTypes.SUPPORT);
+  if (!supportContact) {
+    return (
+      <Modal open={show} onClose={handleClose}>
+        <Card className={classes.card}>
+          <AlertBox message="No Contact Details Found" />
+        </Card>
+      </Modal>
+    );
+  }
+
   return (
     <Modal open={show} onClose={handleClose}>
       <Card className={classes.card}>
