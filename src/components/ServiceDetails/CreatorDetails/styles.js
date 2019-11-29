@@ -66,4 +66,10 @@ export const useStyles = theme => ({
     },
     height: 56,
   },
+  avatar: {
+    width: 72,
+    height: 72,
+    display: "inline-block",
+    "& img": { width: "100%" },
+  },
 });

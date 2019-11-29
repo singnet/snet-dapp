@@ -2,6 +2,7 @@ import React, { useState, Fragment } from "react";
 import { withStyles } from "@material-ui/styles";
 import PropTypes from "prop-types";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
+import Avatar from "@material-ui/core/Avatar";
 
 import SingularityLogo from "../../../assets/images/avatar.png";
 import { useStyles } from "./styles";
@@ -16,7 +17,7 @@ const CreatorDetails = ({ classes, organizationName, orgImg, contacts }) => {
         <h3>Provider</h3>
         <div className={classes.content}>
           <div className={classes.companyInfo}>
-            <img src={orgImg || SingularityLogo} alt="SingularityNET" />
+            <Avatar alt="Singularity" src={orgImg || SingularityLogo} className={classes.avatar} />
             <div className={classes.companyName}>
               <h4>{organizationName}</h4>
             </div>
