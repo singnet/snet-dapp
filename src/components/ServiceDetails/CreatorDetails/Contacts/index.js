@@ -57,6 +57,8 @@ const Contacts = ({ contacts, show, handleClose, classes }) => {
                 secondaryTypographyProps={{
                   component: "a",
                   href: `mailTo:${supportContact.email_id}`,
+                  target: "_blank",
+                  rel: "noopener noreferrer",
                   className: classes.anchor,
                 }}
                 className={classes.listItemText}
