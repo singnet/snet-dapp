@@ -48,5 +48,6 @@ export const useStyles = theme => ({
       color: theme.palette.text.primary,
       fontSize: 14,
     },
+    marginTop: 2,
   },
 });
