@@ -1,0 +1,10 @@
+# Webhook for keeping the fork in sync
+# https://github.com/wei/pull
+version: "1"
+rules:
+  - base: master
+    upstream: snet:master
+    mergeMethod: merge
+  - base: development
+    upstream: snet:development
+    mergeMethod: merge
