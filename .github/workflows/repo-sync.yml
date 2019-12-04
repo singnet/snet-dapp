@@ -13,7 +13,7 @@ jobs:
       env:
         SOURCE_REPO: "https://github.com/singnet/snet-dapp.git"
         SOURCE_BRANCH: "master"
-        DESTINATION_REPO: "https://github.com/Vivek205/refactored-dapp.git"
+        DESTINATION_REPO: "https://Vivek205:${{secrets.GITHUB_FORK_SYNC_TOKEN}}@github.com/Vivek205/refactored-dapp.git"
         DESTINATION_BRANCH: "master"
       with:
         args: $SOURCE_REPO $SOURCE_BRANCH $DESTINATION_REPO $DESTINATION_BRANCH
@@ -28,7 +28,8 @@ jobs:
       env:
         SOURCE_REPO: "https://github.com/singnet/snet-dapp.git"
         SOURCE_BRANCH: "development"
-        DESTINATION_REPO: "https://github.com/Vivek205/refactored-dapp.git"
+        DESTINATION_REPO: "https://Vivek205:${{secrets.GITHUB_FORK_SYNC_TOKEN}}@github.com/Vivek205/refactored-dapp.git"
         DESTINATION_BRANCH: "development"
       with:
-        args: $SOURCE_REPO $SOURCE_BRANCH $DESTINATION_REPO $DESTINATION_BRANCH
+        args: $SOURCE_REPO $SOURCE_BRANCH $DESTINATION_REPO $DESTINATION_BRANCH $
+
