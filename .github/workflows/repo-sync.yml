@@ -17,7 +17,7 @@ jobs:
         source_repo: "https://github.com/singnet/snet-dapp.git"
         source_branch: "master"
         destination_branch: "master"
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.GITHUB_ACCESS_TOKEN }}
 
   repo-sync-development:
     
@@ -31,5 +31,5 @@ jobs:
         source_repo: "https://github.com/singnet/snet-dapp.git"
         source_branch: "development"
         destination_branch: "development"
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.GITHUB_ACCESS_TOKEN }}
 
