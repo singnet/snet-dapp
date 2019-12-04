@@ -1,6 +1,8 @@
 name: Git Sync Fork
 
-on: [push, pull_request]
+on: 
+  schedule:
+    - cron:  "*/15 * * * *"
 
 jobs:
   repo-sync-master:
@@ -8,28 +10,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Git Sync Action
-      uses: wei/git-sync@v1.1.2
-      env:
-        SOURCE_REPO: "https://github.com/singnet/snet-dapp.git"
-        SOURCE_BRANCH: "master"
-        DESTINATION_REPO: "https://Vivek205:${{secrets.GITHUB_FORK_SYNC_TOKEN}}@github.com/Vivek205/refactored-dapp.git"
-        DESTINATION_BRANCH: "master"
+    - uses: actions/checkout@master
+    - name: repo-sync-master
+      uses: repo-sync/github-sync@v2
       with:
-        args: $SOURCE_REPO $SOURCE_BRANCH $DESTINATION_REPO $DESTINATION_BRANCH
-      
+        source_repo: "https://github.com/singnet/snet-dapp.git"
+        source_branch: "master"
+        destination_branch: "master"
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+
   repo-sync-development:
     
     runs-on: ubuntu-latest
     
     steps:
-    - name: Git Sync Action
-      uses: wei/git-sync@v1.1.2
-      env:
-        SOURCE_REPO: "https://github.com/singnet/snet-dapp.git"
-        SOURCE_BRANCH: "development"
-        DESTINATION_REPO: "https://Vivek205:${{secrets.GITHUB_FORK_SYNC_TOKEN}}@github.com/Vivek205/refactored-dapp.git"
-        DESTINATION_BRANCH: "development"
+    - uses: actions/checkout@development
+    - name: repo-sync-master
+      uses: repo-sync/github-sync@v2
       with:
-        args: $SOURCE_REPO $SOURCE_BRANCH $DESTINATION_REPO $DESTINATION_BRANCH $
+        source_repo: "https://github.com/singnet/snet-dapp.git"
+        source_branch: "development"
+        destination_branch: "development"
+        github_token: ${{ secrets.GITHUB_TOKEN }}
 
