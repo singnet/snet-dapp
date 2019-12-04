@@ -55,13 +55,11 @@ export const useStyles = theme => ({
     verticalAlign: "super",
   },
   avatar: {
+    width: 40,
+    height: 40,
     marginRight: 12,
     display: "inline-block",
-    "& img": {
-      width: 40,
-      height: 40,
-    },
-    "@media(max-width:768px)": { display: "none" },
+    "& img": { width: "100%" },
   },
   serviceCreatorDetails: {
     display: "flex",

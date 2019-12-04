@@ -6,8 +6,10 @@ export const useStyles = theme => ({
     paddingBottom: 1,
     marginBottom: 25,
   },
-  companyInfo: {
+  content: {
     paddingLeft: 22,
+  },
+  companyInfo: {
     margin: "10px 0 20px",
     display: "flex",
     alignItems: "center",
@@ -47,5 +49,27 @@ export const useStyles = theme => ({
       color: theme.palette.text.mediumShadeGray,
       fontSize: 12,
     },
+  },
+  footer: {
+    backgroundColor: theme.palette.text.cardBackground,
+    borderTop: `1px solid ${theme.palette.text.lightGray}`,
+    color: theme.palette.text.mediumShadeGray,
+    fontSize: 14,
+    textAlign: "center",
+    "& span": {
+      display: "inline-block",
+      verticalAlign: "middle",
+      cursor: "pointer",
+      height: 24,
+      marginTop: 14,
+      "& svg": { verticalAlign: "middle" },
+    },
+    height: 56,
+  },
+  avatar: {
+    width: 72,
+    height: 72,
+    display: "inline-block",
+    "& img": { width: "100%" },
   },
 });
