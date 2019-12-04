@@ -31,12 +31,12 @@ export const freeCalls = state => {
   if (!selectedGroup) {
     return {};
   }
-  if (selectedGroup.free_calls_allowed === 0) {
+  if (selectedGroup.free_calls === 0) {
     return { allowed: 0, remaing: 0 };
   }
   return {
-    allowed: selectedGroup.free_calls_allowed,
-    remaining: selectedGroup.free_calls_allowed - state.serviceDetailsReducer.freeCallsUsed,
+    allowed: selectedGroup.free_calls,
+    remaining: selectedGroup.free_calls - state.serviceDetailsReducer.freeCallsUsed,
   };
 };
 
