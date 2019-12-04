@@ -1,8 +1,10 @@
 export const useStyles = theme => ({
   card: {
     width: 519,
-    margin: "30% auto",
+    margin: "0 auto",
     fontSize: 22,
+    transform: "translateY(130%)",
+    "@media(max-width:520px)": { width: "100%" },
   },
   closeIcon: {
     cursor: "pointer",
