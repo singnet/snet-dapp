@@ -82,3 +82,6 @@ src/assets/images/ThirdPartyServices/*
 
 #storybook
 storybook-static/
+
+#workflows
+.github/
