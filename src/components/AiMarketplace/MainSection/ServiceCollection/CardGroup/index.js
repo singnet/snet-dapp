@@ -9,6 +9,8 @@ import { useStyles } from "./styles";
 import Routes from "../../../../../utility/constants/Routes";
 import GridViewItem from "./GridViewItem";
 
+const maxDescriptionChars = 180;
+
 const CardGroup = ({ data: cards, listView, loading }) => {
   const classes = useStyles();
 
@@ -46,7 +48,7 @@ const CardGroup = ({ data: cards, listView, loading }) => {
               cardSubheader={card.organization_name}
               ratingGiven={card.service_rating}
               totalRating={card.total_users_rated}
-              cardDescription={truncate(card.description, { length: 180 })}
+              cardDescription={truncate(card.short_description, { length: maxDescriptionChars })}
               isAvailable={Boolean(card.is_available)}
             />
           </Link>
@@ -69,7 +71,7 @@ const CardGroup = ({ data: cards, listView, loading }) => {
             cardSubheader={card.organization_name}
             ratingGiven={card.service_rating}
             totalRating={card.total_users_rated}
-            cardDescription={truncate(card.description, { length: 180 })}
+            cardDescription={truncate(card.short_description, { length: maxDescriptionChars })}
             isAvailable={Boolean(card.is_available)}
           />
         </Link>
