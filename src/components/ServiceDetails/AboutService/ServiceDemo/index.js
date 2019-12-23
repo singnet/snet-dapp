@@ -37,10 +37,15 @@ class ServiceDemo extends Component {
     }
     try {
       this.props.startInitServiceDemoLoader();
-      await this.checkForPaymentsInProgress();
-      await this.pollWalletDetails();
-      await this.fetchFreeCallsUsage();
-      await this.props.fetchUSDConversionRate();
+      const asyncCalls = [
+        this.checkForPaymentsInProgress(),
+        this.pollWalletDetails(),
+        this.props.fetchUSDConversionRate(),
+      ];
+      if (this.props.freeCalls.allowed > 0) {
+        asyncCalls.push(this.fetchFreeCallsUsage());
+      }
+      await Promise.all(asyncCalls);
       this.scrollToHash();
       this.props.stopLoader();
     } catch (error) {

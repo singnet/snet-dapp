@@ -124,7 +124,7 @@ class CNTKImageRecognition extends React.Component {
 
   renderComplete() {
     const { response } = this.state;
-    var top5 = response.top5;
+    var top5 = response.top_5;
     top5 = top5.replace('{', '');
     top5 = top5.replace('}', '');
     var topArray = top5.split(', ');
