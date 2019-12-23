@@ -20,9 +20,9 @@ const ForgotPassword = ({ classes, email, error, handleForgotPassword, history, 
   };
 
   const handleSubmit = event => {
-    resetError();
     event.preventDefault();
     event.stopPropagation();
+    resetError();
     const isNotValid = snetValidator({ email: localEmail }, forgotPasswordConstraints);
     if (isNotValid) {
       updateError(isNotValid[0]);
@@ -50,7 +50,7 @@ const ForgotPassword = ({ classes, email, error, handleForgotPassword, history, 
             onChange={handleEmail}
           />
           <AlertBox type="error" message={error} />
-          <StyledButton type="blue" btnText="reset password" onClick={handleSubmit} />
+          <StyledButton type="blue" btnText="reset password" onClick={handleSubmit} btnType="submit" />
         </form>
       </Grid>
     </Grid>

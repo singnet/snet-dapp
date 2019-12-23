@@ -98,7 +98,7 @@ const ForgotPasswordSubmit = ({ classes, history, error, email, forgotPasswordSu
             onChange={handleConfirmPassword}
           />
           <AlertBox message={error} />
-          <StyledButton type="blue" btnText="Reset Password" onClick={handleSubmit} />
+          <StyledButton type="blue" btnText="Reset Password" onClick={handleSubmit} btnType="submit" />
         </form>
       </Grid>
     </Grid>
