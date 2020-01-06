@@ -53,13 +53,13 @@ class App extends Component {
   };
 
   render() {
-    const { hamburgerMenu, isInitialized, isLoggedIn, isTermsAccepted } = this.props;
+    const { isInitialized, isLoggedIn, isTermsAccepted } = this.props;
     if (!isInitialized) {
       return <CircularProgress />;
     }
     return (
       <ThemeProvider theme={theme}>
-        <div className={hamburgerMenu ? "hide-overflow" : null}>
+        <div>
           <Router history={history}>
             <Suspense fallback={<CircularProgress />}>
               <Switch>
