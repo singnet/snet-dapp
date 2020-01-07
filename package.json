@@ -49,7 +49,8 @@
     "snet-sdk-web": "^1.0.0-beta.7",
     "utf8": "^3.0.0",
     "validate.js": "^0.13.1",
-    "web3": "1.0.0-beta.52"
+    "web3": "1.0.0-beta.52",
+    "@sentry/browser": "^5.10.2"
   },
   "scripts": {
     "start": "react-scripts start",
