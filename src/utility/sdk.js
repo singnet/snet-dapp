@@ -42,11 +42,11 @@ const parseFreeCallMetadata = ({ data }) => ({
   "snet-payment-channel-signature-bin": parseSignature(data["snet-payment-channel-signature-bin"]),
 });
 
-const metadataGenerator = serviceRequestErrorHandler => async (serviceClient, serviceName, method) => {
+const metadataGenerator = (serviceRequestErrorHandler, groupId) => async (serviceClient, serviceName, method) => {
   try {
     const { orgId: org_id, serviceId: service_id } = serviceClient.metadata;
     const { email, token } = await fetchAuthenticatedUser();
-    const payload = { org_id, service_id, service_name: serviceName, method, username: email };
+    const payload = { org_id, service_id, service_name: serviceName, method, username: email, group_id: groupId };
     const apiName = APIEndpoints.SIGNER_SERVICE.name;
     const apiOptions = initializeAPIOptions(token, payload);
     return await API.post(apiName, APIPaths.SIGNER_FREE_CALL, apiOptions).then(parseFreeCallMetadata);
@@ -84,7 +84,7 @@ const paidCallMetadataGenerator = serviceRequestErrorHandler => async (channelId
   }
 };
 
-const generateOptions = (callType, wallet, serviceRequestErrorHandler) => {
+const generateOptions = (callType, wallet, serviceRequestErrorHandler, groupInfo) => {
   if (process.env.REACT_APP_SANDBOX) {
     return {
       endpoint: process.env.REACT_APP_SANDBOX_SERVICE_ENDPOINT,
@@ -92,7 +92,7 @@ const generateOptions = (callType, wallet, serviceRequestErrorHandler) => {
     };
   }
   if (callType === callTypes.FREE) {
-    return { metadataGenerator: metadataGenerator(serviceRequestErrorHandler) };
+    return { metadataGenerator: metadataGenerator(serviceRequestErrorHandler, groupInfo.group_id) };
   }
   if (wallet && wallet.type === walletTypes.METAMASK) {
     return {};
@@ -215,7 +215,7 @@ export const createServiceClient = (
   if (sdk && channel) {
     sdk.paymentChannelManagementStrategy = new ProxyPaymentChannelManagementStrategy(channel);
   }
-  const options = generateOptions(callType, wallet, serviceRequestErrorHandler, channelInfo);
+  const options = generateOptions(callType, wallet, serviceRequestErrorHandler, groupInfo);
   const serviceClient = new ServiceClient(
     sdk,
     org_id,
