@@ -9,7 +9,7 @@ import { Calculator } from "./example_service_pb_service";
 
 const initialUserInput = {
   methodIndex: 0,
-  methodName: {
+  methodNames: {
     0: "Select a method",
     1: "add",
     2: "sub",
@@ -52,7 +52,7 @@ export default class ExampleService extends React.Component {
   }
 
   submitAction() {
-    const methodDescriptor = Calculator[this.state.methodName[this.state.methodIndex]];
+    const methodDescriptor = Calculator[this.state.methodNames[this.state.methodIndex]];
     const request = new methodDescriptor.requestType();
     request.setA(this.state.a);
     request.setB(this.state.b);
