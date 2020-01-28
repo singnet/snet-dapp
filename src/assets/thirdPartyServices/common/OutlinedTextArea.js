@@ -68,6 +68,7 @@ OutlinedTextArea.propTypes = {
   charLimit: PropTypes.number,
   helperTxt: PropTypes.string,
   onChange: PropTypes.func,
+  onFocus: PropTypes.func,
   htmlTooltip: PropTypes.instanceOf(Element),
   ref: PropTypes.any,
 };
