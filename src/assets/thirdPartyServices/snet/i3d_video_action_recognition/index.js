@@ -1,15 +1,29 @@
 import React from "react";
-import { hasOwnDefinedProperty } from "../../../../utility/JSHelper";
+import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 
-import { VideoActionRecognition } from './video_action_recon_pb_service'
+import OutlinedDropDown from "../../common/OutlinedDropdown";
+import OutlinedTextArea from "../../common/OutlinedTextArea";
+
+import { VideoActionRecognition } from "./video_action_recon_pb_service";
 
 const initialUserInput = {
-  model: "400",
+  modelIndex: 0,
+  modelNames: [
+    {
+      label: "400",
+      content: "400",
+      value: 0,
+    },
+    {
+      label: "600",
+      content: "600",
+      value: 1,
+    },
+  ],
+
   url: "",
 };
-
-
 
 export default class I3DActionRecognition extends React.Component {
   constructor(props) {
@@ -17,6 +31,8 @@ export default class I3DActionRecognition extends React.Component {
     this.submitAction = this.submitAction.bind(this);
 
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
+
+    this.textInput = React.createRef();
 
     this.state = {
       ...initialUserInput,
@@ -30,7 +46,6 @@ export default class I3DActionRecognition extends React.Component {
       response: undefined,
     };
 
-    this.modelOptions = ["400", "600"];
     this.isComplete = false;
     this.serviceMethods = [];
     this.allServices = [];
@@ -38,7 +53,7 @@ export default class I3DActionRecognition extends React.Component {
   }
 
   isValidVideoURL(str) {
-    return (str.startsWith("http://") || str.startsWith("https://")) && (str.endsWith(".avi") || str.endsWith(".mp4"));
+    return str.startsWith("http://") || str.startsWith("https://");
   }
 
   canBeInvoked() {
@@ -50,16 +65,16 @@ export default class I3DActionRecognition extends React.Component {
   }
 
   submitAction() {
-    const { methodName, model, url } = this.state;
+    const { methodName, modelIndex, modelNames, url } = this.state;
     const methodDescriptor = VideoActionRecognition[methodName];
     const request = new methodDescriptor.requestType();
 
-    request.setModel(model);
+    request.setModel(modelNames[modelIndex].content);
     request.setUrl(url);
 
     const props = {
       request,
-      onEnd: ({message}) => {
+      onEnd: ({ message }) => {
         this.setState({
           ...initialUserInput,
           response: { status: "success", value: message.getValue() },
@@ -73,73 +88,38 @@ export default class I3DActionRecognition extends React.Component {
   renderForm() {
     return (
       <React.Fragment>
-        <div className="row">
-          <div className="col-md-3 col-lg-3" style={{ padding: "10px", fontSize: "13px", marginLeft: "10px" }}>
-            I3D Model:{" "}
-          </div>
-          <div className="col-md-3 col-lg-3">
-            <select
-              name="model"
-              style={{ height: "30px", width: "250px", fontSize: "13px", marginBottom: "5px" }}
+        <Grid container direction="column" justify="center">
+          <Grid item xs={4} style={{ textAlign: "left" }}>
+            <OutlinedDropDown
+              id="model"
+              name="modelIndex"
+              label="Model"
+              fullWidth={true}
+              list={this.state.modelNames}
+              value={this.state.modelIndex}
               onChange={this.handleFormUpdate}
-            >
-              {this.modelOptions.map((row, index) => (
-                <option value={row} key={index}>
-                  {row}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-md-3 col-lg-3" style={{ padding: "10px", fontSize: "13px", marginLeft: "10px" }}>
-            Video URL:{" "}
-          </div>
-          <div className="col-md-3 col-lg-3">
-            <input
+            />
+          </Grid>
+
+          <Grid item xs={12} style={{ textAlign: "left" }}>
+            <OutlinedTextArea
+              id="url"
+              ref={this.textInput}
               name="url"
-              type="text"
-              style={{ height: "30px", width: "250px", fontSize: "13px", marginBottom: "5px" }}
+              label="Video URL (.avi, .mp4 or YouTube)"
+              fullWidth={true}
               value={this.state.url}
+              rows={1}
               onChange={this.handleFormUpdate}
-            ></input>
-          </div>
-        </div>
-        <div className="col-md-3 col-lg-3" style={{ textAlign: "center", height: "20px", fontSize: "13px"}}>
-              {!this.canBeInvoked() ? "The URL must be of a .avi or .mp4 video only." : " "}
-        </div>
-        <div className="row">
-          <div className="col-md-3 col-lg-3" style={{ padding: "10px", fontSize: "13px", marginLeft: "10px" }}>
-            About:{" "}
-          </div>
-          <div className="col-xs-3 col-xs-2">
-            <Button target="_blank" href={this.state.users_guide} style={{ fontSize: "13px", marginLeft: "10px" }}>
-              Guide
-            </Button>
-          </div>
-          <div className="col-xs-3 col-xs-2">
-            <Button target="_blank" href={this.state.code_repo} style={{ fontSize: "13px", marginLeft: "10px" }}>
-              Code
-            </Button>
-          </div>
-          <div className="col-xs-3 col-xs-2">
-            <Button target="_blank" href={this.state.reference} style={{ fontSize: "13px", marginLeft: "10px" }}>
-              Reference
-            </Button>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-md-6 col-lg-6" style={{ textAlign: "right" }}>
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={this.submitAction}
-              disabled={!this.canBeInvoked()}
-            >
+            />
+          </Grid>
+
+          <Grid item xs={12} style={{ textAlign: "center" }}>
+            <Button variant="contained" color="primary" onClick={this.submitAction} disabled={!this.canBeInvoked()}>
               Invoke
-            </button>
-          </div>
-        </div>
+            </Button>
+          </Grid>
+        </Grid>
       </React.Fragment>
     );
   }
@@ -154,16 +134,28 @@ export default class I3DActionRecognition extends React.Component {
       status = this.state.response + "\n";
     }
     return (
-        
-<div style={{background:"#F8F8F8", padding: "24px"}}>
-    <h4> Results</h4>
-    <div style={{ padding: "10px 10px 0 10px", fontSize: "14px", color:"#9b9b9b" }}>
-        <div style={{ padding: "10px 0",borderBottom: "1px solid #eee" }}>Status: <span style={{color:"#212121"}}>{status}</span></div>
-        <div style={{ padding: "10px 0" }}>Top Predicted Actions: 
-            <div style={{color:"#212121", marginTop:"5px",padding:"10px", background:"#f1f1f1",borderRadius:"4px"}}><pre>{value}</pre></div>
-        </div>       
-    </div>
-</div>          
+      <div style={{ background: "#F8F8F8", padding: "24px" }}>
+        <h4> Results</h4>
+        <div style={{ padding: "10px 10px 0 10px", fontSize: "14px", color: "#9b9b9b" }}>
+          <div style={{ padding: "10px 0", borderBottom: "1px solid #eee" }}>
+            Status: <span style={{ color: "#212121" }}>{status}</span>
+          </div>
+          <div style={{ padding: "10px 0" }}>
+            Top Predicted Actions:
+            <div
+              style={{
+                color: "#212121",
+                marginTop: "5px",
+                padding: "10px",
+                background: "#f1f1f1",
+                borderRadius: "4px",
+              }}
+            >
+              <pre>{value}</pre>
+            </div>
+          </div>
+        </div>
+      </div>
     );
   }
 
