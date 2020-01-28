@@ -66,57 +66,42 @@ class CNTKImageRecognition extends React.Component {
 
   renderForm() {
     const { classes } = this.props;
-    const serviceNameOptions = Object.entries(Recognizer).map(([key, value]) => ({ value: value.methodName, label: key }));
+    const serviceNameOptions = Object.entries(Recognizer).map(([key, value]) => ({
+      value: value.methodName,
+      label: key,
+    }));
     serviceNameOptions.shift();
     return (
       <React.Fragment>
-        <Grid
-          container
-          direction="column"
-          justify="center">
-            <Grid xs={6} className={classes.dropDown} align="left">
-                  <span className={classes.dropDownTitle}>Method</span>
-              <StyledDropdown
-                labelTxt={"methodName"}
-                list={serviceNameOptions}
-                value={this.state.methodName}
-                onChange={this.handleFormUpdate}/>
-            </Grid>
-        
-            <Grid xs className={classes.upload} align="center">
-                <SNETImageUpload
-                imageName={"Content Image"}
-                imageDataFunc={this.getImageData}
-                instantUrlFetch={true}
-                allowURL={true} />
-            </Grid>
+        <Grid container direction="column" justify="center">
+          <Grid xs={6} className={classes.dropDown} align="left">
+            <span className={classes.dropDownTitle}>Method</span>
+            <StyledDropdown
+              labelTxt="methodName"
+              list={serviceNameOptions}
+              value={this.state.methodName}
+              onChange={this.handleFormUpdate}
+            />
+          </Grid>
 
-            <Grid xs className={classes.about}>
-                About:{" "}
-                <StyledButton
-                  type="blue"
-                  btnText="Guide"
-                  target="_blank"
-                  href={this.state.users_guide}/>
-                <StyledButton
-                  type="blue"
-                  btnText="Code"
-                  target="_blank"
-                  href={this.state.code_repo}/>
-                <StyledButton
-                  type="blue"
-                  btnText="Reference"
-                  target="_blank"
-                  href={this.state.reference}/>
-            </Grid>
+          <Grid xs className={classes.upload} align="center">
+            <SNETImageUpload
+              imageName="Content Image"
+              imageDataFunc={this.getImageData}
+              instantUrlFetch={true}
+              allowURL={true}
+            />
+          </Grid>
 
-            <Grid xs className={classes.invoke}>
-              <StyledButton
-              type="blue"
-              btnText="Invoke"
-              disabled={!this.canBeInvoked()}
-              onClick={this.submitAction}/>
-            </Grid>
+          <Grid xs className={classes.about}>
+            About: <StyledButton type="blue" btnText="Guide" target="_blank" href={this.state.users_guide} />
+            <StyledButton type="blue" btnText="Code" target="_blank" href={this.state.code_repo} />
+            <StyledButton type="blue" btnText="Reference" target="_blank" href={this.state.reference} />
+          </Grid>
+
+          <Grid xs className={classes.invoke}>
+            <StyledButton type="blue" btnText="Invoke" disabled={!this.canBeInvoked()} onClick={this.submitAction} />
+          </Grid>
         </Grid>
       </React.Fragment>
     );
@@ -125,9 +110,9 @@ class CNTKImageRecognition extends React.Component {
   renderComplete() {
     const { response } = this.state;
     var top5 = response.top_5;
-    top5 = top5.replace('{', '');
-    top5 = top5.replace('}', '');
-    var topArray = top5.split(', ');
+    top5 = top5.replace("{", "");
+    top5 = top5.replace("}", "");
+    var topArray = top5.split(", ");
 
     return (
       <Grid style={{ background: "#F8F8F8", padding: "24px" }}>
@@ -150,8 +135,12 @@ class CNTKImageRecognition extends React.Component {
                 borderRadius: "4px",
               }}
             >
-              {topArray.map((elem) => {
-                return (<Grid><span style={{ color: "#212121" }}>{elem}</span></Grid>)
+              {topArray.map(elem => {
+                return (
+                  <Grid>
+                    <span style={{ color: "#212121" }}>{elem}</span>
+                  </Grid>
+                );
               })}
             </Grid>
           </Grid>

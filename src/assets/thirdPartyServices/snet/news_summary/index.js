@@ -4,7 +4,7 @@ import Button from "@material-ui/core/Button";
 
 import OutlinedTextArea from "../../common/OutlinedTextArea";
 
-import  {TextSummary} from  "./summary_pb_service";
+import { TextSummary } from "./summary_pb_service";
 
 export default class NewSummaryService extends React.Component {
   constructor(props) {
@@ -17,11 +17,11 @@ export default class NewSummaryService extends React.Component {
       methodName: "summary",
       article_content:
         'Analysts are predicting record highs as a global shortage of teddy bears sweeps the nation. "The market these products is way up". The advice is to stay indoors as society collapses under the demand.',
-    }
+    };
 
     this.textInput = React.createRef();
 
-    this.state = { 
+    this.state = {
       ...initialUserInput,
     };
   }
@@ -37,15 +37,15 @@ export default class NewSummaryService extends React.Component {
   }
 
   submitAction() {
-     const { methodName, article_content } = this.state;
+    const { methodName, article_content } = this.state;
     const methodDescriptor = TextSummary[methodName];
     const request = new methodDescriptor.requestType();
 
-    request.setArticleContent(article_content)
+    request.setArticleContent(article_content);
 
     const props = {
       request,
-      onEnd: ({message}) => {
+      onEnd: ({ message }) => {
         this.setState({
           response: { status: "success", article_summary: message.getArticleSummary() },
         });
@@ -55,13 +55,10 @@ export default class NewSummaryService extends React.Component {
     this.props.serviceClient.unary(methodDescriptor, props);
   }
 
-
-
   renderForm() {
     return (
       <React.Fragment>
         <Grid container direction="column" justify="center">
-
           <Grid item xs={12} style={{ textAlign: "left" }}>
             <OutlinedTextArea
               id="article_content"
@@ -87,13 +84,11 @@ export default class NewSummaryService extends React.Component {
   }
 
   renderComplete() {
-    const {response} = this.state;
+    const { response } = this.state;
 
     return (
-        
       <React.Fragment>
         <Grid container direction="column" justify="center">
-
           <Grid item xs={12} style={{ textAlign: "left" }}>
             <OutlinedTextArea
               id="article_summary"
@@ -108,8 +103,7 @@ export default class NewSummaryService extends React.Component {
             />
           </Grid>
         </Grid>
-      </React.Fragment>       
-        
+      </React.Fragment>
     );
   }
 

@@ -63,7 +63,7 @@ export default class TopicAnalysisService extends React.Component {
         const isValid = Object.assign({}, state.isValid);
         isValid[key] = valid;
 
-        return { isValid: isValid };
+        return { isValid };
       });
     }
   }
@@ -116,15 +116,15 @@ export default class TopicAnalysisService extends React.Component {
   }
 
   submitAction() {
-    const {methodName} = this.state;
+    const { methodName } = this.state;
     const methodDescriptor = TopicAnalysis[methodName];
     const request = new methodDescriptor.requestType();
 
-    let docs = this.state.dataset["docs"]
-    let num_topics = this.state.dataset["num_topics"]
-    let topic_divider = this.state.dataset["topic_divider"]
-    let maxiter = this.state.dataset["maxiter"] === undefined ? "2" : this.state.dataset["maxiter"]
-    let beta = this.state.dataset["beta"] === undefined ? "1" : this.state.dataset["beta"]
+    let docs = this.state.dataset["docs"];
+    let num_topics = this.state.dataset["num_topics"];
+    let topic_divider = this.state.dataset["topic_divider"];
+    let maxiter = this.state.dataset["maxiter"] === undefined ? "2" : this.state.dataset["maxiter"];
+    let beta = this.state.dataset["beta"] === undefined ? "1" : this.state.dataset["beta"];
 
     request.setDocsList(docs);
     request.setNumTopics(num_topics);
@@ -144,15 +144,18 @@ export default class TopicAnalysisService extends React.Component {
         // this.state = this.getInitialState();
 
         this.setState({
-          response: { status: "success", resStatus: message.getStatus(), message: message.getMessage(), handle: message.getHandle() },
+          response: {
+            status: "success",
+            resStatus: message.getStatus(),
+            message: message.getMessage(),
+            handle: message.getHandle(),
+          },
         });
       },
     };
 
     this.props.serviceClient.unary(methodDescriptor, props);
   }
-
-
 
   download() {
     const link = document.createElement("a");
@@ -246,7 +249,6 @@ export default class TopicAnalysisService extends React.Component {
   }
 
   renderForm() {
-
     const serviceNameOptions = ["Select a method", ...this.props.serviceClient.getMethodNames(TopicAnalysis)];
 
     return (
@@ -256,7 +258,7 @@ export default class TopicAnalysisService extends React.Component {
             Method Name:
           </div>
           <div className="col-md-3 col-lg-3">
-          <MethodNamesDropDown
+            <MethodNamesDropDown
               list={serviceNameOptions}
               value={this.state.methodName}
               onChange={this.handleFormUpdate}
@@ -339,11 +341,9 @@ export default class TopicAnalysisService extends React.Component {
   }
 
   renderComplete() {
-
     var response = this.state.response;
 
-    response.handle =
-      "https://tz-services-1.snet.sh:2298/topic-analysis/api/v1.0/results?handle=" + response.handle;
+    response.handle = "https://tz-services-1.snet.sh:2298/topic-analysis/api/v1.0/results?handle=" + response.handle;
     return (
       <React.Fragment>
         <Card
@@ -368,11 +368,7 @@ export default class TopicAnalysisService extends React.Component {
                 borderRadius: "5px",
               }}
             >
-              <a
-                rel="noopener noreferrer"
-                target="_blank"
-                href={response.handle}
-              >
+              <a rel="noopener noreferrer" target="_blank" href={response.handle}>
                 {response.handle}
               </a>
             </p>

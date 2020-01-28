@@ -181,12 +181,12 @@ const Visualizer = props => {
   // Save MLL positions
   !MLLPositions &&
     setMLLPositions(
-      JSON.parse(JSON.stringify(props.graph.nodes)).reduce(function(prevVal, n, i) {
+      JSON.parse(JSON.stringify(props.graph.nodes)).reduce((prevVal, n, i) => {
         return { ...prevVal, [n.data.id]: n.position };
       }, {})
     );
 
-  useEffect(function() {
+  useEffect(() => {
     setCy(
       cytoscape({
         container: cy_wrapper.current,
@@ -195,149 +195,137 @@ const Visualizer = props => {
       })
     );
     window.scrollTo(0, 0);
-  }, []);
+  }, [cy_wrapper]);
 
-  useEffect(
-    function() {
-      cy && toggleAnnotationVisibility(visibleAnnotations);
-    },
-    [visibleAnnotations, visibleNodeTypes, visibleLinkTypes, cy]
-  );
+  useEffect(() => {
+    cy && toggleAnnotationVisibility(visibleAnnotations);
+  }, [visibleAnnotations, visibleNodeTypes, visibleLinkTypes, cy, toggleAnnotationVisibility]);
 
-  useEffect(
-    function() {
-      if (!cy) return;
-      if (filteredElements) {
-        cy.batch(() => filteredElements.style({ opacity: 1 }));
-        cy.batch(() =>
-          cy
-            .nodes()
-            .difference(filteredElements)
-            .style({ opacity: 0.1 })
-        );
-        cy.edges()
+  useEffect(() => {
+    if (!cy) return;
+    if (filteredElements) {
+      cy.batch(() => filteredElements.style({ opacity: 1 }));
+      cy.batch(() =>
+        cy
+          .nodes()
           .difference(filteredElements)
-          .style({ opacity: 0 });
-        contextMenu.showMenuItem("add");
-        contextMenu.showMenuItem("remove");
-        contextMenu.hideMenuItem("filter");
-        filteredElements.layout(layout).run();
-      } else {
-        cy.batch(() => cy.elements().style({ opacity: 1 }));
-        contextMenu.showMenuItem("filter");
-        contextMenu.hideMenuItem("add");
-        contextMenu.hideMenuItem("remove");
-        cy.layout(layout).run();
-      }
-    },
-    [filteredElements]
-  );
+          .style({ opacity: 0.1 })
+      );
+      cy.edges()
+        .difference(filteredElements)
+        .style({ opacity: 0 });
+      contextMenu.showMenuItem("add");
+      contextMenu.showMenuItem("remove");
+      contextMenu.hideMenuItem("filter");
+      filteredElements.layout(layout).run();
+    } else {
+      cy.batch(() => cy.elements().style({ opacity: 1 }));
+      contextMenu.showMenuItem("filter");
+      contextMenu.hideMenuItem("add");
+      contextMenu.hideMenuItem("remove");
+      cy.layout(layout).run();
+    }
+  }, [contextMenu, cy, filteredElements, layout]);
 
-  useEffect(
-    function() {
-      if (cy) {
-        MLLLayout();
-        cy.style([
-          ...CYTOSCAPE_STYLE,
-          ...assignColorToAnnotations(),
+  useEffect(() => {
+    if (cy) {
+      MLLLayout();
+      cy.style([
+        ...CYTOSCAPE_STYLE,
+        ...assignColorToAnnotations(),
+        {
+          selector: n => n.data().group.includes("main"),
+          style: {
+            "background-fill": "solid",
+            "background-color": "blue",
+            "text-outline-color": "blue",
+          },
+        },
+        {
+          selector: n =>
+            n.data().subgroup.includes("Uniprot") &&
+            n.neighborhood().some(e => {
+              return e.data().group.includes("main");
+            }),
+          style: {
+            "background-color": "blue",
+          },
+        },
+      ]);
+      var options = {
+        menuItems: [
           {
-            selector: n => n.data().group.includes("main"),
-            style: {
-              "background-fill": "solid",
-              "background-color": "blue",
-              "text-outline-color": "blue",
+            id: "filter",
+            content: "Filter",
+            selector: "node",
+            onClickFunction: e => {
+              addToFilter(e.target.data().id);
             },
+            hasTrailingDivider: true,
+            image: { src: filterSvg, width: 18, height: 18, x: 8, y: 8 },
           },
           {
-            selector: n =>
-              n.data().subgroup.includes("Uniprot") &&
-              n.neighborhood().some(function(e) {
-                return e.data().group.includes("main");
-              }),
-            style: {
-              "background-color": "blue",
-            },
+            id: "add",
+            content: "Add",
+            selector: "node",
+            image: { src: addSvg, width: 18, height: 18, x: 8, y: 8 },
+            onClickFunction: e => addToFilter(e.target.data().id),
+            show: false,
           },
-        ]);
-        var options = {
-          menuItems: [
-            {
-              id: "filter",
-              content: "Filter",
-              selector: "node",
-              onClickFunction: e => {
-                addToFilter(e.target.data().id);
-              },
-              hasTrailingDivider: true,
-              image: { src: filterSvg, width: 18, height: 18, x: 8, y: 8 },
+          {
+            id: "remove",
+            content: "Remove",
+            selector: "node",
+            image: { src: removeSvg, width: 18, height: 18, x: 8, y: 8 },
+            onClickFunction: e => removeFromFilter(e.target.data().id),
+            show: false,
+          },
+          {
+            id: "copy",
+            content: "Copy ID",
+            selector: "node",
+            image: { src: copySvg, width: 18, height: 18, x: 8, y: 8 },
+            onClickFunction: e => {
+              const el = document.createElement("textarea");
+              el.value = e.target.data().id;
+              document.body.appendChild(el);
+              el.select();
+              document.execCommand("copy");
+              document.body.removeChild(el);
             },
-            {
-              id: "add",
-              content: "Add",
-              selector: "node",
-              image: { src: addSvg, width: 18, height: 18, x: 8, y: 8 },
-              onClickFunction: e => addToFilter(e.target.data().id),
-              show: false,
-            },
-            {
-              id: "remove",
-              content: "Remove",
-              selector: "node",
-              image: { src: removeSvg, width: 18, height: 18, x: 8, y: 8 },
-              onClickFunction: e => removeFromFilter(e.target.data().id),
-              show: false,
-            },
-            {
-              id: "copy",
-              content: "Copy ID",
-              selector: "node",
-              image: { src: copySvg, width: 18, height: 18, x: 8, y: 8 },
-              onClickFunction: e => {
-                const el = document.createElement("textarea");
-                el.value = e.target.data().id;
-                document.body.appendChild(el);
-                el.select();
-                document.execCommand("copy");
-                document.body.removeChild(el);
-              },
-              show: true,
-            },
-          ],
-          menuItemClasses: ["context-menu-item"],
-          contextMenuClasses: ["context-menu"],
-        };
-        setContextMenu(cy.contextMenus(options));
-      }
-    },
-    [cy]
-  );
+            show: true,
+          },
+        ],
+        menuItemClasses: ["context-menu-item"],
+        contextMenuClasses: ["context-menu"],
+      };
+      setContextMenu(cy.contextMenus(options));
+    }
+  }, [MLLLayout, addToFilter, cy, removeFromFilter]);
 
-  useEffect(
-    function() {
-      if (layout) {
-        const l = filteredElements ? filteredElements.layout(layout) : cy.layout(layout);
-        setLoaderText("Applying layout, please wait ...");
-        l.pon("layoutstop").then(function(e) {
-          setLoaderText(undefined);
-        });
-        l.run();
-      }
-    },
-    [layout]
-  );
+  useEffect(() => {
+    if (layout) {
+      const l = filteredElements ? filteredElements.layout(layout) : cy.layout(layout);
+      setLoaderText("Applying layout, please wait ...");
+      l.pon("layoutstop").then(e => {
+        setLoaderText(undefined);
+      });
+      l.run();
+    }
+  }, [cy, filteredElements, layout]);
 
   const randomLayout = () => {
     setLayout(CYTOSCAPE_COLA_CONFIG);
   };
 
-  const MLLLayout = () => {
+  const MLLLayout = useCallback(() => {
     setLayout({
       name: "preset",
-      positions: function(n) {
+      positions(n) {
         return MLLPositions[n.id()];
       },
     });
-  };
+  });
 
   const breadthFirstLayout = () => {
     setLayout({ name: "breadthfirst" });
@@ -450,12 +438,7 @@ const Visualizer = props => {
     });
     cy.json({ elements: { nodes: visibleNodes } });
     cy.add(visibleEdges);
-    cy.remove(
-      cy.filter(
-        ele =>
-          ele.isNode() && !ele.degree() && !ele.data().group.includes("main")
-      )
-    );
+    cy.remove(cy.filter(ele => ele.isNode() && !ele.degree() && !ele.data().group.includes("main")));
     clearFilter();
     registerEventListeners();
   };
@@ -524,7 +507,7 @@ const Visualizer = props => {
   };
 
   const search = id => {
-    cy.batch(function() {
+    cy.batch(() => {
       const selected = cy.nodes(`[id @= "${id}"]`);
       if (selected.size()) {
         selected.select();

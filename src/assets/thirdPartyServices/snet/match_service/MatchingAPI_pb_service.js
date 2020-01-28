@@ -4,11 +4,11 @@
 var MatchingAPI_pb = require("./MatchingAPI_pb");
 var grpc = require("@improbable-eng/grpc-web").grpc;
 
-var MatchApi = (function () {
+var MatchApi = (function() {
   function MatchApi() {}
   MatchApi.serviceName = "MatchingApi.MatchApi";
   return MatchApi;
-}());
+})();
 
 MatchApi.getKP = {
   methodName: "getKP",
@@ -16,7 +16,7 @@ MatchApi.getKP = {
   requestStream: false,
   responseStream: false,
   requestType: MatchingAPI_pb.keypointRequest,
-  responseType: MatchingAPI_pb.keypointResponse
+  responseType: MatchingAPI_pb.keypointResponse,
 };
 
 MatchApi.getDescByImage = {
@@ -25,7 +25,7 @@ MatchApi.getDescByImage = {
   requestStream: false,
   responseStream: false,
   requestType: MatchingAPI_pb.descriptorRequest,
-  responseType: MatchingAPI_pb.descriptorResponse
+  responseType: MatchingAPI_pb.descriptorResponse,
 };
 
 MatchApi.getDescByKps = {
@@ -34,7 +34,7 @@ MatchApi.getDescByKps = {
   requestStream: false,
   responseStream: false,
   requestType: MatchingAPI_pb.descriptorByKpsRequest,
-  responseType: MatchingAPI_pb.descriptorResponse
+  responseType: MatchingAPI_pb.descriptorResponse,
 };
 
 MatchApi.getMatch = {
@@ -43,7 +43,7 @@ MatchApi.getMatch = {
   requestStream: false,
   responseStream: false,
   requestType: MatchingAPI_pb.matchingRequest,
-  responseType: MatchingAPI_pb.matchingResponse
+  responseType: MatchingAPI_pb.matchingResponse,
 };
 
 MatchApi.getMatchByImage = {
@@ -52,7 +52,7 @@ MatchApi.getMatchByImage = {
   requestStream: false,
   responseStream: false,
   requestType: MatchingAPI_pb.matchingByImageRequest,
-  responseType: MatchingAPI_pb.matchingByImageResponse
+  responseType: MatchingAPI_pb.matchingByImageResponse,
 };
 
 MatchApi.getTransformParameters = {
@@ -61,7 +61,7 @@ MatchApi.getTransformParameters = {
   requestStream: false,
   responseStream: false,
   requestType: MatchingAPI_pb.transformRequest,
-  responseType: MatchingAPI_pb.transformResponse
+  responseType: MatchingAPI_pb.transformResponse,
 };
 
 MatchApi.getTransformParametersByImage = {
@@ -70,7 +70,7 @@ MatchApi.getTransformParametersByImage = {
   requestStream: false,
   responseStream: false,
   requestType: MatchingAPI_pb.transformByImageRequest,
-  responseType: MatchingAPI_pb.transformResponse
+  responseType: MatchingAPI_pb.transformResponse,
 };
 
 MatchApi.getClosestImages = {
@@ -79,7 +79,7 @@ MatchApi.getClosestImages = {
   requestStream: false,
   responseStream: false,
   requestType: MatchingAPI_pb.imageRetrievalRequest,
-  responseType: MatchingAPI_pb.imageRetrievalResponse
+  responseType: MatchingAPI_pb.imageRetrievalResponse,
 };
 
 exports.MatchApi = MatchApi;
@@ -96,10 +96,10 @@ MatchApiClient.prototype.getKP = function getKP(requestMessage, metadata, callba
   var client = grpc.unary(MatchApi.getKP, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -110,13 +110,13 @@ MatchApiClient.prototype.getKP = function getKP(requestMessage, metadata, callba
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
@@ -127,10 +127,10 @@ MatchApiClient.prototype.getDescByImage = function getDescByImage(requestMessage
   var client = grpc.unary(MatchApi.getDescByImage, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -141,13 +141,13 @@ MatchApiClient.prototype.getDescByImage = function getDescByImage(requestMessage
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
@@ -158,10 +158,10 @@ MatchApiClient.prototype.getDescByKps = function getDescByKps(requestMessage, me
   var client = grpc.unary(MatchApi.getDescByKps, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -172,13 +172,13 @@ MatchApiClient.prototype.getDescByKps = function getDescByKps(requestMessage, me
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
@@ -189,10 +189,10 @@ MatchApiClient.prototype.getMatch = function getMatch(requestMessage, metadata, 
   var client = grpc.unary(MatchApi.getMatch, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -203,13 +203,13 @@ MatchApiClient.prototype.getMatch = function getMatch(requestMessage, metadata, 
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
@@ -220,10 +220,10 @@ MatchApiClient.prototype.getMatchByImage = function getMatchByImage(requestMessa
   var client = grpc.unary(MatchApi.getMatchByImage, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -234,13 +234,13 @@ MatchApiClient.prototype.getMatchByImage = function getMatchByImage(requestMessa
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
@@ -251,10 +251,10 @@ MatchApiClient.prototype.getTransformParameters = function getTransformParameter
   var client = grpc.unary(MatchApi.getTransformParameters, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -265,27 +265,31 @@ MatchApiClient.prototype.getTransformParameters = function getTransformParameter
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
-MatchApiClient.prototype.getTransformParametersByImage = function getTransformParametersByImage(requestMessage, metadata, callback) {
+MatchApiClient.prototype.getTransformParametersByImage = function getTransformParametersByImage(
+  requestMessage,
+  metadata,
+  callback
+) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
   var client = grpc.unary(MatchApi.getTransformParametersByImage, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -296,13 +300,13 @@ MatchApiClient.prototype.getTransformParametersByImage = function getTransformPa
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
@@ -313,10 +317,10 @@ MatchApiClient.prototype.getClosestImages = function getClosestImages(requestMes
   var client = grpc.unary(MatchApi.getClosestImages, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -327,15 +331,14 @@ MatchApiClient.prototype.getClosestImages = function getClosestImages(requestMes
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.MatchApiClient = MatchApiClient;
-

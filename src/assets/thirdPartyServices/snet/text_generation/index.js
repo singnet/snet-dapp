@@ -78,14 +78,14 @@ const runNamesWithoutMedia = [
   { key: "thetweetofgod", value: "God" },
   { key: "ticbot", value: "TicBot" },
 
-  { 
-    key: "goodfellow_ian", 
-    value: "Ian Goodfellow" ,
+  {
+    key: "goodfellow_ian",
+    value: "Ian Goodfellow",
     image: imgPath("Ian Goodfellow", "jpg"),
     avatar: avatarPath("Ian Goodfellow", "jpg"),
   },
-  { 
-    key: "nietzsche", 
+  {
+    key: "nietzsche",
     value: "Friedrich Nietzsche",
     image: imgPath("Friedrich Nietzsche", "jpg"),
     avatar: avatarPath("Friedrich Nietzsche", "jpg"),
@@ -94,17 +94,17 @@ const runNamesWithoutMedia = [
   { key: "songdata", value: "Song Lyrics" },
   { key: "cmdr_hadfield", value: "Chris Hadfield" },
   { key: "dril", value: "Dril" },
-  { 
-    key: "officialmcafee", 
+  {
+    key: "officialmcafee",
     value: "John MacAfee",
     image: imgPath("John MacAfee", "jpg"),
     avatar: avatarPath("John MacAfee", "jpg"),
   },
-  { 
-    key: "virginiahughes", 
+  {
+    key: "virginiahughes",
     value: "Virginia Huges",
     image: imgPath("Virginia Huges", "jpg"),
-    avatar: avatarPath("Virginia Huges", "jpg"), 
+    avatar: avatarPath("Virginia Huges", "jpg"),
   },
 ];
 

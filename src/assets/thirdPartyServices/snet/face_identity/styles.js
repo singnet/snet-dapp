@@ -1,17 +1,17 @@
 export const useStyles = theme => ({
-  description:{
-    '& p':{
-      margin: '29px 0 0',
+  description: {
+    "& p": {
+      margin: "29px 0 0",
       color: theme.palette.text.alertBoxColor,
       fontSize: 14,
       letterSpacing: 0.25,
-      lineHeight: '21px'
-    }      ,
-    '& a':{
+      lineHeight: "21px",
+    },
+    "& a": {
       color: theme.palette.text.primary,
       fontWeight: 600,
-      textDecoration: 'none',
-    }
+      textDecoration: "none",
+    },
   },
   header: {
     paddingTop: 10,
@@ -25,27 +25,27 @@ export const useStyles = theme => ({
       color: theme.palette.text.black1,
     },
   },
-  imageUploaderContainer:{
+  imageUploaderContainer: {
     marginTop: 30,
-    '& > div':{  minWidth: '100% !important' },
-    '& h6':{ marginBottom: '0 !important' },
-    '& .MuiTabs-flexContainer':{
-      '& .Mui-selected':{        
+    "& > div": { minWidth: "100% !important" },
+    "& h6": { marginBottom: "0 !important" },
+    "& .MuiTabs-flexContainer": {
+      "& .Mui-selected": {
         color: theme.palette.text.primary,
-        fontWeight: 600
+        fontWeight: 600,
       },
-      '& button':{
-        minWidth: 'fit-content !important',
+      "& button": {
+        minWidth: "fit-content !important",
         paddingBottom: 0,
-        flexGrow: 0
+        flexGrow: 0,
       },
-      '& .MuiTabs-indicator':{
+      "& .MuiTabs-indicator": {
         bottom: 6,
-        backgroundColor: theme.palette.text.primary
-      }
-    }
+        backgroundColor: theme.palette.text.primary,
+      },
+    },
   },
-  btnContainer:{ textAlign: 'center' },
+  btnContainer: { textAlign: "center" },
   infoIcon: {
     paddingRight: 12,
     color: theme.palette.text.lightGray,
@@ -78,8 +78,8 @@ export const useStyles = theme => ({
     width: 514,
     height: 293,
     margin: "0 auto",
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
     "& img": {
       width: "100%",
       height: "100%",
@@ -102,8 +102,8 @@ export const useStyles = theme => ({
     color: theme.palette.text.mediumShadeGray,
     fontSize: 14,
   },
-  NoOfFaceDetected:{
-    display: 'flex',
-    flexDirection: 'column'
-  }
+  NoOfFaceDetected: {
+    display: "flex",
+    flexDirection: "column",
+  },
 });

@@ -30,11 +30,11 @@ const ResultTables = props => {
 
   useEffect(() => {
     fetchTableData(tables[tab].fileName);
-  }, []);
+  }, [fetchTableData, tab, tables]);
 
   useEffect(() => {
     fetchTableData(tables[tab].fileName);
-  }, [tab]);
+  }, [fetchTableData, tab, tables]);
 
   const renderGeneGOTable = () => {
     const data = tables.find(t => t.displayName === "GO").data;

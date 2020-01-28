@@ -2,14 +2,12 @@ import React from "react";
 import { hasOwnDefinedProperty } from "../../../../utility/JSHelper";
 import Button from "@material-ui/core/Button";
 
-import { VideoActionRecognition } from './video_action_recon_pb_service'
+import { VideoActionRecognition } from "./video_action_recon_pb_service";
 
 const initialUserInput = {
   model: "400",
   url: "",
 };
-
-
 
 export default class I3DActionRecognition extends React.Component {
   constructor(props) {
@@ -59,7 +57,7 @@ export default class I3DActionRecognition extends React.Component {
 
     const props = {
       request,
-      onEnd: ({message}) => {
+      onEnd: ({ message }) => {
         this.setState({
           ...initialUserInput,
           response: { status: "success", value: message.getValue() },
@@ -102,11 +100,11 @@ export default class I3DActionRecognition extends React.Component {
               style={{ height: "30px", width: "250px", fontSize: "13px", marginBottom: "5px" }}
               value={this.state.url}
               onChange={this.handleFormUpdate}
-            ></input>
+            />
           </div>
         </div>
-        <div className="col-md-3 col-lg-3" style={{ textAlign: "center", height: "20px", fontSize: "13px"}}>
-              {!this.canBeInvoked() ? "The URL must be of a .avi or .mp4 video only." : " "}
+        <div className="col-md-3 col-lg-3" style={{ textAlign: "center", height: "20px", fontSize: "13px" }}>
+          {!this.canBeInvoked() ? "The URL must be of a .avi or .mp4 video only." : " "}
         </div>
         <div className="row">
           <div className="col-md-3 col-lg-3" style={{ padding: "10px", fontSize: "13px", marginLeft: "10px" }}>
@@ -154,16 +152,28 @@ export default class I3DActionRecognition extends React.Component {
       status = this.state.response + "\n";
     }
     return (
-        
-<div style={{background:"#F8F8F8", padding: "24px"}}>
-    <h4> Results</h4>
-    <div style={{ padding: "10px 10px 0 10px", fontSize: "14px", color:"#9b9b9b" }}>
-        <div style={{ padding: "10px 0",borderBottom: "1px solid #eee" }}>Status: <span style={{color:"#212121"}}>{status}</span></div>
-        <div style={{ padding: "10px 0" }}>Top Predicted Actions: 
-            <div style={{color:"#212121", marginTop:"5px",padding:"10px", background:"#f1f1f1",borderRadius:"4px"}}><pre>{value}</pre></div>
-        </div>       
-    </div>
-</div>          
+      <div style={{ background: "#F8F8F8", padding: "24px" }}>
+        <h4> Results</h4>
+        <div style={{ padding: "10px 10px 0 10px", fontSize: "14px", color: "#9b9b9b" }}>
+          <div style={{ padding: "10px 0", borderBottom: "1px solid #eee" }}>
+            Status: <span style={{ color: "#212121" }}>{status}</span>
+          </div>
+          <div style={{ padding: "10px 0" }}>
+            Top Predicted Actions:
+            <div
+              style={{
+                color: "#212121",
+                marginTop: "5px",
+                padding: "10px",
+                background: "#f1f1f1",
+                borderRadius: "4px",
+              }}
+            >
+              <pre>{value}</pre>
+            </div>
+          </div>
+        </div>
+      </div>
     );
   }
 
