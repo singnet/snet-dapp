@@ -8,10 +8,11 @@ import ServiceCollection from "./ServiceCollection";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../../Redux/actionCreators";
 import { filterAttributes, generateFilterObject } from "../../../utility/constants/Pagination";
+import { isDesktop } from "../../../utility/constants/UXProperties";
 
 class MainSection extends Component {
   state = {
-    listView: true,
+    listView: false,
   };
 
   componentDidMount = () => {
@@ -46,22 +47,11 @@ class MainSection extends Component {
     const { listView } = this.state;
     return (
       <Grid container spacing={24} className={classes.mainSection}>
-        <Grid item xs={12} sm={3} md={3} lg={3}>
+        <Grid item xs={12} sm={3} md={3} lg={3} className={classes.filterMainContainer}>
           <Filter />
         </Grid>
-        <Grid item xs={12} sm={9} md={9} lg={9}>
+        <Grid item xs={12} sm={9} md={9} lg={9} className={classes.servieMainContainer}>
           <ServiceCollection
-            data={services}
-            cardGroupProps={{
-              services: services,
-              listView: listView,
-            }}
-            paginationProps={{
-              limit: pagination.limit,
-              offset: pagination.offset,
-              total_count: pagination.total_count,
-              handleChange: this.handlePaginationChange,
-            }}
             toolbarProps={{
               listView,
               total_count: pagination.total_count,
@@ -69,6 +59,17 @@ class MainSection extends Component {
               toggleView: this.toggleView,
               currentPagination: pagination,
               currentFilter,
+              showToggler: isDesktop,
+            }}
+            cardGroupProps={{
+              data: services,
+              listView,
+            }}
+            paginationProps={{
+              limit: pagination.limit,
+              offset: pagination.offset,
+              total_count: pagination.total_count,
+              handleChange: this.handlePaginationChange,
             }}
           />
         </Grid>

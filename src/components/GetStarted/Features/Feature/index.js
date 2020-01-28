@@ -6,7 +6,7 @@ import { useStyles } from "./styles";
 const Feature = ({ classes, icon: Icon, title, description }) => {
   return (
     <div className={classes.SingleFeatureWrapper}>
-      <Icon />
+      {Icon & <Icon />}
       <div>
         <h4>{title}</h4>
         <p>{description}</p>

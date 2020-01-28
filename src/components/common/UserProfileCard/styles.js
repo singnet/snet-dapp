@@ -29,9 +29,13 @@ export const useStyles = theme => ({
   },
   closeIcon: {
     position: "absolute",
+    cursor: "pointer",
     top: 10,
     right: 20,
     display: "none",
     "@media(max-width: 768px)": { display: "block" },
+  },
+  reactBlockies: {
+    borderRadius: 30,
   },
 });

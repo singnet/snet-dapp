@@ -8,9 +8,11 @@ import AlertBox from "../../common/AlertBox";
 import StyledButton from "../../common/StyledButton";
 import Routes from "../../../utility/constants/Routes";
 import { useStyles } from "./styles";
-import { userActions } from "../../../Redux/actionCreators";
+import { userActions, errorActions } from "../../../Redux/actionCreators";
+import { forgotPasswordConstraints } from "./validationConstraints";
+import snetValidator from "../../../utility/snetValidator";
 
-const ForgotPassword = ({ classes, email, error, handleForgotPassword, history }) => {
+const ForgotPassword = ({ classes, email, error, handleForgotPassword, history, updateError, resetError }) => {
   const [localEmail, setEmail] = useState(email);
 
   const handleEmail = event => {
@@ -20,6 +22,12 @@ const ForgotPassword = ({ classes, email, error, handleForgotPassword, history }
   const handleSubmit = event => {
     event.preventDefault();
     event.stopPropagation();
+    resetError();
+    const isNotValid = snetValidator({ email: localEmail }, forgotPasswordConstraints);
+    if (isNotValid) {
+      updateError(isNotValid[0]);
+      return;
+    }
     const route = `/${Routes.FORGOT_PASSWORD_SUBMIT}`;
     handleForgotPassword({ email: localEmail, history, route });
   };
@@ -42,7 +50,7 @@ const ForgotPassword = ({ classes, email, error, handleForgotPassword, history }
             onChange={handleEmail}
           />
           <AlertBox type="error" message={error} />
-          <StyledButton type="blue" btnText="reset password" onClick={handleSubmit} />
+          <StyledButton type="blue" btnText="reset password" onClick={handleSubmit} btnType="submit" />
         </form>
       </Grid>
     </Grid>
@@ -57,6 +65,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   updateEmail: email => dispatch(userActions.updateEmail(email)),
   handleForgotPassword: args => dispatch(userActions.forgotPassword(args)),
+  resetError: () => dispatch(errorActions.resetForgotPasswordError),
+  updateError: error => dispatch(errorActions.updateForgotPasswordError(error)),
 });
 
 export default connect(

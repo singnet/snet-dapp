@@ -3,6 +3,8 @@ export const useStyles = theme => ({
     margin: "13px 0 50px",
   },
   settingsContainer: {
+    maxWidth: 845,
+    flexBasis: "100%",
     borderRadius: 4,
     backgroundColor: theme.palette.text.white,
     boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
@@ -14,9 +16,10 @@ export const useStyles = theme => ({
       margin: 0,
       color: theme.palette.text.darkShadedGray,
       fontSize: 20,
+      fontWeight: 400,
     },
     "& h4": {
-      margin: "0 0 20px 0",
+      margin: "0 0 12px 0",
       color: theme.palette.text.grayTitleText,
       fontSize: 16,
       fontWeight: 600,
@@ -28,12 +31,18 @@ export const useStyles = theme => ({
     "& div": {
       width: 411,
       margin: "30px 0 0",
+      fontFamily: theme.typography.primary.main,
+      "@media(max-width:660px)": {
+        width: "100%",
+        flexDirection: "column",
+      },
       "&:first-of-type": {
         marginTop: 0,
       },
     },
     "& label": {
       color: theme.palette.text.black1,
+      fontFamily: theme.typography.primary.main,
       fontSize: 14,
       fontWeight: 600,
       letterSpacing: 0.4,
@@ -45,6 +54,10 @@ export const useStyles = theme => ({
       fontWeight: 600,
       letterSpacing: 0.15,
       lineHeight: "24px",
+      "@media(max-width:660px)": {
+        boxSizing: "border-box",
+        padding: "28px 15px",
+      },
     },
     "& p": {
       margin: 0,
@@ -81,11 +94,12 @@ export const useStyles = theme => ({
   notification: {
     "& label": {
       "& span": {
+        fontFamily: theme.typography.primary.main,
         fontSize: 14,
         letterSpacing: 0.25,
         lineHeight: "20px",
-        fontWeight: 600,
       },
+      "& .MuiCheckbox-root": { padding: "0 10px 0 12px" },
     },
   },
   btnContainer: {

@@ -9,7 +9,7 @@ export const useStyles = makeStyles(theme => ({
       width: "auto",
       padding: "13px 0 0 15px",
     },
-    "@media (max-width:768px)": {
+    "@media (max-width:769px)": {
       width: "auto",
       boxSizing: "border-box",
       display: "inline-block",

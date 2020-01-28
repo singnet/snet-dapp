@@ -58,7 +58,7 @@ class TermsOfUse extends Component {
               control={<Checkbox checked={isTermsAccepted} onChange={this.handleChange} color="primary" />}
               label="I agree to the Terms of Service"
             />
-            <StyledButton btnText="accept" disabled={!isTermsAccepted} onClick={this.handleSubmit} />
+            <StyledButton type="blue" btnText="accept" disabled={!isTermsAccepted} onClick={this.handleSubmit} />
           </div>
           <AlertBox type={alertTypes.ERROR} message={alertMessage} />
         </div>

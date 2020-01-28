@@ -13,10 +13,11 @@ export const useStyles = makeStyles(theme => ({
       padding: "15px 15px 0",
       alignItems: "center",
     },
-    "@media (max-width:768px)": {
-      paddingTop: 30,
-      marginTop: 19,
-      flexFlow: "column-reverse",
+    "@media (max-width:767px)": {
+      padding: "20px 25px",
+      flexWrap: "nowrap !important",
+      flexDirection: "column",
+      alignItems: "flex-start",
     },
   },
   copyrightText: {
@@ -26,7 +27,6 @@ export const useStyles = makeStyles(theme => ({
     fontSize: 12,
     lineHeight: "17px",
     "@media (max-width:1023px) and (min-width:768px)": { width: 353 },
-    "@media (max-width:767px)": { textAlign: "center" },
   },
   socialIconsList: {
     padding: 0,
@@ -38,9 +38,6 @@ export const useStyles = makeStyles(theme => ({
         "@media (max-width:767px)": { marginLeft: 0 },
       },
     },
-    "@media (max-width:767px)": {
-      marginBottom: 30,
-      justifyContent: "center",
-    },
+    "@media (max-width:767px)": { marginTop: 25 },
   },
 }));

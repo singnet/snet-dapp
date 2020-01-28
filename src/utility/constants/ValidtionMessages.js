@@ -5,7 +5,3 @@ export const PasswordCriteria = {
   SPECIAL_CHAR: "A Special Char",
   NUMBER: "Number",
 };
-
-export const ValidationMessages = {
-  INVALID_EMAIL: "invalid email",
-};

@@ -1,17 +1,25 @@
 export const useStyles = theme => ({
   serviceDetailContainer: {
     width: "auto",
-    padding: "67px 0",
     backgroundColor: theme.palette.text.offWhiteColor,
     "& > div": {
       paddingLeft: 60,
       paddingRight: 60,
+      "@media(max-width:1280px)": {
+        paddingLeft: 10,
+        paddingRight: 10,
+      },
+      "&:last-of-type": {
+        "@media(max-width:768px)": { paddingRight: 0, paddingLeft: 0 },
+      },
     },
   },
   TopSection: {
     width: "100%",
     marginTop: 32,
     display: "flex",
+    "@media(max-width:768px)": { flexDirection: "column" },
+    "@media(max-width:480px)": { marginTop: 16 },
   },
   computerVisionContainer: { display: "flex" },
   computerVisionContent: {

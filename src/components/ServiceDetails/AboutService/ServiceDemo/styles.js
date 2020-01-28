@@ -9,12 +9,35 @@ export const useStyles = theme => ({
       fontSize: 18,
       textAlign: "left",
     },
-    "& ul": { justifyContent: "center" },
+    "& > div": {
+      "@media (max-width: 1045px)": { width: "auto" },
+      "@media (max-width: 480px)": { paddingTop: 20 },
+    },
+    "& ul": {
+      justifyContent: "center",
+      "@media(max-width:768px)": { flexDirection: "row" },
+    },
     "& li": {
+      "& span": {
+        "&:first-of-type": {
+          "@media(max-width:480px)": { padding: "3px 7px" },
+        },
+        "@media(max-width:480px)": {
+          marginRight: 5,
+          fontSize: 12,
+        },
+      },
       "&::before": {
         width: 110,
         marginLeft: 15,
+        "@media (max-width: 938px)": { width: 40 },
+        "@media(max-width:480px)": {
+          width: 20,
+          marginLeft: 5,
+          marginRight: 5,
+        },
       },
+      "@media(max-width:480px)": { marginBottom: 0 },
     },
     "& > p": {
       padding: "0 22px",
@@ -83,47 +106,6 @@ export const useStyles = theme => ({
       marginRight: "0 !important",
       paddingLeft: 70,
       paddingRight: 70,
-    },
-  },
-  serviceDetailsTab: {
-    borderTopWidth: 1,
-    borderTopStyle: "solid",
-    borderTopColor: theme.palette.text.lightGray,
-    marginTop: 25,
-    "& .row": {
-      marginTop: 25,
-      display: "flex",
-      justifyContent: "center",
-    },
-    "& select": { marginBottom: "45px !important" },
-    "& .btn-primary": {
-      marginRight: "0 !important",
-      backgroundColor: theme.backgroundColor.blue,
-      color: theme.palette.text.white,
-      borderWidth: 1,
-      borderStyle: "solid",
-      borderColor: "transparent",
-      padding: "13px 35px 11px",
-      textTransform: "uppercase",
-      fontWeight: 600,
-      letterSpacing: "1.25px",
-      lineHeight: "16px",
-    },
-    "& button": {
-      marginBottom: 25,
-      "&:disabled": {
-        marginRight: "0 !important",
-        backgroundColor: theme.palette.text.disabledBtnBg,
-        color: theme.palette.text.white,
-        borderWidth: 1,
-        borderStyle: "solid",
-        borderColor: "transparent",
-        padding: "13px 35px 11px",
-        textTransform: "uppercase",
-        fontWeight: 600,
-        letterSpacing: "1.25px",
-        lineHeight: "16px",
-      },
     },
   },
 });

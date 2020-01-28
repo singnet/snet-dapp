@@ -1,6 +1,7 @@
 import find from "lodash/find";
 import minBy from "lodash/minBy";
 import isEmpty from "lodash/isEmpty";
+import { updateChannel } from "./sdk";
 
 const ONE_YEAR_BLOCKS = 2102400;
 
@@ -26,7 +27,7 @@ export default class PaymentChannelManagement {
     }
 
     this._channel = minBy(channels, ({ channelId }) => channelId);
-    this._sdkContext.currentChannel = this._channel;
+    updateChannel(this._channel);
     await this._channel.syncState();
   }
 
@@ -35,6 +36,7 @@ export default class PaymentChannelManagement {
     const defaultExpiration = await this._channelExtensionBlockNumber();
 
     this._channel = await this.serviceClient.openChannel(serviceCallPrice, defaultExpiration);
+    await this._channel.syncState();
     this._sdkContext.currentChannel = this._channel;
   }
 

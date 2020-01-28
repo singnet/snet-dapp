@@ -1,5 +1,6 @@
 import React from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import CardHeader from "@material-ui/core/CardHeader";
 import Card from "@material-ui/core/Card";
@@ -10,7 +11,7 @@ import Divider from "@material-ui/core/Divider";
 
 import { useStyles } from "./styles";
 
-const AppLoader = ({ loading, loaderHeader, loaderText }) => {
+export const AppLoader = ({ loading, loaderHeader, loaderText }) => {
   const classes = useStyles();
 
   return (
@@ -29,6 +30,12 @@ const AppLoader = ({ loading, loaderHeader, loaderText }) => {
       </Card>
     </Modal>
   );
+};
+
+AppLoader.propTypes = {
+  loading: PropTypes.bool,
+  loaderHeader: PropTypes.string,
+  loaderText: PropTypes.string,
 };
 
 const mapStateToProps = state => {

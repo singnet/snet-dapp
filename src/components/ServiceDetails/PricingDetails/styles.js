@@ -16,6 +16,7 @@ export const useStyles = theme => ({
       marginTop: 10,
       padding: "7px 65px",
     },
+    "@media(max-width:768px)": { margin: "17px 0 30px" },
   },
   infoIcon: {
     paddingRight: 12,

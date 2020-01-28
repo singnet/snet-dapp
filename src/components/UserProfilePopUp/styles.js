@@ -70,6 +70,7 @@ export const useStyles = theme => ({
   loggedInActions: {
     display: "flex",
     alignItems: "center",
+    justifyContent: "flex-end",
     "& span": {
       cursor: "pointer",
       "&:first-of-type": {
@@ -84,5 +85,9 @@ export const useStyles = theme => ({
         "&:hover": { color: theme.palette.text.white },
       },
     },
+  },
+  reactBlockies: {
+    borderRadius: 16,
+    cursor: "Pointer",
   },
 });
