@@ -1,11 +1,18 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+
+import OutlinedTextArea from "../../common/OutlinedTextArea";
+
 import { VideoCaptioning } from "./video_cap_pb_service";
+
 export default class S2VTVideoCaptioning extends React.Component {
   constructor(props) {
     super(props);
     this.submitAction = this.submitAction.bind(this);
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
+
+    this.textInput = React.createRef();
 
     this.state = {
       users_guide:
@@ -30,11 +37,17 @@ export default class S2VTVideoCaptioning extends React.Component {
   }
 
   isValidVideoURL(str) {
-    return (str.startsWith("http://") || str.startsWith("https://")) && (str.endsWith(".avi") || str.endsWith(".mp4"));
+    return str.startsWith("http://") || str.startsWith("https://");
   }
 
   canBeInvoked() {
-    return this.isValidVideoURL(this.state.url) && this.state.start_time_sec <= this.state.stop_time_sec;
+    return (
+      this.isValidVideoURL(this.state.url) &&
+      ((parseInt(this.state.start_time_sec) >= 0 &&
+        parseInt(this.state.stop_time_sec) > 0 &&
+        parseInt(this.state.start_time_sec) < parseInt(this.state.stop_time_sec)) ||
+        (parseInt(this.state.start_time_sec) === 0 && parseInt(this.state.stop_time_sec) === 0))
+    );
   }
 
   handleFormUpdate(event) {
@@ -66,85 +79,62 @@ export default class S2VTVideoCaptioning extends React.Component {
     this.props.serviceClient.unary(methodDescriptor, props);
   }
 
+  handleFocus = event => event.target.select();
+
   renderForm() {
     return (
       <React.Fragment>
-        <div className="row">
-          <div className="col-md-3 col-lg-3" style={{ padding: "10px", fontSize: "13px", marginLeft: "10px" }}>
-            Video (URL):{" "}
-          </div>
-          <div className="col-md-3 col-lg-3">
-            <input
+        <Grid container direction="column" justify="center">
+          <Grid item xs={12} style={{ textAlign: "left" }}>
+            <OutlinedTextArea
+              id="url"
+              ref={this.textInput}
               name="url"
-              type="text"
-              style={{ height: "30px", width: "250px", fontSize: "13px", marginBottom: "5px" }}
+              label="Video URL (.avi, .mp4 or YouTube)"
+              fullWidth={true}
               value={this.state.url}
+              rows={1}
               onChange={this.handleFormUpdate}
+              onFocus={this.handleFocus}
             />
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-md-3 col-lg-3" style={{ padding: "10px", fontSize: "13px", marginLeft: "10px" }}>
-            StartTime (s):{" "}
-          </div>
-          <div className="col-md-3 col-lg-3">
-            <input
+          </Grid>
+
+          <Grid item xs={4} style={{ textAlign: "left" }}>
+            <OutlinedTextArea
+              id="standard-number"
+              ref={this.textInput}
               name="start_time_sec"
+              label="StartTime (s):"
               type="number"
-              min="0"
-              style={{ height: "30px", width: "250px", fontSize: "13px", marginBottom: "5px" }}
+              fullWidth={false}
               value={this.state.start_time_sec}
+              rows={1}
               onChange={this.handleFormUpdate}
+              onFocus={this.handleFocus}
             />
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-md-3 col-lg-3" style={{ padding: "10px", fontSize: "13px", marginLeft: "10px" }}>
-            StopTime (s):{" "}
-          </div>
-          <div className="col-md-3 col-lg-3">
-            <input
+          </Grid>
+
+          <Grid item xs={4} style={{ textAlign: "left" }}>
+            <OutlinedTextArea
+              id="filled-number"
+              ref={this.textInput}
               name="stop_time_sec"
+              label="EndTime (s):"
               type="number"
-              min={this.state.start_time_sec}
-              style={{ height: "30px", width: "250px", fontSize: "13px", marginBottom: "5px" }}
+              fullWidth={false}
               value={this.state.stop_time_sec}
+              rows={1}
               onChange={this.handleFormUpdate}
+              onFocus={this.handleFocus}
             />
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-md-3 col-lg-3" style={{ padding: "10px", fontSize: "13px", marginLeft: "10px" }}>
-            About:{" "}
-          </div>
-          <div className="col-xs-3 col-xs-2">
-            <Button target="_blank" href={this.state.users_guide} style={{ fontSize: "13px", marginLeft: "10px" }}>
-              Guide
-            </Button>
-          </div>
-          <div className="col-xs-3 col-xs-2">
-            <Button target="_blank" href={this.state.code_repo} style={{ fontSize: "13px", marginLeft: "10px" }}>
-              Code
-            </Button>
-          </div>
-          <div className="col-xs-3 col-xs-2">
-            <Button target="_blank" href={this.state.reference} style={{ fontSize: "13px", marginLeft: "10px" }}>
-              Reference
-            </Button>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-md-6 col-lg-6" style={{ textAlign: "right" }}>
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={this.submitAction}
-              disabled={!this.canBeInvoked()}
-            >
+          </Grid>
+
+          <Grid item xs={12} style={{ textAlign: "center" }}>
+            <Button variant="contained" color="primary" onClick={this.submitAction} disabled={!this.canBeInvoked()}>
               Invoke
-            </button>
-          </div>
-        </div>
+            </Button>
+          </Grid>
+        </Grid>
       </React.Fragment>
     );
   }
@@ -158,6 +148,7 @@ export default class S2VTVideoCaptioning extends React.Component {
     } else {
       status = this.state.response + "\n";
     }
+
     return (
       <div style={{ background: "#F8F8F8", padding: "24px" }}>
         <h4> Results</h4>
@@ -176,7 +167,7 @@ export default class S2VTVideoCaptioning extends React.Component {
                 borderRadius: "4px",
               }}
             >
-              {value}
+              <pre>{value}</pre>
             </div>
           </div>
         </div>
