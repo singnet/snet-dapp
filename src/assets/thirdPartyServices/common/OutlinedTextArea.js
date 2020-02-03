@@ -11,7 +11,20 @@ class OutlinedTextArea extends React.Component {
   }
 
   render() {
-    const { id, label, name, value, helperTxt, rows, htmlTooltip, charLimit, onChange, onFocus, ref } = this.props;
+    const {
+      id,
+      label,
+      name,
+      type,
+      value,
+      helperTxt,
+      rows,
+      htmlTooltip,
+      charLimit,
+      onChange,
+      onFocus,
+      ref,
+    } = this.props;
 
     return (
       <div style={{ width: "100%" }}>
@@ -37,11 +50,12 @@ class OutlinedTextArea extends React.Component {
         >
           <TextField
             id={id}
-            inputRef={this.inputRef}
-            multiline
             name={name}
-            value={value}
+            type={type}
+            inputRef={this.inputRef}
+            multiline={type === "date" ? false : true}
             label={label ? label : null}
+            value={value}
             rows={rows ? rows : 4}
             defaultValue=""
             variant="outlined"
@@ -62,6 +76,7 @@ class OutlinedTextArea extends React.Component {
 OutlinedTextArea.propTypes = {
   id: PropTypes.string,
   name: PropTypes.string,
+  type: PropTypes.string,
   label: PropTypes.string,
   value: PropTypes.string,
   rows: PropTypes.number,
