@@ -139,10 +139,13 @@ export default class CNTKImageRecognition extends React.Component {
 
   renderComplete() {
     const { response } = this.state;
-    var top5 = response.top_5;
-    top5 = top5.replace("{", "");
-    top5 = top5.replace("}", "");
-    var topArray = top5.split(", ");
+    let top5 = response.top_5;
+    let topArray = ["No response!"];
+    if (top5 && typeof top5 === "string") {
+      top5 = top5.replace("{", "");
+      top5 = top5.replace("}", "");
+      topArray = top5.split(", ");
+    }
 
     return (
       <Grid style={{ background: "#F8F8F8", padding: "24px" }}>
