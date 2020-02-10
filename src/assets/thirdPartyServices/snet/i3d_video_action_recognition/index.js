@@ -14,12 +14,12 @@ const initialUserInput = {
   modelIndex: 0,
   modelNames: [
     {
-      label: "400",
+      label: "Kinetics-400",
       content: "400",
       value: 0,
     },
     {
-      label: "600",
+      label: "Kinetics-600",
       content: "600",
       value: 1,
     },
@@ -92,7 +92,7 @@ export default class I3DActionRecognition extends React.Component {
     return (
       <React.Fragment>
         <Grid container direction="column" justify="center">
-          <Grid item xs={4} style={{ textAlign: "left" }}>
+          <Grid item xs={6} style={{ textAlign: "left" }}>
             <OutlinedDropDown
               id="model"
               name="modelIndex"
@@ -110,7 +110,6 @@ export default class I3DActionRecognition extends React.Component {
               ref={this.textInput}
               name="url"
               label="Video URL (.avi, .mp4 or YouTube)"
-              fullWidth={true}
               value={this.state.url}
               rows={1}
               onChange={this.handleFormUpdate}
