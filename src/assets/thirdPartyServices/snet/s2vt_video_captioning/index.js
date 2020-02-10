@@ -94,7 +94,6 @@ export default class S2VTVideoCaptioning extends React.Component {
               ref={this.textInput}
               name="url"
               label="Video URL (.avi, .mp4 or YouTube)"
-              fullWidth={true}
               value={this.state.url}
               rows={1}
               onChange={this.handleFormUpdate}
