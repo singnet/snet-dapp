@@ -15,7 +15,7 @@ export const useStyles = theme => ({
     },
   },
   WARNING: {
-    backgroundColor: theme.backgroundColor.offlineRedBg,
+    backgroundColor: "#FCE5E8",
     color: theme.palette.text.alertBoxColor,
     "& svg": {
       marginRight: 17,

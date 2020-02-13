@@ -82,12 +82,14 @@ class ServiceDetails extends Component {
     return (
       <div>
         <Grid container spacing={24} className={classes.serviceDetailContainer}>
-          <NotificationBar
-            type={offlineNotication.type}
-            showNotification={!service.is_available}
-            icon={CardGiftcardIcon}
-            message={offlineNotication.message}
-          />
+          <div className={classes.notificationBar}>
+            <NotificationBar
+              type={offlineNotication.type}
+              showNotification={!service.is_available}
+              icon={CardGiftcardIcon}
+              message={offlineNotication.message}
+            />
+          </div>
           <div className={classes.TopSection}>
             <TitleCard
               organizationName={service.organization_name}
@@ -98,6 +100,7 @@ class ServiceDetails extends Component {
               totalRating={service.service_rating ? service.service_rating.total_users_rated : 0}
             />
             <PricingDetails
+              serviceAvailable={service.is_available}
               activeTab={activeTab}
               pricing={pricing}
               handleTabChange={this.handleTabChange}

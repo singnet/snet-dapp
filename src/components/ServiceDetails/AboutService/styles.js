@@ -218,4 +218,15 @@ export const useStyles = theme => ({
     display: "flex",
     alignItems: "baseline",
   },
+  imgContainer: {
+    width: 260,
+    margin: "0 auto",
+    "& img": { width: "100%" },
+    "& p": {
+      color: theme.palette.text.mediumShadeGray,
+      fontSize: 24,
+      fontWeight: 200,
+      lineHeight: "30px",
+    },
+  },
 });
