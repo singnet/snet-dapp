@@ -74,7 +74,7 @@ class ServiceDetails extends Component {
       {
         name: "About",
         activeIndex: 0,
-        component: <AboutService service={service} history={history} />,
+        component: <AboutService service={service} history={history} serviceAvailable={service.is_available} />,
       },
       { name: "Install and Run", activeIndex: 1, component: <InstallAndRunService service={service} /> },
     ];
