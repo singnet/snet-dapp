@@ -1,0 +1,18 @@
+name: github - repo sync
+
+on:
+  schedule:
+  - cron:  "*/05 * * * *"
+  
+jobs:
+  repo-sync:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: repo-sync
+      uses: repo-sync/github-sync@v2
+      with:
+        source_repo: "https://github.com/singnet/snet-dapp.git"
+        source_branch: "development"
+        destination_branch: "development"
+        github_token: ${{ secrets.GITHUB_TOKEN }}
