@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
-import CardGiftcardIcon from "@material-ui/icons/CardGiftcard";
+import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
 import isEmpty from "lodash/isEmpty";
 
 import TitleCard from "./TitleCard";
@@ -22,7 +22,7 @@ class ServiceDetails extends Component {
     alert: {},
     offlineNotication: {
       type: notificationBarTypes.WARNING,
-      message: "Service is currently unavailable. Please try later",
+      message: "Service temporarily offline by the provider. Please check back later.",
     },
   };
 
@@ -86,7 +86,7 @@ class ServiceDetails extends Component {
             <NotificationBar
               type={offlineNotication.type}
               showNotification={!service.is_available}
-              icon={CardGiftcardIcon}
+              icon={ErrorOutlineIcon}
               message={offlineNotication.message}
             />
           </div>
