@@ -40,6 +40,8 @@ const parseFreeCallMetadata = ({ data }) => ({
   "snet-free-call-user-id": data["snet-free-call-user-id"],
   "snet-current-block-number": `${data["snet-current-block-number"]}`,
   "snet-payment-channel-signature-bin": parseSignature(data["snet-payment-channel-signature-bin"]),
+  "snet-free-call-auth-token-bin": parseSignature(data["snet-free-call-auth-token-bin"]),
+  "snet-free-call-token-expiry-block": `${data["snet-free-call-token-expiry-block"]}`,
 });
 
 const metadataGenerator = (serviceRequestErrorHandler, groupId) => async (serviceClient, serviceName, method) => {
