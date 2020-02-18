@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
-import CardGiftcardIcon from "@material-ui/icons/CardGiftcard";
+import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
 import isEmpty from "lodash/isEmpty";
 
 import TitleCard from "./TitleCard";
@@ -22,7 +22,7 @@ class ServiceDetails extends Component {
     alert: {},
     offlineNotication: {
       type: notificationBarTypes.WARNING,
-      message: "Service is currently unavailable. Please try later",
+      message: "Service temporarily offline by the provider. Please check back later.",
     },
   };
 
@@ -74,7 +74,7 @@ class ServiceDetails extends Component {
       {
         name: "About",
         activeIndex: 0,
-        component: <AboutService service={service} history={history} />,
+        component: <AboutService service={service} history={history} serviceAvailable={service.is_available} />,
       },
       { name: "Install and Run", activeIndex: 1, component: <InstallAndRunService service={service} /> },
     ];
@@ -82,12 +82,14 @@ class ServiceDetails extends Component {
     return (
       <div>
         <Grid container spacing={24} className={classes.serviceDetailContainer}>
-          <NotificationBar
-            type={offlineNotication.type}
-            showNotification={!service.is_available}
-            icon={CardGiftcardIcon}
-            message={offlineNotication.message}
-          />
+          <div className={classes.notificationBar}>
+            <NotificationBar
+              type={offlineNotication.type}
+              showNotification={!service.is_available}
+              icon={ErrorOutlineIcon}
+              message={offlineNotication.message}
+            />
+          </div>
           <div className={classes.TopSection}>
             <TitleCard
               organizationName={service.organization_name}
@@ -98,6 +100,7 @@ class ServiceDetails extends Component {
               totalRating={service.service_rating ? service.service_rating.total_users_rated : 0}
             />
             <PricingDetails
+              serviceAvailable={service.is_available}
               activeTab={activeTab}
               pricing={pricing}
               handleTabChange={this.handleTabChange}
