@@ -26,7 +26,9 @@ import AGITokens from "./AGITokens";
 export const paymentTypes = [{ value: "paypal", label: "Paypal" }];
 const paymentAmounts = [{ value: 2, label: "2" }, { value: 3, label: "3" }, { value: 5, label: "5" }];
 
-const web3 = new Web3(process.env.REACT_APP_WEB3_PROVIDER, null, {});
+const web3 = process.env.REACT_APP_WEB3_PROVIDER
+  ? new Web3(process.env.REACT_APP_WEB3_PROVIDER, null, {})
+  : window.web3;
 
 const description = {
   [orderTypes.CREATE_WALLET]: `Please enter the payment type in the box below, along with the amount you would 

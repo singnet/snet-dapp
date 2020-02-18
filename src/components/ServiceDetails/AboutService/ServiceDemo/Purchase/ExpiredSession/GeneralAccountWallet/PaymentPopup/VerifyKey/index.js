@@ -15,7 +15,9 @@ const warningMessage = [
   `You won't be able to Link your wallet with any new providers`,
 ];
 
-const web3 = new Web3(process.env.REACT_APP_WEB3_PROVIDER, null, {});
+const web3 = process.env.REACT_APP_WEB3_PROVIDER
+  ? new Web3(process.env.REACT_APP_WEB3_PROVIDER, null, {})
+  : window.web3;
 
 const VerifyKey = ({ classes, handleLostPrivateKey, walletList, handleUserProvidedPrivateKey, handleNextSection }) => {
   const [keyLost, setKeyLost] = useState(false);
