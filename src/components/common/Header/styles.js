@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/styles";
 
 export const useStyles = makeStyles(theme => ({
   header: {
-    padding: "12px 65px 4px 60px",
+    padding: "13px 65px 6px 60px",
     display: "flex",
     alignItems: "center",
     position: "fixed",

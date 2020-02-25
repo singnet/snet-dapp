@@ -82,9 +82,13 @@ const addMoziCustomUI = (serviceId, CustomUIComponent) => {
 };
 
 //TODO remove before deploying to mainnet
-const addOrg2CustomUI = (serviceId, CustomUIComponent ) => {
+const addOrg2CustomUI = (serviceId, CustomUIComponent) => {
   thirdPartyCustomUIComponents.addCustomUIComponent("org2", serviceId, CustomUIComponent);
-}
+};
+
+const addAr3CustomUI = (serviceId, CustomUIComponent) => {
+  thirdPartyCustomUIComponents.addCustomUIComponent("ar3", serviceId, CustomUIComponent);
+};
 
 addSnetCustomUI("example-service", ExampleService);
 addSnetCustomUI("freecall", ExampleService);
@@ -136,6 +140,8 @@ addSnetCustomUI("minecraftizing-service", MinecraftService);
 addSnetCustomUI("match-service", MatchingService);
 
 //TODO remove before deploying to mainnet
-addOrg2CustomUI("freecall", ExampleService)
+addOrg2CustomUI("freecall", ExampleService);
+
+addAr3CustomUI("freecall", ExampleService);
 
 export default thirdPartyCustomUIComponents;

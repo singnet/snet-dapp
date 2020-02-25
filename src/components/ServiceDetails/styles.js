@@ -14,9 +14,16 @@ export const useStyles = theme => ({
       },
     },
   },
+  notificationBar: {
+    width: "100%",
+    padding: "0 !important",
+    position: "fixed",
+    right: 0,
+    left: 0,
+  },
   TopSection: {
     width: "100%",
-    marginTop: 32,
+    marginTop: 75,
     display: "flex",
     "@media(max-width:768px)": { flexDirection: "column" },
     "@media(max-width:480px)": { marginTop: 16 },
