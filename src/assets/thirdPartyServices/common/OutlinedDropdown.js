@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import MenuItem from "@material-ui/core/MenuItem/index";
-import TextField from "@material-ui/core/TextField/index";
+import MenuItem from "@material-ui/core/MenuItem";
+import TextField from "@material-ui/core/TextField";
 import InfoIcon from "@material-ui/icons/Info";
 import Tooltip from "@material-ui/core/Tooltip";
 
@@ -14,33 +14,26 @@ class OutlinedDropDown extends React.Component {
     const { id, label, name, helperTxt, fullWidth, htmlTooltip, list, value, onChange } = this.props;
 
     return (
-      <div style={{width: "100%"}}>
+      <div style={{ width: "100%" }}>
+        {htmlTooltip ? (
+          <div style={{ paddingTop: 33, textAlign: "right", width: "25px", float: "left" }}>
+            <Tooltip title={<React.Fragment>{htmlTooltip}</React.Fragment>} placement="top">
+              <InfoIcon
+                style={{
+                  color: "#D6D6D6",
+                  "&:hover": { color: "#008BF9" },
+                  verticalAlign: "middle",
+                }}
+              />
+            </Tooltip>
+          </div>
+        ) : null}
 
-        {htmlTooltip ?
-          (<div style={{paddingTop: 33, textAlign: "right", width: "25px", float: "left"}}>
-                <Tooltip
-                    title={
-                      <React.Fragment>
-                        {htmlTooltip}
-                      </React.Fragment>
-                    }
-                    placement="top"
-                >
-                  <InfoIcon
-                      style={{
-                        color: "#D6D6D6",
-                        "&:hover": {color: "#008BF9",},
-                        verticalAlign: "middle"
-                      }}
-                  />
-                </Tooltip>
-            </div>
-          ) : null
-        }
-
-        <div style={{
-          width: htmlTooltip ? `calc(100% - 25px)` : "100%",
-          float: htmlTooltip ? "right" : "none"}}
+        <div
+          style={{
+            width: htmlTooltip ? `calc(100% - 25px)` : "100%",
+            float: htmlTooltip ? "right" : "none",
+          }}
         >
           <TextField
             id={id}
@@ -48,7 +41,7 @@ class OutlinedDropDown extends React.Component {
             name={name}
             label={label ? label : null}
             value={value}
-            style={{width: fullWidth ? "100%" : "auto"}}
+            style={{ width: fullWidth ? "100%" : "auto" }}
             onChange={onChange}
             helperText={helperTxt ? helperTxt : null}
             margin="normal"
@@ -69,7 +62,7 @@ class OutlinedDropDown extends React.Component {
             )}
           </TextField>
         </div>
-        <span style={{clear: "both"}}></span>
+        <span style={{ clear: "both" }} />
       </div>
     );
   }
@@ -85,11 +78,11 @@ OutlinedDropDown.propTypes = {
     PropTypes.shape({
       value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       label: PropTypes.string,
-    }),
+    })
   ),
   onChange: PropTypes.func,
   htmlTooltip: PropTypes.instanceOf(Element),
-  fullWidth: PropTypes.bool
+  fullWidth: PropTypes.bool,
 };
 
 export default OutlinedDropDown;
