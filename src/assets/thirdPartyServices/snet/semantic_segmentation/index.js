@@ -131,8 +131,7 @@ export default class SemanticSegmentationService extends React.Component {
               outputImage={this.parseResponse()}
               outputImageName="Output"
               width="90%"
-              instantUrlFetch={true}
-              allowURL={true}
+              disableUrlTab={true}
               returnByteArray={true}
             />
           </Grid>
