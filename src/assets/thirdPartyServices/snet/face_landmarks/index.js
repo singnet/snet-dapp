@@ -192,14 +192,14 @@ export default class FaceLandmarksService extends React.Component {
     return (
       <React.Fragment>
         <Grid container spacing={2} justify="center" alignItems="center">
-          <Grid item xs={12} container style={{ textAlign: "center" }}>
+          <Grid item xs={12} container justify="center">
             <SNETImageUpload
               style={{ align: "center" }}
               imageDataFunc={this.getData}
               imageName="Input"
               outputImage={this.parseResponse()}
               outputImageName="Output"
-              width="90%"
+              width="100%"
               disableUrlTab={true}
               returnByteArray={true}
             />

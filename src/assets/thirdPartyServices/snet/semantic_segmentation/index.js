@@ -120,7 +120,7 @@ export default class SemanticSegmentationService extends React.Component {
     return (
       <React.Fragment>
         <Grid container direction="column" alignItems="center" justify="center">
-          <Grid item xs={12} container style={{ textAlign: "center" }}>
+          <Grid item xs={12} container justify="center">
             <SNETImageUpload
               style={{ align: "center" }}
               maxImageSize={3000000}
@@ -130,7 +130,7 @@ export default class SemanticSegmentationService extends React.Component {
               imageName="Input"
               outputImage={this.parseResponse()}
               outputImageName="Output"
-              width="90%"
+              width="100%"
               disableUrlTab={true}
               returnByteArray={true}
             />
