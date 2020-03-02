@@ -120,7 +120,7 @@ export default class SemanticSegmentationService extends React.Component {
     return (
       <React.Fragment>
         <Grid container direction="column" alignItems="center" justify="center">
-          <Grid item xs={12} container style={{ textAlign: "center" }}>
+          <Grid item xs={12} container justify="center">
             <SNETImageUpload
               style={{ align: "center" }}
               maxImageSize={3000000}
@@ -130,9 +130,8 @@ export default class SemanticSegmentationService extends React.Component {
               imageName="Input"
               outputImage={this.parseResponse()}
               outputImageName="Output"
-              width="90%"
-              instantUrlFetch={true}
-              allowURL={true}
+              width="100%"
+              disableUrlTab={true}
               returnByteArray={true}
             />
           </Grid>
@@ -161,11 +160,13 @@ export default class SemanticSegmentationService extends React.Component {
             </Grid>
           </Grid>
 
-          <Grid item xs={12} container justify="center" style={{ textAlign: "center" }}>
-            <Button variant="contained" color="primary" onClick={this.submitAction} disabled={!this.canBeInvoked()}>
-              Invoke
-            </Button>
-          </Grid>
+          {!this.props.isComplete && (
+            <Grid item xs={12} container justify="center" style={{ textAlign: "center" }}>
+              <Button variant="contained" color="primary" onClick={this.submitAction} disabled={!this.canBeInvoked()}>
+                Invoke
+              </Button>
+            </Grid>
+          )}
         </Grid>
       </React.Fragment>
     );

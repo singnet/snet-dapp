@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import TextField from "@material-ui/core/TextField/index";
+import TextField from "@material-ui/core/TextField";
 import InfoIcon from "@material-ui/icons/Info";
 import Tooltip from "@material-ui/core/Tooltip";
 
@@ -17,8 +17,12 @@ class OutlinedTextArea extends React.Component {
       name,
       type,
       value,
+      min,
+      max,
       helperTxt,
+      multiline,
       rows,
+      fullWidth,
       htmlTooltip,
       charLimit,
       onChange,
@@ -53,18 +57,21 @@ class OutlinedTextArea extends React.Component {
             name={name}
             type={type}
             inputRef={this.inputRef}
-            multiline={type === "date" ? false : true}
+            multiline={multiline}
             label={label ? label : null}
             value={value}
-            rows={rows ? rows : 4}
-            defaultValue=""
+            rows={rows ? rows : null}
             variant="outlined"
             margin="normal"
-            fullWidth
+            fullWidth={fullWidth}
             onChange={onChange}
             onFocus={onFocus}
             helperText={helperTxt ? helperTxt : null}
-            inputProps={{ maxLength: charLimit ? charLimit : 5000 }}
+            inputProps={{
+              maxLength: charLimit ? charLimit : 5000,
+              min: min ? min : null,
+              max: max ? max : null,
+            }}
             ref={ref}
           />
         </div>
@@ -79,7 +86,11 @@ OutlinedTextArea.propTypes = {
   type: PropTypes.string,
   label: PropTypes.string,
   value: PropTypes.string,
+  min: PropTypes.number,
+  max: PropTypes.number,
+  multiline: PropTypes.bool,
   rows: PropTypes.number,
+  fullWidth: PropTypes.bool,
   charLimit: PropTypes.number,
   helperTxt: PropTypes.string,
   onChange: PropTypes.func,
