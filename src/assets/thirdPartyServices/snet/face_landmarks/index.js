@@ -223,12 +223,10 @@ export default class FaceLandmarksService extends React.Component {
             <Grid item xs={12} container justify="center" style={{ textAlign: "center" }}>
               <OutlinedTextArea
                 id="facesString"
-                ref={this.textInput}
                 name="facesString"
                 label="Bounding Boxes (from Detect Faces)"
                 type="text"
                 fullWidth={true}
-                multiline={true}
                 value={this.state.facesString}
                 rows={8}
                 onChange={this.handleFormUpdate}
@@ -240,12 +238,10 @@ export default class FaceLandmarksService extends React.Component {
             <Grid item xs={12} container justify="center" style={{ textAlign: "center" }}>
               <OutlinedTextArea
                 id="landmarks"
-                ref={this.textInput}
                 name="landmarks"
                 label="Landmarks"
                 type="text"
                 fullWidth={true}
-                multiline={true}
                 value={JSON.stringify(this.state.response.image_chunk.landmarkedFacesList, null, "\t")}
                 rows={8}
               />

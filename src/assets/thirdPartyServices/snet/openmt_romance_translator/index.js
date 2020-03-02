@@ -120,7 +120,6 @@ export default class OpenNMTRomanceTranslator extends React.Component {
           <Grid item xs={8} container style={{ textAlign: "center" }}>
             <OutlinedTextArea
               id="sentences_url"
-              ref={this.textInput}
               name="sentences_url"
               label="Sentences (or URL with text)"
               type="text"

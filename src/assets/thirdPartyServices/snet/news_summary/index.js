@@ -13,13 +13,9 @@ export default class NewSummaryService extends React.Component {
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
 
     const initialUserInput = {
-      serviceName: "TextSummary",
-      methodName: "summary",
       article_content:
         'Analysts are predicting record highs as a global shortage of teddy bears sweeps the nation. "The market these products is way up". The advice is to stay indoors as society collapses under the demand.',
     }
-
-    this.textInput = React.createRef();
 
     this.state = { 
       ...initialUserInput,
@@ -37,8 +33,8 @@ export default class NewSummaryService extends React.Component {
   }
 
   submitAction() {
-     const { methodName, article_content } = this.state;
-    const methodDescriptor = TextSummary[methodName];
+     const { article_content } = this.state;
+    const methodDescriptor = TextSummary["summary"];
     const request = new methodDescriptor.requestType();
 
     request.setArticleContent(article_content)
@@ -65,7 +61,6 @@ export default class NewSummaryService extends React.Component {
           <Grid item xs={12} style={{ textAlign: "left" }}>
             <OutlinedTextArea
               id="article_content"
-              ref={this.textInput}
               name="article_content"
               label="News text to summarize:"
               fullWidth={true}
@@ -93,11 +88,9 @@ export default class NewSummaryService extends React.Component {
         
       <React.Fragment>
         <Grid container direction="column" justify="center">
-
           <Grid item xs={12} style={{ textAlign: "left" }}>
             <OutlinedTextArea
               id="article_summary"
-              ref={this.textInput}
               name="article_summary"
               label="Summarization:"
               fullWidth={true}

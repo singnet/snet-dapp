@@ -11,20 +11,19 @@ import OutlinedTextArea from "../../common/OutlinedTextArea";
 import { VideoActionRecognition } from "./video_action_recon_pb_service";
 
 const initialUserInput = {
-  modelIndex: 0,
+  modelIndex: "0",
   modelNames: [
     {
       label: "Kinetics-400",
       content: "400",
-      value: 0,
+      value: "0",
     },
     {
       label: "Kinetics-600",
       content: "600",
-      value: 1,
+      value: "1",
     },
   ],
-
   url: "",
 };
 
@@ -32,10 +31,7 @@ export default class I3DActionRecognition extends React.Component {
   constructor(props) {
     super(props);
     this.submitAction = this.submitAction.bind(this);
-
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
-
-    this.textInput = React.createRef();
 
     this.state = {
       ...initialUserInput,
@@ -43,9 +39,6 @@ export default class I3DActionRecognition extends React.Component {
         "https://github.com/singnet/dnn-model-services/blob/master/docs/users_guide/i3d-video-action-recognition.md",
       code_repo: "https://github.com/singnet/dnn-model-services/tree/master/services/i3d-video-action-recognition",
       reference: "https://github.com/deepmind/kinetics-i3d",
-
-      serviceName: "VideoActionRecognition",
-      methodName: "video_action_recon",
       response: undefined,
     };
 
@@ -68,8 +61,8 @@ export default class I3DActionRecognition extends React.Component {
   }
 
   submitAction() {
-    const { methodName, modelIndex, modelNames, url } = this.state;
-    const methodDescriptor = VideoActionRecognition[methodName];
+    const { modelIndex, modelNames, url } = this.state;
+    const methodDescriptor = VideoActionRecognition["video_action_recon"];
     const request = new methodDescriptor.requestType();
 
     request.setModel(modelNames[modelIndex].content);
@@ -107,7 +100,6 @@ export default class I3DActionRecognition extends React.Component {
           <Grid item xs={12} style={{ textAlign: "left" }}>
             <OutlinedTextArea
               id="url"
-              ref={this.textInput}
               name="url"
               label="Video URL (.avi, .mp4 or YouTube)"
               value={this.state.url}

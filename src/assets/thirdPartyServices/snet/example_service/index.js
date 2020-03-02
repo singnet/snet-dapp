@@ -8,16 +8,31 @@ import OutlinedTextArea from "../../common/OutlinedTextArea";
 import { Calculator } from "./example_service_pb_service";
 
 const initialUserInput = {
-  methodIndex: 0,
-  methodNames: {
-    0: "Select a method",
-    1: "add",
-    2: "sub",
-    3: "mul",
-    4: "div",
-  },
-  a: 0,
-  b: 0,
+  methodIndex: "0",
+  methodNames: [
+    {
+      label: "Addition",
+      content: "add",
+      value: "0",
+    },
+    {
+      label: "Subtraction",
+      content: "sub",
+      value: "1",
+    },
+    {
+      label: "Multiplication",
+      content: "mul",
+      value: "2",
+    },
+    {
+      label: "Division",
+      content: "div",
+      value: "3",
+    }
+  ],
+  a: "0",
+  b: "0",
 };
 
 export default class ExampleService extends React.Component {
@@ -25,14 +40,7 @@ export default class ExampleService extends React.Component {
     super(props);
     this.submitAction = this.submitAction.bind(this);
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
-
-    this.textInput = React.createRef();
-
     this.state = { ...initialUserInput };
-  }
-
-  canBeInvoked() {
-    return this.state.methodIndex !== 0;
   }
 
   handleFormUpdate(event) {
@@ -52,7 +60,8 @@ export default class ExampleService extends React.Component {
   }
 
   submitAction() {
-    const methodDescriptor = Calculator[this.state.methodNames[this.state.methodIndex]];
+    const { methodIndex, methodNames } = this.state;
+    const methodDescriptor = Calculator[methodNames[methodIndex].content];
     const request = new methodDescriptor.requestType();
     request.setA(this.state.a);
     request.setB(this.state.b);
@@ -66,78 +75,58 @@ export default class ExampleService extends React.Component {
     this.props.serviceClient.unary(methodDescriptor, props);
   }
 
-  renderServiceMethodNames(serviceMethodNames) {
-    const serviceNameOptions = ["Select a method", ...serviceMethodNames];
-    const serviceMap = {
-      "Select a method": "Select a method",
-      add: "Addition",
-      sub: "Subtraction",
-      mul: "Multiplication",
-      div: "Division",
-    };
-    return serviceNameOptions.map((serviceMethodName, index) => {
-      return {
-        label: serviceMap[serviceMethodName],
-        content: serviceMap[serviceMethodName],
-        value: index,
-      };
-    });
-  }
-
   handleFocus = event => event.target.select();
 
   renderForm() {
-    const serviceMethodNames = this.props.serviceClient.getMethodNames(Calculator);
-    const methodNamesList = this.renderServiceMethodNames(serviceMethodNames);
     return (
       <React.Fragment>
-        <Grid container direction="column" justify="center">
-          <Grid item xs={4} style={{ textAlign: "left" }}>
+        <Grid container direction="column" alignItems="center" justify="center">
+          <Grid item xs={6} container style={{ textAlign: "center" }}>
             <OutlinedDropDown
               id="method"
               name="methodIndex"
               label="Method"
               fullWidth={true}
-              list={methodNamesList}
+              list={this.state.methodNames}
               value={this.state.methodIndex}
               onChange={this.handleFormUpdate}
             />
           </Grid>
 
-          <Grid item xs={4} style={{ textAlign: "left" }}>
-            <OutlinedTextArea
-              id="number_a"
-              ref={this.textInput}
-              name="a"
-              label="Number 1"
-              type="number"
-              fullWidth={false}
-              value={this.state.a}
-              rows={1}
-              onChange={this.handleFormUpdate}
-              onKeyPress={e => this.onKeyPressvalidator(e)}
-              onFocus={this.handleFocus}
-            />
-          </Grid>
+          <Grid item xs={6} container spacing={1}>
+            <Grid item xs>
+              <OutlinedTextArea
+                id="number_a"
+                name="a"
+                label="Number 1"
+                type="number"
+                fullWidth={false}
+                value={this.state.a}
+                rows={1}
+                onChange={this.handleFormUpdate}
+                onKeyPress={e => this.onKeyPressvalidator(e)}
+                onFocus={this.handleFocus}
+              />
+            </Grid>
 
-          <Grid item xs={4} style={{ textAlign: "left" }}>
-            <OutlinedTextArea
-              id="number_b"
-              ref={this.textInput}
-              name="b"
-              label="Number 2"
-              type="number"
-              fullWidth={false}
-              value={this.state.b}
-              rows={1}
-              onChange={this.handleFormUpdate}
-              onKeyPress={e => this.onKeyPressvalidator(e)}
-              onFocus={this.handleFocus}
-            />
+            <Grid item xs>
+              <OutlinedTextArea
+                id="number_b"
+                name="b"
+                label="Number 2"
+                type="number"
+                fullWidth={false}
+                value={this.state.b}
+                rows={1}
+                onChange={this.handleFormUpdate}
+                onKeyPress={e => this.onKeyPressvalidator(e)}
+                onFocus={this.handleFocus}
+              />
+            </Grid>
           </Grid>
 
           <Grid item xs={12} style={{ textAlign: "center" }}>
-            <Button variant="contained" color="primary" onClick={this.submitAction} disabled={!this.canBeInvoked()}>
+            <Button variant="contained" color="primary" onClick={this.submitAction}>
               Invoke
             </Button>
           </Grid>
@@ -159,9 +148,9 @@ export default class ExampleService extends React.Component {
   renderComplete() {
     const response = this.parseResponse();
     return (
-      <div>
-        <p style={{ fontSize: "13px" }}>Response from service is {response} </p>
-      </div>
+      <Grid item xs={12} container justify="center">
+        <p style={{ fontSize: "20px" }}>Response from service: {response} </p>
+      </Grid>
     );
   }
 

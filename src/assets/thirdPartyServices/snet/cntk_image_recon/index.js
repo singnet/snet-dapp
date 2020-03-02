@@ -11,22 +11,17 @@ import SNETImageUpload from "../../standardComponents/SNETImageUpload";
 import { Recognizer } from "./image_recon_pb_service";
 
 const initialUserInput = {
-  methodIndex: 0,
+  methodIndex: "0",
   methodNames: [
-    {
-      label: "Select a method",
-      content: "Select a method",
-      value: 0,
-    },
     {
       label: "Flowers",
       content: "flowers",
-      value: 1,
+      value: "0",
     },
     {
       label: "Dogs",
       content: "dogs",
-      value: 2,
+      value: "1",
     },
   ],
 
@@ -45,13 +40,13 @@ export default class CNTKImageRecognition extends React.Component {
       users_guide: "https://singnet.github.io/dnn-model-services/users_guide/cntk-image-recon.html",
       code_repo: "https://github.com/singnet/dnn-model-services/tree/master/services/cntk-image-recon",
       reference: "https://cntk.ai/pythondocs/CNTK_301_Image_Recognition_with_Deep_Transfer_Learning.html",
-      model: "ResNet152",
       response: undefined,
     };
   }
 
   canBeInvoked() {
-    return this.state.img_path && this.state.methodName !== "Select a method";
+    if(this.state.img_path) return true;
+    return false;
   }
 
   getImageData(data) {
@@ -63,12 +58,12 @@ export default class CNTKImageRecognition extends React.Component {
   }
 
   submitAction() {
-    const { methodIndex, methodNames, img_path, model } = this.state;
+    const { methodIndex, methodNames, img_path } = this.state;
     const methodDescriptor = Recognizer[methodNames[methodIndex].content];
     const request = new methodDescriptor.requestType();
 
     request.setImgPath(img_path);
-    request.setModel(model);
+    request.setModel("ResNet152");
 
     const props = {
       request,
@@ -87,7 +82,7 @@ export default class CNTKImageRecognition extends React.Component {
     return (
       <React.Fragment>
         <Grid container spacing={2} justify="center" alignItems="center">
-          <Grid item xs={12} container justify="left" style={{ textAlign: "center" }}>
+          <Grid item xs={12} container justify="center" style={{ textAlign: 'center' }}>
             <OutlinedDropDown
               id="method"
               name="methodIndex"

@@ -169,12 +169,10 @@ export default class FaceDetectService extends React.Component {
             <Grid item xs={12} container justify="center" style={{ textAlign: "center" }}>
               <OutlinedTextArea
                 id="response_bboxes"
-                ref={this.textInput}
                 name="response_bboxes"
                 label="Bounding Boxes"
                 type="text"
                 fullWidth={true}
-                multiline={true}
                 value={JSON.stringify(this.state.response.image_chunk.faceBboxList, null, "\t")}
                 rows={8}
               />
