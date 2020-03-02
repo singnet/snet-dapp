@@ -14,19 +14,14 @@ const initialUserInput = {
   methodIndex: "0",
   methodNames: [
     {
-      label: "Select a method",
-      content: "Select a method",
-      value: "0",
-    },
-    {
       label: "Slot Tagging",
       content: "slot_tagging",
-      value: "1",
+      value: "0",
     },
     {
       label: "Intent Classification",
       content: "intent",
-      value: "2",
+      value: "1",
     },
   ],
 
@@ -53,7 +48,6 @@ export default class CNTKLanguageUnderstanding extends React.Component {
         "https://github.com/singnet/nlp-services/blob/master/docs/users_guide/cntk-language-understanding.md",
       code_repo: "https://github.com/singnet/nlp-services/blob/master/cntk-language-understanding",
       reference: "https://cntk.ai/pythondocs/CNTK_202_Language_Understanding.html",
-
       response: undefined,
     };
   }
@@ -67,8 +61,7 @@ export default class CNTKLanguageUnderstanding extends React.Component {
       this.isValidURL(this.state.train_ctf_url, ".ctf") &&
       this.isValidURL(this.state.test_ctf_url, ".ctf") &&
       this.isValidURL(this.state.query_wl_url, ".wl") &&
-      this.isValidURL(this.state.sentences_url, ".txt") &&
-      this.state.methodIndex !== 0
+      this.isValidURL(this.state.sentences_url, ".txt")
     );
   }
 
@@ -134,7 +127,6 @@ export default class CNTKLanguageUnderstanding extends React.Component {
           <Grid item xs={8} container style={{ textAlign: "center" }}>
             <OutlinedTextArea
               id="train_ctf_url"
-              ref={this.textInput}
               name="train_ctf_url"
               label="Train CTF (URL)"
               type="text"
@@ -148,7 +140,6 @@ export default class CNTKLanguageUnderstanding extends React.Component {
           <Grid item xs={8} container style={{ textAlign: "center" }}>
             <OutlinedTextArea
               id="test_ctf_url"
-              ref={this.textInput}
               name="test_ctf_url"
               label="Test CTF (URL)"
               type="text"
@@ -162,7 +153,6 @@ export default class CNTKLanguageUnderstanding extends React.Component {
           <Grid item xs={8} container style={{ textAlign: "center" }}>
             <OutlinedTextArea
               id="query_wl_url"
-              ref={this.textInput}
               name="query_wl_url"
               label="Query List (URL)"
               type="text"
@@ -176,7 +166,6 @@ export default class CNTKLanguageUnderstanding extends React.Component {
           <Grid item xs={8} container style={{ textAlign: "center" }}>
             <OutlinedTextArea
               id="slots_wl_url"
-              ref={this.textInput}
               name="slots_wl_url"
               label="Slots List (URL)"
               type="text"
@@ -190,7 +179,6 @@ export default class CNTKLanguageUnderstanding extends React.Component {
           <Grid item xs={8} container style={{ textAlign: "center" }}>
             <OutlinedTextArea
               id="intent_wl_url"
-              ref={this.textInput}
               name="intent_wl_url"
               label="Intent List (URL)"
               type="text"
@@ -212,7 +200,6 @@ export default class CNTKLanguageUnderstanding extends React.Component {
                 min={1}
                 fullWidth={true}
                 onChange={this.handleFormUpdate}
-                ref={this.textInput}
               />
             </Grid>
             <Grid item xs>
@@ -225,7 +212,6 @@ export default class CNTKLanguageUnderstanding extends React.Component {
                 min={1}
                 fullWidth={true}
                 onChange={this.handleFormUpdate}
-                ref={this.textInput}
               />
             </Grid>
             <Grid item xs>
@@ -238,7 +224,6 @@ export default class CNTKLanguageUnderstanding extends React.Component {
                 min={1}
                 fullWidth={true}
                 onChange={this.handleFormUpdate}
-                ref={this.textInput}
               />
             </Grid>
           </Grid>
@@ -246,7 +231,6 @@ export default class CNTKLanguageUnderstanding extends React.Component {
           <Grid item xs={8} container style={{ textAlign: "center" }}>
             <OutlinedTextArea
               id="sentences_url"
-              ref={this.textInput}
               name="sentences_url"
               label="Sentences (URL)"
               type="text"

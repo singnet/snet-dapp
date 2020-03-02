@@ -29,16 +29,8 @@ export default class YOLOv3ObjectDetection extends React.Component {
         "https://github.com/singnet/dnn-model-services/blob/master/docs/users_guide/yolov3-object-detection.md",
       code_repo: "https://github.com/singnet/dnn-model-services/tree/master/services/yolov3-object-detection",
       reference: "https://pjreddie.com/darknet/yolo/",
-      serviceName: "Detect",
-      methodName: "detect",
-      model: "yolov3",
       response: undefined,
     };
-
-    this.isComplete = false;
-    this.serviceMethods = [];
-    this.allServices = [];
-    this.methodsForAllServices = [];
   }
 
   getImageURL(data) {
@@ -58,12 +50,12 @@ export default class YOLOv3ObjectDetection extends React.Component {
   }
 
   submitAction() {
-    const { methodName, img_path, model, confidence } = this.state;
-    const methodDescriptor = Detect[methodName];
+    const { img_path, confidence } = this.state;
+    const methodDescriptor = Detect["detect"];
     const request = new methodDescriptor.requestType();
 
     request.setImgPath(img_path);
-    request.setModel(model);
+    request.setModel("yolov3");
     request.setConfidence(confidence);
 
     const props = {
@@ -114,21 +106,24 @@ export default class YOLOv3ObjectDetection extends React.Component {
         <Grid container spacing={3} direction="column" justify="center" alignItems="center">
           <Grid item xs={12} />
           {!this.props.isComplete && (
-            <Grid item xs={12} style={{ textAlign: "center", width: "100%" }}>
-              Confidence ({this.state.confidence.toFixed(2)}):{" "}
-              <Slider
-                style={{ padding: "15px 0px", width: "100%" }}
-                value={this.state.confidence}
-                min={0.05}
-                max={1.0}
-                step={0.05}
-                fullWidth
-                onChange={this.handleSliderChange}
-              />
+            <Grid item xs={8} container justify="center">
+              <Grid item xs>
+                Confidence ({this.state.confidence.toFixed(2)}):{" "}
+              </Grid>
+              <Grid item xs>
+                <Slider
+                  style={{ padding: "12px 0px" }}
+                  value={this.state.confidence}
+                  min={0.05}
+                  max={1.0}
+                  step={0.05}
+                  onChange={this.handleSliderChange}
+                />
+              </Grid>
             </Grid>
           )}
 
-          <Grid item xs={12} style={{ textAlign: "center" }}>
+          <Grid item xs={12} container justify="center">
             <SNETImageUpload
               imageName=""
               imageDataFunc={this.getImageURL}
@@ -136,7 +131,7 @@ export default class YOLOv3ObjectDetection extends React.Component {
               outputImageName="Response"
               instantUrlFetch={true}
               allowURL={true}
-              width="90%"
+              width="100%"
             />
           </Grid>
 

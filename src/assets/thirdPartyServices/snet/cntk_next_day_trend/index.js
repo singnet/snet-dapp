@@ -11,12 +11,12 @@ import OutlinedTextArea from "../../common/OutlinedTextArea";
 import { NextDayTrend } from "./next_day_trend_pb_service";
 
 const initialUserInput = {
-  sourceIndex: 0,
+  sourceIndex: "0",
   sourceNames: [
     {
       label: "Yahoo! Finance",
       content: "yahoo",
-      value: 0,
+      value: "0",
     },
   ],
 
@@ -32,17 +32,12 @@ export default class CNTKNextDayTrend extends React.Component {
     this.submitAction = this.submitAction.bind(this);
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
 
-    this.textInput = React.createRef();
-
     this.state = {
       ...initialUserInput,
       users_guide:
         "https://github.com/singnet/time-series-analysis/blob/master/docs/users_guide/finance/cntk-next-day-trend.md",
       code_repo: "https://github.com/singnet/time-series-analysis/blob/master/finance/cntk-next-day-trend",
       reference: "https://cntk.ai/pythondocs/CNTK_104_Finance_Timeseries_Basic_with_Pandas_Numpy.html",
-
-      serviceName: "NextDayTrend",
-      methodName: "trend",
       response: undefined,
     };
     this.isComplete = false;
@@ -60,8 +55,8 @@ export default class CNTKNextDayTrend extends React.Component {
   }
 
   submitAction() {
-    const { methodName, sourceIndex, sourceNames, contract, start, end, target_date } = this.state;
-    const methodDescriptor = NextDayTrend[methodName];
+    const { sourceIndex, sourceNames, contract, start, end, target_date } = this.state;
+    const methodDescriptor = NextDayTrend["trend"];
     const request = new methodDescriptor.requestType();
 
     request.setSource(sourceNames[sourceIndex].content);
@@ -87,7 +82,7 @@ export default class CNTKNextDayTrend extends React.Component {
     return (
       <React.Fragment>
         <Grid container direction="column" alignItems="center" justify="center">
-          <Grid item xs={4} container style={{ textAlign: "center" }}>
+          <Grid item xs={6} container style={{ textAlign: "center" }}>
             <OutlinedDropDown
               id="source"
               name="sourceIndex"
@@ -99,10 +94,9 @@ export default class CNTKNextDayTrend extends React.Component {
             />
           </Grid>
 
-          <Grid item xs={4} container style={{ textAlign: "center" }}>
+          <Grid item xs={6} container style={{ textAlign: "center" }}>
             <OutlinedTextArea
               id="contract"
-              ref={this.textInput}
               name="contract"
               label="Contract (Ticker)"
               type="text"
@@ -113,35 +107,34 @@ export default class CNTKNextDayTrend extends React.Component {
             />
           </Grid>
 
-          <Grid item xs={4} container style={{ textAlign: "center" }}>
-            <OutlinedTextArea
-              id="start"
-              ref={this.textInput}
-              name="start"
-              label="Start Date"
-              type="date"
-              fullWidth={true}
-              value={this.state.start}
-              rows={1}
-              onChange={this.handleFormUpdate}
-            />
-          </Grid>
-
-          <Grid item xs={4} container style={{ textAlign: "center" }}>
-            <OutlinedTextArea
-              id="end"
-              ref={this.textInput}
-              name="end"
-              label="End Date"
-              type="date"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              fullWidth={true}
-              value={this.state.end}
-              rows={1}
-              onChange={this.handleFormUpdate}
-            />
+          <Grid item xs={6} container spacing={1}>
+            <Grid item xs>
+              <OutlinedTextArea
+                id="start"
+                name="start"
+                label="Start Date"
+                type="date"
+                fullWidth={true}
+                value={this.state.start}
+                rows={1}
+                onChange={this.handleFormUpdate}
+              />
+            </Grid>
+            <Grid item xs>
+              <OutlinedTextArea
+                id="end"
+                name="end"
+                label="End Date"
+                type="date"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                fullWidth={true}
+                value={this.state.end}
+                rows={1}
+                onChange={this.handleFormUpdate}
+              />
+            </Grid>
           </Grid>
 
           <Grid item xs container justify="flex-end">

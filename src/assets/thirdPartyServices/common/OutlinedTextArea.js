@@ -57,20 +57,20 @@ class OutlinedTextArea extends React.Component {
             name={name}
             type={type}
             inputRef={this.inputRef}
-            multiline={multiline}
             label={label ? label : null}
             value={value}
+            multiline={multiline ? multiline : rows > 1 ? true : false}
             rows={rows ? rows : null}
             variant="outlined"
             margin="normal"
-            fullWidth={fullWidth}
+            fullWidth={fullWidth ? fullWidth : true}
             onChange={onChange}
             onFocus={onFocus}
             helperText={helperTxt ? helperTxt : null}
             inputProps={{
               maxLength: charLimit ? charLimit : 5000,
-              min: min ? min : null,
-              max: max ? max : null,
+              min: typeof(min) === "number" ? min : null,
+              max: typeof(max) === "number" ? max : null,
             }}
             ref={ref}
           />

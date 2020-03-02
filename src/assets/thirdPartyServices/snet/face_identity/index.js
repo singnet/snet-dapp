@@ -277,12 +277,10 @@ export default class FaceIdentityService extends React.Component {
             <Grid item xs={12} container justify="center" style={{ textAlign: "center" }}>
               <OutlinedTextArea
                 id="facesString"
-                ref={this.textInput}
                 name="facesString"
                 label="Bounding Boxes (from Detect Faces)"
                 type="text"
                 fullWidth={true}
-                multiline={true}
                 value={this.state.facesString}
                 rows={8}
                 onChange={this.handleFormUpdate}
@@ -297,12 +295,10 @@ export default class FaceIdentityService extends React.Component {
                   <Grid key={idx} item xs>
                     <OutlinedTextArea
                       id={"vector_" + idx}
-                      ref={this.textInput}
                       name={"vector_" + idx}
                       label="Raw Vector"
                       type="text"
                       fullWidth={true}
-                      multiline={true}
                       value={JSON.stringify(item.identityList)}
                       rows={4}
                     />
