@@ -108,7 +108,7 @@ export default class CoreferenceResolutionService extends React.Component {
     const methodDescriptor = ResolveReference["resolution"];
     const request = new methodDescriptor.requestType();
 
-    request.setInput(sentence);
+    request.setSentence(sentence);
 
     const props = {
       request,
@@ -118,7 +118,11 @@ export default class CoreferenceResolutionService extends React.Component {
           throw new Error(statusMessage);
         }
         this.setState({
-          response: { status: "success", language: message.toObject() },
+          response: {
+            status: "success",
+            references: message.toObject().referencesList,
+            words: message.toObject().words,
+          },
         });
       },
     };
