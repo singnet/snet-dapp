@@ -128,11 +128,13 @@ export default class HolisticEdgeDetectionService extends React.Component {
             </Grid>
           </Grid>
 
-          <Grid item xs={12} container justify="center">
-            <Button variant="contained" color="primary" onClick={this.submitAction} disabled={!this.canBeInvoked()}>
-              Invoke
-            </Button>
-          </Grid>
+          {!this.props.isComplete && (
+            <Grid item xs={12} container justify="center" style={{ textAlign: "center" }}>
+              <Button variant="contained" color="primary" onClick={this.submitAction} disabled={!this.canBeInvoked()}>
+                Invoke
+              </Button>
+            </Grid>
+          )}
         </Grid>
       </React.Fragment>
     );
