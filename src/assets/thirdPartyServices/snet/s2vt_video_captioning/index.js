@@ -15,28 +15,16 @@ export default class S2VTVideoCaptioning extends React.Component {
     this.submitAction = this.submitAction.bind(this);
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
 
-    this.textInput = React.createRef();
-
     this.state = {
       users_guide:
         "https://github.com/singnet/dnn-model-services/blob/master/docs/users_guide/s2vt-video-captioning.md",
       code_repo: "https://github.com/singnet/dnn-model-services/tree/master/services/s2vt-video-captioning",
       reference: "https://vsubhashini.github.io/s2vt.html",
-
-      serviceName: "VideoCaptioning",
-      methodName: "video_cap",
-
       url: "",
       start_time_sec: "0",
       stop_time_sec: "0",
-
       response: undefined,
-      isComplete: false,
     };
-    this.isComplete = false;
-    this.serviceMethods = [];
-    this.allServices = [];
-    this.methodsForAllServices = [];
   }
 
   isValidVideoURL(str) {
@@ -58,8 +46,8 @@ export default class S2VTVideoCaptioning extends React.Component {
   }
 
   submitAction() {
-    const { methodName, url, start_time_sec, stop_time_sec } = this.state;
-    const methodDescriptor = VideoCaptioning[methodName];
+    const { url, start_time_sec, stop_time_sec } = this.state;
+    const methodDescriptor = VideoCaptioning["video_cap"];
     const request = new methodDescriptor.requestType();
 
     request.setUrl(url);
@@ -91,7 +79,6 @@ export default class S2VTVideoCaptioning extends React.Component {
           <Grid item xs={12} style={{ textAlign: "left" }}>
             <OutlinedTextArea
               id="url"
-              ref={this.textInput}
               name="url"
               label="Video URL (.avi, .mp4 or YouTube)"
               value={this.state.url}
@@ -101,34 +88,36 @@ export default class S2VTVideoCaptioning extends React.Component {
             />
           </Grid>
 
-          <Grid item xs={4} style={{ textAlign: "left" }}>
-            <OutlinedTextArea
-              id="standard-number"
-              ref={this.textInput}
-              name="start_time_sec"
-              label="StartTime (s):"
-              type="number"
-              fullWidth={false}
-              value={this.state.start_time_sec}
-              rows={1}
-              onChange={this.handleFormUpdate}
-              onFocus={this.handleFocus}
-            />
-          </Grid>
+          <Grid item xs={12} container spacing={1}>
+            <Grid item xs>
+              <OutlinedTextArea
+                id="standard-number"
+                name="start_time_sec"
+                label="StartTime (s):"
+                type="number"
+                fullWidth={false}
+                value={this.state.start_time_sec}
+                min={0}
+                rows={1}
+                onChange={this.handleFormUpdate}
+                onFocus={this.handleFocus}
+              />
+            </Grid>
 
-          <Grid item xs={4} style={{ textAlign: "left" }}>
-            <OutlinedTextArea
-              id="filled-number"
-              ref={this.textInput}
-              name="stop_time_sec"
-              label="EndTime (s):"
-              type="number"
-              fullWidth={false}
-              value={this.state.stop_time_sec}
-              rows={1}
-              onChange={this.handleFormUpdate}
-              onFocus={this.handleFocus}
-            />
+            <Grid item xs>
+              <OutlinedTextArea
+                id="filled-number"
+                name="stop_time_sec"
+                label="EndTime (s):"
+                type="number"
+                fullWidth={false}
+                value={this.state.stop_time_sec}
+                min={0}
+                rows={1}
+                onChange={this.handleFormUpdate}
+                onFocus={this.handleFocus}
+              />
+            </Grid>
           </Grid>
 
           <Grid item xs container justify="flex-end">

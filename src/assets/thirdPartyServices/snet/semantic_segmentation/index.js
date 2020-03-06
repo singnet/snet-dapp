@@ -11,7 +11,6 @@ import { SemanticSegmentation } from "./segmentation_pb_service";
 import { Image } from "./segmentation_pb";
 
 const initialUserInput = {
-  methodName: "segment",
   mimetype: undefined,
   imageData: undefined,
 };
@@ -65,8 +64,8 @@ export default class SemanticSegmentationService extends React.Component {
   }
 
   submitAction() {
-    const { methodName, imageData, mimetype, visualise } = this.state;
-    const methodDescriptor = SemanticSegmentation[methodName];
+    const { imageData, mimetype, visualise } = this.state;
+    const methodDescriptor = SemanticSegmentation["segment"];
     const request = new methodDescriptor.requestType();
 
     // Setting the Proto Message Img

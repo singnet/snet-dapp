@@ -116,7 +116,6 @@ export default class TranslationService extends React.Component {
           <Grid item xs={8} container style={{ textAlign: "center" }}>
             <OutlinedTextArea
               id="text"
-              ref={this.textInput}
               name="text"
               label="Text to translate"
               type="text"

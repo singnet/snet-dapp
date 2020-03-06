@@ -37,14 +37,10 @@ export default class FaceAlignService extends React.Component {
   submitAction() {
     const methodDescriptor = FaceAlignment.AlignFace;
     const request = new methodDescriptor.requestType();
-
     const header = new FaceAlignmentHeader();
-
     var bbList = [];
-    //var bb = new BoundingBox(JSON.parse(this.state.facesString)[0])
 
     var inputBoudingBox = JSON.parse(this.state.facesString);
-
     inputBoudingBox.forEach(item => {
       var bb = new BoundingBox();
       bb.setX(JSON.parse(item.x));
@@ -128,12 +124,10 @@ export default class FaceAlignService extends React.Component {
           <Grid item xs={12} container justify="center" style={{ textAlign: "center" }}>
             <OutlinedTextArea
               id="facesString"
-              ref={this.textInput}
               name="facesString"
               label="Bounding Boxes (from Detect Faces)"
               type="text"
               fullWidth={true}
-              multiline={true}
               value={this.state.facesString}
               rows={8}
               onChange={this.handleFormUpdate}

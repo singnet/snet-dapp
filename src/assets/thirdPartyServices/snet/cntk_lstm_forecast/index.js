@@ -14,19 +14,14 @@ const initialUserInput = {
   sourceIndex: "0",
   sourceTypes: [
     {
-      label: "Select Source",
-      content: "Select Source",
-      value: "0",
-    },
-    {
       label: "Financial",
       content: "financial",
-      value: "1",
+      value: "0",
     },
     {
       label: "CSV File",
       content: "csv",
-      value: "2",
+      value: "1",
     },
   ],
 
@@ -53,7 +48,6 @@ export default class CNTKLSTMForecast extends React.Component {
         "https://github.com/singnet/time-series-analysis/blob/master/docs/users_guide/generic/cntk-lstm-forecast.md",
       code_repo: "https://github.com/singnet/time-series-analysis/blob/master/generic/cntk-lstm-forecast",
       reference: "https://cntk.ai/pythondocs/CNTK_106B_LSTM_Timeseries_with_IOT_Data.html",
-
       response: undefined,
     };
   }
@@ -142,7 +136,6 @@ export default class CNTKLSTMForecast extends React.Component {
           <Grid item xs={8} container style={{ textAlign: "center" }}>
             <OutlinedTextArea
               id="source"
-              ref={this.textInput}
               name="source"
               label="CSV File URL"
               type="text"
@@ -156,7 +149,6 @@ export default class CNTKLSTMForecast extends React.Component {
           <Grid item xs={8} container style={{ textAlign: "center" }}>
             <OutlinedTextArea
               id="contract"
-              ref={this.textInput}
               name="contract"
               label="Contract (Financial)"
               type="text"
@@ -178,7 +170,6 @@ export default class CNTKLSTMForecast extends React.Component {
                 min={1}
                 fullWidth={true}
                 onChange={this.handleFormUpdate}
-                ref={this.textInput}
               />
             </Grid>
             <Grid item xs>
@@ -191,7 +182,6 @@ export default class CNTKLSTMForecast extends React.Component {
                 min={1}
                 fullWidth={true}
                 onChange={this.handleFormUpdate}
-                ref={this.textInput}
               />
             </Grid>
             <Grid item xs>
@@ -204,7 +194,6 @@ export default class CNTKLSTMForecast extends React.Component {
                 min={1}
                 fullWidth={true}
                 onChange={this.handleFormUpdate}
-                ref={this.textInput}
               />
             </Grid>
           </Grid>
@@ -213,7 +202,6 @@ export default class CNTKLSTMForecast extends React.Component {
             <Grid item xs>
               <OutlinedTextArea
                 id="start_date"
-                ref={this.textInput}
                 name="start_date"
                 label="Start Date"
                 type="date"
@@ -227,7 +215,6 @@ export default class CNTKLSTMForecast extends React.Component {
             <Grid item xs>
               <OutlinedTextArea
                 id="end_date"
-                ref={this.textInput}
                 name="end_date"
                 label="End Date"
                 type="date"

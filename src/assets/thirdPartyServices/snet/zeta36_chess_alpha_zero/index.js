@@ -11,20 +11,19 @@ import OutlinedDropDown from "../../common/OutlinedDropdown";
 import { AlphaZero } from "./alpha_zero_pb_service";
 
 const initialUserInput = {
-  cmdIndex: 0,
+  cmdIndex: "0",
   cmdNames: [
     {
       label: "",
       content: "",
-      value: 0,
+      value: "0",
     },
     {
       label: "Restart",
       content: "Restart",
-      value: 1,
+      value: "1",
     },
   ],
-
   uid: "",
   move: "",
 };
@@ -41,9 +40,6 @@ export default class Zeta36ChessAlphaZero extends React.Component {
         "https://github.com/singnet/dnn-model-services/blob/master/docs/users_guide/zeta36-chess-alpha-zero.md",
       code_repo: "https://github.com/singnet/dnn-model-services/tree/master/services/zeta36-chess-alpha-zero",
       reference: "https://github.com/Zeta36/chess-alpha-zero",
-
-      serviceName: "AlphaZero",
-      methodName: "play",
       response: undefined,
     };
   }
@@ -63,8 +59,8 @@ export default class Zeta36ChessAlphaZero extends React.Component {
   }
 
   submitAction() {
-    const { methodName, uid, move, cmdIndex, cmdNames } = this.state;
-    const methodDescriptor = AlphaZero[methodName];
+    const { uid, move, cmdIndex, cmdNames } = this.state;
+    const methodDescriptor = AlphaZero["play"];
     const request = new methodDescriptor.requestType();
 
     request.setUid(uid);
@@ -96,31 +92,31 @@ export default class Zeta36ChessAlphaZero extends React.Component {
     return (
       <React.Fragment>
         <Grid container spacing={2} justify="center" alignItems="center">
-          <Grid item xs={12} justify="left" style={{ textAlign: "center" }}>
+          <Grid item xs={12} container style={{ textAlign: "center" }}>
             <OutlinedTextArea
               id="uid"
-              ref={this.textInput}
               name="uid"
               label="UID (keep playing the same game)"
+              fullWidth={true}
               value={this.state.uid}
               rows={1}
               onChange={this.handleFormUpdate}
             />
           </Grid>
 
-          <Grid item xs={12} justify="left" style={{ textAlign: "center" }}>
+          <Grid item xs={12} container style={{ textAlign: "center" }}>
             <OutlinedTextArea
               id="move"
-              ref={this.textInput}
               name="move"
               label="Move (eg: c2c4)"
+              fullWidth={true}
               value={this.state.move}
               rows={1}
               onChange={this.handleFormUpdate}
             />
           </Grid>
 
-          <Grid item xs={8} justify="left" style={{ textAlign: "center" }}>
+          <Grid item xs={12} container style={{ textAlign: "center" }}>
             <OutlinedDropDown
               id="cmd"
               name="cmdIndex"
