@@ -98,10 +98,11 @@ class ServiceDemo extends Component {
   };
 
   fetchFreeCallsUsage = () => {
-    const { service, fetchMeteringData, email } = this.props;
+    const { service, fetchMeteringData, email, groupInfo } = this.props;
     return fetchMeteringData({
       orgId: service.org_id,
       serviceId: service.service_id,
+      groupId: groupInfo.group_id,
       username: email,
     });
   };
