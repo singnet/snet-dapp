@@ -35,7 +35,7 @@ export const fetchServiceSuccess = res => dispatch => {
 
 export const fetchService = (pagination, filters = []) => dispatch => {
   dispatch(loaderActions.startAIServiceListLoader);
-  const url = new URL(`${APIEndpoints.CONTRACT.endpoint}/service`);
+  const url = `${APIEndpoints.CONTRACT.endpoint}/service`;
   return fetch(url, {
     method: "POST",
     body: JSON.stringify({ ...pagination, filters }),
@@ -84,6 +84,30 @@ const fetchFeedbackAPI = (email, orgId, serviceId, token) => {
   const path = `${APIPaths.FEEDBACK}?org_id=${orgId}&service_id=${serviceId}`;
   const apiOptions = initializeAPIOptions(token);
   return API.get(apiName, path, apiOptions);
+};
+
+const fetchAuthTokenAPI = (serviceid, groupid, publickey, orgid, userid, token) => {
+  const apiEndpoint = APIEndpoints.SIGNER_SERVICE.endpoint;
+  const path = `${APIPaths.FREE_CALL_TOKEN}?service_id=${serviceid}&group_id=${groupid}&public_key=${publickey}&org_id=${orgid}&USER_ID=${userid}`;
+  const url = `${apiEndpoint}${path}`;
+  // TODO replace fetch with API
+  return fetch(url, { headers: { Authorization: token } });
+};
+
+export const downloadAuthToken = (serviceid, groupid, publickey, orgid) => async () => {
+  const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
+  const userid = currentUser.attributes.email;
+  const response = await fetchAuthTokenAPI(
+    serviceid,
+    groupid,
+    publickey,
+    orgid,
+    userid,
+    currentUser.signInUserSession.idToken.jwtToken
+  );
+  const myBlob = await response.blob();
+  const downloadURL = window.URL.createObjectURL(myBlob);
+  return downloadURL;
 };
 
 //Username review

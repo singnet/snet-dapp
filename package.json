@@ -8,6 +8,7 @@
     "@material-ui/icons": "^4.1.0",
     "@material-ui/lab": "^3.0.0-alpha.30",
     "@material-ui/styles": "^4.0.2",
+    "@sentry/browser": "^5.10.2",
     "aws-amplify": "^1.1.28",
     "clsx": "^1.0.4",
     "color": "^3.1.2",
@@ -40,7 +41,7 @@
     "react-json-view": "^1.19.1",
     "react-redux": "^7.1.0",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "3.0.1",
+    "react-scripts": "^3.4.0",
     "react-star-rating-component": "^1.4.1",
     "react-swipeable-views": "^0.13.1",
     "redux": "^4.0.1",
@@ -49,8 +50,7 @@
     "snet-sdk-web": "^1.0.0-beta.7",
     "utf8": "^3.0.0",
     "validate.js": "^0.13.1",
-    "web3": "1.0.0-beta.52",
-    "@sentry/browser": "^5.10.2"
+    "web3": "1.0.0-beta.52"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -91,7 +91,6 @@
     "@storybook/addon-links": "^5.1.11",
     "@storybook/addons": "^5.1.11",
     "@storybook/react": "^5.1.11",
-    "eslint": "^5.16.0",
     "eslint-config-prettier": "^4.3.0",
     "eslint-plugin-prettier": "^3.1.0",
     "husky": "^2.7.0",
