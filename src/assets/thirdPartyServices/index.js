@@ -144,4 +144,10 @@ addOrg2CustomUI("freecall", ExampleService);
 
 addAr3CustomUI("freecall", ExampleService);
 
+thirdPartyCustomUIComponents.addCustomUIComponent(
+  "212a070e8a2244d4857762eaa8cb60df",
+  "age_classification",
+  ExampleService
+);
+
 export default thirdPartyCustomUIComponents;
