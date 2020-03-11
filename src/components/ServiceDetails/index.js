@@ -13,7 +13,7 @@ import InstallAndRunService from "./InstallAndRunService";
 import { useStyles } from "./styles";
 import NotificationBar, { notificationBarTypes } from "../common/NotificationBar";
 import { serviceDetailsActions } from "../../Redux/actionCreators";
-import { pricing, serviceDetails } from "../../Redux/reducers/ServiceDetailsReducer";
+import { pricing, serviceDetails, groupInfo } from "../../Redux/reducers/ServiceDetailsReducer";
 import ErrorBox from "../common/ErrorBox";
 
 class ServiceDetails extends Component {
@@ -54,7 +54,7 @@ class ServiceDetails extends Component {
   };
 
   render() {
-    const { classes, service, pricing, loading, error, history } = this.props;
+    const { classes, service, pricing, loading, error, history, groupInfo } = this.props;
     const { offlineNotication } = this.state;
 
     if (isEmpty(service) || error) {
@@ -76,7 +76,11 @@ class ServiceDetails extends Component {
         activeIndex: 0,
         component: <AboutService service={service} history={history} serviceAvailable={service.is_available} />,
       },
-      { name: "Install and Run", activeIndex: 1, component: <InstallAndRunService service={service} /> },
+      {
+        name: "Install and Run",
+        activeIndex: 1,
+        component: <InstallAndRunService service={service} groupId={groupInfo.group_id} />,
+      },
     ];
 
     return (
@@ -123,6 +127,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     service: serviceDetails(state, orgId, serviceId),
+    groupInfo: groupInfo(state),
     pricing: pricing(state),
     loading: state.loaderReducer.app.loading,
   };
@@ -132,7 +137,4 @@ const mapDispatchToProps = dispatch => ({
   fetchServiceDetails: (orgId, serviceId) => dispatch(serviceDetailsActions.fetchServiceDetails(orgId, serviceId)),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(useStyles)(ServiceDetails));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(ServiceDetails));
