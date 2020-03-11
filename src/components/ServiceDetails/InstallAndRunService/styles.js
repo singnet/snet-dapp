@@ -4,6 +4,7 @@ export const useStyles = theme => ({
     color: "white",
     marginLeft: 32,
     backgroundColor: theme.palette.text.primary,
+    marginBottom: 10,
   },
   installAndRunContainer: {
     paddingTop: 11,
