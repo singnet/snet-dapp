@@ -5,6 +5,7 @@ import Button from "@material-ui/core/Button";
 import InfoIcon from "@material-ui/icons/Info";
 import TextField from "@material-ui/core/TextField";
 import { connect } from "react-redux";
+import Web3 from "web3";
 
 import StyledTabs from "../StyledTabs";
 import Python from "./Python";
@@ -12,7 +13,9 @@ import Javascript from "./Javascript";
 import ProjectDetails from "../ProjectDetails";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../../Redux/actionCreators";
+import AlertBox from "../../common/AlertBox";
 
+const web3 = new Web3(process.env.REACT_APP_WEB3_PROVIDER, null, {});
 const downloadTokenFileName = "authToken.txt";
 
 class InstallAndRunService extends Component {
@@ -20,6 +23,7 @@ class InstallAndRunService extends Component {
     activeTab: 0,
     publickey: "",
     downloadTokenURL: "",
+    alert: {},
   };
 
   handleTabChange = activeTab => {
@@ -27,14 +31,24 @@ class InstallAndRunService extends Component {
   };
 
   downloadToken = async () => {
-    const { service, groupId } = this.props;
-    const downloadTokenURL = await this.props.downloadAuthToken(
-      service.service_id,
-      groupId,
-      this.state.publickey,
-      service.org_id
-    );
-    this.setState({ downloadTokenURL });
+    this.setState({ alert: {}, downloadTokenURL: "" });
+    if (web3.utils.isAddress(this.state.publickey)) {
+      const { service, groupId } = this.props;
+      const downloadTokenURL = await this.props.downloadAuthToken(
+        service.service_id,
+        groupId,
+        this.state.publickey,
+        service.org_id
+      );
+      this.setState({ downloadTokenURL });
+    } else {
+      this.setState({
+        alert: {
+          type: "error",
+          message: "invalid public key",
+        },
+      });
+    }
   };
 
   handlePublicKey = event => {
@@ -43,7 +57,7 @@ class InstallAndRunService extends Component {
 
   render() {
     const { classes, service } = this.props;
-    const { activeTab, downloadTokenURL } = this.state;
+    const { activeTab, downloadTokenURL, alert } = this.state;
     const tabs = [
       { name: "Python", activeIndex: 0, component: <Python /> },
       { name: "Javascript", activeIndex: 1, component: <Javascript /> },
@@ -87,6 +101,7 @@ class InstallAndRunService extends Component {
                   click here to download the Token
                 </a>
               )}
+              <AlertBox type={alert.type} message={alert.message} />
             </div>
           </div>
           <div className={classes.integrationSetupContainer}>
