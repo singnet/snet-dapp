@@ -35,7 +35,7 @@ export const fetchServiceSuccess = res => dispatch => {
 
 export const fetchService = (pagination, filters = []) => dispatch => {
   dispatch(loaderActions.startAIServiceListLoader);
-  const url = `${APIEndpoints.CONTRACT.endpoint}/service`;
+  const url = new URL(`${APIEndpoints.CONTRACT.endpoint}/service`);
   return fetch(url, {
     method: "POST",
     body: JSON.stringify({ ...pagination, filters }),
