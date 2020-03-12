@@ -94,6 +94,6 @@ export const LoaderContent = {
   },
   CHECK_PUBLIC_KEY: {
     loaderHeader: "Generating Auth Token",
-    loaderText: "Please wait while we generate taken to download",
+    loaderText: "Please wait while we generate the token to download",
   },
 };
