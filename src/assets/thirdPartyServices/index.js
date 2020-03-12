@@ -162,4 +162,6 @@ thirdPartyCustomUIComponents.addCustomUIComponent(
   ExampleService
 );
 
+thirdPartyCustomUIComponents.addCustomUIComponent("sohit1", "sohit1", ExampleService);
+
 export default thirdPartyCustomUIComponents;

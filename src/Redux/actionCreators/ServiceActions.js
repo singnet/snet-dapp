@@ -88,10 +88,16 @@ const fetchFeedbackAPI = (email, orgId, serviceId, token) => {
   return API.get(apiName, path, apiOptions);
 };
 
-const fetchAuthTokenAPI = (serviceid, groupid, publickey, orgid, userid, token) => {
-  const apiEndpoint = APIEndpoints.SIGNER_SERVICE.endpoint;
-  const path = `${APIPaths.FREE_CALL_TOKEN}?service_id=${serviceid}&group_id=${groupid}&public_key=${publickey}&org_id=${orgid}&USER_ID=${userid}`;
-  const url = `${apiEndpoint}${path}`;
+const fetchAuthTokenAPI = (serviceId, groupId, publicKey, orgId, userId, token) => {
+  let url = new URL(`${APIEndpoints.SIGNER_SERVICE.endpoint}${APIPaths.FREE_CALL_TOKEN}`);
+  const queryParams = {
+    service_id: serviceId,
+    group_id: groupId,
+    public_key: publicKey,
+    org_id: orgId,
+    user_id: userId,
+  };
+  Object.keys(queryParams).forEach(key => url.searchParams.append(key, queryParams[key]));
   // TODO replace fetch with API
   return fetch(url, { headers: { Authorization: token } });
 };
