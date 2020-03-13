@@ -92,8 +92,8 @@ export const LoaderContent = {
     loaderHeader: "Initializing Service Demo",
     loaderText: "Please wait while we initialize the demo of the service",
   },
-  CHECK_PUBLIC_KEY: {
+  GENERATE_AUTH_TOKEN: {
     loaderHeader: "Generating Auth Token",
-    loaderText: "Please wait while we generate taken to download",
+    loaderText: "Please wait while we generate the token to download",
   },
 };

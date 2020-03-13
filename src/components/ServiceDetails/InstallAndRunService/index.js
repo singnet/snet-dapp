@@ -13,7 +13,7 @@ import Javascript from "./Javascript";
 import ProjectDetails from "../ProjectDetails";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../../Redux/actionCreators";
-import AlertBox from "../../common/AlertBox";
+import AlertBox, { alertTypes } from "../../common/AlertBox";
 
 const web3 = new Web3(process.env.REACT_APP_WEB3_PROVIDER, null, {});
 const downloadTokenFileName = "authToken.txt";
@@ -30,24 +30,24 @@ class InstallAndRunService extends Component {
     this.setState({ activeTab });
   };
 
-  downloadToken = async () => {
-    this.setState({ alert: {}, downloadTokenURL: "" });
-    if (web3.utils.isAddress(this.state.publickey)) {
-      const { service, groupId } = this.props;
-      const downloadTokenURL = await this.props.downloadAuthToken(
-        service.service_id,
-        groupId,
-        this.state.publickey,
-        service.org_id
-      );
-      this.setState({ downloadTokenURL });
-    } else {
-      this.setState({
-        alert: {
-          type: "error",
-          message: "invalid public key",
-        },
-      });
+  downloadToken = async e => {
+    e.preventDefault();
+    try {
+      this.setState({ alert: {}, downloadTokenURL: "" });
+      if (web3.utils.isAddress(this.state.publickey)) {
+        const { service, groupId, downloadAuthToken } = this.props;
+        const downloadTokenURL = await downloadAuthToken(
+          service.service_id,
+          groupId,
+          this.state.publickey,
+          service.org_id
+        );
+        this.setState({ downloadTokenURL });
+      } else {
+        this.setState({ alert: { type: alertTypes.ERROR, message: "invalid public key" } });
+      }
+    } catch (e) {
+      this.setState({ alert: { type: alertTypes.ERROR, message: "Unable to download the token. Please try later" } });
     }
   };
 
@@ -74,28 +74,23 @@ class InstallAndRunService extends Component {
                 is faster and better with teamwork. Once your collaborators accept your invite, you will be able to add
                 them to the company blockchain for access.
               </p>
+              <form>
+                <InfoIcon className={classes.infoIcon} />
+                <TextField
+                  id="outlined-user-name"
+                  label="public Address"
+                  className={classes.textField}
+                  margin="normal"
+                  variant="outlined"
+                  value={this.state.publickey}
+                  autoFocus
+                  onChange={this.handlePublicKey}
+                />
 
-              <InfoIcon className={classes.infoIcon} />
-              <TextField
-                id="outlined-user-name"
-                label="public Address"
-                className={classes.textField}
-                margin="normal"
-                variant="outlined"
-                value={this.state.publickey}
-                autoFocus
-                onChange={this.handlePublicKey}
-              />
-
-              <Button
-                className={classes.DownloadTokenBtn}
-                color="primary"
-                onClick={() => {
-                  this.downloadToken();
-                }}
-              >
-                Generate Token
-              </Button>
+                <Button type="submit" className={classes.DownloadTokenBtn} color="primary" onClick={this.downloadToken}>
+                  Generate Token
+                </Button>
+              </form>
               {downloadTokenURL && (
                 <a href={downloadTokenURL} download={downloadTokenFileName}>
                   click here to download the Token
@@ -123,4 +118,7 @@ const mapDispatchToProps = dispatch => ({
   downloadAuthToken: (serviceid, groupid, publicKey, orgid) =>
     dispatch(serviceActions.downloadAuthToken(serviceid, groupid, publicKey, orgid)),
 });
-export default connect(null, mapDispatchToProps)(withStyles(useStyles)(InstallAndRunService));
+export default connect(
+  null,
+  mapDispatchToProps
+)(withStyles(useStyles)(InstallAndRunService));
