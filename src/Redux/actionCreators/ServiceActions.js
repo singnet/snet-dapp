@@ -118,9 +118,9 @@ export const downloadAuthToken = (serviceId, groupId, publicKey, orgId) => async
 
     const jsonToDownload = {
       tokeToMakeFreeCall: data.token_to_make_free_call,
-      tokenIssueDateBlock: data.token_issue_date_block,
+      tokenExpirationBlock: data.token_expiration_block,
     };
-    const downloadBlob = new Blob([JSON.stringify(jsonToDownload)], { type: "text/plain;charset=utf-8" });
+    const downloadBlob = new Blob([JSON.stringify(jsonToDownload)], { type: "text/json;charset=utf-8" });
     const downloadURL = window.URL.createObjectURL(downloadBlob);
     dispatch(loaderActions.stopAppLoader);
     return downloadURL;
