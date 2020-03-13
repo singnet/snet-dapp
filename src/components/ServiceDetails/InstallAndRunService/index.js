@@ -13,7 +13,7 @@ import Javascript from "./Javascript";
 import ProjectDetails from "../ProjectDetails";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../../Redux/actionCreators";
-import AlertBox from "../../common/AlertBox";
+import AlertBox, { alertTypes } from "../../common/AlertBox";
 
 const web3 = new Web3(process.env.REACT_APP_WEB3_PROVIDER, null, {});
 const downloadTokenFileName = "authToken.txt";
@@ -31,23 +31,22 @@ class InstallAndRunService extends Component {
   };
 
   downloadToken = async () => {
-    this.setState({ alert: {}, downloadTokenURL: "" });
-    if (web3.utils.isAddress(this.state.publickey)) {
-      const { service, groupId } = this.props;
-      const downloadTokenURL = await this.props.downloadAuthToken(
-        service.service_id,
-        groupId,
-        this.state.publickey,
-        service.org_id
-      );
-      this.setState({ downloadTokenURL });
-    } else {
-      this.setState({
-        alert: {
-          type: "error",
-          message: "invalid public key",
-        },
-      });
+    try {
+      this.setState({ alert: {}, downloadTokenURL: "" });
+      if (web3.utils.isAddress(this.state.publickey)) {
+        const { service, groupId } = this.props;
+        const downloadTokenURL = await this.props.downloadAuthToken(
+          service.service_id,
+          groupId,
+          this.state.publickey,
+          service.org_id
+        );
+        this.setState({ downloadTokenURL });
+      } else {
+        this.setState({ alert: { type: alertTypes.ERROR, message: "invalid public key" } });
+      }
+    } catch (e) {
+      this.setState({ alert: { type: alertTypes.ERROR, message: "Unable to download the token. Please try later" } });
     }
   };
 
@@ -123,4 +122,7 @@ const mapDispatchToProps = dispatch => ({
   downloadAuthToken: (serviceid, groupid, publicKey, orgid) =>
     dispatch(serviceActions.downloadAuthToken(serviceid, groupid, publicKey, orgid)),
 });
-export default connect(null, mapDispatchToProps)(withStyles(useStyles)(InstallAndRunService));
+export default connect(
+  null,
+  mapDispatchToProps
+)(withStyles(useStyles)(InstallAndRunService));
