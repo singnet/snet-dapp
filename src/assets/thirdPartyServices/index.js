@@ -144,4 +144,24 @@ addOrg2CustomUI("freecall", ExampleService);
 
 addAr3CustomUI("freecall", ExampleService);
 
+thirdPartyCustomUIComponents.addCustomUIComponent(
+  "212a070e8a2244d4857762eaa8cb60df",
+  "age_classification",
+  ExampleService
+);
+
+thirdPartyCustomUIComponents.addCustomUIComponent(
+  "212a070e8a2244d4857762eaa8cb60df",
+  "age_classification_1",
+  ExampleService
+);
+
+thirdPartyCustomUIComponents.addCustomUIComponent(
+  "212a070e8a2244d4857762eaa8cb60df",
+  "age_classification_2",
+  ExampleService
+);
+
+thirdPartyCustomUIComponents.addCustomUIComponent("sohit1", "sohit1", ExampleService);
+
 export default thirdPartyCustomUIComponents;

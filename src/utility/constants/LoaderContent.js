@@ -92,4 +92,8 @@ export const LoaderContent = {
     loaderHeader: "Initializing Service Demo",
     loaderText: "Please wait while we initialize the demo of the service",
   },
+  GENERATE_AUTH_TOKEN: {
+    loaderHeader: "Generating Auth Token",
+    loaderText: "Please wait while we generate the token to download",
+  },
 };
