@@ -89,7 +89,8 @@ const fetchFeedbackAPI = (email, orgId, serviceId, token) => {
 };
 
 const fetchAuthTokenAPI = (serviceId, groupId, publicKey, orgId, userId, token) => {
-  let url = new URL(`${APIEndpoints.SIGNER_SERVICE.endpoint}${APIPaths.FREE_CALL_TOKEN}`);
+  const apiName = APIEndpoints.SIGNER_SERVICE.name;
+  const apiPath = APIPaths.FREE_CALL_TOKEN;
   const queryParams = {
     service_id: serviceId,
     group_id: groupId,
@@ -97,33 +98,37 @@ const fetchAuthTokenAPI = (serviceId, groupId, publicKey, orgId, userId, token) 
     org_id: orgId,
     user_id: userId,
   };
-  Object.keys(queryParams).forEach(key => url.searchParams.append(key, queryParams[key]));
-  // TODO replace fetch with API
-  return fetch(url, { headers: { Authorization: token } });
+  const apiOptions = initializeAPIOptions(token, null, queryParams);
+  return API.get(apiName, apiPath, apiOptions);
 };
 
-export const downloadAuthToken = (serviceid, groupid, publickey, orgid) => async dispatch => {
-  dispatch(loaderActions.startAppLoader(LoaderContent.CHECK_PUBLIC_KEY));
-  let downloadURL = "";
-  const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
-  const userid = currentUser.attributes.email;
+export const downloadAuthToken = (serviceId, groupId, publicKey, orgId) => async dispatch => {
+  try {
+    dispatch(loaderActions.startAppLoader(LoaderContent.CHECK_PUBLIC_KEY));
+    let downloadURL = "";
+    const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
+    const userId = currentUser.attributes.email;
 
-  const response = await fetchAuthTokenAPI(
-    serviceid,
-    groupid,
-    publickey,
-    orgid,
-    userid,
-    currentUser.signInUserSession.idToken.jwtToken
-  );
-  if (response.ok) {
-    const myBlob = await response.blob();
-    downloadURL = window.URL.createObjectURL(myBlob);
+    const { data } = await fetchAuthTokenAPI(
+      serviceId,
+      groupId,
+      publicKey,
+      orgId,
+      userId,
+      currentUser.signInUserSession.idToken.jwtToken
+    );
+
+    const jsonToDownload = {
+      tokeToMakeFreeCall: data.token_to_make_free_call,
+      tokenIssueDateBlock: data.token_issue_date_block,
+    };
+    const downloadBlob = new Blob([JSON.stringify(jsonToDownload)], { type: "text/plain;charset=utf-8" });
+    downloadURL = window.URL.createObjectURL(downloadBlob);
     dispatch(loaderActions.stopAppLoader);
     return downloadURL;
-  } else {
+  } catch (e) {
     dispatch(loaderActions.stopAppLoader);
-    return downloadURL;
+    throw e;
   }
 };
 
