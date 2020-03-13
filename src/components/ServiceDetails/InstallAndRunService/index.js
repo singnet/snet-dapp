@@ -30,7 +30,8 @@ class InstallAndRunService extends Component {
     this.setState({ activeTab });
   };
 
-  downloadToken = async () => {
+  downloadToken = async e => {
+    e.preventDefault();
     try {
       this.setState({ alert: {}, downloadTokenURL: "" });
       if (web3.utils.isAddress(this.state.publickey)) {
@@ -73,28 +74,23 @@ class InstallAndRunService extends Component {
                 is faster and better with teamwork. Once your collaborators accept your invite, you will be able to add
                 them to the company blockchain for access.
               </p>
+              <form>
+                <InfoIcon className={classes.infoIcon} />
+                <TextField
+                  id="outlined-user-name"
+                  label="public Address"
+                  className={classes.textField}
+                  margin="normal"
+                  variant="outlined"
+                  value={this.state.publickey}
+                  autoFocus
+                  onChange={this.handlePublicKey}
+                />
 
-              <InfoIcon className={classes.infoIcon} />
-              <TextField
-                id="outlined-user-name"
-                label="public Address"
-                className={classes.textField}
-                margin="normal"
-                variant="outlined"
-                value={this.state.publickey}
-                autoFocus
-                onChange={this.handlePublicKey}
-              />
-
-              <Button
-                className={classes.DownloadTokenBtn}
-                color="primary"
-                onClick={() => {
-                  this.downloadToken();
-                }}
-              >
-                Generate Token
-              </Button>
+                <Button type="submit" className={classes.DownloadTokenBtn} color="primary" onClick={this.downloadToken}>
+                  Generate Token
+                </Button>
+              </form>
               {downloadTokenURL && (
                 <a href={downloadTokenURL} download={downloadTokenFileName}>
                   click here to download the Token
