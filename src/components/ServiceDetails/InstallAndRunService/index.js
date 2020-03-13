@@ -34,8 +34,8 @@ class InstallAndRunService extends Component {
     try {
       this.setState({ alert: {}, downloadTokenURL: "" });
       if (web3.utils.isAddress(this.state.publickey)) {
-        const { service, groupId } = this.props;
-        const downloadTokenURL = await this.props.downloadAuthToken(
+        const { service, groupId, downloadAuthToken } = this.props;
+        const downloadTokenURL = await downloadAuthToken(
           service.service_id,
           groupId,
           this.state.publickey,

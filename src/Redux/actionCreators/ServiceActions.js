@@ -2,7 +2,6 @@ import { Auth, API } from "aws-amplify";
 
 import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { loaderActions } from "./";
-
 import { LoaderContent } from "../../utility/constants/LoaderContent";
 import { initializeAPIOptions } from "../../utility/API";
 
@@ -104,8 +103,7 @@ const fetchAuthTokenAPI = (serviceId, groupId, publicKey, orgId, userId, token) 
 
 export const downloadAuthToken = (serviceId, groupId, publicKey, orgId) => async dispatch => {
   try {
-    dispatch(loaderActions.startAppLoader(LoaderContent.CHECK_PUBLIC_KEY));
-    let downloadURL = "";
+    dispatch(loaderActions.startAppLoader(LoaderContent.GENERATE_AUTH_TOKEN));
     const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
     const userId = currentUser.attributes.email;
 
@@ -123,7 +121,7 @@ export const downloadAuthToken = (serviceId, groupId, publicKey, orgId) => async
       tokenIssueDateBlock: data.token_issue_date_block,
     };
     const downloadBlob = new Blob([JSON.stringify(jsonToDownload)], { type: "text/plain;charset=utf-8" });
-    downloadURL = window.URL.createObjectURL(downloadBlob);
+    const downloadURL = window.URL.createObjectURL(downloadBlob);
     dispatch(loaderActions.stopAppLoader);
     return downloadURL;
   } catch (e) {
