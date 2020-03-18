@@ -3,7 +3,7 @@ import { API } from "aws-amplify";
 import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { initializeAPIOptions } from "../../utility/API";
 import { fetchAuthenticatedUser } from "./UserActions";
-import { loaderActions } from ".";
+import { loaderActions } from "./";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
 
 export const UPDATE_SERVICE_DETAILS = "UPDATE_SERVICE_DETAILS";
@@ -41,33 +41,22 @@ export const fetchServiceDetails = (orgId, serviceId) => async dispatch => {
   }
 };
 
-const fetchMeteringDataError = error => dispatch => {
-  dispatch(loaderActions.stopAppLoader);
-};
-
 const fetchMeteringDataSuccess = usageData => dispatch => {
-  const freeCallsRemaining = usageData.free_calls_allowed - usageData.total_calls_made;
   dispatch({
     type: UPDATE_FREE_CALLS_INFO,
-    payload: { allowed: usageData.free_calls_allowed, remaining: freeCallsRemaining },
+    payload: usageData.total_calls_made,
   });
-  dispatch(loaderActions.stopAppLoader);
 };
 
-const meteringAPI = (token, orgId, serviceId, userId) => {
+const meteringAPI = (token, orgId, serviceId, groupId, userId) => {
   const apiName = APIEndpoints.USER.name;
-  const apiPath = `${APIPaths.FREE_CALL_USAGE}?organization_id=${orgId}&service_id=${serviceId}&username=${userId}`;
+  const apiPath = `${APIPaths.FREE_CALL_USAGE}?organization_id=${orgId}&service_id=${serviceId}&group_id=${groupId}&username=${userId}`;
   const apiOptions = initializeAPIOptions(token);
   return API.get(apiName, apiPath, apiOptions);
 };
 
-export const fetchMeteringData = ({ orgId, serviceId }) => async dispatch => {
-  try {
-    dispatch(loaderActions.startAppLoader(LoaderContent.FETCH_METERING_DATA));
-    const { email, token } = await fetchAuthenticatedUser();
-    const usageData = await meteringAPI(token, orgId, serviceId, email);
-    return dispatch(fetchMeteringDataSuccess(usageData));
-  } catch (error) {
-    return dispatch(fetchMeteringDataError(error));
-  }
+export const fetchMeteringData = ({ orgId, serviceId, groupId }) => async dispatch => {
+  const { email, token } = await fetchAuthenticatedUser();
+  const usageData = await meteringAPI(token, orgId, serviceId, groupId, email);
+  return dispatch(fetchMeteringDataSuccess(usageData));
 };

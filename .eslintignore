@@ -81,8 +81,5 @@ src/utility/constants/APIEndpoints.js
 #config
 src/aws_config.js
 
-#Third-party-services
-src/assets/thirdPartyServices
-
 #external scripts
 src/assets/externalScripts

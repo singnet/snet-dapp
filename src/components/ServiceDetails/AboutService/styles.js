@@ -202,20 +202,53 @@ export const useStyles = theme => ({
     "& p": { marginLeft: "30px !important" },
   },
   demoToggler: {
-    "& a": { 
+    "& a": {
       textDecoration: "none !important",
-      '& button':{ 
-        '@media(max-width:545px)':{ marginRight: '0 !important' }
-      }
+      "& button": {
+        "@media(max-width:545px)": { marginRight: "0 !important" },
+      },
     },
-    "@media(max-width: 545px)":{ 
-      display: 'flex',
-      flexDirection: 'column'
-    }
+    "@media(max-width: 545px)": {
+      display: "flex",
+      flexDirection: "column",
+    },
   },
   tagsContainer: {
     padding: "0 22px",
     display: "flex",
     alignItems: "baseline",
+  },
+  serviceOfflineContainer: {
+    marginTop: 25,
+    boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
+    borderRadius: 4,
+    backgroundColor: theme.palette.text.white,
+  },
+  imgContainer: {
+    width: 260,
+    margin: "0 auto",
+    "& img": { width: "100%" },
+    "& p": {
+      color: theme.palette.text.mediumShadeGray,
+      fontSize: 24,
+      fontWeight: 200,
+      lineHeight: "30px",
+    },
+    "& span": {
+      color: "#989898",
+      fontSize: 14,
+      lineHeight: "18px",
+    },
+  },
+  serviceOffline: {
+    width: 400,
+    margin: "0  auto",
+    textAlign: "center",
+    "& > div": { width: "100%" },
+    "& p": { margin: 0 },
+    "& span": {
+      paddingTop: 30,
+      display: "inline-block",
+    },
   },
 });

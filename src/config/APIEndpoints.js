@@ -19,6 +19,10 @@ export const APIEndpoints = {
     name: "Signer Service",
     endpoint: process.env.REACT_APP_SIGNER_ENDPOINT,
   },
+  ORCHESTRATOR: {
+    name: "Orchestrator",
+    endpoint: process.env.REACT_APP_ORCHESTRATOR_ENDPOINT,
+  },
 };
 
 export const APIPaths = {
@@ -26,7 +30,9 @@ export const APIPaths = {
   GET_SERVICE_LIST: "/service",
   GET_USER_PROFILE: "/profile",
   UPDATE_USER_PROFILE: "/profile",
-  WALLET: "/wallet",
+  WALLET: "/wallet/channel",
+  REGISTER_WALLET: "/wallet/register",
+  UPDATE_DEFAULT_WALLET: "/wallet/status",
   INVOKE_SERVICE: "/invoke",
   FILTER_DATA: "/service?attribute=",
   FEEDBACK: "/feedback",
@@ -34,5 +40,16 @@ export const APIPaths = {
   DELETE_USER: "/delete-user",
   FREE_CALL_USAGE: "/usage/freecalls",
   SIGNER_FREE_CALL: "/free-call",
+  SIGNER_STATE_SERVICE: "/state-service",
   SIGNER_REGULAR_CALL: "/regular-call",
+  CANCEL_ORDER: orderId => `/order/${orderId}/cancel`,
+  ORDERS_LIST: "/order",
+  INITIATE_PAYMNET: "/order/initiate",
+  ORDER_DETAILS: "/order",
+  EXECUTE_PAYMENT: "/order/execute",
+  DEBUG_PAYPAL_INITIATE: "/v2/order/initiate",
+  WALLETS: "/wallet",
+  LINKED_PROVIDERS: "/v2/channel",
+  USD_RATE: "/currency/USD/token",
+  FREE_CALL_TOKEN: "/free-call/token",
 };

@@ -1,4 +1,5 @@
-import * as React from "react";
+import React from "react";
+import Button from "@material-ui/core/Button";
 import { Tabs, Tab } from "@material-ui/core";
 import ReactJson from "react-json-view";
 import styles from "./emotion_recognition.css.cs";
@@ -130,9 +131,9 @@ export default class EmotionVisualizer extends React.Component {
           <div className="row">
             <ReactJson src={this.props.jobResult} theme="apathy:inverted" />
             <div className="row" align="center">
-              <button type="button" className="btn btn-primary" onClick={this.download}>
+              <Button variant="contained" color="primary" onClick={this.download}>
                 Download Results JSON file
-              </button>
+              </Button>
             </div>
           </div>
         )}

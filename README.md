@@ -84,18 +84,3 @@ For the following [proto file](https://github.com/singnet/example-service/blob/m
 
         npm run sandbox
 
-## Component structure for `AI Marketplace`
-
-* __AI Marketplace__
-    * Header
-    * Top section
-    * Main section
-        * Filter
-        * Right side
-            * Toolbar
-            * Card group
-            * Pagination
-    * Footer
-        * Primary footer
-            * Footer links
-        * Secondary footer

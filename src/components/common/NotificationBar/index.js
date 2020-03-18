@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 import clsx from "clsx";
+import isEmpty from "lodash/isEmpty";
 
 import { useStyles } from "./styles";
 
@@ -23,7 +24,7 @@ const NotificationBar = ({ classes, showNotification, icon: Icon, message, type 
         lg={12}
         className={clsx(classes.notificationText, classes[notificationBarTypes[type]])}
       >
-        <Icon />
+        {!isEmpty(Icon) && <Icon />}
         <span>{message}</span>
       </Grid>
     </Grid>
@@ -31,7 +32,10 @@ const NotificationBar = ({ classes, showNotification, icon: Icon, message, type 
 };
 
 NotificationBar.propTypes = {
-  type: PropTypes.oneOf(["warning", "information"]),
+  type: PropTypes.oneOf(["WARNING", "INFORMATION"]),
+  message: PropTypes.string,
+  showNotification: PropTypes.bool,
+  icon: PropTypes.object,
 };
 
 export default withStyles(useStyles)(NotificationBar);

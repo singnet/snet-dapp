@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/styles";
 
 export const useStyles = makeStyles(theme => ({
   header: {
-    padding: "12px 65px 4px 60px",
+    padding: "13px 65px 6px 60px",
     display: "flex",
     alignItems: "center",
     position: "fixed",
@@ -92,7 +92,7 @@ export const useStyles = makeStyles(theme => ({
   loginBtnsSection: {
     width: "30%",
     marginBottom: 6,
-    "@media (max-width:1024px)": { width: "59%" }    
+    "@media (max-width:1024px)": { width: "59%" },
   },
   loginBtnsUl: {
     margin: 0,
@@ -100,7 +100,7 @@ export const useStyles = makeStyles(theme => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-end",
-    "& a": { textDecoration: "none" }    
+    "& a": { textDecoration: "none" },
   },
   loginBtnsLi: {
     marginRight: 30,
@@ -135,11 +135,14 @@ export const useStyles = makeStyles(theme => ({
       fontWeight: 600,
     },
   },
+  loginBtn: {
+    "&:hover": { fontWeight: 400 },
+  },
   signupBtnText: {
     fontWeight: 600,
     letterSpacing: 1.79,
     lineHeight: "16px",
-    "&:hover": { textDecoration: "none" },
+    "&:hover": { borderBottom: "none" },
   },
   UppercaseText: { textTransform: "uppercase" },
   loggedInActions: {

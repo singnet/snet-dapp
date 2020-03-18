@@ -1,4 +1,9 @@
 import React from "react";
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
+
+import OutlinedTextArea from "../../common/OutlinedTextArea";
+
 import  {TextSummary} from  "./summary_pb_service";
 
 export default class NewSummaryService extends React.Component {
@@ -8,11 +13,9 @@ export default class NewSummaryService extends React.Component {
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
 
     const initialUserInput = {
-        serviceName: "TextSummary",
-        methodName: "summary",
-        article_content:
-          'Analysts are predicting record highs as a global shortage of teddy bears sweeps the nation. "The market these products is way up". The advice is to stay indoors as society collapses under the demand.',
-      }
+      article_content:
+        'Analysts are predicting record highs as a global shortage of teddy bears sweeps the nation. "The market these products is way up". The advice is to stay indoors as society collapses under the demand.',
+    }
 
     this.state = { 
       ...initialUserInput,
@@ -30,8 +33,8 @@ export default class NewSummaryService extends React.Component {
   }
 
   submitAction() {
-     const { methodName, article_content } = this.state;
-    const methodDescriptor = TextSummary[methodName];
+     const { article_content } = this.state;
+    const methodDescriptor = TextSummary["summary"];
     const request = new methodDescriptor.requestType();
 
     request.setArticleContent(article_content)
@@ -53,32 +56,27 @@ export default class NewSummaryService extends React.Component {
   renderForm() {
     return (
       <React.Fragment>
-        <div className="row">
-          <div className="col-md-3 col-lg-3" style={{ padding: "10px", fontSize: "13px", marginLeft: "10px" }}>
-            News text to summarise:{" "}
-          </div>
-          <div className="col-md-3 col-lg-3">
-            <textarea
-              rows="8"
-              cols="60"
+        <Grid container direction="column" justify="center">
+
+          <Grid item xs={12} style={{ textAlign: "left" }}>
+            <OutlinedTextArea
+              id="article_content"
               name="article_content"
+              label="News text to summarize:"
+              fullWidth={true}
               value={this.state.article_content}
+              rows={8}
+              charLimit={5000}
               onChange={this.handleFormUpdate}
             />
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-md-6 col-lg-6" style={{ textAlign: "right" }}>
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={this.submitAction}
-              disabled={!this.canBeInvoked()}
-            >
+          </Grid>
+
+          <Grid item xs={12} style={{ textAlign: "center" }}>
+            <Button variant="contained" color="primary" onClick={this.submitAction} disabled={!this.canBeInvoked()}>
               Invoke
-            </button>
-          </div>
-        </div>
+            </Button>
+          </Grid>
+        </Grid>
       </React.Fragment>
     );
   }
@@ -88,14 +86,22 @@ export default class NewSummaryService extends React.Component {
 
     return (
         
-<div style={{background:"#F8F8F8", padding: "24px"}}>
-    <h4> Results</h4>
-    <div style={{ padding: "10px 10px 0 10px", fontSize: "14px", color:"#9b9b9b" }}>
-        <div style={{ padding: "10px 0" }}>Summary of article: 
-            <div style={{color:"#212121", marginTop:"5px",padding:"10px", background:"#f1f1f1",borderRadius:"4px"}}>{response.article_summary}</div>
-        </div>       
-    </div>
-</div>         
+      <React.Fragment>
+        <Grid container direction="column" justify="center">
+          <Grid item xs={12} style={{ textAlign: "left" }}>
+            <OutlinedTextArea
+              id="article_summary"
+              name="article_summary"
+              label="Summarization:"
+              fullWidth={true}
+              value={response.article_summary}
+              rows={8}
+              charLimit={5000}
+              onChange={this.handleFormUpdate}
+            />
+          </Grid>
+        </Grid>
+      </React.Fragment>       
         
     );
   }

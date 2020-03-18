@@ -36,7 +36,7 @@ export const useStyles = makeStyles(theme => ({
       letterSpacing: 1.25,
     },
     "& .MuiCardHeader-avatar": { marginRight: 10 },
-    "@media(max-width: 1279px)": { padding: "0 0 0 16px" },
+    "@media(max-width: 1280px)": { padding: "0 0 0 16px" },
   },
   cardTitle: {
     display: "inline-block",
@@ -60,7 +60,7 @@ export const useStyles = makeStyles(theme => ({
   cardContent: {
     padding: "0 10px",
     "&:last-of-type": { paddingBottom: 0 },
-    "@media(max-width: 1279px)": { padding: "0 0 0 16px" },
+    "@media(max-width: 1280px)": { padding: "0 0 0 16px" },
   },
   cardTypograpy: {
     marginTop: 16,
@@ -69,7 +69,7 @@ export const useStyles = makeStyles(theme => ({
     fontSize: 14,
     lineHeight: "20px",
     textAlign: " left",
-    "@media(max-width: 1279px)": { marginTop: 5 },
+    "@media(max-width: 1280px)": { marginTop: 5 },
   },
   showMore: {
     padding: 0,
@@ -100,7 +100,7 @@ export const useStyles = makeStyles(theme => ({
     position: "absolute",
     top: 10,
     right: 20,
-    "@media(max-width: 1279px)": {
+    "@media(max-width: 1280px)": {
       padding: 0,
       display: "flex",
       justifyContent: "flex-end",

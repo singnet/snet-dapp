@@ -2,6 +2,7 @@ import { Auth, API } from "aws-amplify";
 
 import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { loaderActions } from "./";
+import { LoaderContent } from "../../utility/constants/LoaderContent";
 import { initializeAPIOptions } from "../../utility/API";
 
 export const UPDATE_SERVICE_LIST = "SET_SERVICE_LIST";
@@ -84,6 +85,49 @@ const fetchFeedbackAPI = (email, orgId, serviceId, token) => {
   const path = `${APIPaths.FEEDBACK}?org_id=${orgId}&service_id=${serviceId}`;
   const apiOptions = initializeAPIOptions(token);
   return API.get(apiName, path, apiOptions);
+};
+
+const fetchAuthTokenAPI = (serviceId, groupId, publicKey, orgId, userId, token) => {
+  const apiName = APIEndpoints.SIGNER_SERVICE.name;
+  const apiPath = APIPaths.FREE_CALL_TOKEN;
+  const queryParams = {
+    service_id: serviceId,
+    group_id: groupId,
+    public_key: publicKey,
+    org_id: orgId,
+    user_id: userId,
+  };
+  const apiOptions = initializeAPIOptions(token, null, queryParams);
+  return API.get(apiName, apiPath, apiOptions);
+};
+
+export const downloadAuthToken = (serviceId, groupId, publicKey, orgId) => async dispatch => {
+  try {
+    dispatch(loaderActions.startAppLoader(LoaderContent.GENERATE_AUTH_TOKEN));
+    const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
+    const userId = currentUser.attributes.email;
+
+    const { data } = await fetchAuthTokenAPI(
+      serviceId,
+      groupId,
+      publicKey,
+      orgId,
+      userId,
+      currentUser.signInUserSession.idToken.jwtToken
+    );
+
+    const jsonToDownload = {
+      tokeToMakeFreeCall: data.token_to_make_free_call,
+      tokenExpirationBlock: data.token_expiration_block,
+    };
+    const downloadBlob = new Blob([JSON.stringify(jsonToDownload)], { type: "text/json;charset=utf-8" });
+    const downloadURL = window.URL.createObjectURL(downloadBlob);
+    dispatch(loaderActions.stopAppLoader);
+    return downloadURL;
+  } catch (e) {
+    dispatch(loaderActions.stopAppLoader);
+    throw e;
+  }
 };
 
 //Username review

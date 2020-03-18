@@ -1,4 +1,5 @@
 import React, { lazy } from "react";
+import AlertBox from "../../components/common/AlertBox";
 
 const ExampleService = lazy(() => import("./snet/example_service"));
 const CNTKImageRecognition = lazy(() => import("./snet/cntk_image_recon"));
@@ -28,7 +29,7 @@ const FaceIdentityService = lazy(() => import("./snet/face_identity"));
 const EmotionRecognitionService = lazy(() => import("./snet/emotion_recognition_service"));
 const HolisticEdgeDetectionService = lazy(() => import("./snet/holistic_edge_detection_service"));
 const ImageRetrievalService = lazy(() => import("./snet/image_retrieval_service"));
-const GeneAnnotationService = lazy(() => import("./snet/gene_annotation_service"));
+const GeneAnnotationService = lazy(() => import("./mozi/gene_annotation_service"));
 const TranslationService = lazy(() => import("./snet/translation"));
 const NewsSummaryService = lazy(() => import("./snet/news_summary"));
 const StyleTransfer = lazy(() => import("./snet/style_transfer"));
@@ -44,8 +45,9 @@ const SemanticSegmentationAerial = lazy(() => import("./snet/semantic_segmentati
 const SiggraphColorization = lazy(() => import("./snet/siggraph_colorization"));
 const TextGeneration = lazy(() => import("./snet/text_generation"));
 const PneumoniaDiagnosis = lazy(() => import("./snet/pneumonia_diagnosis"));
-
-const AlertBox = lazy(() => import("../../components/common/AlertBox"));
+const OpenCogMiner = lazy(() => import("./snet/opencog_miner"));
+const MinecraftService = lazy(() => import("./snet/minecraftizing_service"));
+const MatchingService = lazy(() => import("./snet/match_service"));
 
 class ThirdPartyCustomUIComponents {
   constructor() {
@@ -60,7 +62,7 @@ class ThirdPartyCustomUIComponents {
   componentFor = (orgId, serviceId) => {
     const CustomUIComponent = this.customUIComponents[this._generateUniqueID(orgId, serviceId)];
     if (!CustomUIComponent) {
-      return <AlertBox type="error" message="No Component matched" />;
+      return () => <AlertBox type="error" message="No Component matched. Please check the orgId and serviceId" />;
     }
 
     return CustomUIComponent;
@@ -73,6 +75,19 @@ const thirdPartyCustomUIComponents = new ThirdPartyCustomUIComponents();
 
 const addSnetCustomUI = (serviceId, CustomUIComponent) => {
   thirdPartyCustomUIComponents.addCustomUIComponent("snet", serviceId, CustomUIComponent);
+};
+
+const addMoziCustomUI = (serviceId, CustomUIComponent) => {
+  thirdPartyCustomUIComponents.addCustomUIComponent("mozi", serviceId, CustomUIComponent);
+};
+
+//TODO remove before deploying to mainnet
+const addOrg2CustomUI = (serviceId, CustomUIComponent) => {
+  thirdPartyCustomUIComponents.addCustomUIComponent("org2", serviceId, CustomUIComponent);
+};
+
+const addAr3CustomUI = (serviceId, CustomUIComponent) => {
+  thirdPartyCustomUIComponents.addCustomUIComponent("ar3", serviceId, CustomUIComponent);
 };
 
 addSnetCustomUI("example-service", ExampleService);
@@ -104,7 +119,6 @@ addSnetCustomUI("face-identity", FaceIdentityService);
 addSnetCustomUI("emotion-recognition-service", EmotionRecognitionService);
 addSnetCustomUI("holistic-edge-detection-service", HolisticEdgeDetectionService);
 addSnetCustomUI("image-retrieval-service", ImageRetrievalService);
-addSnetCustomUI("gene-annotation-service", GeneAnnotationService);
 addSnetCustomUI("translation", TranslationService);
 addSnetCustomUI("news-summary", NewsSummaryService);
 addSnetCustomUI("style-transfer", StyleTransfer);
@@ -120,5 +134,34 @@ addSnetCustomUI("semantic-segmentation-aerial", SemanticSegmentationAerial);
 addSnetCustomUI("siggraph-colorization", SiggraphColorization);
 addSnetCustomUI("text-generation", TextGeneration);
 addSnetCustomUI("pneumonia-diagnosis", PneumoniaDiagnosis);
+addSnetCustomUI("opencog-miner", OpenCogMiner);
+addMoziCustomUI("gene-annotation-service", GeneAnnotationService);
+addSnetCustomUI("minecraftizing-service", MinecraftService);
+addSnetCustomUI("match-service", MatchingService);
+
+//TODO remove before deploying to mainnet
+addOrg2CustomUI("freecall", ExampleService);
+
+addAr3CustomUI("freecall", ExampleService);
+
+thirdPartyCustomUIComponents.addCustomUIComponent(
+  "212a070e8a2244d4857762eaa8cb60df",
+  "age_classification",
+  ExampleService
+);
+
+thirdPartyCustomUIComponents.addCustomUIComponent(
+  "212a070e8a2244d4857762eaa8cb60df",
+  "age_classification_1",
+  ExampleService
+);
+
+thirdPartyCustomUIComponents.addCustomUIComponent(
+  "212a070e8a2244d4857762eaa8cb60df",
+  "age_classification_2",
+  ExampleService
+);
+
+thirdPartyCustomUIComponents.addCustomUIComponent("sohit1", "sohit1", ExampleService);
 
 export default thirdPartyCustomUIComponents;

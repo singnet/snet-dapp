@@ -39,7 +39,7 @@ const ActiveSession = ({ classes, freeCallsRemaining, handleComplete, freeCallsA
           open={showTooltip}
           onOpen={handleTooltipOpen}
           onClose={handleTooltipClose}
-          classes={classes}
+          classes={{ tooltip: classes.tooltip }}
         >
           <div>
             <StyledButton type="blue" btnText="run for free" onClick={handleComplete} disabled={!isServiceAvailable} />

@@ -1,7 +1,25 @@
 export const useStyles = theme => ({
   computerVisionContainer: {
     display: "flex",
-    "@media(max-width:490px)": { display: "inline-block" },
+    "@media(max-width:490px)": {
+      marginTop: 55,
+      display: "inline-block",
+    },
+  },
+  companyName: {
+    "& h4": {
+      display: "block",
+      paddingTop: 2,
+      margin: 0,
+      color: theme.palette.text.primary,
+      fontSize: 14,
+      lineHeight: "18px",
+    },
+  },
+  providersName: {
+    margin: 0,
+    fontSize: "10px !important",
+    lineHeight: "13px",
   },
   computerVisionContent: {
     marginLeft: 25,
@@ -40,18 +58,16 @@ export const useStyles = theme => ({
     verticalAlign: "super",
   },
   avatar: {
+    width: 40,
+    height: 40,
     marginRight: 12,
     display: "inline-block",
-    "& img": {
-      width: 40,
-      height: 40,
-    },
-    "@media(max-width:768px)": { display: "none" },
+    "& img": { width: "100%" },
   },
   serviceCreatorDetails: {
     display: "flex",
     alignItems: "center",
-    "& span": {
+    "& p": {
       color: theme.palette.text.lightShadedGray,
       fontSize: 14,
       textTransform: "uppercase",

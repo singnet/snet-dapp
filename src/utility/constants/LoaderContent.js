@@ -64,4 +64,36 @@ export const LoaderContent = {
     loaderHeader: "Setting up the Channel",
     loaderText: "Settting up the channel for service execution",
   },
+  INITIATE_PAYPAL: {
+    loaderHeader: "Setting up Paypal",
+    loaderText: "Please wait while we redirect you to the paypal page",
+  },
+  FETCH_WALLET: {
+    loaderHeader: "Fetching Wallet Info",
+    loaderText: "Please wait. we're fetching your wallet details",
+  },
+  TRANSACTION_HISTORY: {
+    loaderHeader: "Fetching Transaction History",
+    loaderText: "Please wait while we fetch your transaction history",
+  },
+  FETCH_ORDER_DETAILS: {
+    loaderHeader: "Fetching order details",
+    loaderText: "Please wait. we're fetching your order details",
+  },
+  FETCH_LINKED_PROVIDERS: {
+    loaderHeader: "Fetching linked providers",
+    loaderText: "Please wait while we fetch all the linked providers for the selected wallet",
+  },
+  FETCH_PENDING_ORDER: {
+    loaderHeader: "Fetching pending order",
+    loaderText: "Please wait while we fetch the details of your pending order",
+  },
+  INIT_SERVICE_DEMO: {
+    loaderHeader: "Initializing Service Demo",
+    loaderText: "Please wait while we initialize the demo of the service",
+  },
+  GENERATE_AUTH_TOKEN: {
+    loaderHeader: "Generating Auth Token",
+    loaderText: "Please wait while we generate the token to download",
+  },
 };

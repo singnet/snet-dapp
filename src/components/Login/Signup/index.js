@@ -5,14 +5,14 @@ import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
 
 import Routes from "../../../utility/constants/Routes";
-import snetValidator from "../../../utility/Validation";
 import { useStyles } from "./styles";
 import RenderForm from "./RenderForm";
 import RenderOTP from "./RenderOTP";
 import { userActions, loaderActions } from "../../../Redux/actionCreators";
 import { LoaderContent } from "../../../utility/constants/LoaderContent";
 import { alertTypes } from "../../common/AlertBox";
-import { signupFormConstraints, singup_otp_contraints } from "./validationConstraints";
+import { signupFormConstraints, singupOtpContraints } from "./validationConstraints";
+import snetValidator from "../../../utility/snetValidator";
 
 class SignUp extends Component {
   state = {
@@ -73,7 +73,7 @@ class SignUp extends Component {
 
   handleConfirmSignup = event => {
     this.setState({ alert: {} });
-    const isNotValid = snetValidator(this.state, singup_otp_contraints);
+    const isNotValid = snetValidator(this.state, singupOtpContraints);
     if (isNotValid) {
       this.setState({ alert: { type: alertTypes.ERROR, message: isNotValid[0] } });
       return;

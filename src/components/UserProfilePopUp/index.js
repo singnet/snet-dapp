@@ -7,15 +7,21 @@ import UserMenu from "./UserMenu";
 import { useStyles } from "./styles";
 import useOutsideClick from "../Hooks/useOutsideClick";
 
-const UserProfilePopUp = ({ classes, handleClick, nickname }) => {
+const UserProfilePopUp = ({ classes, handleClick, nickname, email }) => {
   const wrapperRef = useRef(null);
   useOutsideClick(wrapperRef, handleClick);
 
   return (
     <div ref={wrapperRef}>
       <div className={classes.UserProfilePopUpContainer}>
-        <UserProfilePopUpHeader nickName={nickname} remainingCredits="" usedCredits="" onClose={handleClick} />
-        <UserMenu />
+        <UserProfilePopUpHeader
+          nickName={nickname}
+          remainingCredits=""
+          usedCredits=""
+          onClose={handleClick}
+          email={email}
+        />
+        <UserMenu handleClick={handleClick} />
       </div>
     </div>
   );
@@ -23,6 +29,7 @@ const UserProfilePopUp = ({ classes, handleClick, nickname }) => {
 
 const mapStateToProps = state => ({
   nickname: state.userReducer.nickname,
+  email: state.userReducer.email,
 });
 
 export default connect(mapStateToProps)(withStyles(useStyles)(UserProfilePopUp));

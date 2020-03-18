@@ -11,6 +11,7 @@ import Avatar from "@material-ui/core/Avatar";
 
 import { useStyles } from "./styles";
 import RatingsCount from "../../../../../common/RatingsCount";
+import CardImg from "../../../../../../assets/images/SnetDefaultServiceImage.png";
 import SingularityLogo from "../../../../../../assets/images/avatar.png";
 import ServiceAvailabilityToggler from "./ServiceAvailabilityToggler";
 
@@ -20,16 +21,16 @@ const ServiceListItem = props => {
     <Card className={classes.card}>
       <Grid container spacing={24} className={classes.cardItemsContainer}>
         <Grid item xs={12} sm={1} md={1} lg={1} className={classes.mediaContainer}>
-          <CardMedia className={classes.CardMedia} image={props.cardMedia} title={props.title} />
+          <CardMedia className={classes.CardMedia} image={props.cardMedia || CardImg} title={props.title} />
         </Grid>
 
         <Grid item xs={12} sm={10} md={10} lg={10}>
           <CardHeader
             className={classes.cardHeader}
-            avatar={<Avatar aria-label="recipe" className={classes.avatar} src={SingularityLogo} />}
+            avatar={<Avatar aria-label="recipe" className={classes.avatar} src={props.orgImg || SingularityLogo} />}
             classes={{ title: classes.cardTitle, subheader: classes.cardSubheader }}
             title={<h4>{props.cardTitle}</h4>}
-            subheader="SingularityNET"
+            subheader={props.cardSubheader}
           />
 
           <CardContent className={classes.cardContent}>

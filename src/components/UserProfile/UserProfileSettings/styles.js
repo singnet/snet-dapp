@@ -16,9 +16,10 @@ export const useStyles = theme => ({
       margin: 0,
       color: theme.palette.text.darkShadedGray,
       fontSize: 20,
+      fontWeight: 400,
     },
     "& h4": {
-      margin: "0 0 20px 0",
+      margin: "0 0 12px 0",
       color: theme.palette.text.grayTitleText,
       fontSize: 16,
       fontWeight: 600,
@@ -30,6 +31,7 @@ export const useStyles = theme => ({
     "& div": {
       width: 411,
       margin: "30px 0 0",
+      fontFamily: theme.typography.primary.main,
       "@media(max-width:660px)": {
         width: "100%",
         flexDirection: "column",
@@ -40,6 +42,7 @@ export const useStyles = theme => ({
     },
     "& label": {
       color: theme.palette.text.black1,
+      fontFamily: theme.typography.primary.main,
       fontSize: 14,
       fontWeight: 600,
       letterSpacing: 0.4,
@@ -91,11 +94,12 @@ export const useStyles = theme => ({
   notification: {
     "& label": {
       "& span": {
+        fontFamily: theme.typography.primary.main,
         fontSize: 14,
         letterSpacing: 0.25,
         lineHeight: "20px",
-        fontWeight: 600,
       },
+      "& .MuiCheckbox-root": { padding: "0 10px 0 12px" },
     },
   },
   btnContainer: {
