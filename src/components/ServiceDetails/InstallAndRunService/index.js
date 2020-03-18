@@ -70,9 +70,9 @@ class InstallAndRunService extends Component {
             <div className={classes.overViewContainer}>
               <h4>Free Call Authentication Token</h4>
               <p>
-                Your fellow collaborators can help you set up the technical stuff and manage the AI service. Everything
-                is faster and better with teamwork. Once your collaborators accept your invite, you will be able to add
-                them to the company blockchain for access.
+                Generate the free call token to use in your SDK. The address used to generate this token should be the
+                same as the identity specified in your SDK configuation. This will allow you to invoke the service from
+                your SDK on a trial basis
               </p>
               <form>
                 <InfoIcon className={classes.infoIcon} />
