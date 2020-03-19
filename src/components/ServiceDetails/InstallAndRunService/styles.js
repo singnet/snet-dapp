@@ -1,10 +1,12 @@
 export const useStyles = theme => ({
   DownloadTokenBtn: {
+    padding: "10px 30px",
     display: "block",
-    color: "white",
-    marginLeft: 32,
+    color: "#fff",
     backgroundColor: theme.palette.text.primary,
-    marginBottom: 10,
+    "&:hover": {
+      backgroundColor: "#005ACB",
+    },
   },
   installAndRunContainer: {
     paddingTop: 11,
@@ -28,30 +30,12 @@ export const useStyles = theme => ({
   },
   infoIcon: {
     paddingRight: 12,
-    paddingTop: 20,
     color: theme.palette.text.lightGray,
     fontSize: 20,
     verticalAlign: "sub",
   },
   overViewContainer: {
-    boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
-    backgroundColor: theme.palette.text.white,
-    borderRadius: 4,
-    paddingBottom: 20,
     paddingLeft: 20,
-    "& p": {
-      margin: 0,
-      fontSize: 14,
-      color: theme.palette.text.mediumShadeGray,
-      letterSpacing: "0.25px",
-      lineHeight: "20px",
-    },
-    "& h4": {
-      margin: "30px 0 0",
-      color: theme.palette.text.darkShadedGray,
-      fontSize: 20,
-      fontWeight: 400,
-    },
     "& ul": {
       margin: "20px 0 0",
       padding: "0 22px",
@@ -74,6 +58,9 @@ export const useStyles = theme => ({
       color: theme.palette.text.lightShadedGray,
       fontSize: 16,
       "@media(max-width:800px)": { paddingLeft: 0 },
+    },
+    "& > div": {
+      "&:not(:first-of-type)": { marginTop: 25 },
     },
   },
   integrationSetupContainer: {
@@ -103,5 +90,42 @@ export const useStyles = theme => ({
     },
     "& .Mui-selected": { color: theme.palette.text.primary },
     "& .MuiTabs-indicator": { backgroundColor: theme.palette.text.primary },
+  },
+  intSetupTitle: {
+    marginTop: 24,
+    color: theme.palette.text.darkShadedGray,
+    fontSize: 18,
+    lineHeight: "23px",
+  },
+  intSetupDesc: {
+    paddingRight: 42,
+    margin: "16px 0 21px",
+    color: theme.palette.text.mediumShadeGray,
+    fontFamily: theme.typography.primary.main,
+    fontSize: 14,
+    lineHeight: "21px",
+  },
+  textfieldContainer: {
+    "& > div": {
+      marginBottom: 24,
+      display: "flex",
+      alignItems: "center",
+      "@media(max-width: 600px)": {
+        flexDirection: "column",
+        alignItems: "flex-start",
+      },
+    },
+    "& .MuiFormControl-root": {
+      width: 344,
+      margin: 0,
+    },
+  },
+  publicAddDesc: {
+    marginLeft: 40,
+    color: theme.palette.text.lightShadedGray,
+    fontSize: 14,
+    lineHeight: "20px",
+    letterSpacing: 0.25,
+    "@media(max-width: 600px)": { margin: "10px 0" },
   },
 });

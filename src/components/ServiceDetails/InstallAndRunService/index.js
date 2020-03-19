@@ -4,6 +4,7 @@ import { withStyles } from "@material-ui/styles";
 import Button from "@material-ui/core/Button";
 import InfoIcon from "@material-ui/icons/Info";
 import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
 import { connect } from "react-redux";
 import Web3 from "web3";
 
@@ -68,29 +69,33 @@ class InstallAndRunService extends Component {
           <div className={classes.integrationSetupContainer}>
             <h3>Integration Setup</h3>
             <div className={classes.overViewContainer}>
-              <h4>Free Call Authentication Token</h4>
-              <p>
+              <Typography className={classes.intSetupTitle}>Free Call Authentication Token</Typography>
+              <Typography className={classes.intSetupDesc}>
                 Generate the free call token to use in your SDK. The address used to generate this token should be the
                 same as the identity specified in your SDK configuation. This will allow you to invoke the service from
                 your SDK on a trial basis
-              </p>
-              <form>
-                <InfoIcon className={classes.infoIcon} />
-                <TextField
-                  id="outlined-user-name"
-                  label="public Address"
-                  className={classes.textField}
-                  margin="normal"
-                  variant="outlined"
-                  value={this.state.publickey}
-                  autoFocus
-                  onChange={this.handlePublicKey}
-                />
-
+              </Typography>
+              <div className={classes.textfieldContainer}>
+                <div>
+                  <InfoIcon className={classes.infoIcon} />
+                  <TextField
+                    id="outlined-user-name"
+                    label="Public Address"
+                    className={classes.textField}
+                    margin="normal"
+                    variant="outlined"
+                    value={this.state.publickey}
+                    autoFocus
+                    onChange={this.handlePublicKey}
+                  />
+                  <Typography className={classes.publicAddDesc}>
+                    Explanation about where to look for the public address.
+                  </Typography>
+                </div>
                 <Button type="submit" className={classes.DownloadTokenBtn} color="primary" onClick={this.downloadToken}>
-                  Generate Token
+                  Download Token
                 </Button>
-              </form>
+              </div>
               {downloadTokenURL && (
                 <a href={downloadTokenURL} download={downloadTokenFileName}>
                   click here to download the Token
