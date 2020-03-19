@@ -162,7 +162,7 @@ export default class NetworkAnalysisBipartite extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
     this.setValidationStatus("validJSON", false);
     const { methodNames, inputIndex } = this.state;
-    if (event.target.name !== "string_area" && event.target.name === "methodIndex" && inputIndex === "Text") {
+    if (event.target.name === "methodIndex" && inputIndex === "Text") {
       const method = methodNames[event.target.value].content;
       this.setState({
         string_area:
