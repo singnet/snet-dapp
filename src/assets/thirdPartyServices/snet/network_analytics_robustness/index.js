@@ -87,7 +87,6 @@ export default class NetworkAnalysisRobustness extends React.Component {
     this.download = this.download.bind(this);
     this.handleFileUpload = this.handleFileUpload.bind(this);
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
-    this.handleInputUpdate = this.handleInputUpdate.bind(this);
     this.submitAction = this.submitAction.bind(this);
     this.handleValidateRequest = this.handleValidateRequest.bind(this);
     this.resetInternalState = this.resetInternalState.bind(this);
@@ -131,11 +130,6 @@ export default class NetworkAnalysisRobustness extends React.Component {
     return this.state.isValid["validJSON"];
   }
 
-  handleInputUpdate(event) {
-    this.setValidationStatus("validJSON", false);
-    event.preventDefault();
-  }
-
   handleFileUpload(file) {
     const fileReader = new FileReader();
     fileReader.readAsDataURL(file);
@@ -151,8 +145,9 @@ export default class NetworkAnalysisRobustness extends React.Component {
 
   handleFormUpdate(event) {
     this.setState({ [event.target.name]: event.target.value });
+    this.setValidationStatus("validJSON", false);
     const { methodNames, inputIndex } = this.state;
-    if (event.target.name === "methodIndex" && inputIndex === "Text") {
+    if (event.target.name !== "string_area" && event.target.name === "methodIndex" && inputIndex === "Text") {
       const method = methodNames[event.target.value].content;
       this.setState({
         string_area:
@@ -160,7 +155,6 @@ export default class NetworkAnalysisRobustness extends React.Component {
             ? JSON.stringify(SampleInputMinNodes, undefined, 4)
             : JSON.stringify(SampleInputMostImportantNodes, undefined, 4),
       });
-      this.setValidationStatus("validJSON", false);
     }
     this.setState({ internal_error: "" });
   }
@@ -339,7 +333,7 @@ export default class NetworkAnalysisRobustness extends React.Component {
                   fullWidth={true}
                   value={this.state.string_area}
                   rows={8}
-                  onChange={this.handleInputUpdate}
+                  onChange={this.handleFormUpdate}
                 />
               </Grid>
               <Grid item xs={12} container justify="center" style={{ textAlign: "center" }}>
