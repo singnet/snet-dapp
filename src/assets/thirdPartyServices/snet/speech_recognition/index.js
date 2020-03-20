@@ -47,8 +47,8 @@ export default class AutomaticSpeechRecognition extends React.Component {
 
         var audioURL = window.URL.createObjectURL(blob);
         audio.src = audioURL;
-        audio.style.height = "30px";
-        audio.style.width = "250px";
+        audio.style.height = "50px";
+        audio.style.width = "100%";
         audio.style.marginLeft = "5px";
         ac.appendChild(audio);
 
@@ -107,7 +107,7 @@ export default class AutomaticSpeechRecognition extends React.Component {
 
           <Grid item xs={12} style={{ textAlign: "center" }}>
             <div id="audio-container" className="col-md-3 col-lg-2">
-              <audio controls style={{ height: "30px", width: "250px", fontSize: "13px", marginBottom: "5px" }}>
+              <audio controls style={{ height: "50px", width: "100%", fontSize: "13px", marginBottom: "5px" }}>
                 <source id="asrAudio" src="http://bonch-ikt.ru:8209/tacotron1/audio/hoho.wav" type="audio/wav" />
               </audio>
             </div>

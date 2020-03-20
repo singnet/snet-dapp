@@ -131,7 +131,9 @@ export default class NeuralSpeechSynthesis extends React.Component {
 
       var audioURL = window.URL.createObjectURL(blob);
       audio.src = audioURL;
+      audio.style.height = "50px";
       audio.style.width = "100%";
+      audio.style.marginLeft = "5px";
       ac.appendChild(audio);
     }
   }
