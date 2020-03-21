@@ -48,6 +48,8 @@ const PneumoniaDiagnosis = lazy(() => import("./snet/pneumonia_diagnosis"));
 const OpenCogMiner = lazy(() => import("./snet/opencog_miner"));
 const MinecraftService = lazy(() => import("./snet/minecraftizing_service"));
 const MatchingService = lazy(() => import("./snet/match_service"));
+const SoundSpleeterService = lazy(() => import("./snet/sound_spleeter"));
+const RealTimeVoiceCloningService = lazy(() => import("./snet/real_time_voice_cloning"));
 
 class ThirdPartyCustomUIComponents {
   constructor() {
@@ -138,6 +140,8 @@ addSnetCustomUI("opencog-miner", OpenCogMiner);
 addMoziCustomUI("gene-annotation-service", GeneAnnotationService);
 addSnetCustomUI("minecraftizing-service", MinecraftService);
 addSnetCustomUI("match-service", MatchingService);
+addSnetCustomUI("sound-spleeter", SoundSpleeterService);
+addSnetCustomUI("real-time-voice-cloning", RealTimeVoiceCloningService);
 
 //TODO remove before deploying to mainnet
 addOrg2CustomUI("freecall", ExampleService);
@@ -161,7 +165,5 @@ thirdPartyCustomUIComponents.addCustomUIComponent(
   "age_classification_2",
   ExampleService
 );
-
-thirdPartyCustomUIComponents.addCustomUIComponent("sohit1", "sohit1", ExampleService);
 
 export default thirdPartyCustomUIComponents;

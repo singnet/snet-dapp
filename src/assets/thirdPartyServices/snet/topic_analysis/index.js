@@ -68,7 +68,6 @@ export default class TopicAnalysisService extends React.Component {
     this.download = this.download.bind(this);
     this.handleFileUpload = this.handleFileUpload.bind(this);
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
-    this.handleInputUpdate = this.handleInputUpdate.bind(this);
     this.submitAction = this.submitAction.bind(this);
     this.handleValidateRequest = this.handleValidateRequest.bind(this);
     this.resetInternalState = this.resetInternalState.bind(this);
@@ -110,11 +109,6 @@ export default class TopicAnalysisService extends React.Component {
     return this.state.isValid["validJSON"];
   }
 
-  handleInputUpdate(event) {
-    this.setValidationStatus("validJSON", false);
-    event.preventDefault();
-  }
-
   handleFileUpload(file) {
     const fileReader = new FileReader();
     fileReader.readAsDataURL(file);
@@ -130,10 +124,10 @@ export default class TopicAnalysisService extends React.Component {
 
   handleFormUpdate(event) {
     this.setState({ [event.target.name]: event.target.value });
+    this.setValidationStatus("validJSON", false);
     const { inputIndex } = this.state;
-    if (inputIndex === "Text") {
+    if (event.target.name !== "string_area" && inputIndex === "Text") {
       this.setState({ string_area: JSON.stringify(SampleInput, undefined, 4) });
-      this.setValidationStatus("validJSON", false);
     }
     this.setState({ internal_error: "" });
   }
@@ -300,7 +294,7 @@ export default class TopicAnalysisService extends React.Component {
                   fullWidth={true}
                   value={this.state.string_area}
                   rows={8}
-                  onChange={this.handleInputUpdate}
+                  onChange={this.handleFormUpdate}
                 />
               </Grid>
               <Grid item xs={12} container justify="center" style={{ textAlign: "center" }}>

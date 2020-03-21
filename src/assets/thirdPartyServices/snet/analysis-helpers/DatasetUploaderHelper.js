@@ -54,8 +54,8 @@ export default class DatasetUpload extends React.Component {
                   <p>Drop dataset here...</p>
                 ) : (
                   <p>
-                    Click here to select a dataset file, or drag and drop it over this text. We expect{" "}
-                    {this.props.fileAccept} to be uploaded. Other files are disabled.
+                    Click here to select a file, or drag and drop it over this text. We expect {this.props.fileAccept}{" "}
+                    to be uploaded. Other files are disabled.
                   </p>
                 )}
               </div>
