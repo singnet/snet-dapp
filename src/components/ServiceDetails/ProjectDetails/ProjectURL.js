@@ -15,7 +15,7 @@ const ProjectURL = ({ URL }) => {
         <React.Fragment>
           {URL ? <LaunchIcon /> : ""}
           <a href={URL} target="_blank" rel="noopener noreferrer" alt="URL">
-            {URL}123
+            {URL}
           </a>
         </React.Fragment>
       }
