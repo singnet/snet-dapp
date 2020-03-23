@@ -166,4 +166,6 @@ thirdPartyCustomUIComponents.addCustomUIComponent(
   ExampleService
 );
 
+thirdPartyCustomUIComponents.addCustomUIComponent("org_id_test_praveen", "test_claims", ExampleService);
+
 export default thirdPartyCustomUIComponents;
