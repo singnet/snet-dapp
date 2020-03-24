@@ -51,6 +51,8 @@ const MatchingService = lazy(() => import("./snet/match_service"));
 const SoundSpleeterService = lazy(() => import("./snet/sound_spleeter"));
 const RealTimeVoiceCloningService = lazy(() => import("./snet/real_time_voice_cloning"));
 
+//ADD_CONSTANTS_HERE
+
 class ThirdPartyCustomUIComponents {
   constructor() {
     this.customUIComponents = {};
@@ -147,6 +149,8 @@ addSnetCustomUI("real-time-voice-cloning", RealTimeVoiceCloningService);
 addOrg2CustomUI("freecall", ExampleService);
 
 addAr3CustomUI("freecall", ExampleService);
+
+//ADD_UI_COMPONENTS_HERE
 
 thirdPartyCustomUIComponents.addCustomUIComponent(
   "212a070e8a2244d4857762eaa8cb60df",
