@@ -44,8 +44,7 @@ export default class CNTKLanguageUnderstanding extends React.Component {
 
     this.state = {
       ...initialUserInput,
-      users_guide:
-        "https://github.com/singnet/nlp-services/blob/master/docs/users_guide/cntk-language-understanding.md",
+      users_guide: "https://singnet.github.io/nlp-services/users_guide/cntk-language-understanding.html",
       code_repo: "https://github.com/singnet/nlp-services/blob/master/cntk-language-understanding",
       reference: "https://cntk.ai/pythondocs/CNTK_202_Language_Understanding.html",
       response: undefined,

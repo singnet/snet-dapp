@@ -51,7 +51,7 @@ export default class OpenNMTRomanceTranslator extends React.Component {
 
     this.state = {
       ...initialUserInput,
-      users_guide: "https://github.com/singnet/nlp-services/blob/master/docs/users_guide/opennmt-romance-translator.md",
+      users_guide: "https://singnet.github.io/nlp-services/users_guide/opennmt-romance-translator.html",
       code_repo: "https://github.com/singnet/nlp-services/blob/master/opennmt-romance-translator",
       reference: "http://forum.opennmt.net/t/training-romance-multi-way-model/86",
       response: undefined,

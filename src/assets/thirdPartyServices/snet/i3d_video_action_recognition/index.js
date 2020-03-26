@@ -35,8 +35,7 @@ export default class I3DActionRecognition extends React.Component {
 
     this.state = {
       ...initialUserInput,
-      users_guide:
-        "https://github.com/singnet/dnn-model-services/blob/master/docs/users_guide/i3d-video-action-recognition.md",
+      users_guide: "https://singnet.github.io/dnn-model-services/users_guide/i3d-video-action-recognition.html",
       code_repo: "https://github.com/singnet/dnn-model-services/tree/master/services/i3d-video-action-recognition",
       reference: "https://github.com/deepmind/kinetics-i3d",
       response: undefined,

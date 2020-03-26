@@ -44,8 +44,7 @@ export default class CNTKLSTMForecast extends React.Component {
 
     this.state = {
       ...initialUserInput,
-      users_guide:
-        "https://github.com/singnet/time-series-analysis/blob/master/docs/users_guide/generic/cntk-lstm-forecast.md",
+      users_guide: "https://singnet.github.io/time-series-analysis/users_guide/generic/cntk-lstm-forecast.html",
       code_repo: "https://github.com/singnet/time-series-analysis/blob/master/generic/cntk-lstm-forecast",
       reference: "https://cntk.ai/pythondocs/CNTK_106B_LSTM_Timeseries_with_IOT_Data.html",
       response: undefined,
