@@ -7,14 +7,15 @@ import InfoIcon from "@material-ui/icons/Info";
 
 import SNETImageUpload from "../../standardComponents/SNETImageUpload";
 import HoverIcon from "../../standardComponents/HoverIcon";
-import { Detect } from "./object_detection_pb_service";
+
+import { Colorization } from "./colorization_pb_service";
 
 const initialUserInput = {
   img_path: undefined,
-  confidence: 0.7,
+  render_factor: 35,
 };
 
-export default class YOLOv3ObjectDetection extends React.Component {
+export default class ColorizationService extends React.Component {
   constructor(props) {
     super(props);
     this.submitAction = this.submitAction.bind(this);
@@ -25,9 +26,9 @@ export default class YOLOv3ObjectDetection extends React.Component {
 
     this.state = {
       ...initialUserInput,
-      users_guide: "https://singnet.github.io/dnn-model-services/users_guide/yolov3-object-detection.html",
-      code_repo: "https://github.com/singnet/dnn-model-services/tree/master/services/yolov3-object-detection",
-      reference: "https://pjreddie.com/darknet/yolo/",
+      users_guide: "https://singnet.github.io/dnn-model-services/users_guide/deoldify-colorizer.html",
+      code_repo: "https://github.com/singnet/dnn-model-services/tree/master/services/deoldify-colorizer",
+      reference: "https://github.com/jantic/DeOldify",
       response: undefined,
     };
   }
@@ -41,7 +42,7 @@ export default class YOLOv3ObjectDetection extends React.Component {
   }
 
   handleSliderChange(event, value) {
-    this.setState({ confidence: value });
+    this.setState({ render_factor: value });
   }
 
   handleFormUpdate(event) {
@@ -49,13 +50,12 @@ export default class YOLOv3ObjectDetection extends React.Component {
   }
 
   submitAction() {
-    const { img_path, confidence } = this.state;
-    const methodDescriptor = Detect["detect"];
+    const { img_path, render_factor } = this.state;
+    const methodDescriptor = Colorization["colorize"];
     const request = new methodDescriptor.requestType();
 
-    request.setImgPath(img_path);
-    request.setModel("yolov3");
-    request.setConfidence(confidence);
+    request.setImgInput(img_path);
+    request.setRenderFactor(render_factor);
 
     const props = {
       request,
@@ -68,11 +68,7 @@ export default class YOLOv3ObjectDetection extends React.Component {
           ...initialUserInput,
           response: {
             status: "success",
-            delta_time: message.getDeltaTime(),
-            boxes: message.getBoxesList(),
-            class_ids: message.getClassIdsList(),
-            confidences: message.getConfidencesList(),
-            img_base64: message.getImgBase64(),
+            img_colorized: message.getImgColorized(),
           },
         });
       },
@@ -90,7 +86,7 @@ export default class YOLOv3ObjectDetection extends React.Component {
         if (typeof response === "string") {
           return response;
         }
-        return response.img_base64;
+        return response.img_colorized;
       } else {
         return null;
       }
@@ -107,15 +103,15 @@ export default class YOLOv3ObjectDetection extends React.Component {
           {!this.props.isComplete && (
             <Grid item xs={8} container justify="center">
               <Grid item xs>
-                Confidence ({this.state.confidence.toFixed(2)}):{" "}
+                Render Factor ({this.state.render_factor}):{" "}
               </Grid>
               <Grid item xs>
                 <Slider
                   style={{ padding: "12px 0px" }}
-                  value={this.state.confidence}
-                  min={0.05}
-                  max={1.0}
-                  step={0.05}
+                  value={this.state.render_factor}
+                  min={1}
+                  max={45}
+                  step={1}
                   onChange={this.handleSliderChange}
                 />
               </Grid>

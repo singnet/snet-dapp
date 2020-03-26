@@ -36,8 +36,7 @@ export default class Zeta36ChessAlphaZero extends React.Component {
 
     this.state = {
       ...initialUserInput,
-      users_guide:
-        "https://github.com/singnet/dnn-model-services/blob/master/docs/users_guide/zeta36-chess-alpha-zero.md",
+      users_guide: "https://singnet.github.io/dnn-model-services/users_guide/zeta36-chess-alpha-zero.html",
       code_repo: "https://github.com/singnet/dnn-model-services/tree/master/services/zeta36-chess-alpha-zero",
       reference: "https://github.com/Zeta36/chess-alpha-zero",
       response: undefined,
