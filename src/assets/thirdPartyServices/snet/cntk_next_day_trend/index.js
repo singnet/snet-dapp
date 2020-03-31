@@ -34,8 +34,7 @@ export default class CNTKNextDayTrend extends React.Component {
 
     this.state = {
       ...initialUserInput,
-      users_guide:
-        "https://github.com/singnet/time-series-analysis/blob/master/docs/users_guide/finance/cntk-next-day-trend.md",
+      users_guide: "https://singnet.github.io/time-series-analysis/users_guide/finance/cntk-next-day-trend.html",
       code_repo: "https://github.com/singnet/time-series-analysis/blob/master/finance/cntk-next-day-trend",
       reference: "https://cntk.ai/pythondocs/CNTK_104_Finance_Timeseries_Basic_with_Pandas_Numpy.html",
       response: undefined,

@@ -42,7 +42,6 @@ const TopicAnalysis = lazy(() => import("./snet/topic_analysis"));
 const Places365SceneRecognition = lazy(() => import("./snet/places365_scene_recognition"));
 const SuperResolution = lazy(() => import("./snet/super_resolution"));
 const SemanticSegmentationAerial = lazy(() => import("./snet/semantic_segmentation_aerial"));
-const SiggraphColorization = lazy(() => import("./snet/siggraph_colorization"));
 const TextGeneration = lazy(() => import("./snet/text_generation"));
 const PneumoniaDiagnosis = lazy(() => import("./snet/pneumonia_diagnosis"));
 const OpenCogMiner = lazy(() => import("./snet/opencog_miner"));
@@ -50,6 +49,9 @@ const MinecraftService = lazy(() => import("./snet/minecraftizing_service"));
 const MatchingService = lazy(() => import("./snet/match_service"));
 const SoundSpleeterService = lazy(() => import("./snet/sound_spleeter"));
 const RealTimeVoiceCloningService = lazy(() => import("./snet/real_time_voice_cloning"));
+const ColorizationService = lazy(() => import("./snet/deoldify-colorizer"));
+
+//ADD_CONSTANTS_HERE
 
 class ThirdPartyCustomUIComponents {
   constructor() {
@@ -133,7 +135,6 @@ addSnetCustomUI("topic-analysis", TopicAnalysis);
 addSnetCustomUI("places365-scene-recognition", Places365SceneRecognition);
 addSnetCustomUI("super-resolution", SuperResolution);
 addSnetCustomUI("semantic-segmentation-aerial", SemanticSegmentationAerial);
-addSnetCustomUI("siggraph-colorization", SiggraphColorization);
 addSnetCustomUI("text-generation", TextGeneration);
 addSnetCustomUI("pneumonia-diagnosis", PneumoniaDiagnosis);
 addSnetCustomUI("opencog-miner", OpenCogMiner);
@@ -142,11 +143,14 @@ addSnetCustomUI("minecraftizing-service", MinecraftService);
 addSnetCustomUI("match-service", MatchingService);
 addSnetCustomUI("sound-spleeter", SoundSpleeterService);
 addSnetCustomUI("real-time-voice-cloning", RealTimeVoiceCloningService);
+addSnetCustomUI("deoldify-colorizer", ColorizationService);
 
 //TODO remove before deploying to mainnet
 addOrg2CustomUI("freecall", ExampleService);
 
 addAr3CustomUI("freecall", ExampleService);
+
+//ADD_UI_COMPONENTS_HERE
 
 thirdPartyCustomUIComponents.addCustomUIComponent(
   "212a070e8a2244d4857762eaa8cb60df",
@@ -165,5 +169,7 @@ thirdPartyCustomUIComponents.addCustomUIComponent(
   "age_classification_2",
   ExampleService
 );
+
+thirdPartyCustomUIComponents.addCustomUIComponent("org_id_test_praveen", "test_claims", ExampleService);
 
 export default thirdPartyCustomUIComponents;

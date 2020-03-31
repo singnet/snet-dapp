@@ -50,8 +50,9 @@ const fetchMeteringDataSuccess = usageData => dispatch => {
 
 const meteringAPI = (token, orgId, serviceId, groupId, userId) => {
   const apiName = APIEndpoints.USER.name;
-  const apiPath = `${APIPaths.FREE_CALL_USAGE}?organization_id=${orgId}&service_id=${serviceId}&group_id=${groupId}&username=${userId}`;
-  const apiOptions = initializeAPIOptions(token);
+  const apiPath = APIPaths.FREE_CALL_USAGE;
+  const queryParams = { organization_id: orgId, service_id: serviceId, group_id: groupId, username: userId };
+  const apiOptions = initializeAPIOptions(token, null, queryParams);
   return API.get(apiName, apiPath, apiOptions);
 };
 

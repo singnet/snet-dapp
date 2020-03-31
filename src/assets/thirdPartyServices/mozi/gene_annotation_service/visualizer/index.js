@@ -60,6 +60,11 @@ const AnnotationGroups = [
     color: "#3498DB",
     subgroups: [],
   },
+  {
+    group: "rna-annotation",
+    color: "#eb2f96",
+    subgroups: [],
+  },
 ];
 
 const CYTOSCAPE_COLA_CONFIG = {
@@ -135,6 +140,15 @@ const CYTOSCAPE_STYLE = [
       "target-arrow-fill": "filled",
     },
   },
+  {
+    selector: e => {
+      return e.group() == "nodes" && e.data().group.includes("rna-annotation");
+    },
+    css: {
+      shape: "round-pentagon",
+      width: 200,
+    },
+  },
 ];
 
 const Visualizer = props => {
@@ -166,6 +180,7 @@ const Visualizer = props => {
     "gene-go-annotation%molecular_function",
     "gene-pathway-annotation%Reactome",
     "biogrid-interaction-annotation%",
+    "rna-annotation%",
   ]);
   const [selectedNode, setSelectedNode] = useState({
     node: null,
@@ -450,12 +465,7 @@ const Visualizer = props => {
     });
     cy.json({ elements: { nodes: visibleNodes } });
     cy.add(visibleEdges);
-    cy.remove(
-      cy.filter(
-        ele =>
-          ele.isNode() && !ele.degree() && !ele.data().group.includes("main")
-      )
-    );
+    cy.remove(cy.filter(ele => ele.isNode() && !ele.degree() && !ele.data().group.includes("main")));
     clearFilter();
     registerEventListeners();
   };
@@ -635,23 +645,27 @@ const Visualizer = props => {
               </Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-              {nodeTypes.map(n => (
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      color="primary"
-                      defaultChecked={visibleNodeTypes.includes(n)}
-                      onChange={e => {
-                        return setVisibleNodeTypes(va =>
-                          e.target.checked ? (va.includes(n) ? va : [...va, n]) : va.filter(a => a !== n)
-                        );
-                      }}
+              <div>
+                {nodeTypes.map(n => (
+                  <div style={{ display: "block" }}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          color="primary"
+                          defaultChecked={visibleNodeTypes.includes(n)}
+                          onChange={e => {
+                            return setVisibleNodeTypes(va =>
+                              e.target.checked ? (va.includes(n) ? va : [...va, n]) : va.filter(a => a !== n)
+                            );
+                          }}
+                        />
+                      }
+                      label={n}
+                      key={n}
                     />
-                  }
-                  label={n}
-                  key={n}
-                />
-              ))}
+                  </div>
+                ))}
+              </div>
             </ExpansionPanelDetails>
           </ExpansionPanel>
           <ExpansionPanel defaultExpanded={true}>
@@ -661,23 +675,27 @@ const Visualizer = props => {
               </Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-              {linkTypes.map(n => (
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      color="primary"
-                      defaultChecked={visibleLinkTypes.includes(n)}
-                      onChange={e => {
-                        return setVisibleLinkTypes(va =>
-                          e.target.checked ? (va.includes(n) ? va : [...va, n]) : va.filter(a => a !== n)
-                        );
-                      }}
+              <div>
+                {linkTypes.map(n => (
+                  <div style={{ display: "block" }}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          color="primary"
+                          defaultChecked={visibleLinkTypes.includes(n)}
+                          onChange={e => {
+                            return setVisibleLinkTypes(va =>
+                              e.target.checked ? (va.includes(n) ? va : [...va, n]) : va.filter(a => a !== n)
+                            );
+                          }}
+                        />
+                      }
+                      label={n}
+                      key={n}
                     />
-                  }
-                  label={n}
-                  key={n}
-                />
-              ))}
+                  </div>
+                ))}
+              </div>
             </ExpansionPanelDetails>
           </ExpansionPanel>
           <ExpansionPanel defaultExpanded={true}>
