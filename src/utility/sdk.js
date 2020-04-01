@@ -86,7 +86,23 @@ const paidCallMetadataGenerator = serviceRequestErrorHandler => async (channelId
   }
 };
 
-const generateOptions = (callType, wallet, serviceRequestErrorHandler, groupInfo) => {
+const stagingMetadataGenerator = (orgId, serviceId, serviceRequestErrorHandler) => async () => {
+  try {
+    sdk = await initSdk();
+    const allowedUserPrefixSignature = "__authorized_user";
+    const dataForSignature = [
+      { t: "string", v: sdk._web3.utils.fromAscii(allowedUserPrefixSignature) },
+      { t: "string", v: sdk._web3.utils.fromAscii(orgId) },
+      { t: "string", v: sdk._web3.utils.fromAscii(serviceId) },
+    ];
+    const signature = await sdk._account.signData(...dataForSignature);
+    return { "snet-payment-type": "allowed-user", "snet-allowed-user-signature-bin": signature.toString("base64") };
+  } catch (e) {
+    serviceRequestErrorHandler(e);
+  }
+};
+
+const generateOptions = (callType, wallet, serviceRequestErrorHandler, groupInfo, org_id, service_id) => {
   if (process.env.REACT_APP_SANDBOX) {
     return {
       endpoint: process.env.REACT_APP_SANDBOX_SERVICE_ENDPOINT,
@@ -94,6 +110,9 @@ const generateOptions = (callType, wallet, serviceRequestErrorHandler, groupInfo
     };
   }
   if (callType === callTypes.FREE) {
+    if (process.env.REACT_APP_STAGING_ENVIRONMENT === "true") {
+      return { metadataGenerator: stagingMetadataGenerator(org_id, service_id, serviceRequestErrorHandler) };
+    }
     return { metadataGenerator: metadataGenerator(serviceRequestErrorHandler, groupInfo.group_id) };
   }
   if (wallet && wallet.type === walletTypes.METAMASK) {
@@ -217,7 +236,7 @@ export const createServiceClient = (
   if (sdk && channel) {
     sdk.paymentChannelManagementStrategy = new ProxyPaymentChannelManagementStrategy(channel);
   }
-  const options = generateOptions(callType, wallet, serviceRequestErrorHandler, groupInfo);
+  const options = generateOptions(callType, wallet, serviceRequestErrorHandler, groupInfo, org_id, service_id);
   const serviceClient = new ServiceClient(
     sdk,
     org_id,
