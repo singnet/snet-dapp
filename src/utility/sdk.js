@@ -89,14 +89,16 @@ const paidCallMetadataGenerator = serviceRequestErrorHandler => async (channelId
 const stagingMetadataGenerator = (orgId, serviceId, serviceRequestErrorHandler) => async () => {
   try {
     sdk = await initSdk();
-    const allowedUserPrefixSignature = "__authorized_user";
     const dataForSignature = [
-      { t: "string", v: sdk._web3.utils.fromAscii(allowedUserPrefixSignature) },
-      { t: "string", v: sdk._web3.utils.fromAscii(orgId) },
-      { t: "string", v: sdk._web3.utils.fromAscii(serviceId) },
+      { t: "string", v: "__authorized_user" },
+      { t: "string", v: orgId },
+      { t: "string", v: serviceId },
     ];
-    const signature = await sdk._account.signData(...dataForSignature);
-    return { "snet-payment-type": "allowed-user", "snet-allowed-user-signature-bin": signature.toString("base64") };
+
+    const sha3Message = sdk._web3.utils.soliditySha3(...dataForSignature);
+    const signature = await sdk.account._identity.signData(sha3Message);
+    const b64Signature = parseSignature(signature);
+    return { "snet-payment-type": "allowed-user", "snet-allowed-user-signature-bin": b64Signature };
   } catch (e) {
     serviceRequestErrorHandler(e);
   }
