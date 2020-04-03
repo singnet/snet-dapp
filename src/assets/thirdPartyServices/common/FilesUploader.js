@@ -5,7 +5,7 @@ import classNames from "classnames";
 import { CloudUpload, Check } from "@material-ui/icons";
 import fileSize from "filesize";
 
-export default class DatasetUpload extends React.Component {
+export default class FilesUploader extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -14,16 +14,15 @@ export default class DatasetUpload extends React.Component {
   }
 
   componentDidUpdate() {
-    this.props.setValidationStatus(this.props.uploadedFile ? true : false);
+    this.props.setValidationStatus(this.props.uploadedFiles ? true : false);
   }
 
   render() {
     const props = {
-      name: "dataset",
-      multiple: false,
+      name: "uploadedFiles",
+      multiple: this.props.multiple ? true : false,
       onDrop: files => {
-        const file = files[0];
-        this.props.handleFileUpload(file);
+        this.props.handleFileUpload(files);
         return false;
       },
     };
@@ -45,7 +44,7 @@ export default class DatasetUpload extends React.Component {
                 }}
               >
                 <input {...getInputProps()} />
-                {this.props.uploadedFile ? (
+                {this.props.uploadedFiles && this.props.uploadedFiles[0] ? (
                   <Check style={{ fontSize: "48px", color: "#54C21F" }} />
                 ) : (
                   <CloudUpload style={{ fontSize: "48px" }} />
@@ -54,15 +53,15 @@ export default class DatasetUpload extends React.Component {
                   <p>Drop dataset here...</p>
                 ) : (
                   <p>
-                    Click here to select a file, or drag and drop it over this text. We expect {this.props.fileAccept}{" "}
-                    to be uploaded. Other files are disabled.
+                    Click here to select one or more files, or drag and drop them over this text. We expect{" "}
+                    {this.props.fileAccept} to be uploaded. Other files are disabled.
                   </p>
                 )}
               </div>
             );
           }}
         </Dropzone>
-        {this.props.uploadedFile && (
+        {this.props.uploadedFiles && this.props.uploadedFiles[0] && (
           <div
             id="fileDetails"
             style={{
@@ -75,7 +74,7 @@ export default class DatasetUpload extends React.Component {
               backgroundColor: "#e1f4ff",
             }}
           >
-            {this.props.uploadedFile.name + " " + fileSize(this.props.uploadedFile.size)}
+            {this.props.uploadedFiles[0].name + " " + fileSize(this.props.uploadedFiles[0].size)}
           </div>
         )}
       </div>
