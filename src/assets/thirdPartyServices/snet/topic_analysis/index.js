@@ -109,16 +109,16 @@ export default class TopicAnalysisService extends React.Component {
     return this.state.isValid["validJSON"];
   }
 
-  handleFileUpload(file) {
+  handleFileUpload(files) {
     const fileReader = new FileReader();
-    fileReader.readAsDataURL(file[0]);
+    fileReader.readAsDataURL(files[0]);
     fileReader.onload = () => {
       let encoded = fileReader.result.replace(/^data:(.*;base64,)?/, "");
       encoded.length % 4 > 0 && (encoded += "=".repeat(4 - (encoded.length % 4)));
       let user_value = this.validateJSON(atob(encoded));
       let condition = this.validateValues(user_value);
       this.setValidationStatus("validJSON", condition);
-      this.setState({ datasetFile: file[0] });
+      this.setState({ datasetFile: files[0] });
     };
   }
 

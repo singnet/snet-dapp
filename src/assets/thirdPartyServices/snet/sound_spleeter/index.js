@@ -48,10 +48,10 @@ export default class SoundSpleeterService extends React.Component {
     };
   }
 
-  handleFileUpload(file) {
-    if (file) {
+  handleFileUpload(files) {
+    if (files) {
       const fileReader = new FileReader();
-      fileReader.readAsArrayBuffer(file[0]);
+      fileReader.readAsArrayBuffer(files[0]);
       fileReader.onload = () => {
         var data = new Uint8Array(fileReader.result);
 
