@@ -5,7 +5,7 @@ import SvgIcon from "@material-ui/core/SvgIcon";
 import InfoIcon from "@material-ui/icons/Info";
 
 import OutlinedDropDown from "../../common/OutlinedDropdown";
-import FilesUploader from "../../common/FilesUploader";
+import FileUploader from "../../common/FileUploader";
 import SNETImageUpload from "../../standardComponents/SNETImageUpload";
 import HoverIcon from "../../standardComponents/HoverIcon";
 
@@ -105,8 +105,8 @@ const initialUserInput = {
   transformNames,
   image: "",
   second_image: "",
+  filesContentList: [],
   selectedFiles: [],
-  uploadedFiles: null,
   isValid: {
     selectedFiles: false,
   },
@@ -132,11 +132,11 @@ export default class MatchingService extends React.Component {
   }
 
   canBeInvoked() {
-    const { methodIndex, image, second_image, selectedFiles } = this.state;
+    const { methodIndex, image, second_image, filesContentList } = this.state;
     if (methodIndex === "0") return image;
     else if (methodIndex === "1") return image && second_image;
     else if (methodIndex === "2") return image && second_image;
-    else if (methodIndex === "3") return image && selectedFiles > 0;
+    else if (methodIndex === "3") return image && filesContentList > 0;
     return false;
   }
 
@@ -156,7 +156,7 @@ export default class MatchingService extends React.Component {
       transformNames,
       image,
       second_image,
-      selectedFiles,
+      filesContentList,
     } = this.state;
 
     const method_name = methodNames[methodIndex].content;
@@ -185,8 +185,8 @@ export default class MatchingService extends React.Component {
       request.setInputImage(image);
       request.setDetectorName(detector_name);
       request.setDescriptorName(descriptor_name);
-      for (var i = 0; i < selectedFiles.length; i++) {
-        request.addImageBase(selectedFiles[i]);
+      for (var i = 0; i < filesContentList.length; i++) {
+        request.addImageBase(filesContentList[i]);
       }
       request.setNumofimagestoretrieve(5);
       request.setNumofclusters(1000);
@@ -214,22 +214,23 @@ export default class MatchingService extends React.Component {
   }
 
   handleFileUpload(files) {
-    this.setState({ selectedFiles: [], uploadedFiles: null });
+    this.setState({ filesContentList: [], selectedFiles: [] });
     let images = [];
+    let fileList = [];
     for (let i = 0; i < files.length; i++) {
       let reader = new FileReader();
       reader.onloadend = () => {
-        console.log(reader.result);
         let content = reader.result.replace(/^data:(.*;base64,)?/, "");
         images.push(content);
-        if (images.length === files.length) this.setSelectedFiles(images, files[i]);
+        fileList.push(files[i]);
+        if (images.length === files.length) this.setSelectedFiles(images, fileList);
       };
       reader.readAsDataURL(files[i]);
     }
   }
 
-  setSelectedFiles(images, last_file) {
-    this.setState({ selectedFiles: images, uploadedFiles: [last_file] });
+  setSelectedFiles(images, fileList) {
+    this.setState({ filesContentList: images, selectedFiles: fileList });
   }
 
   setValidationStatus(key, valid) {
@@ -339,9 +340,9 @@ export default class MatchingService extends React.Component {
           {!this.props.isComplete && method_name === "getClosestImages" && (
             <Grid item xs={12} container justify="center" style={{ textAlign: "center" }}>
               Choose database (upload a folder with images):
-              <FilesUploader
+              <FileUploader
                 multiple={true}
-                uploadedFiles={this.state.uploadedFiles}
+                uploadedFiles={this.state.selectedFiles}
                 handleFileUpload={this.handleFileUpload}
                 setValidationStatus={valid => this.setValidationStatus("selectedFiles", valid)}
                 fileAccept=".png, .jpg, .jpeg"

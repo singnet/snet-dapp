@@ -7,7 +7,7 @@ import InfoIcon from "@material-ui/icons/Info";
 import HoverIcon from "../../standardComponents/HoverIcon";
 import OutlinedDropDown from "../../common/OutlinedDropdown";
 import OutlinedTextArea from "../../common/OutlinedTextArea";
-import FilesUploader from "../../common/FilesUploader";
+import FileUploader from "../../common/FileUploader";
 
 import { RealTimeVoiceCloning } from "./voice_cloning_pb_service";
 
@@ -52,7 +52,8 @@ export default class RealTimeVoiceCloningService extends React.Component {
   }
 
   handleFileUpload(files) {
-    if (files) {
+    this.setState({ audio: undefined, audio_url: undefined });
+    if (files.length) {
       const fileReader = new FileReader();
       fileReader.readAsArrayBuffer(files[0]);
       fileReader.onload = () => {
@@ -151,10 +152,10 @@ export default class RealTimeVoiceCloningService extends React.Component {
           )}
           {!this.props.isComplete && (
             <Grid item xs={12} container justify="center" style={{ textAlign: "center" }}>
-              <FilesUploader
+              <FileUploader
                 name="audio"
                 type="file"
-                uploadedFiles={[this.state.uploadedFile]}
+                uploadedFiles={this.state.uploadedFile}
                 handleFileUpload={this.handleFileUpload}
                 setValidationStatus={valid => this.setValidationStatus("uploadedFile", valid)}
                 fileAccept=".wav, .mp3"

@@ -6,7 +6,7 @@ import SvgIcon from "@material-ui/core/SvgIcon";
 import InfoIcon from "@material-ui/icons/Info";
 
 import HoverIcon from "../../standardComponents/HoverIcon";
-import FilesUploader from "../../common/FilesUploader";
+import FileUploader from "../../common/FileUploader";
 import OutlinedDropDown from "../../common/OutlinedDropdown";
 import OutlinedTextArea from "../../common/OutlinedTextArea";
 
@@ -146,16 +146,19 @@ export default class NetworkAnalysisBipartite extends React.Component {
   }
 
   handleFileUpload(files) {
-    const fileReader = new FileReader();
-    fileReader.readAsDataURL(files[0]);
-    fileReader.onload = () => {
-      let encoded = fileReader.result.replace(/^data:(.*;base64,)?/, "");
-      encoded.length % 4 > 0 && (encoded += "=".repeat(4 - (encoded.length % 4)));
-      let user_value = this.validateJSON(atob(encoded));
-      let condition = this.validateValues(user_value);
-      this.setValidationStatus("validJSON", condition);
-      this.setState({ datasetFile: files[0] });
-    };
+    this.setState({ datasetFile: null });
+    if (files.length) {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(files[0]);
+      fileReader.onload = () => {
+        let encoded = fileReader.result.replace(/^data:(.*;base64,)?/, "");
+        encoded.length % 4 > 0 && (encoded += "=".repeat(4 - (encoded.length % 4)));
+        let user_value = this.validateJSON(atob(encoded));
+        let condition = this.validateValues(user_value);
+        this.setValidationStatus("validJSON", condition);
+        this.setState({ datasetFile: files[0] });
+      };
+    }
   }
 
   handleFormUpdate(event) {
@@ -243,7 +246,7 @@ export default class NetworkAnalysisBipartite extends React.Component {
   }
 
   validateJSON(value) {
-    let user_value;
+    let user_value = "";
     try {
       user_value = JSON.parse(value);
     } catch (error) {
@@ -332,8 +335,8 @@ export default class NetworkAnalysisBipartite extends React.Component {
 
           {this.state.inputIndex === "File" && (
             <Grid item xs={12} container justify="center" style={{ textAlign: "center" }}>
-              <FilesUploader
-                uploadedFiles={[this.state.datasetFile]}
+              <FileUploader
+                uploadedFiles={this.state.datasetFile}
                 handleFileUpload={this.handleFileUpload}
                 fileAccept={this.state.fileAccept}
                 setValidationStatus={valid => this.setValidationStatus("datasetFile", valid)}

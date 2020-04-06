@@ -6,7 +6,7 @@ import InfoIcon from "@material-ui/icons/Info";
 
 import HoverIcon from "../../standardComponents/HoverIcon";
 import OutlinedDropDown from "../../common/OutlinedDropdown";
-import FilesUploader from "../../common/FilesUploader";
+import FileUploader from "../../common/FileUploader";
 
 import { SoundSpleeter } from "./sound_spleeter_pb_service";
 
@@ -49,7 +49,8 @@ export default class SoundSpleeterService extends React.Component {
   }
 
   handleFileUpload(files) {
-    if (files) {
+    this.setState({ audio: undefined, audio_url: undefined });
+    if (files.length) {
       const fileReader = new FileReader();
       fileReader.readAsArrayBuffer(files[0]);
       fileReader.onload = () => {
@@ -149,10 +150,10 @@ export default class SoundSpleeterService extends React.Component {
           )}
           {!this.props.isComplete && (
             <Grid item xs={12} container justify="center" style={{ textAlign: "center" }}>
-              <FilesUploader
+              <FileUploader
                 name="audio"
                 type="file"
-                uploadedFiles={[this.state.uploadedFiles]}
+                uploadedFiles={this.state.uploadedFiles}
                 handleFileUpload={this.handleFileUpload}
                 setValidationStatus={valid => this.setValidationStatus("uploadedFile", valid)}
                 fileAccept=".wav, .mp3"
