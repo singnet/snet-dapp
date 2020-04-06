@@ -136,7 +136,7 @@ export default class MatchingService extends React.Component {
     if (methodIndex === "0") return image;
     else if (methodIndex === "1") return image && second_image;
     else if (methodIndex === "2") return image && second_image;
-    else if (methodIndex === "3") return image && filesContentList > 0;
+    else if (methodIndex === "3") return image && filesContentList.length > 0;
     return false;
   }
 
