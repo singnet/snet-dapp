@@ -5,12 +5,13 @@ import SvgIcon from "@material-ui/core/SvgIcon";
 import InfoIcon from "@material-ui/icons/Info";
 
 import HoverIcon from "../../standardComponents/HoverIcon";
-import DatasetUpload from "../analysis-helpers/DatasetUploaderHelper";
+import FileUploader from "../../common/FileUploader";
 
 import { ASR } from "./asr_pb_service";
 
 const initialUserInput = {
   data: new ArrayBuffer(),
+  uploadedFile: null,
   isValid: {
     uploadedFile: false,
     validWAV: false,
@@ -32,10 +33,11 @@ export default class AutomaticSpeechRecognition extends React.Component {
     };
   }
 
-  handleFileUpload(file) {
-    if (file) {
+  handleFileUpload(files) {
+    this.setState({ data: new ArrayBuffer(), uploadedFile: null });
+    if (files.length) {
       const fileReader = new FileReader();
-      fileReader.readAsArrayBuffer(file);
+      fileReader.readAsArrayBuffer(files[0]);
       fileReader.onload = () => {
         var data = new Uint8Array(fileReader.result);
 
@@ -52,7 +54,7 @@ export default class AutomaticSpeechRecognition extends React.Component {
         audio.style.marginLeft = "5px";
         ac.appendChild(audio);
 
-        this.setState({ data });
+        this.setState({ data, uploadedFile: files[0] });
       };
     }
   }
@@ -95,10 +97,10 @@ export default class AutomaticSpeechRecognition extends React.Component {
       <React.Fragment>
         <Grid container direction="column" justify="center" spacing={2}>
           <Grid item xs={12} container justify="center" style={{ textAlign: "center" }}>
-            <DatasetUpload
+            <FileUploader
               name="data"
               type="file"
-              uploadedFile={this.state.uploadedFile}
+              uploadedFiles={this.state.uploadedFile}
               handleFileUpload={this.handleFileUpload}
               setValidationStatus={valid => this.setValidationStatus("uploadedFile", valid)}
               fileAccept=".wav"

@@ -6,7 +6,7 @@ import InfoIcon from "@material-ui/icons/Info";
 
 import HoverIcon from "../../standardComponents/HoverIcon";
 import OutlinedDropDown from "../../common/OutlinedDropdown";
-import DatasetUpload from "../analysis-helpers/DatasetUploaderHelper";
+import FileUploader from "../../common/FileUploader";
 
 import { SoundSpleeter } from "./sound_spleeter_pb_service";
 
@@ -48,10 +48,11 @@ export default class SoundSpleeterService extends React.Component {
     };
   }
 
-  handleFileUpload(file) {
-    if (file) {
+  handleFileUpload(files) {
+    this.setState({ audio: undefined, audio_url: undefined });
+    if (files.length) {
       const fileReader = new FileReader();
-      fileReader.readAsArrayBuffer(file);
+      fileReader.readAsArrayBuffer(files[0]);
       fileReader.onload = () => {
         var data = new Uint8Array(fileReader.result);
 
@@ -117,7 +118,7 @@ export default class SoundSpleeterService extends React.Component {
           response: {
             status: "success",
             vocals: window.URL.createObjectURL(blob_vocals),
-            accomp: window.URL.createObjectURL(blob_accomp)
+            accomp: window.URL.createObjectURL(blob_accomp),
           },
         });
       },
@@ -135,7 +136,7 @@ export default class SoundSpleeterService extends React.Component {
       <React.Fragment>
         <Grid container direction="column" justify="center" spacing={2}>
           {!this.props.isComplete && (
-            <Grid item xs={12} container justify="center" style={{ textAlign: 'center' }}>
+            <Grid item xs={12} container justify="center" style={{ textAlign: "center" }}>
               <OutlinedDropDown
                 id="sample"
                 name="sampleIndex"
@@ -149,10 +150,10 @@ export default class SoundSpleeterService extends React.Component {
           )}
           {!this.props.isComplete && (
             <Grid item xs={12} container justify="center" style={{ textAlign: "center" }}>
-              <DatasetUpload
+              <FileUploader
                 name="audio"
                 type="file"
-                uploadedFile={this.state.uploadedFile}
+                uploadedFiles={this.state.uploadedFiles}
                 handleFileUpload={this.handleFileUpload}
                 setValidationStatus={valid => this.setValidationStatus("uploadedFile", valid)}
                 fileAccept=".wav, .mp3"
