@@ -4,7 +4,7 @@ import { withStyles } from "@material-ui/styles";
 
 import thirdPartyCustomUIComponents from "../../../../assets/thirdPartyServices";
 import { useStyles } from "./styles";
-import { serviceActions, loaderActions } from "../../../../Redux/actionCreators";
+import { serviceActions, loaderActions, userActions } from "../../../../Redux/actionCreators";
 import CompletedActions from "./CompletedActions";
 import { createServiceClient, callTypes } from "../../../../utility/sdk";
 import ThirdPartyServiceErrorBoundary from "./ThirdPartyServiceErrorBoundary";
@@ -20,8 +20,17 @@ class ThirdPartyAIService extends Component {
   };
 
   componentDidMount = async () => {
-    const { org_id, service_id, freeCallsRemaining, groupInfo, wallet, channelInfo } = this.props;
+    const {
+      org_id,
+      service_id,
+      freeCallsRemaining,
+      groupInfo,
+      wallet,
+      channelInfo,
+      fetchAuthenticatedUser,
+    } = this.props;
     const callType = freeCallsRemaining > 0 ? callTypes.FREE : callTypes.REGULAR;
+    const awsUser = await fetchAuthenticatedUser();
     this.serviceClient = await createServiceClient(
       org_id,
       service_id,
@@ -31,7 +40,8 @@ class ThirdPartyAIService extends Component {
       this.props.serviceRequestErrorHandler,
       callType,
       wallet,
-      channelInfo
+      channelInfo,
+      awsUser
     );
     await this.setupComponent();
     this.setState({ loading: false });
@@ -99,6 +109,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   fetchFeedback: (orgId, serviceId) => dispatch(serviceActions.fetchFeedback(orgId, serviceId)),
   stopLoader: () => dispatch(loaderActions.startAppLoader),
+  fetchAuthenticatedUser: () => dispatch(userActions.fetchAuthenticatedUser()),
 });
 
 export default connect(

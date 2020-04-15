@@ -3,7 +3,7 @@ import { API } from "aws-amplify";
 
 import { APIEndpoints, APIPaths } from "../config/APIEndpoints";
 import { initializeAPIOptions } from "./API";
-import { fetchAuthenticatedUser, walletTypes } from "../Redux/actionCreators/UserActions";
+import { walletTypes } from "../Redux/actionCreators/UserActions";
 import ProxyPaymentChannelManagementStrategy from "./ProxyPaymentChannelManagementStrategy";
 import PaypalPaymentMgmtStrategy from "./PaypalPaymentMgmtStrategy";
 
@@ -44,10 +44,14 @@ const parseFreeCallMetadata = ({ data }) => ({
   "snet-free-call-token-expiry-block": `${data["snet-free-call-token-expiry-block"]}`,
 });
 
-const metadataGenerator = (serviceRequestErrorHandler, groupId) => async (serviceClient, serviceName, method) => {
+const metadataGenerator = (serviceRequestErrorHandler, groupId, awsUser) => async (
+  serviceClient,
+  serviceName,
+  method
+) => {
   try {
     const { orgId: org_id, serviceId: service_id } = serviceClient.metadata;
-    const { email, token } = await fetchAuthenticatedUser();
+    const { email, token } = awsUser;
     const payload = { org_id, service_id, service_name: serviceName, method, username: email, group_id: groupId };
     const apiName = APIEndpoints.SIGNER_SERVICE.name;
     const apiOptions = initializeAPIOptions(token, payload);
@@ -62,21 +66,21 @@ const parseChannelStateRequestSigner = ({ data }) => ({
   signatureBytes: parseSignature(data.signature),
 });
 
-const channelStateRequestSigner = async channelId => {
+const channelStateRequestSigner = awsUser => async channelId => {
   const apiName = APIEndpoints.SIGNER_SERVICE.name;
   const stateServicePayload = { channel_id: channelId };
-  const { token } = await fetchAuthenticatedUser();
+  const { token } = awsUser;
   const stateServiceOptions = initializeAPIOptions(token, stateServicePayload);
   return await API.post(apiName, APIPaths.SIGNER_STATE_SERVICE, stateServiceOptions).then(
     parseChannelStateRequestSigner
   );
 };
 
-const paidCallMetadataGenerator = serviceRequestErrorHandler => async (channelId, signingAmount, nonce) => {
+const paidCallMetadataGenerator = (serviceRequestErrorHandler, awsUser) => async (channelId, signingAmount, nonce) => {
   try {
     const apiName = APIEndpoints.SIGNER_SERVICE.name;
     const RegCallPayload = { channel_id: channelId, amount: Number(signingAmount), nonce: Number(nonce) };
-    const { token } = await fetchAuthenticatedUser();
+    const { token } = awsUser;
     const RegCallOptions = initializeAPIOptions(token, RegCallPayload);
     const response = await API.post(apiName, APIPaths.SIGNER_REGULAR_CALL, RegCallOptions);
     const paidCallMetadata = parseRegularCallMetadata(response);
@@ -104,7 +108,7 @@ const stagingMetadataGenerator = (orgId, serviceId, serviceRequestErrorHandler) 
   }
 };
 
-const generateOptions = (callType, wallet, serviceRequestErrorHandler, groupInfo, org_id, service_id) => {
+const generateOptions = (callType, wallet, serviceRequestErrorHandler, groupInfo, org_id, service_id, awsUser) => {
   if (process.env.REACT_APP_SANDBOX) {
     return {
       endpoint: process.env.REACT_APP_SANDBOX_SERVICE_ENDPOINT,
@@ -115,15 +119,15 @@ const generateOptions = (callType, wallet, serviceRequestErrorHandler, groupInfo
     if (process.env.REACT_APP_STAGING_ENVIRONMENT === "true") {
       return { metadataGenerator: stagingMetadataGenerator(org_id, service_id, serviceRequestErrorHandler) };
     }
-    return { metadataGenerator: metadataGenerator(serviceRequestErrorHandler, groupInfo.group_id) };
+    return { metadataGenerator: metadataGenerator(serviceRequestErrorHandler, groupInfo.group_id, awsUser) };
   }
   if (wallet && wallet.type === walletTypes.METAMASK) {
     return {};
   }
   if (callType === callTypes.REGULAR) {
     return {
-      channelStateRequestSigner,
-      paidCallMetadataGenerator: paidCallMetadataGenerator(serviceRequestErrorHandler),
+      channelStateRequestSigner: channelStateRequestSigner(awsUser),
+      paidCallMetadataGenerator: paidCallMetadataGenerator(serviceRequestErrorHandler, awsUser),
     };
   }
 };
@@ -233,12 +237,13 @@ export const createServiceClient = (
   serviceRequestErrorHandler,
   callType,
   wallet,
-  channelInfo
+  channelInfo,
+  awsUser
 ) => {
   if (sdk && channel) {
     sdk.paymentChannelManagementStrategy = new ProxyPaymentChannelManagementStrategy(channel);
   }
-  const options = generateOptions(callType, wallet, serviceRequestErrorHandler, groupInfo, org_id, service_id);
+  const options = generateOptions(callType, wallet, serviceRequestErrorHandler, groupInfo, org_id, service_id, awsUser);
   const serviceClient = new ServiceClient(
     sdk,
     org_id,

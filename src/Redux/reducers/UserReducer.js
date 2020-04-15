@@ -13,6 +13,9 @@ const InitialUserDetails = {
   },
   isInitialized: false,
   isEmailVerified: false,
+  jwt: {
+    exp: "",
+  },
   wallet: initialWallet,
   walletList: [],
   firstTimeFetchWallet: true,
@@ -113,6 +116,9 @@ const userReducer = (state = InitialUserDetails, action) => {
     }
     case userActions.UPDATE_TRANSACTION_HISTORY: {
       return { ...state, transactionHistory: action.payload };
+    }
+    case userActions.loginActions.SET_JWT_EXP: {
+      return { ...state, jwt: { ...state.jwt, exp: action.payload } };
     }
     default: {
       return state;

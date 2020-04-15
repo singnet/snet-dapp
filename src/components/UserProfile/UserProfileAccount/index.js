@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 import map from "lodash/map";
@@ -26,16 +26,18 @@ const UserProfileAccount = ({ classes, startAppLoader, stopAppLoader, wallet, up
   const [alert, setAlert] = useState({});
   const [wallets, updateWallets] = useState([]);
   const [linkedProviders, updateLinkedProviders] = useState([]);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const fetchWallets = async () => {
-      const availableWallets = await fetchAvailableUserWallets();
+      const availableWallets = await dispatch(fetchAvailableUserWallets());
       const enhancedWallets = map(availableWallets, ({ address, type }) => {
         return { address, type, value: address, label: `${type} (${address})` };
       });
       updateWallets(enhancedWallets);
     };
     fetchWallets();
-  }, []);
+  }, [dispatch]);
 
   const isSameMetaMaskAddress = address => {
     const selectedEthAddress = window.ethereum && window.ethereum.selectedAddress;
