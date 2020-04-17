@@ -32,7 +32,7 @@ export const freeCalls = state => {
     return {};
   }
   if (selectedGroup.free_calls === 0) {
-    return { allowed: 0, remaing: 0 };
+    return { allowed: 0, remaining: 0 };
   }
   return {
     allowed: selectedGroup.free_calls,
