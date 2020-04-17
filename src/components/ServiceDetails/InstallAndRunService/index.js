@@ -28,10 +28,10 @@ class InstallAndRunService extends Component {
   };
 
   handleTabChange = activeTab => {
-    this.setState({ activeTab });
+    this.setState({ activeTab, alert: {}, downloadTokenURL: "" });
   };
 
-  downloadToken = async e => {
+  generateToken = async e => {
     e.preventDefault();
     try {
       this.setState({ alert: {}, downloadTokenURL: "" });
@@ -53,7 +53,7 @@ class InstallAndRunService extends Component {
   };
 
   handlePublicKey = event => {
-    this.setState({ publickey: event.currentTarget.value });
+    this.setState({ publickey: event.currentTarget.value, alert: {}, downloadTokenURL: "" });
   };
 
   render() {
@@ -92,15 +92,22 @@ class InstallAndRunService extends Component {
                     Explanation about where to look for the public address.
                   </Typography>
                 </div>
-                <Button type="submit" className={classes.DownloadTokenBtn} color="primary" onClick={this.downloadToken}>
-                  Download Token
-                </Button>
+                {!downloadTokenURL && (
+                  <Button
+                    type="submit"
+                    className={classes.DownloadTokenBtn}
+                    color="primary"
+                    onClick={this.generateToken}
+                  >
+                    Generate Token
+                  </Button>
+                )}
+                {downloadTokenURL && (
+                  <a href={downloadTokenURL} download={downloadTokenFileName}>
+                    Download Token
+                  </a>
+                )}
               </div>
-              {downloadTokenURL && (
-                <a href={downloadTokenURL} download={downloadTokenFileName}>
-                  click here to download the Token
-                </a>
-              )}
               <AlertBox type={alert.type} message={alert.message} />
             </div>
           </div>
@@ -123,7 +130,4 @@ const mapDispatchToProps = dispatch => ({
   downloadAuthToken: (serviceid, groupid, publicKey, orgid) =>
     dispatch(serviceActions.downloadAuthToken(serviceid, groupid, publicKey, orgid)),
 });
-export default connect(
-  null,
-  mapDispatchToProps
-)(withStyles(useStyles)(InstallAndRunService));
+export default connect(null, mapDispatchToProps)(withStyles(useStyles)(InstallAndRunService));

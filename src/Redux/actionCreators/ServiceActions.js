@@ -117,7 +117,8 @@ export const downloadAuthToken = (serviceId, groupId, publicKey, orgId) => async
     );
 
     const jsonToDownload = {
-      tokeToMakeFreeCall: data.token_to_make_free_call,
+      email: userId,
+      tokenToMakeFreeCall: data.token_to_make_free_call,
       tokenExpirationBlock: data.token_expiration_block,
     };
     const downloadBlob = new Blob([JSON.stringify(jsonToDownload)], { type: "text/json;charset=utf-8" });
