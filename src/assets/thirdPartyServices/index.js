@@ -50,6 +50,7 @@ const MatchingService = lazy(() => import("./snet/match_service"));
 const SoundSpleeterService = lazy(() => import("./snet/sound_spleeter"));
 const RealTimeVoiceCloningService = lazy(() => import("./snet/real_time_voice_cloning"));
 const ColorizationService = lazy(() => import("./snet/deoldify-colorizer"));
+const FBProphetForecastService = lazy(() => import("./snet/fbprophet-forecast"));
 
 //ADD_CONSTANTS_HERE
 
@@ -144,6 +145,7 @@ addSnetCustomUI("match-service", MatchingService);
 addSnetCustomUI("sound-spleeter", SoundSpleeterService);
 addSnetCustomUI("real-time-voice-cloning", RealTimeVoiceCloningService);
 addSnetCustomUI("deoldify-colorizer", ColorizationService);
+addSnetCustomUI("fbprophet-forecast", FBProphetForecastService);
 
 //TODO remove before deploying to mainnet
 addOrg2CustomUI("freecall", ExampleService);
