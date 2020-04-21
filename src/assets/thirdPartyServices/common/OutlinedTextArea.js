@@ -10,6 +10,12 @@ class OutlinedTextArea extends React.Component {
     this.inputRef = React.createRef();
   }
 
+  // Fixing Firefox issue at TextFields with type="number"
+  num_onChange(event, onChange) {
+    if(isNaN(parseInt(event.target.value))) return;
+    onChange(event);
+  }
+
   render() {
     const {
       id,
@@ -64,7 +70,7 @@ class OutlinedTextArea extends React.Component {
             variant="outlined"
             margin="normal"
             fullWidth={fullWidth ? fullWidth : true}
-            onChange={onChange}
+            onChange={type === "number" ? (event) => this.num_onChange(event, onChange) : onChange}
             onFocus={onFocus}
             helperText={helperTxt ? helperTxt : null}
             inputProps={{
