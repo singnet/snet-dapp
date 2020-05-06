@@ -29,7 +29,7 @@ class SignUp extends Component {
   };
 
   handleEmail = event => {
-    this.setState({ email: event.currentTarget.value });
+    this.setState({ email: event.currentTarget.value.toLowerCase() });
   };
 
   handlePassword = event => {
@@ -146,7 +146,4 @@ const mapDispatchToProps = dispatch => ({
   updateEmail: email => dispatch(userActions.updateEmail(email)),
 });
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(withStyles(useStyles)(SignUp));
+export default connect(null, mapDispatchToProps)(withStyles(useStyles)(SignUp));
