@@ -26,9 +26,9 @@ const initialUserInput = {
   ],
   audio: undefined,
   audio_url: undefined,
+  uploadedFiles: undefined,
   isValid: {
-    uploadedFile: false,
-    validWAV: false,
+    validAudioFile: false,
   },
 };
 
@@ -49,7 +49,7 @@ export default class SoundSpleeterService extends React.Component {
   }
 
   handleFileUpload(files) {
-    this.setState({ audio: undefined, audio_url: undefined });
+    this.setState({ audio: undefined, audio_url: undefined, uploadedFiles: undefined });
     if (files.length) {
       const fileReader = new FileReader();
       fileReader.readAsArrayBuffer(files[0]);
@@ -69,7 +69,7 @@ export default class SoundSpleeterService extends React.Component {
         audio_elem.style.marginLeft = "5px";
         ac.appendChild(audio_elem);
 
-        this.setState({ audio: data, audio_url: undefined });
+        this.setState({ audio: data, audio_url: undefined, uploadedFiles: files[0] });
       };
     }
   }
@@ -92,7 +92,7 @@ export default class SoundSpleeterService extends React.Component {
       audio_elem.style.width = "100%";
       audio_elem.style.marginLeft = "5px";
       ac.appendChild(audio_elem);
-      this.setState({ audio: undefined, audio_url: sample_url });
+      this.setState({ audio: undefined, audio_url: sample_url, uploadedFiles: undefined });
     }
   }
 
@@ -155,7 +155,7 @@ export default class SoundSpleeterService extends React.Component {
                 type="file"
                 uploadedFiles={this.state.uploadedFiles}
                 handleFileUpload={this.handleFileUpload}
-                setValidationStatus={valid => this.setValidationStatus("uploadedFile", valid)}
+                setValidationStatus={valid => this.setValidationStatus("validAudioFile", valid)}
                 fileAccept=".wav, .mp3"
               />
             </Grid>
