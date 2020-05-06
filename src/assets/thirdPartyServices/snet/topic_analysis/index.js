@@ -130,7 +130,7 @@ export default class TopicAnalysisService extends React.Component {
     this.setValidationStatus("validJSON", false);
     const { inputIndex } = this.state;
     if (event.target.name !== "string_area" && inputIndex === "Text") {
-      this.setState({ string_area: JSON.stringify(SampleInput, undefined, 4) });
+      this.setState({ string_area: JSON.stringify(SampleInput, undefined, 4), datasetFile: null });
     }
     this.setState({ internal_error: "" });
   }

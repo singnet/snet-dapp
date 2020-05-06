@@ -209,124 +209,127 @@ const Visualizer = props => {
         wheelSensitivity: 0.3,
       })
     );
-  }, [cy_wrapper]);
+  }, []);
 
   useEffect(() => {
     cy && toggleAnnotationVisibility(visibleAnnotations);
-  }, [visibleAnnotations, visibleNodeTypes, visibleLinkTypes, cy, toggleAnnotationVisibility]);
+  }, [visibleAnnotations, visibleNodeTypes, visibleLinkTypes, cy]);
 
-  useEffect(() => {
-    if (!cy) return;
-    if (filteredElements) {
-      cy.batch(() => filteredElements.style({ opacity: 1 }));
-      cy.batch(() =>
-        cy
-          .nodes()
+  useEffect(
+    function() {
+      if (!cy) return;
+      if (filteredElements) {
+        cy.batch(() => filteredElements.style({ opacity: 1 }));
+        cy.batch(() =>
+          cy
+            .nodes()
+            .difference(filteredElements)
+            .style({ opacity: 0.1 })
+        );
+        cy.edges()
           .difference(filteredElements)
-          .style({ opacity: 0.1 })
-      );
-      cy.edges()
-        .difference(filteredElements)
-        .style({ opacity: 0 });
-      contextMenu.showMenuItem("add");
-      contextMenu.showMenuItem("remove");
-      contextMenu.hideMenuItem("filter");
-      filteredElements.layout(layout).run();
-    } else {
-      cy.batch(() => cy.elements().style({ opacity: 1 }));
-      contextMenu.showMenuItem("filter");
-      contextMenu.hideMenuItem("add");
-      contextMenu.hideMenuItem("remove");
-      cy.layout(layout).run();
-    }
-  }, [contextMenu, cy, filteredElements, layout]);
+          .style({ opacity: 0 });
+        contextMenu.showMenuItem("add");
+        contextMenu.showMenuItem("remove");
+        contextMenu.hideMenuItem("filter");
+        filteredElements.layout(layout).run();
+      } else {
+        cy.batch(() => cy.elements().style({ opacity: 1 }));
+        contextMenu.showMenuItem("filter");
+        contextMenu.hideMenuItem("add");
+        contextMenu.hideMenuItem("remove");
+        cy.layout(layout).run();
+      }
+    },
+    [filteredElements]
+  );
 
-  useEffect(() => {
-    if (cy) {
-      MLLLayout();
-      cy.style([
-        ...CYTOSCAPE_STYLE,
-        ...assignColorToAnnotations(),
-        {
-          selector: n => n.data().group.includes("main"),
-          style: {
-            "background-fill": "solid",
-            "background-color": "blue",
-            "text-outline-color": "blue",
-          },
-        },
-        {
-          selector: n =>
-            n.data().subgroup.includes("Uniprot") &&
-            n.neighborhood().some(e => {
-              return e.data().group.includes("main");
-            }),
-          style: {
-            "background-color": "blue",
-          },
-        },
-      ]);
-      var options = {
-        menuItems: [
+  useEffect(
+    function() {
+      if (cy) {
+        MLLLayout();
+        cy.style([
+          ...CYTOSCAPE_STYLE,
+          ...assignColorToAnnotations(),
           {
-            id: "filter",
-            content: "Filter",
-            selector: "node",
-            onClickFunction: e => {
-              addToFilter(e.target.data().id);
+            selector: n => n.data().group.includes("main"),
+            style: {
+              "background-fill": "solid",
+              "background-color": "blue",
+              "text-outline-color": "blue"
+            }
+          }
+        ]);
+        // var nav = cy.navigator(NAVIGATOR_CONFIG);
+        var options = {
+          menuItems: [
+            {
+              id: "filter",
+              content: "Filter",
+              selector: "node",
+              onClickFunction: e => {
+                addToFilter(e.target.data().id);
+              },
+              hasTrailingDivider: true,
+              image: { src: filterSvg, width: 18, height: 18, x: 8, y: 8 }
             },
-            hasTrailingDivider: true,
-            image: { src: filterSvg, width: 18, height: 18, x: 8, y: 8 },
-          },
-          {
-            id: "add",
-            content: "Add",
-            selector: "node",
-            image: { src: addSvg, width: 18, height: 18, x: 8, y: 8 },
-            onClickFunction: e => addToFilter(e.target.data().id),
-            show: false,
-          },
-          {
-            id: "remove",
-            content: "Remove",
-            selector: "node",
-            image: { src: removeSvg, width: 18, height: 18, x: 8, y: 8 },
-            onClickFunction: e => removeFromFilter(e.target.data().id),
-            show: false,
-          },
-          {
-            id: "copy",
-            content: "Copy ID",
-            selector: "node",
-            image: { src: copySvg, width: 18, height: 18, x: 8, y: 8 },
-            onClickFunction: e => {
-              const el = document.createElement("textarea");
-              el.value = e.target.data().id;
-              document.body.appendChild(el);
-              el.select();
-              document.execCommand("copy");
-              document.body.removeChild(el);
+            {
+              id: "add",
+              content: "Add",
+              selector: "node",
+              image: { src: addSvg, width: 18, height: 18, x: 8, y: 8 },
+              onClickFunction: e => addToFilter(e.target.data().id),
+              show: false
             },
-            show: true,
-          },
-        ],
-        menuItemClasses: ["context-menu-item"],
-        contextMenuClasses: ["context-menu"],
-      };
-      setContextMenu(cy.contextMenus(options));
-    }
-  }, [MLLLayout, addToFilter, cy, removeFromFilter]);
+            {
+              id: "remove",
+              content: "Remove",
+              selector: "node",
+              image: { src: removeSvg, width: 18, height: 18, x: 8, y: 8 },
+              onClickFunction: e => removeFromFilter(e.target.data().id),
+              show: false
+            },
+            {
+              id: "copy",
+              content: "Copy ID",
+              selector: "node",
+              image: { src: copySvg, width: 18, height: 18, x: 8, y: 8 },
+              onClickFunction: e => {
+                const el = document.createElement("textarea");
+                el.value = e.target.data().id;
+                document.body.appendChild(el);
+                el.select();
+                document.execCommand("copy");
+                document.body.removeChild(el);
+              },
+              show: true
+            }
+          ],
+          menuItemClasses: ["context-menu-item"],
+          contextMenuClasses: ["context-menu"]
+        };
+        setContextMenu(cy.contextMenus(options));
+      }
+    },
+    [cy]
+  );
 
-  useEffect(() => {
-    if (layout) {
-      const l = filteredElements ? filteredElements.layout(layout) : cy.layout(layout);
-      setLoaderText("Applying layout, please wait ...");
-      l.pon("layoutstop").then(e => {
-        setLoaderText(undefined);
-      });
-      l.run();
-    }
-  }, [cy, filteredElements, layout]);
+ useEffect(
+    function() {
+      if (layout) {
+        const l = filteredElements
+          ? filteredElements.layout(layout)
+          : cy.layout(layout);
+        setLoaderText("Applying layout, please wait ...");
+        l.pon("layoutstop", function() {
+          setLoaderText(undefined);
+        });
+        l.run();
+      }
+    },
+    [layout]
+  );
+
 
   const randomLayout = () => {
     setLayout(CYTOSCAPE_COLA_CONFIG);

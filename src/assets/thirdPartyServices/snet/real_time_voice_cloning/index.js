@@ -29,8 +29,8 @@ const initialUserInput = {
   audio: undefined,
   audio_url: undefined,
   sentence: "",
+  uploadedFile: undefined,
   isValid: {
-    uploadedFile: false,
     validWAV: false,
   },
 };
@@ -52,7 +52,7 @@ export default class RealTimeVoiceCloningService extends React.Component {
   }
 
   handleFileUpload(files) {
-    this.setState({ audio: undefined, audio_url: undefined });
+    this.setState({ audio: undefined, audio_url: undefined, uploadedFile: undefined });
     if (files.length) {
       const fileReader = new FileReader();
       fileReader.readAsArrayBuffer(files[0]);
@@ -72,7 +72,7 @@ export default class RealTimeVoiceCloningService extends React.Component {
         audio_elem.style.marginLeft = "5px";
         ac.appendChild(audio_elem);
 
-        this.setState({ audio: data, audio_url: undefined });
+        this.setState({ audio: data, audio_url: undefined, uploadedFile: files[0] });
       };
     }
   }
@@ -157,7 +157,7 @@ export default class RealTimeVoiceCloningService extends React.Component {
                 type="file"
                 uploadedFiles={this.state.uploadedFile}
                 handleFileUpload={this.handleFileUpload}
-                setValidationStatus={valid => this.setValidationStatus("uploadedFile", valid)}
+                setValidationStatus={valid => this.setValidationStatus("validWAV", valid)}
                 fileAccept=".wav, .mp3"
               />
             </Grid>
