@@ -13,7 +13,6 @@ const initialUserInput = {
   data: new ArrayBuffer(),
   uploadedFile: null,
   isValid: {
-    uploadedFile: false,
     validWAV: false,
   },
 };
@@ -102,7 +101,7 @@ export default class AutomaticSpeechRecognition extends React.Component {
               type="file"
               uploadedFiles={this.state.uploadedFile}
               handleFileUpload={this.handleFileUpload}
-              setValidationStatus={valid => this.setValidationStatus("uploadedFile", valid)}
+              setValidationStatus={valid => this.setValidationStatus("validWAV", valid)}
               fileAccept=".wav"
             />
           </Grid>

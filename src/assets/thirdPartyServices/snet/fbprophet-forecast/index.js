@@ -40,8 +40,8 @@ const initialUserInput = {
   url: "",
   period: 5,
   points: 365,
+  uploadedFile: undefined,
   isValid: {
-    uploadedFile: false,
     validCSV: false,
   },
 };
@@ -125,7 +125,7 @@ export default class FBProphetForecastService extends React.Component {
         reader.readAsDataURL(files[0]);
         reader.onload = () => {
             let content = reader.result.replace(/^data:(.*;base64,)?/, "");
-            if (reader.result) this.setState({ url: content });
+            if (reader.result) this.setState({ url: content, uploadedFile: files[0] });
         };
     }
   }
@@ -136,9 +136,9 @@ export default class FBProphetForecastService extends React.Component {
     if (event.target.name === "sampleIndex") {
         let _url = this.state.samples[event.target.value].content;
         if (parseInt(event.target.value) > 1) {
-            this.setState({ [event.target.name]: event.target.value, url: _url });
+            this.setState({ [event.target.name]: event.target.value, url: _url, uploadedFile: undefined });
         } else {
-            this.setState({ [event.target.name]: event.target.value, url: "" });
+            this.setState({ [event.target.name]: event.target.value, url: "", uploadedFile: undefined });
         }
     }
     else this.setState({ [event.target.name]: event.target.value });
@@ -205,9 +205,9 @@ export default class FBProphetForecastService extends React.Component {
                 <FileUploader
                     name="csv"
                     type="file"
-                    uploadedFiles={this.state.uploadedFiles}
+                    uploadedFiles={this.state.uploadedFile}
                     handleFileUpload={this.handleFileUpload}
-                    setValidationStatus={valid => this.setValidationStatus("uploadedFile", valid)}
+                    setValidationStatus={valid => this.setValidationStatus("validCSV", valid)}
                     fileAccept=".csv"
                 />
             </Grid>
