@@ -16,7 +16,7 @@ const ForgotPassword = ({ classes, email, error, handleForgotPassword, history, 
   const [localEmail, setEmail] = useState(email);
 
   const handleEmail = event => {
-    setEmail(event.target.value);
+    setEmail(event.target.value.toLowerCase());
   };
 
   const handleSubmit = event => {
@@ -69,7 +69,4 @@ const mapDispatchToProps = dispatch => ({
   updateError: error => dispatch(errorActions.updateForgotPasswordError(error)),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(useStyles)(ForgotPassword));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(ForgotPassword));
