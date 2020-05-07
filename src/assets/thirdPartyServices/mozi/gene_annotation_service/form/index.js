@@ -22,6 +22,7 @@ import { useSnackbar } from "notistack";
 import { Annotate } from "../proto/annotation_pb_service";
 import { AnnotationRequest, Annotation, Gene, Filter } from "../proto/annotation_pb";
 import AnchorLink from "../../../../../components/common/AnchorLink";
+
 import "./style.css";
 const grpc = require("@improbable-eng/grpc-web").grpc;
 
@@ -34,6 +35,35 @@ const GeneGoOptions = [
 const Pathways = [{ label: "Reactome", value: "reactome" }];
 
 const GeneInputMethods = { Manual: 0, Import: 1 };
+
+const VirusGenes = [
+  "NSP1",
+  "NSP7",
+  "ORF8",
+  "NSP10",
+  "E",
+  "N",
+  "M",
+  "NSP6",
+  "ORF6",
+  "ORF7A",
+  "ORF9C",
+  "NSP4",
+  "NSP8",
+  "NSP9",
+  "ORF10",
+  "NSP14",
+  "S",
+  "ORF3A",
+  "NSP13",
+  "ORF3B",
+  "NSP5",
+  "NSP12",
+  "NSP2",
+  "ORF9B",
+  "NSP11",
+  "NSP15",
+];
 
 const AnnotationForm = props => {
   const { enqueueSnackbar } = useSnackbar();
@@ -49,6 +79,9 @@ const AnnotationForm = props => {
   const [includeNonCoding, setincludeNonCoding] = useState(true);
 
   const [includeProtiens, setIncludeProtiens] = useState(true);
+
+  const [includeCoV, setIncludeCoV] = useState(true);
+
   const [loading, setLoading] = useState(false);
   const [GOSubgroups, setGOSubgroups] = useState(["biological_process", "cellular_component", "molecular_function"]);
   const [geneInputMethod, setGeneInputMethod] = useState(GeneInputMethods.Manual);
@@ -160,10 +193,16 @@ const AnnotationForm = props => {
         const int = new Filter();
         int.setFilter("interaction");
         int.setValue(includeProtiens ? "Proteins" : "Genes");
+
+        const cov = new Filter();
+        int.setFilter("exclude-orgs");
+        int.setValue(includeCoV ? "" : "2697049");
+
         annotation.setFiltersList([
           int,
           coding,
           noncoding,
+          cov,
           // , ...(annotations.includes("gene-go-annotation") ? [namespace, nop] : [])
         ]);
       }
@@ -178,7 +217,7 @@ const AnnotationForm = props => {
     includeRNA.setFiltersList([coding, noncoding, protein]);
 
     annotationRequest.setAnnotationsList(includeCoding || includeNonCoding ? [...annList, includeRNA] : annList);
-
+    console.log("request", annotationRequest);
     const requestProps = {
       request: annotationRequest,
       onEnd: ({ status, statusMessage, message: msg }) => {
@@ -245,7 +284,7 @@ const AnnotationForm = props => {
       {geneInputMethod === GeneInputMethods.Manual && (
         <TextField
           ref={geneInputRef}
-          placeholder="Input gene name"
+          placeholder={genes.length ? "SARS-CoV-2 genes are now supported" : "Input gene name"}
           helperText="You may input space separated gene names and hit enter"
           fullWidth
           value={currentGene}
@@ -296,7 +335,7 @@ const AnnotationForm = props => {
         {genes.map(g => (
           <Chip
             style={{ margin: 5 }}
-            color="primary"
+            color={VirusGenes.includes(g) ? "secondary" : "primary"}
             key={g}
             label={g}
             onDelete={() => setGenes(genes.filter(f => f !== g))}
@@ -441,7 +480,9 @@ const AnnotationForm = props => {
       />
       <br />
       <br />
-      <br />
+      <Typography variant="h6" gutterBottom>
+        Protiens
+      </Typography>
       <FormControlLabel
         control={
           <Switch
@@ -452,6 +493,15 @@ const AnnotationForm = props => {
           />
         }
         label="Include protiens"
+      />
+      <br />
+      <br />
+      <Typography variant="h6" gutterBottom>
+        SARS-CoV-2
+      </Typography>
+      <FormControlLabel
+        control={<Switch checked={includeCoV} onChange={e => setIncludeCoV(e.target.checked)} color="primary" />}
+        label="Include SARS-CoV-2"
       />
       {annotatePathwayWithBiogrid && (
         <div style={{ backgroundColor: "beige", border: "solid 1px orange", padding: 10 }}>
