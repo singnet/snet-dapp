@@ -28,12 +28,12 @@ const initialUserInput = {
       },
     {
       label: "Daily page views for the Wikipedia page for Peyton Manning",
-      content: "http://bh.singularitynet.io:7000/Resources/example_wp_log_peyton_manning.csv",
+      content: "https://bh.singularitynet.io:7000/Resources/example_wp_log_peyton_manning.csv",
       value: "2",
     },
     {
         label: "Albury (AUS) daily minimum temepratures (JAN 2009 - AUG 2014)",
-        content: "http://bh.singularitynet.io:7000/Resources/example_albury_min_temps.csv",
+        content: "https://bh.singularitynet.io:7000/Resources/example_albury_min_temps.csv",
         value: "3",
       },
   ],
