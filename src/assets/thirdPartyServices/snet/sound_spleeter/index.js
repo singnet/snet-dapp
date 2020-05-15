@@ -20,7 +20,7 @@ const initialUserInput = {
     },
     {
       label: "Slow Motion Dream by Steven M Bryant",
-      content: "http://bh.singularitynet.io:7000/Resources/audio_example.mp3",
+      content: "https://bh.singularitynet.io:7000/Resources/audio_example.mp3",
       value: "1",
     },
   ],
