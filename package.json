@@ -47,7 +47,7 @@
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "singularitynet-platform-contracts": "^0.3.4",
-    "snet-sdk-web": "^1.0.0-beta.7",
+    "snet-sdk-web": "^1.0.0-beta.15",
     "utf8": "^3.0.0",
     "validate.js": "^0.13.1",
     "web3": "1.0.0-beta.52"
