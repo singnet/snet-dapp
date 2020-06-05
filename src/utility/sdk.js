@@ -1,5 +1,6 @@
 import SnetSDK, { WebServiceClient as ServiceClient } from "snet-sdk-web";
 import { API } from "aws-amplify";
+import MPEContract from "singularitynet-platform-contracts/networks/MultiPartyEscrow";
 
 import { APIEndpoints, APIPaths } from "../config/APIEndpoints";
 import { initializeAPIOptions } from "./API";
@@ -33,6 +34,7 @@ export const decodeGroupId = encodedGroupId => {
 
 const parseRegularCallMetadata = ({ data }) => ({
   signatureBytes: parseSignature(data["snet-payment-channel-signature-bin"]),
+  "snet-payment-mpe-address":MPEContract[process.env.REACT_APP_ETH_NETWORK].address
 });
 
 const parseFreeCallMetadata = ({ data }) => ({
@@ -42,6 +44,7 @@ const parseFreeCallMetadata = ({ data }) => ({
   "snet-payment-channel-signature-bin": parseSignature(data["snet-payment-channel-signature-bin"]),
   "snet-free-call-auth-token-bin": parseSignature(data["snet-free-call-auth-token-bin"]),
   "snet-free-call-token-expiry-block": `${data["snet-free-call-token-expiry-block"]}`,
+  "snet-payment-mpe-address":MPEContract[process.env.REACT_APP_ETH_NETWORK].address
 });
 
 const metadataGenerator = (serviceRequestErrorHandler, groupId) => async (serviceClient, serviceName, method) => {
@@ -86,24 +89,6 @@ const paidCallMetadataGenerator = serviceRequestErrorHandler => async (channelId
   }
 };
 
-const stagingMetadataGenerator = (orgId, serviceId, serviceRequestErrorHandler) => async () => {
-  try {
-    sdk = await initSdk();
-    const dataForSignature = [
-      { t: "string", v: "__authorized_user" },
-      { t: "string", v: orgId },
-      { t: "string", v: serviceId },
-    ];
-
-    const sha3Message = sdk._web3.utils.soliditySha3(...dataForSignature);
-    const signature = await sdk.account._identity.signData(sha3Message);
-    const b64Signature = parseSignature(signature);
-    return { "snet-payment-type": "allowed-user", "snet-allowed-user-signature-bin": b64Signature };
-  } catch (e) {
-    serviceRequestErrorHandler(e);
-  }
-};
-
 const generateOptions = (callType, wallet, serviceRequestErrorHandler, groupInfo, org_id, service_id) => {
   if (process.env.REACT_APP_SANDBOX) {
     return {
@@ -112,9 +97,6 @@ const generateOptions = (callType, wallet, serviceRequestErrorHandler, groupInfo
     };
   }
   if (callType === callTypes.FREE) {
-    if (process.env.REACT_APP_STAGING_ENVIRONMENT === "true") {
-      return { metadataGenerator: stagingMetadataGenerator(org_id, service_id, serviceRequestErrorHandler) };
-    }
     return { metadataGenerator: metadataGenerator(serviceRequestErrorHandler, groupInfo.group_id) };
   }
   if (wallet && wallet.type === walletTypes.METAMASK) {
