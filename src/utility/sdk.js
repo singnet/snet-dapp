@@ -1,5 +1,6 @@
 import SnetSDK, { WebServiceClient as ServiceClient } from "snet-sdk-web";
 import { API } from "aws-amplify";
+import MPEContract from "singularitynet-platform-contracts/networks/MultiPartyEscrow";
 
 import { APIEndpoints, APIPaths } from "../config/APIEndpoints";
 import { initializeAPIOptions } from "./API";
@@ -33,6 +34,7 @@ export const decodeGroupId = encodedGroupId => {
 
 const parseRegularCallMetadata = ({ data }) => ({
   signatureBytes: parseSignature(data["snet-payment-channel-signature-bin"]),
+  "snet-payment-mpe-address":MPEContract[process.env.REACT_APP_ETH_NETWORK].address
 });
 
 const parseFreeCallMetadata = ({ data }) => ({
@@ -42,6 +44,7 @@ const parseFreeCallMetadata = ({ data }) => ({
   "snet-payment-channel-signature-bin": parseSignature(data["snet-payment-channel-signature-bin"]),
   "snet-free-call-auth-token-bin": parseSignature(data["snet-free-call-auth-token-bin"]),
   "snet-free-call-token-expiry-block": `${data["snet-free-call-token-expiry-block"]}`,
+  "snet-payment-mpe-address":MPEContract[process.env.REACT_APP_ETH_NETWORK].address
 });
 
 const metadataGenerator = (serviceRequestErrorHandler, groupId) => async (serviceClient, serviceName, method) => {
