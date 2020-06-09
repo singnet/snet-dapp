@@ -16,8 +16,7 @@ export default class S2VTVideoCaptioning extends React.Component {
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
 
     this.state = {
-      users_guide:
-        "https://github.com/singnet/dnn-model-services/blob/master/docs/users_guide/s2vt-video-captioning.md",
+      users_guide: "https://singnet.github.io/dnn-model-services/users_guide/s2vt-video-captioning.html",
       code_repo: "https://github.com/singnet/dnn-model-services/tree/master/services/s2vt-video-captioning",
       reference: "https://vsubhashini.github.io/s2vt.html",
       url: "",

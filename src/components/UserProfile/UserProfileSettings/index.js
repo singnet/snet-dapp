@@ -5,6 +5,7 @@ import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
 import StyledButton from "../../common/StyledButton";
 import { useStyles } from "./styles";
@@ -175,4 +176,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(useStyles)(UserProfileSettings));
+)(withStyles(useStyles)(withRouter(UserProfileSettings)));

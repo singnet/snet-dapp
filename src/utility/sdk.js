@@ -1,5 +1,6 @@
 import SnetSDK, { WebServiceClient as ServiceClient } from "snet-sdk-web";
 import { API } from "aws-amplify";
+import MPEContract from "singularitynet-platform-contracts/networks/MultiPartyEscrow";
 
 import { APIEndpoints, APIPaths } from "../config/APIEndpoints";
 import { initializeAPIOptions } from "./API";
@@ -33,6 +34,7 @@ export const decodeGroupId = encodedGroupId => {
 
 const parseRegularCallMetadata = ({ data }) => ({
   signatureBytes: parseSignature(data["snet-payment-channel-signature-bin"]),
+  "snet-payment-mpe-address":MPEContract[process.env.REACT_APP_ETH_NETWORK].address
 });
 
 const parseFreeCallMetadata = ({ data }) => ({
@@ -42,6 +44,7 @@ const parseFreeCallMetadata = ({ data }) => ({
   "snet-payment-channel-signature-bin": parseSignature(data["snet-payment-channel-signature-bin"]),
   "snet-free-call-auth-token-bin": parseSignature(data["snet-free-call-auth-token-bin"]),
   "snet-free-call-token-expiry-block": `${data["snet-free-call-token-expiry-block"]}`,
+  "snet-payment-mpe-address":MPEContract[process.env.REACT_APP_ETH_NETWORK].address
 });
 
 const metadataGenerator = (serviceRequestErrorHandler, groupId) => async (serviceClient, serviceName, method) => {
@@ -86,7 +89,7 @@ const paidCallMetadataGenerator = serviceRequestErrorHandler => async (channelId
   }
 };
 
-const generateOptions = (callType, wallet, serviceRequestErrorHandler, groupInfo) => {
+const generateOptions = (callType, wallet, serviceRequestErrorHandler, groupInfo, org_id, service_id) => {
   if (process.env.REACT_APP_SANDBOX) {
     return {
       endpoint: process.env.REACT_APP_SANDBOX_SERVICE_ENDPOINT,
@@ -217,7 +220,7 @@ export const createServiceClient = (
   if (sdk && channel) {
     sdk.paymentChannelManagementStrategy = new ProxyPaymentChannelManagementStrategy(channel);
   }
-  const options = generateOptions(callType, wallet, serviceRequestErrorHandler, groupInfo);
+  const options = generateOptions(callType, wallet, serviceRequestErrorHandler, groupInfo, org_id, service_id);
   const serviceClient = new ServiceClient(
     sdk,
     org_id,

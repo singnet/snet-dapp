@@ -1,51 +1,48 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
+import Slider from "@material-ui/lab/Slider";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import InfoIcon from "@material-ui/icons/Info";
 
-import OutlinedDropDown from "../../common/OutlinedDropdown";
 import SNETImageUpload from "../../standardComponents/SNETImageUpload";
 import HoverIcon from "../../standardComponents/HoverIcon";
 
-import { MinecraftizingService } from "./MinecraftizingService_pb_service";
+import { Colorization } from "./colorization_pb_service";
 
 const initialUserInput = {
-  modelIndex: "0",
-  modelNames: [
-    {
-      label: "UGATIT",
-      content: "UGATIT",
-      value: "0",
-    },
-    {
-      label: "cycle_gan",
-      content: "cycle_gan",
-      value: "1",
-    },
-  ],
-  input_image: undefined,
+  img_path: undefined,
+  render_factor: 35,
 };
 
-export default class MinecraftService extends React.Component {
+export default class ColorizationService extends React.Component {
   constructor(props) {
     super(props);
     this.submitAction = this.submitAction.bind(this);
+
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
-    this.getImageData = this.getImageData.bind(this);
+    this.getImageURL = this.getImageURL.bind(this);
+    this.handleSliderChange = this.handleSliderChange.bind(this);
 
     this.state = {
       ...initialUserInput,
-      users_guide: "https://github.com/singnet/semantic-vision/blob/master/services/MinecraftService/README_service.md",
-      code_repo: "https://github.com/singnet/semantic-vision/tree/master/services/MinecraftService",
-      reference:
-        "https://github.com/singnet/semantic-vision/blob/master/services/MinecraftService/README_main_usage.md#references",
+      users_guide: "https://singnet.github.io/dnn-model-services/users_guide/deoldify-colorizer.html",
+      code_repo: "https://github.com/singnet/dnn-model-services/tree/master/services/deoldify-colorizer",
+      reference: "https://github.com/jantic/DeOldify",
       response: undefined,
     };
   }
 
+  getImageURL(data) {
+    this.setState({ img_path: data });
+  }
+
   canBeInvoked() {
-    return this.state.input_image;
+    return this.state.img_path;
+  }
+
+  handleSliderChange(event, value) {
+    this.setState({ render_factor: value });
   }
 
   handleFormUpdate(event) {
@@ -53,30 +50,31 @@ export default class MinecraftService extends React.Component {
   }
 
   submitAction() {
-    const { modelNames, modelIndex, input_image } = this.state;
-    const model_name = modelNames[modelIndex].content;
-    const methodDescriptor = MinecraftizingService["getMinecraftiziedImage"];
+    const { img_path, render_factor } = this.state;
+    const methodDescriptor = Colorization["colorize"];
     const request = new methodDescriptor.requestType();
 
-    request.setNetworkName(model_name);
-    request.setDataset("minecraft_landscapes");
-    request.setInputImage(input_image);
+    request.setImgInput(img_path);
+    request.setRenderFactor(render_factor);
 
     const props = {
       request,
-      onEnd: ({ message }) => {
+      onEnd: response => {
+        const { message, status, statusMessage } = response;
+        if (status !== 0) {
+          throw new Error(statusMessage);
+        }
         this.setState({
           ...initialUserInput,
-          response: { status: message.getStatus(), data: message.getOutput() },
+          response: {
+            status: "success",
+            img_colorized: message.getImgColorized(),
+          },
         });
       },
     };
 
     this.props.serviceClient.unary(methodDescriptor, props);
-  }
-
-  getImageData(data) {
-    this.setState({ input_image: data });
   }
 
   parseResponse() {
@@ -88,7 +86,7 @@ export default class MinecraftService extends React.Component {
         if (typeof response === "string") {
           return response;
         }
-        return response.data;
+        return response.img_colorized;
       } else {
         return null;
       }
@@ -100,28 +98,34 @@ export default class MinecraftService extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Grid container spacing={2} justify="center" alignItems="center">
+        <Grid container spacing={3} direction="column" justify="center" alignItems="center">
+          <Grid item xs={12} />
           {!this.props.isComplete && (
-            <Grid item xs={12} container justify="center" style={{ textAlign: "center" }}>
-              <OutlinedDropDown
-                id="model"
-                name="modelIndex"
-                label="Model"
-                fullWidth={true}
-                list={this.state.modelNames}
-                value={this.state.modelIndex}
-                onChange={this.handleFormUpdate}
-              />
+            <Grid item xs={8} container justify="center">
+              <Grid item xs>
+                Render Factor ({this.state.render_factor}):{" "}
+              </Grid>
+              <Grid item xs>
+                <Slider
+                  style={{ padding: "12px 0px" }}
+                  value={this.state.render_factor}
+                  min={1}
+                  max={45}
+                  step={1}
+                  onChange={this.handleSliderChange}
+                />
+              </Grid>
             </Grid>
           )}
 
           <Grid item xs={12} container justify="center">
             <SNETImageUpload
               imageName=""
-              imageDataFunc={this.getImageData}
+              imageDataFunc={this.getImageURL}
               outputImage={this.parseResponse()}
               outputImageName="Response"
               instantUrlFetch={true}
+              allowURL={true}
               width="100%"
             />
           </Grid>
@@ -151,7 +155,7 @@ export default class MinecraftService extends React.Component {
           </Grid>
 
           {!this.props.isComplete && (
-            <Grid item xs={12} container justify="center">
+            <Grid item xs={12} style={{ textAlign: "center" }}>
               <Button variant="contained" color="primary" onClick={this.submitAction} disabled={!this.canBeInvoked()}>
                 Invoke
               </Button>

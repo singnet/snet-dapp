@@ -7,7 +7,7 @@ import InfoIcon from "@material-ui/icons/Info";
 import HoverIcon from "../../standardComponents/HoverIcon";
 import OutlinedDropDown from "../../common/OutlinedDropdown";
 import OutlinedTextArea from "../../common/OutlinedTextArea";
-import DatasetUpload from "../analysis-helpers/DatasetUploaderHelper";
+import FileUploader from "../../common/FileUploader";
 
 import { RealTimeVoiceCloning } from "./voice_cloning_pb_service";
 
@@ -21,15 +21,16 @@ const initialUserInput = {
     },
     {
       label: "Dr. Ben Goertzel's Voice Sample",
-      content: "https://raw.githubusercontent.com/singnet/dnn-model-services/master/docs/assets/users_guide/ben_websumit19.mp3",
+      content:
+        "https://raw.githubusercontent.com/singnet/dnn-model-services/master/docs/assets/users_guide/ben_websumit19.mp3",
       value: "1",
     },
   ],
   audio: undefined,
   audio_url: undefined,
   sentence: "",
+  uploadedFile: undefined,
   isValid: {
-    uploadedFile: false,
     validWAV: false,
   },
 };
@@ -50,10 +51,11 @@ export default class RealTimeVoiceCloningService extends React.Component {
     };
   }
 
-  handleFileUpload(file) {
-    if (file) {
+  handleFileUpload(files) {
+    this.setState({ audio: undefined, audio_url: undefined, uploadedFile: undefined });
+    if (files.length) {
       const fileReader = new FileReader();
-      fileReader.readAsArrayBuffer(file);
+      fileReader.readAsArrayBuffer(files[0]);
       fileReader.onload = () => {
         var data = new Uint8Array(fileReader.result);
 
@@ -70,7 +72,7 @@ export default class RealTimeVoiceCloningService extends React.Component {
         audio_elem.style.marginLeft = "5px";
         ac.appendChild(audio_elem);
 
-        this.setState({ audio: data, audio_url: undefined });
+        this.setState({ audio: data, audio_url: undefined, uploadedFile: files[0] });
       };
     }
   }
@@ -118,7 +120,7 @@ export default class RealTimeVoiceCloningService extends React.Component {
           ...initialUserInput,
           response: {
             status: "success",
-            audio: window.URL.createObjectURL(blob_audio)
+            audio: window.URL.createObjectURL(blob_audio),
           },
         });
       },
@@ -136,7 +138,7 @@ export default class RealTimeVoiceCloningService extends React.Component {
       <React.Fragment>
         <Grid container direction="column" justify="center" spacing={2}>
           {!this.props.isComplete && (
-            <Grid item xs={12} container justify="center" style={{ textAlign: 'center' }}>
+            <Grid item xs={12} container justify="center" style={{ textAlign: "center" }}>
               <OutlinedDropDown
                 id="sample"
                 name="sampleIndex"
@@ -150,12 +152,12 @@ export default class RealTimeVoiceCloningService extends React.Component {
           )}
           {!this.props.isComplete && (
             <Grid item xs={12} container justify="center" style={{ textAlign: "center" }}>
-              <DatasetUpload
+              <FileUploader
                 name="audio"
                 type="file"
-                uploadedFile={this.state.uploadedFile}
+                uploadedFiles={this.state.uploadedFile}
                 handleFileUpload={this.handleFileUpload}
-                setValidationStatus={valid => this.setValidationStatus("uploadedFile", valid)}
+                setValidationStatus={valid => this.setValidationStatus("validWAV", valid)}
                 fileAccept=".wav, .mp3"
               />
             </Grid>

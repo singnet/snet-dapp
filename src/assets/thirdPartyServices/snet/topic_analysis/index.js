@@ -1,5 +1,4 @@
 import React from "react";
-import DatasetUpload from "../analysis-helpers/DatasetUploaderHelper";
 import ReactJson from "react-json-view";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -9,6 +8,7 @@ import InfoIcon from "@material-ui/icons/Info";
 import HoverIcon from "../../standardComponents/HoverIcon";
 import OutlinedDropDown from "../../common/OutlinedDropdown";
 import OutlinedTextArea from "../../common/OutlinedTextArea";
+import FileUploader from "../../common/FileUploader";
 
 import { Card, CardContent } from "@material-ui/core";
 import { CheckCircle } from "@material-ui/icons";
@@ -109,17 +109,20 @@ export default class TopicAnalysisService extends React.Component {
     return this.state.isValid["validJSON"];
   }
 
-  handleFileUpload(file) {
-    const fileReader = new FileReader();
-    fileReader.readAsDataURL(file);
-    fileReader.onload = () => {
-      let encoded = fileReader.result.replace(/^data:(.*;base64,)?/, "");
-      encoded.length % 4 > 0 && (encoded += "=".repeat(4 - (encoded.length % 4)));
-      let user_value = this.validateJSON(atob(encoded));
-      let condition = this.validateValues(user_value);
-      this.setValidationStatus("validJSON", condition);
-      this.setState({ datasetFile: file });
-    };
+  handleFileUpload(files) {
+    this.setState({ datasetFile: null });
+    if (files.length) {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(files[0]);
+      fileReader.onload = () => {
+        let encoded = fileReader.result.replace(/^data:(.*;base64,)?/, "");
+        encoded.length % 4 > 0 && (encoded += "=".repeat(4 - (encoded.length % 4)));
+        let user_value = this.validateJSON(atob(encoded));
+        let condition = this.validateValues(user_value);
+        this.setValidationStatus("validJSON", condition);
+        this.setState({ datasetFile: files[0] });
+      };
+    }
   }
 
   handleFormUpdate(event) {
@@ -127,7 +130,7 @@ export default class TopicAnalysisService extends React.Component {
     this.setValidationStatus("validJSON", false);
     const { inputIndex } = this.state;
     if (event.target.name !== "string_area" && inputIndex === "Text") {
-      this.setState({ string_area: JSON.stringify(SampleInput, undefined, 4) });
+      this.setState({ string_area: JSON.stringify(SampleInput, undefined, 4), datasetFile: null });
     }
     this.setState({ internal_error: "" });
   }
@@ -184,7 +187,7 @@ export default class TopicAnalysisService extends React.Component {
   }
 
   validateJSON(value) {
-    let user_value;
+    let user_value = "";
     try {
       user_value = JSON.parse(value);
     } catch (error) {
@@ -196,6 +199,9 @@ export default class TopicAnalysisService extends React.Component {
   validateValues(user_value) {
     const user_value_keys = Object.keys(user_value);
     const sample_keys = Object.keys(SampleInput);
+
+    this.setState({ internal_error: "" });
+
     let found_keys = sample_keys.every(r => user_value_keys.indexOf(r) > -1);
     if (!found_keys) {
       this.setState({
@@ -245,8 +251,10 @@ export default class TopicAnalysisService extends React.Component {
     if (user_value === undefined) return;
     let condition = this.validateValues(user_value);
     if (condition) {
-      this.state.string_area = JSON.stringify(user_value, undefined, 4);
-      this.setState({ internal_error: "" });
+      this.setState({
+        string_area: JSON.stringify(user_value, undefined, 4),
+        internal_error: "",
+      });
     }
     this.setValidationStatus("validJSON", condition);
     event.preventDefault();
@@ -270,8 +278,8 @@ export default class TopicAnalysisService extends React.Component {
 
           {this.state.inputIndex === "File" && (
             <Grid item xs={12} container justify="center" style={{ textAlign: "center" }}>
-              <DatasetUpload
-                uploadedFile={this.state.datasetFile}
+              <FileUploader
+                uploadedFiles={this.state.datasetFile}
                 handleFileUpload={this.handleFileUpload}
                 fileAccept={this.state.fileAccept}
                 setValidationStatus={valid => this.setValidationStatus("datasetFile", valid)}

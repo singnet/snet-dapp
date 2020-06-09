@@ -1,5 +1,4 @@
 import React from "react";
-import DatasetUpload from "../analysis-helpers/DatasetUploaderHelper";
 import ReactJson from "react-json-view";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -7,6 +6,7 @@ import SvgIcon from "@material-ui/core/SvgIcon";
 import InfoIcon from "@material-ui/icons/Info";
 
 import HoverIcon from "../../standardComponents/HoverIcon";
+import FileUploader from "../../common/FileUploader";
 import OutlinedDropDown from "../../common/OutlinedDropdown";
 import OutlinedTextArea from "../../common/OutlinedTextArea";
 
@@ -145,17 +145,20 @@ export default class NetworkAnalysisBipartite extends React.Component {
     return this.state.isValid["validJSON"];
   }
 
-  handleFileUpload(file) {
-    const fileReader = new FileReader();
-    fileReader.readAsDataURL(file);
-    fileReader.onload = () => {
-      let encoded = fileReader.result.replace(/^data:(.*;base64,)?/, "");
-      encoded.length % 4 > 0 && (encoded += "=".repeat(4 - (encoded.length % 4)));
-      let user_value = this.validateJSON(atob(encoded));
-      let condition = this.validateValues(user_value);
-      this.setValidationStatus("validJSON", condition);
-      this.setState({ datasetFile: file });
-    };
+  handleFileUpload(files) {
+    this.setState({ datasetFile: null });
+    if (files.length) {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(files[0]);
+      fileReader.onload = () => {
+        let encoded = fileReader.result.replace(/^data:(.*;base64,)?/, "");
+        encoded.length % 4 > 0 && (encoded += "=".repeat(4 - (encoded.length % 4)));
+        let user_value = this.validateJSON(atob(encoded));
+        let condition = this.validateValues(user_value);
+        this.setValidationStatus("validJSON", condition);
+        this.setState({ datasetFile: files[0] });
+      };
+    }
   }
 
   handleFormUpdate(event) {
@@ -243,7 +246,7 @@ export default class NetworkAnalysisBipartite extends React.Component {
   }
 
   validateJSON(value) {
-    let user_value;
+    let user_value = "";
     try {
       user_value = JSON.parse(value);
     } catch (error) {
@@ -258,6 +261,8 @@ export default class NetworkAnalysisBipartite extends React.Component {
     const { methodIndex, methodNames } = this.state;
     const method = methodNames[methodIndex].content;
     const user_value_keys = Object.keys(user_value);
+
+    this.setState({ internal_error: "" });
 
     if (method === "BipartiteGraph") {
       const sample_keys = Object.keys(SampleInputBipartiteGraph);
@@ -330,8 +335,8 @@ export default class NetworkAnalysisBipartite extends React.Component {
 
           {this.state.inputIndex === "File" && (
             <Grid item xs={12} container justify="center" style={{ textAlign: "center" }}>
-              <DatasetUpload
-                uploadedFile={this.state.datasetFile}
+              <FileUploader
+                uploadedFiles={this.state.datasetFile}
                 handleFileUpload={this.handleFileUpload}
                 fileAccept={this.state.fileAccept}
                 setValidationStatus={valid => this.setValidationStatus("datasetFile", valid)}

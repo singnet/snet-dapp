@@ -6,7 +6,7 @@ import InfoIcon from "@material-ui/icons/Info";
 
 import HoverIcon from "../../standardComponents/HoverIcon";
 import OutlinedDropDown from "../../common/OutlinedDropdown";
-import DatasetUpload from "../analysis-helpers/DatasetUploaderHelper";
+import FileUploader from "../../common/FileUploader";
 
 import { SoundSpleeter } from "./sound_spleeter_pb_service";
 
@@ -20,15 +20,15 @@ const initialUserInput = {
     },
     {
       label: "Slow Motion Dream by Steven M Bryant",
-      content: "http://54.203.198.53:7000/Resources/audio_example.mp3",
+      content: "https://bh.singularitynet.io:7000/Resources/audio_example.mp3",
       value: "1",
     },
   ],
   audio: undefined,
   audio_url: undefined,
+  uploadedFiles: undefined,
   isValid: {
-    uploadedFile: false,
-    validWAV: false,
+    validAudioFile: false,
   },
 };
 
@@ -48,10 +48,11 @@ export default class SoundSpleeterService extends React.Component {
     };
   }
 
-  handleFileUpload(file) {
-    if (file) {
+  handleFileUpload(files) {
+    this.setState({ audio: undefined, audio_url: undefined, uploadedFiles: undefined });
+    if (files.length) {
       const fileReader = new FileReader();
-      fileReader.readAsArrayBuffer(file);
+      fileReader.readAsArrayBuffer(files[0]);
       fileReader.onload = () => {
         var data = new Uint8Array(fileReader.result);
 
@@ -68,7 +69,7 @@ export default class SoundSpleeterService extends React.Component {
         audio_elem.style.marginLeft = "5px";
         ac.appendChild(audio_elem);
 
-        this.setState({ audio: data, audio_url: undefined });
+        this.setState({ audio: data, audio_url: undefined, uploadedFiles: files[0] });
       };
     }
   }
@@ -91,7 +92,7 @@ export default class SoundSpleeterService extends React.Component {
       audio_elem.style.width = "100%";
       audio_elem.style.marginLeft = "5px";
       ac.appendChild(audio_elem);
-      this.setState({ audio: undefined, audio_url: sample_url });
+      this.setState({ audio: undefined, audio_url: sample_url, uploadedFiles: undefined });
     }
   }
 
@@ -117,7 +118,7 @@ export default class SoundSpleeterService extends React.Component {
           response: {
             status: "success",
             vocals: window.URL.createObjectURL(blob_vocals),
-            accomp: window.URL.createObjectURL(blob_accomp)
+            accomp: window.URL.createObjectURL(blob_accomp),
           },
         });
       },
@@ -135,7 +136,7 @@ export default class SoundSpleeterService extends React.Component {
       <React.Fragment>
         <Grid container direction="column" justify="center" spacing={2}>
           {!this.props.isComplete && (
-            <Grid item xs={12} container justify="center" style={{ textAlign: 'center' }}>
+            <Grid item xs={12} container justify="center" style={{ textAlign: "center" }}>
               <OutlinedDropDown
                 id="sample"
                 name="sampleIndex"
@@ -149,12 +150,12 @@ export default class SoundSpleeterService extends React.Component {
           )}
           {!this.props.isComplete && (
             <Grid item xs={12} container justify="center" style={{ textAlign: "center" }}>
-              <DatasetUpload
+              <FileUploader
                 name="audio"
                 type="file"
-                uploadedFile={this.state.uploadedFile}
+                uploadedFiles={this.state.uploadedFiles}
                 handleFileUpload={this.handleFileUpload}
-                setValidationStatus={valid => this.setValidationStatus("uploadedFile", valid)}
+                setValidationStatus={valid => this.setValidationStatus("validAudioFile", valid)}
                 fileAccept=".wav, .mp3"
               />
             </Grid>
