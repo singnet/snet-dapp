@@ -79,6 +79,16 @@ class App extends Component {
                   {...this.props}
                   component={withRegistrationHeader(ForgotPasswordSubmit, headerData.FORGOT_PASSWORD_SUBMIT)}
                 />
+                <Route
+                  path={`/${Routes.RESET_PASSWORD}`}
+                  {...this.props}
+                  component={withRegistrationHeader(ForgotPassword, headerData.FORGOT_PASSWORD)}
+                />
+                <Route
+                  path={`/${Routes.RESET_PASSWORD_SUBMIT}`}
+                  {...this.props}
+                  component={withRegistrationHeader(ForgotPasswordSubmit, headerData.FORGOT_PASSWORD_SUBMIT)}
+                />
                 <PrivateRoute
                   isAllowed={isLoggedIn}
                   redirectTo={`/${Routes.LOGIN}`}
@@ -154,7 +164,4 @@ const mapDispatchToProps = dispatch => ({
   fetchUserDetails: () => dispatch(userActions.fetchUserDetails),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

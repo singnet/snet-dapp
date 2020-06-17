@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/styles";
@@ -12,9 +12,20 @@ import { userActions, errorActions } from "../../../Redux/actionCreators";
 import { forgotPasswordConstraints } from "./validationConstraints";
 import snetValidator from "../../../utility/snetValidator";
 
-const ForgotPassword = ({ classes, email, error, handleForgotPassword, history, updateError, resetError }) => {
+const ForgotPassword = ({
+  classes,
+  email,
+  error,
+  handleForgotPassword,
+  history,
+  location,
+  updateError,
+  resetError,
+}) => {
   const [localEmail, setEmail] = useState(email);
-
+  useEffect(() => {
+    setEmail(email);
+  }, [email]);
   const handleEmail = event => {
     setEmail(event.target.value.toLowerCase());
   };
@@ -32,11 +43,18 @@ const ForgotPassword = ({ classes, email, error, handleForgotPassword, history, 
     handleForgotPassword({ email: localEmail, history, route });
   };
 
+  const passwordChangeTitle =
+    location.pathname === `/${Routes.RESET_PASSWORD}` ? "Reset your password to login" : "Forgot your pasword?";
+  const passwordChangeDescription =
+    location.pathname === `/${Routes.RESET_PASSWORD}`
+      ? "To ensure your account's safety we need you to reset your password. We will email instructions to your registered email."
+      : "We'll email you instructions on how to reset it.";
+
   return (
     <Grid container spacing={24} className={classes.forgotPwdMainContainer}>
       <Grid item xs={12} sm={12} md={12} lg={12} className={classes.forgotPwdContent}>
-        <h2>Forgot your pasword?</h2>
-        <p>We'll email you instructions on how to reset it.</p>
+        <h2>{passwordChangeTitle}</h2>
+        <p>{passwordChangeDescription}</p>
         <form noValidate autoComplete="off" className={classes.forgotPwdForm}>
           <TextField
             id="outlined-username-input"
