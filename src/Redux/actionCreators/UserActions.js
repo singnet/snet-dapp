@@ -234,7 +234,12 @@ export const login = ({ email, password, history, route }) => dispatch => {
       dispatch(loginSuccess({ res, history, route }));
     })
     .catch(err => {
-      if (err.code === "UserNotConfirmedException") {
+      if (err.code === "PasswordResetRequiredException") {
+        dispatch(updateEmail(email));
+        history.push(`/${Routes.RESET_PASSWORD}`);
+        dispatch(loaderActions.stopAppLoader);
+        return;
+      } else if (err.code === "UserNotConfirmedException") {
         dispatch(updateEmail(email));
         userDetails = {
           type: userActions.LOGIN_SUCCESS,
