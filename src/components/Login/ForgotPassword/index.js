@@ -27,7 +27,7 @@ const ForgotPassword = ({
     setEmail(email);
   }, [email]);
   const handleEmail = event => {
-    setEmail(event.target.value);
+    setEmail(event.target.value.toLowerCase());
   };
 
   const handleSubmit = event => {
