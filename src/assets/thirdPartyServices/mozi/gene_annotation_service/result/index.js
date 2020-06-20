@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment } from "react";
-import { parse, formatDistanceToNow, toDate } from "date-fns";
+// import { parse, formatDistanceToNow, toDate } from "date-fns";
 import { RESULT_ADDR, downloadSchemeFile } from "../service";
 import TabbedTables from "../tables";
 import Visualizer from "../visualizer";
@@ -22,11 +22,11 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 const width = document.body.clientWidth || window.screen.width;
 
-export const AnnotationStatus = {
-  ACTIVE: 1,
-  COMPLETED: 2,
-  ERROR: -1,
-};
+// export const AnnotationStatus = {
+//   ACTIVE: 1,
+//   COMPLETED: 2,
+//   ERROR: -1,
+// };
 
 const AnnotationResult = props => {
   const [response, setResponse] = useState(undefined);
@@ -36,29 +36,39 @@ const AnnotationResult = props => {
   const [isSummaryShown, setSummaryShown] = useState(false);
   const [summaryTab, setSummaryTab] = useState(0);
   const [summary, setSummary] = useState(undefined);
-  const { ACTIVE, COMPLETED, ERROR } = AnnotationStatus;
+  // const { ACTIVE, COMPLETED, ERROR } = AnnotationStatus;
   const id = props.id;
 
   useEffect(() => {
     setFetchingResult(true);
-    fetch(`${RESULT_ADDR}/status/${id}`)
+    fetch(`${RESULT_ADDR}/${id}`)
       .then(res => res.json())
-      .then(res => {
-        if (res.status === 2) {
-          return fetch(`${RESULT_ADDR}/${id}`)
-            .then(res => res.json())
-            .then(result => {
-              setFetchingResult(false);
-              setResponse(Object.assign({}, res, { result }));
-            });
-        }
+      .then(result => {
         setFetchingResult(false);
-        setResponse({
-          status: AnnotationStatus.ERROR,
-          statusMessage: res.response,
-        });
+        setResponse({ result });
       });
-  }, []);
+  }, [id]);
+
+  // useEffect(() => {
+  //   setFetchingResult(true);
+  //   fetch(`${RESULT_ADDR}/status/${id}`)
+  //     .then(res => res.json())
+  //     .then(res => {
+  //       if (res.status === 2) {
+  //         return fetch(`${RESULT_ADDR}/${id}`)
+  //           .then(res => res.json())
+  //           .then(result => {
+  //             setFetchingResult(false);
+  //             setResponse(Object.assign({}, res, { result }));
+  //           });
+  //       }
+  //       setFetchingResult(false);
+  //       setResponse({
+  //         status: AnnotationStatus.ERROR,
+  //         statusMessage: res.response,
+  //       });
+  //     });
+  // }, []);
 
   const fetchTableData = fileName => {
     fetch(`${RESULT_ADDR}/csv_file/${id}/${fileName.substr(0, fileName.length - 4)}`).then(data => {
@@ -73,19 +83,19 @@ const AnnotationResult = props => {
     });
   };
 
-  const renderActive = () => (
-    <Fragment>
-      <Typography variant="h6">Processing annotation</Typography>
-      <Typography variant="body2">The annotation task is still processing, refresh the page to check again.</Typography>
-    </Fragment>
-  );
+  // const renderActive = () => (
+  //   <Fragment>
+  //     <Typography variant="h6">Processing annotation</Typography>
+  //     <Typography variant="body2">The annotation task is still processing, refresh the page to check again.</Typography>
+  //   </Fragment>
+  // );
 
-  const renderError = () => (
-    <Typography variant="body2">
-      {response.statusMessage}. Try to
-      <Button color="primary">run another annotation</Button>
-    </Typography>
-  );
+  // const renderError = () => (
+  //   <Typography variant="body2">
+  //     {response.statusMessage}. Try to
+  //     <Button color="primary">run another annotation</Button>
+  //   </Typography>
+  // );
 
   const renderComplete = () => {
     const { nodes, edges } = response.result.elements;
@@ -133,18 +143,18 @@ const AnnotationResult = props => {
       <Table className="mozi modal-table" size="small" style={{ minWidth: width - 300 }}>
         <TableHead>
           <TableRow>
-            <TableCell></TableCell>
+            <TableCell />
             {Object.keys(rows).map(r => (
-              <TableCell>{r.split("_").join(" ")}</TableCell>
+              <TableCell key={r}>{r.split("_").join(" ")}</TableCell>
             ))}
           </TableRow>
         </TableHead>
         <TableBody>
           {Object.keys(tableData).map((k, i) => (
-            <TableRow>
+            <TableRow key={k}>
               <TableCell>{k}</TableCell>
               {Object.keys(rows).map(r => (
-                <TableCell>{tableData[k][0][r] || "-"}</TableCell>
+                <TableCell key={r}>{tableData[k][0][r] || "-"}</TableCell>
               ))}
             </TableRow>
           ))}
@@ -213,15 +223,16 @@ const AnnotationResult = props => {
     <div className="content-wrapper">
       {/* Logo and title */}
       <div className="landing-page container">
-        {response && response.status === COMPLETED && renderComplete()}
+        {/* {response && response.status === COMPLETED && renderComplete()}
         {response && response.status === ACTIVE && renderActive()}
-        {response && response.status === ERROR && renderError()}
+        {response && response.status === ERROR && renderError()} */}
         {/* Show loader if there is a request being processed */}
         {isFetchingResult && (
           <div className="spin-wrapper">
             <CircularProgress color="primary" size={24} style={{ marginRight: 15 }} /> Fetching results ...
           </div>
         )}
+        {!isFetchingResult && response && renderComplete()}
       </div>
       {isVisualizerShown && (
         <Visualizer

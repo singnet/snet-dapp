@@ -195,8 +195,8 @@ const AnnotationForm = props => {
         int.setValue(includeProtiens ? "Proteins" : "Genes");
 
         const cov = new Filter();
-        cov.setFilter("exclude-orgs");
-        cov.setValue(includeCoV ? "" : "2697049");
+        int.setFilter("exclude-orgs");
+        int.setValue(includeCoV ? "" : "2697049");
 
         annotation.setFiltersList([
           int,
