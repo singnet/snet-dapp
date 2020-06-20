@@ -32,7 +32,7 @@ const GeneGoOptions = [
   { label: "Molecular Function", value: "molecular_function" },
 ];
 
-const Pathways = [{ label: "Reactome", value: "reactome" }];
+// const Pathways = [{ label: "Reactome", value: "reactome" }];
 
 const GeneInputMethods = { Manual: 0, Import: 1 };
 
@@ -195,8 +195,8 @@ const AnnotationForm = props => {
         int.setValue(includeProtiens ? "Proteins" : "Genes");
 
         const cov = new Filter();
-        int.setFilter("exclude-orgs");
-        int.setValue(includeCoV ? "" : "2697049");
+        cov.setFilter("exclude-orgs");
+        cov.setValue(includeCoV ? "" : "2697049");
 
         annotation.setFiltersList([
           int,
@@ -366,6 +366,7 @@ const AnnotationForm = props => {
                 <FormGroup row>
                   {GeneGoOptions.map(o => (
                     <FormControlLabel
+                      key={o.label}
                       control={
                         <Checkbox
                           color="primary"
