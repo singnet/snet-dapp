@@ -34,7 +34,7 @@ export const decodeGroupId = encodedGroupId => {
 
 const parseRegularCallMetadata = ({ data }) => ({
   signatureBytes: parseSignature(data["snet-payment-channel-signature-bin"]),
-  "snet-payment-mpe-address":MPEContract[process.env.REACT_APP_ETH_NETWORK].address
+  "snet-payment-mpe-address": MPEContract[process.env.REACT_APP_ETH_NETWORK].address,
 });
 
 const parseFreeCallMetadata = ({ data }) => ({
@@ -44,7 +44,7 @@ const parseFreeCallMetadata = ({ data }) => ({
   "snet-payment-channel-signature-bin": parseSignature(data["snet-payment-channel-signature-bin"]),
   "snet-free-call-auth-token-bin": parseSignature(data["snet-free-call-auth-token-bin"]),
   "snet-free-call-token-expiry-block": `${data["snet-free-call-token-expiry-block"]}`,
-  "snet-payment-mpe-address":MPEContract[process.env.REACT_APP_ETH_NETWORK].address
+  "snet-payment-mpe-address": MPEContract[process.env.REACT_APP_ETH_NETWORK].address,
 });
 
 const metadataGenerator = (serviceRequestErrorHandler, groupId) => async (serviceClient, serviceName, method) => {
@@ -78,7 +78,12 @@ const channelStateRequestSigner = async channelId => {
 const paidCallMetadataGenerator = serviceRequestErrorHandler => async (channelId, signingAmount, nonce) => {
   try {
     const apiName = APIEndpoints.SIGNER_SERVICE.name;
-    const RegCallPayload = { channel_id: channelId, amount: Number(signingAmount), nonce: Number(nonce) };
+    const enhancedChannelId = parseInt(channelId.toFixed());
+    const RegCallPayload = {
+      channel_id: enhancedChannelId,
+      amount: Number(signingAmount),
+      nonce: Number(nonce),
+    };
     const { token } = await fetchAuthenticatedUser();
     const RegCallOptions = initializeAPIOptions(token, RegCallPayload);
     const response = await API.post(apiName, APIPaths.SIGNER_REGULAR_CALL, RegCallOptions);
