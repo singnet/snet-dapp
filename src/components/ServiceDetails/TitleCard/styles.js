@@ -1,7 +1,10 @@
 export const useStyles = theme => ({
   computerVisionContainer: {
     display: "flex",
-    "@media(max-width:490px)": { display: "inline-block" },
+    "@media(max-width:490px)": {
+      marginTop: 55,
+      display: "inline-block",
+    },
   },
   companyName: {
     "& h4": {

@@ -24,7 +24,7 @@ class Login extends Component {
   };
 
   handleEmail = event => {
-    this.setState({ email: event.currentTarget.value });
+    this.setState({ email: event.currentTarget.value.toLowerCase() });
   };
 
   handlePassword = event => {
@@ -101,7 +101,4 @@ const mapDispatchToProps = dispatch => ({
   resetError: () => dispatch(userActions.resetLoginError),
   updateError: error => dispatch(userActions.updateLoginError(error)),
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(useStyles)(Login));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(Login));

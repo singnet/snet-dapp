@@ -53,13 +53,13 @@ class App extends Component {
   };
 
   render() {
-    const { hamburgerMenu, isInitialized, isLoggedIn, isTermsAccepted } = this.props;
+    const { isInitialized, isLoggedIn, isTermsAccepted } = this.props;
     if (!isInitialized) {
       return <CircularProgress />;
     }
     return (
       <ThemeProvider theme={theme}>
-        <div className={hamburgerMenu ? "hide-overflow" : null}>
+        <div>
           <Router history={history}>
             <Suspense fallback={<CircularProgress />}>
               <Switch>
@@ -76,6 +76,16 @@ class App extends Component {
                 />
                 <Route
                   path={`/${Routes.FORGOT_PASSWORD_SUBMIT}`}
+                  {...this.props}
+                  component={withRegistrationHeader(ForgotPasswordSubmit, headerData.FORGOT_PASSWORD_SUBMIT)}
+                />
+                <Route
+                  path={`/${Routes.RESET_PASSWORD}`}
+                  {...this.props}
+                  component={withRegistrationHeader(ForgotPassword, headerData.FORGOT_PASSWORD)}
+                />
+                <Route
+                  path={`/${Routes.RESET_PASSWORD_SUBMIT}`}
                   {...this.props}
                   component={withRegistrationHeader(ForgotPasswordSubmit, headerData.FORGOT_PASSWORD_SUBMIT)}
                 />
@@ -154,7 +164,4 @@ const mapDispatchToProps = dispatch => ({
   fetchUserDetails: () => dispatch(userActions.fetchUserDetails),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -22,7 +22,6 @@ const Contacts = ({ contacts, show, handleClose, classes }) => {
   if (isEmpty(contacts)) {
     return null;
   }
-
   const supportContact = contacts.find(el => el.contact_type.toLowerCase().trim() === ContactTypes.SUPPORT);
   if (!supportContact) {
     return (

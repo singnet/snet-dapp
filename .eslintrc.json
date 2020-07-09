@@ -8,7 +8,7 @@
       { "singleQuote": false, "semi": true, "max-len": { "code": 120, "ignoreUrls": true }, "tab-width": 2 }
     ],
     "lines-between-class-members": ["error", "always"],
-    "jsx-a11y/anchor-is-valid": false,
+    "jsx-a11y/anchor-is-valid": "warn",
     "prefer-arrow-callback": ["error", { "allowNamedFunctions": false, "allowUnboundThis": false }],
     "no-empty-function": ["error"],
     "react-hooks/rules-of-hooks": "error",

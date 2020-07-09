@@ -126,7 +126,7 @@ class MetamaskFlow extends Component {
 
       this.setState({ MMconnected: true, mpeBal, channelBalance });
     } catch (error) {
-      this.setState({ alert: { type: alertTypes.ERROR, message: `Unable to connect to metamask. Please try again` } });
+      this.setState({ alert: { type: alertTypes.ERROR, message: error.message } });
     }
     stopLoader();
   };
@@ -336,7 +336,4 @@ const mapDispatchToProps = dispatch => ({
   stopLoader: () => dispatch(loaderActions.stopAppLoader),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(useStyles)(MetamaskFlow));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(MetamaskFlow));

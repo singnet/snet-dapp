@@ -10,6 +10,8 @@ import { withStyles } from "@material-ui/styles";
 import AlertBox, { alertTypes } from "../AlertBox";
 import { useStyles } from "./styles";
 import { walletTypes } from "../../../Redux/actionCreators/UserActions";
+import { initSdk } from "../../../utility/sdk";
+import { Networks } from "../../../config/Networks";
 
 const accountChangeAlert = {
   header: "Incorrect Metamask Account",
@@ -22,7 +24,7 @@ const networkChangeAlert = {
   header: "Incorrect Metamask Network",
   type: alertTypes.WARNING,
   message: `Kindly check the network which you have set on Metamask. 
-  Please switch it to Mainnet to continue using the services.`,
+  Please switch it to ${Networks[process.env.REACT_APP_ETH_NETWORK]} to continue using the services.`,
 };
 
 class NetworkChangeOverlay extends Component {
@@ -30,6 +32,8 @@ class NetworkChangeOverlay extends Component {
     super(props);
     this.state = { alert: {}, ...this.showMetaMaskConfigMismatchOverlay() };
   }
+
+  sdk;
 
   componentDidMount() {
     window.addEventListener("snetMMAccountChanged", this.handleMetaMaskAccountChange);
@@ -40,6 +44,18 @@ class NetworkChangeOverlay extends Component {
     document.removeEventListener("snetMMAccountChanged", this.handleMetaMaskAccountChange);
     document.removeEventListener("snetMMNetworkChanged", this.handleMetaMaskNetworkChange);
   }
+
+  componentDidUpdate = async prevProps => {
+    if (!this.state.invalidMetaMaskDetails && prevProps.wallet.type !== this.props.wallet.type) {
+      if (this.props.wallet.type === walletTypes.METAMASK) {
+        if (!this.sdk) {
+          this.sdk = await initSdk();
+        }
+        const currentNetworkId = this.sdk.account._networkId;
+        this.handleMetaMaskNetworkChange({ detail: { network: currentNetworkId } });
+      }
+    }
+  };
 
   showMetaMaskConfigMismatchOverlay = () => {
     const { wallet } = this.props;

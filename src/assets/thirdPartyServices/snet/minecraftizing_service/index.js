@@ -1,199 +1,164 @@
 import React from "react";
+import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import { Grid, IconButton, MuiThemeProvider, Tooltip } from "@material-ui/core";
-import { MinecraftizingService } from "./MinecraftizingService_pb_service";
-import MethodNamesDropDown from "../../common/MethodNamesDropDown";
-import StyledDropdown from "../../../../components/common/StyledDropdown/index"
+import SvgIcon from "@material-ui/core/SvgIcon";
+import InfoIcon from "@material-ui/icons/Info";
+
+import OutlinedDropDown from "../../common/OutlinedDropdown";
 import SNETImageUpload from "../../standardComponents/SNETImageUpload";
-import { useStyles } from "./styles";
-import { withStyles } from "@material-ui/styles";
+import HoverIcon from "../../standardComponents/HoverIcon";
 
-const htstyle = {
-    padding: "10px",
-    fontSize: "13px",
-    marginLeft: "10px"
-};
-
-const imgstyle = {
-    maxWidth: "512px",
-    maxHeight: "512px"
-};
+import { MinecraftizingService } from "./MinecraftizingService_pb_service";
 
 const initialUserInput = {
-    methodName: "Select a value",
-    model_name: "default",
-    dataset: "default",
-    input_image: undefined
+  modelIndex: "0",
+  modelNames: [
+    {
+      label: "UGATIT",
+      content: "UGATIT",
+      value: "0",
+    },
+    {
+      label: "cycle_gan",
+      content: "cycle_gan",
+      value: "1",
+    },
+  ],
+  input_image: undefined,
 };
 
-const buttonStyle = {
-    fontSize: "13px",
-    marginLeft: "10px"
-};
-
-function repeatedButton (hrf, data)
-{
-    return (
-        <Button target="_blank" href={hrf} style={buttonStyle}>
-            <ul>{data}</ul>
-        </Button>
-    );
-}
-
-function styledDropdownWrap (name, list, value, onchange, class_name)
-{
-    return (
-        <div className="row">
-            <div style={htstyle}>
-                {name}
-            </div>
-            <div className={class_name}>
-                <StyledDropdown
-                    list={list}
-                    value={value}
-                    onChange={onchange}
-                />
-            </div>
-        </div>
-    );
-}
-
-class MinecraftService extends React.Component {
-    constructor(props) {
-        super(props);
-        this.submitAction = this.submitAction.bind(this);
-        this.handleFormUpdate = this.handleFormUpdate.bind(this);
-        this.getImageData = this.getImageData.bind(this);
-        this.handleModelChange = this.handleModelChange.bind(this);
-        this.handleDatasetChange = this.handleDatasetChange.bind(this);
+export default class MinecraftService extends React.Component {
+  constructor(props) {
+    super(props);
+    this.submitAction = this.submitAction.bind(this);
+    this.handleFormUpdate = this.handleFormUpdate.bind(this);
+    this.getImageData = this.getImageData.bind(this);
 
     this.state = {
-        ...initialUserInput,
-        users_guide: "https://github.com/singnet/semantic-vision/blob/master/services/MinecraftService/README_service.md",
-        code_repo: "https://github.com/singnet/semantic-vision/tree/master/services/MinecraftService",
-        response: undefined,
+      ...initialUserInput,
+      users_guide: "https://github.com/singnet/semantic-vision/blob/master/services/MinecraftService/README_service.md",
+      code_repo: "https://github.com/singnet/semantic-vision/tree/master/services/MinecraftService",
+      reference:
+        "https://github.com/singnet/semantic-vision/blob/master/services/MinecraftService/README_main_usage.md#references",
+      response: undefined,
     };
-    }
+  }
 
-    canBeInvoked() {
-        return this.state.input_image && this.state.model_name !== "default" && this.state.dataset !== "default"
-            && this.state.methodName !== "Select a value";
-    }
+  canBeInvoked() {
+    return this.state.input_image;
+  }
 
-    handleFormUpdate(event) {
-        this.setState({ [event.target.name]: event.target.value });
-    }
+  handleFormUpdate(event) {
+    this.setState({ [event.target.name]: event.target.value });
+  }
 
-    handleModelChange (event) {
-        const { value } = event.target;
-        this.setState({model_name: value})
-    }
+  submitAction() {
+    const { modelNames, modelIndex, input_image } = this.state;
+    const model_name = modelNames[modelIndex].content;
+    const methodDescriptor = MinecraftizingService["getMinecraftiziedImage"];
+    const request = new methodDescriptor.requestType();
 
-    handleDatasetChange (event) {
-        const { value } = event.target;
-        this.setState({dataset: value})
-    }
+    request.setNetworkName(model_name);
+    request.setDataset("minecraft_landscapes");
+    request.setInputImage(input_image);
 
-    submitAction() {
-        const { methodName, model_name, dataset, input_image } = this.state;
-        const methodDescriptor = MinecraftizingService[methodName];
-        const request = new methodDescriptor.requestType();
+    const props = {
+      request,
+      onEnd: ({ message }) => {
+        this.setState({
+          ...initialUserInput,
+          response: { status: message.getStatus(), data: message.getOutput() },
+        });
+      },
+    };
 
-        request.setNetworkName(model_name);
-        request.setDataset(dataset);
-        request.setInputImage(input_image);
-        const props = {
-            request,
-            onEnd: ({ message }) => {
-                this.setState({
-                    ...initialUserInput,
-                    response: { status: message.getStatus(), data: message.getOutput(), source: input_image},
-                });
-            },
-        };
+    this.props.serviceClient.unary(methodDescriptor, props);
+  }
 
-        this.props.serviceClient.unary(methodDescriptor, props);
-    }
+  getImageData(data) {
+    this.setState({ input_image: data });
+  }
 
-    getImageData(data)
-    {
-        this.setState({input_image: data})
-    }
+  parseResponse() {
+    const { response } = this.state;
+    const { isComplete } = this.props;
 
-    renderForm() {
-        const { classes } = this.props;
-        const serviceNameOptions = ["Select a value", ...this.props.serviceClient.getMethodNames(MinecraftizingService)];
-        const modelNames = {
-            UGATIT: "UGATIT",
-            cycle_gan: "cycle_gan"
-        };
-        const datasetNames = {
-            minecraft_landscapes: "minecraft_landscapes",
-        };
-
-        const modelNamesList = Object.entries(modelNames).map(([key, value]) => ({ value, label: key }));
-        const datasetNamesList = Object.entries(datasetNames).map(([key, value]) => ({ value, label: key }));
-
-        return (
-            <React.Fragment>
-                <div className={classes.container}>
-                    <div className="row" align="left">
-                        <div style={htstyle}>
-                            Method Name:{" "}
-                        </div>
-                        <MethodNamesDropDown
-                            list={serviceNameOptions}
-                            value={this.state.methodName}
-                            onChange={this.handleFormUpdate}
-                        />
-                    </div>
-                    {styledDropdownWrap("Model name:", modelNamesList, this.state.model_name, this.handleModelChange, classes.dropDown)}
-                    {styledDropdownWrap("Dataset Name:", datasetNamesList, this.state.dataset, this.handleDatasetChange, classes.dropDown)}
-                </div>
-                <div className={classes.uploader} align="center">
-                    <SNETImageUpload imageName={""} imageDataFunc={this.getImageData} instantUrlFetch={true} allowURL={true} />
-                </div>
-                <div className="row">
-                    <div style={htstyle}>
-                        About:{" "}
-                    </div>
-                    {repeatedButton(this.state.users_guide, "Guide")}
-                    {repeatedButton(this.state.code_repo, "Code")}
-                </div>
-                <div className="row">
-                    <div className={classes.invoke}>
-                        <button
-                            type="button"
-                            className="btn btn-primary"
-                            onClick={this.submitAction}
-                            disabled={!this.canBeInvoked()}
-                        >
-                            Invoke
-                        </button>
-                    </div>
-                </div>
-            </React.Fragment>
-        );
-    }
-
-    renderComplete() {
-        const { response } = this.state;
-        let img_base64 = "data:image/jpeg;base64," + response.data;
-        let source_image = "data:image/jpeg;base64," + response.source;
-        return (
-            <div style={{padding: "10px 0"}} align="center">:
-                <img style={ imgstyle } src={source_image} alt={"Original image"} />
-                <img style={ imgstyle } src={img_base64} alt={"Minecraftizied image"} />
-            </div>
-        )
-    }
-
-    render() {
-        if (this.props.isComplete) return <div>{this.renderComplete()}</div>;
-        else {
-            return <div>{this.renderForm()}</div>;
+    if (isComplete) {
+      if (typeof response !== "undefined") {
+        if (typeof response === "string") {
+          return response;
         }
+        return response.data;
+      } else {
+        return null;
+      }
+    } else {
+      return null;
     }
-}
+  }
 
-export default withStyles(useStyles)(MinecraftService);
+  render() {
+    return (
+      <React.Fragment>
+        <Grid container spacing={2} justify="center" alignItems="center">
+          {!this.props.isComplete && (
+            <Grid item xs={12} container justify="center" style={{ textAlign: "center" }}>
+              <OutlinedDropDown
+                id="model"
+                name="modelIndex"
+                label="Model"
+                fullWidth={true}
+                list={this.state.modelNames}
+                value={this.state.modelIndex}
+                onChange={this.handleFormUpdate}
+              />
+            </Grid>
+          )}
+
+          <Grid item xs={12} container justify="center">
+            <SNETImageUpload
+              imageName=""
+              imageDataFunc={this.getImageData}
+              outputImage={this.parseResponse()}
+              outputImageName="Response"
+              instantUrlFetch={true}
+              width="100%"
+            />
+          </Grid>
+
+          <Grid item xs container justify="flex-end">
+            <Grid item>
+              <HoverIcon text="View code on Github" href={this.state.code_repo}>
+                <SvgIcon>
+                  <path // Github Icon
+                    d="M12.007 0C6.12 0 1.1 4.27.157 10.08c-.944 5.813 2.468 11.45 8.054 13.312.19.064.397.033.555-.084.16-.117.25-.304.244-.5v-2.042c-3.33.735-4.037-1.56-4.037-1.56-.22-.726-.694-1.35-1.334-1.756-1.096-.75.074-.735.074-.735.773.103 1.454.557 1.846 1.23.694 1.21 2.23 1.638 3.45.96.056-.61.327-1.178.766-1.605-2.67-.3-5.462-1.335-5.462-6.002-.02-1.193.42-2.35 1.23-3.226-.327-1.015-.27-2.116.166-3.09 0 0 1.006-.33 3.3 1.23 1.966-.538 4.04-.538 6.003 0 2.295-1.5 3.3-1.23 3.3-1.23.445 1.006.49 2.144.12 3.18.81.877 1.25 2.033 1.23 3.226 0 4.607-2.805 5.627-5.476 5.927.578.583.88 1.386.825 2.206v3.29c-.005.2.092.393.26.507.164.115.377.14.565.063 5.568-1.88 8.956-7.514 8.007-13.313C22.892 4.267 17.884.007 12.008 0z"
+                  />
+                </SvgIcon>
+              </HoverIcon>
+            </Grid>
+            <Grid item>
+              <HoverIcon text="User's guide" href={this.state.users_guide}>
+                <InfoIcon />
+              </HoverIcon>
+            </Grid>
+            <Grid item>
+              <HoverIcon text="View original project" href={this.state.reference}>
+                <SvgIcon>
+                  <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm0 11.701c0 2.857-1.869 4.779-4.5 5.299l-.498-1.063c1.219-.459 2.001-1.822 2.001-2.929h-2.003v-5.008h5v3.701zm6 0c0 2.857-1.869 4.779-4.5 5.299l-.498-1.063c1.219-.459 2.001-1.822 2.001-2.929h-2.003v-5.008h5v3.701z" />
+                </SvgIcon>
+              </HoverIcon>
+            </Grid>
+          </Grid>
+
+          {!this.props.isComplete && (
+            <Grid item xs={12} container justify="center">
+              <Button variant="contained" color="primary" onClick={this.submitAction} disabled={!this.canBeInvoked()}>
+                Invoke
+              </Button>
+            </Grid>
+          )}
+        </Grid>
+      </React.Fragment>
+    );
+  }
+}

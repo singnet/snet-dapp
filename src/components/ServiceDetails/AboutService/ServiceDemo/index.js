@@ -98,10 +98,11 @@ class ServiceDemo extends Component {
   };
 
   fetchFreeCallsUsage = () => {
-    const { service, fetchMeteringData, email } = this.props;
+    const { service, fetchMeteringData, email, groupInfo } = this.props;
     return fetchMeteringData({
       orgId: service.org_id,
       serviceId: service.service_id,
+      groupId: groupInfo.group_id,
       username: email,
     });
   };
@@ -151,7 +152,7 @@ class ServiceDemo extends Component {
     if (error.response && error.response.data && error.response.data.error) {
       alert.message = error.response.data.error;
     } else {
-      alert.message = error.message;
+      alert.message = error.message || error;
     }
     this.setState({
       isServiceExecutionComplete: false,
@@ -249,7 +250,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   fetchUSDConversionRate: () => dispatch(paymentActions.fetchUSDConversionRate),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(useStyles)(withRouter(ServiceDemo)));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(withRouter(ServiceDemo)));

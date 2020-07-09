@@ -1,22 +1,46 @@
 import React from "react";
-import { withStyles } from "@material-ui/styles";
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
+
+import OutlinedDropDown from "../../common/OutlinedDropdown";
+import OutlinedTextArea from "../../common/OutlinedTextArea";
 
 import { Calculator } from "./example_service_pb_service";
-import { useStyles } from "./styles";
 
-const initialUserInput = { methodName: "Select a method", a: 0, b: 0 };
+const initialUserInput = {
+  methodIndex: "0",
+  methodNames: [
+    {
+      label: "Addition",
+      content: "add",
+      value: "0",
+    },
+    {
+      label: "Subtraction",
+      content: "sub",
+      value: "1",
+    },
+    {
+      label: "Multiplication",
+      content: "mul",
+      value: "2",
+    },
+    {
+      label: "Division",
+      content: "div",
+      value: "3",
+    }
+  ],
+  a: "0",
+  b: "0",
+};
 
-class ExampleService extends React.Component {
+export default class ExampleService extends React.Component {
   constructor(props) {
     super(props);
     this.submitAction = this.submitAction.bind(this);
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
-
     this.state = { ...initialUserInput };
-  }
-
-  canBeInvoked() {
-    return this.state.methodName !== "Select a method";
   }
 
   handleFormUpdate(event) {
@@ -27,100 +51,86 @@ class ExampleService extends React.Component {
 
   onKeyPressvalidator(event) {
     const keyCode = event.keyCode || event.which;
-    if (!(keyCode == 8 || keyCode == 46) && (keyCode < 48 || keyCode > 57)) {
+    if (!(keyCode === 8 || keyCode === 46) && (keyCode < 48 || keyCode > 57)) {
       event.preventDefault();
     } else {
       let dots = event.target.value.split(".");
-      if (dots.length > 1 && keyCode == 46) event.preventDefault();
+      if (dots.length > 1 && keyCode === 46) event.preventDefault();
     }
   }
 
   submitAction() {
-      const methodDescriptor = Calculator[this.state.methodName];
-      const request = new methodDescriptor.requestType();
-      request.setA(this.state.a);
-      request.setB(this.state.b);
+    const { methodIndex, methodNames } = this.state;
+    const methodDescriptor = Calculator[methodNames[methodIndex].content];
+    const request = new methodDescriptor.requestType();
+    request.setA(this.state.a);
+    request.setB(this.state.b);
 
-      const props = {
-        request,
-        onEnd: ({ message }) => {
-          this.setState({ ...initialUserInput, response: { value: message.getValue() } });
-        },
-      };
-      this.props.serviceClient.unary(methodDescriptor, props);
+    const props = {
+      request,
+      onEnd: ({ message }) => {
+        this.setState({ ...initialUserInput, response: { value: message.getValue() } });
+      },
+    };
+    this.props.serviceClient.unary(methodDescriptor, props);
   }
 
-  renderServiceMethodNames(serviceMethodNames) {
-    const serviceNameOptions = ["Select a method", ...serviceMethodNames];
-    return serviceNameOptions.map((serviceMethodName, index) => {
-      return <option key={index}>{serviceMethodName}</option>;
-    });
-  }
+  handleFocus = event => event.target.select();
 
   renderForm() {
-    const { classes } = this.props;
-    const serviceMethodNames = this.props.serviceClient.getMethodNames(Calculator);
     return (
       <React.Fragment>
-        <div className={classes.exampleServiceMainContainer}>
-          <div className="row">
-            <div className="col-md-3 col-lg-3" style={{ padding: "10px", fontSize: "13px", marginLeft: "10px" }}>
-              Method Name:{" "}
-            </div>
-            <div className="col-md-3 col-lg-3">
-              <select
-                name="methodName"
-                value={this.state.methodName}
-                style={{ height: "30px", width: "250px", fontSize: "13px", marginBottom: "5px" }}
-                onChange={this.handleFormUpdate}
-              >
-                {this.renderServiceMethodNames(serviceMethodNames)}
-              </select>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-md-3 col-lg-3" style={{ padding: "10px", fontSize: "13px", marginLeft: "10px" }}>
-              Number 1:{" "}
-            </div>
-            <div className="col-md-3 col-lg-3">
-              <input
+        <Grid container direction="column" alignItems="center" justify="center">
+          <Grid item xs={6} container style={{ textAlign: "center" }}>
+            <OutlinedDropDown
+              id="method"
+              name="methodIndex"
+              label="Method"
+              fullWidth={true}
+              list={this.state.methodNames}
+              value={this.state.methodIndex}
+              onChange={this.handleFormUpdate}
+            />
+          </Grid>
+
+          <Grid item xs={6} container spacing={1}>
+            <Grid item xs>
+              <OutlinedTextArea
+                id="number_a"
                 name="a"
+                label="Number 1"
                 type="number"
-                style={{ height: "30px", width: "250px", fontSize: "13px", marginBottom: "5px" }}
+                fullWidth={false}
                 value={this.state.a}
+                rows={1}
                 onChange={this.handleFormUpdate}
                 onKeyPress={e => this.onKeyPressvalidator(e)}
-              ></input>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-md-3 col-lg-3" style={{ padding: "10px", fontSize: "13px", marginLeft: "10px" }}>
-              Number 2:{" "}
-            </div>
-            <div className="col-md-3 col-lg-3">
-              <input
+                onFocus={this.handleFocus}
+              />
+            </Grid>
+
+            <Grid item xs>
+              <OutlinedTextArea
+                id="number_b"
                 name="b"
+                label="Number 2"
                 type="number"
-                style={{ height: "30px", width: "250px", fontSize: "13px", marginBottom: "5px" }}
+                fullWidth={false}
                 value={this.state.b}
+                rows={1}
                 onChange={this.handleFormUpdate}
                 onKeyPress={e => this.onKeyPressvalidator(e)}
-              ></input>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-md-6 col-lg-6" style={{ textAlign: "right" }}>
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={this.submitAction}
-                disabled={!this.canBeInvoked()}
-              >
-                Invoke
-              </button>
-            </div>
-          </div>
-        </div>
+                onFocus={this.handleFocus}
+              />
+            </Grid>
+          </Grid>
+
+          <Grid item xs={12} style={{ textAlign: "center" }}>
+            <Button variant="contained" color="primary" onClick={this.submitAction}>
+              Invoke
+            </Button>
+          </Grid>
+        </Grid>
       </React.Fragment>
     );
   }
@@ -137,11 +147,10 @@ class ExampleService extends React.Component {
 
   renderComplete() {
     const response = this.parseResponse();
-
     return (
-      <div>
-        <p style={{ fontSize: "13px" }}>Response from service is {response} </p>
-      </div>
+      <Grid item xs={12} container justify="center">
+        <p style={{ fontSize: "20px" }}>Response from service: {response} </p>
+      </Grid>
     );
   }
 
@@ -152,5 +161,3 @@ class ExampleService extends React.Component {
     }
   }
 }
-
-export default withStyles(useStyles)(ExampleService);
