@@ -9,14 +9,16 @@ import { useStyles } from "./styles";
 import StyledTable from "../../../../../../../../common/StyledTable";
 import InfoIcon from "@material-ui/icons/Info";
 import { agiInDecimal } from "../../../../../../../../../utility/PricingStrategy";
+import { currentServiceDetails } from "../../../../../../../../../Redux/reducers/ServiceDetailsReducer";
 
 const Summary = props => {
-  const { classes, amount, item, quantity, handlePaymentComplete, services } = props;
+  const { classes, amount, item, quantity, handlePaymentComplete, serviceDetails } = props;
 
   const columns = [
     { key: "item", label: "Total $USD spent" },
     { key: "amount", label: `$${amount}` },
   ];
+
   const rows = [
     {
       key: 1,
@@ -28,7 +30,7 @@ const Summary = props => {
   return (
     <div className={classes.summaryContainer}>
       <Typography variant="body2" className={classes.successMsg}>
-        Successfully Created Wallet for : {services.service.organization_name}
+        Successfully Created Wallet for : {serviceDetails.organization_name}
       </Typography>
       <StyledTable title="Transaction Receipt" columns={columns} rows={rows} />
       <div className={classes.btnContainer}>
@@ -39,7 +41,7 @@ const Summary = props => {
 };
 
 const mapStateToProps = state => ({
-  services: state.serviceReducer.services,
+  serviceDetails: currentServiceDetails(state),
 });
 
 export default connect(mapStateToProps)(withStyles(useStyles)(Summary));
