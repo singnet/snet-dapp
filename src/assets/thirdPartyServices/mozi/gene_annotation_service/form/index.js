@@ -75,8 +75,8 @@ const AnnotationForm = props => {
   const [pathways, setPathways] = useState(["reactome"]);
   const [includeSmallMolecules, setIncludeSmallMolecules] = useState(false);
 
-  const [includeCoding, setIncludeCoding] = useState(true);
-  const [includeNonCoding, setincludeNonCoding] = useState(true);
+  const [includeCoding, setIncludeCoding] = useState(false);
+  const [includeNonCoding, setincludeNonCoding] = useState(false);
 
   const [includeProtiens, setIncludeProtiens] = useState(true);
 
