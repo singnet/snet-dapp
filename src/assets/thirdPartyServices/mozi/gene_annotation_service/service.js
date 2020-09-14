@@ -4,6 +4,10 @@ export const downloadSchemeFile = id => {
   window.open(`${RESULT_ADDR}/result_file/${id}`);
 };
 
+export const downloadCSVfiles = id => {
+  window.open(`${RESULT_ADDR}/csv/${id}`);
+};
+
 export const downloadCSVFile = (id, annotation) => {
   window.open(`${RESULT_ADDR}/csv_file/${id}/${annotation.substr(0, annotation.length - 4)}`);
 };

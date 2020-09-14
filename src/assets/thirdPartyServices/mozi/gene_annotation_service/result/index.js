@@ -1,6 +1,5 @@
 import React, { useState, useEffect, Fragment } from "react";
-import { parse, formatDistanceToNow, toDate } from "date-fns";
-import { RESULT_ADDR, downloadSchemeFile } from "../service";
+import { RESULT_ADDR, downloadSchemeFile, downloadCSVfiles } from "../service";
 import TabbedTables from "../tables";
 import Visualizer from "../visualizer";
 import Button from "@material-ui/core/Button";
@@ -40,25 +39,16 @@ const AnnotationResult = props => {
   const id = props.id;
 
   useEffect(() => {
-    setFetchingResult(true);
-    fetch(`${RESULT_ADDR}/status/${id}`)
-      .then(res => res.json())
-      .then(res => {
-        if (res.status === 2) {
-          return fetch(`${RESULT_ADDR}/${id}`)
-            .then(res => res.json())
-            .then(result => {
-              setFetchingResult(false);
-              setResponse(Object.assign({}, res, { result }));
-            });
-        }
-        setFetchingResult(false);
-        setResponse({
-          status: AnnotationStatus.ERROR,
-          statusMessage: res.response,
+    if (id) {
+      setFetchingResult(true);
+      fetch(`${RESULT_ADDR}/${id}`)
+        .then(res => res.json())
+        .then(result => {
+          setFetchingResult(false);
+          setResponse({ result });
         });
-      });
-  }, []);
+    }
+  }, [id]);
 
   const fetchTableData = fileName => {
     fetch(`${RESULT_ADDR}/csv_file/${id}/${fileName.substr(0, fileName.length - 4)}`).then(data => {
@@ -76,7 +66,7 @@ const AnnotationResult = props => {
   const renderActive = () => (
     <Fragment>
       <Typography variant="h6">Processing annotation</Typography>
-      <Typography variant="body2">The annotation task is still processing, refresh the page to check again.</Typography>
+      <Typography variant="body2">The annotation task is still processing</Typography>
     </Fragment>
   );
 
@@ -97,7 +87,7 @@ const AnnotationResult = props => {
         <div className="inline-buttons">
           <Button
             variant="contained"
-            onClick={e => {
+            onClick={() => {
               if (!summary) {
                 fetch(`${RESULT_ADDR}/summary/${id}`).then(data => {
                   data
@@ -113,13 +103,13 @@ const AnnotationResult = props => {
           >
             <AssessmentIcon style={{ marginRight: 15 }} /> View summary
           </Button>
-          <Button variant="contained" onClick={e => setTableShown(true)}>
-            <TableChartOutlinedIcon style={{ marginRight: 15 }} /> View results table
+          <Button variant="contained" onClick={() => downloadCSVfiles(props.match.params.id)}>
+            <TableChartOutlinedIcon style={{ marginRight: 15 }} /> Download CSV files
           </Button>
           <Button variant="contained" onClick={() => downloadSchemeFile(id)}>
             <CloudDownloadIcon style={{ marginRight: 15 }} /> Download Scheme File
           </Button>
-          <Button variant="contained" color="primary" onClick={e => setVisualizerShown(true)}>
+          <Button variant="contained" color="primary" onClick={() => setVisualizerShown(true)}>
             <VisibilityIcon style={{ marginRight: 15 }} /> Visualize the result
           </Button>
         </div>
@@ -133,14 +123,14 @@ const AnnotationResult = props => {
       <Table className="mozi modal-table" size="small" style={{ minWidth: width - 300 }}>
         <TableHead>
           <TableRow>
-            <TableCell></TableCell>
+            <TableCell />
             {Object.keys(rows).map(r => (
               <TableCell>{r.split("_").join(" ")}</TableCell>
             ))}
           </TableRow>
         </TableHead>
         <TableBody>
-          {Object.keys(tableData).map((k, i) => (
+          {Object.keys(tableData).map(k => (
             <TableRow>
               <TableCell>{k}</TableCell>
               {Object.keys(rows).map(r => (
