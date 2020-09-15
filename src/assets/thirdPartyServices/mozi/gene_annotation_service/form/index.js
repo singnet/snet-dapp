@@ -205,7 +205,6 @@ const AnnotationForm = props => {
           cov
           // , ...(annotations.includes("gene-go-annotation") ? [namespace, nop] : [])
         ]);
-        console.log("Biogrid protein: " + int.toString())
       }
       return annotation;
     });
@@ -218,7 +217,6 @@ const AnnotationForm = props => {
     includeRNA.setFiltersList([coding, noncoding, protein]);
 
     annotationRequest.setAnnotationsList(includeCoding || includeNonCoding ? [...annList, includeRNA] : annList);
-    console.log("request", annotationRequest);
     const requestProps = {
       request: annotationRequest,
       onEnd: ({ status, statusMessage, message: msg }) => {
