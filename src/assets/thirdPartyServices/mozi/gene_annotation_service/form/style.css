@@ -11,6 +11,10 @@
   margin: 15px 0 45px 0;
 }
 
+.gene-list .MuiChip-colorSecondary {
+  background-color: #853cc7;
+}
+
 .gene-list .ant-tag {
   font-size: 1em;
 }
