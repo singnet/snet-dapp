@@ -11,7 +11,7 @@ import PaypalPaymentMgmtStrategy from "./PaypalPaymentMgmtStrategy";
 const DEFAULT_GAS_PRICE = 4700000;
 const DEFAULT_GAS_LIMIT = 210000;
 const ON_ACCOUNT_CHANGE = "accountsChanged";
-const ON_NETWORK_CHANGE = "networkChanged";
+const ON_NETWORK_CHANGE = "chainChanged";
 
 let sdk;
 let channel;
