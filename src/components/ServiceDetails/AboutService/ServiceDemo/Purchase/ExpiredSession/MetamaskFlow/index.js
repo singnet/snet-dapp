@@ -106,7 +106,7 @@ class MetamaskFlow extends Component {
       const sdk = await initSdk();
       const mpeBal = await sdk.account.escrowBalance();
       await this.paymentChannelManagement.updateChannelInfo();
-      const address = sdk.account.address;
+      const address = await sdk.account.getAddress();
       const addressAlreadyRegistered = walletList.some(wallet => wallet.address === address);
       if (!addressAlreadyRegistered) {
         await registerWallet(address, walletTypes.METAMASK);

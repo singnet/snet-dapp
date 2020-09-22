@@ -157,7 +157,7 @@ export const initSdk = async address => {
   const updateSDK = () => {
     const chainIdHex = web3Provider.chainId
     const networkId = parseInt(chainIdHex)
-    
+
     const config = {
       networkId,
       web3Provider,
@@ -169,7 +169,7 @@ export const initSdk = async address => {
   };
 
   if (sdk && address) {
-    const currentAddress = sdk.account.address;
+    const currentAddress = await sdk.account.getAddress();
     if (currentAddress.toLowerCase() !== address.toLowerCase()) {
       updateSDK();
     }
