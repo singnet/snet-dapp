@@ -7,6 +7,7 @@ import { initializeAPIOptions } from "./API";
 import { fetchAuthenticatedUser, walletTypes } from "../Redux/actionCreators/UserActions";
 import ProxyPaymentChannelManagementStrategy from "./ProxyPaymentChannelManagementStrategy";
 import PaypalPaymentMgmtStrategy from "./PaypalPaymentMgmtStrategy";
+import { ethereumMethods } from "./constants/EthereumUtils";
 
 const DEFAULT_GAS_PRICE = 4700000;
 const DEFAULT_GAS_LIMIT = 210000;
@@ -154,7 +155,9 @@ export const updateChannel = newChannel => {
 
 export const initSdk = async address => {
   const updateSDK = () => {
-    const networkId = web3Provider.networkVersion;
+    const chainIdHex = web3Provider.chainId
+    const networkId = parseInt(chainIdHex)
+    
     const config = {
       networkId,
       web3Provider,
@@ -181,7 +184,7 @@ export const initSdk = async address => {
   try {
     if (hasEth) {
       web3Provider = window.ethereum;
-      const accounts = await web3Provider.enable();
+      await web3Provider.request({method:ethereumMethods.REQUEST_ACCOUNTS})
       web3Provider.addListener(ON_ACCOUNT_CHANGE, accounts => {
         const event = new CustomEvent("snetMMAccountChanged", { detail: { address: accounts[0] } });
         window.dispatchEvent(event);
