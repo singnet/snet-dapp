@@ -154,7 +154,7 @@ export const updateChannel = newChannel => {
 };
 
 export const initSdk = async address => {
-  const updateSDK = () => {
+  const updateSDK = async () => {
     const chainIdHex = web3Provider.chainId
     const networkId = parseInt(chainIdHex)
 
@@ -166,12 +166,13 @@ export const initSdk = async address => {
     };
 
     sdk = new SnetSDK(config);
+    await sdk.setupAccount()
   };
 
   if (sdk && address) {
     const currentAddress = await sdk.account.getAddress();
     if (currentAddress.toLowerCase() !== address.toLowerCase()) {
-      updateSDK();
+      await updateSDK();
     }
     return Promise.resolve(sdk);
   }
