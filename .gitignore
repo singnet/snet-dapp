@@ -85,3 +85,6 @@ storybook-static/
 
 #workflows
 .github/
+
+# macbook files
+.DS_Store
