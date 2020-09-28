@@ -7,11 +7,12 @@ import { initializeAPIOptions } from "./API";
 import { fetchAuthenticatedUser, walletTypes } from "../Redux/actionCreators/UserActions";
 import ProxyPaymentChannelManagementStrategy from "./ProxyPaymentChannelManagementStrategy";
 import PaypalPaymentMgmtStrategy from "./PaypalPaymentMgmtStrategy";
+import { ethereumMethods } from "./constants/EthereumUtils";
 
 const DEFAULT_GAS_PRICE = 4700000;
 const DEFAULT_GAS_LIMIT = 210000;
 const ON_ACCOUNT_CHANGE = "accountsChanged";
-const ON_NETWORK_CHANGE = "networkChanged";
+const ON_NETWORK_CHANGE = "chainChanged";
 
 let sdk;
 let channel;
@@ -153,8 +154,10 @@ export const updateChannel = newChannel => {
 };
 
 export const initSdk = async address => {
-  const updateSDK = () => {
-    const networkId = web3Provider.networkVersion;
+  const updateSDK = async () => {
+    const chainIdHex = web3Provider.chainId
+    const networkId = parseInt(chainIdHex)
+
     const config = {
       networkId,
       web3Provider,
@@ -163,13 +166,13 @@ export const initSdk = async address => {
     };
 
     sdk = new SnetSDK(config);
+    await sdk.setupAccount()
   };
 
   if (sdk && address) {
-    const currentAddress = sdk.account.address;
+    const currentAddress = await sdk.account.getAddress();
     if (currentAddress.toLowerCase() !== address.toLowerCase()) {
-      window.web3.eth.defaultAccount = address;
-      updateSDK();
+      await updateSDK();
     }
     return Promise.resolve(sdk);
   }
@@ -179,12 +182,10 @@ export const initSdk = async address => {
   }
 
   const hasEth = typeof window.ethereum !== "undefined";
-  const hasWeb3 = typeof window.web3 !== "undefined";
   try {
-    if (hasEth && hasWeb3) {
+    if (hasEth) {
       web3Provider = window.ethereum;
-      const accounts = await web3Provider.enable();
-      window.web3.eth.defaultAccount = accounts[0];
+      await web3Provider.request({method:ethereumMethods.REQUEST_ACCOUNTS})
       web3Provider.addListener(ON_ACCOUNT_CHANGE, accounts => {
         const event = new CustomEvent("snetMMAccountChanged", { detail: { address: accounts[0] } });
         window.dispatchEvent(event);

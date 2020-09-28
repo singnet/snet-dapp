@@ -31,7 +31,7 @@ class ExpiredSession extends Component {
       try {
         const selectedEthAddress = window.ethereum && window.ethereum.selectedAddress;
         const sdk = await initSdk(selectedEthAddress);
-        const address = sdk.account.address;
+        const address = await sdk.account.getAddress()
 
         if (!isEmpty(address)) {
           stopWalletDetailsPolling();
