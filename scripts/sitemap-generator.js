@@ -21,7 +21,7 @@ async function fetchServices(pagination = defaultPagination, step = 50) {
   try {
     const {
       data: { data },
-    } = await axios.post("https://ropsten-marketplace.singularitynet.io/contract-api/service", pagination);
+    } = await axios.post("https://mainnet-marketplace.singularitynet.io/contract-api/service", pagination);
     const { result } = data;
     services = services.concat(result);
     if (services.length < data.total_count) {
