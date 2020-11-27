@@ -194,7 +194,7 @@ class ServiceDemo extends Component {
 
     return (
       <div className={classes.demoExampleContainer}>
-        <h4>Process</h4>
+        <h3>Process</h3>
         <ProgressBar activeSection={this.computeActiveSection()} progressText={progressText} />
         <PurchaseToggler
           groupInfo={groupInfo}

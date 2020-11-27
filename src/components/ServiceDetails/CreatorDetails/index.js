@@ -14,12 +14,12 @@ const CreatorDetails = ({ classes, organizationName, orgImg, contacts }) => {
   return (
     <Fragment>
       <div className={classes.creatorDetailsContainer}>
-        <h3>Provider</h3>
+        <h2>Provider</h2>
         <div className={classes.content}>
           <div className={classes.companyInfo}>
             <Avatar alt="Singularity" src={orgImg || SingularityLogo} className={classes.avatar} />
             <div className={classes.companyName}>
-              <h4>{organizationName}</h4>
+              <h3>{organizationName}</h3>
             </div>
           </div>
         </div>

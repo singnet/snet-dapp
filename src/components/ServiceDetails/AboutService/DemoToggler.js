@@ -14,7 +14,7 @@ const DemoToggler = ({ classes, showDemo, onClick, service, history, serviceAvai
   if (!showDemo) {
     return (
       <div className={classes.demoContainer}>
-        <h3>Demo Example</h3>
+        <h2>Demo Example</h2>
         <div className={classes.demoToggler}>
           <div className={classes.imgContainer}>
             <img src={signInImg} title="Login" />
@@ -36,7 +36,7 @@ const DemoToggler = ({ classes, showDemo, onClick, service, history, serviceAvai
   if (!serviceAvailable) {
     return (
       <div className={classes.serviceOfflineContainer}>
-        <h3>Demo Example</h3>
+        <h2>Demo Example</h2>
         <div className={classes.serviceOffline}>
           <div className={classes.imgContainer}>
             <img src={serviceOfflineImg} title="Service Not Available" />
@@ -55,7 +55,7 @@ const DemoToggler = ({ classes, showDemo, onClick, service, history, serviceAvai
 
   return (
     <div className={classes.demoContainer}>
-      <h3>Service Demo</h3>
+      <h2>Service Demo</h2>
       <ServiceDemo service={service} history={history} />
     </div>
   );
