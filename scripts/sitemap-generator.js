@@ -1,3 +1,4 @@
+require("dotenv").config();
 require("babel-register")({
   presets: ["es2015", "react"],
 });
@@ -18,10 +19,11 @@ const defaultPagination = {
 var services = [];
 
 async function fetchServices(pagination = defaultPagination, step = 50) {
+  const url = `${process.env.REACT_APP_CONTRACT_ENDPOINT}/service`;
   try {
     const {
       data: { data },
-    } = await axios.post("https://mainnet-marketplace.singularitynet.io/contract-api/service", pagination);
+    } = await axios.post(url, pagination);
     const { result } = data;
     services = services.concat(result);
     if (services.length < data.total_count) {
@@ -57,7 +59,7 @@ async function generateSitemap() {
 
   return new Sitemap(router)
     .applyParams(paramsConfig)
-    .build("https://www.beta.singularitynet.io")
+    .build(process.env.REACT_APP_BASE_URL)
     .save("./public/sitemap.xml");
 }
 
