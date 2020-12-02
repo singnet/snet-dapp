@@ -9,7 +9,7 @@ import Contributors from "./Contibutors";
 const ProjectDetails = ({ classes, projectURL, contributors }) => {
   return (
     <div className={classes.projectDetailsContainer}>
-      <h3>Project Details</h3>
+      <h2>Project Details</h2>
       <ProjectURL URL={projectURL} />
       <Contributors contributors={contributors} />
     </div>

@@ -28,7 +28,7 @@ const TitleCard = ({ classes, display_name, star_rating, organizationName, servi
           </div>
         </div>
 
-        <h2>{display_name}</h2>
+        <h1>{display_name}</h1>
 
         <div>
           <StarRatingComponent name="rate1" starCount={5} value={star_rating} className={classes.ratingStars} />
