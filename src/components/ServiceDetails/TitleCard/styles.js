@@ -23,7 +23,7 @@ export const useStyles = theme => ({
   },
   computerVisionContent: {
     marginLeft: 25,
-    "& h2": {
+    "& h1": {
       color: theme.palette.text.darkShadedGray,
       fontSize: 38,
       fontWeight: 200,

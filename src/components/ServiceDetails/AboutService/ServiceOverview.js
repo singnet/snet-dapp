@@ -15,7 +15,7 @@ const ServiceOverview = ({ classes, description, tags }) => {
 
   return (
     <div className={classes.overViewContainer}>
-      <h3>Overview</h3>
+      <h2>Overview</h2>
       <p>{parseDescription(description)}</p>
       <Tags className={classes.tagsContainer} tags={tags} />
     </div>

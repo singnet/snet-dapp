@@ -7,7 +7,7 @@ import { useStyles } from "./styles";
 const MediaGallery = ({ classes }) => {
   return (
     <div className={classes.mediaGalleryContainer}>
-      <h2>Media Gallery</h2>
+      <h2>Media Gallery (8)</h2>
     </div>
   );
 };
