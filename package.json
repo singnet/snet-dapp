@@ -61,7 +61,6 @@
     "eject": "react-scripts eject",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "deploy": "rm -rf build/ &&  npm run build && cd build && aws s3 sync . s3://enhanced-marketplace",
     "sandbox": "REACT_APP_SANDBOX=true npm start",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
