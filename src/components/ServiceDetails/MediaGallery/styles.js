@@ -5,6 +5,24 @@ export const useStyles = theme => ({
     marginTop: 25,
     borderRadius: 4,
     backgroundColor: theme.palette.text.white,
-    "& h3": { marginBottom: 15 },
+  },
+  masonry_grid: {
+    display: "flex",
+    marginLeft: -30,
+    width: "auto",
+  },
+  masonry_grid_column: {
+    paddingLeft: 30,
+    backgroundClip: "padding-box",
+    "& > div": {
+      marginBottom: 30,
+    },
+  },
+
+  card: {
+    margin: 7,
+    padding: 5,
+    borderRadius: 3,
+    boxShadow: "0 1px 3px darkgray",
   },
 });
