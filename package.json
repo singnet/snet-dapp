@@ -56,7 +56,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts --max_old_space_size=5120 build && npm run sitemap",
+    "build": "npm run sitemap && react-scripts --max_old_space_size=5120 build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint .",
