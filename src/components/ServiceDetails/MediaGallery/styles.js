@@ -25,4 +25,22 @@ export const useStyles = theme => ({
     borderRadius: 3,
     boxShadow: "0 1px 3px darkgray",
   },
+
+  overlayContainer: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    textAlign: "center",
+    color: "#fff",
+    opacity: 0.7,
+    backgroundColor: "#4D4D4D",
+    "& span": {
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+    },
+  },
 });

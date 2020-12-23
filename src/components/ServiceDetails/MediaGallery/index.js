@@ -1,161 +1,134 @@
-import React from "react";
-import Masonry from "react-masonry-css";
-// import { XMasonry, XBlock } from "react-xmasonry";
-
-// import Gallery from 'react-photo-gallery';
+import React, { useCallback } from "react";
 
 import { withStyles } from "@material-ui/styles";
+import Gallery from "react-photo-gallery";
+// import Carousel, { ModalGateway, Modal } from "react-images";
 
+import Image from "./Image";
+import Video from "./Video";
 import { useStyles } from "./styles";
 
 const MediaGallery = ({ classes }) => {
-  let items = [
-    { id: 1, name: "My First Item" },
-    { id: 2, name: "Another item" },
-    { id: 3, name: "Third Item" },
-    { id: 4, name: "Here is the Fourth" },
-    { id: 5, name: "High Five" },
+  // const [currentImage, setCurrentImage] = useState(0);
+  // const [viewerIsOpen, setViewerIsOpen] = useState(false);
+
+  // const openLightbox = useCallback((event, { photo, index }) => {
+  //   console.log("@@@@@@");
+  //   setCurrentImage(index);
+  //   setViewerIsOpen(true);
+  // }, []);
+
+  // const closeLightbox = () => {
+  //   setCurrentImage(0);
+  //   setViewerIsOpen(false);
+  // };
+
+  const photos = [
+    {
+      src: "https://source.unsplash.com/2ShvY8Lf6l0/800x599",
+      width: 4,
+      height: 3,
+      //...loadImage("https://source.unsplash.com/2ShvY8Lf6l0/800x599")
+    },
+    {
+      src: "https://source.unsplash.com/Dm-qxdynoEc/800x799",
+      width: 1,
+      height: 1,
+    },
+    {
+      src: "https://www.youtube.com/embed/lTxn2BuqyzU",
+      width: 1,
+      height: 1,
+      type: "video",
+      source: "youtube",
+    },
+    {
+      src: "https://source.unsplash.com/iecJiKe_RNg/600x799",
+      width: 1,
+      height: 1,
+    },
+    {
+      src: "https://source.unsplash.com/epcsn8Ed8kY/600x799",
+      width: 1,
+      height: 1,
+    },
+    {
+      src: "https://source.unsplash.com/NQSWvyVRIJk/800x599",
+      width: 4,
+      height: 3,
+    },
+    {
+      src: "https://source.unsplash.com/zh7GEuORbUw/600x799",
+      width: 3,
+      height: 4,
+    },
+    {
+      src: "https://source.unsplash.com/PpOHJezOalU/800x599",
+      width: 4,
+      height: 3,
+    },
+    {
+      src: "https://source.unsplash.com/I1ASdgphUH4/800x599",
+      width: 4,
+      height: 3,
+    },
   ];
 
-  items = items.map(item => {
-    return <div key={item.id}>{item.name}</div>;
-  });
-
-  // const photos = [
-  //   {
-  //     src: "https://source.unsplash.com/2ShvY8Lf6l0/800x599",
-  //     width: 4,
-  //     height: 3
-  //   },
-  //   {
-  //     src: "https://source.unsplash.com/Dm-qxdynoEc/800x799",
-  //     width: 1,
-  //     height: 1
-  //   },
-  //   {
-  //     src: "https://source.unsplash.com/qDkso9nvCg0/600x799",
-  //     width: 1,
-  //     height: 1
-  //   },
-  //   {
-  //     src: "https://source.unsplash.com/iecJiKe_RNg/600x799",
-  //     width: 1,
-  //     height: 1
-  //   },
-  //   {
-  //     src: "https://source.unsplash.com/epcsn8Ed8kY/600x799",
-  //     width: 3,
-  //     height: 4
-  //   },
-  //   {
-  //     src: "https://source.unsplash.com/NQSWvyVRIJk/800x599",
-  //     width: 4,
-  //     height: 3
-  //   },
-  //   {
-  //     src: "https://source.unsplash.com/zh7GEuORbUw/600x799",
-  //     width: 3,
-  //     height: 4
-  //   },
-  //   {
-  //     src: "https://source.unsplash.com/PpOHJezOalU/800x599",
-  //     width: 4,
-  //     height: 3
-  //   },
-  //   {
-  //     src: "https://source.unsplash.com/I1ASdgphUH4/800x599",
-  //     width: 4,
-  //     height: 3
-  //   },
-  //   {
-  //     src: "https://source.unsplash.com/XiDA78wAZVw/600x799",
-  //     width: 3,
-  //     height: 4
-  //   },
-  //   {
-  //     src: "https://source.unsplash.com/x8xJpClTvR0/800x599",
-  //     width: 4,
-  //     height: 3
-  //   },
-  //   {
-  //     src: "https://source.unsplash.com/u9cG4cuJ6bU/4927x1000",
-  //     width: 4927,
-  //     height: 1000
-  //   },
-  //   {
-  //     src: "https://source.unsplash.com/qGQNmBE7mYw/800x599",
-  //     width: 4,
-  //     height: 3
-  //   },
-  //   {
-  //     src: "https://source.unsplash.com/NuO6iTBkHxE/800x599",
-  //     width: 4,
-  //     height: 3
-  //   },
-  //   {
-  //     src: "https://source.unsplash.com/pF1ug8ysTtY/600x400",
-  //     width: 4,
-  //     height: 3
-  //   },
-  //   {
-  //     src: "https://source.unsplash.com/A-fubu9QJxE/800x533",
-  //     width: 4,
-  //     height: 3
-  //   },
-  //   {
-  //     src: "https://source.unsplash.com/5P91SF0zNsI/740x494",
-  //     width: 4,
-  //     height: 3
+  // const enhancedPhotos = photos.map(async photo => {
+  //   if (photo.type === "video") {
+  //     return photo;
   //   }
-  // ]
+  //   const { width, height } = await loadImage(photo.src);
+  //   return { ...photo, width, height };
+  // });
 
-  const breakpointColumnsObj = {
-    default: 1,
-    1100: 3,
-    700: 2,
-    500: 1,
-  };
+  const imageRenderer = useCallback(arg => {
+    const { index, left, top, key, photo } = arg;
+    return photo.type === "video" ? (
+      <Video
+        src={photo.src}
+        margin="2px"
+        index={index}
+        photo={photo}
+        left={left}
+        top={top}
+        showOverlay={index === 3}
+        totalLength={photos.length}
+      />
+    ) : (
+      <Image
+        key={key}
+        margin="2px"
+        index={index}
+        photo={photo}
+        left={left}
+        top={top}
+        showOverlay={index === 3}
+        totalLength={photos.length}
+      />
+    );
+  });
 
   return (
     <div className={classes.mediaGalleryContainer}>
       <h2>Media Gallery (8)</h2>
-
-      <Masonry
-        breakpointCols={breakpointColumnsObj}
-        className={classes.masonry_grid}
-        columnClassName={classes.masonry_grid_column}
-      >
-        {items}
-      </Masonry>
-
-      {/* <XMasonry>
-        <XBlock>
-          <div className={classes.card}>
-            <h1>Simple Card</h1>
-             <p>Any text!</p>
-          </div>
-        </XBlock>
-        <XBlock>
-        <div className={classes.card}>
-            <h1>Wider card</h1>
-            <p>Any text!</p>
-          </div>
-        </XBlock>
-        <XBlock>
-        <div className={classes.card}>
-            <h1>Wider card 2</h1>
-            <p>Any text!</p>
-          </div>
-        </XBlock>
-        <XBlock>
-        <div className={classes.card}>
-            <h1>Wider card 3</h1>
-            <p>Any text!</p>
-          </div>
-        </XBlock>
-    </XMasonry> */}
-
-      {/* <Gallery photos={photos} /> */}
+      <div>
+        <Gallery photos={photos.slice(0, 4)} renderImage={imageRenderer} />
+        {/* <ModalGateway>
+          {viewerIsOpen ? (
+            <Modal onClose={closeLightbox}>
+              <Carousel
+                currentIndex={currentImage}
+                views={photos.map(x => ({
+                  ...x,
+                  srcset: x.srcSet,
+                  caption: x.title,
+                }))}
+              />
+            </Modal>
+          ) : null}
+        </ModalGateway> */}
+      </div>
     </div>
   );
 };
