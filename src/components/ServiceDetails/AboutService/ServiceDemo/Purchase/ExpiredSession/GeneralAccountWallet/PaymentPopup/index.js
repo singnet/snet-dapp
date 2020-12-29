@@ -217,7 +217,13 @@ class PaymentPopup extends Component {
       {
         key: "summary",
         component: (
-          <Summary amount={amount} item={item} quantity={quantity} handlePaymentComplete={this.handlePaymentComplete} />
+          <Summary
+            amount={amount}
+            item={item}
+            quantity={quantity}
+            handlePaymentComplete={this.handlePaymentComplete}
+            orderType={orderType}
+          />
         ),
       },
     ];
@@ -289,9 +295,4 @@ const mapDispatchToProps = dispatch => ({
   paypalCompleted: () => dispatch(paymentActions.updatePaypalCompleted),
 });
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(withStyles(useStyles)(PaymentPopup))
-);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(PaymentPopup)));

@@ -15,6 +15,7 @@ import NotificationBar, { notificationBarTypes } from "../common/NotificationBar
 import { serviceDetailsActions } from "../../Redux/actionCreators";
 import { pricing, serviceDetails, groupInfo } from "../../Redux/reducers/ServiceDetailsReducer";
 import ErrorBox from "../common/ErrorBox";
+import SeoMetadata from "../common/SeoMetadata";
 
 class ServiceDetails extends Component {
   state = {
@@ -54,8 +55,11 @@ class ServiceDetails extends Component {
   };
 
   render() {
-    const { classes, service, pricing, loading, error, history, groupInfo } = this.props;
+    const { classes, service, pricing, loading, error, history, groupInfo, match } = this.props;
     const { offlineNotication } = this.state;
+    const {
+      params: { orgId, serviceId },
+    } = match;
 
     if (isEmpty(service) || error) {
       if (loading) {
@@ -83,8 +87,17 @@ class ServiceDetails extends Component {
       },
     ];
 
+    const seoURL = `${process.env.REACT_APP_BASE_URL}/servicedetails/org/${orgId}/service/${serviceId}`;
+
     return (
       <div>
+        <SeoMetadata
+          title={service.display_name}
+          description={service.short_description}
+          image={service.assets_url.hero_image}
+          url={seoURL}
+          keywords={service.tags}
+        />
         <Grid container spacing={24} className={classes.serviceDetailContainer}>
           <div className={classes.notificationBar}>
             <NotificationBar
