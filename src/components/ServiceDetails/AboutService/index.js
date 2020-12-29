@@ -25,6 +25,10 @@ const AboutService = ({ classes, isLoggedIn, service, history, serviceAvailable 
           history={history}
           serviceAvailable={serviceAvailable}
         />
+        <div className={classes.backToLink}>
+          <Icon className="fas fa-arrow-left" />
+          <Link to={`/${Routes.AI_MARKETPLACE}`}>Back to AI Marketplace</Link>
+        </div>
       </Grid>
 
       <Grid item xs={12} sm={4} md={4} lg={4} className={classes.rightSideSection}>
@@ -36,11 +40,6 @@ const AboutService = ({ classes, isLoggedIn, service, history, serviceAvailable 
         <ProjectDetails projectURL={service.url} contributors={service.contributors} />
         <MediaGallery />
       </Grid>
-
-      <div className={classes.backToLink}>
-        <Icon className="fas fa-arrow-left" />
-        <Link to={`/${Routes.AI_MARKETPLACE}`}>Back to AI Marketplace</Link>
-      </div>
     </Grid>
   );
 };
