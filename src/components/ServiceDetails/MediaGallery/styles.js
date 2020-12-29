@@ -5,6 +5,7 @@ export const useStyles = theme => ({
     marginTop: 25,
     borderRadius: 4,
     backgroundColor: theme.palette.text.white,
+    "& iframe": { width: "100%" },
   },
   masonry_grid: {
     display: "flex",
@@ -42,5 +43,13 @@ export const useStyles = theme => ({
       left: "50%",
       transform: "translate(-50%, -50%)",
     },
+  },
+
+  videoOverlay: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
   },
 });
