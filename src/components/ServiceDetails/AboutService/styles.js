@@ -4,7 +4,7 @@ export const useStyles = theme => ({
     borderTopWidth: 1,
     borderTopStyle: "solid",
     borderTopColor: theme.palette.text.verticalTabLeftBorder,
-    "& h3": {
+    "& h2": {
       padding: "11px 22px",
       borderBottomWidth: 1,
       borderBottomStyle: "solid",
