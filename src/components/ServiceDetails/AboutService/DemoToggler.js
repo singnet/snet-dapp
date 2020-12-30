@@ -18,7 +18,7 @@ const DemoToggler = ({ classes, showDemo, onClick, service, history, serviceAvai
         <div className={classes.demoToggler}>
           <div className={classes.imgContainer}>
             <img src={signInImg} title="Login" alt="SignIn" />
-            <p>Please login or sign up to run this demo fr free.</p>
+            <p>Please login or sign up to run this demo for free.</p>
           </div>
           <div className={classes.btnContainer}>
             <Link to={`/${Routes.LOGIN}`}>
