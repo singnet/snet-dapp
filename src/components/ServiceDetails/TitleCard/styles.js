@@ -78,10 +78,23 @@ export const useStyles = theme => ({
   },
   titleImg: {
     width: 234,
+    cursor: "pointer",
     "& img": { width: "100%" },
     "@media(max-width:480px)": {
       width: 302,
       margin: "0 auto",
+    },
+  },
+  serviceLightBox: {
+    position: "relative",
+    "& img": {
+      width: 500,
+      height: 500,
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      outline: "none",
     },
   },
 });
