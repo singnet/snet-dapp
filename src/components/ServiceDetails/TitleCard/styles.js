@@ -78,10 +78,41 @@ export const useStyles = theme => ({
   },
   titleImg: {
     width: 234,
+    cursor: "pointer",
     "& img": { width: "100%" },
     "@media(max-width:480px)": {
       width: 302,
       margin: "0 auto",
+    },
+  },
+  serviceLightBox: {
+    position: "relative",
+  },
+  serviceImgContainer: {
+    boxSizing: "border-box",
+    width: 1045,
+    height: 666,
+    padding: "56px 33px",
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    backgroundColor: theme.backgroundColor.white,
+    boxShadow: "0px 3px 5px -1px rgba(0,0,0,0.2),0px 5px 8px 0px rgba(0,0,0,0.14),0px 1px 14px 0px rgba(0,0,0,0.12)",
+    outline: "none",
+    transform: "translate(-50%, -50%)",
+    "& img": {
+      width: "100%",
+      height: "100%",
+      objectFit: "contain",
+    },
+    "& svg": {
+      position: "absolute",
+      top: 10,
+      cursor: "pointer",
+    },
+    "@media(max-width: 1050px)": {
+      width: "90%",
+      height: "90%",
     },
   },
 });
