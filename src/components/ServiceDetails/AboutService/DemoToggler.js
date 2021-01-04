@@ -10,10 +10,10 @@ import signInImg from "../../../assets/images/signIn.png";
 
 import { useStyles } from "./styles";
 
-const DemoToggler = ({ classes, showDemo, onClick, service, history, serviceAvailable }) => {
+const DemoToggler = ({ classes, showDemo, onClick, service, history, serviceAvailable, demoExampleRef }) => {
   if (!showDemo) {
     return (
-      <div className={classes.demoContainer}>
+      <div className={classes.demoContainer} ref={demoExampleRef}>
         <h2>Demo Example</h2>
         <div className={classes.demoToggler}>
           <div className={classes.imgContainer}>
