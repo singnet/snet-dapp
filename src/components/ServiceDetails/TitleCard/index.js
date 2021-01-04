@@ -4,6 +4,7 @@ import { withStyles } from "@material-ui/styles";
 import StarRatingComponent from "react-star-rating-component";
 import Avatar from "@material-ui/core/Avatar";
 import Modal from "@material-ui/core/Modal";
+import CloseIcon from "@material-ui/icons/Close";
 
 import CardImg from "../../../assets/images/SnetDefaultServiceImage.png";
 import { useStyles } from "./styles";
@@ -47,8 +48,11 @@ const TitleCard = ({ classes, display_name, star_rating, organizationName, servi
         </div>
       </div>
 
-      <Modal onClose={handleClose} open={showLightBox} className={classes.serviceLightBox}>
-        <img src={serviceImg || CardImg} alt="service" />
+      <Modal open={showLightBox} className={classes.serviceLightBox}>
+        <div className={classes.serviceImgContainer}>
+          <img src={serviceImg || CardImg} alt="service" />
+          <CloseIcon onClick={handleClose} />
+        </div>
       </Modal>
     </Grid>
   );
