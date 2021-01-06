@@ -10,6 +10,7 @@ import { serviceDetailsActions, loaderActions, userActions, paymentActions } fro
 import PurchaseToggler from "./PurchaseToggler";
 import { freeCalls, groupInfo } from "../../../../Redux/reducers/ServiceDetailsReducer";
 import { LoaderContent } from "../../../../utility/constants/LoaderContent";
+import { status } from "../../../../utility/constants/Status";
 import AlertBox, { alertTypes } from "../../../common/AlertBox";
 import Routes from "../../../../utility/constants/Routes";
 import { initSdk, initPaypalSdk } from "../../../../utility/sdk";
@@ -25,7 +26,7 @@ const demoProgressStatus = {
 
 class ServiceDemo extends Component {
   state = {
-    progressText: ["Purchase", "Configure", "Results"],
+    progressText: [{ label: "Purchase" }, { label: "Configure" }, { label: "Results", status: undefined }],
     purchaseCompleted: false,
     isServiceExecutionComplete: false,
     alert: {},
@@ -138,7 +139,17 @@ class ServiceDemo extends Component {
   };
 
   serviceRequestCompleteHandler = () => {
-    this.setState({ isServiceExecutionComplete: true });
+    this.setState(prevState => {
+      return {
+        isServiceExecutionComplete: true,
+        progressText: prevState.progressText.map(item => {
+          if (item.label === "Results") {
+            item.status = status.SUCCESS;
+          }
+          return item;
+        }),
+      };
+    });
     this.props.stopLoader();
   };
 

@@ -57,7 +57,7 @@ export const LoaderContent = {
     loaderText: "Withdrawing AGI tokens from Multi-party Escrow account",
   },
   CONNECT_METAMASK: {
-    loaderHeader: "Connecting Metask",
+    loaderHeader: "Connecting MetaMask",
     loaderText: "Please sign in using Metamask to proceed",
   },
   SETUP_CHANNEL_FOR_SERV_EXEC: {
