@@ -10,15 +10,15 @@ import signInImg from "../../../assets/images/signIn.png";
 
 import { useStyles } from "./styles";
 
-const DemoToggler = ({ classes, showDemo, onClick, service, history, serviceAvailable }) => {
+const DemoToggler = ({ classes, showDemo, onClick, service, history, serviceAvailable, demoExampleRef }) => {
   if (!showDemo) {
     return (
-      <div className={classes.demoContainer}>
+      <div className={classes.demoContainer} ref={demoExampleRef}>
         <h2>Demo Example</h2>
         <div className={classes.demoToggler}>
           <div className={classes.imgContainer}>
             <img src={signInImg} title="Login" alt="SignIn" />
-            <p>Please login or sign up to run this demo fr free.</p>
+            <p>Please login or sign up to run this demo for free.</p>
           </div>
           <div className={classes.btnContainer}>
             <Link to={`/${Routes.LOGIN}`}>

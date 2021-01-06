@@ -7,24 +7,11 @@ import StyledButton from "../../common/StyledButton";
 import { useStyles } from "./styles";
 import Price from "./Price";
 import { PricingStrategy } from "../../../utility/PricingStrategy";
-import Routes from "../../../utility/constants/Routes";
 
-const PricingDetails = ({ classes, pricing, handleTabChange, history, activeTab, serviceAvailable }) => {
+const PricingDetails = ({ classes, pricing, serviceAvailable, handleDemoClick }) => {
   const price_strategy = new PricingStrategy(pricing);
   const priceInAGI = typeof price_strategy === "undefined" ? undefined : price_strategy.getMaxPriceInAGI();
   const price_model = typeof price_strategy === "undefined" ? undefined : price_strategy.getPriceModel();
-
-  const handleClick = () => {
-    history.push({ ...history.location, hash: Routes.hash.SERVICE_DEMO });
-    if (activeTab === 0) {
-      window.scroll({
-        top: 520,
-        behavior: "smooth",
-      });
-      return;
-    }
-    handleTabChange(0);
-  };
 
   return (
     <Grid item xs={12} sm={12} md={4} lg={4} className={classes.creditsContainer}>
@@ -37,7 +24,7 @@ const PricingDetails = ({ classes, pricing, handleTabChange, history, activeTab,
       </p>
       <StyledButton
         btnText={!serviceAvailable ? "demo offline" : "demo"}
-        onClick={handleClick}
+        onClick={handleDemoClick}
         disabled={!serviceAvailable}
       />
     </Grid>
