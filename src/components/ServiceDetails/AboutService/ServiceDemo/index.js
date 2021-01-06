@@ -10,13 +10,13 @@ import { serviceDetailsActions, loaderActions, userActions, paymentActions } fro
 import PurchaseToggler from "./PurchaseToggler";
 import { freeCalls, groupInfo } from "../../../../Redux/reducers/ServiceDetailsReducer";
 import { LoaderContent } from "../../../../utility/constants/LoaderContent";
-import { status } from "../../../../utility/constants/Status";
 import AlertBox, { alertTypes } from "../../../common/AlertBox";
 import Routes from "../../../../utility/constants/Routes";
 import { initSdk, initPaypalSdk } from "../../../../utility/sdk";
 import { walletTypes } from "../../../../Redux/actionCreators/UserActions";
 import { channelInfo } from "../../../../Redux/reducers/UserReducer";
 import { anyPendingTxn } from "../../../../Redux/reducers/PaymentReducer";
+import { progressTabStatus } from "../../../common/ProgressBar";
 
 const demoProgressStatus = {
   purchasing: 1,
@@ -144,7 +144,7 @@ class ServiceDemo extends Component {
         isServiceExecutionComplete: true,
         progressText: prevState.progressText.map(item => {
           if (item.label === "Results") {
-            item.status = status.SUCCESS;
+            item.status = progressTabStatus.SUCCESS;
           }
           return item;
         }),

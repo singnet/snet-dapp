@@ -3,12 +3,13 @@ import { withStyles } from "@material-ui/styles";
 import PropTypes from "prop-types";
 
 import ProgressSection, { ProgressStatusList } from "./ProgressSection";
-import { status } from "../../../utility/constants/Status";
 import { useStyles } from "./styles";
+
+export const progressTabStatus = { SUCCESS: "SUCCESS" };
 
 const ProgressBar = ({ classes, activeSection, progressText }) => {
   const computeProgressStatus = (progressNumber, activeSection, progressStatus) => {
-    if (progressNumber < activeSection || progressStatus === status.SUCCESS) {
+    if (progressNumber < activeSection || progressStatus === progressTabStatus.SUCCESS) {
       return ProgressStatusList.COMPLETED;
     }
     if (progressNumber === activeSection) {
