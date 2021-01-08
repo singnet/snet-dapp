@@ -1,11 +1,10 @@
-import SnetSDK, { WebServiceClient as ServiceClient } from "snet-sdk-web";
+import SnetSDK, { WebServiceClient as ServiceClient, DefaultPaymentStrategy } from "snet-sdk-web";
 import { API } from "aws-amplify";
 import MPEContract from "singularitynet-platform-contracts/networks/MultiPartyEscrow";
 
 import { APIEndpoints, APIPaths } from "../config/APIEndpoints";
 import { initializeAPIOptions } from "./API";
 import { fetchAuthenticatedUser, walletTypes } from "../Redux/actionCreators/UserActions";
-import ProxyPaymentChannelManagementStrategy from "./ProxyPaymentChannelManagementStrategy";
 import PaypalPaymentMgmtStrategy from "./PaypalPaymentMgmtStrategy";
 import { ethereumMethods } from "./constants/EthereumUtils";
 
@@ -68,7 +67,7 @@ const parseChannelStateRequestSigner = ({ data }) => ({
 
 const channelStateRequestSigner = async channelId => {
   const apiName = APIEndpoints.SIGNER_SERVICE.name;
-  const stateServicePayload = { channel_id: channelId };
+  const stateServicePayload = { channel_id: Number(channelId) };
   const { token } = await fetchAuthenticatedUser();
   const stateServiceOptions = initializeAPIOptions(token, stateServicePayload);
   return await API.post(apiName, APIPaths.SIGNER_STATE_SERVICE, stateServiceOptions).then(
@@ -96,20 +95,23 @@ const paidCallMetadataGenerator = serviceRequestErrorHandler => async (channelId
 };
 
 const generateOptions = (callType, wallet, serviceRequestErrorHandler, groupInfo, org_id, service_id) => {
+  const defaultOptions = { concurrency: false };
   if (process.env.REACT_APP_SANDBOX) {
     return {
+      ...defaultOptions,
       endpoint: process.env.REACT_APP_SANDBOX_SERVICE_ENDPOINT,
       disableBlockchainOperations: true,
     };
   }
   if (callType === callTypes.FREE) {
-    return { metadataGenerator: metadataGenerator(serviceRequestErrorHandler, groupInfo.group_id) };
+    return { ...defaultOptions, metadataGenerator: metadataGenerator(serviceRequestErrorHandler, groupInfo.group_id) };
   }
   if (wallet && wallet.type === walletTypes.METAMASK) {
-    return {};
+    return { ...defaultOptions };
   }
   if (callType === callTypes.REGULAR) {
     return {
+      ...defaultOptions,
       channelStateRequestSigner,
       paidCallMetadataGenerator: paidCallMetadataGenerator(serviceRequestErrorHandler),
     };
@@ -122,7 +124,7 @@ class PaypalIdentity {
     this._web3.eth.defaultAccount = address;
   }
 
-  get address() {
+  getAddress() {
     return this._web3.eth.defaultAccount;
   }
 }
@@ -155,8 +157,8 @@ export const updateChannel = newChannel => {
 
 export const initSdk = async address => {
   const updateSDK = async () => {
-    const chainIdHex = web3Provider.chainId
-    const networkId = parseInt(chainIdHex)
+    const chainIdHex = web3Provider.chainId;
+    const networkId = parseInt(chainIdHex);
 
     const config = {
       networkId,
@@ -166,7 +168,7 @@ export const initSdk = async address => {
     };
 
     sdk = new SnetSDK(config);
-    await sdk.setupAccount()
+    await sdk.setupAccount();
   };
 
   if (sdk && address) {
@@ -182,24 +184,20 @@ export const initSdk = async address => {
   }
 
   const hasEth = typeof window.ethereum !== "undefined";
-  try {
-    if (hasEth) {
-      web3Provider = window.ethereum;
-      await web3Provider.request({method:ethereumMethods.REQUEST_ACCOUNTS})
-      web3Provider.addListener(ON_ACCOUNT_CHANGE, accounts => {
-        const event = new CustomEvent("snetMMAccountChanged", { detail: { address: accounts[0] } });
-        window.dispatchEvent(event);
-      });
-      web3Provider.addListener(ON_NETWORK_CHANGE, network => {
-        const event = new CustomEvent("snetMMNetworkChanged", { detail: { network } });
-        window.dispatchEvent(event);
-      });
-      updateSDK();
-    }
-  } catch (error) {
-    throw error;
-  }
 
+  if (hasEth) {
+    web3Provider = window.ethereum;
+    await web3Provider.request({ method: ethereumMethods.REQUEST_ACCOUNTS });
+    web3Provider.addListener(ON_ACCOUNT_CHANGE, accounts => {
+      const event = new CustomEvent("snetMMAccountChanged", { detail: { address: accounts[0] } });
+      window.dispatchEvent(event);
+    });
+    web3Provider.addListener(ON_NETWORK_CHANGE, network => {
+      const event = new CustomEvent("snetMMNetworkChanged", { detail: { network } });
+      window.dispatchEvent(event);
+    });
+    updateSDK();
+  }
   return Promise.resolve(sdk);
 };
 
@@ -224,9 +222,13 @@ export const createServiceClient = (
   channelInfo
 ) => {
   if (sdk && channel) {
-    sdk.paymentChannelManagementStrategy = new ProxyPaymentChannelManagementStrategy(channel);
+    // sdk.paymentChannelManagementStrategy = new ProxyPaymentChannelManagementStrategy(channel);
   }
   const options = generateOptions(callType, wallet, serviceRequestErrorHandler, groupInfo, org_id, service_id);
+  let paymentChannelManagementStrategy = sdk._paymentChannelManagementStrategy;
+  if (!(paymentChannelManagementStrategy instanceof PaypalPaymentMgmtStrategy)) {
+    paymentChannelManagementStrategy = new DefaultPaymentStrategy(1);
+  }
   const serviceClient = new ServiceClient(
     sdk,
     org_id,
@@ -234,7 +236,7 @@ export const createServiceClient = (
     sdk && sdk._mpeContract,
     {},
     process.env.REACT_APP_SANDBOX ? {} : groupInfo,
-    sdk && sdk._paymentChannelManagementStrategy,
+    paymentChannelManagementStrategy,
     options
   );
 

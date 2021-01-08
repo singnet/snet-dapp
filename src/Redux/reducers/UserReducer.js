@@ -125,7 +125,10 @@ export const channelInfo = state => {
   if (isEmpty(walletList)) {
     return {};
   }
-  const walletWithChannel = walletList.find(wallet => !isEmpty(wallet.channels[0]));
+
+  const walletWithChannel = walletList.find(
+    wallet => wallet.type === walletTypes.GENERAL && !isEmpty(wallet.channels[0])
+  );
   if (walletWithChannel) {
     const selectedChannel = walletWithChannel.channels[0];
     return {
