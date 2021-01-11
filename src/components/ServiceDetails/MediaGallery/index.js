@@ -5,7 +5,7 @@ import "react-image-gallery/styles/css/image-gallery.css";
 
 import { useStyles } from "./styles";
 
-const PREFIX_URL = "https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/";
+// const PREFIX_URL = "https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/";
 
 class MediaGallery extends Component {
   constructor() {
@@ -28,35 +28,7 @@ class MediaGallery extends Component {
       showVideo: {},
     };
 
-    this.images = [
-      {
-        thumbnail: `${PREFIX_URL}4v.jpg`,
-        original: `${PREFIX_URL}4v.jpg`,
-        embedUrl: "https://www.youtube.com/embed/4pSzhZ76GdM?autoplay=1&showinfo=0",
-        renderItem: this._renderVideo.bind(this),
-      },
-      {
-        original: `${PREFIX_URL}image_set_default.jpg`,
-        thumbnail: `${PREFIX_URL}image_set_thumb.jpg`,
-        imageSet: [
-          {
-            srcSet: `${PREFIX_URL}image_set_cropped.jpg`,
-            media: "(max-width: 1280px)",
-          },
-          {
-            srcSet: `${PREFIX_URL}image_set_default.jpg`,
-            media: "(min-width: 1280px)",
-          },
-        ],
-      },
-      {
-        original: `${PREFIX_URL}1.jpg`,
-        thumbnail: `${PREFIX_URL}1t.jpg`,
-        originalClass: "featured-slide",
-        thumbnailClass: "featured-thumb",
-        description: "Custom class for slides & thumbnails",
-      },
-    ].concat(this._getStaticImages());
+    this.images = [];
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -104,17 +76,17 @@ class MediaGallery extends Component {
     this.setState({ thumbnailPosition: event.target.value });
   }
 
-  _getStaticImages() {
-    let images = [];
-    for (let i = 2; i < 12; i++) {
-      images.push({
-        original: `${PREFIX_URL}${i}.jpg`,
-        thumbnail: `${PREFIX_URL}${i}t.jpg`,
-      });
-    }
+  // _getStaticImages() {
+  //   let images = [];
+  //   for (let i = 2; i < 12; i++) {
+  //     images.push({
+  //       original: `${PREFIX_URL}${i}.jpg`,
+  //       thumbnail: `${PREFIX_URL}${i}t.jpg`,
+  //     });
+  //   }
 
-    return images;
-  }
+  //   return images;
+  // }
 
   _resetVideo() {
     this.setState({ showVideo: {} });
@@ -170,7 +142,7 @@ class MediaGallery extends Component {
 
   render() {
     const { classes } = this.props;
-    return (
+    return this.images.length !== 0 ? (
       <div className={classes.mediaGalleryContainer}>
         <h2>Media Gallery ({this.images.length})</h2>
         <ImageGallery
@@ -198,7 +170,7 @@ class MediaGallery extends Component {
           additionalClass="app-image-gallery"
         />
       </div>
-    );
+    ) : null;
   }
 }
 
