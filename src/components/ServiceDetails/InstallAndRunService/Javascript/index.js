@@ -1,26 +1,28 @@
 import React from "react";
 
+import { useStyles } from "../styles";
 import CodeSnippet from "../../../common/CodeSnippet";
+import { withStyles } from "@material-ui/styles";
 
 const Javascript = ({ classes }) => {
   return (
-    <section>
+    <section className={classes.languageTabSection}>
       <h2>Install</h2>
       <div>
-        Install the SDK using npm <br />
+        <span>Install the SDK using npm</span>
         <CodeSnippet>npm install snet-sdk</CodeSnippet>
       </div>
-      <br />
       <div>
-        To generate the gRPC client libraries, you need the SingularityNET Command Line Interface, or CLI, which you can
-        install using pip
+        <span>
+          To generate the gRPC client libraries, you need the SingularityNET Command Line Interface, or CLI, which you
+          can install using pip
+        </span>
         <CodeSnippet>pip install snet-cli</CodeSnippet>
       </div>
-      <br />
       <div>
-        Once you have the CLI installed, run the following command to generate gRPC stubs for service <br />
-        <CodeSnippet>snet sdk generate-client-library nodejs &lt;org_id&gt; &lt;service_id&gt;</CodeSnippet> <br />
-        Run the code <br />
+        <span>Once you have the CLI installed, run the following command to generate gRPC stubs for service</span>
+        <CodeSnippet>snet sdk generate-client-library nodejs &lt;org_id&gt; &lt;service_id&gt;</CodeSnippet>
+        <span>Run the code </span>
         <CodeSnippet>
           import services from '&lt;path_to_grpc_service_file&gt;' <br />
           import messages from '&lt;path_to_grpc_message_file&gt;' <br />
@@ -32,4 +34,4 @@ const Javascript = ({ classes }) => {
   );
 };
 
-export default Javascript;
+export default withStyles(useStyles)(Javascript);
