@@ -67,7 +67,7 @@ class InstallAndRunService extends Component {
       <Grid container spacing={24} className={classes.installAndRunContainer}>
         <Grid item xs={12} sm={12} md={8} lg={8} className={classes.overViewContainer}>
           <div className={classes.integrationSetupContainer}>
-            <h3>Integration Setup</h3>
+            <h2>Integration Setup</h2>
             <div className={classes.overViewContainer}>
               <Typography className={classes.intSetupTitle}>Free Call Authentication Token</Typography>
               <Typography className={classes.intSetupDesc}>
@@ -112,7 +112,7 @@ class InstallAndRunService extends Component {
             </div>
           </div>
           <div className={classes.integrationSetupContainer}>
-            <h3>Installation and Execution</h3>
+            <h2>Installation and Execution</h2>
             <div className={classes.integrationContent}>
               <StyledTabs tabs={tabs} onTabChange={this.handleTabChange} activeTab={activeTab} />
             </div>
