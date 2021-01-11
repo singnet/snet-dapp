@@ -11,7 +11,7 @@ import ServiceOverview from "./ServiceOverview";
 import Routes from "../../../utility/constants/Routes";
 import CreatorDetails from "../CreatorDetails";
 import ProjectDetails from "../ProjectDetails";
-// import MediaGallery from "../MediaGallery";
+import MediaGallery from "../MediaGallery";
 
 const AboutService = ({ classes, isLoggedIn, service, history, serviceAvailable, demoExampleRef }) => {
   return (
@@ -39,7 +39,7 @@ const AboutService = ({ classes, isLoggedIn, service, history, serviceAvailable,
           contacts={service.contacts}
         />
         <ProjectDetails projectURL={service.url} contributors={service.contributors} />
-        {/* <MediaGallery /> */}
+        <MediaGallery />
       </Grid>
     </Grid>
   );
