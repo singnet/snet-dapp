@@ -14,7 +14,7 @@ export const useStyles = theme => ({
     borderTopWidth: 1,
     borderTopStyle: "solid",
     borderTopColor: theme.palette.text.verticalTabLeftBorder,
-    "& h3": {
+    "& h2": {
       padding: "12px 22px",
       borderBottomWidth: 1,
       borderBottomStyle: "solid",
@@ -25,7 +25,7 @@ export const useStyles = theme => ({
       fontWeight: 400,
     },
     "& .ProjectDetails-projectDetailsContainer-415": {
-      "& h3": { marginBottom: 20 },
+      "& h2": { marginBottom: 20 },
     },
   },
   infoIcon: {
