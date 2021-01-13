@@ -32,32 +32,17 @@ class MediaGallery extends Component {
     this.images = this.props.data.map(item => {
       if (item.file_type === "video") {
         return {
-          thumbnail: `${PREFIX_URL}4v.jpg`,
-          original: `${PREFIX_URL}4v.jpg`,
+          original: this.getYoutubeVideoThumbnail(item.url),
+          thumbnail: this.getYoutubeVideoThumbnail(item.url, "thumbnail"),
           embedUrl: this.enhancedEmbedUrl(item.url),
           renderItem: this._renderVideo.bind(this),
         };
       }
       return {
-        thumbnail: item.url,
         original: item.url,
+        thumbnail: item.url,
       };
     });
-    // this.images = [
-    //   {
-    //     original: 'https://marketplace-service-assets.s3.amazonaws.com/assets/snet/cntk-image-recon/hero_cntk_image_recon.jpg',
-    //     thumbnail: 'https://marketplace-service-assets.s3.amazonaws.com/assets/snet/cntk-image-recon/hero_cntk_image_recon.jpg',
-    //   },{
-    //     thumbnail: `${PREFIX_URL}4v.jpg`,
-    //     original: `${PREFIX_URL}4v.jpg`,
-    //     embedUrl: 'https://www.youtube.com/embed/7mj-p1Os6QA',
-    //     renderItem: this._renderVideo.bind(this)
-    //   },
-    //   {
-    //     original: 'https://ropsten-marketplace-service-assets.s3.amazonaws.com/assets/snet/news-summary/hero_news_summary_2.png',
-    //     thumbnail: 'https://ropsten-marketplace-service-assets.s3.amazonaws.com/assets/snet/news-summary/hero_news_summary_2.png',
-    //   },
-    // ]
   }
 
   enhancedEmbedUrl(link) {
@@ -67,6 +52,15 @@ class MediaGallery extends Component {
     const youtubeId = last(link.split("/"));
     const embededLink = `https://youtube.com/embed/${youtubeId}`;
     return embededLink;
+  }
+
+  getYoutubeVideoThumbnail(link, type) {
+    if (!link.includes("youtube")) {
+      return `${PREFIX_URL}image_set_default.jpg`;
+    }
+    const youtubeId = last(link.split("="));
+    const youtubeThumbnail = `https://img.youtube.com/vi/${youtubeId}/${type === "thumbnail" ? "1.jpg" : "0.jpg"}`;
+    return youtubeThumbnail;
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -194,7 +188,7 @@ class MediaGallery extends Component {
           slideDuration={parseInt(this.state.slideDuration)}
           slideInterval={parseInt(this.state.slideInterval)}
           slideOnThumbnailOver={this.state.slideOnThumbnailOver}
-          additionalClass="app-image-gallery"
+          additionalClass={classes.marketplace_media_gallery}
         />
       </div>
     ) : null;
