@@ -1,15 +1,16 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
 import ImageGallery from "react-image-gallery";
+import last from "lodash/last";
 import "react-image-gallery/styles/css/image-gallery.css";
 
 import { useStyles } from "./styles";
 
-// const PREFIX_URL = "https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/";
+const PREFIX_URL = "https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/";
 
 class MediaGallery extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       showIndex: false,
       showBullets: true,
@@ -28,7 +29,38 @@ class MediaGallery extends Component {
       showVideo: {},
     };
 
-    this.images = [];
+    this.images = this.props.data.map(item => {
+      if (item.file_type === "video") {
+        return {
+          original: this.getYoutubeVideoThumbnail(item.url),
+          thumbnail: this.getYoutubeVideoThumbnail(item.url, "thumbnail"),
+          embedUrl: this.enhancedEmbedUrl(item.url),
+          renderItem: this._renderVideo.bind(this),
+        };
+      }
+      return {
+        original: item.url,
+        thumbnail: item.url,
+      };
+    });
+  }
+
+  enhancedEmbedUrl(link) {
+    if (!link.includes("youtube")) {
+      return link;
+    }
+    const youtubeId = last(link.split("/"));
+    const embededLink = `https://youtube.com/embed/${youtubeId}`;
+    return embededLink;
+  }
+
+  getYoutubeVideoThumbnail(link, type) {
+    if (!link.includes("youtube")) {
+      return `${PREFIX_URL}image_set_default.jpg`;
+    }
+    const youtubeId = last(link.split("="));
+    const youtubeThumbnail = `https://img.youtube.com/vi/${youtubeId}/${type === "thumbnail" ? "1.jpg" : "0.jpg"}`;
+    return youtubeThumbnail;
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -75,18 +107,6 @@ class MediaGallery extends Component {
   _handleThumbnailPositionChange(event) {
     this.setState({ thumbnailPosition: event.target.value });
   }
-
-  // _getStaticImages() {
-  //   let images = [];
-  //   for (let i = 2; i < 12; i++) {
-  //     images.push({
-  //       original: `${PREFIX_URL}${i}.jpg`,
-  //       thumbnail: `${PREFIX_URL}${i}t.jpg`,
-  //     });
-  //   }
-
-  //   return images;
-  // }
 
   _resetVideo() {
     this.setState({ showVideo: {} });
@@ -142,6 +162,7 @@ class MediaGallery extends Component {
 
   render() {
     const { classes } = this.props;
+
     return this.images.length !== 0 ? (
       <div className={classes.mediaGalleryContainer}>
         <h2>Media Gallery ({this.images.length})</h2>
@@ -156,9 +177,9 @@ class MediaGallery extends Component {
           onScreenChange={this._onScreenChange.bind(this)}
           onPlay={this._onPlay.bind(this)}
           infinite={this.state.infinite}
-          showBullets={this.state.showBullets}
+          // showBullets={this.state.showBullets}
           showFullscreenButton={this.state.showFullscreenButton && this.state.showGalleryFullscreenButton}
-          showPlayButton={this.state.showPlayButton && this.state.showGalleryPlayButton}
+          // showPlayButton={this.state.showPlayButton && this.state.showGalleryPlayButton}
           showThumbnails={this.state.showThumbnails}
           showIndex={this.state.showIndex}
           showNav={this.state.showNav}
@@ -167,7 +188,7 @@ class MediaGallery extends Component {
           slideDuration={parseInt(this.state.slideDuration)}
           slideInterval={parseInt(this.state.slideInterval)}
           slideOnThumbnailOver={this.state.slideOnThumbnailOver}
-          additionalClass="app-image-gallery"
+          additionalClass={classes.marketplace_media_gallery}
         />
       </div>
     ) : null;

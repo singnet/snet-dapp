@@ -39,7 +39,7 @@ const AboutService = ({ classes, isLoggedIn, service, history, serviceAvailable,
           contacts={service.contacts}
         />
         <ProjectDetails projectURL={service.url} contributors={service.contributors} />
-        <MediaGallery />
+        <MediaGallery data={service.media} />
       </Grid>
     </Grid>
   );
