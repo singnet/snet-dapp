@@ -88,6 +88,8 @@ class ServiceDetails extends Component {
       params: { orgId, serviceId },
     } = match;
 
+    console.log("service", service);
+
     if (isEmpty(service) || error) {
       if (loading) {
         return null;
@@ -128,7 +130,7 @@ class ServiceDetails extends Component {
         <SeoMetadata
           title={service.display_name}
           description={service.short_description}
-          image={service.assets_url.hero_image}
+          image={service.org_assets_url.hero_image}
           url={seoURL}
           keywords={service.tags}
         />

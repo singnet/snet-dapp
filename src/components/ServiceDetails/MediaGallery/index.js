@@ -1,15 +1,16 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
 import ImageGallery from "react-image-gallery";
+import last from "lodash/last";
 import "react-image-gallery/styles/css/image-gallery.css";
 
 import { useStyles } from "./styles";
 
-// const PREFIX_URL = "https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/";
+const PREFIX_URL = "https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/";
 
 class MediaGallery extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       showIndex: false,
       showBullets: true,
@@ -28,7 +29,44 @@ class MediaGallery extends Component {
       showVideo: {},
     };
 
-    this.images = [];
+    this.images = this.props.data.map(item => {
+      if (item.file_type === "video") {
+        return {
+          thumbnail: `${PREFIX_URL}4v.jpg`,
+          original: `${PREFIX_URL}4v.jpg`,
+          embedUrl: this.enhancedEmbedUrl(item.url),
+          renderItem: this._renderVideo.bind(this),
+        };
+      }
+      return {
+        thumbnail: item.url,
+        original: item.url,
+      };
+    });
+    // this.images = [
+    //   {
+    //     original: 'https://marketplace-service-assets.s3.amazonaws.com/assets/snet/cntk-image-recon/hero_cntk_image_recon.jpg',
+    //     thumbnail: 'https://marketplace-service-assets.s3.amazonaws.com/assets/snet/cntk-image-recon/hero_cntk_image_recon.jpg',
+    //   },{
+    //     thumbnail: `${PREFIX_URL}4v.jpg`,
+    //     original: `${PREFIX_URL}4v.jpg`,
+    //     embedUrl: 'https://www.youtube.com/embed/7mj-p1Os6QA',
+    //     renderItem: this._renderVideo.bind(this)
+    //   },
+    //   {
+    //     original: 'https://ropsten-marketplace-service-assets.s3.amazonaws.com/assets/snet/news-summary/hero_news_summary_2.png',
+    //     thumbnail: 'https://ropsten-marketplace-service-assets.s3.amazonaws.com/assets/snet/news-summary/hero_news_summary_2.png',
+    //   },
+    // ]
+  }
+
+  enhancedEmbedUrl(link) {
+    if (!link.includes("youtube")) {
+      return link;
+    }
+    const youtubeId = last(link.split("/"));
+    const embededLink = `https://youtube.com/embed/${youtubeId}`;
+    return embededLink;
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -75,18 +113,6 @@ class MediaGallery extends Component {
   _handleThumbnailPositionChange(event) {
     this.setState({ thumbnailPosition: event.target.value });
   }
-
-  // _getStaticImages() {
-  //   let images = [];
-  //   for (let i = 2; i < 12; i++) {
-  //     images.push({
-  //       original: `${PREFIX_URL}${i}.jpg`,
-  //       thumbnail: `${PREFIX_URL}${i}t.jpg`,
-  //     });
-  //   }
-
-  //   return images;
-  // }
 
   _resetVideo() {
     this.setState({ showVideo: {} });
@@ -142,6 +168,7 @@ class MediaGallery extends Component {
 
   render() {
     const { classes } = this.props;
+
     return this.images.length !== 0 ? (
       <div className={classes.mediaGalleryContainer}>
         <h2>Media Gallery ({this.images.length})</h2>
@@ -156,9 +183,9 @@ class MediaGallery extends Component {
           onScreenChange={this._onScreenChange.bind(this)}
           onPlay={this._onPlay.bind(this)}
           infinite={this.state.infinite}
-          showBullets={this.state.showBullets}
+          // showBullets={this.state.showBullets}
           showFullscreenButton={this.state.showFullscreenButton && this.state.showGalleryFullscreenButton}
-          showPlayButton={this.state.showPlayButton && this.state.showGalleryPlayButton}
+          // showPlayButton={this.state.showPlayButton && this.state.showGalleryPlayButton}
           showThumbnails={this.state.showThumbnails}
           showIndex={this.state.showIndex}
           showNav={this.state.showNav}
