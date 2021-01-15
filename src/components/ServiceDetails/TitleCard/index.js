@@ -12,7 +12,7 @@ import RatingsCount from "../../common/RatingsCount";
 import SingularityLogo from "../../../assets/images/avatar.png";
 import Typography from "@material-ui/core/Typography";
 
-const TitleCard = ({ classes, display_name, star_rating, organizationName, serviceImg, orgImg, totalRating }) => {
+const TitleCard = ({ classes, display_name, star_rating, organizationName, service, orgImg, totalRating }) => {
   const [showLightBox, setshowLightBox] = useState(false);
 
   const openLightBox = () => {
@@ -23,10 +23,15 @@ const TitleCard = ({ classes, display_name, star_rating, organizationName, servi
     setshowLightBox(false);
   };
 
+  const serviceImage = mediaData => {
+    const serviceImgObj = mediaData.find(({ file_type }) => file_type === "asset");
+    return serviceImgObj.url;
+  };
+
   return (
     <Grid item xs={12} sm={12} md={8} lg={8} className={classes.computerVisionContainer}>
       <div className={classes.titleImg}>
-        <img src={serviceImg || CardImg} alt="service" width={229} height={129} onClick={openLightBox} />
+        <img src={serviceImage(service) || CardImg} alt="service" width={229} height={129} onClick={openLightBox} />
       </div>
 
       <div className={classes.computerVisionContent}>
@@ -50,7 +55,7 @@ const TitleCard = ({ classes, display_name, star_rating, organizationName, servi
 
       <Modal open={showLightBox} className={classes.serviceLightBox}>
         <div className={classes.serviceImgContainer}>
-          <img src={serviceImg || CardImg} alt="service" />
+          <img src={service || CardImg} alt="service" />
           <CloseIcon onClick={handleClose} />
         </div>
       </Modal>
