@@ -6,6 +6,7 @@ import last from "lodash/last";
 import "react-image-gallery/styles/css/image-gallery.css";
 
 import DefaultIconForVideo from "../../../assets/images/Play_1.png";
+import { HERO_IMG } from "../index";
 
 import { useStyles } from "./styles";
 
@@ -31,7 +32,7 @@ class MediaGallery extends Component {
     };
 
     this.filteredData = this.props.data.filter(item => {
-      return item.asset_type !== "hero_image";
+      return item.asset_type !== HERO_IMG;
     });
 
     this.images = this.filteredData.map(item => {
