@@ -11,7 +11,7 @@ import { useStyles } from "./styles";
 import RatingsCount from "../../common/RatingsCount";
 import SingularityLogo from "../../../assets/images/avatar.png";
 import Typography from "@material-ui/core/Typography";
-import { HERO_IMG } from "../index";
+import { HERO_IMG } from "../";
 
 const TitleCard = ({ classes, display_name, star_rating, organizationName, service, orgImg, totalRating }) => {
   const [showLightBox, setshowLightBox] = useState(false);

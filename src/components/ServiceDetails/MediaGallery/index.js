@@ -6,7 +6,7 @@ import last from "lodash/last";
 import "react-image-gallery/styles/css/image-gallery.css";
 
 import DefaultIconForVideo from "../../../assets/images/Play_1.png";
-import { HERO_IMG } from "../index";
+import { HERO_IMG } from "../";
 
 import { useStyles } from "./styles";
 
