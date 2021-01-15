@@ -16,6 +16,7 @@ export const useStyles = theme => ({
     },
     "@media(max-width:768px)": {
       padding: " 20px 10px 0",
+      position: "relative",
       flexDirection: "column",
     },
   },
@@ -114,8 +115,9 @@ export const useStyles = theme => ({
       "&:hover": { fontWeight: 600 },
     },
     "@media(max-width:768px)": {
-      marginTop: 15,
-      marginBottom: 15,
+      position: "absolute",
+      bottom: 0,
+      margin: "0 0 10px",
     },
   },
   creatorDetailsContainer: {

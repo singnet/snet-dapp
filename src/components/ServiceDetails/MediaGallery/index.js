@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
+import PlayIcon from "@material-ui/icons/PlayArrow";
 import ImageGallery from "react-image-gallery";
 import last from "lodash/last";
 import "react-image-gallery/styles/css/image-gallery.css";
 
-import { useStyles } from "./styles";
+import DefaultIconForVideo from "../../../assets/images/Play_1.png";
 
-const PREFIX_URL = "https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/";
+import { useStyles } from "./styles";
 
 class MediaGallery extends Component {
   constructor(props) {
@@ -36,11 +37,13 @@ class MediaGallery extends Component {
           thumbnail: this.getYoutubeVideoThumbnail(item.url, "thumbnail"),
           embedUrl: this.enhancedEmbedUrl(item.url),
           renderItem: this._renderVideo.bind(this),
+          description: "Some media description here...",
         };
       }
       return {
         original: item.url,
         thumbnail: item.url,
+        description: "Some media description here...",
       };
     });
   }
@@ -56,7 +59,7 @@ class MediaGallery extends Component {
 
   getYoutubeVideoThumbnail(link, type) {
     if (!link.includes("youtube")) {
-      return `${PREFIX_URL}image_set_default.jpg`;
+      return DefaultIconForVideo;
     }
     const youtubeId = last(link.split("="));
     const youtubeThumbnail = `https://img.youtube.com/vi/${youtubeId}/${type === "thumbnail" ? "1.jpg" : "0.jpg"}`;
@@ -138,22 +141,25 @@ class MediaGallery extends Component {
   }
 
   _renderVideo(item) {
+    const { classes } = this.props;
     return (
-      <div>
+      <div className={classes.videoMainContainer}>
         {this.state.showVideo[item.embedUrl] ? (
           <div className="video-wrapper">
             <a className="close-video" onClick={this._toggleShowVideo.bind(this, item.embedUrl)} />
-            <iframe width="560" height="315" src={item.embedUrl} frameBorder="0" allowFullScreen />
+            <iframe width="590" height="368" src={item.embedUrl} frameBorder="0" allowFullScreen />
+            <PlayIcon />
           </div>
         ) : (
           <a onClick={this._toggleShowVideo.bind(this, item.embedUrl)}>
-            <div className="play-button" />
+            {/* <div className="play-button" /> */}
             <img className="image-gallery-image" src={item.original} />
             {item.description && (
               <span className="image-gallery-description" style={{ right: "0", left: "initial" }}>
                 {item.description}
               </span>
             )}
+            <PlayIcon className={classes.playVideoIcon} />
           </a>
         )}
       </div>
