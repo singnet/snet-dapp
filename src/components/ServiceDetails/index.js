@@ -18,6 +18,8 @@ import ErrorBox from "../common/ErrorBox";
 import SeoMetadata from "../common/SeoMetadata";
 import Routes from "../../utility/constants/Routes";
 
+export const HERO_IMG = "hero_image";
+
 class ServiceDetails extends Component {
   constructor(props) {
     super(props);

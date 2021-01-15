@@ -6,6 +6,7 @@ import last from "lodash/last";
 import "react-image-gallery/styles/css/image-gallery.css";
 
 import DefaultIconForVideo from "../../../assets/images/Play_1.png";
+import { HERO_IMG } from "../";
 
 import { useStyles } from "./styles";
 
@@ -30,20 +31,24 @@ class MediaGallery extends Component {
       showVideo: {},
     };
 
-    this.images = this.props.data.map(item => {
+    this.filteredData = this.props.data.filter(item => {
+      return item.asset_type !== HERO_IMG;
+    });
+
+    this.images = this.filteredData.map(item => {
       if (item.file_type === "video") {
         return {
           original: this.getYoutubeVideoThumbnail(item.url),
           thumbnail: this.getYoutubeVideoThumbnail(item.url, "thumbnail"),
           embedUrl: this.enhancedEmbedUrl(item.url),
           renderItem: this._renderVideo.bind(this),
-          description: "Some media description here...",
+          description: item.description,
         };
       }
       return {
         original: item.url,
         thumbnail: item.url,
-        description: "Some media description here...",
+        description: item.description,
       };
     });
   }
