@@ -30,20 +30,24 @@ class MediaGallery extends Component {
       showVideo: {},
     };
 
-    this.images = this.props.data.map(item => {
+    this.filteredData = this.props.data.filter(item => {
+      return item.asset_type !== "hero_image";
+    });
+
+    this.images = this.filteredData.map(item => {
       if (item.file_type === "video") {
         return {
           original: this.getYoutubeVideoThumbnail(item.url),
           thumbnail: this.getYoutubeVideoThumbnail(item.url, "thumbnail"),
           embedUrl: this.enhancedEmbedUrl(item.url),
           renderItem: this._renderVideo.bind(this),
-          description: "Some media description here...",
+          description: item.description,
         };
       }
       return {
         original: item.url,
         thumbnail: item.url,
-        description: "Some media description here...",
+        description: item.description,
       };
     });
   }
