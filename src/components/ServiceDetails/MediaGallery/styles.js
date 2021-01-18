@@ -7,7 +7,7 @@ export const useStyles = theme => ({
     "& iframe": { width: "100%" },
   },
   marketplace_media_gallery: {
-    padding: "10px 0 31px",
+    padding: "10px 30px 31px",
     "& .image-gallery-thumbnail.active, .image-gallery-thumbnail:hover, .image-gallery-thumbnail:focus": {
       border: "4px solid #4086ff",
     },
@@ -46,12 +46,17 @@ export const useStyles = theme => ({
         padding: "12px 15px",
       },
       "& .image-gallery-thumbnails-wrapper": { display: "none" },
+      // "& .image-gallery-play-button": { bottom: 30 },
     },
     "& .image-gallery-slide-wrapper": {
-      "& button": { outline: "none" },
-      "& .image-gallery-left-nav, .image-gallery-right-nav, .image-gallery-play-button": { display: "none" },
+      "& button": {
+        outline: "none",
+        display: "none",
+      },
+      // "& .image-gallery-left-nav, .image-gallery-right-nav, .image-gallery-play-button": { display: "none" },
       "& .image-gallery-slide .image-gallery-description": { display: "none" },
       "& .image-gallery-thumbnails-wrapper": { display: "block" },
+      "& .image-gallery-play-button": { bottom: -10 },
     },
     "& .image-gallery-icon": {
       "&:hover": { color: "#4086ff" },
