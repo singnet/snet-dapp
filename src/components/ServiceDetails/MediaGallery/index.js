@@ -57,7 +57,7 @@ class MediaGallery extends Component {
     if (!link.includes("youtube")) {
       return link;
     }
-    const youtubeId = last(link.split("/"));
+    const youtubeId = last(link.split("="));
     const embededLink = `https://youtube.com/embed/${youtubeId}`;
     return embededLink;
   }
