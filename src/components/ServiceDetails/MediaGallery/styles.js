@@ -13,8 +13,8 @@ export const useStyles = theme => ({
     },
     "& .image-gallery-right-nav, .image-gallery-left-nav": {
       padding: 0,
-      backgroundColor: "rgba(255,255,255,0.9)",
-      boxShadow: "5px -1px 4px 0 rgba(0,0,0,0.5)",
+      backgroundColor: "rgba(255,255,255,.9)",
+      filter: "none",
       width: 64,
       height: 64,
       "& svg": {
@@ -46,17 +46,17 @@ export const useStyles = theme => ({
         padding: "12px 15px",
       },
       "& .image-gallery-thumbnails-wrapper": { display: "none" },
-      // "& .image-gallery-play-button": { bottom: 30 },
     },
     "& .image-gallery-slide-wrapper": {
-      "& button": {
-        outline: "none",
-        display: "none",
-      },
-      // "& .image-gallery-left-nav, .image-gallery-right-nav, .image-gallery-play-button": { display: "none" },
+      "& button": { outline: "none" },
+      "& .image-gallery-left-nav, .image-gallery-right-nav, .image-gallery-play-button": { display: "none" },
       "& .image-gallery-slide .image-gallery-description": { display: "none" },
       "& .image-gallery-thumbnails-wrapper": { display: "block" },
-      "& .image-gallery-play-button": { bottom: -10 },
+      "& .image-gallery-fullscreen-button": {
+        bottom: -10,
+        color: "#4086ff",
+        filter: "none",
+      },
     },
     "& .image-gallery-icon": {
       "&:hover": { color: "#4086ff" },
