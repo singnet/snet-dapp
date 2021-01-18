@@ -42,13 +42,13 @@ class MediaGallery extends Component {
           thumbnail: this.getYoutubeVideoThumbnail(item.url, "thumbnail"),
           embedUrl: this.enhancedEmbedUrl(item.url),
           renderItem: this._renderVideo.bind(this),
-          description: item.description,
+          description: item.description ? item.description : "Description will go here",
         };
       }
       return {
         original: item.url,
         thumbnail: item.url,
-        description: item.description,
+        description: item.description ? item.description : "Description will go here",
       };
     });
   }
@@ -57,7 +57,7 @@ class MediaGallery extends Component {
     if (!link.includes("youtube")) {
       return link;
     }
-    const youtubeId = last(link.split("/"));
+    const youtubeId = last(link.split("="));
     const embededLink = `https://youtube.com/embed/${youtubeId}`;
     return embededLink;
   }

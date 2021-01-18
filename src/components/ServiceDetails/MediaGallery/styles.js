@@ -7,9 +7,25 @@ export const useStyles = theme => ({
     "& iframe": { width: "100%" },
   },
   marketplace_media_gallery: {
-    padding: "10px 30px 31px",
+    padding: "10px 0 31px",
     "& .image-gallery-thumbnail.active, .image-gallery-thumbnail:hover, .image-gallery-thumbnail:focus": {
       border: "4px solid #4086ff",
+    },
+    "& .image-gallery-right-nav, .image-gallery-left-nav": {
+      padding: 0,
+      backgroundColor: "rgba(255,255,255,0.9)",
+      boxShadow: "5px -1px 4px 0 rgba(0,0,0,0.5)",
+      width: 64,
+      height: 64,
+      "& svg": {
+        color: "#000",
+        opacity: 0.1,
+        height: 64,
+        "&:hover": {
+          color: "#4086ff",
+          opacity: 1,
+        },
+      },
     },
     "& .image-gallery-content.fullscreen": {
       top: "50%",
