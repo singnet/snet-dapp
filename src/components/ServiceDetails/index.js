@@ -90,8 +90,6 @@ class ServiceDetails extends Component {
       params: { orgId, serviceId },
     } = match;
 
-    console.log("service", service);
-
     if (isEmpty(service) || error) {
       if (loading) {
         return null;
