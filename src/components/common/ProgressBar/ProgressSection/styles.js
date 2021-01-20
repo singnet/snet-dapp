@@ -39,6 +39,8 @@ export const useStyles = makeStyles(theme => ({
     },
   },
   completed: {
-    "&:last-of-type span": { color: theme.palette.text.darkShadedGray },
+    "& > span": {
+      "&:last-of-type": { color: theme.palette.text.darkShadedGray },
+    },
   },
 }));
