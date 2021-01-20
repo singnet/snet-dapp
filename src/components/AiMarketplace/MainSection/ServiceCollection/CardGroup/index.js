@@ -42,7 +42,7 @@ const CardGroup = ({ data: cards, listView, loading }) => {
             key={card.service_id}
           >
             <ServiceListItem
-              cardMedia={card.assets_url.hero_image}
+              cardMedia={card.media.url}
               orgImg={card.org_assets_url.hero_image}
               cardTitle={card.display_name}
               cardSubheader={card.organization_name}
@@ -65,7 +65,7 @@ const CardGroup = ({ data: cards, listView, loading }) => {
           className={classes.routerLink}
         >
           <GridViewItem
-            cardMedia={card.assets_url.hero_image}
+            cardMedia={card.media.url}
             orgImg={card.org_assets_url.hero_image}
             cardTitle={card.display_name}
             cardSubheader={card.organization_name}
