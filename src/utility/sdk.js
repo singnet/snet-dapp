@@ -225,7 +225,7 @@ export const createServiceClient = (
     // sdk.paymentChannelManagementStrategy = new ProxyPaymentChannelManagementStrategy(channel);
   }
   const options = generateOptions(callType, wallet, serviceRequestErrorHandler, groupInfo, org_id, service_id);
-  let paymentChannelManagementStrategy = sdk._paymentChannelManagementStrategy;
+  let paymentChannelManagementStrategy = sdk && sdk._paymentChannelManagementStrategy;
   if (!(paymentChannelManagementStrategy instanceof PaypalPaymentMgmtStrategy)) {
     paymentChannelManagementStrategy = new DefaultPaymentStrategy(1);
   }
