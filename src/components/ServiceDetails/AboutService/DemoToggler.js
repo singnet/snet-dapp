@@ -35,7 +35,7 @@ const DemoToggler = ({ classes, showDemo, onClick, service, history, serviceAvai
 
   if (!serviceAvailable) {
     return (
-      <div className={classes.serviceOfflineContainer}>
+      <div className={classes.serviceOfflineContainer} ref={demoExampleRef}>
         <h2>Demo Example</h2>
         <div className={classes.serviceOffline}>
           <div className={classes.imgContainer}>
@@ -58,7 +58,7 @@ const DemoToggler = ({ classes, showDemo, onClick, service, history, serviceAvai
   }
 
   return (
-    <div className={classes.demoContainer}>
+    <div className={classes.demoContainer} ref={demoExampleRef}>
       <h2>Service Demo</h2>
       <ServiceDemo service={service} history={history} />
     </div>
