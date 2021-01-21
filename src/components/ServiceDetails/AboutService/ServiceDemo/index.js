@@ -154,7 +154,14 @@ class ServiceDemo extends Component {
   };
 
   handleResetAndRun = () => {
-    this.setState({ purchaseCompleted: false, isServiceExecutionComplete: false, alert: {} });
+    this.setState(prevState => {
+      return {
+        purchaseCompleted: false,
+        isServiceExecutionComplete: false,
+        alert: {},
+        progressText: prevState.progressText.map(item => ({ label: item.label })),
+      };
+    });
     this.fetchFreeCallsUsage();
   };
 
