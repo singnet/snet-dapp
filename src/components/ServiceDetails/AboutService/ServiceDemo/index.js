@@ -49,6 +49,9 @@ class ServiceDemo extends Component {
       await Promise.all(asyncCalls);
       this.scrollToHash();
       this.props.stopLoader();
+      if (window.location.href.indexOf("#demo") > -1) {
+        this.props.scrollToView();
+      }
     } catch (error) {
       this.props.stopLoader();
     }
