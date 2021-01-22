@@ -18,7 +18,7 @@ import AnchorLink from "../../../../components/common/AnchorLink";
 
 const imgPath = (name, extension = "jpg") => {
   const trimmedName = name.replace(/[\s\.\'']/g, "");
-  return `${process.env.REACT_APP_SNET_CDN}/assets/images/ThirdPartyServices/snet/text_generation/${trimmedName}.${extension}`;
+  return `${process.env.REACT_APP_SNET_CDN}/dapp/assets/images/ThirdPartyServices/snet/text_generation/${trimmedName}.${extension}`;
 };
 
 const avatarPath = (name, extension = "jpg") => {

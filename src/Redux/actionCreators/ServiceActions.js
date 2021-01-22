@@ -4,6 +4,7 @@ import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { loaderActions } from "./";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
 import { initializeAPIOptions } from "../../utility/API";
+import { cacheS3Url } from "../../utility/image";
 
 export const UPDATE_SERVICE_LIST = "SET_SERVICE_LIST";
 export const UPDATE_PAGINATION_DETAILS = "SET_PAGINATION_DETAILS";
@@ -30,7 +31,11 @@ export const fetchServiceSuccess = res => dispatch => {
       total_count: res.data.total_count,
     },
   });
-  dispatch({ type: UPDATE_SERVICE_LIST, payload: res.data.result });
+  const enhancedResult = res.data.result.map(service => ({
+    ...service,
+    media: { ...service.media, url: service.media.url ? cacheS3Url(service.media.url) : null },
+  }));
+  dispatch({ type: UPDATE_SERVICE_LIST, payload: enhancedResult });
   dispatch(loaderActions.stopAIServiceListLoader);
 };
 
