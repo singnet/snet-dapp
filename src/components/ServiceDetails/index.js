@@ -34,15 +34,14 @@ class ServiceDetails extends Component {
     };
   }
 
-  componentDidMount = async () => {
+  componentDidMount() {
     if (process.env.REACT_APP_SANDBOX) {
       return;
     }
     if (isEmpty(this.props.service)) {
-      await this.fetchServiceDetails();
-      this.scrollToView();
+      this.fetchServiceDetails();
     }
-  };
+  }
 
   fetchServiceDetails = async () => {
     const {

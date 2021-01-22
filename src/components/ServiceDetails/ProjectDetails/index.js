@@ -11,14 +11,6 @@ const ProjectDetails = ({ classes, projectURL, contributors }) => {
     <div className={classes.projectDetailsContainer}>
       <h2>Project Details</h2>
       <ProjectURL URL={projectURL} />
-      <div>
-        <span>Organization ID</span>
-        <span />
-      </div>
-      <div>
-        <span>Service ID</span>
-        <span />
-      </div>
       <Contributors contributors={contributors} />
     </div>
   );
