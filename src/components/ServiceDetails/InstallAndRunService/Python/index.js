@@ -1,12 +1,12 @@
 import React from "react";
 import { withStyles } from "@material-ui/styles";
 
-import { useStyles } from "./styles";
+import { useStyles } from "../styles";
 import CodeSnippet from "../../../common/CodeSnippet";
 
 const Python = ({ classes }) => {
   return (
-    <section className={classes.pythonMainContainer}>
+    <section className={classes.languageTabSection}>
       <h2>Install</h2>
       <div>
         <span>Install the SDK using PIP</span>

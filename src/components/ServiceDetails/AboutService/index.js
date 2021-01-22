@@ -11,8 +11,9 @@ import ServiceOverview from "./ServiceOverview";
 import Routes from "../../../utility/constants/Routes";
 import CreatorDetails from "../CreatorDetails";
 import ProjectDetails from "../ProjectDetails";
+import MediaGallery from "../MediaGallery";
 
-const AboutService = ({ classes, isLoggedIn, service, history, serviceAvailable }) => {
+const AboutService = ({ classes, isLoggedIn, service, history, serviceAvailable, demoExampleRef }) => {
   return (
     <Grid container spacing={24} className={classes.aboutContainer}>
       <Grid item xs={12} sm={8} md={8} lg={8} className={classes.leftSideSection}>
@@ -23,7 +24,12 @@ const AboutService = ({ classes, isLoggedIn, service, history, serviceAvailable 
           service={service}
           history={history}
           serviceAvailable={serviceAvailable}
+          demoExampleRef={demoExampleRef}
         />
+        <div className={classes.backToLink}>
+          <Icon className="fas fa-arrow-left" />
+          <Link to={`/${Routes.AI_MARKETPLACE}`}>Back to AI Marketplace</Link>
+        </div>
       </Grid>
 
       <Grid item xs={12} sm={4} md={4} lg={4} className={classes.rightSideSection}>
@@ -33,12 +39,8 @@ const AboutService = ({ classes, isLoggedIn, service, history, serviceAvailable 
           contacts={service.contacts}
         />
         <ProjectDetails projectURL={service.url} contributors={service.contributors} />
+        <MediaGallery data={service.media} />
       </Grid>
-
-      <div className={classes.backToLink}>
-        <Icon className="fas fa-arrow-left" />
-        <Link to={`/${Routes.AI_MARKETPLACE}`}>Back to AI Marketplace</Link>
-      </div>
     </Grid>
   );
 };

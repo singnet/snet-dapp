@@ -16,6 +16,7 @@ import { initSdk, initPaypalSdk } from "../../../../utility/sdk";
 import { walletTypes } from "../../../../Redux/actionCreators/UserActions";
 import { channelInfo } from "../../../../Redux/reducers/UserReducer";
 import { anyPendingTxn } from "../../../../Redux/reducers/PaymentReducer";
+import { progressTabStatus } from "../../../common/ProgressBar";
 
 const demoProgressStatus = {
   purchasing: 1,
@@ -25,7 +26,7 @@ const demoProgressStatus = {
 
 class ServiceDemo extends Component {
   state = {
-    progressText: ["Purchase", "Configure", "Results"],
+    progressText: [{ label: "Purchase" }, { label: "Configure" }, { label: "Results", status: undefined }],
     purchaseCompleted: false,
     isServiceExecutionComplete: false,
     alert: {},
@@ -138,12 +139,29 @@ class ServiceDemo extends Component {
   };
 
   serviceRequestCompleteHandler = () => {
-    this.setState({ isServiceExecutionComplete: true });
+    this.setState(prevState => {
+      return {
+        isServiceExecutionComplete: true,
+        progressText: prevState.progressText.map(item => {
+          if (item.label === "Results") {
+            item.status = progressTabStatus.SUCCESS;
+          }
+          return item;
+        }),
+      };
+    });
     this.props.stopLoader();
   };
 
   handleResetAndRun = () => {
-    this.setState({ purchaseCompleted: false, isServiceExecutionComplete: false, alert: {} });
+    this.setState(prevState => {
+      return {
+        purchaseCompleted: false,
+        isServiceExecutionComplete: false,
+        alert: {},
+        progressText: prevState.progressText.map(item => ({ label: item.label })),
+      };
+    });
     this.fetchFreeCallsUsage();
   };
 
