@@ -38,7 +38,12 @@ const AboutService = ({ classes, isLoggedIn, service, history, serviceAvailable,
           orgImg={service.org_assets_url && service.org_assets_url.hero_image}
           contacts={service.contacts}
         />
-        <ProjectDetails projectURL={service.url} contributors={service.contributors} />
+        <ProjectDetails
+          projectURL={service.url}
+          contributors={service.contributors}
+          orgId={service.org_id}
+          serviceId={service.service_id}
+        />
         <MediaGallery data={service.media} />
       </Grid>
     </Grid>

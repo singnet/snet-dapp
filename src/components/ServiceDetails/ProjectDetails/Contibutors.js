@@ -17,7 +17,7 @@ const Contibutors = ({ contributors }) => {
       ))}
     </p>
   );
-  return <Row header="Contributors" content={contributorsNames} />;
+  return <Row content={contributorsNames} />;
 };
 
 Contibutors.propTypes = {
