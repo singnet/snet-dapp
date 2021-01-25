@@ -156,6 +156,7 @@ class ServiceDetails extends Component {
               orgImg={service.org_assets_url && service.org_assets_url.hero_image}
               star_rating={service.service_rating && service.service_rating.rating}
               totalRating={service.service_rating ? service.service_rating.total_users_rated : 0}
+              shortDescription={service.short_description}
             />
             <PricingDetails
               serviceAvailable={service.is_available}

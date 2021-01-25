@@ -13,7 +13,16 @@ import SingularityLogo from "../../../assets/images/avatar.png";
 import Typography from "@material-ui/core/Typography";
 import { HERO_IMG } from "../";
 
-const TitleCard = ({ classes, display_name, star_rating, organizationName, service, orgImg, totalRating }) => {
+const TitleCard = ({
+  classes,
+  display_name,
+  star_rating,
+  organizationName,
+  service,
+  orgImg,
+  totalRating,
+  shortDescription,
+}) => {
   const [showLightBox, setshowLightBox] = useState(false);
 
   const openLightBox = () => {
@@ -32,7 +41,13 @@ const TitleCard = ({ classes, display_name, star_rating, organizationName, servi
   return (
     <Grid item xs={12} sm={12} md={8} lg={8} className={classes.computerVisionContainer}>
       <div className={classes.titleImg}>
-        <img src={serviceImage(service) || CardImg} alt="service" width={229} height={129} onClick={openLightBox} />
+        <img
+          src={serviceImage(service) || CardImg}
+          alt={shortDescription}
+          width={229}
+          height={129}
+          onClick={openLightBox}
+        />
       </div>
 
       <div className={classes.computerVisionContent}>
