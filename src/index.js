@@ -12,7 +12,7 @@ if (process.env.NODE_ENV === "production") {
   Sentry.init({ dsn: process.env.REACT_APP_SENTRY_DSN });
 }
 
-const store = configureStore();
+export const store = configureStore();
 
 ReactDOM.render(
   <ReduxProvider store={store}>

@@ -7,6 +7,7 @@ import { initializeAPIOptions } from "./API";
 import { fetchAuthenticatedUser, walletTypes } from "../Redux/actionCreators/UserActions";
 import PaypalPaymentMgmtStrategy from "./PaypalPaymentMgmtStrategy";
 import { ethereumMethods } from "./constants/EthereumUtils";
+import { store } from "../";
 
 const DEFAULT_GAS_PRICE = 4700000;
 const DEFAULT_GAS_LIMIT = 210000;
@@ -50,7 +51,7 @@ const parseFreeCallMetadata = ({ data }) => ({
 const metadataGenerator = (serviceRequestErrorHandler, groupId) => async (serviceClient, serviceName, method) => {
   try {
     const { orgId: org_id, serviceId: service_id } = serviceClient.metadata;
-    const { email, token } = await fetchAuthenticatedUser();
+    const { email, token } = await store.dispatch(fetchAuthenticatedUser());
     const payload = { org_id, service_id, service_name: serviceName, method, username: email, group_id: groupId };
     const apiName = APIEndpoints.SIGNER_SERVICE.name;
     const apiOptions = initializeAPIOptions(token, payload);
@@ -68,7 +69,7 @@ const parseChannelStateRequestSigner = ({ data }) => ({
 const channelStateRequestSigner = async channelId => {
   const apiName = APIEndpoints.SIGNER_SERVICE.name;
   const stateServicePayload = { channel_id: Number(channelId) };
-  const { token } = await fetchAuthenticatedUser();
+  const { token } = await store.dispatch(fetchAuthenticatedUser());
   const stateServiceOptions = initializeAPIOptions(token, stateServicePayload);
   return await API.post(apiName, APIPaths.SIGNER_STATE_SERVICE, stateServiceOptions).then(
     parseChannelStateRequestSigner
@@ -84,7 +85,7 @@ const paidCallMetadataGenerator = serviceRequestErrorHandler => async (channelId
       amount: Number(signingAmount),
       nonce: Number(nonce),
     };
-    const { token } = await fetchAuthenticatedUser();
+    const { token } = await store.dispatch(fetchAuthenticatedUser());
     const RegCallOptions = initializeAPIOptions(token, RegCallPayload);
     const response = await API.post(apiName, APIPaths.SIGNER_REGULAR_CALL, RegCallOptions);
     const paidCallMetadata = parseRegularCallMetadata(response);

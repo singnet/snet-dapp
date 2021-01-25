@@ -62,7 +62,7 @@ const meteringAPI = (token, orgId, serviceId, groupId, userId) => {
 };
 
 export const fetchMeteringData = ({ orgId, serviceId, groupId }) => async dispatch => {
-  const { email, token } = await fetchAuthenticatedUser();
+  const { email, token } = await dispatch(fetchAuthenticatedUser());
   const usageData = await meteringAPI(token, orgId, serviceId, groupId, email);
   return dispatch(fetchMeteringDataSuccess(usageData));
 };
