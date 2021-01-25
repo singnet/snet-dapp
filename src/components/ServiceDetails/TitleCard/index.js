@@ -43,7 +43,7 @@ const TitleCard = ({
       <div className={classes.titleImg}>
         <img
           src={serviceImage(service) || CardImg}
-          alt={shortDescription}
+          alt={display_name + ": " + shortDescription}
           width={229}
           height={129}
           onClick={openLightBox}
