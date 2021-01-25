@@ -71,7 +71,7 @@ const TitleCard = ({
 
       <Modal open={showLightBox} className={classes.serviceLightBox}>
         <div className={classes.serviceImgContainer}>
-          <img src={serviceImage(service) || CardImg} alt="service" />
+          <img src={serviceImage(service) || CardImg} alt={display_name + ": " + shortDescription} />
           <CloseIcon onClick={handleClose} />
         </div>
       </Modal>
