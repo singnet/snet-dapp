@@ -25,6 +25,8 @@ const TitleCard = ({
 }) => {
   const [showLightBox, setshowLightBox] = useState(false);
 
+  const altText = display_name + ": " + shortDescription;
+
   const openLightBox = () => {
     setshowLightBox(true);
   };
@@ -41,13 +43,7 @@ const TitleCard = ({
   return (
     <Grid item xs={12} sm={12} md={8} lg={8} className={classes.computerVisionContainer}>
       <div className={classes.titleImg}>
-        <img
-          src={serviceImage(service) || CardImg}
-          alt={display_name + ": " + shortDescription}
-          width={229}
-          height={129}
-          onClick={openLightBox}
-        />
+        <img src={serviceImage(service) || CardImg} alt={altText} width={229} height={129} onClick={openLightBox} />
       </div>
 
       <div className={classes.computerVisionContent}>
@@ -71,7 +67,7 @@ const TitleCard = ({
 
       <Modal open={showLightBox} className={classes.serviceLightBox}>
         <div className={classes.serviceImgContainer}>
-          <img src={serviceImage(service) || CardImg} alt={display_name + ": " + shortDescription} />
+          <img src={serviceImage(service) || CardImg} alt={altText} />
           <CloseIcon onClick={handleClose} />
         </div>
       </Modal>
