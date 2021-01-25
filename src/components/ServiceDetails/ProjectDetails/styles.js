@@ -42,6 +42,8 @@ export const useStyles = theme => ({
     "& > span": {
       display: "block",
       color: theme.palette.text.mediumShadeGray,
+      fontSize: 14,
+      wordBreak: "break-all",
       "&:first-of-type": { paddingBottom: 34 },
     },
   },

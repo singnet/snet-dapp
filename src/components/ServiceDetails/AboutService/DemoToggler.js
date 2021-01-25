@@ -10,7 +10,16 @@ import signInImg from "../../../assets/images/signIn.png";
 
 import { useStyles } from "./styles";
 
-const DemoToggler = ({ classes, showDemo, onClick, service, history, serviceAvailable, demoExampleRef }) => {
+const DemoToggler = ({
+  classes,
+  showDemo,
+  onClick,
+  service,
+  history,
+  serviceAvailable,
+  demoExampleRef,
+  scrollToView,
+}) => {
   if (!showDemo) {
     return (
       <div className={classes.demoContainer} ref={demoExampleRef}>
@@ -60,7 +69,7 @@ const DemoToggler = ({ classes, showDemo, onClick, service, history, serviceAvai
   return (
     <div className={classes.demoContainer} ref={demoExampleRef}>
       <h2>Service Demo</h2>
-      <ServiceDemo service={service} history={history} />
+      <ServiceDemo service={service} history={history} scrollToView={scrollToView} />
     </div>
   );
 };

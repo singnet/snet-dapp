@@ -58,6 +58,10 @@ class ServiceDetails extends Component {
   };
 
   handleTabChange = activeTab => {
+    if (window.location.href.indexOf("#demo") > -1) {
+      const currentUrl = this.props.location.pathname;
+      this.props.history.push(currentUrl);
+    }
     this.setState({ activeTab });
   };
 
@@ -113,6 +117,7 @@ class ServiceDetails extends Component {
             history={history}
             serviceAvailable={service.is_available}
             demoExampleRef={this.demoExampleRef}
+            scrollToView={this.scrollToView}
           />
         ),
       },
