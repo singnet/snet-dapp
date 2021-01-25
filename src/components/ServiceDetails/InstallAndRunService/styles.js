@@ -121,7 +121,7 @@ export const useStyles = theme => ({
     },
   },
   publicAddDesc: {
-    marginLeft: 40,
+    padding: "0 20px 0 40px",
     color: theme.palette.text.lightShadedGray,
     fontSize: 14,
     lineHeight: "20px",

@@ -89,7 +89,8 @@ class InstallAndRunService extends Component {
                     onChange={this.handlePublicKey}
                   />
                   <Typography className={classes.publicAddDesc}>
-                    Explanation about where to look for the public address.
+                    Ethereum address used in your SDK. This is the public address corresponding to the private key you
+                    use in the SDK
                   </Typography>
                 </div>
                 {!downloadTokenURL && (
