@@ -6,7 +6,7 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 
 const imgPath = (directory, file, extension = "png") =>
-  `${process.env.REACT_APP_SNET_CDN}/assets/images/GetStarted/${directory}/${file}.${extension}`;
+  `${process.env.REACT_APP_SNET_CDN}/dapp/assets/images/GetStarted/${directory}/${file}.${extension}`;
 
 export const GetStartedCategoriesData = [
   {

@@ -158,7 +158,7 @@ class MediaGallery extends Component {
         ) : (
           <a onClick={this._toggleShowVideo.bind(this, item.embedUrl)}>
             {/* <div className="play-button" /> */}
-            <img className="image-gallery-image" src={item.original} />
+            <img className="image-gallery-image" src={item.original} loading="lazy" />
             {item.description && (
               <span className="image-gallery-description" style={{ right: "0", left: "initial" }}>
                 {item.description}
