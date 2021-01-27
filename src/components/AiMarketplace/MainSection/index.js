@@ -47,10 +47,10 @@ class MainSection extends Component {
     const { listView } = this.state;
     return (
       <Grid container spacing={24} className={classes.mainSection}>
-        <Grid item xs={12} sm={12} md={12} lg={12} className={classes.filterMainContainer}>
+        <Grid item xs={12} sm={3} md={3} lg={3} className={classes.filterMainContainer}>
           <Filter />
         </Grid>
-        <Grid item xs={12} sm={12} md={12} lg={12} className={classes.servieMainContainer}>
+        <Grid item xs={12} sm={9} md={9} lg={9} className={classes.servieMainContainer}>
           <ServiceCollection
             toolbarProps={{
               listView,

@@ -60,7 +60,7 @@ export const useStyles = makeStyles(theme => ({
       "&:nth-child(2n) > div": {
         "@media(max-width: 1280px)": { marginRight: 0 },
       },
-      "&:nth-child(4n) > div": {
+      "&:nth-child(3n) > div": {
         "@media(min-width: 1281px)": { marginRight: 0 },
       },
       "@media(max-width: 1024px)": { textAlign: "center" },
