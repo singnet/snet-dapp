@@ -49,6 +49,7 @@ const TitleCard = ({
           width={229}
           height={129}
           onClick={openLightBox}
+          title={altText}
           loading="lazy"
         />
       </div>
