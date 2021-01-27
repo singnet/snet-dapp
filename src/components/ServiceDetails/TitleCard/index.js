@@ -43,7 +43,14 @@ const TitleCard = ({
   return (
     <Grid item xs={12} sm={12} md={8} lg={8} className={classes.computerVisionContainer}>
       <div className={classes.titleImg}>
-        <img src={serviceImage(service) || CardImg} alt={altText} width={229} height={129} onClick={openLightBox} />
+        <img
+          src={serviceImage(service) || CardImg}
+          alt={altText}
+          width={229}
+          height={129}
+          onClick={openLightBox}
+          title={altText}
+        />
       </div>
 
       <div className={classes.computerVisionContent}>
