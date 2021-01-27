@@ -1,4 +1,5 @@
-import { Auth, API } from "aws-amplify";
+import API from "@aws-amplify/api";
+import Auth from "@aws-amplify/auth";
 import isEmpty from "lodash/isEmpty";
 import moment from "moment";
 
@@ -41,7 +42,7 @@ const setJWTExp = exp => ({ type: SET_JWT_EXP, payload: exp });
 
 export const fetchAuthenticatedUser = () => async (dispatch, getState) => {
   let bypassCache = false;
-  const { exp } = getState().user.jwt;
+  const { exp } = getState().userReducer.jwt;
   const currentEpochInUTC = getCurrentUTCEpoch();
   if (!exp || currentEpochInUTC >= Number(exp)) {
     bypassCache = true;

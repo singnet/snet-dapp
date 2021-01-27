@@ -1,5 +1,5 @@
 import SnetSDK, { WebServiceClient as ServiceClient, DefaultPaymentStrategy } from "snet-sdk-web";
-import { API } from "aws-amplify";
+import API from "@aws-amplify/api";
 import MPEContract from "singularitynet-platform-contracts/networks/MultiPartyEscrow";
 
 import { APIEndpoints, APIPaths } from "../config/APIEndpoints";

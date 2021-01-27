@@ -1,4 +1,5 @@
-import { Auth, API } from "aws-amplify";
+import API from "@aws-amplify/api";
+import Auth from "@aws-amplify/auth";
 
 import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { loaderActions } from "./";
