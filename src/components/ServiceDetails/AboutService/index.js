@@ -13,7 +13,7 @@ import CreatorDetails from "../CreatorDetails";
 import ProjectDetails from "../ProjectDetails";
 import MediaGallery from "../MediaGallery";
 
-const AboutService = ({ classes, isLoggedIn, service, history, serviceAvailable, demoExampleRef }) => {
+const AboutService = ({ classes, isLoggedIn, service, history, serviceAvailable, demoExampleRef, scrollToView }) => {
   return (
     <Grid container spacing={24} className={classes.aboutContainer}>
       <Grid item xs={12} sm={8} md={8} lg={8} className={classes.leftSideSection}>
@@ -25,6 +25,7 @@ const AboutService = ({ classes, isLoggedIn, service, history, serviceAvailable,
           history={history}
           serviceAvailable={serviceAvailable}
           demoExampleRef={demoExampleRef}
+          scrollToView={scrollToView}
         />
         <div className={classes.backToLink}>
           <Icon className="fas fa-arrow-left" />
@@ -38,7 +39,12 @@ const AboutService = ({ classes, isLoggedIn, service, history, serviceAvailable,
           orgImg={service.org_assets_url && service.org_assets_url.hero_image}
           contacts={service.contacts}
         />
-        <ProjectDetails projectURL={service.url} contributors={service.contributors} />
+        <ProjectDetails
+          projectURL={service.url}
+          contributors={service.contributors}
+          orgId={service.org_id}
+          serviceId={service.service_id}
+        />
         <MediaGallery data={service.media} />
       </Grid>
     </Grid>

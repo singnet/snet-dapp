@@ -13,8 +13,19 @@ import SingularityLogo from "../../../assets/images/avatar.png";
 import Typography from "@material-ui/core/Typography";
 import { HERO_IMG } from "../";
 
-const TitleCard = ({ classes, display_name, star_rating, organizationName, service, orgImg, totalRating }) => {
+const TitleCard = ({
+  classes,
+  display_name,
+  star_rating,
+  organizationName,
+  service,
+  orgImg,
+  totalRating,
+  shortDescription,
+}) => {
   const [showLightBox, setshowLightBox] = useState(false);
+
+  const altText = display_name + ": " + shortDescription;
 
   const openLightBox = () => {
     setshowLightBox(true);
@@ -34,7 +45,7 @@ const TitleCard = ({ classes, display_name, star_rating, organizationName, servi
       <div className={classes.titleImg}>
         <img
           src={serviceImage(service) || CardImg}
-          alt="service"
+          alt={altText}
           width={229}
           height={129}
           onClick={openLightBox}
@@ -63,7 +74,7 @@ const TitleCard = ({ classes, display_name, star_rating, organizationName, servi
 
       <Modal open={showLightBox} className={classes.serviceLightBox}>
         <div className={classes.serviceImgContainer}>
-          <img src={serviceImage(service) || CardImg} alt="service" loading="lazy" />
+          <img src={serviceImage(service) || CardImg} alt={altText} loading="lazy" />
           <CloseIcon onClick={handleClose} />
         </div>
       </Modal>
