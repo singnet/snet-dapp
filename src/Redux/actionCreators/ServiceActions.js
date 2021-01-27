@@ -1,5 +1,4 @@
 import API from "@aws-amplify/api";
-import Auth from "@aws-amplify/auth";
 
 import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { loaderActions, userActions } from "./";
@@ -110,9 +109,7 @@ const fetchAuthTokenAPI = (serviceId, groupId, publicKey, orgId, userId, token) 
 export const downloadAuthToken = (serviceId, groupId, publicKey, orgId) => async dispatch => {
   try {
     dispatch(loaderActions.startAppLoader(LoaderContent.GENERATE_AUTH_TOKEN));
-    // const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
     const { token, email } = await dispatch(userActions.fetchAuthenticatedUser());
-    // const userId = currentUser.attributes.email;
 
     const { data } = await fetchAuthTokenAPI(serviceId, groupId, publicKey, orgId, email, token);
 
@@ -132,9 +129,9 @@ export const downloadAuthToken = (serviceId, groupId, publicKey, orgId) => async
 };
 
 //Username review
-export const fetchFeedback = (orgId, serviceId) => async () => {
-  const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
-  return fetchFeedbackAPI(currentUser.email, orgId, serviceId, currentUser.signInUserSession.idToken.jwtToken);
+export const fetchFeedback = (orgId, serviceId) => async dispatch => {
+  const { email, token } = await dispatch(userActions.fetchAuthenticatedUser());
+  return fetchFeedbackAPI(email, orgId, serviceId, token);
 };
 
 const submitFeedbackAPI = (feedbackObj, token) => {
@@ -144,8 +141,8 @@ const submitFeedbackAPI = (feedbackObj, token) => {
   return API.post(apiName, path, apiOptions);
 };
 
-export const submitFeedback = (orgId, serviceId, feedback) => async () => {
-  const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
+export const submitFeedback = (orgId, serviceId, feedback) => async dispatch => {
+  const { token } = await dispatch(userActions.fetchAuthenticatedUser());
   const feedbackObj = {
     feedback: {
       org_id: orgId,
@@ -154,5 +151,5 @@ export const submitFeedback = (orgId, serviceId, feedback) => async () => {
       comment: feedback.comment,
     },
   };
-  return submitFeedbackAPI(feedbackObj, currentUser.signInUserSession.idToken.jwtToken);
+  return submitFeedbackAPI(feedbackObj, token);
 };
