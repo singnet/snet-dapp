@@ -2,7 +2,7 @@ import API from "@aws-amplify/api";
 import Auth from "@aws-amplify/auth";
 
 import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
-import { loaderActions } from "./";
+import { loaderActions, userActions } from "./";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
 import { initializeAPIOptions } from "../../utility/API";
 // import { cacheS3Url } from "../../utility/image";
@@ -110,20 +110,14 @@ const fetchAuthTokenAPI = (serviceId, groupId, publicKey, orgId, userId, token) 
 export const downloadAuthToken = (serviceId, groupId, publicKey, orgId) => async dispatch => {
   try {
     dispatch(loaderActions.startAppLoader(LoaderContent.GENERATE_AUTH_TOKEN));
-    const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
-    const userId = currentUser.attributes.email;
+    // const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
+    const { token, email } = await dispatch(userActions.fetchAuthenticatedUser());
+    // const userId = currentUser.attributes.email;
 
-    const { data } = await fetchAuthTokenAPI(
-      serviceId,
-      groupId,
-      publicKey,
-      orgId,
-      userId,
-      currentUser.signInUserSession.idToken.jwtToken
-    );
+    const { data } = await fetchAuthTokenAPI(serviceId, groupId, publicKey, orgId, email, token);
 
     const jsonToDownload = {
-      email: userId,
+      email,
       tokenToMakeFreeCall: data.token_to_make_free_call,
       tokenExpirationBlock: data.token_expiration_block,
     };
