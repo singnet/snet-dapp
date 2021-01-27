@@ -26,7 +26,7 @@ const DemoToggler = ({
         <h2>Demo Example</h2>
         <div className={classes.demoToggler}>
           <div className={classes.imgContainer}>
-            <img src={signInImg} title="Login" alt="SignIn" />
+            <img src={signInImg} title="Login" alt="SignIn" loading="lazy" />
             <p>Please login or sign up to run this demo for free.</p>
           </div>
           <div className={classes.btnContainer}>
@@ -52,6 +52,7 @@ const DemoToggler = ({
               src={serviceOfflineImg}
               title="Service Not Available"
               alt="Service Not Available due to poor connection "
+              loading="lazy"
             />
             <p>Service temporary offline by provider.</p>
             <p>Please try again Later.</p>

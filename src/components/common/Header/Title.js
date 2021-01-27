@@ -10,7 +10,7 @@ const Title = ({ title }) => {
   return (
     <h1 className={classes.h1}>
       <Link to={`/${Routes.AI_MARKETPLACE}`} className={classes.logoAnchor}>
-        <img src={SnetSvgLogo} alt="SingularityNET" />
+        <img src={SnetSvgLogo} alt="SingularityNET" loading="lazy" />
       </Link>
     </h1>
   );

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
-import { Auth } from "aws-amplify";
+import Auth from "@aws-amplify/auth";
 import { withStyles } from "@material-ui/styles";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";

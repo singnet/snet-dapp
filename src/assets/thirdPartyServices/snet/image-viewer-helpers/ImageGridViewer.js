@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Grid, Button, Hidden } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { ArrowDownward } from "@material-ui/icons";
 import MasonryLayout from "./MasonryLayout";
 import withWidth from "@material-ui/core/withWidth";
@@ -43,6 +43,7 @@ export class ImageGridViewer extends React.Component {
             maxWidth: "100%",
             boxShadow: "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)",
           }}
+          loading="lazy"
         />
       </div>
     );
