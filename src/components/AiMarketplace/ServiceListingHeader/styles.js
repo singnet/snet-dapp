@@ -3,8 +3,15 @@ export const useStyles = theme => ({
     padding: "20px 60px 25px",
     background: "linear-gradient(180deg, #820D81 0%, #221471 100%)",
   },
+  headerMedia: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
   details: {
     padding: "26px 0 26px 24px",
+    display: "flex",
+    alignItems: "center",
     "& h2": {
       padding: "8px 0 20px",
       color: theme.palette.text.white,
@@ -85,5 +92,23 @@ export const useStyles = theme => ({
         lineHeight: "23px",
       },
     },
+  },
+  navigationIcon: {
+    padding: "17px 11px",
+    backgroundColor: "rgba(255,255,255,0.9)",
+    boxShadow: "2px -1px 2px 0 rgba(0,0,0,0.4)",
+    opacity: 0.05,
+    fontSize: 30,
+    cursor: "pointer",
+    "&:hover": {
+      opacity: 1,
+    },
+  },
+  leftNavigation: {
+    marginRight: 55,
+    transform: "scaleX(-1)",
+  },
+  rightNavigation: {
+    marginLeft: 54,
   },
 });

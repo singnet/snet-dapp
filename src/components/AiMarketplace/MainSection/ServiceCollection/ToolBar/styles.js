@@ -3,6 +3,8 @@ import { makeStyles } from "@material-ui/styles";
 export const useStyles = makeStyles(theme => ({
   toolBar: {
     padding: "0 0 10px",
+    borderBottom: "1px solid rgba(155,155,155,0.9)",
+    marginBottom: 25,
     "@media(max-width: 1023px)": { marginTop: 30 },
     "@media(max-width: 768px)": {
       padding: "10px 15px",
@@ -22,7 +24,10 @@ export const useStyles = makeStyles(theme => ({
       right: "0 !important",
     },
     "& fieldset": { display: "none" },
-    "& .MuiSelect-selectMenu": { color: theme.palette.text.primary },
+    "& .MuiSelect-selectMenu": {
+      color: theme.palette.text.primary,
+      padding: "0 32px 0 0",
+    },
   },
   sortbyTxt: {
     padding: "0 17px 0 0",
