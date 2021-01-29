@@ -13,7 +13,9 @@ import {
 } from "../../../../utility/constants/Pagination";
 import Reset from "./Reset";
 
-const Filter = ({ activeFilterItem, pagination, filterDataProps, handleFilterChange, resetFilter }) => {
+import ToolBar from "./ToolBar";
+
+const Filter = ({ activeFilterItem, pagination, filterDataProps, handleFilterChange, resetFilter, toolbarProps }) => {
   const classes = useStylesHook();
   const filterData = {};
   Object.entries(filterDataProps).forEach(
@@ -26,7 +28,10 @@ const Filter = ({ activeFilterItem, pagination, filterDataProps, handleFilterCha
     if (!currentFilterItem.includes(value)) {
       currentFilterItem.push(value);
     } else {
-      currentFilterItem.splice(currentFilterItem.findIndex(el => el === value), 1);
+      currentFilterItem.splice(
+        currentFilterItem.findIndex(el => el === value),
+        1
+      );
     }
     const currentActiveFilterData = { ...activeFilterItem, [name]: currentFilterItem };
     let filterObj = [];
@@ -49,6 +54,7 @@ const Filter = ({ activeFilterItem, pagination, filterDataProps, handleFilterCha
 
   return (
     <div className={classes.filterContainer}>
+      <ToolBar {...toolbarProps} />
       <div className={classes.filterResetBtnContainer}>
         <h2 className={classes.h2}>Filters</h2>
         <Reset disabled={!shouldResetBeEnabled()} classes={classes} handleFilterReset={handleFilterReset} />
@@ -73,7 +79,4 @@ const mapDispatchToProps = dispatch => ({
   resetFilter: args => dispatch(serviceActions.resetFilter(args)),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Filter);
+export default connect(mapStateToProps, mapDispatchToProps)(Filter);
