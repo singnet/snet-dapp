@@ -1,5 +1,7 @@
 import ArrowRight from "../../../assets/images/arrowRight.svg";
+import ArrowRightHover from "../../../assets/images/arrowRightHover.svg";
 import ArrowLeft from "../../../assets/images/arrowLeft.svg";
+import ArrowLeftHover from "../../../assets/images/arrowLeftHover.svg";
 
 export const useStyles = theme => ({
   serviceListingHeaderContainer: {
@@ -31,12 +33,14 @@ export const useStyles = theme => ({
       borderBottomRightRadius: 4,
       right: 0,
       backgroundImage: `url(${ArrowRight}) !important`,
+      "&:hover": { backgroundImage: `url(${ArrowRightHover}) !important` },
     },
     "& .slick-prev": {
       borderTopLeftRadius: 4,
       borderBottomLeftRadius: 4,
       left: 0,
       backgroundImage: `url(${ArrowLeft}) !important`,
+      "&:hover": { backgroundImage: `url(${ArrowLeftHover}) !important` },
     },
   },
   headerContentDetails: {
