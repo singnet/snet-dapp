@@ -41,7 +41,7 @@ export const useStyles = theme => ({
   },
   headerContentDetails: {
     display: "flex !important",
-    alignItems: "flex-start",
+    alignItems: "center",
     outline: "none",
     "@media(max-width:768px)": {
       flexDirection: "column",
@@ -50,8 +50,6 @@ export const useStyles = theme => ({
   },
   headerMedia: {
     display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
     "& img": { width: "100%" },
     "@media(max-width:768px)": { display: "none" },
   },
