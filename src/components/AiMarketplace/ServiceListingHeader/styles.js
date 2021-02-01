@@ -5,11 +5,13 @@ import ArrowLeftHover from "../../../assets/images/arrowLeftHover.svg";
 
 export const useStyles = theme => ({
   serviceListingHeaderContainer: {
-    padding: "20px 60px 25px",
+    padding: "20px 10px 25px",
     background: "linear-gradient(to top, rgb(34, 15, 72) 0%, rgb(58, 13, 76) 100%)",
     "@media(max-width:768px)": { padding: "20px 10px 25px" },
   },
   headerWrapper: {
+    maxWidth: 1280,
+    margin: "0 auto",
     position: "relative",
     "& .slick-slider": { position: "static" },
   },
