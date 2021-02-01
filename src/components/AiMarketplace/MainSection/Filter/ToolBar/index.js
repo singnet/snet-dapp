@@ -23,7 +23,7 @@ const ToolBar = ({
 }) => {
   const [showSearchInput, toggleSearchInput] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState("");
-  const [activeOrgItem, setActiveOrgItem] = useState("");
+  const [activeOrgItem, setActiveOrgItem] = useState("default");
 
   const handleSearch = event => {
     setSearchKeyword(event.currentTarget.value);
@@ -41,24 +41,29 @@ const ToolBar = ({
 
   const handleOrgFilterChange = event => {
     const value = event.target.value;
-    const filters = [
-      {
-        filter: [
-          {
-            filter_condition: {
-              attr: "org_id",
-              operator: "IN",
-              value: [value],
+    if (value === activeOrgItem) {
+      return;
+    }
+    let filterObj = [];
+    if (value !== "default") {
+      filterObj = [
+        {
+          filter: [
+            {
+              filter_condition: {
+                attr: "org_id",
+                operator: "IN",
+                value: [value],
+              },
             },
-          },
-        ],
-      },
-    ];
-    console.log("filters", filters);
+          ],
+        },
+      ];
+    }
     setActiveOrgItem(value);
 
     const latestPagination = { ...pagination, ...defaultPaginationParameters, q: pagination.q };
-    handleFilterChange({ pagination: latestPagination, filters });
+    handleFilterChange({ pagination: latestPagination, filterObj, currentActiveFilterData: value });
   };
 
   const classes = useStyles();
