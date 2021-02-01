@@ -7,7 +7,8 @@ import SearchInputToggler from "./SearchInputToggler";
 import ServiceSortOptions from "./ServiceSortOptions";
 import ViewToggler from "./ViewToggler";
 import StyledDropdown from "../../../../common/StyledDropdown";
-import { filterTitles } from "../../../../../utility/constants/Pagination";
+import { serviceActions } from "../../../../../Redux/actionCreators";
+import { defaultPaginationParameters } from "../../../../../utility/constants/Pagination";
 
 const ToolBar = ({
   listView,
@@ -17,13 +18,12 @@ const ToolBar = ({
   currentPagination,
   showToggler,
   filterDataProps,
+  pagination,
+  handleFilterChange,
 }) => {
   const [showSearchInput, toggleSearchInput] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState("");
-  const filterData = {};
-  Object.entries(filterDataProps).forEach(
-    ([key, items]) => (filterData[key] = { title: filterTitles[key], name: key, items })
-  );
+  const [activeOrgItem, setActiveOrgItem] = useState("");
 
   const handleSearch = event => {
     setSearchKeyword(event.currentTarget.value);
@@ -34,6 +34,33 @@ const ToolBar = ({
     handleSearchChange({ ...currentPagination, ...pagination });
   };
 
+  const enhancedFilterData = filterDataProps.org_id.map(el => ({
+    value: el.key,
+    label: el.value,
+  }));
+
+  const handleOrgFilterChange = event => {
+    const value = event.target.value;
+    const filters = [
+      {
+        filter: [
+          {
+            filter_condition: {
+              attr: "org_id",
+              operator: "IN",
+              value: [value],
+            },
+          },
+        ],
+      },
+    ];
+    console.log("filters", filters);
+    setActiveOrgItem(value);
+
+    const latestPagination = { ...pagination, ...defaultPaginationParameters, q: pagination.q };
+    handleFilterChange({ pagination: latestPagination, filters });
+  };
+
   const classes = useStyles();
 
   return (
@@ -42,7 +69,12 @@ const ToolBar = ({
         <ServiceSortOptions />
         <div className={classes.organizationDropdownContainer}>
           <span className={classes.sortbyTxt}>Organization</span>
-          <StyledDropdown list={Object.values(filterData)} />
+          <StyledDropdown
+            list={enhancedFilterData}
+            value={activeOrgItem}
+            labelTxt="All Organization"
+            onChange={handleOrgFilterChange}
+          />
         </div>
       </Grid>
       <Grid item xs={6} sm={6} md={6} lg={6} className={classes.iconsContainer}>
@@ -63,6 +95,11 @@ const ToolBar = ({
 
 const mapStateToProps = state => ({
   filterDataProps: state.serviceReducer.filterData,
+  pagination: state.serviceReducer.pagination,
 });
 
-export default connect(mapStateToProps)(ToolBar);
+const mapDispatchToProps = dispatch => ({
+  handleFilterChange: args => dispatch(serviceActions.handleFilterChange(args)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ToolBar);

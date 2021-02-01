@@ -6,21 +6,21 @@ import { connect } from "react-redux";
 // import StyledExpansionPanel from "./StyledExpansionPanel";
 import { useStylesHook } from "./styles";
 import { serviceActions } from "../../../../Redux/actionCreators";
-import {
-  // defaultPaginationParameters,
-  // generateFilterObject,
-  filterTitles,
-} from "../../../../utility/constants/Pagination";
+// import {
+// defaultPaginationParameters,
+// generateFilterObject,
+// filterTitles,
+// } from "../../../../utility/constants/Pagination";
 // import Reset from "./Reset";
 
 import ToolBar from "./ToolBar";
 
 const Filter = ({ activeFilterItem, pagination, filterDataProps, handleFilterChange, resetFilter, toolbarProps }) => {
   const classes = useStylesHook();
-  const filterData = {};
-  Object.entries(filterDataProps).forEach(
-    ([key, items]) => (filterData[key] = { title: filterTitles[key], name: key, items })
-  );
+  // const filterData = {};
+  // Object.entries(filterDataProps).forEach(
+  //   ([key, items]) => (filterData[key] = { title: filterTitles[key], name: key, items })
+  // );
 
   // const handleActiveFilterItemChange = event => {
   //   const { name, value } = event.currentTarget;
@@ -37,7 +37,7 @@ const Filter = ({ activeFilterItem, pagination, filterDataProps, handleFilterCha
   //   let filterObj = [];
   //   for (let i in currentActiveFilterData) {
   //     if (currentActiveFilterData[i].length > 0) {
-  //       filterObj = generateFilterObject(currentActiveFilterData);
+  // filterObj = generateFilterObject(currentActiveFilterData);
   //       break;
   //     }
   //   }
