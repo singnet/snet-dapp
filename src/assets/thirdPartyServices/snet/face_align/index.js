@@ -178,7 +178,7 @@ export default class FaceAlignService extends React.Component {
             {response.image_chunk.imageChunkList.map((item, idx) => {
               return (
                 <Grid key={idx} item xs>
-                  <img src={"data:image/png;base64," + item.content} alt={"Image_" + idx} />
+                  <img src={"data:image/png;base64," + item.content} alt={"Image_" + idx} loading="lazy" />
                 </Grid>
               );
             })}

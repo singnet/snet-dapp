@@ -43,7 +43,15 @@ const TitleCard = ({
   return (
     <Grid item xs={12} sm={12} md={8} lg={8} className={classes.computerVisionContainer}>
       <div className={classes.titleImg}>
-        <img src={serviceImage(service) || CardImg} alt={altText} width={229} height={129} onClick={openLightBox} />
+        <img
+          src={serviceImage(service) || CardImg}
+          alt={altText}
+          width={229}
+          height={129}
+          onClick={openLightBox}
+          title={altText}
+          loading="lazy"
+        />
       </div>
 
       <div className={classes.computerVisionContent}>
@@ -67,7 +75,7 @@ const TitleCard = ({
 
       <Modal open={showLightBox} className={classes.serviceLightBox}>
         <div className={classes.serviceImgContainer}>
-          <img src={serviceImage(service) || CardImg} alt={altText} />
+          <img src={serviceImage(service) || CardImg} alt={altText} loading="lazy" />
           <CloseIcon onClick={handleClose} />
         </div>
       </Modal>

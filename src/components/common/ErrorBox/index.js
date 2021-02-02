@@ -8,7 +8,7 @@ import { useStyles } from "./styles";
 const ErrorBox = ({ classes, errImg, errText }) => {
   return (
     <div className={classes.errorMsgContainer}>
-      <img src={errImg || NoConnectionImg} alt="No connection" />
+      <img src={errImg || NoConnectionImg} alt="No connection" loading="lazy" />
       <span>
         {errText ||
           `Unable to reach our servers. We have been notified of this.

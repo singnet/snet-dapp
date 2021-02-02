@@ -117,6 +117,7 @@ export default class EmotionVisualizer extends React.Component {
                 ref="sourceImg"
                 src={"data:" + this.props.inputImageType + ";base64," + this.props.inputImage}
                 style={styles.coveredImage}
+                loading="lazy"
               />
               <canvas ref="bboxCanvas" style={styles.coveringCanvas} />
             </div>
