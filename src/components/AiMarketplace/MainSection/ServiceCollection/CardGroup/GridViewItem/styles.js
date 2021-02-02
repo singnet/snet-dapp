@@ -5,7 +5,7 @@ export const useStyles = makeStyles(theme => ({
     minHeight: 440,
     width: 302,
     paddingTop: 10,
-    margin: "0 25px 25px 0",
+    margin: "0 24px 24px 0",
     display: "inline-block",
     position: "relative",
     fontFamily: theme.typography.primary.main,
@@ -15,8 +15,6 @@ export const useStyles = makeStyles(theme => ({
       "& h4": { color: theme.palette.text.primary },
       "& .MuiCardActions-spacing": { backgroundColor: theme.palette.text.offWhiteColor },
     },
-    "@media(min-width: 1281px)": { marginRight: 19 },
-    "@media(max-width: 1280px)": { marginRight: 38 },
   },
   cardHeader: {
     padding: "0 18px",
