@@ -54,6 +54,14 @@ export const useStyles = theme => ({
       alignItems: "center",
     },
   },
+  reverseDirection: {
+    flexDirection: "row-reverse",
+    "& > div": {
+      "@media(max-width:768px)": {
+        "& > div": { width: "100%" },
+      },
+    },
+  },
   headerMedia: {
     display: "flex",
     "& img": { width: "100%" },
@@ -69,6 +77,7 @@ export const useStyles = theme => ({
       fontWeight: 600,
       fontSize: 32,
       lineHeight: "40px",
+      "@media(max-width:768px)": { fontSize: 30 },
       "@media(max-width:480px)": {
         fontSize: 24,
         textAlign: "center",
@@ -84,6 +93,7 @@ export const useStyles = theme => ({
         paddingTop: 30,
         display: "block",
       },
+      "@media(max-width:768px)": { fontSize: 16 },
       "@media(max-width:480px)": {
         fontSize: 14,
         textAlign: "center",
@@ -91,7 +101,10 @@ export const useStyles = theme => ({
     },
     "@media(max-width:768px)": {
       maxWidth: "100%",
+      width: "100%",
+      flexBasis: "100%",
       padding: 0,
+      "& > div": { width: "100%" },
     },
     "@media(max-width:480px)": {
       maxWidth: "100%",
@@ -134,7 +147,7 @@ export const useStyles = theme => ({
     },
   },
   headerButtons: {
-    "& button": {
+    "& a": {
       "&:last-of-type": {
         marginLeft: 24,
         "@media(max-width:860px)": { marginLeft: 10 },
@@ -161,7 +174,7 @@ export const useStyles = theme => ({
       letterSpacing: -0.64,
       lineHeight: "40px",
       textAlign: "right",
-      "@media(max-width:480px)": {
+      "@media(max-width:768px)": {
         fontSize: 24,
         textAlign: "center",
       },
@@ -169,21 +182,25 @@ export const useStyles = theme => ({
     "& p": {
       margin: 0,
       paddingLeft: 24,
-      "@media(max-width:480px)": { padding: 0 },
+      "@media(max-width:768px)": { padding: 0 },
       "& span": {
         display: "block",
         color: "#EEE",
         fontWeight: 600,
         fontSize: 18,
         lineHeight: "23px",
-        "@media(max-width:480px)": { fontWeight: 200 },
+        "@media(max-width:768px)": { fontWeight: 200 },
       },
     },
-    "@media(max-width:480px)": {
+    "@media(max-width:768px)": {
       flexDirection: "column",
       textAlign: "center",
       paddingTop: 14,
       marginTop: 9,
+      "& > div": {
+        maxWidth: "100%",
+        flexBasis: "100%",
+      },
     },
   },
 });
