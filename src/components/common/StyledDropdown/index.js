@@ -9,7 +9,6 @@ import { useStyles } from "./styles";
 
 const StyledDropdown = ({ labelTxt, list, value, onChange, formControlProps, inputLabel, disabled }) => {
   const classes = useStyles();
-
   return (
     <FormControl variant="outlined" className={classes.formControl} {...formControlProps}>
       {inputLabel ? <InputLabel htmlFor="age-simple">{inputLabel}</InputLabel> : null}
