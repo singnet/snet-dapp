@@ -62,15 +62,6 @@ class MainSection extends Component {
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={12} className={classes.servieMainContainer}>
           <ServiceCollection
-            // toolbarProps={{
-            //   listView,
-            //   total_count: pagination.total_count,
-            //   handleSearchChange: this.handlePaginationChange,
-            //   toggleView: this.toggleView,
-            //   currentPagination: pagination,
-            //   currentFilter,
-            //   showToggler: isDesktop,
-            // }}
             cardGroupProps={{
               data: services,
               listView,
