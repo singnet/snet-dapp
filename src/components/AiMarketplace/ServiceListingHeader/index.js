@@ -21,7 +21,7 @@ class ServiceListingHeader extends Component {
   render() {
     const { classes, carousel } = this.props;
 
-    const rightAlign = "RIGHT";
+    const IMAGE_ALIGNMENT = { RIGHT: "RIGHT", LEFT: "LEFT" };
 
     const settings = {
       infinite: false,
@@ -41,10 +41,10 @@ class ServiceListingHeader extends Component {
             <Slider {...settings} className={classes.sliderContainer}>
               {carousel.map((item, index) => (
                 <Grid
-                  key={item.title}
+                  key={item.id}
                   container
                   className={`${classes.headerContentDetails} ${
-                    item.image_alignment === rightAlign ? classes.reverseDirection : null
+                    item.image_alignment === IMAGE_ALIGNMENT.RIGHT ? classes.reverseDirection : null
                   }`}
                 >
                   <Grid item xs={6} sm={6} md={6} lg={5} className={classes.headerMedia}>
@@ -64,7 +64,7 @@ class ServiceListingHeader extends Component {
                       <p>{item.description}</p>
                       <div className={classes.headerButtons}>
                         {item.cta.map(button => (
-                          <StyledButton key={button.text} type={button.type} btnText={button.text} href={button.url} />
+                          <StyledButton key={button.id} type={button.type} btnText={button.text} href={button.url} />
                         ))}
                       </div>
                     </div>

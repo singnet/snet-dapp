@@ -27,13 +27,7 @@ const AiMarketplace = ({ classes, isLoggedIn }) => {
         url={seoData.url}
         twitterImage={seoData.twitterImage}
       />
-      <div className={classes.aiMarketPlaceContainer}>
-        <div className={classes.mainWrapper}>
-          <div>
-            <MainSection />
-          </div>
-        </div>
-      </div>
+      <MainSection />
     </React.Fragment>
   );
 };
