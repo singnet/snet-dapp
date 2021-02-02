@@ -21,6 +21,8 @@ class ServiceListingHeader extends Component {
   render() {
     const { classes, carousel } = this.props;
 
+    const rightAlign = "RIGHT";
+
     const settings = {
       infinite: false,
       speed: 500,
@@ -28,59 +30,61 @@ class ServiceListingHeader extends Component {
       slidesToScroll: 1,
     };
 
+    if (!carousel.length > 0) {
+      return null;
+    }
+
     return (
       <Fragment>
-        {carousel.length > 0 ? (
-          <div className={classes.serviceListingHeaderContainer}>
-            <div className={classes.headerWrapper}>
-              <Slider {...settings} className={classes.sliderContainer}>
-                {carousel.map((item, index) => (
-                  <Grid
-                    key={index}
-                    container
-                    className={`${classes.headerContentDetails} ${
-                      item.image_alignment === "RIGHT" ? classes.reverseDirection : null
-                    }`}
-                  >
-                    <Grid item xs={6} sm={6} md={6} lg={5} className={classes.headerMedia}>
-                      <img src={item.image} alt={item.alt_text} />
-                    </Grid>
-                    <Grid item xs={6} sm={6} md={6} lg={7} className={classes.details}>
-                      <div>
-                        <div className={classes.featuredServiceContainer}>
-                          <span>
-                            <StarRateIcon /> Featured Service
-                          </span>
-                          <span>
-                            {index + 1}/{carousel.length}
-                          </span>
-                        </div>
-                        <h2>{item.title}</h2>
-                        <p>{item.description}</p>
-                        <div className={classes.headerButtons}>
-                          {item.cta.map((button, index) => (
-                            <StyledButton key={index} type={button.type} btnText={button.text} href={button.url} />
-                          ))}
-                        </div>
-                      </div>
-                    </Grid>
+        <div className={classes.serviceListingHeaderContainer}>
+          <div className={classes.headerWrapper}>
+            <Slider {...settings} className={classes.sliderContainer}>
+              {carousel.map((item, index) => (
+                <Grid
+                  key={item.title}
+                  container
+                  className={`${classes.headerContentDetails} ${
+                    item.image_alignment === rightAlign ? classes.reverseDirection : null
+                  }`}
+                >
+                  <Grid item xs={6} sm={6} md={6} lg={5} className={classes.headerMedia}>
+                    <img src={item.image} alt={item.alt_text} />
                   </Grid>
-                ))}
-              </Slider>
-            </div>
-            <Grid container className={classes.titleDescription}>
-              <Grid item xs={6} sm={5} md={5} lg={5}>
-                <h2>AI Marketplace</h2>
-              </Grid>
-              <Grid item xs={6} sm={7} md={7} lg={7}>
-                <p>
-                  <span>Built for you, powered by open collaboration. </span>
-                  <span>Explore the largest open AI services in the world.</span>
-                </p>
-              </Grid>
-            </Grid>
+                  <Grid item xs={6} sm={6} md={6} lg={7} className={classes.details}>
+                    <div>
+                      <div className={classes.featuredServiceContainer}>
+                        <span>
+                          <StarRateIcon /> Featured Service
+                        </span>
+                        <span>
+                          {index + 1}/{carousel.length}
+                        </span>
+                      </div>
+                      <h2>{item.title}</h2>
+                      <p>{item.description}</p>
+                      <div className={classes.headerButtons}>
+                        {item.cta.map(button => (
+                          <StyledButton key={button.text} type={button.type} btnText={button.text} href={button.url} />
+                        ))}
+                      </div>
+                    </div>
+                  </Grid>
+                </Grid>
+              ))}
+            </Slider>
           </div>
-        ) : null}
+          <Grid container className={classes.titleDescription}>
+            <Grid item xs={6} sm={5} md={5} lg={5}>
+              <h2>AI Marketplace</h2>
+            </Grid>
+            <Grid item xs={6} sm={7} md={7} lg={7}>
+              <p>
+                <span>Built for you, powered by open collaboration. </span>
+                <span>Explore the largest open AI services in the world.</span>
+              </p>
+            </Grid>
+          </Grid>
+        </div>
       </Fragment>
     );
   }
