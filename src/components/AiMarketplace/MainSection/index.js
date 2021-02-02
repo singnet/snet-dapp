@@ -47,11 +47,8 @@ class MainSection extends Component {
     const { listView } = this.state;
     return (
       <Grid container spacing={24} className={classes.mainSection}>
-        <Grid item xs={12} sm={3} md={3} lg={3} className={classes.filterMainContainer}>
-          <Filter />
-        </Grid>
-        <Grid item xs={12} sm={9} md={9} lg={9} className={classes.servieMainContainer}>
-          <ServiceCollection
+        <Grid item xs={12} sm={12} md={12} lg={12} className={classes.filterMainContainer}>
+          <Filter
             toolbarProps={{
               listView,
               total_count: pagination.total_count,
@@ -61,6 +58,10 @@ class MainSection extends Component {
               currentFilter,
               showToggler: isDesktop,
             }}
+          />
+        </Grid>
+        <Grid item xs={12} sm={12} md={12} lg={12} className={classes.servieMainContainer}>
+          <ServiceCollection
             cardGroupProps={{
               data: services,
               listView,
@@ -91,7 +92,4 @@ const mapDispatchToProps = dispatch => ({
   fetchFilterData: attribute => dispatch(serviceActions.fetchFilterData(attribute)),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(useStyles)(MainSection));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(MainSection));
