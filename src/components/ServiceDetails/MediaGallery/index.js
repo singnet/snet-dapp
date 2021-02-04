@@ -1,9 +1,12 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { withStyles } from "@material-ui/styles";
 import PlayIcon from "@material-ui/icons/PlayArrow";
 import ImageGallery from "react-image-gallery";
 import last from "lodash/last";
 import "react-image-gallery/styles/css/image-gallery.css";
+import Modal from "@material-ui/core/Modal";
+import CloseIcon from "@material-ui/icons/Close";
+import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 
 import DefaultIconForVideo from "../../../assets/images/Play_1.png";
 import { HERO_IMG } from "../";
@@ -29,6 +32,8 @@ class MediaGallery extends Component {
       slideOnThumbnailOver: false,
       thumbnailPosition: "bottom",
       showVideo: {},
+      showLightBox: false,
+      lightBoxMedia: null,
     };
 
     this.filteredData = this.props.data.filter(item => {
@@ -79,7 +84,11 @@ class MediaGallery extends Component {
     }
   }
 
-  _onImageClick(event) {
+  _onImageClick(event, item) {
+    this.setState({
+      showLightBox: true,
+      lightBoxMedia: event.target.getAttribute("src"),
+    });
     console.debug("clicked on image", event.target, "at index", this._imageGallery.getCurrentIndex());
   }
 
@@ -171,37 +180,52 @@ class MediaGallery extends Component {
     );
   }
 
+  handleClose = () => {
+    this.setState({ showLightBox: false });
+  };
+
   render() {
     const { classes } = this.props;
+    const { showLightBox, lightBoxMedia } = this.state;
 
     return this.images.length !== 0 ? (
-      <div className={classes.mediaGalleryContainer}>
-        <h2>Media Gallery ({this.images.length})</h2>
-        <ImageGallery
-          ref={i => (this._imageGallery = i)}
-          items={this.images}
-          lazyLoad={false}
-          onClick={this._onImageClick.bind(this)}
-          onImageLoad={this._onImageLoad}
-          onSlide={this._onSlide.bind(this)}
-          onPause={this._onPause.bind(this)}
-          onScreenChange={this._onScreenChange.bind(this)}
-          onPlay={this._onPlay.bind(this)}
-          infinite={this.state.infinite}
-          // showBullets={this.state.showBullets}
-          showFullscreenButton={this.state.showFullscreenButton && this.state.showGalleryFullscreenButton}
-          // showPlayButton={this.state.showPlayButton && this.state.showGalleryPlayButton}
-          showThumbnails={this.state.showThumbnails}
-          showIndex={this.state.showIndex}
-          showNav={this.state.showNav}
-          isRTL={this.state.isRTL}
-          thumbnailPosition={this.state.thumbnailPosition}
-          slideDuration={parseInt(this.state.slideDuration)}
-          slideInterval={parseInt(this.state.slideInterval)}
-          slideOnThumbnailOver={this.state.slideOnThumbnailOver}
-          additionalClass={classes.marketplace_media_gallery}
-        />
-      </div>
+      <Fragment>
+        <div className={classes.mediaGalleryContainer}>
+          <h2>Media Gallery ({this.images.length})</h2>
+          <ImageGallery
+            ref={i => (this._imageGallery = i)}
+            items={this.images}
+            lazyLoad={false}
+            onClick={this._onImageClick.bind(this)}
+            onImageLoad={this._onImageLoad}
+            onSlide={this._onSlide.bind(this)}
+            onPause={this._onPause.bind(this)}
+            onScreenChange={this._onScreenChange.bind(this)}
+            onPlay={this._onPlay.bind(this)}
+            infinite={this.state.infinite}
+            showThumbnails={this.state.showThumbnails}
+            showIndex={this.state.showIndex}
+            showNav={this.state.showNav}
+            isRTL={this.state.isRTL}
+            thumbnailPosition={this.state.thumbnailPosition}
+            slideDuration={parseInt(this.state.slideDuration)}
+            slideInterval={parseInt(this.state.slideInterval)}
+            slideOnThumbnailOver={this.state.slideOnThumbnailOver}
+            additionalClass={classes.marketplace_media_gallery}
+          />
+        </div>
+        <Modal open={showLightBox} className={classes.mediaGalleryLightBox}>
+          <div className={classes.mediaContainer}>
+            <h2>Media Gallery</h2>
+            <CloseIcon className={classes.closeIcon} onClick={this.handleClose} />
+            <div className={classes.mediaWrapper}>
+              <ArrowForwardIosIcon className={`${classes.navIcon} ${classes.leftNavIcon}`} />
+              <ArrowForwardIosIcon className={`${classes.navIcon} ${classes.rigthtNavIcon}`} />
+              <img src={lightBoxMedia} alt="" loading="lazy" />
+            </div>
+          </div>
+        </Modal>
+      </Fragment>
     ) : null;
   }
 }
