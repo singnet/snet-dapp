@@ -5,12 +5,12 @@ import { serviceActions } from "../../../../Redux/actionCreators";
 
 import ToolBar from "./ToolBar";
 
-const Filter = ({ activeFilterItem, pagination, filterDataProps, handleFilterChange, resetFilter, toolbarProps }) => {
+const Filter = ({ toolbarProps }) => {
   const classes = useStylesHook();
 
   return (
     <div className={classes.filterContainer}>
-      <ToolBar {...toolbarProps} activeFilterItem={activeFilterItem} />
+      <ToolBar {...toolbarProps} />
     </div>
   );
 };
