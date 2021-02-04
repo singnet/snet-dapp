@@ -1,4 +1,4 @@
-import { API } from "aws-amplify";
+import API from "@aws-amplify/api";
 
 import { userActions, loaderActions } from "./";
 import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
@@ -21,7 +21,7 @@ const initiatePaymentAPI = (token, paymentObj) => {
 export const initiatePayment = paymentObj => async dispatch => {
   try {
     dispatch(loaderActions.startAppLoader(LoaderContent.INITIATE_PAYPAL));
-    const { token } = await userActions.fetchAuthenticatedUser();
+    const { token } = await dispatch(userActions.fetchAuthenticatedUser());
     const { data, error } = await initiatePaymentAPI(token, paymentObj);
     if (error.code) {
       throw error;
@@ -40,8 +40,8 @@ const executePaymentAPI = (token, paymentExecObj) => {
   return API.post(apiName, apiPath, apiOptions);
 };
 
-export const executePayment = paymentExecObj => async () => {
-  const { token } = await userActions.fetchAuthenticatedUser();
+export const executePayment = paymentExecObj => async dispatch => {
+  const { token } = await dispatch(userActions.fetchAuthenticatedUser());
   return await executePaymentAPI(token, paymentExecObj);
 };
 
@@ -52,8 +52,8 @@ const orderDetailsAPI = (token, orderId) => {
   return API.get(apiName, apiPath, apiOptions);
 };
 
-export const fetchOrderDetails = orderId => async () => {
-  const { token } = await userActions.fetchAuthenticatedUser();
+export const fetchOrderDetails = orderId => async dispatch => {
+  const { token } = await dispatch(userActions.fetchAuthenticatedUser());
   return await orderDetailsAPI(token, orderId);
 };
 
@@ -74,7 +74,7 @@ const cancelOrderAPI = (token, orderId) => () => {
 };
 
 export const cancelOrder = orderId => async dispatch => {
-  const { token } = await fetchAuthenticatedUser();
+  const { token } = await dispatch(fetchAuthenticatedUser());
   await dispatch(cancelOrderAPI(token, orderId));
 };
 

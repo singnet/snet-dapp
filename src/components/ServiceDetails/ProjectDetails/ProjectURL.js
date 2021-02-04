@@ -10,7 +10,7 @@ const ProjectURL = ({ URL }) => {
   }
   return (
     <Row
-      header="Project URL"
+      // header="Project URL"
       content={
         <React.Fragment>
           {URL ? <LaunchIcon /> : ""}

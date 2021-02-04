@@ -38,7 +38,4 @@ const mapDispatchToProps = dispatch => ({
   updatePagination: pagination => dispatch(serviceActions.updatePagination(pagination)),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ServiceSortOptions);
+export default connect(mapStateToProps, mapDispatchToProps)(ServiceSortOptions);

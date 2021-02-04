@@ -21,6 +21,9 @@ const InitialUserDetails = {
   emailAlerts: false,
   isTermsAccepted: true,
   transactionHistory: [],
+  jwt: {
+    exp: "",
+  },
 };
 
 const userReducer = (state = InitialUserDetails, action) => {
@@ -113,6 +116,9 @@ const userReducer = (state = InitialUserDetails, action) => {
     }
     case userActions.UPDATE_TRANSACTION_HISTORY: {
       return { ...state, transactionHistory: action.payload };
+    }
+    case userActions.SET_JWT_EXP: {
+      return { ...state, jwt: { ...state.jwt, exp: action.payload } };
     }
     default: {
       return state;

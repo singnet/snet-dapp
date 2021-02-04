@@ -36,7 +36,7 @@ export const sortByCategories = [{ value: "display_name", label: "Display Name" 
 
 export const defaultPaginationParameters = {
   q: "",
-  limit: 12,
+  limit: 36,
   offset: 0,
   total_count: 0,
 };
