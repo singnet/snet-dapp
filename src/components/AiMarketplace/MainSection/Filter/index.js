@@ -10,7 +10,7 @@ const Filter = ({ activeFilterItem, pagination, filterDataProps, handleFilterCha
 
   return (
     <div className={classes.filterContainer}>
-      <ToolBar {...toolbarProps} />
+      <ToolBar {...toolbarProps} activeFilterItem={activeFilterItem} />
     </div>
   );
 };

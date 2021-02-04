@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 
 import { useStyles } from "./styles";
 
-const StyledDropdown = ({ labelTxt, list, value, onChange, formControlProps, inputLabel, disabled }) => {
+const StyledDropdown = ({ labelTxt, name, list, value, onChange, formControlProps, inputLabel, disabled }) => {
   const classes = useStyles();
   return (
     <FormControl variant="outlined" className={classes.formControl} {...formControlProps}>
@@ -15,7 +15,7 @@ const StyledDropdown = ({ labelTxt, list, value, onChange, formControlProps, inp
       <Select
         value={value}
         onChange={onChange}
-        name={labelTxt}
+        name={name}
         className={classes.selectEmpty}
         variant="outlined"
         disabled={disabled}
