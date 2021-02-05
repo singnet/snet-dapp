@@ -184,6 +184,14 @@ class MediaGallery extends Component {
     this.setState({ showLightBox: false });
   };
 
+  showPrev = () => {
+    console.log("Arrow Left");
+  };
+
+  showNext = () => {
+    console.log("Arrow Right");
+  };
+
   render() {
     const { classes } = this.props;
     const { showLightBox, lightBoxMedia } = this.state;
@@ -219,8 +227,11 @@ class MediaGallery extends Component {
             <h2>Media Gallery</h2>
             <CloseIcon className={classes.closeIcon} onClick={this.handleClose} />
             <div className={classes.mediaWrapper}>
-              <ArrowForwardIosIcon className={`${classes.navIcon} ${classes.leftNavIcon}`} />
-              <ArrowForwardIosIcon className={`${classes.navIcon} ${classes.rigthtNavIcon}`} />
+              <ArrowForwardIosIcon className={`${classes.navIcon} ${classes.leftNavIcon}`} onClick={this.showPrev()} />
+              <ArrowForwardIosIcon
+                className={`${classes.navIcon} ${classes.rigthtNavIcon}`}
+                onClick={this.showNext()}
+              />
               <img src={lightBoxMedia} alt="" loading="lazy" />
             </div>
           </div>

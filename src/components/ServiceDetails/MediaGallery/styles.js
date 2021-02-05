@@ -135,7 +135,7 @@ export const useStyles = theme => ({
     borderTopLeftRadius: 4,
     borderBottomLeftRadius: 4,
     left: 0,
-    tranform: "rotate(180deg)",
+    transform: "rotate(180deg)",
   },
   rigthtNavIcon: {
     borderTopRightRadius: 4,
