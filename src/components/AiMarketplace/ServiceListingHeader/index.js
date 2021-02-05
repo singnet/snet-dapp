@@ -95,7 +95,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchCarousel: () => dispatch(uiContentActions.fetchCarousel),
+  fetchCarousel: () => dispatch(uiContentActions.fetchCarousel()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(ServiceListingHeader));
