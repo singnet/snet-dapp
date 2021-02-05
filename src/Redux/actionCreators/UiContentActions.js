@@ -9,7 +9,7 @@ export const fetchCarousel = () => async dispatch => {
 };
 
 const fetchCarouselAPI = () => {
-  const apiName = APIEndpoints.UI_CONTENT.name;
+  const apiName = APIEndpoints.CONTRACT.name;
   const path = APIPaths.GET_CAROUSEL;
   return API.get(apiName, path);
 };
