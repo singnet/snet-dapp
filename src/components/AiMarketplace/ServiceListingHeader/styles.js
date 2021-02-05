@@ -147,7 +147,7 @@ export const useStyles = theme => ({
     },
   },
   headerButtons: {
-    "& a": {
+    "& button": {
       "&:last-of-type": {
         marginLeft: 24,
         "@media(max-width:860px)": { marginLeft: 10 },

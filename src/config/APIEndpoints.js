@@ -23,10 +23,6 @@ export const APIEndpoints = {
     name: "Orchestrator",
     endpoint: process.env.REACT_APP_ORCHESTRATOR_ENDPOINT,
   },
-  UI_CONTENT: {
-    name: "Ui Content",
-    endpoint: process.env.REACT_APP_UI_CONTENT_ENDPOINT,
-  },
 };
 
 export const APIPaths = {
@@ -56,5 +52,5 @@ export const APIPaths = {
   LINKED_PROVIDERS: "/v2/channel",
   USD_RATE: "/currency/USD/token",
   FREE_CALL_TOKEN: "/free-call/token",
-  GET_CAROUSEL: "/marketplacecarousel",
+  GET_CAROUSEL: "/uicontent/marketplacecarousel",
 };
