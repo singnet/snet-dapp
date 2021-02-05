@@ -9,7 +9,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { useStyles } from "./styles";
 
 const StyledPagination = ({ limit, offset, total_count, handleChange }) => {
-  const [itemsPerPage, setItemsPerPage] = useState(12);
+  const [itemsPerPage, setItemsPerPage] = useState(36);
   const classes = useStyles();
 
   const handleItemsPerPage = event => {
@@ -52,9 +52,9 @@ const StyledPagination = ({ limit, offset, total_count, handleChange }) => {
             input={<OutlinedInput labelWidth={75} name="age" id="outlined-age-simple" onChange={handleItemsPerPage} />}
             className={classes.selectBox}
           >
-            <MenuItem value={12}>12</MenuItem>
-            <MenuItem value={24}>24</MenuItem>
             <MenuItem value={36}>36</MenuItem>
+            <MenuItem value={24}>24</MenuItem>
+            <MenuItem value={12}>12</MenuItem>
           </Select>
         </FormControl>
         <span>
