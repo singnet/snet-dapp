@@ -40,7 +40,7 @@ const ToolBar = ({
   }));
 
   const handleOrgFilterChange = event => {
-    const value = event.target.value;
+    const { value, name } = event.target;
     if (value === activeOrgItem) {
       return;
     }
@@ -62,8 +62,10 @@ const ToolBar = ({
     }
     setActiveOrgItem(value);
 
+    const currentActiveFilterData = { [name]: [value] };
+
     const latestPagination = { ...pagination, ...defaultPaginationParameters, q: pagination.q };
-    handleFilterChange({ pagination: latestPagination, filterObj, currentActiveFilterData: value });
+    handleFilterChange({ pagination: latestPagination, filterObj, currentActiveFilterData });
   };
 
   const classes = useStyles();
@@ -78,6 +80,7 @@ const ToolBar = ({
             list={enhancedFilterData}
             value={activeOrgItem}
             labelTxt="All Organization"
+            name="org_id"
             onChange={handleOrgFilterChange}
           />
         </div>

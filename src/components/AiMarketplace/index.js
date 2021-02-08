@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import MainSection from "./MainSection";
 import { useStyles } from "./styles";
 import SeoMetadata from "../common/SeoMetadata";
+import ServiceListingHeader from "./ServiceListingHeader";
 
 const seoData = {
   title: "SingularityNET Beta Dapp",
@@ -18,6 +19,7 @@ const seoData = {
 const AiMarketplace = ({ classes, isLoggedIn }) => {
   return (
     <React.Fragment>
+      <ServiceListingHeader />
       <SeoMetadata
         title={seoData.title}
         description={seoData.description}
