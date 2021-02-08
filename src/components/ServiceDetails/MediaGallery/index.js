@@ -40,9 +40,10 @@ class MediaGallery extends Component {
       return item.asset_type !== HERO_IMG;
     });
 
-    this.images = this.filteredData.map(item => {
+    this.images = this.filteredData.map((item, index) => {
       if (item.file_type === "video") {
         return {
+          index,
           original: this.getYoutubeVideoThumbnail(item.url),
           thumbnail: this.getYoutubeVideoThumbnail(item.url, "thumbnail"),
           embedUrl: this.enhancedEmbedUrl(item.url),
@@ -51,6 +52,7 @@ class MediaGallery extends Component {
         };
       }
       return {
+        index,
         original: item.url,
         thumbnail: item.url,
         description: item.description ? item.description : "Description will go here",
@@ -184,12 +186,29 @@ class MediaGallery extends Component {
     this.setState({ showLightBox: false });
   };
 
-  showPrev = () => {
+  showPrev = data => {
     console.log("Arrow Left");
   };
 
-  showNext = () => {
-    console.log("Arrow Right");
+  showNext = data => {
+    let nextMedia = this.state.lightBoxMedia;
+    const currentMediaObj = data.find(value => {
+      return value.original === this.state.lightBoxMedia;
+    });
+    const nextMediaIndex = currentMediaObj.index + 1;
+
+    console.log("nextMediaIndex", nextMediaIndex);
+
+    if (nextMediaIndex >= data.length) {
+      console.log("@@@@@@");
+      nextMedia = data[nextMediaIndex].original;
+    } else {
+      nextMedia = data[data.length].original;
+    }
+
+    console.log("nextMedia", nextMedia);
+
+    this.setState({ lightBoxMedia: nextMedia });
   };
 
   render() {
@@ -227,10 +246,13 @@ class MediaGallery extends Component {
             <h2>Media Gallery</h2>
             <CloseIcon className={classes.closeIcon} onClick={this.handleClose} />
             <div className={classes.mediaWrapper}>
-              <ArrowForwardIosIcon className={`${classes.navIcon} ${classes.leftNavIcon}`} onClick={this.showPrev()} />
+              <ArrowForwardIosIcon
+                className={`${classes.navIcon} ${classes.leftNavIcon}`}
+                onClick={() => this.showPrev(this.images)}
+              />
               <ArrowForwardIosIcon
                 className={`${classes.navIcon} ${classes.rigthtNavIcon}`}
-                onClick={this.showNext()}
+                onClick={() => this.showNext(this.images)}
               />
               <img src={lightBoxMedia} alt="" loading="lazy" />
             </div>
