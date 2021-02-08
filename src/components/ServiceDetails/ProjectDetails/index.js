@@ -23,7 +23,7 @@ const ProjectDetails = ({ classes, projectURL, contributors, orgId, serviceId })
           <ProjectURL URL={projectURL} />
           <span className={classes.orgIdValue}>{orgId}</span>
           <span className={classes.serviceIdValue}>{serviceId}</span>
-          <Contributors contributors={contributors} className={classes.contributorsName} />
+          <Contributors contributors={contributors} />
         </Grid>
       </Grid>
     </div>
