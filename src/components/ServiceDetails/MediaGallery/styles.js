@@ -52,20 +52,13 @@ export const useStyles = theme => ({
         display: "none",
         outline: "none",
       },
-      // "& .image-gallery-left-nav, .image-gallery-right-nav, .image-gallery-play-button": { display: "none" },
       "& .image-gallery-slide .image-gallery-description": { display: "none" },
       "& .image-gallery-thumbnails-wrapper": { display: "block" },
-      // "& .image-gallery-fullscreen-button": {
-      //   bottom: -10,
-      //   color: "#4086ff",
-      //   filter: "none",
-      // },
     },
     "& .image-gallery-icon": {
       "&:hover": { color: "#4086ff" },
     },
     "& .image-gallery-slide .image-gallery-image": { paddingBottom: 35 },
-    // "& .image-gallery-fullscreen-button": { padding: 0 },
   },
   videoMainContainer: { position: "relative" },
   playVideoIcon: {
@@ -111,17 +104,21 @@ export const useStyles = theme => ({
     "& img": {
       width: "100%",
       height: "100%",
-      // objectFit: "contain",
     },
     "@media(max-width: 1050px)": {
       width: "90%",
       height: "90%",
     },
   },
-  navIcon: {
+  arrowIconContainer: {
     position: "absolute",
     top: "50%",
+    right: 0,
+    left: 0,
     transform: "translateY(-50%)",
+  },
+  navIcon: {
+    position: "absolute",
     backgroundColor: "rgba(255,255,255,0.9)",
     opacity: 0.1,
     padding: 20,
@@ -142,6 +139,7 @@ export const useStyles = theme => ({
     borderBottomRightRadius: 4,
     right: 0,
   },
+  hideIcon: { display: "none" },
   closeIcon: {
     position: "absolute",
     top: 11,

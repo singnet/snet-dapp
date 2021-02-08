@@ -34,6 +34,8 @@ class MediaGallery extends Component {
       showVideo: {},
       showLightBox: false,
       lightBoxMedia: null,
+      hideNextIcon: false,
+      hidePrevIcon: false,
     };
 
     this.filteredData = this.props.data.filter(item => {
@@ -187,33 +189,50 @@ class MediaGallery extends Component {
   };
 
   showPrev = data => {
-    console.log("Arrow Left");
+    const { lightBoxMedia } = this.state;
+    let prevMedia = lightBoxMedia;
+    const currentMediaObj = data.find(value => {
+      return value.original === lightBoxMedia;
+    });
+    const prevMediaIndex = currentMediaObj.index - 1;
+
+    prevMedia = data[prevMediaIndex].original;
+
+    if (prevMediaIndex <= 0) {
+      prevMedia = data[0].original;
+      this.setState({ hidePrevIcon: true });
+    } else {
+      prevMedia = data[prevMediaIndex].original;
+    }
+    this.setState({
+      lightBoxMedia: prevMedia,
+      hideNextIcon: false,
+    });
   };
 
   showNext = data => {
-    let nextMedia = this.state.lightBoxMedia;
+    const { lightBoxMedia } = this.state;
+    let nextMedia = lightBoxMedia;
     const currentMediaObj = data.find(value => {
-      return value.original === this.state.lightBoxMedia;
+      return value.original === lightBoxMedia;
     });
     const nextMediaIndex = currentMediaObj.index + 1;
 
-    console.log("nextMediaIndex", nextMediaIndex);
-
-    if (nextMediaIndex >= data.length) {
-      console.log("@@@@@@");
-      nextMedia = data[nextMediaIndex].original;
+    if (nextMediaIndex >= data.length - 1) {
+      nextMedia = data[data.length - 1].original;
+      this.setState({ hideNextIcon: true });
     } else {
-      nextMedia = data[data.length].original;
+      nextMedia = data[nextMediaIndex].original;
     }
-
-    console.log("nextMedia", nextMedia);
-
-    this.setState({ lightBoxMedia: nextMedia });
+    this.setState({
+      lightBoxMedia: nextMedia,
+      hidePrevIcon: false,
+    });
   };
 
   render() {
     const { classes } = this.props;
-    const { showLightBox, lightBoxMedia } = this.state;
+    const { showLightBox, lightBoxMedia, hideNextIcon, hidePrevIcon } = this.state;
 
     return this.images.length !== 0 ? (
       <Fragment>
@@ -246,14 +265,16 @@ class MediaGallery extends Component {
             <h2>Media Gallery</h2>
             <CloseIcon className={classes.closeIcon} onClick={this.handleClose} />
             <div className={classes.mediaWrapper}>
-              <ArrowForwardIosIcon
-                className={`${classes.navIcon} ${classes.leftNavIcon}`}
-                onClick={() => this.showPrev(this.images)}
-              />
-              <ArrowForwardIosIcon
-                className={`${classes.navIcon} ${classes.rigthtNavIcon}`}
-                onClick={() => this.showNext(this.images)}
-              />
+              <div className={classes.arrowIconContainer}>
+                <ArrowForwardIosIcon
+                  className={`${classes.leftNavIcon} ${hidePrevIcon ? classes.hideIcon : classes.navIcon}`}
+                  onClick={() => this.showPrev(this.images)}
+                />
+                <ArrowForwardIosIcon
+                  className={`${classes.rigthtNavIcon} ${hideNextIcon ? classes.hideIcon : classes.navIcon}`}
+                  onClick={() => this.showNext(this.images)}
+                />
+              </div>
               <img src={lightBoxMedia} alt="" loading="lazy" />
             </div>
           </div>
