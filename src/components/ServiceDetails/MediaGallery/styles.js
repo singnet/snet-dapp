@@ -146,4 +146,8 @@ export const useStyles = theme => ({
     right: 27,
     cursor: "pointer",
   },
+  lightBoxIframe: {
+    width: "100%",
+    height: "100%",
+  },
 });

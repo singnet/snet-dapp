@@ -209,10 +209,22 @@ class MediaGallery extends Component {
   showPrev = data => {
     const { lightBoxMedia } = this.state;
     let prevMedia = lightBoxMedia;
+
     const currentMediaObj = data.find(value => {
       return value.original === lightBoxMedia;
     });
+
     const prevMediaIndex = currentMediaObj.index - 1;
+
+    if (data[prevMediaIndex].embedUrl) {
+      this.setState({
+        mediaType: "video",
+        lightBoxVideoUrl: data[prevMediaIndex].embedUrl,
+      });
+    } else {
+      this.setState({ mediaType: "img" });
+    }
+
     prevMedia = data[prevMediaIndex].original;
     if (prevMediaIndex <= 0) {
       prevMedia = data[0].original;
@@ -237,7 +249,10 @@ class MediaGallery extends Component {
     const nextMediaIndex = currentMediaObj.index + 1;
 
     if (data[nextMediaIndex].embedUrl) {
-      this.setState({ mediaType: "video" });
+      this.setState({
+        mediaType: "video",
+        lightBoxVideoUrl: data[nextMediaIndex].embedUrl,
+      });
     } else {
       this.setState({ mediaType: "img" });
     }
@@ -258,11 +273,6 @@ class MediaGallery extends Component {
   render() {
     const { classes } = this.props;
     const { showLightBox, lightBoxMedia, hideNextIcon, hidePrevIcon, lightBoxVideoUrl, mediaType } = this.state;
-
-    console.log("data", this.images);
-
-    console.log("lightBoxMedia", lightBoxMedia);
-    console.log("mediaType", mediaType);
 
     return this.images.length !== 0 ? (
       <Fragment>
@@ -308,7 +318,7 @@ class MediaGallery extends Component {
               {mediaType === "img" ? (
                 <img src={lightBoxMedia} alt="" loading="lazy" />
               ) : (
-                <iframe width="590" height="368" src={lightBoxVideoUrl} frameBorder="0" allowFullScreen />
+                <iframe src={lightBoxVideoUrl} frameBorder="0" allowFullScreen className={classes.lightBoxIframe} />
               )}
             </div>
           </div>
