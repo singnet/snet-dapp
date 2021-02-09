@@ -44,18 +44,20 @@ export const useStyles = theme => ({
       color: theme.palette.text.mediumShadeGray,
       fontSize: 14,
       wordBreak: "break-all",
-      "&:first-of-type": { paddingBottom: 34 },
     },
   },
+  orgIdValue: { paddingTop: 39 },
+  serviceIdValue: { paddingTop: 39 },
   contributors: {
     "& p": { marginLeft: "30px !important" },
   },
+  contributorsName: { paddingTop: 39 },
   projectDetailsContent: {
     "& h5": { padding: "0 !important" },
-    paddingBottom: 34,
+    paddingBottom: 39,
   },
   projectURLContainer: {
-    display: "flex",
+    "& > div": { display: "flex" },
     "& svg": {
       paddingTop: 3,
       marginRight: 5,

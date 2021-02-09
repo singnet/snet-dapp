@@ -120,7 +120,12 @@ class InstallAndRunService extends Component {
           </div>
         </Grid>
         <Grid item xs={12} sm={12} md={4} lg={4}>
-          <ProjectDetails projectURL={service.url} />
+          <ProjectDetails
+            projectURL={service.url}
+            contributors={service.contributors}
+            orgId={service.org_id}
+            serviceId={service.service_id}
+          />
         </Grid>
       </Grid>
     );
