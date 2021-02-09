@@ -44,6 +44,8 @@ export const useStyles = theme => ({
       backgroundImage: `url(${ArrowLeft}) !important`,
       "&:hover": { backgroundImage: `url(${ArrowLeftHover}) !important` },
     },
+    "@media(max-width:840px)": { padding: "0 70px" },
+    "@media(max-width:768px)": { padding: 0 },
   },
   headerContentDetails: {
     display: "flex !important",
@@ -149,14 +151,15 @@ export const useStyles = theme => ({
   headerButtons: {
     "& button": {
       "&:last-of-type": {
-        marginLeft: 24,
-        "@media(max-width:860px)": { marginLeft: 10 },
+        marginLeft: "4%",
+        "@media(max-width:962px)": { marginLeft: 5 },
+        "@media(max-width:768px)": { marginLeft: 24 },
         "@media(max-width:480px)": {
           margin: "16px auto",
           display: "block",
         },
       },
-      "@media(max-width:860px)": { padding: "7px 20px" },
+      "@media(max-width:962px)": { padding: "7px 15px" },
     },
     "@media(max-width:768px)": { textAlign: "center" },
   },
@@ -195,7 +198,7 @@ export const useStyles = theme => ({
     "@media(max-width:768px)": {
       flexDirection: "column",
       textAlign: "center",
-      paddingTop: 14,
+      padding: "14px 10px 0",
       marginTop: 9,
       "& > div": {
         maxWidth: "100%",
