@@ -36,6 +36,8 @@ class MediaGallery extends Component {
       lightBoxMedia: null,
       hideNextIcon: false,
       hidePrevIcon: false,
+      mediaType: "img",
+      lightBoxVideoUrl: "",
     };
 
     this.filteredData = this.props.data.filter(item => {
@@ -88,12 +90,24 @@ class MediaGallery extends Component {
     }
   }
 
-  _onImageClick(event, item) {
-    this.setState({
-      showLightBox: true,
-      lightBoxMedia: event.target.getAttribute("src"),
+  _onImageClick(event) {
+    // const { lightBoxMedia } = this.state;
+    const lightBoxMedia = event.target.getAttribute("src");
+
+    const currentVideoObj = this.images.find(value => {
+      return value.original === lightBoxMedia;
     });
-    console.debug("clicked on image", event.target, "at index", this._imageGallery.getCurrentIndex());
+
+    this.setState(
+      {
+        lightBoxMedia,
+        mediaType: event.target.getAttribute("data-mediaType") ? "video" : "img",
+        lightBoxVideoUrl: currentVideoObj ? currentVideoObj.embedUrl : "",
+      },
+      () => {
+        this.setState({ showLightBox: true });
+      }
+    );
   }
 
   _onImageLoad(event) {
@@ -164,14 +178,18 @@ class MediaGallery extends Component {
       <div className={classes.videoMainContainer}>
         {this.state.showVideo[item.embedUrl] ? (
           <div className="video-wrapper">
-            <a className="close-video" onClick={this._toggleShowVideo.bind(this, item.embedUrl)} />
+            <a className="close-video" />
             <iframe width="590" height="368" src={item.embedUrl} frameBorder="0" allowFullScreen />
             <PlayIcon />
           </div>
         ) : (
-          <a onClick={this._toggleShowVideo.bind(this, item.embedUrl)}>
-            {/* <div className="play-button" /> */}
-            <img className="image-gallery-image" src={item.original} loading="lazy" />
+          <a>
+            <img
+              className="image-gallery-image"
+              src={item.original}
+              loading="lazy"
+              data-mediaType={item.embedUrl ? "video" : "image"}
+            />
             {item.description && (
               <span className="image-gallery-description" style={{ right: "0", left: "initial" }}>
                 {item.description}
@@ -195,9 +213,7 @@ class MediaGallery extends Component {
       return value.original === lightBoxMedia;
     });
     const prevMediaIndex = currentMediaObj.index - 1;
-
     prevMedia = data[prevMediaIndex].original;
-
     if (prevMediaIndex <= 0) {
       prevMedia = data[0].original;
       this.setState({ hidePrevIcon: true });
@@ -213,10 +229,18 @@ class MediaGallery extends Component {
   showNext = data => {
     const { lightBoxMedia } = this.state;
     let nextMedia = lightBoxMedia;
+
     const currentMediaObj = data.find(value => {
       return value.original === lightBoxMedia;
     });
+
     const nextMediaIndex = currentMediaObj.index + 1;
+
+    if (data[nextMediaIndex].embedUrl) {
+      this.setState({ mediaType: "video" });
+    } else {
+      this.setState({ mediaType: "img" });
+    }
 
     if (nextMediaIndex >= data.length - 1) {
       nextMedia = data[data.length - 1].original;
@@ -224,6 +248,7 @@ class MediaGallery extends Component {
     } else {
       nextMedia = data[nextMediaIndex].original;
     }
+
     this.setState({
       lightBoxMedia: nextMedia,
       hidePrevIcon: false,
@@ -232,7 +257,12 @@ class MediaGallery extends Component {
 
   render() {
     const { classes } = this.props;
-    const { showLightBox, lightBoxMedia, hideNextIcon, hidePrevIcon } = this.state;
+    const { showLightBox, lightBoxMedia, hideNextIcon, hidePrevIcon, lightBoxVideoUrl, mediaType } = this.state;
+
+    console.log("data", this.images);
+
+    console.log("lightBoxMedia", lightBoxMedia);
+    console.log("mediaType", mediaType);
 
     return this.images.length !== 0 ? (
       <Fragment>
@@ -275,7 +305,11 @@ class MediaGallery extends Component {
                   onClick={() => this.showNext(this.images)}
                 />
               </div>
-              <img src={lightBoxMedia} alt="" loading="lazy" />
+              {mediaType === "img" ? (
+                <img src={lightBoxMedia} alt="" loading="lazy" />
+              ) : (
+                <iframe width="590" height="368" src={lightBoxVideoUrl} frameBorder="0" allowFullScreen />
+              )}
             </div>
           </div>
         </Modal>

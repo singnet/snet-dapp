@@ -58,7 +58,6 @@ export const useStyles = theme => ({
     "& .image-gallery-icon": {
       "&:hover": { color: "#4086ff" },
     },
-    "& .image-gallery-slide .image-gallery-image": { paddingBottom: 35 },
   },
   videoMainContainer: { position: "relative" },
   playVideoIcon: {
@@ -81,6 +80,7 @@ export const useStyles = theme => ({
     width: 992,
     height: 552,
     position: "relative",
+    "@media(max-width: 1050px)": { width: "100%" },
   },
   mediaContainer: {
     boxSizing: "border-box",
