@@ -53,14 +53,14 @@ class MediaGallery extends Component {
           thumbnail: this.getYoutubeVideoThumbnail(item.url, "thumbnail"),
           embedUrl: this.enhancedEmbedUrl(item.url),
           renderItem: this._renderVideo.bind(this),
-          description: item.description ? item.description : "Description will go here",
+          description: item.description,
         };
       }
       return {
         index,
         original: item.url,
         thumbnail: item.url,
-        description: item.description ? item.description : "Description will go here",
+        description: item.description,
       };
     });
   }
@@ -103,8 +103,9 @@ class MediaGallery extends Component {
         lightBoxMedia,
         mediaType: event.target.getAttribute("data-mediaType") ? "video" : "img",
         lightBoxVideoUrl: currentVideoObj ? currentVideoObj.embedUrl : "",
-        hidePrevIcon: currentVideoObj.index === 0 ? true : false,
-        hideNextIcon: currentVideoObj.index === this.images.length - 1 ? true : false,
+        hidePrevIcon: currentVideoObj && currentVideoObj.index === 0 ? true : false,
+        hideNextIcon: currentVideoObj && currentVideoObj.index === this.images.length - 1 ? true : false,
+        description: currentVideoObj ? currentVideoObj.description : null,
       },
       () => {
         this.setState({ showLightBox: true });
@@ -203,8 +204,9 @@ class MediaGallery extends Component {
   };
 
   showPrev = data => {
-    const { lightBoxMedia } = this.state;
+    const { lightBoxMedia, description } = this.state;
     let prevMedia = lightBoxMedia;
+    let prevDesc = description;
 
     const currentMediaObj = data.find(value => {
       return value.original === lightBoxMedia;
@@ -222,21 +224,27 @@ class MediaGallery extends Component {
     }
 
     prevMedia = data[prevMediaIndex].original;
+    prevDesc = data[prevMediaIndex].description;
+
     if (prevMediaIndex <= 0) {
       prevMedia = data[0].original;
+      prevDesc = data[0].description;
       this.setState({ hidePrevIcon: true });
     } else {
       prevMedia = data[prevMediaIndex].original;
+      prevDesc = data[prevMediaIndex].description;
     }
     this.setState({
       lightBoxMedia: prevMedia,
       hideNextIcon: false,
+      description: prevDesc,
     });
   };
 
   showNext = data => {
-    const { lightBoxMedia } = this.state;
+    const { lightBoxMedia, description } = this.state;
     let nextMedia = lightBoxMedia;
+    let nextDesc = description;
 
     const currentMediaObj = data.find(value => {
       return value.original === lightBoxMedia;
@@ -255,14 +263,17 @@ class MediaGallery extends Component {
 
     if (nextMediaIndex >= data.length - 1) {
       nextMedia = data[data.length - 1].original;
+      nextDesc = data[data.length - 1].description;
       this.setState({ hideNextIcon: true });
     } else {
       nextMedia = data[nextMediaIndex].original;
+      nextDesc = data[nextMediaIndex].description;
     }
 
     this.setState({
       lightBoxMedia: nextMedia,
       hidePrevIcon: false,
+      description: nextDesc,
     });
   };
 
@@ -324,7 +335,7 @@ class MediaGallery extends Component {
               {mediaType === "img" ? (
                 <img src={lightBoxMedia} alt="" loading="lazy" />
               ) : (
-                <iframe src={lightBoxVideoUrl} frameBorder="0" allowFullScreen className={classes.lightBoxIframe} />
+                <iframe src={lightBoxVideoUrl} frameborder="0" allowFullScreen className={classes.lightBoxIframe} />
               )}
               {description ? <span className="image-gallery-description">{description}</span> : null}
             </div>

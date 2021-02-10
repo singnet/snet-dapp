@@ -77,10 +77,8 @@ export const useStyles = theme => ({
     },
   },
   mediaWrapper: {
-    width: 992,
     height: 552,
     position: "relative",
-    "@media(max-width: 1050px)": { width: "100%" },
   },
   mediaContainer: {
     boxSizing: "border-box",
