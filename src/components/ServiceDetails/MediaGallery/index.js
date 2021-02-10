@@ -38,7 +38,7 @@ class MediaGallery extends Component {
       hidePrevIcon: false,
       mediaType: "img",
       lightBoxVideoUrl: "",
-      description: "",
+      altText: "",
     };
 
     this.filteredData = this.props.data.filter(item => {
@@ -53,14 +53,14 @@ class MediaGallery extends Component {
           thumbnail: this.getYoutubeVideoThumbnail(item.url, "thumbnail"),
           embedUrl: this.enhancedEmbedUrl(item.url),
           renderItem: this._renderVideo.bind(this),
-          description: item.description,
+          altText: item.alt_text,
         };
       }
       return {
         index,
         original: item.url,
         thumbnail: item.url,
-        description: item.description,
+        altText: item.alt_text,
       };
     });
   }
@@ -105,7 +105,7 @@ class MediaGallery extends Component {
         lightBoxVideoUrl: currentVideoObj ? currentVideoObj.embedUrl : "",
         hidePrevIcon: currentVideoObj && currentVideoObj.index === 0 ? true : false,
         hideNextIcon: currentVideoObj && currentVideoObj.index === this.images.length - 1 ? true : false,
-        description: currentVideoObj ? currentVideoObj.description : null,
+        altText: currentVideoObj ? currentVideoObj.altText : null,
       },
       () => {
         this.setState({ showLightBox: true });
@@ -184,6 +184,7 @@ class MediaGallery extends Component {
           src={item.original}
           loading="lazy"
           data-mediaType={item.embedUrl ? "video" : "image"}
+          alt={item.altText}
         />
         {item.description && (
           <span className="image-gallery-description" style={{ right: "0", left: "initial" }}>
@@ -204,9 +205,9 @@ class MediaGallery extends Component {
   };
 
   showPrev = data => {
-    const { lightBoxMedia, description } = this.state;
+    const { lightBoxMedia, altText } = this.state;
     let prevMedia = lightBoxMedia;
-    let prevDesc = description;
+    let prevDesc = altText;
 
     const currentMediaObj = data.find(value => {
       return value.original === lightBoxMedia;
@@ -224,27 +225,27 @@ class MediaGallery extends Component {
     }
 
     prevMedia = data[prevMediaIndex].original;
-    prevDesc = data[prevMediaIndex].description;
+    prevDesc = data[prevMediaIndex].altText;
 
     if (prevMediaIndex <= 0) {
       prevMedia = data[0].original;
-      prevDesc = data[0].description;
+      prevDesc = data[0].altText;
       this.setState({ hidePrevIcon: true });
     } else {
       prevMedia = data[prevMediaIndex].original;
-      prevDesc = data[prevMediaIndex].description;
+      prevDesc = data[prevMediaIndex].altText;
     }
     this.setState({
       lightBoxMedia: prevMedia,
       hideNextIcon: false,
-      description: prevDesc,
+      altText: prevDesc,
     });
   };
 
   showNext = data => {
-    const { lightBoxMedia, description } = this.state;
+    const { lightBoxMedia, altText } = this.state;
     let nextMedia = lightBoxMedia;
-    let nextDesc = description;
+    let nextDesc = altText;
 
     const currentMediaObj = data.find(value => {
       return value.original === lightBoxMedia;
@@ -263,17 +264,17 @@ class MediaGallery extends Component {
 
     if (nextMediaIndex >= data.length - 1) {
       nextMedia = data[data.length - 1].original;
-      nextDesc = data[data.length - 1].description;
+      nextDesc = data[data.length - 1].altText;
       this.setState({ hideNextIcon: true });
     } else {
       nextMedia = data[nextMediaIndex].original;
-      nextDesc = data[nextMediaIndex].description;
+      nextDesc = data[nextMediaIndex].altText;
     }
 
     this.setState({
       lightBoxMedia: nextMedia,
       hidePrevIcon: false,
-      description: nextDesc,
+      altText: nextDesc,
     });
   };
 
@@ -286,10 +287,8 @@ class MediaGallery extends Component {
       hidePrevIcon,
       lightBoxVideoUrl,
       mediaType,
-      description,
+      altText,
     } = this.state;
-
-    console.log("hidePrevIcon", hidePrevIcon);
 
     return this.images.length !== 0 ? (
       <Fragment>
@@ -333,11 +332,11 @@ class MediaGallery extends Component {
                 />
               </div>
               {mediaType === "img" ? (
-                <img src={lightBoxMedia} alt="" loading="lazy" />
+                <img src={lightBoxMedia} alt={altText} loading="lazy" />
               ) : (
                 <iframe src={lightBoxVideoUrl} frameborder="0" allowFullScreen className={classes.lightBoxIframe} />
               )}
-              {description ? <span className="image-gallery-description">{description}</span> : null}
+              {altText ? <span className={classes.lightBoxDescription}>{altText}</span> : null}
             </div>
           </div>
         </Modal>

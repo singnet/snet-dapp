@@ -148,4 +148,8 @@ export const useStyles = theme => ({
     width: "100%",
     height: "100%",
   },
+  lightBoxDescription: {
+    paddingTop: 15,
+    display: "inline-block",
+  },
 });
