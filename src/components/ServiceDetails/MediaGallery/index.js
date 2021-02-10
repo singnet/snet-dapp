@@ -38,6 +38,7 @@ class MediaGallery extends Component {
       hidePrevIcon: false,
       mediaType: "img",
       lightBoxVideoUrl: "",
+      description: "",
     };
 
     this.filteredData = this.props.data.filter(item => {
@@ -91,7 +92,6 @@ class MediaGallery extends Component {
   }
 
   _onImageClick(event) {
-    // const { lightBoxMedia } = this.state;
     const lightBoxMedia = event.target.getAttribute("src");
 
     const currentVideoObj = this.images.find(value => {
@@ -103,6 +103,8 @@ class MediaGallery extends Component {
         lightBoxMedia,
         mediaType: event.target.getAttribute("data-mediaType") ? "video" : "img",
         lightBoxVideoUrl: currentVideoObj ? currentVideoObj.embedUrl : "",
+        hidePrevIcon: currentVideoObj.index === 0 ? true : false,
+        hideNextIcon: currentVideoObj.index === this.images.length - 1 ? true : false,
       },
       () => {
         this.setState({ showLightBox: true });
@@ -176,32 +178,22 @@ class MediaGallery extends Component {
     const { classes } = this.props;
     return (
       <div className={classes.videoMainContainer}>
-        {this.state.showVideo[item.embedUrl] ? (
-          <div className="video-wrapper">
-            <a className="close-video" />
-            <iframe width="590" height="368" src={item.embedUrl} frameBorder="0" allowFullScreen />
-            <PlayIcon />
-          </div>
-        ) : (
-          <a>
-            <img
-              className="image-gallery-image"
-              src={item.original}
-              loading="lazy"
-              data-mediaType={item.embedUrl ? "video" : "image"}
-            />
-            {item.description && (
-              <span className="image-gallery-description" style={{ right: "0", left: "initial" }}>
-                {item.description}
-              </span>
-            )}
-            <PlayIcon
-              src={item.original}
-              data-mediaType={item.embedUrl ? "video" : "image"}
-              className={classes.playVideoIcon}
-            />
-          </a>
+        <img
+          className="image-gallery-image"
+          src={item.original}
+          loading="lazy"
+          data-mediaType={item.embedUrl ? "video" : "image"}
+        />
+        {item.description && (
+          <span className="image-gallery-description" style={{ right: "0", left: "initial" }}>
+            {item.description}
+          </span>
         )}
+        <PlayIcon
+          src={item.original}
+          data-mediaType={item.embedUrl ? "video" : "image"}
+          className={classes.playVideoIcon}
+        />
       </div>
     );
   }
@@ -276,7 +268,17 @@ class MediaGallery extends Component {
 
   render() {
     const { classes } = this.props;
-    const { showLightBox, lightBoxMedia, hideNextIcon, hidePrevIcon, lightBoxVideoUrl, mediaType } = this.state;
+    const {
+      showLightBox,
+      lightBoxMedia,
+      hideNextIcon,
+      hidePrevIcon,
+      lightBoxVideoUrl,
+      mediaType,
+      description,
+    } = this.state;
+
+    console.log("hidePrevIcon", hidePrevIcon);
 
     return this.images.length !== 0 ? (
       <Fragment>
@@ -324,6 +326,7 @@ class MediaGallery extends Component {
               ) : (
                 <iframe src={lightBoxVideoUrl} frameBorder="0" allowFullScreen className={classes.lightBoxIframe} />
               )}
+              {description ? <span className="image-gallery-description">{description}</span> : null}
             </div>
           </div>
         </Modal>
