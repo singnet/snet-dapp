@@ -195,7 +195,11 @@ class MediaGallery extends Component {
                 {item.description}
               </span>
             )}
-            <PlayIcon className={classes.playVideoIcon} />
+            <PlayIcon
+              src={item.original}
+              data-mediaType={item.embedUrl ? "video" : "image"}
+              className={classes.playVideoIcon}
+            />
           </a>
         )}
       </div>
