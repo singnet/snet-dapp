@@ -13,6 +13,8 @@ import { HERO_IMG } from "../";
 
 import { useStyles } from "./styles";
 
+const mediaTypes = { IMAGE: "IMAGE", VIDEO: "VIDEO" };
+
 class MediaGallery extends Component {
   constructor(props) {
     super(props);
@@ -35,7 +37,7 @@ class MediaGallery extends Component {
       showLightBox: false,
       hideNextIcon: false,
       hidePrevIcon: true,
-      mediaType: "img",
+      mediaType: mediaTypes.IMAGE,
       activeIndex: 0,
     };
 
@@ -99,7 +101,7 @@ class MediaGallery extends Component {
     this.setState(
       {
         activeIndex: currentVideoObj && currentVideoObj.index ? currentVideoObj.index : 0,
-        mediaType: event.target.getAttribute("data-mediaType") ? "video" : "img",
+        mediaType: event.target.getAttribute("data-mediaType") ? mediaTypes.VIDEO : mediaTypes.IMAGE,
         hidePrevIcon: currentVideoObj && currentVideoObj.index === 0 ? true : false,
         hideNextIcon: currentVideoObj && currentVideoObj.index === this.images.length - 1 ? true : false,
       },
@@ -179,7 +181,7 @@ class MediaGallery extends Component {
           className="image-gallery-image"
           src={item.original}
           loading="lazy"
-          data-mediaType={item.embedUrl ? "video" : "image"}
+          data-mediaType={item.embedUrl ? mediaTypes.VIDEO : mediaTypes.IMAGE}
           alt={item.altText}
         />
         {item.description && (
@@ -189,7 +191,7 @@ class MediaGallery extends Component {
         )}
         <PlayIcon
           src={item.original}
-          data-mediaType={item.embedUrl ? "video" : "image"}
+          data-mediaType={item.embedUrl ? mediaTypes.VIDEO : mediaTypes.IMAGE}
           className={classes.playVideoIcon}
         />
       </div>
@@ -209,10 +211,10 @@ class MediaGallery extends Component {
     });
     if (data[activeIndex - 1].embedUrl) {
       this.setState({
-        mediaType: "video",
+        mediaType: mediaTypes.VIDEO,
       });
     } else {
-      this.setState({ mediaType: "img" });
+      this.setState({ mediaType: mediaTypes.IMAGE });
     }
   };
 
@@ -225,10 +227,10 @@ class MediaGallery extends Component {
     });
     if (data[activeIndex + 1].embedUrl) {
       this.setState({
-        mediaType: "video",
+        mediaType: mediaTypes.VIDEO,
       });
     } else {
-      this.setState({ mediaType: "img" });
+      this.setState({ mediaType: mediaTypes.IMAGE });
     }
   };
 
@@ -277,7 +279,7 @@ class MediaGallery extends Component {
                   onClick={() => this.showNext(this.images)}
                 />
               </div>
-              {mediaType === "img" ? (
+              {mediaType === mediaTypes.IMAGE ? (
                 <img src={this.images[activeIndex].original} alt={this.images[activeIndex].alt_text} loading="lazy" />
               ) : (
                 <iframe
