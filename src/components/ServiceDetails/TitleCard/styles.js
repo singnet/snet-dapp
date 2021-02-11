@@ -93,6 +93,7 @@ export const useStyles = theme => ({
     width: 1045,
     height: 666,
     padding: "56px 33px",
+    borderRadius: 4,
     position: "absolute",
     top: "50%",
     left: "50%",
