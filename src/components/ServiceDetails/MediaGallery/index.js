@@ -33,12 +33,10 @@ class MediaGallery extends Component {
       thumbnailPosition: "bottom",
       showVideo: {},
       showLightBox: false,
-      lightBoxMedia: null,
       hideNextIcon: false,
-      hidePrevIcon: false,
+      hidePrevIcon: true,
       mediaType: "img",
-      lightBoxVideoUrl: "",
-      altText: "",
+      activeIndex: 0,
     };
 
     this.filteredData = this.props.data.filter(item => {
@@ -70,7 +68,7 @@ class MediaGallery extends Component {
       return link;
     }
     const youtubeId = last(link.split("="));
-    const embededLink = `https://youtube.com/embed/${youtubeId}`;
+    const embededLink = `https://youtube.com/embed/${youtubeId}?autoplay=1&mute=1`;
     return embededLink;
   }
 
@@ -100,12 +98,10 @@ class MediaGallery extends Component {
 
     this.setState(
       {
-        lightBoxMedia,
+        activeIndex: currentVideoObj && currentVideoObj.index ? currentVideoObj.index : 0,
         mediaType: event.target.getAttribute("data-mediaType") ? "video" : "img",
-        lightBoxVideoUrl: currentVideoObj ? currentVideoObj.embedUrl : "",
         hidePrevIcon: currentVideoObj && currentVideoObj.index === 0 ? true : false,
         hideNextIcon: currentVideoObj && currentVideoObj.index === this.images.length - 1 ? true : false,
-        altText: currentVideoObj ? currentVideoObj.altText : null,
       },
       () => {
         this.setState({ showLightBox: true });
@@ -205,90 +201,40 @@ class MediaGallery extends Component {
   };
 
   showPrev = data => {
-    const { lightBoxMedia, altText } = this.state;
-    let prevMedia = lightBoxMedia;
-    let prevDesc = altText;
-
-    const currentMediaObj = data.find(value => {
-      return value.original === lightBoxMedia;
+    const { activeIndex } = this.state;
+    this.setState({
+      activeIndex: activeIndex - 1,
+      hideNextIcon: false,
+      hidePrevIcon: activeIndex === 1 ? true : false,
     });
-
-    const prevMediaIndex = currentMediaObj.index - 1;
-
-    if (data[prevMediaIndex].embedUrl) {
+    if (data[activeIndex - 1].embedUrl) {
       this.setState({
         mediaType: "video",
-        lightBoxVideoUrl: data[prevMediaIndex].embedUrl,
       });
     } else {
       this.setState({ mediaType: "img" });
     }
-
-    prevMedia = data[prevMediaIndex].original;
-    prevDesc = data[prevMediaIndex].altText;
-
-    if (prevMediaIndex <= 0) {
-      prevMedia = data[0].original;
-      prevDesc = data[0].altText;
-      this.setState({ hidePrevIcon: true });
-    } else {
-      prevMedia = data[prevMediaIndex].original;
-      prevDesc = data[prevMediaIndex].altText;
-    }
-    this.setState({
-      lightBoxMedia: prevMedia,
-      hideNextIcon: false,
-      altText: prevDesc,
-    });
   };
 
   showNext = data => {
-    const { lightBoxMedia, altText } = this.state;
-    let nextMedia = lightBoxMedia;
-    let nextDesc = altText;
-
-    const currentMediaObj = data.find(value => {
-      return value.original === lightBoxMedia;
+    const { activeIndex } = this.state;
+    this.setState({
+      activeIndex: activeIndex + 1,
+      hidePrevIcon: activeIndex >= 0 ? false : true,
+      hideNextIcon: activeIndex === data.length - 2 ? true : false,
     });
-
-    const nextMediaIndex = currentMediaObj.index + 1;
-
-    if (data[nextMediaIndex].embedUrl) {
+    if (data[activeIndex + 1].embedUrl) {
       this.setState({
         mediaType: "video",
-        lightBoxVideoUrl: data[nextMediaIndex].embedUrl,
       });
     } else {
       this.setState({ mediaType: "img" });
     }
-
-    if (nextMediaIndex >= data.length - 1) {
-      nextMedia = data[data.length - 1].original;
-      nextDesc = data[data.length - 1].altText;
-      this.setState({ hideNextIcon: true });
-    } else {
-      nextMedia = data[nextMediaIndex].original;
-      nextDesc = data[nextMediaIndex].altText;
-    }
-
-    this.setState({
-      lightBoxMedia: nextMedia,
-      hidePrevIcon: false,
-      altText: nextDesc,
-    });
   };
 
   render() {
     const { classes } = this.props;
-    const {
-      showLightBox,
-      lightBoxMedia,
-      hideNextIcon,
-      hidePrevIcon,
-      lightBoxVideoUrl,
-      mediaType,
-      altText,
-    } = this.state;
+    const { showLightBox, hideNextIcon, hidePrevIcon, mediaType, activeIndex } = this.state;
 
     return this.images.length !== 0 ? (
       <Fragment>
@@ -332,11 +278,18 @@ class MediaGallery extends Component {
                 />
               </div>
               {mediaType === "img" ? (
-                <img src={lightBoxMedia} alt={altText} loading="lazy" />
+                <img src={this.images[activeIndex].original} alt={this.images[activeIndex].alt_text} loading="lazy" />
               ) : (
-                <iframe src={lightBoxVideoUrl} frameborder="0" allowFullScreen className={classes.lightBoxIframe} />
+                <iframe
+                  src={this.images[activeIndex].embedUrl}
+                  frameborder="0"
+                  allowFullScreen
+                  className={classes.lightBoxIframe}
+                />
               )}
-              {altText ? <span className={classes.lightBoxDescription}>{altText}</span> : null}
+              {this.images[activeIndex].altText ? (
+                <span className={classes.lightBoxDescription}>{this.images[activeIndex].altText}</span>
+              ) : null}
             </div>
           </div>
         </Modal>

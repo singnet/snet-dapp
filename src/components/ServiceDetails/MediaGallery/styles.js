@@ -147,6 +147,11 @@ export const useStyles = theme => ({
   lightBoxIframe: {
     width: "100%",
     height: "100%",
+    "& img": {
+      width: "100%",
+      height: "100%",
+      objectFit: "fill",
+    },
   },
   lightBoxDescription: {
     paddingTop: 15,
