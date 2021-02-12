@@ -64,7 +64,13 @@ class ServiceListingHeader extends Component {
                       <p>{item.description}</p>
                       <div className={classes.headerButtons}>
                         {item.cta.map(button => (
-                          <StyledButton key={button.id} type={button.type} btnText={button.text} href={button.url} />
+                          <StyledButton
+                            key={button.id}
+                            type={button.type}
+                            btnText={button.text}
+                            href={button.url}
+                            newTab
+                          />
                         ))}
                       </div>
                     </div>

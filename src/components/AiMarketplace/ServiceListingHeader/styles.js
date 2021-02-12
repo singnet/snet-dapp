@@ -152,7 +152,7 @@ export const useStyles = theme => ({
     },
   },
   headerButtons: {
-    "& button": {
+    "& a": {
       "&:last-of-type": {
         marginLeft: "4%",
         "@media(max-width:962px)": { marginLeft: 5 },
