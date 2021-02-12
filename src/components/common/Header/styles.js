@@ -37,6 +37,7 @@ export const useStyles = makeStyles(theme => ({
     "@media (max-width:1024px)": { display: "none" },
   },
   headerDropDown: {
+    marginRight: 53,
     "& > div": {
       display: "flex",
       alignItems: "flex-start",
@@ -45,6 +46,8 @@ export const useStyles = makeStyles(theme => ({
       "& button": { color: theme.palette.text.white },
       "& svg": { color: theme.palette.text.white },
     },
+    "&:last-of-type": { marginRight: 0 },
+    "@media (max-width:1280px) and (min-width: 1024px)": { marginRight: 26 },
   },
   navUl: {
     padding: 0,
