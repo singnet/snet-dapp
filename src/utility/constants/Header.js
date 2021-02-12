@@ -37,10 +37,10 @@ const dropdowns = [
   {
     label: "Products",
     list: [
-      { label: "Documentation", link: "https://github.com/singnet", newTab: true },
-      { label: "Telegram", link: "https://telegram.me/singularitynet", newTab: true },
-      { label: "Forum", link: "https://community.singularitynet.io/", newTab: true },
-      { label: "Blog", link: "http://blog.singularitynet.io/", newTab: true },
+      { label: "AGI Staking", link: "https://staking.singularitynet.io/", newTab: true },
+      { label: "Developer portal", link: "https://dev.singularitynet.io/", newTab: true },
+      { label: "AI Publisher", link: "https://publisher.singularitynet.io/", newTab: true },
+      { label: "Request for AI", link: "https://rfai.singularitynet.io/", newTab: true },
     ],
   },
   {
