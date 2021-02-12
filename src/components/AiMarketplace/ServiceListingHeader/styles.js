@@ -66,7 +66,10 @@ export const useStyles = theme => ({
   },
   headerMedia: {
     display: "flex",
-    "& img": { width: "100%" },
+    "& img": {
+      width: "100%",
+      "@media(min-width: 1106px) and (max-width:1280px)": { width: "85%" },
+    },
     "@media(max-width:768px)": { display: "none" },
   },
   details: {
