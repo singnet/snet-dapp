@@ -72,7 +72,7 @@ const ToolBar = ({
 
   return (
     <Grid container spacing={24} className={classes.toolBar}>
-      <Grid item xs={6} sm={6} md={6} lg={6} className={classes.sortBySection}>
+      <Grid item xs={6} sm={9} md={9} lg={6} className={classes.sortBySection}>
         <ServiceSortOptions />
         <div className={classes.organizationDropdownContainer}>
           <span className={classes.sortbyTxt}>Organization</span>
@@ -85,7 +85,7 @@ const ToolBar = ({
           />
         </div>
       </Grid>
-      <Grid item xs={6} sm={6} md={6} lg={6} className={classes.iconsContainer}>
+      <Grid item xs={6} sm={3} md={3} lg={6} className={classes.iconsContainer}>
         <span className={classes.servicesCount}>{total_count} services</span>
         <button className={classes.searchBar}>
           <SearchInputToggler
