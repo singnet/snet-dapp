@@ -69,7 +69,7 @@ class ServiceListingHeader extends Component {
                             type={button.type}
                             btnText={button.text}
                             href={button.url}
-                            newTab={button.id === 2}
+                            newTab={button.text === "READ MORE"}
                           />
                         ))}
                       </div>
