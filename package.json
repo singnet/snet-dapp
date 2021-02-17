@@ -51,7 +51,7 @@
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "singularitynet-platform-contracts": "^0.3.4",
-    "snet-sdk-web": "^1.0.0-beta.18",
+    "snet-sdk-web": "^1.0.0-beta.19",
     "style-loader": "^2.0.0",
     "utf8": "^3.0.0",
     "validate.js": "^0.13.1",
@@ -67,7 +67,9 @@
     "sandbox": "REACT_APP_SANDBOX=true npm start",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "sitemap": "babel-node scripts/sitemap-generator.js"
+    "sitemap": "babel-node scripts/sitemap-generator.js",
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "analyze:webpack": "node --max_old_space_size=5120 scripts/analyze.js"
   },
   "lint-staged": {
     "*.{js,jsx}": [
@@ -108,6 +110,9 @@
     "pretty-quick": "^1.11.0",
     "storybook-addon-react-docgen": "^1.2.42",
     "storybook-addon-react-live-edit": "^2.0.4",
-    "ts-protoc-gen": "^0.12.0"
+    "ts-protoc-gen": "^0.12.0",
+    "webpack-bundle-analyzer": "4.4.0",
+    "progress-bar-webpack-plugin": "2.1.0",
+    "source-map-explorer": "2.5.2"
   }
 }
