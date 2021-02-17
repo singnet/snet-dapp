@@ -48,21 +48,16 @@ export const useStyles = theme => ({
       "& .image-gallery-thumbnails-wrapper": { display: "none" },
     },
     "& .image-gallery-slide-wrapper": {
-      "& button": { outline: "none" },
-      "& .image-gallery-left-nav, .image-gallery-right-nav, .image-gallery-play-button": { display: "none" },
+      "& button": {
+        display: "none",
+        outline: "none",
+      },
       "& .image-gallery-slide .image-gallery-description": { display: "none" },
       "& .image-gallery-thumbnails-wrapper": { display: "block" },
-      "& .image-gallery-fullscreen-button": {
-        bottom: -10,
-        color: "#4086ff",
-        filter: "none",
-      },
     },
     "& .image-gallery-icon": {
       "&:hover": { color: "#4086ff" },
     },
-    "& .image-gallery-slide .image-gallery-image": { paddingBottom: 35 },
-    "& .image-gallery-fullscreen-button": { padding: 0 },
   },
   videoMainContainer: { position: "relative" },
   playVideoIcon: {
@@ -80,5 +75,86 @@ export const useStyles = theme => ({
       backgroundColor: "#fff",
       color: "#4086ff",
     },
+  },
+  mediaWrapper: {
+    height: 552,
+    position: "relative",
+  },
+  mediaContainer: {
+    boxSizing: "border-box",
+    width: 1045,
+    height: 666,
+    padding: "10px 33px 56px",
+    borderRadius: 6,
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    backgroundColor: theme.backgroundColor.white,
+    boxShadow: "0px 3px 5px -1px rgba(0,0,0,0.2),0px 5px 8px 0px rgba(0,0,0,0.14),0px 1px 14px 0px rgba(0,0,0,0.12)",
+    outline: "none",
+    transform: "translate(-50%, -50%)",
+    "& h2": {
+      paddingBottom: 13,
+      fontSize: 20,
+      fontWeight: 400,
+      color: "#212121",
+    },
+    "& img": {
+      width: "100%",
+      height: "100%",
+    },
+    "@media(max-width: 1050px)": {
+      width: "90%",
+      height: "90%",
+    },
+  },
+  arrowIconContainer: {
+    position: "absolute",
+    top: "50%",
+    right: 0,
+    left: 0,
+    transform: "translateY(-50%)",
+  },
+  navIcon: {
+    position: "absolute",
+    backgroundColor: "rgba(255,255,255,0.9)",
+    opacity: 0.1,
+    padding: 20,
+    cursor: "pointer",
+    "&:hover": {
+      opacity: 1,
+      color: theme.palette.text.primary,
+    },
+  },
+  leftNavIcon: {
+    borderTopLeftRadius: 4,
+    borderBottomLeftRadius: 4,
+    left: 0,
+    transform: "rotate(180deg)",
+  },
+  rigthtNavIcon: {
+    borderTopRightRadius: 4,
+    borderBottomRightRadius: 4,
+    right: 0,
+  },
+  hideIcon: { display: "none" },
+  closeIcon: {
+    position: "absolute",
+    top: 11,
+    right: 27,
+    cursor: "pointer",
+  },
+  lightBoxIframe: {
+    width: "100%",
+    height: "100%",
+    "& img": {
+      width: "100%",
+      height: "100%",
+      objectFit: "fill",
+    },
+  },
+  lightBoxDescription: {
+    paddingTop: 15,
+    display: "inline-block",
   },
 });

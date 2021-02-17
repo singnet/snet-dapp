@@ -2,6 +2,7 @@ import React from "react";
 import { withStyles } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 import PropTypes from "prop-types";
+import isEmpty from "lodash/isEmpty";
 
 import { useStyles } from "./styles";
 import ProjectURL from "./ProjectURL";
@@ -16,11 +17,12 @@ const ProjectDetails = ({ classes, projectURL, contributors, orgId, serviceId })
           <h5>Project URL</h5>
           <h5>Organization ID</h5>
           <h5>Service ID</h5>
+          {!isEmpty(contributors) ? <h5>Contributors</h5> : null}
         </Grid>
         <Grid item lg={7} md={5} sm={5} className={classes.projectDetailsValue}>
           <ProjectURL URL={projectURL} />
-          <span>{orgId}</span>
-          <span>{serviceId}</span>
+          <span className={classes.orgIdValue}>{orgId}</span>
+          <span className={classes.serviceIdValue}>{serviceId}</span>
           <Contributors contributors={contributors} />
         </Grid>
       </Grid>

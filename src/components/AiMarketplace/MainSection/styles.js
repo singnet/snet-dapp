@@ -5,6 +5,6 @@ export const useStyles = theme => ({
       "@media(max-width: 1024px)": { maxWidth: "100%" },
     },
     "@media(max-width: 1280px)": { paddingBottom: 30 },
-    "@media(max-width: 1024px)": { flexDirection: "column" },
+    // "@media(max-width: 1024px)": { flexDirection: "column" },
   },
 });
