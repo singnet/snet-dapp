@@ -20,7 +20,7 @@ export const useStyles = theme => ({
     position: "fixed",
     right: 0,
     left: 0,
-    zIndex: 1,
+    zIndex: 15,
   },
   TopSection: {
     width: "100%",

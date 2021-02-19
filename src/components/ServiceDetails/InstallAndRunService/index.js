@@ -67,7 +67,7 @@ class InstallAndRunService extends Component {
       <Grid container spacing={24} className={classes.installAndRunContainer}>
         <Grid item xs={12} sm={12} md={8} lg={8} className={classes.overViewContainer}>
           <div className={classes.integrationSetupContainer}>
-            <h3>Integration Setup</h3>
+            <h2>Integration Setup</h2>
             <div className={classes.overViewContainer}>
               <Typography className={classes.intSetupTitle}>Free Call Authentication Token</Typography>
               <Typography className={classes.intSetupDesc}>
@@ -89,7 +89,8 @@ class InstallAndRunService extends Component {
                     onChange={this.handlePublicKey}
                   />
                   <Typography className={classes.publicAddDesc}>
-                    Explanation about where to look for the public address.
+                    Ethereum address used in your SDK. This is the public address corresponding to the private key you
+                    use in the SDK
                   </Typography>
                 </div>
                 {!downloadTokenURL && (
@@ -112,14 +113,19 @@ class InstallAndRunService extends Component {
             </div>
           </div>
           <div className={classes.integrationSetupContainer}>
-            <h3>Installation and Execution</h3>
+            <h2>Installation and Execution</h2>
             <div className={classes.integrationContent}>
               <StyledTabs tabs={tabs} onTabChange={this.handleTabChange} activeTab={activeTab} />
             </div>
           </div>
         </Grid>
         <Grid item xs={12} sm={12} md={4} lg={4}>
-          <ProjectDetails projectURL={service.url} />
+          <ProjectDetails
+            projectURL={service.url}
+            contributors={service.contributors}
+            orgId={service.org_id}
+            serviceId={service.service_id}
+          />
         </Grid>
       </Grid>
     );

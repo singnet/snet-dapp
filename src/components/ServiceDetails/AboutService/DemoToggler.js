@@ -10,14 +10,23 @@ import signInImg from "../../../assets/images/signIn.png";
 
 import { useStyles } from "./styles";
 
-const DemoToggler = ({ classes, showDemo, onClick, service, history, serviceAvailable, demoExampleRef }) => {
+const DemoToggler = ({
+  classes,
+  showDemo,
+  onClick,
+  service,
+  history,
+  serviceAvailable,
+  demoExampleRef,
+  scrollToView,
+}) => {
   if (!showDemo) {
     return (
       <div className={classes.demoContainer} ref={demoExampleRef}>
         <h2>Demo Example</h2>
         <div className={classes.demoToggler}>
           <div className={classes.imgContainer}>
-            <img src={signInImg} title="Login" alt="SignIn" />
+            <img src={signInImg} title="Login" alt="SignIn" loading="lazy" />
             <p>Please login or sign up to run this demo for free.</p>
           </div>
           <div className={classes.btnContainer}>
@@ -35,7 +44,7 @@ const DemoToggler = ({ classes, showDemo, onClick, service, history, serviceAvai
 
   if (!serviceAvailable) {
     return (
-      <div className={classes.serviceOfflineContainer}>
+      <div className={classes.serviceOfflineContainer} ref={demoExampleRef}>
         <h2>Demo Example</h2>
         <div className={classes.serviceOffline}>
           <div className={classes.imgContainer}>
@@ -43,6 +52,7 @@ const DemoToggler = ({ classes, showDemo, onClick, service, history, serviceAvai
               src={serviceOfflineImg}
               title="Service Not Available"
               alt="Service Not Available due to poor connection "
+              loading="lazy"
             />
             <p>Service temporary offline by provider.</p>
             <p>Please try again Later.</p>
@@ -58,9 +68,9 @@ const DemoToggler = ({ classes, showDemo, onClick, service, history, serviceAvai
   }
 
   return (
-    <div className={classes.demoContainer}>
+    <div className={classes.demoContainer} ref={demoExampleRef}>
       <h2>Service Demo</h2>
-      <ServiceDemo service={service} history={history} />
+      <ServiceDemo service={service} history={history} scrollToView={scrollToView} />
     </div>
   );
 };

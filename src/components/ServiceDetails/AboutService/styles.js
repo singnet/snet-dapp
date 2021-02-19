@@ -16,6 +16,7 @@ export const useStyles = theme => ({
     },
     "@media(max-width:768px)": {
       padding: " 20px 10px 0",
+      position: "relative",
       flexDirection: "column",
     },
   },
@@ -112,10 +113,6 @@ export const useStyles = theme => ({
       textDecoration: "none",
       fontSize: 16,
       "&:hover": { textDecoration: "underline" },
-    },
-    "@media(max-width:768px)": {
-      marginTop: 15,
-      marginBottom: 15,
     },
   },
   creatorDetailsContainer: {

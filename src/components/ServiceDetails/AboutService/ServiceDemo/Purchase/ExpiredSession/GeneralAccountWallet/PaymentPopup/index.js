@@ -189,7 +189,7 @@ class PaymentPopup extends Component {
     } = this.props;
     const { activeSection, privateKeyGenerated, amount, item, quantity, userProvidedPrivateKey } = this.state;
 
-    const progressText = ["Details", "Purchase", "Summary"];
+    const progressText = [{ label: "Details" }, { label: "Purchase" }, { label: "Summary" }];
     const PopupProgressBarComponents = [
       {
         key: "details",
@@ -229,7 +229,7 @@ class PaymentPopup extends Component {
     ];
 
     if (orderType === orderTypes.CREATE_WALLET) {
-      progressText.splice(2, 0, "Verify Key");
+      progressText.splice(2, 0, { label: "Verify Key" });
       PopupProgressBarComponents.splice(2, 0, {
         key: "privateKey",
         component: <PrivateKey privateKey={privateKeyGenerated} handleNextSection={this.handleNextSection} />,
@@ -237,7 +237,7 @@ class PaymentPopup extends Component {
     }
 
     if (orderType === orderTypes.CREATE_CHANNEL) {
-      progressText.splice(0, 0, "Verify Key");
+      progressText.splice(0, 0, { label: "Verify Key" });
       PopupProgressBarComponents.splice(0, 0, {
         key: "verifyKey",
         component: (

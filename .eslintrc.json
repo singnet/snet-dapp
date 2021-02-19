@@ -21,6 +21,7 @@
     "no-useless-computed-key": "error",
     "object-shorthand": "error",
     "require-await": "warn",
-    "eqeqeq": "warn"
+    "eqeqeq": "warn",
+    "no-useless-escape":"warn"
   }
 }

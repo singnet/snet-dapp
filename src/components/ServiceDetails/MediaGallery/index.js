@@ -1,15 +1,23 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { withStyles } from "@material-ui/styles";
+import PlayIcon from "@material-ui/icons/PlayArrow";
 import ImageGallery from "react-image-gallery";
+import last from "lodash/last";
 import "react-image-gallery/styles/css/image-gallery.css";
+import Modal from "@material-ui/core/Modal";
+import CloseIcon from "@material-ui/icons/Close";
+import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
+
+import DefaultIconForVideo from "../../../assets/images/Play_1.png";
+import { HERO_IMG } from "../";
 
 import { useStyles } from "./styles";
 
-const PREFIX_URL = "https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/";
+const mediaTypes = { IMAGE: "IMAGE", VIDEO: "VIDEO" };
 
 class MediaGallery extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       showIndex: false,
       showBullets: true,
@@ -26,37 +34,53 @@ class MediaGallery extends Component {
       slideOnThumbnailOver: false,
       thumbnailPosition: "bottom",
       showVideo: {},
+      showLightBox: false,
+      hideNextIcon: false,
+      hidePrevIcon: true,
+      mediaType: mediaTypes.IMAGE,
+      activeIndex: 0,
     };
 
-    this.images = [
-      {
-        thumbnail: `${PREFIX_URL}4v.jpg`,
-        original: `${PREFIX_URL}4v.jpg`,
-        embedUrl: "https://www.youtube.com/embed/4pSzhZ76GdM?autoplay=1&showinfo=0",
-        renderItem: this._renderVideo.bind(this),
-      },
-      {
-        original: `${PREFIX_URL}image_set_default.jpg`,
-        thumbnail: `${PREFIX_URL}image_set_thumb.jpg`,
-        imageSet: [
-          {
-            srcSet: `${PREFIX_URL}image_set_cropped.jpg`,
-            media: "(max-width: 1280px)",
-          },
-          {
-            srcSet: `${PREFIX_URL}image_set_default.jpg`,
-            media: "(min-width: 1280px)",
-          },
-        ],
-      },
-      {
-        original: `${PREFIX_URL}1.jpg`,
-        thumbnail: `${PREFIX_URL}1t.jpg`,
-        originalClass: "featured-slide",
-        thumbnailClass: "featured-thumb",
-        description: "Custom class for slides & thumbnails",
-      },
-    ].concat(this._getStaticImages());
+    this.filteredData = this.props.data.filter(item => {
+      return item.asset_type !== HERO_IMG;
+    });
+
+    this.images = this.filteredData.map((item, index) => {
+      if (item.file_type === "video") {
+        return {
+          index,
+          original: this.getYoutubeVideoThumbnail(item.url),
+          thumbnail: this.getYoutubeVideoThumbnail(item.url, "thumbnail"),
+          embedUrl: this.enhancedEmbedUrl(item.url),
+          renderItem: this._renderVideo.bind(this),
+          altText: item.alt_text,
+        };
+      }
+      return {
+        index,
+        original: item.url,
+        thumbnail: item.url,
+        altText: item.alt_text,
+      };
+    });
+  }
+
+  enhancedEmbedUrl(link) {
+    if (!link.includes("youtube")) {
+      return link;
+    }
+    const youtubeId = last(link.split("="));
+    const embededLink = `https://youtube.com/embed/${youtubeId}?autoplay=1&mute=1`;
+    return embededLink;
+  }
+
+  getYoutubeVideoThumbnail(link, type) {
+    if (!link.includes("youtube")) {
+      return DefaultIconForVideo;
+    }
+    const youtubeId = last(link.split("="));
+    const youtubeThumbnail = `https://img.youtube.com/vi/${youtubeId}/${type === "thumbnail" ? "1.jpg" : "0.jpg"}`;
+    return youtubeThumbnail;
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -68,7 +92,23 @@ class MediaGallery extends Component {
   }
 
   _onImageClick(event) {
-    console.debug("clicked on image", event.target, "at index", this._imageGallery.getCurrentIndex());
+    const lightBoxMedia = event.target.getAttribute("src");
+
+    const currentVideoObj = this.images.find(value => {
+      return value.original === lightBoxMedia;
+    });
+
+    this.setState(
+      {
+        activeIndex: currentVideoObj && currentVideoObj.index ? currentVideoObj.index : 0,
+        mediaType: event.target.getAttribute("data-mediaType") ? mediaTypes.VIDEO : mediaTypes.IMAGE,
+        hidePrevIcon: currentVideoObj && currentVideoObj.index === 0 ? true : false,
+        hideNextIcon: currentVideoObj && currentVideoObj.index === this.images.length - 1 ? true : false,
+      },
+      () => {
+        this.setState({ showLightBox: true });
+      }
+    );
   }
 
   _onImageLoad(event) {
@@ -104,18 +144,6 @@ class MediaGallery extends Component {
     this.setState({ thumbnailPosition: event.target.value });
   }
 
-  _getStaticImages() {
-    let images = [];
-    for (let i = 2; i < 12; i++) {
-      images.push({
-        original: `${PREFIX_URL}${i}.jpg`,
-        thumbnail: `${PREFIX_URL}${i}t.jpg`,
-      });
-    }
-
-    return images;
-  }
-
   _resetVideo() {
     this.setState({ showVideo: {} });
 
@@ -146,59 +174,129 @@ class MediaGallery extends Component {
   }
 
   _renderVideo(item) {
+    const { classes } = this.props;
     return (
-      <div>
-        {this.state.showVideo[item.embedUrl] ? (
-          <div className="video-wrapper">
-            <a className="close-video" onClick={this._toggleShowVideo.bind(this, item.embedUrl)} />
-            <iframe width="560" height="315" src={item.embedUrl} frameBorder="0" allowFullScreen />
-          </div>
-        ) : (
-          <a onClick={this._toggleShowVideo.bind(this, item.embedUrl)}>
-            <div className="play-button" />
-            <img className="image-gallery-image" src={item.original} />
-            {item.description && (
-              <span className="image-gallery-description" style={{ right: "0", left: "initial" }}>
-                {item.description}
-              </span>
-            )}
-          </a>
+      <div className={classes.videoMainContainer}>
+        <img
+          className="image-gallery-image"
+          src={item.original}
+          loading="lazy"
+          data-mediaType={item.embedUrl ? mediaTypes.VIDEO : mediaTypes.IMAGE}
+          alt={item.altText}
+        />
+        {item.description && (
+          <span className="image-gallery-description" style={{ right: "0", left: "initial" }}>
+            {item.description}
+          </span>
         )}
+        <PlayIcon
+          src={item.original}
+          data-mediaType={item.embedUrl ? mediaTypes.VIDEO : mediaTypes.IMAGE}
+          className={classes.playVideoIcon}
+        />
       </div>
     );
   }
 
+  handleClose = () => {
+    this.setState({ showLightBox: false });
+  };
+
+  showPrev = data => {
+    const { activeIndex } = this.state;
+    this.setState({
+      activeIndex: activeIndex - 1,
+      hideNextIcon: false,
+      hidePrevIcon: activeIndex === 1 ? true : false,
+    });
+    if (data[activeIndex - 1].embedUrl) {
+      this.setState({
+        mediaType: mediaTypes.VIDEO,
+      });
+    } else {
+      this.setState({ mediaType: mediaTypes.IMAGE });
+    }
+  };
+
+  showNext = data => {
+    const { activeIndex } = this.state;
+    this.setState({
+      activeIndex: activeIndex + 1,
+      hidePrevIcon: activeIndex >= 0 ? false : true,
+      hideNextIcon: activeIndex === data.length - 2 ? true : false,
+    });
+    if (data[activeIndex + 1].embedUrl) {
+      this.setState({
+        mediaType: mediaTypes.VIDEO,
+      });
+    } else {
+      this.setState({ mediaType: mediaTypes.IMAGE });
+    }
+  };
+
   render() {
     const { classes } = this.props;
-    return (
-      <div className={classes.mediaGalleryContainer}>
-        <h2>Media Gallery ({this.images.length})</h2>
-        <ImageGallery
-          ref={i => (this._imageGallery = i)}
-          items={this.images}
-          lazyLoad={false}
-          onClick={this._onImageClick.bind(this)}
-          onImageLoad={this._onImageLoad}
-          onSlide={this._onSlide.bind(this)}
-          onPause={this._onPause.bind(this)}
-          onScreenChange={this._onScreenChange.bind(this)}
-          onPlay={this._onPlay.bind(this)}
-          infinite={this.state.infinite}
-          showBullets={this.state.showBullets}
-          showFullscreenButton={this.state.showFullscreenButton && this.state.showGalleryFullscreenButton}
-          showPlayButton={this.state.showPlayButton && this.state.showGalleryPlayButton}
-          showThumbnails={this.state.showThumbnails}
-          showIndex={this.state.showIndex}
-          showNav={this.state.showNav}
-          isRTL={this.state.isRTL}
-          thumbnailPosition={this.state.thumbnailPosition}
-          slideDuration={parseInt(this.state.slideDuration)}
-          slideInterval={parseInt(this.state.slideInterval)}
-          slideOnThumbnailOver={this.state.slideOnThumbnailOver}
-          additionalClass="app-image-gallery"
-        />
-      </div>
-    );
+    const { showLightBox, hideNextIcon, hidePrevIcon, mediaType, activeIndex } = this.state;
+
+    return this.images.length !== 0 ? (
+      <Fragment>
+        <div className={classes.mediaGalleryContainer}>
+          <h2>Media Gallery ({this.images.length})</h2>
+          <ImageGallery
+            ref={i => (this._imageGallery = i)}
+            items={this.images}
+            lazyLoad={false}
+            onClick={this._onImageClick.bind(this)}
+            onImageLoad={this._onImageLoad}
+            onSlide={this._onSlide.bind(this)}
+            onPause={this._onPause.bind(this)}
+            onScreenChange={this._onScreenChange.bind(this)}
+            onPlay={this._onPlay.bind(this)}
+            infinite={this.state.infinite}
+            showThumbnails={this.state.showThumbnails}
+            showIndex={this.state.showIndex}
+            showNav={this.state.showNav}
+            isRTL={this.state.isRTL}
+            thumbnailPosition={this.state.thumbnailPosition}
+            slideDuration={parseInt(this.state.slideDuration)}
+            slideInterval={parseInt(this.state.slideInterval)}
+            slideOnThumbnailOver={this.state.slideOnThumbnailOver}
+            additionalClass={classes.marketplace_media_gallery}
+          />
+        </div>
+        <Modal open={showLightBox} className={classes.mediaGalleryLightBox}>
+          <div className={classes.mediaContainer}>
+            <h2>Media Gallery</h2>
+            <CloseIcon className={classes.closeIcon} onClick={this.handleClose} />
+            <div className={classes.mediaWrapper}>
+              <div className={classes.arrowIconContainer}>
+                <ArrowForwardIosIcon
+                  className={`${classes.leftNavIcon} ${hidePrevIcon ? classes.hideIcon : classes.navIcon}`}
+                  onClick={() => this.showPrev(this.images)}
+                />
+                <ArrowForwardIosIcon
+                  className={`${classes.rigthtNavIcon} ${hideNextIcon ? classes.hideIcon : classes.navIcon}`}
+                  onClick={() => this.showNext(this.images)}
+                />
+              </div>
+              {mediaType === mediaTypes.IMAGE ? (
+                <img src={this.images[activeIndex].original} alt={this.images[activeIndex].alt_text} loading="lazy" />
+              ) : (
+                <iframe
+                  src={this.images[activeIndex].embedUrl}
+                  frameborder="0"
+                  allowFullScreen
+                  className={classes.lightBoxIframe}
+                />
+              )}
+              {this.images[activeIndex].altText ? (
+                <span className={classes.lightBoxDescription}>{this.images[activeIndex].altText}</span>
+              ) : null}
+            </div>
+          </div>
+        </Modal>
+      </Fragment>
+    ) : null;
   }
 }
 

@@ -1,12 +1,12 @@
 import SeacrhIcon from "@material-ui/icons/Search";
 import DescriptionIcon from "@material-ui/icons/Description";
 import PlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
-import ThumbsUpDownIcon from "@material-ui/icons/ThumbsUpDown";
+// import ThumbsUpDownIcon from "@material-ui/icons/ThumbsUpDown";
 import SettingsIcon from "@material-ui/icons/Settings";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 
 const imgPath = (directory, file, extension = "png") =>
-  `${process.env.REACT_APP_SNET_CDN}/assets/images/GetStarted/${directory}/${file}.${extension}`;
+  `${process.env.REACT_APP_SNET_CDN}/dapp/assets/images/GetStarted/${directory}/${file}.${extension}`;
 
 export const GetStartedCategoriesData = [
   {
@@ -26,10 +26,10 @@ export const GetStartedCategoriesData = [
         title: "Change Filter Options",
         media: { type: "img", content: imgPath("BrowsingTheMarketplace", "ChangeFilterOptions") },
       },
-      {
-        title: "Sort Options",
-        media: { type: "img", content: imgPath("BrowsingTheMarketplace", "SortOptions") },
-      },
+      // {
+      //   title: "Sort Options",
+      //   media: { type: "img", content: imgPath("BrowsingTheMarketplace", "SortOptions") },
+      // },
       {
         title: "Rating and Rankings",
         media: { type: "img", content: imgPath("BrowsingTheMarketplace", "RatingandRanking") },
@@ -47,7 +47,7 @@ export const GetStartedCategoriesData = [
       { title: "Pricing", media: { type: "img", content: imgPath("ChooseingYourAi", "Pricing") } },
       { title: "Demo Trial", media: { type: "img", content: imgPath("ChooseingYourAi", "DemoTrial") } },
       { title: "Install & Run", media: { type: "img", content: imgPath("ChooseingYourAi", "Install&Run") } },
-      { title: "Tutorials", media: { type: "img", content: imgPath("ChooseingYourAi", "Tutorials") } },
+      // { title: "Tutorials", media: { type: "img", content: imgPath("ChooseingYourAi", "Tutorials") } },
     ],
   },
   {
@@ -69,28 +69,28 @@ export const GetStartedCategoriesData = [
         media: { type: "gif", content: imgPath("DemoAiServices", "Seeoutputresults") },
       },
       {
-        title: "Metamask (coming soon)",
+        title: "Metamask",
         media: { type: "gif", content: imgPath("DemoAiServices", "Metamask") },
       },
     ],
   },
-  {
-    categoryIcon: ThumbsUpDownIcon,
-    categoryTitle: "Rate, Review, Improve",
-    categoryDescription:
-      "Feedback - Democratizing AI requires collaboration, and not just between developers. Ratings and reviews help developers improve their algorithms as well as the design of their AI service. It’s also an opportunity for new teams to be born. ",
-    categoryTabs: [
-      {
-        title: "Rating AI Services",
-        media: { type: "img", content: imgPath("RateReviewImprove", "RatingAIServices") },
-      },
-      {
-        title: "Accessing & sorting reviews",
-        media: { type: "img", content: imgPath("RateReviewImprove", "AccessingSortingrReviews") },
-      },
-      { title: "Writing review ", media: { type: "img", content: imgPath("RateReviewImprove", "WritingReview") } },
-    ],
-  },
+  // {
+  //   categoryIcon: ThumbsUpDownIcon,
+  //   categoryTitle: "Rate, Review, Improve",
+  //   categoryDescription:
+  //     "Feedback - Democratizing AI requires collaboration, and not just between developers. Ratings and reviews help developers improve their algorithms as well as the design of their AI service. It’s also an opportunity for new teams to be born. ",
+  //   categoryTabs: [
+  //     {
+  //       title: "Rating AI Services",
+  //       media: { type: "img", content: imgPath("RateReviewImprove", "RatingAIServices") },
+  //     },
+  //     {
+  //       title: "Accessing & sorting reviews",
+  //       media: { type: "img", content: imgPath("RateReviewImprove", "AccessingSortingrReviews") },
+  //     },
+  //     { title: "Writing review ", media: { type: "img", content: imgPath("RateReviewImprove", "WritingReview") } },
+  //   ],
+  // },
   {
     categoryIcon: SettingsIcon,
     categoryTitle: "Make it your AI",
@@ -99,11 +99,8 @@ export const GetStartedCategoriesData = [
     categoryTabs: [
       { title: "Install", media: { type: "img", content: imgPath("MakeItYourAI", "Install") } },
       { title: "Run", media: { type: "img", content: imgPath("MakeItYourAI", "Run") } },
-      {
-        title: "Multiple languages",
-        media: { type: "img", content: imgPath("MakeItYourAI", "MultipleChannels") },
-      },
-      { title: "documentation", media: { type: "img", content: imgPath("MakeItYourAI", "Documentation") } },
+      { title: "Multiple languages", media: { type: "img", content: imgPath("MakeItYourAI", "MultipleChannels") } },
+      // { title: "documentation", media: { type: "img", content: imgPath("MakeItYourAI", "Documentation") } },
     ],
   },
   {

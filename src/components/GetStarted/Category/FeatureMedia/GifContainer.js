@@ -9,6 +9,7 @@ const GifContainer = ({ classes, content }) => {
       src={content || "https://media.giphy.com/media/pLLLNpJWp6jjW/giphy.gif"}
       alt="Demo Gif File"
       className={classes.FullWidth}
+      loading="lazy"
     />
   );
 };
