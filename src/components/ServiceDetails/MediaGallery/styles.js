@@ -9,7 +9,7 @@ export const useStyles = theme => ({
   marketplace_media_gallery: {
     padding: "10px 30px 31px",
     "& .image-gallery-thumbnail.active, .image-gallery-thumbnail:hover, .image-gallery-thumbnail:focus": {
-      border: "4px solid #4086ff",
+      border: "none",
     },
     "& .image-gallery-right-nav, .image-gallery-left-nav": {
       padding: 0,
@@ -194,13 +194,16 @@ export const useStyles = theme => ({
   },
   navIcon: {
     position: "absolute",
-    backgroundColor: "rgba(255,255,255,0.9)",
-    opacity: 0.1,
+    backgroundColor: "#CCC",
+    boxShadow: "1px 0 2px 0 rgba(0,0,0,0.6)",
+    opacity: "25%",
     padding: 20,
     cursor: "pointer",
     "&:hover": {
       opacity: 1,
+      backgroundColor: "#fff",
       color: theme.palette.text.primary,
+      boxShadow: "1px 0 2px 0 rgba(0,0,0,0.3)",
     },
   },
   leftNavIcon: {
