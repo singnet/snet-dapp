@@ -58,6 +58,83 @@ export const useStyles = theme => ({
     "& .image-gallery-icon": {
       "&:hover": { color: "#4086ff" },
     },
+    "& .image-gallery-thumbnails-container": {
+      "& > button": {
+        "&:nth-child(n+5)": { display: "none" },
+        "@media(max-width: 1500px) and (min-width: 1121px)": { "&:nth-child(n+4)": { display: "none" } },
+        "@media(max-width: 1120px) and (min-width: 769px)": { "&:nth-child(n+3)": { display: "none" } },
+      },
+    },
+  },
+  showViewMore: {
+    "& .image-gallery-thumbnails-container": {
+      "& > button": {
+        "&:nth-child(4)": {
+          "& .image-gallery-thumbnail-inner": {
+            "&::after": {
+              backgroundColor: "rgba(0, 0, 0, .5)",
+              content: '"View More"',
+              fontFamily: "Muli, sans-serif",
+              color: "#fff",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "100%",
+              width: "100%",
+              zIndex: 100000,
+              position: "absolute",
+              left: 0,
+              top: 0,
+              cursor: "pointer",
+            },
+          },
+        },
+        "@media(max-width: 1500px) and (min-width: 1121px)": {
+          "&:nth-child(3)": {
+            "& .image-gallery-thumbnail-inner": {
+              "&::after": {
+                backgroundColor: "rgba(0, 0, 0, .5)",
+                content: '"View More"',
+                fontFamily: "Muli, sans-serif",
+                color: "#fff",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "100%",
+                width: "100%",
+                zIndex: 100000,
+                position: "absolute",
+                left: 0,
+                top: 0,
+                cursor: "pointer",
+              },
+            },
+          },
+        },
+        "@media(max-width: 1120px) and (min-width: 769px)": {
+          "&:nth-child(2)": {
+            "& .image-gallery-thumbnail-inner": {
+              "&::after": {
+                backgroundColor: "rgba(0, 0, 0, .5)",
+                content: '"View More"',
+                fontFamily: "Muli, sans-serif",
+                color: "#fff",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "100%",
+                width: "100%",
+                zIndex: 100000,
+                position: "absolute",
+                left: 0,
+                top: 0,
+                cursor: "pointer",
+              },
+            },
+          },
+        },
+      },
+    },
   },
   videoMainContainer: { position: "relative" },
   playVideoIcon: {

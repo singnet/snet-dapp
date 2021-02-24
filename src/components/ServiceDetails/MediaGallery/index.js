@@ -283,8 +283,9 @@ class MediaGallery extends Component {
             slideDuration={parseInt(this.state.slideDuration)}
             slideInterval={parseInt(this.state.slideInterval)}
             slideOnThumbnailOver={this.state.slideOnThumbnailOver}
-            additionalClass={classes.marketplace_media_gallery}
-            // disableThumbnailScroll={true}
+            additionalClass={`${classes.marketplace_media_gallery} ${
+              this.images.length > 4 ? classes.showViewMore : null
+            }`}
             onThumbnailClick={this.onThumbnailClick.bind(this)}
           />
         </div>
