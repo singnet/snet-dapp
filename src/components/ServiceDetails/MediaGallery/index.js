@@ -107,6 +107,26 @@ class MediaGallery extends Component {
     );
   }
 
+  onThumbnailClick = (event, index) => {
+    let mediaType;
+
+    if (this.images[index].embedUrl) {
+      mediaType = mediaTypes.VIDEO;
+    } else {
+      mediaType = mediaTypes.IMAGE;
+    }
+
+    this.setState(
+      {
+        activeIndex: index,
+        mediaType,
+      },
+      () => {
+        this.setState({ showLightBox: true });
+      }
+    );
+  };
+
   _onImageLoad(event) {
     console.debug("loaded image", event.target.src);
   }
@@ -264,6 +284,8 @@ class MediaGallery extends Component {
             slideInterval={parseInt(this.state.slideInterval)}
             slideOnThumbnailOver={this.state.slideOnThumbnailOver}
             additionalClass={classes.marketplace_media_gallery}
+            // disableThumbnailScroll={true}
+            onThumbnailClick={this.onThumbnailClick.bind(this)}
           />
         </div>
         <Modal open={showLightBox} className={classes.mediaGalleryLightBox} onClose={this.handleClose}>
