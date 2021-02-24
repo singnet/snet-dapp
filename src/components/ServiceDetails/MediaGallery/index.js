@@ -220,7 +220,7 @@ class MediaGallery extends Component {
 
   showPrev = data => {
     const { activeIndex } = this.state;
-    var mediaType;
+    let mediaType;
     const nextIndex = activeIndex === 0 ? data.length - 1 : activeIndex - 1;
 
     if (data[nextIndex].embedUrl) {
