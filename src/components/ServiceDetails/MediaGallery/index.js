@@ -287,11 +287,12 @@ class MediaGallery extends Component {
               this.images.length > 4 ? classes.showViewMore : null
             }`}
             onThumbnailClick={this.onThumbnailClick.bind(this)}
+            disableKeyDown={true}
           />
         </div>
         <Modal open={showLightBox} className={classes.mediaGalleryLightBox} onClose={this.handleClose}>
           <div className={classes.mediaContainer}>
-            <h2>Media Gallery</h2>
+            <h2>Media Gallery ({this.images.length})</h2>
             <CloseIcon className={classes.closeIcon} onClick={this.handleClose} />
             <div className={classes.mediaWrapper}>
               <div className={classes.arrowIconContainer}>
