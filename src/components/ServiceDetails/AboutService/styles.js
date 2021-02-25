@@ -108,11 +108,11 @@ export const useStyles = theme => ({
     alignItems: "center",
     "& span": { color: theme.palette.text.primary },
     "& a": {
-      marginLeft: 11,
+      marginLeft: 7,
       color: theme.palette.text.primary,
       textDecoration: "none",
       fontSize: 16,
-      "&:hover": { fontWeight: 600 },
+      "&:hover": { textDecoration: "underline" },
     },
   },
   creatorDetailsContainer: {

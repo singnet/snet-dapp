@@ -3,7 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import Icon from "@material-ui/core/Icon";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 import { useStyles } from "./styles";
 import DemoToggler from "./DemoToggler";
@@ -28,7 +28,7 @@ const AboutService = ({ classes, isLoggedIn, service, history, serviceAvailable,
           scrollToView={scrollToView}
         />
         <div className={classes.backToLink}>
-          <Icon className="fas fa-arrow-left" />
+          <ArrowBackIcon />
           <Link to={`/${Routes.AI_MARKETPLACE}`}>Back to AI Marketplace</Link>
         </div>
       </Grid>
