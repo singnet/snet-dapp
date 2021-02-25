@@ -287,7 +287,7 @@ class MediaGallery extends Component {
               this.images.length > 4 ? classes.showViewMore : null
             }`}
             onThumbnailClick={this.onThumbnailClick.bind(this)}
-            disableKeyDown={true}
+            disableKeyDown={showLightBox}
           />
         </div>
         <Modal open={showLightBox} className={classes.mediaGalleryLightBox} onClose={this.handleClose}>
