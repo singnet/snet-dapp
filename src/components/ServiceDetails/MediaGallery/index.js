@@ -35,8 +35,6 @@ class MediaGallery extends Component {
       thumbnailPosition: "bottom",
       showVideo: {},
       showLightBox: false,
-      hideNextIcon: false,
-      hidePrevIcon: true,
       mediaType: mediaTypes.IMAGE,
       activeIndex: 0,
     };
@@ -102,14 +100,32 @@ class MediaGallery extends Component {
       {
         activeIndex: currentVideoObj && currentVideoObj.index ? currentVideoObj.index : 0,
         mediaType: event.target.getAttribute("data-mediaType") ? mediaTypes.VIDEO : mediaTypes.IMAGE,
-        hidePrevIcon: currentVideoObj && currentVideoObj.index === 0 ? true : false,
-        hideNextIcon: currentVideoObj && currentVideoObj.index === this.images.length - 1 ? true : false,
       },
       () => {
         this.setState({ showLightBox: true });
       }
     );
   }
+
+  onThumbnailClick = (event, index) => {
+    let mediaType;
+
+    if (this.images[index].embedUrl) {
+      mediaType = mediaTypes.VIDEO;
+    } else {
+      mediaType = mediaTypes.IMAGE;
+    }
+
+    this.setState(
+      {
+        activeIndex: index,
+        mediaType,
+      },
+      () => {
+        this.setState({ showLightBox: true });
+      }
+    );
+  };
 
   _onImageLoad(event) {
     console.debug("loaded image", event.target.src);
@@ -204,39 +220,45 @@ class MediaGallery extends Component {
 
   showPrev = data => {
     const { activeIndex } = this.state;
-    this.setState({
-      activeIndex: activeIndex - 1,
-      hideNextIcon: false,
-      hidePrevIcon: activeIndex === 1 ? true : false,
-    });
-    if (data[activeIndex - 1].embedUrl) {
-      this.setState({
-        mediaType: mediaTypes.VIDEO,
-      });
+    let mediaType;
+    const nextIndex = activeIndex === 0 ? data.length - 1 : activeIndex - 1;
+
+    if (data[nextIndex].embedUrl) {
+      mediaType = mediaTypes.VIDEO;
     } else {
-      this.setState({ mediaType: mediaTypes.IMAGE });
+      mediaType = mediaTypes.IMAGE;
     }
+
+    this.setState(prevState => {
+      return {
+        activeIndex: prevState.activeIndex === 0 ? data.length - 1 : prevState.activeIndex - 1,
+        mediaType,
+      };
+    });
   };
 
   showNext = data => {
     const { activeIndex } = this.state;
-    this.setState({
-      activeIndex: activeIndex + 1,
-      hidePrevIcon: activeIndex >= 0 ? false : true,
-      hideNextIcon: activeIndex === data.length - 2 ? true : false,
-    });
-    if (data[activeIndex + 1].embedUrl) {
-      this.setState({
-        mediaType: mediaTypes.VIDEO,
-      });
+    let mediaType;
+    const nextIndex = activeIndex === data.length - 1 ? 0 : activeIndex + 1;
+
+    if (data[nextIndex].embedUrl) {
+      mediaType = mediaTypes.VIDEO;
     } else {
-      this.setState({ mediaType: mediaTypes.IMAGE });
+      mediaType = mediaTypes.IMAGE;
     }
+
+    this.setState(prevState => {
+      return {
+        activeIndex: prevState.activeIndex === data.length - 1 ? 0 : prevState.activeIndex + 1,
+        mediaType,
+      };
+    });
   };
 
   render() {
     const { classes } = this.props;
-    const { showLightBox, hideNextIcon, hidePrevIcon, mediaType, activeIndex } = this.state;
+    const { showLightBox, mediaType, activeIndex } = this.state;
 
     return this.images.length !== 0 ? (
       <Fragment>
@@ -261,21 +283,25 @@ class MediaGallery extends Component {
             slideDuration={parseInt(this.state.slideDuration)}
             slideInterval={parseInt(this.state.slideInterval)}
             slideOnThumbnailOver={this.state.slideOnThumbnailOver}
-            additionalClass={classes.marketplace_media_gallery}
+            additionalClass={`${classes.marketplace_media_gallery} ${
+              this.images.length > 4 ? classes.showViewMore : null
+            }`}
+            onThumbnailClick={this.onThumbnailClick.bind(this)}
+            disableKeyDown={showLightBox}
           />
         </div>
-        <Modal open={showLightBox} className={classes.mediaGalleryLightBox}>
+        <Modal open={showLightBox} className={classes.mediaGalleryLightBox} onClose={this.handleClose}>
           <div className={classes.mediaContainer}>
-            <h2>Media Gallery</h2>
+            <h2>Media Gallery ({this.images.length})</h2>
             <CloseIcon className={classes.closeIcon} onClick={this.handleClose} />
             <div className={classes.mediaWrapper}>
               <div className={classes.arrowIconContainer}>
                 <ArrowForwardIosIcon
-                  className={`${classes.leftNavIcon} ${hidePrevIcon ? classes.hideIcon : classes.navIcon}`}
+                  className={`${classes.leftNavIcon} ${classes.navIcon}`}
                   onClick={() => this.showPrev(this.images)}
                 />
                 <ArrowForwardIosIcon
-                  className={`${classes.rigthtNavIcon} ${hideNextIcon ? classes.hideIcon : classes.navIcon}`}
+                  className={`${classes.rigthtNavIcon} ${classes.navIcon}`}
                   onClick={() => this.showNext(this.images)}
                 />
               </div>

@@ -9,7 +9,7 @@ export const useStyles = theme => ({
   marketplace_media_gallery: {
     padding: "10px 30px 31px",
     "& .image-gallery-thumbnail.active, .image-gallery-thumbnail:hover, .image-gallery-thumbnail:focus": {
-      border: "4px solid #4086ff",
+      border: "none",
     },
     "& .image-gallery-right-nav, .image-gallery-left-nav": {
       padding: 0,
@@ -57,6 +57,83 @@ export const useStyles = theme => ({
     },
     "& .image-gallery-icon": {
       "&:hover": { color: "#4086ff" },
+    },
+    "& .image-gallery-thumbnails-container": {
+      "& > button": {
+        "&:nth-child(n+5)": { display: "none" },
+        "@media(max-width: 1500px) and (min-width: 1121px)": { "&:nth-child(n+4)": { display: "none" } },
+        "@media(max-width: 1120px) and (min-width: 769px)": { "&:nth-child(n+3)": { display: "none" } },
+      },
+    },
+  },
+  showViewMore: {
+    "& .image-gallery-thumbnails-container": {
+      "& > button": {
+        "&:nth-child(4)": {
+          "& .image-gallery-thumbnail-inner": {
+            "&::after": {
+              backgroundColor: "rgba(0, 0, 0, .5)",
+              content: '"View More"',
+              fontFamily: "Muli, sans-serif",
+              color: "#fff",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "100%",
+              width: "100%",
+              zIndex: 100000,
+              position: "absolute",
+              left: 0,
+              top: 0,
+              cursor: "pointer",
+            },
+          },
+        },
+        "@media(max-width: 1500px) and (min-width: 1121px)": {
+          "&:nth-child(3)": {
+            "& .image-gallery-thumbnail-inner": {
+              "&::after": {
+                backgroundColor: "rgba(0, 0, 0, .5)",
+                content: '"View More"',
+                fontFamily: "Muli, sans-serif",
+                color: "#fff",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "100%",
+                width: "100%",
+                zIndex: 100000,
+                position: "absolute",
+                left: 0,
+                top: 0,
+                cursor: "pointer",
+              },
+            },
+          },
+        },
+        "@media(max-width: 1120px) and (min-width: 769px)": {
+          "&:nth-child(2)": {
+            "& .image-gallery-thumbnail-inner": {
+              "&::after": {
+                backgroundColor: "rgba(0, 0, 0, .5)",
+                content: '"View More"',
+                fontFamily: "Muli, sans-serif",
+                color: "#fff",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "100%",
+                width: "100%",
+                zIndex: 100000,
+                position: "absolute",
+                left: 0,
+                top: 0,
+                cursor: "pointer",
+              },
+            },
+          },
+        },
+      },
     },
   },
   videoMainContainer: { position: "relative" },
@@ -113,28 +190,31 @@ export const useStyles = theme => ({
     top: "50%",
     right: 0,
     left: 0,
-    transform: "translateY(-50%)",
   },
   navIcon: {
     position: "absolute",
-    backgroundColor: "rgba(255,255,255,0.9)",
-    opacity: 0.1,
+    transform: "translateY(-50%)",
+    backgroundColor: "#CCC",
+    boxShadow: "1px 0 2px 0 rgba(0,0,0,0.6) inset",
+    opacity: "30%",
     padding: 20,
     cursor: "pointer",
     "&:hover": {
       opacity: 1,
+      backgroundColor: "#fff",
       color: theme.palette.text.primary,
+      boxShadow: "1px 0 2px 0 rgba(0,0,0,0.3)",
     },
   },
   leftNavIcon: {
     borderTopLeftRadius: 4,
     borderBottomLeftRadius: 4,
     left: 0,
-    transform: "rotate(180deg)",
+    transform: "translateY(-50%) rotate(180deg)",
   },
   rigthtNavIcon: {
-    borderTopRightRadius: 4,
-    borderBottomRightRadius: 4,
+    borderTopLeftRadius: 4,
+    borderBottomLeftRadius: 4,
     right: 0,
   },
   hideIcon: { display: "none" },
