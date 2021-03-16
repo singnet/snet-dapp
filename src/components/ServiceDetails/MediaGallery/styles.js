@@ -8,8 +8,9 @@ export const useStyles = theme => ({
   },
   marketplace_media_gallery: {
     padding: "10px 30px 31px",
+    "& .image-gallery-thumbnail": { border: "3px solid transparent" },
     "& .image-gallery-thumbnail.active, .image-gallery-thumbnail:hover, .image-gallery-thumbnail:focus": {
-      border: "none",
+      border: "3px solid transparent",
     },
     "& .image-gallery-right-nav, .image-gallery-left-nav": {
       padding: 0,
@@ -195,7 +196,7 @@ export const useStyles = theme => ({
     position: "absolute",
     transform: "translateY(-50%)",
     backgroundColor: "#CCC",
-    boxShadow: "1px 0 2px 0 rgba(0,0,0,0.6) inset",
+    boxShadow: "-1px 0 2px 0 rgb(0 0 0 / 60%)",
     opacity: "30%",
     padding: 20,
     cursor: "pointer",
