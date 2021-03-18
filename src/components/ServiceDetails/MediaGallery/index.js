@@ -292,7 +292,7 @@ class MediaGallery extends Component {
         </div>
         <Modal open={showLightBox} className={classes.mediaGalleryLightBox} onClose={this.handleClose}>
           <div className={classes.mediaContainer}>
-            <h2>Media Gallery ({this.images.length})</h2>
+            <h2>Media Gallery</h2>
             <CloseIcon className={classes.closeIcon} onClick={this.handleClose} />
             <div className={classes.mediaWrapper}>
               <div className={classes.arrowIconContainer}>
