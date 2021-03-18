@@ -1,10 +1,11 @@
-import { API } from "aws-amplify";
+import API from "@aws-amplify/api";
 
 import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { initializeAPIOptions } from "../../utility/API";
 import { fetchAuthenticatedUser } from "./UserActions";
 import { loaderActions } from "./";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
+// import { cacheS3Url } from "../../utility/image";
 
 export const UPDATE_SERVICE_DETAILS = "UPDATE_SERVICE_DETAILS";
 export const RESET_SERVICE_DETAILS = "RESET_SERVICE_DETAILS";
@@ -19,8 +20,12 @@ const fetchServiceDetailsFailure = err => dispatch => {
 };
 
 const fetchServiceDetailsSuccess = serviceDetails => dispatch => {
+  // const enhancedServiceDetails = {
+  //   ...serviceDetails,
+  //   data: { ...serviceDetails.data, media: serviceDetails.data.media.map(el => ({ ...el, url: cacheS3Url(el.url) })) },
+  // };
   dispatch(loaderActions.stopAppLoader);
-  dispatch({ type: UPDATE_SERVICE_DETAILS, payload: serviceDetails });
+  dispatch({ type: UPDATE_SERVICE_DETAILS, payload: serviceDetails.data });
 };
 
 const fetchServiceDetailsAPI = async (orgId, serviceId) => {
@@ -57,7 +62,7 @@ const meteringAPI = (token, orgId, serviceId, groupId, userId) => {
 };
 
 export const fetchMeteringData = ({ orgId, serviceId, groupId }) => async dispatch => {
-  const { email, token } = await fetchAuthenticatedUser();
+  const { email, token } = await dispatch(fetchAuthenticatedUser());
   const usageData = await meteringAPI(token, orgId, serviceId, groupId, email);
   return dispatch(fetchMeteringDataSuccess(usageData));
 };

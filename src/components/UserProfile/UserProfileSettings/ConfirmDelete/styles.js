@@ -72,7 +72,7 @@ export const useStyles = makeStyles(theme => ({
     backgroundColor: "#FDF3E5",
     borderRadius: 4,
     marginTop: 16,
-    padding: "13px 20px",
+    padding: "13px 11px",
     "& div": {
       marginBottom: 17,
       display: "flex",
@@ -84,11 +84,12 @@ export const useStyles = makeStyles(theme => ({
       margin: "0 0 12px",
       padding: 0,
       display: "inline",
+      wordBreak: "break-word",
       "&:last-of-type": { marginBottom: 0 },
     },
     "& svg": {
       color: "#FFC200",
-      marginRight: 12,
+      marginRight: 10,
       verticalAlign: "middle",
     },
   },
@@ -97,7 +98,7 @@ export const useStyles = makeStyles(theme => ({
     "& > div": {
       width: "100%",
       "& div": {
-        "&.MuiSelect-select": { padding: "28px 0" },
+        "&.MuiSelect-select": { padding: "23px 0" },
       },
     },
     "& div": {

@@ -10,15 +10,24 @@ import signInImg from "../../../assets/images/signIn.png";
 
 import { useStyles } from "./styles";
 
-const DemoToggler = ({ classes, showDemo, onClick, service, history, serviceAvailable }) => {
+const DemoToggler = ({
+  classes,
+  showDemo,
+  onClick,
+  service,
+  history,
+  serviceAvailable,
+  demoExampleRef,
+  scrollToView,
+}) => {
   if (!showDemo) {
     return (
-      <div className={classes.demoContainer}>
-        <h3>Demo Example</h3>
+      <div className={classes.demoContainer} ref={demoExampleRef}>
+        <h2>Demo Example</h2>
         <div className={classes.demoToggler}>
           <div className={classes.imgContainer}>
-            <img src={signInImg} title="Login" />
-            <p>Please login or sign up to run this demo fr free.</p>
+            <img src={signInImg} title="Login" alt="SignIn" loading="lazy" />
+            <p>Please login or sign up to run this demo for free.</p>
           </div>
           <div className={classes.btnContainer}>
             <Link to={`/${Routes.LOGIN}`}>
@@ -35,11 +44,16 @@ const DemoToggler = ({ classes, showDemo, onClick, service, history, serviceAvai
 
   if (!serviceAvailable) {
     return (
-      <div className={classes.serviceOfflineContainer}>
-        <h3>Demo Example</h3>
+      <div className={classes.serviceOfflineContainer} ref={demoExampleRef}>
+        <h2>Demo Example</h2>
         <div className={classes.serviceOffline}>
           <div className={classes.imgContainer}>
-            <img src={serviceOfflineImg} title="Service Not Available" />
+            <img
+              src={serviceOfflineImg}
+              title="Service Not Available"
+              alt="Service Not Available due to poor connection "
+              loading="lazy"
+            />
             <p>Service temporary offline by provider.</p>
             <p>Please try again Later.</p>
             <span>If this error is continuing for some time, feel free to reach us.</span>
@@ -54,9 +68,9 @@ const DemoToggler = ({ classes, showDemo, onClick, service, history, serviceAvai
   }
 
   return (
-    <div className={classes.demoContainer}>
-      <h3>Service Demo</h3>
-      <ServiceDemo service={service} history={history} />
+    <div className={classes.demoContainer} ref={demoExampleRef}>
+      <h2>Service Demo</h2>
+      <ServiceDemo service={service} history={history} scrollToView={scrollToView} />
     </div>
   );
 };

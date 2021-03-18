@@ -1,15 +1,17 @@
 import React from "react";
+import { withStyles } from "@material-ui/styles";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 
+import { useStyles } from "./styles";
 import Row from "./Row";
 
-const Contibutors = ({ contributors }) => {
+const Contibutors = ({ contributors, classes }) => {
   if (isEmpty(contributors)) {
     return null;
   }
   const contributorsNames = (
-    <p>
+    <p className={classes.contributorsName}>
       {contributors.map((contributor, index) => (
         <span key={contributor.name}>
           {contributor.name} {index + 1 !== contributors.length ? "," : ""}
@@ -17,7 +19,7 @@ const Contibutors = ({ contributors }) => {
       ))}
     </p>
   );
-  return <Row header="Contributors" content={contributorsNames} />;
+  return <Row content={contributorsNames} />;
 };
 
 Contibutors.propTypes = {
@@ -29,4 +31,4 @@ Contibutors.propTypes = {
   ),
 };
 
-export default Contibutors;
+export default withStyles(useStyles)(Contibutors);

@@ -10,7 +10,7 @@ const FooterLogo = () => {
     <div className={classes.FooterLogo}>
       <h1>
         <a href="/" title="SingularityNET">
-          <img src={Logo} alt="SingularityNET" />
+          <img src={Logo} alt="SingularityNET" loading="lazy" />
         </a>
       </h1>
     </div>

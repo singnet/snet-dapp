@@ -5,7 +5,7 @@ export const useStyles = makeStyles(theme => ({
     borderWidth: 1,
     borderStyle: "solid",
     borderColor: "transparent",
-    padding: "13px 28px 11px",
+    padding: "7px 28px",
     color: theme.palette.text.white,
     textTransform: "uppercase",
     fontFamily: theme.typography.primary.main,
@@ -74,6 +74,14 @@ export const useStyles = makeStyles(theme => ({
       borderWidth: 2,
       borderColor: theme.palette.text.disabledBtnBg,
       color: theme.palette.text.disabledBtnBg,
+    },
+  },
+  whiteBorder: {
+    borderColor: theme.palette.text.white,
+    backgroundColor: "transparent",
+    color: theme.palette.text.white,
+    "&:hover": {
+      backgroundColor: "rgba(241,241,241,0.15)",
     },
   },
 }));

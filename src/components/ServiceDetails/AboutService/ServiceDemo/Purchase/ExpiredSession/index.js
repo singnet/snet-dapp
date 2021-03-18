@@ -31,7 +31,7 @@ class ExpiredSession extends Component {
       try {
         const selectedEthAddress = window.ethereum && window.ethereum.selectedAddress;
         const sdk = await initSdk(selectedEthAddress);
-        const address = sdk.account.address;
+        const address = await sdk.account.getAddress();
 
         if (!isEmpty(address)) {
           stopWalletDetailsPolling();
@@ -139,7 +139,4 @@ const mapDispatchToProps = dispatch => ({
   stopWalletDetailsPolling: () => dispatch(userActions.stopWalletDetailsPolling),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(useStyles)(ExpiredSession));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(ExpiredSession));
