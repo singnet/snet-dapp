@@ -38,6 +38,7 @@ const ConfirmDelete = ({ open, handleClose, handleSubmit, error }) => {
   const [reasonForLeaving, setReasonForLeaving] = React.useState("");
 
   const handleCancel = () => {
+    setReasonForLeaving("");
     handleClose();
   };
 
