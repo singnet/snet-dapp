@@ -98,7 +98,13 @@ export const useStyles = makeStyles(theme => ({
     "& > div": {
       width: "100%",
       "& div": {
-        "&.MuiSelect-select": { padding: "23px 0" },
+        "&.MuiSelect-select": {
+          color: theme.palette.text.darkShadedGray,
+          padding: "23px 15px",
+          "&:focus": {
+            backgroundColor: "transparent",
+          },
+        },
       },
     },
     "& div": {
