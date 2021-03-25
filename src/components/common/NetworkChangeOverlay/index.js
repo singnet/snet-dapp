@@ -12,7 +12,7 @@ import { useStyles } from "./styles";
 import { walletTypes } from "../../../Redux/actionCreators/UserActions";
 import { initSdk } from "../../../utility/sdk";
 import { Networks } from "../../../config/Networks";
-import { type } from "jquery";
+// import { type } from "jquery";
 
 const accountChangeAlert = {
   header: "Incorrect Metamask Account",
@@ -32,8 +32,9 @@ class NetworkChangeOverlay extends Component {
   constructor(props) {
     super(props);
     this.state = { alert: {}, ...this.showMetaMaskConfigMismatchOverlay() };
-    this._allowedNetworkId = Number(process.env.REACT_APP_ETH_NETWORK)
+    this._allowedNetworkId = Number(process.env.REACT_APP_ETH_NETWORK);
   }
+
   sdk;
 
   componentDidMount() {
@@ -69,8 +70,8 @@ class NetworkChangeOverlay extends Component {
       return { invalidMetaMaskDetails: false, alert: {} };
     }
 
-    const chainIdHex = web3Provider.chainId
-    const networkId = parseInt(chainIdHex)
+    const chainIdHex = web3Provider.chainId;
+    const networkId = parseInt(chainIdHex);
 
     const sameNetwork = networkId === this._allowedNetworkId;
     if (!sameNetwork) {
@@ -100,7 +101,7 @@ class NetworkChangeOverlay extends Component {
     if (wallet.type !== walletTypes.METAMASK) {
       return;
     }
-   
+
     const sameNetwork = network === this._allowedNetworkId;
     this.setState({ invalidMetaMaskDetails: !sameNetwork, alert: networkChangeAlert });
   };
