@@ -204,7 +204,6 @@ class ServiceDemo extends Component {
       freeCalls: { remaining: freeCallsRemaining, allowed: freeCallsAllowed },
       groupInfo,
       wallet,
-      totalRating,
     } = this.props;
 
     const { progressText, purchaseCompleted, isServiceExecutionComplete, alert } = this.state;
@@ -222,7 +221,6 @@ class ServiceDemo extends Component {
         <h3>Process</h3>
         <ProgressBar activeSection={this.computeActiveSection()} progressText={progressText} />
         <PurchaseToggler
-          totalRating={totalRating}
           groupInfo={groupInfo}
           purchaseCompleted={purchaseCompleted}
           purchaseProps={{

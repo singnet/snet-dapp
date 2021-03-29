@@ -71,4 +71,9 @@ export const useStyles = makeStyles(theme => ({
     bottom: "auto",
     left: "auto",
   },
+  ratingConatiner: {
+    "& p": {
+      "& span:last-of-type": { display: "none" },
+    },
+  },
 }));

@@ -118,7 +118,6 @@ class ServiceDetails extends Component {
             serviceAvailable={service.is_available}
             demoExampleRef={this.demoExampleRef}
             scrollToView={this.scrollToView}
-            totalRating={service.service_rating ? service.service_rating.total_users_rated : 0}
           />
         ),
       },

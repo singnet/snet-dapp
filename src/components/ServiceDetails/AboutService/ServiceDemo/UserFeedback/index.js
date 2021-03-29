@@ -17,16 +17,7 @@ import StyledButton from "../../../../common/StyledButton";
 import { serviceActions } from "../../../../../Redux/actionCreators";
 import AlertBox from "../../../../common/AlertBox";
 
-const UserFeedback = ({
-  open,
-  handleClose,
-  feedback,
-  submitFeedback,
-  orgId,
-  serviceId,
-  refetchFeedback,
-  totalRating,
-}) => {
+const UserFeedback = ({ open, handleClose, feedback, submitFeedback, orgId, serviceId, refetchFeedback }) => {
   const [comment, setComment] = useState(feedback.comment);
   const [openSnackbar, setOpenSnackbar] = useState(feedback.comment);
   const [count, setCount] = useState(feedback.comment.length);
@@ -89,9 +80,9 @@ const UserFeedback = ({
             }
           />
           <CardContent className={classes.cardContent}>
-            <div>
+            <div className={classes.ratingConatiner}>
               <StarRatingComponent name="rate1" starCount={5} value={rating} className={classes.ratingStars} />
-              <RatingsCount ratingGiven={rating} totalRating={totalRating} />
+              <RatingsCount ratingGiven={rating} />
             </div>
             <div className={classes.InputWrapper}>
               <StyledTextField
