@@ -19,6 +19,7 @@ const DemoToggler = ({
   serviceAvailable,
   demoExampleRef,
   scrollToView,
+  totalRating,
 }) => {
   if (!showDemo) {
     return (
@@ -70,7 +71,7 @@ const DemoToggler = ({
   return (
     <div className={classes.demoContainer} ref={demoExampleRef}>
       <h2>Service Demo</h2>
-      <ServiceDemo service={service} history={history} scrollToView={scrollToView} />
+      <ServiceDemo service={service} history={history} scrollToView={scrollToView} totalRating={totalRating} />
     </div>
   );
 };

@@ -60,7 +60,15 @@ class ThirdPartyAIService extends Component {
       return null;
     }
 
-    const { org_id, service_id, classes, stopLoader, isServiceExecutionComplete, handleResetAndRun } = this.props;
+    const {
+      org_id,
+      service_id,
+      classes,
+      stopLoader,
+      isServiceExecutionComplete,
+      handleResetAndRun,
+      totalRating,
+    } = this.props;
     const { feedback } = this.state;
     const { serviceClient } = this;
     const AIServiceCustomComponent = thirdPartyCustomUIComponents.componentFor(org_id, service_id);
@@ -83,6 +91,7 @@ class ThirdPartyAIService extends Component {
           serviceId={service_id}
           refetchFeedback={this.fetchUserFeedback}
           handleResetAndRun={handleResetAndRun}
+          totalRating={totalRating}
         />
       </div>
     );
@@ -101,7 +110,4 @@ const mapDispatchToProps = dispatch => ({
   stopLoader: () => dispatch(loaderActions.startAppLoader),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(useStyles)(ThirdPartyAIService));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(ThirdPartyAIService));
