@@ -50,7 +50,6 @@ export const useStyles = makeStyles(theme => ({
     },
   },
   InputWrapper: {
-    paddingTop: 10,
     "& span": {
       paddingLeft: 11,
       color: theme.palette.text.mediumShadeGray,
