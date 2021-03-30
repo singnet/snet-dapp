@@ -92,9 +92,8 @@ const UserFeedback = ({ open, handleClose, feedback, submitFeedback, orgId, serv
                 multiline
                 rowsMax="4"
                 onChange={handleCommentChange}
-                inputProps={{
-                  maxLength: 500,
-                }}
+                inputProps={{ maxLength: 500 }}
+                InputLabelProps={{ shrink: true }}
               />
               <span>{count} / 500 Characters</span>
             </div>
