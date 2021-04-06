@@ -37,14 +37,14 @@ const TitleCard = ({
 
   const serviceImage = mediaData => {
     const serviceImgObj = mediaData.find(({ asset_type }) => asset_type === HERO_IMG);
-    return serviceImgObj.url;
+    return serviceImgObj ? (serviceImgObj.url ? serviceImgObj.url : CardImg) : CardImg;
   };
 
   return (
     <Grid item xs={12} sm={12} md={8} lg={8} className={classes.computerVisionContainer}>
       <div className={classes.titleImg}>
         <img
-          src={serviceImage(service) || CardImg}
+          src={serviceImage(service)}
           alt={altText}
           width={229}
           height={129}
@@ -75,7 +75,7 @@ const TitleCard = ({
 
       <Modal open={showLightBox} className={classes.serviceLightBox} onClose={handleClose}>
         <div className={classes.serviceImgContainer}>
-          <img src={serviceImage(service) || CardImg} alt={altText} loading="lazy" />
+          <img src={serviceImage(service)} alt={altText} loading="lazy" />
           <CloseIcon onClick={handleClose} />
         </div>
       </Modal>
