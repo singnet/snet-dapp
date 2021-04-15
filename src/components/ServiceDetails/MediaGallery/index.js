@@ -39,9 +39,11 @@ class MediaGallery extends Component {
       activeIndex: 0,
     };
 
-    this.filteredData = this.props.data.filter(item => {
-      return item.asset_type !== HERO_IMG;
-    });
+    this.filteredData = this.props.data
+      ? this.props.data.filter(item => {
+          return item.asset_type !== HERO_IMG;
+        })
+      : [];
 
     this.images = this.filteredData.map((item, index) => {
       if (item.file_type === "video") {
