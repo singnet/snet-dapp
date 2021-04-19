@@ -46,6 +46,9 @@ export const useStyles = theme => ({
       letterSpacing: "0.25px",
       lineHeight: "20px",
     },
+    "& strong": {
+      padding: "15px 22px 0",
+    },
     "& h4": {
       margin: "30px 0 0",
       color: theme.palette.text.mediumShadeGray,

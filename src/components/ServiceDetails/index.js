@@ -17,6 +17,7 @@ import { pricing, serviceDetails, groupInfo } from "../../Redux/reducers/Service
 import ErrorBox from "../common/ErrorBox";
 import SeoMetadata from "../common/SeoMetadata";
 import Routes from "../../utility/constants/Routes";
+import CardImg from "../../assets/images/SnetDefaultServiceImage.png";
 
 export const HERO_IMG = "hero_image";
 
@@ -135,7 +136,7 @@ class ServiceDetails extends Component {
         <SeoMetadata
           title={service.display_name}
           description={service.short_description}
-          image={service.org_assets_url.hero_image}
+          image={service.org_assets_url ? service.org_assets_url.hero_image : CardImg}
           url={seoURL}
           keywords={service.tags}
         />
