@@ -60,16 +60,33 @@ class InstallAndRunService extends Component {
     const { classes, service } = this.props;
     const { activeTab, downloadTokenURL, alert } = this.state;
     const tabs = [
-      { name: "Python", activeIndex: 0, component: <Python /> },
-      { name: "Javascript", activeIndex: 1, component: <Javascript /> },
+      {
+        name: "Python",
+        activeIndex: 0,
+        component: (
+          <Python description="Download the Python SDK to help you integrate this AI service with your application. Once you setup your configuration, use the token generator below to test the servcie with a number of free calls." />
+        ),
+      },
+      {
+        name: "Javascript",
+        activeIndex: 1,
+        component: (
+          <Javascript description="Download the Javascript SDK to help you integrate this AI service with your application. Once you setup your configuration, use the token generator below to test the servcie with a number of free calls." />
+        ),
+      },
     ];
     return (
       <Grid container spacing={24} className={classes.installAndRunContainer}>
         <Grid item xs={12} sm={12} md={8} lg={8} className={classes.overViewContainer}>
           <div className={classes.integrationSetupContainer}>
             <h2>Integration Setup</h2>
+            <div className={classes.integrationContent}>
+              <StyledTabs tabs={tabs} onTabChange={this.handleTabChange} activeTab={activeTab} />
+            </div>
+          </div>
+          <div className={classes.integrationSetupContainer}>
+            <h2>Free Call Authentication Token</h2>
             <div className={classes.overViewContainer}>
-              <Typography className={classes.intSetupTitle}>Free Call Authentication Token</Typography>
               <Typography className={classes.intSetupDesc}>
                 Generate the free call token to use in your SDK. The address used to generate this token should be the
                 same as the identity specified in your SDK configuation. This will allow you to invoke the service from
@@ -85,7 +102,6 @@ class InstallAndRunService extends Component {
                     margin="normal"
                     variant="outlined"
                     value={this.state.publickey}
-                    autoFocus
                     onChange={this.handlePublicKey}
                   />
                   <Typography className={classes.publicAddDesc}>
@@ -110,12 +126,6 @@ class InstallAndRunService extends Component {
                 )}
               </div>
               <AlertBox type={alert.type} message={alert.message} />
-            </div>
-          </div>
-          <div className={classes.integrationSetupContainer}>
-            <h2>Installation and Execution</h2>
-            <div className={classes.integrationContent}>
-              <StyledTabs tabs={tabs} onTabChange={this.handleTabChange} activeTab={activeTab} />
             </div>
           </div>
         </Grid>
