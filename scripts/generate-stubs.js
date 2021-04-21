@@ -8,19 +8,25 @@ const axios = require("axios");
 const AdmZip = require("adm-zip");
 const rimraf = require("rimraf");
 const prompts = require("prompts");
+const chalk = require("chalk");
 const dotenv = require("dotenv");
 dotenv.config();
 
 const protoCVersion = "3.15.8";
 const extractedFolder = "protoBinary";
 const downloadedZipName = `${extractedFolder}.zip`;
-const outputDir = "generatedLibraries";
+const outputDir = "grpc-client-libraries";
 let packageName;
 let orgId;
 let serviceId;
 let namespacePrefix;
 
 console.log("proces architecture", process.arch);
+
+const displayError = (...args) => {
+  console.error(chalk.red(...args));
+  process.exit();
+};
 
 const getProtoBinaryFileURL = () => {
   const osPlatform = os.platform();
@@ -36,16 +42,25 @@ const getProtoBinaryFileURL = () => {
   }
 };
 
+const validateCommand = () => {
+  if (process.argv.length <= 2) {
+    displayError("Missing input file. Provide the path to the proto file");
+  }
+};
+
 const promptForDetails = async () => {
   const { shouldIncludeNamespacePrefix } = await prompts({
-    type: "confirm",
+    type: "select",
     name: "shouldIncludeNamespacePrefix",
-    message: "Do you like to include a unique namespace prefix in the generated client libraries",
-    initial: false,
+    message: "How do you want to create the stubs",
+    choices: [
+      { title: "With namespace prefix", description: "Recommended", value: true },
+      { title: "Without namespace prefix", value: false },
+    ],
+    initial: 0,
   });
+
   if (shouldIncludeNamespacePrefix) {
-    orgId = process.env.REACT_APP_SANDBOX_ORG_ID;
-    serviceId = process.env.REACT_APP_SANDBOX_SERVICE_ID;
     const response = await prompts({
       type: "text",
       name: "packageName",
@@ -53,6 +68,9 @@ const promptForDetails = async () => {
       validate: value =>
         value && Boolean(value.trim()) ? true : "Please enter the Package Name. It wil be in the .proto file",
     });
+    if (!response.packageName) {
+      displayError("Package Name is not provided.");
+    }
     packageName = response.packageName.trim();
     if (!orgId) {
       const response = await prompts({
@@ -60,7 +78,11 @@ const promptForDetails = async () => {
         name: "orgId",
         message: "Organization Id",
         validate: value => (value && Boolean(value.trim()) ? true : "Please enter the organization Id"),
+        initial: process.env.REACT_APP_SANDBOX_ORG_ID,
       });
+      if (!response.orgId) {
+        displayError("Organization Id is not provided.");
+      }
       orgId = response.orgId.trim();
     }
     if (!serviceId) {
@@ -69,29 +91,42 @@ const promptForDetails = async () => {
         name: "serviceId",
         message: "Service Id",
         validate: value => (value && Boolean(value.trim()) ? true : "Please enter the service Id"),
+        initial: process.env.REACT_APP_SANDBOX_SERVICE_ID,
       });
+      if (!response.serviceId) {
+        displayError("Service Id is not provided.");
+      }
       serviceId = response.serviceId.trim();
     }
     namespacePrefix = `${packageName.replace(/-/g, "_")}_${orgId.replace(/-/g, "_")}_${serviceId.replace(/-/g, "_")}`;
   }
 };
 
-const getProtoFilePathFromArgs = async () => {
-  if (process.argv.length <= 2) {
-    console.error("Missing input file. Provide the path to the proto file");
-    process.exit();
+const getProtoFilePathFromArgs = () => {
+  let protoFilePath = process.argv[2];
+  const regex = new RegExp("([a-zA-Z0-9s_\\.-:])+(.proto)$");
+  if (!regex.test(protoFilePath)) {
+    displayError("Please provide path to the file with `.proto` extension");
   }
-  await promptForDetails();
-  let protoFilePath = process.argv[2].split(".");
-  if (protoFilePath[protoFilePath.length] !== "proto") protoFilePath = `${protoFilePath}.proto`;
   return protoFilePath;
 };
 
 const downloadProtoCBinary = async protoBinaryFileURL => {
-  const { data } = await axios.get(protoBinaryFileURL, { responseType: "arraybuffer" });
-  await fsPromises.writeFile(downloadedZipName, data);
-  const zip = new AdmZip(downloadedZipName);
-  zip.extractAllTo(`./${extractedFolder}`, true);
+  let data;
+  try {
+    const response = await axios.get(protoBinaryFileURL, { responseType: "arraybuffer" });
+    data = response.data;
+  } catch (error) {
+    displayError("Unable to download the binary from the URL: ", protoBinaryFileURL);
+  }
+
+  try {
+    await fsPromises.writeFile(downloadedZipName, data);
+    const zip = new AdmZip(downloadedZipName);
+    zip.extractAllTo(`./${extractedFolder}`, true);
+  } catch (error) {
+    displayError("unable to extract the downloaded zip file: ", downloadedZipName);
+  }
 };
 
 const executeProtoCBinary = async protoFilePath => {
@@ -104,8 +139,7 @@ const executeProtoCBinary = async protoFilePath => {
     );
     if (stderr) throw new Error(stderr);
   } catch (err) {
-    console.error(err.message);
-    process.exit();
+    displayError("Unable to execute the binary", err.message);
   }
 };
 
@@ -116,11 +150,16 @@ const removeUnwantedFiles = () => {
 };
 
 const generateStubs = async () => {
-  const protoFilePath = await getProtoFilePathFromArgs();
+  validateCommand();
+  const protoFilePath = getProtoFilePathFromArgs();
+  await promptForDetails();
   const protoBinaryFileURL = getProtoBinaryFileURL();
   await downloadProtoCBinary(protoBinaryFileURL);
   await executeProtoCBinary(protoFilePath);
   removeUnwantedFiles();
+  console.log(
+    chalk.green("Grpc client libraries have been generated successfully and saved inside the folder ", outputDir)
+  );
 };
 
 generateStubs();
