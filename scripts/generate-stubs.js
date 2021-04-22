@@ -15,7 +15,8 @@ dotenv.config();
 const protoCVersion = "3.15.8";
 const extractedFolder = "protoBinary";
 const downloadedZipName = `${extractedFolder}.zip`;
-const outputDir = "grpc-client-libraries";
+let outputDir = "grpc-stubs";
+let shouldIncludeNamespacePrefix = false;
 let packageName;
 let orgId;
 let serviceId;
@@ -49,7 +50,7 @@ const validateCommand = () => {
 };
 
 const promptForDetails = async () => {
-  const { shouldIncludeNamespacePrefix } = await prompts({
+  const response = await prompts({
     type: "select",
     name: "shouldIncludeNamespacePrefix",
     message: "How do you want to create the stubs",
@@ -59,7 +60,7 @@ const promptForDetails = async () => {
     ],
     initial: 0,
   });
-
+  shouldIncludeNamespacePrefix = response.shouldIncludeNamespacePrefix;
   if (shouldIncludeNamespacePrefix) {
     const response = await prompts({
       type: "text",
@@ -130,8 +131,11 @@ const downloadProtoCBinary = async protoBinaryFileURL => {
 };
 
 const executeProtoCBinary = async protoFilePath => {
+  if (shouldIncludeNamespacePrefix) {
+    outputDir = `${outputDir}/${orgId.replace(/-/g, "_")}_${serviceId.replace(/-/g, "_")}`;
+  }
   try {
-    if (!fs.existsSync(outputDir)) await fsPromises.mkdir(outputDir);
+    if (!fs.existsSync(outputDir)) await fsPromises.mkdir(outputDir, { recursive: true });
     const { stderr } = await exec(
       `./${extractedFolder}/bin/protoc ${protoFilePath} --js_out=import_style=commonjs,binary,${
         namespacePrefix ? "namespace_prefix=" + namespacePrefix : ""
