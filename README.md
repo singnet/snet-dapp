@@ -40,6 +40,10 @@ This approach will change in the future as we support a generic mechanism to dec
     2. `REACT_APP_SANDBOX_ORG_ID` & `REACT_APP_SANDBOX_SERVICE_ID` 
 
         The `org_id` to which the service belongs and the `service_id` of the service. The values set for these variables will be used for registering the custom ui.
+    
+    3. `REACT_APP_WEB3_PROVIDER`
+
+        The infura endpoint to be used for the Web3 connection.
 
 2. Start the AI service locally along with the snet daemon. Make sure the blockchain is disabled in the daemon configuration. 
 3. Building the custom ui

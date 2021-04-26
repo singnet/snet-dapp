@@ -202,7 +202,7 @@ const AnnotationForm = props => {
           int,
           coding,
           noncoding,
-          cov
+          cov,
           // , ...(annotations.includes("gene-go-annotation") ? [namespace, nop] : [])
         ]);
       }
