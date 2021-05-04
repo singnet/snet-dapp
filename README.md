@@ -8,7 +8,7 @@ The beta dapp is under active development and will see several changes in the up
 1. Navigate to the SingularityNET beta [dapp](http://beta.singularitynet.io/)
 2. Sign up / Login to the DApp account
 3. Every service has a free trial, so you can invoke the service without any payment
-4. If free trial has expired, you need to use your AGI tokens to make the call using Metamask (this is on the mainnet)
+4. If free trial has expired, you need to use your AGIX tokens to make the call using Metamask (this is on the mainnet)
 5. Authorize and Transfer tokens to the Multi party escrow in the Accounts page
 6. Follow the service execution steps on the service details page
 7. The result from the operation is displayed in the result tab

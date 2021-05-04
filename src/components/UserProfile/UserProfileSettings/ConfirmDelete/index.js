@@ -20,7 +20,7 @@ import AlertBox, { alertTypes } from "../../../common/AlertBox";
 
 const warningMessage = [
   "Your wallet or any wallets you have used will remain in your possession. We do not have any access to your wallet and cannot help you recover wallet keys.",
-  "Any remaining AGI tokens on your SingularityNET account will remain yours. Your account balance is linked to your wallet and can thus be accessed directly via the third party wallet service you have been using.",
+  "Any remaining AGIX tokens on your SingularityNET account will remain yours. Your account balance is linked to your wallet and can thus be accessed directly via the third party wallet service you have been using.",
   "All personal data associated with your account will be deleted from our records.",
 ];
 

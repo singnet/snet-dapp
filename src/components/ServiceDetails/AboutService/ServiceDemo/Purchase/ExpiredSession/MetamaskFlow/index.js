@@ -28,7 +28,7 @@ const payTypes = {
 const connectMMinfo = {
   type: alertTypes.WARNING,
   message: `Please install Metamask and use your Metamask wallet to connect to SingularityNet. 
-Click below to install and learn more about how to use Metamask and your AGI credits with SinguarlityNet AI Marketplace.`,
+Click below to install and learn more about how to use Metamask and your AGIX credits with SinguarlityNet AI Marketplace.`,
 };
 
 class MetamaskFlow extends Component {
@@ -70,12 +70,12 @@ class MetamaskFlow extends Component {
     {
       title: "Escrow Balance",
       value: this.state.mpeBal,
-      unit: "AGI",
+      unit: "AGIX",
     },
     {
       title: "Channel Balance",
       value: this.state.channelBalance,
-      unit: "AGI",
+      unit: "AGIX",
     },
   ];
 
@@ -174,7 +174,7 @@ class MetamaskFlow extends Component {
           mpeBal,
           alert: {
             type: alertTypes.ERROR,
-            message: `Insufficient MPE balance. Please deposit some AGI tokens to your escrow account`,
+            message: `Insufficient MPE balance. Please deposit some AGIX tokens to your escrow account`,
           },
         });
         return;
@@ -251,7 +251,7 @@ class MetamaskFlow extends Component {
             <span className={classes.channelSelectionTitle}>Recommended</span>
             <ChannelSelectionBox
               title="Channel Balance"
-              description={`You have ${this.parseChannelBalFromPaymentCard()} AGI in you channel. This can be used for running demos across all the services from this vendor.`}
+              description={`You have ${this.parseChannelBalFromPaymentCard()} AGIX in you channel. This can be used for running demos across all the services from this vendor.`}
               checked={selectedPayType === payTypes.CHANNEL_BALANCE}
               value={payTypes.CHANNEL_BALANCE}
               onClick={() => this.handlePayTypeChange(payTypes.CHANNEL_BALANCE)}
@@ -270,7 +270,7 @@ class MetamaskFlow extends Component {
                 noOfServiceCalls,
                 onChange: this.handleNoOfCallsChange,
                 totalPrice,
-                unit: "AGI",
+                unit: "AGIX",
               }}
               disabled={disabledPayTypes.includes(payTypes.MULTIPLE_CALLS)}
             />
@@ -283,7 +283,7 @@ class MetamaskFlow extends Component {
               inputProps={{
                 noOfServiceCalls: 1,
                 totalPrice: cogsToAgi(this.props.pricing.price_in_cogs),
-                unit: "AGI",
+                unit: "AGIX",
                 disabled: true,
               }}
               disabled={disabledPayTypes.includes(payTypes.SINGLE_CALL)}

@@ -50,11 +50,11 @@ export const LoaderContent = {
   },
   DEPOSIT: {
     loaderHeader: "Deposit",
-    loaderText: "Depositing AGI tokens to Multi-party Escrow account",
+    loaderText: "Depositing AGIX tokens to Multi-party Escrow account",
   },
   WITHDRAW: {
     loaderHeader: "Withdraw",
-    loaderText: "Withdrawing AGI tokens from Multi-party Escrow account",
+    loaderText: "Withdrawing AGIX tokens from Multi-party Escrow account",
   },
   CONNECT_METAMASK: {
     loaderHeader: "Connecting MetaMask",
