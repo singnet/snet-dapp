@@ -8,7 +8,10 @@ export const useStyles = theme => ({
   },
   marketplace_media_gallery: {
     padding: "10px 30px 31px",
-    "& .image-gallery-thumbnail": { border: "3px solid transparent" },
+    "& .image-gallery-thumbnail": {
+      border: "3px solid transparent",
+      cursor: "pointer",
+    },
     "& .image-gallery-thumbnail.active, .image-gallery-thumbnail:hover, .image-gallery-thumbnail:focus": {
       border: "3px solid transparent",
     },
@@ -137,7 +140,10 @@ export const useStyles = theme => ({
       },
     },
   },
-  videoMainContainer: { position: "relative" },
+  videoMainContainer: {
+    position: "relative",
+    cursor: "pointer",
+  },
   playVideoIcon: {
     backgroundColor: "#4086FF",
     boxShadow: "0 0 10px 0 rgba(0,0,0,0.4)",
@@ -180,6 +186,7 @@ export const useStyles = theme => ({
     "& img": {
       width: "100%",
       height: "100%",
+      "@media(max-width: 768px)": { objectFit: "contain" },
     },
     "@media(max-width: 1050px)": {
       width: "90%",
