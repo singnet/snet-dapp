@@ -101,7 +101,4 @@ const mapDispatchToProps = dispatch => ({
   stopLoader: () => dispatch(loaderActions.startAppLoader),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(useStyles)(ThirdPartyAIService));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(ThirdPartyAIService));

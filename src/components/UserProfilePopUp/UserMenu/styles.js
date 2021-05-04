@@ -30,7 +30,13 @@ export const useStyles = theme => ({
     },
   },
   UserMenuAction: {
+    padding: "0 20px !important",
     cursor: "pointer",
+    "& span": {
+      width: "89%",
+      padding: "12px 0",
+      display: "inline-block",
+    },
     "&:hover": {
       "& svg": { color: theme.palette.text.primary },
       "& span": { color: theme.palette.text.primary },
