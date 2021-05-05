@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import VolumeUpIcon from "@material-ui/icons/VolumeUp";
 
 import { useStyles } from "./styles";
 import NavBar from "./NavBar";
 import HeaderActions from "./HeaderActions";
 import Title from "./Title";
 import MobileHeader from "./MobileHeader";
-import NotificationBar from "../../common/NotificationBar";
+import UpdateNotificationBar from "../../common/UpdateNotificationBar";
 import { NavData } from "../../../utility/constants/Header";
 
 const Header = ({ isLoggedIn }) => {
@@ -22,14 +21,7 @@ const Header = ({ isLoggedIn }) => {
     <div>
       <header className={classes.header}>
         <div className={classes.updateNotificationBar}>
-          <NotificationBar
-            showNotification={showUpdateNotification}
-            message="Phase 2 white paper avaliable now! Read more on our official blog post."
-            icon={VolumeUpIcon}
-            type="UPDATE"
-            showCloseButton={true}
-            onCloseClick={onUpdateCloseClick}
-          />
+          <UpdateNotificationBar showNotification={showUpdateNotification} onCloseClick={onUpdateCloseClick} />
         </div>
         <div className={classes.mainHeader}>
           <div className={classes.logoSection}>
