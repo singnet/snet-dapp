@@ -4,17 +4,15 @@ import { withStyles } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 import clsx from "clsx";
 import isEmpty from "lodash/isEmpty";
-import CloseIcon from "@material-ui/icons/Close";
 
 import { useStyles } from "./styles";
 
 export const notificationBarTypes = {
   WARNING: "WARNING",
   INFORMATION: "INFORMATION",
-  UPDATE: "UPDATE",
 };
 
-const NotificationBar = ({ classes, showNotification, icon: Icon, message, type, showCloseButton, onCloseClick }) => {
+const NotificationBar = ({ classes, showNotification, icon: Icon, message, type }) => {
   if (!showNotification) return null;
   return (
     <Grid container className={classes.NotificationBar}>
@@ -28,19 +26,16 @@ const NotificationBar = ({ classes, showNotification, icon: Icon, message, type,
       >
         {!isEmpty(Icon) && <Icon />}
         <span>{message}</span>
-        {showCloseButton ? <CloseIcon className={classes.closeIcon} onClick={onCloseClick} /> : null}
       </Grid>
     </Grid>
   );
 };
 
 NotificationBar.propTypes = {
-  type: PropTypes.oneOf(["WARNING", "INFORMATION", "UPDATE"]),
+  type: PropTypes.oneOf(["WARNING", "INFORMATION"]),
   message: PropTypes.string,
   showNotification: PropTypes.bool,
   icon: PropTypes.object,
-  showCloseButton: PropTypes.bool,
-  onCloseClick: PropTypes.func,
 };
 
 export default withStyles(useStyles)(NotificationBar);
