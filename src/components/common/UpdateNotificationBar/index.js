@@ -2,7 +2,7 @@ import React from "react";
 import { withStyles } from "@material-ui/styles";
 import CloseIcon from "@material-ui/icons/Close";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
-import VolumeUpIcon from "@material-ui/icons/VolumeUp";
+import AnnoucementIcon from "../../../assets/images/AnnoucementIcon.png";
 
 import { useStyles } from "./styles";
 
@@ -10,7 +10,7 @@ const UpdateNotificationBar = ({ classes, showNotification, onCloseClick }) => {
   if (!showNotification) return null;
   return (
     <div className={classes.updateNotificationBar}>
-      <VolumeUpIcon />
+      <img src={AnnoucementIcon} alt="Announcment" />
       <p>
         <span>Phase 2 white paper avaliable now! </span>
         <a href="#" title="Read More">
