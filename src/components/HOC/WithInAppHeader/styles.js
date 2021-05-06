@@ -9,4 +9,8 @@ export const useStyles = makeStyles(theme => ({
     overflowY: "scroll",
     backgroundColor: theme.palette.text.offWhiteColor,
   },
+  increaseTopSpace: {
+    height: "calc(100vh - 110px)",
+    top: 110,
+  },
 }));
