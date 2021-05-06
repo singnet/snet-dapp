@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
 
 import { useStyles } from "./styles";
@@ -9,19 +9,13 @@ import MobileHeader from "./MobileHeader";
 import UpdateNotificationBar from "../../common/UpdateNotificationBar";
 import { NavData } from "../../../utility/constants/Header";
 
-const Header = ({ isLoggedIn }) => {
+const Header = ({ isLoggedIn, showNotification, onCloseClick }) => {
   const classes = useStyles();
-  const [showUpdateNotification, setShowUpdateNotificationBar] = useState(true);
-
-  const onUpdateCloseClick = () => {
-    setShowUpdateNotificationBar(false);
-  };
-
   return (
     <div>
       <header className={classes.header}>
         <div className={classes.updateNotificationBar}>
-          <UpdateNotificationBar showNotification={showUpdateNotification} onCloseClick={onUpdateCloseClick} />
+          <UpdateNotificationBar showNotification={showNotification} onCloseClick={onCloseClick} />
         </div>
         <div className={classes.mainHeader}>
           <div className={classes.logoSection}>
