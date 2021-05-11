@@ -10,7 +10,7 @@ import ServiceListingHeader from "./ServiceListingHeader";
 const seoData = {
   title: "SingularityNET Beta Dapp",
   description:
-    "The SingularityNET Marketplace hosts AI services. Services offer free calls to try before you use AGI or Paypal to purchase",
+    "The SingularityNET Marketplace hosts AI services. Services offer free calls to try before you use AGIX or Paypal to purchase",
   image: `${process.env.REACT_APP_SNET_CDN}/dapp/assets/images/SEO/singularitynet-marketplace.png`,
   twitterImage: `${process.env.REACT_APP_SNET_CDN}/dapp/assets/images/SEO/singularitynet-marketplace-twitter.png`,
   url: `${process.env.REACT_APP_BASE_URL}`,

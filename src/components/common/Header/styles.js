@@ -2,8 +2,8 @@ import { makeStyles } from "@material-ui/styles";
 
 export const useStyles = makeStyles(theme => ({
   header: {
-    padding: "13px 65px 6px 60px",
     display: "flex",
+    flexDirection: "column",
     alignItems: "center",
     position: "fixed",
     right: 0,
@@ -12,6 +12,16 @@ export const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.text.purple,
     boxShadow: "0 2px 6px 0 rgba(0,0,0,0.3)",
     "@media (max-width:1280px)": { padding: "13px 10px 6px 10px" },
+  },
+  updateNotificationBar: {
+    width: "100%",
+  },
+  mainHeader: {
+    boxSizing: "border-box",
+    width: "100%",
+    padding: "13px 65px 6px 60px",
+    display: "flex",
+    alignItems: "center",
   },
   logoSection: {
     width: "30%",
