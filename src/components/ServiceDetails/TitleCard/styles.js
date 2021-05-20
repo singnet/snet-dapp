@@ -27,6 +27,7 @@ export const useStyles = theme => ({
       color: theme.palette.text.darkShadedGray,
       fontSize: 38,
       fontWeight: 200,
+      wordBreak: "break-word",
       "@media(max-width:1024px)": { fontSize: 34 },
     },
     "@media(max-width:768px)": { marginLeft: 17 },
