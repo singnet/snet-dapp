@@ -1,13 +1,17 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment } from "react";
 
 import Header from "../../common/Header";
 import Footer from "../../common/Footer";
 import { useStyles } from "./styles";
+import { localStorageKeys, useLocalStorage } from "../../Hooks/useLocalStorage";
 
 const withInAppWrapper = InputComponent => {
   return props => {
     const classes = useStyles();
-    const [showUpdateNotification, setShowUpdateNotificationBar] = useState(true);
+    const [showUpdateNotification, setShowUpdateNotificationBar] = useLocalStorage(
+      localStorageKeys.SHOW_PHASE2_NOTIFICATION,
+      true
+    );
 
     const onUpdateCloseClick = () => {
       setShowUpdateNotificationBar(false);
