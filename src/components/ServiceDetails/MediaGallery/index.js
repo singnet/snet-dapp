@@ -2,11 +2,12 @@ import React, { Component, Fragment } from "react";
 import { withStyles } from "@material-ui/styles";
 import PlayIcon from "@material-ui/icons/PlayArrow";
 import ImageGallery from "react-image-gallery";
-import last from "lodash/last";
 import "react-image-gallery/styles/css/image-gallery.css";
 import Modal from "@material-ui/core/Modal";
 import CloseIcon from "@material-ui/icons/Close";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
+
+import getVideoId from "get-video-id";
 
 import DefaultIconForVideo from "../../../assets/images/Play_1.png";
 import { HERO_IMG } from "../";
@@ -39,9 +40,11 @@ class MediaGallery extends Component {
       activeIndex: 0,
     };
 
-    this.filteredData = this.props.data.filter(item => {
-      return item.asset_type !== HERO_IMG;
-    });
+    this.filteredData = this.props.data
+      ? this.props.data.filter(item => {
+          return item.asset_type !== HERO_IMG;
+        })
+      : [];
 
     this.images = this.filteredData.map((item, index) => {
       if (item.file_type === "video") {
@@ -64,20 +67,22 @@ class MediaGallery extends Component {
   }
 
   enhancedEmbedUrl(link) {
-    if (!link.includes("youtube")) {
+    if (!link.includes("you")) {
       return link;
     }
-    const youtubeId = last(link.split("="));
-    const embededLink = `https://youtube.com/embed/${youtubeId}?autoplay=1&mute=1`;
+
+    const youtubeId = getVideoId(link);
+    const embededLink = `https://youtube.com/embed/${youtubeId.id}?autoplay=1&mute=1`;
     return embededLink;
   }
 
   getYoutubeVideoThumbnail(link, type) {
-    if (!link.includes("youtube")) {
+    if (!link.includes("you")) {
       return DefaultIconForVideo;
     }
-    const youtubeId = last(link.split("="));
-    const youtubeThumbnail = `https://img.youtube.com/vi/${youtubeId}/${type === "thumbnail" ? "1.jpg" : "0.jpg"}`;
+
+    const youtubeId = getVideoId(link);
+    const youtubeThumbnail = `https://img.youtube.com/vi/${youtubeId.id}/${type === "thumbnail" ? "1.jpg" : "0.jpg"}`;
     return youtubeThumbnail;
   }
 
@@ -292,19 +297,21 @@ class MediaGallery extends Component {
         </div>
         <Modal open={showLightBox} className={classes.mediaGalleryLightBox} onClose={this.handleClose}>
           <div className={classes.mediaContainer}>
-            <h2>Media Gallery ({this.images.length})</h2>
+            <h2>Media Gallery</h2>
             <CloseIcon className={classes.closeIcon} onClick={this.handleClose} />
             <div className={classes.mediaWrapper}>
-              <div className={classes.arrowIconContainer}>
-                <ArrowForwardIosIcon
-                  className={`${classes.leftNavIcon} ${classes.navIcon}`}
-                  onClick={() => this.showPrev(this.images)}
-                />
-                <ArrowForwardIosIcon
-                  className={`${classes.rigthtNavIcon} ${classes.navIcon}`}
-                  onClick={() => this.showNext(this.images)}
-                />
-              </div>
+              {this.images.length > 1 ? (
+                <div className={classes.arrowIconContainer}>
+                  <ArrowForwardIosIcon
+                    className={`${classes.leftNavIcon} ${classes.navIcon}`}
+                    onClick={() => this.showPrev(this.images)}
+                  />
+                  <ArrowForwardIosIcon
+                    className={`${classes.rigthtNavIcon} ${classes.navIcon}`}
+                    onClick={() => this.showNext(this.images)}
+                  />
+                </div>
+              ) : null}
               {mediaType === mediaTypes.IMAGE ? (
                 <img src={this.images[activeIndex].original} alt={this.images[activeIndex].alt_text} loading="lazy" />
               ) : (

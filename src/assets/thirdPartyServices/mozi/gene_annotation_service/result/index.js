@@ -61,7 +61,7 @@ const AnnotationResult = props => {
         });
     });
   };
-  
+
   const renderComplete = () => {
     const { nodes, edges } = response.result.elements;
     return (

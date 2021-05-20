@@ -13,9 +13,22 @@ const ServiceOverview = ({ classes, description, tags }) => {
     return description;
   };
 
+  const renderSandboxInfo = () => {
+    if (process.env.REACT_APP_SANDBOX) {
+      return (
+        <>
+          <p>After testing your component you can package your component with the below command</p>
+          <strong> npm run zip-component</strong>
+        </>
+      );
+    }
+    return null;
+  };
+
   return (
     <div className={classes.overViewContainer}>
       <h2>Overview</h2>
+      {renderSandboxInfo()}
       <p>{parseDescription(description)}</p>
       <Tags className={classes.tagsContainer} tags={tags} />
     </div>
