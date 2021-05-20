@@ -30,7 +30,8 @@ const StyledPagination = ({ limit, offset, total_count, handleChange }) => {
   };
 
   const currentFirstItem = offset;
-  const currentLastItem = parseFloat(limit) + parseFloat(offset);
+  const currentLastItem =
+    total_count > parseFloat(limit) + parseFloat(offset) ? parseFloat(limit) + parseFloat(offset) : total_count;
 
   return (
     <Grid container spacing={24} className={classes.paginationContainer}>
