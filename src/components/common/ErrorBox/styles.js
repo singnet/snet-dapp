@@ -6,7 +6,10 @@ export const useStyles = theme => ({
     justifyContent: "center",
     flexDirection: "column",
     textAlign: "center",
-    "@ img": { width: 300, margin: "auto" },
+    "& img": {
+      width: 300,
+      margin: "auto",
+    },
     "& > span": {
       color: theme.palette.text.mediumShadeGray,
       fontSize: 24,
