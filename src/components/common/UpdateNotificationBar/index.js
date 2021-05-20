@@ -17,6 +17,7 @@ const UpdateNotificationBar = ({ classes, showNotification, onCloseClick }) => {
           href="https://blog.singularitynet.io/singularitynet-phase-ii-launch-sequence-activated-agi-token-to-be-hard-forked-to-10ede4b6c89"
           title="Read More"
           target="_blank"
+          rel="noopener noreferrer"
         >
           Read more on our official blog.
           <ArrowForwardIosIcon />
