@@ -11,7 +11,6 @@ export const useStyles = makeStyles(theme => ({
     zIndex: 5,
     backgroundColor: theme.palette.text.purple,
     boxShadow: "0 2px 6px 0 rgba(0,0,0,0.3)",
-    "@media (max-width:1280px)": { padding: "13px 10px 6px 10px" },
   },
   updateNotificationBar: {
     width: "100%",
@@ -22,6 +21,7 @@ export const useStyles = makeStyles(theme => ({
     padding: "13px 65px 6px 60px",
     display: "flex",
     alignItems: "center",
+    "@media (max-width:1280px)": { padding: "13px 10px 6px 10px" },
   },
   logoSection: {
     width: "30%",

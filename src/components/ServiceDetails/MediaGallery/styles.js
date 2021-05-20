@@ -186,7 +186,7 @@ export const useStyles = theme => ({
     "& img": {
       width: "100%",
       height: "100%",
-      "@media(max-width: 768px)": { objectFit: "contain" },
+      objectFit: "contain",
     },
     "@media(max-width: 1050px)": {
       width: "90%",
@@ -243,6 +243,7 @@ export const useStyles = theme => ({
   },
   lightBoxDescription: {
     paddingTop: 15,
-    display: "inline-block",
+    // display: "inline-block",
+    display: "none",
   },
 });
