@@ -19,13 +19,16 @@ export const useStyles = theme => ({
         color: "#fff",
         fontWeight: 200,
         textDecoration: "none",
+        "@media(max-width:764px)": { display: "block" },
       },
       "& svg": { fontSize: 12 },
+      "@media(max-width:764px)": { padding: "10px 0" },
     },
   },
   closeIcon: {
     position: "absolute",
     right: 95,
     cursor: "pointer",
+    "@media(max-width:1024px)": { right: 10 },
   },
 });

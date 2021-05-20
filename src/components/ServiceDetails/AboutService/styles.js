@@ -109,7 +109,7 @@ export const useStyles = theme => ({
     margin: "30px 0 0",
     display: "flex",
     alignItems: "center",
-    "& span": { color: theme.palette.text.primary },
+    "& svg": { color: theme.palette.text.primary },
     "& a": {
       marginLeft: 7,
       color: theme.palette.text.primary,
