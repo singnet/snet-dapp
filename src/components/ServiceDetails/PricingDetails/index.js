@@ -16,7 +16,7 @@ const PricingDetails = ({ classes, pricing, serviceAvailable, handleDemoClick })
   return (
     <Grid item xs={12} sm={12} md={4} lg={4} className={classes.creditsContainer}>
       <div className={classes.creditsAndToken}>
-        <Price unit="agi tokens" value={priceInAGI} />
+        <Price unit="agix tokens" value={priceInAGI} />
       </div>
       <p>
         <InfoIcon className={classes.infoIcon} />
