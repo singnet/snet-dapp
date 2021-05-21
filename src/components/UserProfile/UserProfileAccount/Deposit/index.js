@@ -6,7 +6,7 @@ import { useStyles } from "./styles";
 const Deposit = ({ classes }) => {
   return (
     <div className={classes.depositAmtContainer}>
-      <span>AGI Token Amount</span>
+      <span>AGIX Token Amount</span>
     </div>
   );
 };

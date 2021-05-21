@@ -24,7 +24,11 @@ import { orderTypes } from "../../../../../../../../../utility/constants/Payment
 import AGITokens from "./AGITokens";
 
 export const paymentTypes = [{ value: "paypal", label: "Paypal" }];
-const paymentAmounts = [{ value: 2, label: "2" }, { value: 3, label: "3" }, { value: 5, label: "5" }];
+const paymentAmounts = [
+  { value: 2, label: "2" },
+  { value: 3, label: "3" },
+  { value: 5, label: "5" },
+];
 
 const web3 = new Web3(process.env.REACT_APP_WEB3_PROVIDER, null, {});
 
@@ -107,7 +111,7 @@ const Details = props => {
       if (orderType === orderTypes.CREATE_CHANNEL) {
         var { signature, address, currentBlockNumber } = await generateSignature();
       }
-      await initiatePayment(payType, amount, currency, "AGI", amountInAGI, signature, address, currentBlockNumber);
+      await initiatePayment(payType, amount, currency, "AGIX", amountInAGI, signature, address, currentBlockNumber);
     } catch (error) {
       setAlert({ type: alertTypes.ERROR, message: `${error.message}. Please try again` });
     }
@@ -131,7 +135,7 @@ const Details = props => {
           title="Channel Balance"
           show={!isEmpty(channelInfo)}
           value={channelInfo.balanceInAgi}
-          unit="AGI"
+          unit="AGIX"
         />
       </div>
 
