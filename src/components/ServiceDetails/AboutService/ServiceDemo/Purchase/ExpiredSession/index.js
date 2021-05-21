@@ -105,7 +105,7 @@ class ExpiredSession extends Component {
               show={!isEmpty(channelInfo) && wallet.type === walletTypes.GENERAL}
               title="Channel Balance"
               value={!isEmpty(channelInfo) && channelInfo.balanceInAgi}
-              unit="AGI"
+              unit="AGIX"
             />
           </div>
           <AlertBox {...this.transactionAlert()} />

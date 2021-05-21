@@ -106,7 +106,7 @@ class MetamaskDetails extends Component {
         submitAction: this.handleDeposit,
         component: (
           <StyledTextField
-            label="Amount to be deposited in AGI"
+            label="Amount to be deposited in AGIX"
             value={amount[txnTypes.DEPOSIT] || ""}
             onChange={event => this.handleAmountChange(event, txnTypes.DEPOSIT)}
           />
@@ -118,7 +118,7 @@ class MetamaskDetails extends Component {
         submitAction: this.handleWithDraw,
         component: (
           <StyledTextField
-            label="Amount to be withdrawn in AGI"
+            label="Amount to be withdrawn in AGIX"
             value={amount[txnTypes.WITHDRAW] || ""}
             onChange={event => this.handleAmountChange(event, txnTypes.WITHDRAW)}
           />
@@ -149,14 +149,14 @@ class MetamaskDetails extends Component {
               <InfoIcon />
               <span>Total Tokens</span>
             </div>
-            <span>{tokenBalance} AGI</span>
+            <span>{tokenBalance} AGIX</span>
           </div>
           <div className={classes.bgBox}>
             <div className={classes.label}>
               <InfoIcon />
               <span>Escrow Balance</span>
             </div>
-            <span>{escrowBalance} AGI</span>
+            <span>{escrowBalance} AGIX</span>
           </div>
         </div>
         <div className={classes.tabsContainer}>
@@ -189,7 +189,4 @@ const mapDispatchToProps = dispatch => ({
   stopLoader: () => dispatch(loaderActions.stopAppLoader),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(useStyles)(MetamaskDetails));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(MetamaskDetails));
