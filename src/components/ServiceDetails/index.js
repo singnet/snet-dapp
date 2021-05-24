@@ -18,6 +18,7 @@ import ErrorBox from "../common/ErrorBox";
 import SeoMetadata from "../common/SeoMetadata";
 import Routes from "../../utility/constants/Routes";
 import CardImg from "../../assets/images/SnetDefaultServiceImage.png";
+import NoUiComponent from "../common/NoUiComponent";
 
 export const HERO_IMG = "hero_image";
 
@@ -104,6 +105,10 @@ class ServiceDetails extends Component {
           <ErrorBox />
         </Grid>
       );
+    }
+
+    if (!service.demo_component_available) {
+      return <NoUiComponent />;
     }
 
     const { activeTab } = this.state;
