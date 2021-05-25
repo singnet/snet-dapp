@@ -1,6 +1,6 @@
 import React from "react";
 import { withStyles } from "@material-ui/styles";
-import NoUiComponentImg from "../../../assets/images/signIn.png";
+import NoUiComponentImg from "../../../assets/images/NoUiComponent.png";
 import { useStyles } from "./styles";
 
 const NoUiComponent = ({ classes }) => {
