@@ -71,9 +71,9 @@ const DemoToggler = ({
 
   if (noDemoComponent) {
     return (
-      <div className={classes.serviceOfflineContainer}>
+      <div className={classes.serviceOfflineContainer} ref={demoExampleRef}>
         <h2>Demo Example</h2>
-        <NoDemoComponent />;
+        <NoDemoComponent />
       </div>
     );
   }

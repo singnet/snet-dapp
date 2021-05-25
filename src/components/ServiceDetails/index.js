@@ -164,7 +164,6 @@ class ServiceDetails extends Component {
               serviceAvailable={service.is_available}
               pricing={pricing}
               handleDemoClick={this.handleDemoClick}
-              noDemoComponent={!service.demo_component_available}
             />
           </div>
           <StyledTabs tabs={tabs} activeTab={activeTab} onTabChange={this.handleTabChange} />
