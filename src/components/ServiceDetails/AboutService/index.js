@@ -13,7 +13,16 @@ import CreatorDetails from "../CreatorDetails";
 import ProjectDetails from "../ProjectDetails";
 import MediaGallery from "../MediaGallery";
 
-const AboutService = ({ classes, isLoggedIn, service, history, serviceAvailable, demoExampleRef, scrollToView }) => {
+const AboutService = ({
+  classes,
+  isLoggedIn,
+  service,
+  history,
+  serviceAvailable,
+  demoExampleRef,
+  scrollToView,
+  noDemoComponent,
+}) => {
   return (
     <Grid container spacing={24} className={classes.aboutContainer}>
       <Grid item xs={12} sm={8} md={8} lg={8} className={classes.leftSideSection}>
@@ -26,6 +35,7 @@ const AboutService = ({ classes, isLoggedIn, service, history, serviceAvailable,
           serviceAvailable={serviceAvailable}
           demoExampleRef={demoExampleRef}
           scrollToView={scrollToView}
+          noDemoComponent={noDemoComponent}
         />
         <div className={classes.backToLink}>
           <ArrowBackIcon />

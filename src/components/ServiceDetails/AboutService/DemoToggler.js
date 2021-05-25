@@ -7,6 +7,7 @@ import ServiceDemo from "./ServiceDemo";
 import Routes from "../../../utility/constants/Routes";
 import serviceOfflineImg from "../../../assets/images/Artboard.png";
 import signInImg from "../../../assets/images/signIn.png";
+import NoDemoComponent from "../../common/NoDemoComponent";
 
 import { useStyles } from "./styles";
 
@@ -19,6 +20,7 @@ const DemoToggler = ({
   serviceAvailable,
   demoExampleRef,
   scrollToView,
+  noDemoComponent,
 }) => {
   if (!showDemo) {
     return (
@@ -63,6 +65,15 @@ const DemoToggler = ({
             <StyledButton btnText="contact support" type="transparent" />
           </div>
         </div>
+      </div>
+    );
+  }
+
+  if (noDemoComponent) {
+    return (
+      <div className={classes.serviceOfflineContainer} ref={demoExampleRef}>
+        <h2>Demo Example</h2>
+        <NoDemoComponent />
       </div>
     );
   }

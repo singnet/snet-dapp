@@ -119,6 +119,7 @@ class ServiceDetails extends Component {
             serviceAvailable={service.is_available}
             demoExampleRef={this.demoExampleRef}
             scrollToView={this.scrollToView}
+            noDemoComponent={!service.demo_component_available}
           />
         ),
       },
