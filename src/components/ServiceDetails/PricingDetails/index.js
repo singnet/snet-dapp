@@ -8,7 +8,7 @@ import { useStyles } from "./styles";
 import Price from "./Price";
 import { PricingStrategy } from "../../../utility/PricingStrategy";
 
-const PricingDetails = ({ classes, pricing, serviceAvailable, handleDemoClick }) => {
+const PricingDetails = ({ classes, pricing, serviceAvailable, handleDemoClick, noDemoComponent }) => {
   const price_strategy = new PricingStrategy(pricing);
   const priceInAGI = typeof price_strategy === "undefined" ? undefined : price_strategy.getMaxPriceInAGI();
   const price_model = typeof price_strategy === "undefined" ? undefined : price_strategy.getPriceModel();
@@ -22,11 +22,13 @@ const PricingDetails = ({ classes, pricing, serviceAvailable, handleDemoClick })
         <InfoIcon className={classes.infoIcon} />
         <span>{price_model}</span>
       </p>
-      <StyledButton
-        btnText={!serviceAvailable ? "demo offline" : "demo"}
-        onClick={handleDemoClick}
-        disabled={!serviceAvailable}
-      />
+      {!noDemoComponent ? (
+        <StyledButton
+          btnText={!serviceAvailable ? "demo offline" : "demo"}
+          onClick={handleDemoClick}
+          disabled={!serviceAvailable}
+        />
+      ) : null}
     </Grid>
   );
 };

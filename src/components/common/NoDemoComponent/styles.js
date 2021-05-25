@@ -1,15 +1,12 @@
 export const useStyles = theme => ({
-  noUiComponentContainer: {
-    boxSizing: "border-box",
+  noDemoComponentContainer: {
     width: "100%",
-    minHeight: "calc(100vh - 335px)",
-    padding: "40px 0 60px",
     display: "flex",
     justifyContent: "center",
     flexDirection: "column",
     textAlign: "center",
     "& img": {
-      width: 300,
+      width: "50%",
       margin: "auto",
     },
     "& > span": {
