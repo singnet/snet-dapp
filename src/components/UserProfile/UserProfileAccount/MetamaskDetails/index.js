@@ -18,7 +18,7 @@ import { Networks } from "../../../../config/Networks";
 
 class MetamaskDetails extends Component {
   state = {
-    activeTab: 0,
+    activeTab: 1,
     currentNetwork: "",
     tokenBalance: "",
     escrowBalance: "",
@@ -51,6 +51,7 @@ class MetamaskDetails extends Component {
   };
 
   onTabChange = (event, value) => {
+    return;
     this.setState({ alert: {} });
     if (this.props.handleTitleChange) {
       this.props.handleTitleChange(value);
@@ -159,6 +160,25 @@ class MetamaskDetails extends Component {
             <span>{escrowBalance} AGI</span>
           </div>
         </div>
+        <AlertBox
+          type={alertTypes.WARNING}
+          message={
+            <Fragment>
+              <span>
+                We have temporarily disabled this DEPOSIT action as we are hard forking the AGI token to make it cross
+                compatible. We will enable it as soon as the hard fork is completed. Read more{" "}
+              </span>
+              <a
+                href="https://blog.singularitynet.io/singularitynet-phase-ii-launch-sequence-activated-agi-token-to-be-hard-forked-to-10ede4b6c89"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                here.
+              </a>
+              <span style={{ display: "block" }}>You will still be able to WITHDRAW your AGI</span>
+            </Fragment>
+          }
+        />
         <div className={classes.tabsContainer}>
           <AppBar position="static" className={classes.tabsHeader}>
             <Tabs value={activeTab} onChange={this.onTabChange}>
@@ -170,8 +190,14 @@ class MetamaskDetails extends Component {
           {activeComponent.component}
           <AlertBox type={alert.type} message={alert.message} />
         </div>
+
         <div className={classes.btnContainer}>
-          <StyledButton type="blue" btnText={activeComponent.name} onClick={activeComponent.submitAction} />
+          <StyledButton
+            type="blue"
+            btnText={activeComponent.name}
+            onClick={activeComponent.submitAction}
+            disabled={activeComponent.name.toLowerCase() === "deposit"}
+          />
         </div>
       </Fragment>
     );
@@ -189,7 +215,4 @@ const mapDispatchToProps = dispatch => ({
   stopLoader: () => dispatch(loaderActions.stopAppLoader),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(useStyles)(MetamaskDetails));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(MetamaskDetails));
