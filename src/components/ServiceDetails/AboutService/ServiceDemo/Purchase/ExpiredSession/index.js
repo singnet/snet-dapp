@@ -4,6 +4,7 @@ import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet";
 import InfoIcon from "@material-ui/icons/Info";
 import Typography from "@material-ui/core/Typography";
 import { connect } from "react-redux";
+import { Fragment } from "react";
 
 import AlertBox, { alertTypes } from "../../../../../common/AlertBox";
 import { useStyles } from "./styles";
@@ -31,7 +32,7 @@ class ExpiredSession extends Component {
       try {
         const selectedEthAddress = window.ethereum && window.ethereum.selectedAddress;
         const sdk = await initSdk(selectedEthAddress);
-        const address = await sdk.account.getAddress()
+        const address = await sdk.account.getAddress();
 
         if (!isEmpty(address)) {
           stopWalletDetailsPolling();
@@ -83,7 +84,24 @@ class ExpiredSession extends Component {
         <Typography variant="body1" className={classes.description}>
           You have run out of free trial. Please select a payment method to continue
         </Typography>
-
+        <AlertBox
+          type={alertTypes.WARNING}
+          message={
+            <Fragment>
+              <span>
+                We have temporarily disabled this action as we are hard forking the AGI token to make it cross chain
+                compatible. We will enable it as soon as the hard fork is completed. Read more
+              </span>
+              <a
+                href="https://blog.singularitynet.io/singularitynet-phase-ii-launch-sequence-activated-agi-token-to-be-hard-forked-to-10ede4b6c89"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                here
+              </a>
+            </Fragment>
+          }
+        />
         <div className={classes.paymentChannelAndDetails}>
           <div className={classes.paymentChannelDropDownContainer}>
             <InfoIcon className={classes.infoIconContainer} />
@@ -93,6 +111,7 @@ class ExpiredSession extends Component {
               </Typography>
               <AccountBalanceWalletIcon className={classes.walletIcon} />
               <StyledDropdown
+                disabled
                 labelTxt="Select a Wallet"
                 list={channelPaymentOptions}
                 value={wallet.type || "default"}
@@ -139,7 +158,4 @@ const mapDispatchToProps = dispatch => ({
   stopWalletDetailsPolling: () => dispatch(userActions.stopWalletDetailsPolling),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(useStyles)(ExpiredSession));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(ExpiredSession));
