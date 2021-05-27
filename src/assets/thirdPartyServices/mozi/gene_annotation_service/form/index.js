@@ -72,9 +72,10 @@ const AnnotationForm = props => {
   const [currentGene, setCurrentGene] = useState("");
   const [annotations, setAnnotations] = useState([]);
   const [parents, setParents] = useState(0);
+  const [goParents, setGOParents] = useState(1);
   const [pathways, setPathways] = useState(["reactome"]);
   const [includeSmallMolecules, setIncludeSmallMolecules] = useState(false);
-
+  const [geneLevel, setGeneLevel] = useState(false);
   const [includeCoding, setIncludeCoding] = useState(false);
   const [includeNonCoding, setincludeNonCoding] = useState(false);
 
@@ -106,8 +107,13 @@ const AnnotationForm = props => {
   };
 
   const toggleAnnotation = (annotation, e) => {
-    const updated = e.target.checked ? [...annotations, annotation] : annotations.filter(a => a !== annotation);
-    setAnnotations(updated);
+    if (annotation === "biogrid-interaction-annotation" && !geneLevel && e.target.checked) {
+      message.error("Genes only must be on before selecting BioGRID");
+      e.target.checked = false;
+    } else {
+      const updated = e.target.checked ? [...annotations, annotation] : annotations.filter(a => a !== annotation);
+      setAnnotations(updated);
+    }
   };
 
   const toggleGoSubgroup = (subgroup, e) => {
@@ -152,21 +158,16 @@ const AnnotationForm = props => {
     const nop = new Filter();
     nop.setFilter("parents");
     nop.setValue(parents.toString());
-    const coding = new Filter();
-    coding.setFilter("coding");
-    coding.setValue(capitalizeFirstLetter(includeCoding.toString()));
-    const noncoding = new Filter();
-    noncoding.setFilter("noncoding");
-    noncoding.setValue(capitalizeFirstLetter(includeNonCoding.toString()));
+    const gl = new Filter();
+    gl.setFilter("gene-level?");
+    gl.setValue(capitalizeFirstLetter(geneLevel.toString()));
 
     const annList = annotations.map(sa => {
       const annotation = new Annotation();
       annotation.setFunctionname(sa);
       if (sa === "gene-go-annotation") {
         const ip = new Filter();
-        ip.setFilter("protein");
-        ip.setValue(capitalizeFirstLetter(includeProtiens.toString()));
-        annotation.setFiltersList([namespace, nop, ip]);
+        annotation.setFiltersList([namespace, nop, gl]);
       } else if (sa === "gene-pathway-annotation") {
         const ps = new Filter();
         ps.setFilter("pathway");
@@ -174,47 +175,47 @@ const AnnotationForm = props => {
         const ism = new Filter();
         ism.setFilter("include_sm");
         ism.setValue(capitalizeFirstLetter(includeSmallMolecules.toString()));
-        const ip = new Filter();
-        ip.setFilter("include_prot");
-        ip.setValue(capitalizeFirstLetter(includeProtiens.toString()));
         const capb = new Filter();
-        capb.setFilter("biogrid");
-        capb.setValue(annotatePathwayWithBiogrid ? "1" : "0");
-        annotation.setFiltersList([
-          ps,
-          ip,
-          ism,
-          capb,
-          coding,
-          noncoding,
-          // ...(annotations.includes("gene-go-annotation") ? [namespace, nop] : []),
-        ]);
+        capb.setFilter("string?");
+        capb.setValue(capitalizeFirstLetter(annotatePathwayWithString.toString()));
+        const coding = new Filter();
+        coding.setFilter("coding");
+        coding.setValue(capitalizeFirstLetter(includeCodingRNA.toString()));
+        const noncoding = new Filter();
+        noncoding.setFilter("noncoding");
+        noncoding.setValue(capitalizeFirstLetter(includeNoncodingRNA.toString()));
+        annotation.setFiltersList([ps, gl, ism, capb, coding, noncoding]);
       } else if (sa === "biogrid-interaction-annotation") {
-        const int = new Filter();
-        int.setFilter("interaction");
-        int.setValue(includeProtiens ? "Proteins" : "Genes");
-
         const cov = new Filter();
         cov.setFilter("exclude-orgs");
-        cov.setValue(includeCoV ? "" : "2697049");
+        cov.setValue(includeCov ? "" : "2697049");
 
-        annotation.setFiltersList([
-          int,
-          coding,
-          noncoding,
-          cov,
-          // , ...(annotations.includes("gene-go-annotation") ? [namespace, nop] : [])
-        ]);
+        const coding = new Filter();
+        coding.setFilter("coding");
+        coding.setValue(capitalizeFirstLetter(includeCodingRNA.toString()));
+        const noncoding = new Filter();
+        noncoding.setFilter("noncoding");
+        noncoding.setValue(capitalizeFirstLetter(includeNoncodingRNA.toString()));
+        annotation.setFiltersList([coding, noncoding, cov]);
+      } else if (sa === "go-annotation") {
+        const pars = new Filter();
+        pars.setFilter("parents");
+        pars.setValue(goParents.toString());
+        annotation.setFiltersList([pars]);
       }
       return annotation;
     });
 
     const includeRNA = new Annotation();
     includeRNA.setFunctionname("include-rna");
+    const coding = new Filter();
+    coding.setFilter("coding");
+    coding.setValue(capitalizeFirstLetter(includeCodingRNA.toString()));
+    const noncoding = new Filter();
+    noncoding.setFilter("noncoding");
+    noncoding.setValue(capitalizeFirstLetter(includeNoncodingRNA.toString()));
     const protein = new Filter();
-    protein.setFilter("protein");
-    protein.setValue(includeProtiens ? "1" : "0");
-    includeRNA.setFiltersList([coding, noncoding, protein]);
+    includeRNA.setFiltersList([gl, coding, noncoding]);
 
     annotationRequest.setAnnotationsList(includeCoding || includeNonCoding ? [...annList, includeRNA] : annList);
     const requestProps = {
@@ -465,6 +466,38 @@ const AnnotationForm = props => {
         </li>
       </ul>
 
+      {/*Other Annotations*/}
+      <span className="title">Other Annotations</span>
+      <ul className="annotation-list">
+        <li>
+          <FormControlLabel
+            control={<Checkbox color="primary" onChange={e => toggleAnnotation("go-annotation", e)} />}
+            label={GO}
+          />
+          {annotations.includes("go-annotation") && (
+            <div className="annotation-parameters">
+              <div className="parameter">
+                <TextField
+                  label="Number of parents"
+                  value={goParents}
+                  error={goParents === "" || isNaN(goParents)}
+                  onChange={e => setGOParents(e.target.value)}
+                  type="number"
+                  variant="outlined"
+                  helperText={
+                    goParents === "" || isNaN(goParents) ? (
+                      <Typography variant="body2" gutterBottom>
+                        Number of parents needs to be a valid number
+                      </Typography>
+                    ) : null
+                  }
+                />
+              </div>
+            </div>
+          )}
+        </li>
+      </ul>
+
       <Typography variant="h6" gutterBottom>
         Include RNA
       </Typography>
@@ -480,19 +513,9 @@ const AnnotationForm = props => {
       />
       <br />
       <br />
-      <Typography variant="h6" gutterBottom>
-        Protiens
-      </Typography>
       <FormControlLabel
-        control={
-          <Switch
-            checked={includeProtiens}
-            onChange={e => setIncludeProtiens(e.target.checked)}
-            value="protiens"
-            color="primary"
-          />
-        }
-        label="Include protiens"
+        control={<Switch checked={geneLevel} onChange={e => setGeneLevel(e.target.checked)} color="primary" />}
+        label="Gene Only"
       />
       <br />
       <br />
