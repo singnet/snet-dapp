@@ -1,16 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
 import LaunchIcon from "@material-ui/icons/Launch";
+import { withStyles } from "@material-ui/styles";
 
+import { useStyles } from "./styles";
 import Row from "./Row";
 
-const ProjectURL = ({ URL }) => {
+const ProjectURL = ({ URL, classes }) => {
   if (!URL) {
     return null;
   }
   return (
     <Row
-      header="Project URL"
+      className={classes.projectURLContainer}
       content={
         <React.Fragment>
           {URL ? <LaunchIcon /> : ""}
@@ -27,4 +29,4 @@ ProjectURL.propTypes = {
   URL: PropTypes.string,
 };
 
-export default ProjectURL;
+export default withStyles(useStyles)(ProjectURL);

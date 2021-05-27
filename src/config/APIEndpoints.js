@@ -52,4 +52,5 @@ export const APIPaths = {
   LINKED_PROVIDERS: "/v2/channel",
   USD_RATE: "/currency/USD/token",
   FREE_CALL_TOKEN: "/free-call/token",
+  GET_CAROUSEL: "/uicontent/marketplacecarousel",
 };

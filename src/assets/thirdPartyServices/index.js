@@ -174,4 +174,7 @@ thirdPartyCustomUIComponents.addCustomUIComponent(
 
 thirdPartyCustomUIComponents.addCustomUIComponent("org_id_test_praveen", "test_claims", ExampleService);
 
+// For testing phase 2 ropsten
+thirdPartyCustomUIComponents.addCustomUIComponent("new_contract_test_1", "speed_detector_rt_v2", ExampleService);
+
 export default thirdPartyCustomUIComponents;

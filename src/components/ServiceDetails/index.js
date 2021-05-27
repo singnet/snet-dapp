@@ -15,16 +15,25 @@ import NotificationBar, { notificationBarTypes } from "../common/NotificationBar
 import { serviceDetailsActions } from "../../Redux/actionCreators";
 import { pricing, serviceDetails, groupInfo } from "../../Redux/reducers/ServiceDetailsReducer";
 import ErrorBox from "../common/ErrorBox";
+import SeoMetadata from "../common/SeoMetadata";
+import Routes from "../../utility/constants/Routes";
+import CardImg from "../../assets/images/SnetDefaultServiceImage.png";
+
+export const HERO_IMG = "hero_image";
 
 class ServiceDetails extends Component {
-  state = {
-    activeTab: 0,
-    alert: {},
-    offlineNotication: {
-      type: notificationBarTypes.WARNING,
-      message: "Service temporarily offline by the provider. Please check back later.",
-    },
-  };
+  constructor(props) {
+    super(props);
+    this.demoExampleRef = React.createRef();
+    this.state = {
+      activeTab: 0,
+      alert: {},
+      offlineNotication: {
+        type: notificationBarTypes.WARNING,
+        message: "Service temporarily offline by the provider. Please check back later.",
+      },
+    };
+  }
 
   componentDidMount() {
     if (process.env.REACT_APP_SANDBOX) {
@@ -50,12 +59,41 @@ class ServiceDetails extends Component {
   };
 
   handleTabChange = activeTab => {
+    if (window.location.href.indexOf("#demo") > -1) {
+      const currentUrl = this.props.location.pathname;
+      this.props.history.push(currentUrl);
+    }
     this.setState({ activeTab });
   };
 
+  scrollToView = () => {
+    if (this.demoExampleRef.current) {
+      this.demoExampleRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
+  };
+
+  handleDemoClick = () => {
+    const { history } = this.props;
+    const { activeTab } = this.state;
+    history.push({ ...history.location, hash: Routes.hash.SERVICE_DEMO });
+    if (activeTab !== 0) {
+      this.setState({ activeTab: 0 }, () => {
+        this.scrollToView();
+      });
+      return;
+    }
+    this.scrollToView();
+  };
+
   render() {
-    const { classes, service, pricing, loading, error, history, groupInfo } = this.props;
+    const { classes, service, pricing, loading, error, history, groupInfo, match } = this.props;
     const { offlineNotication } = this.state;
+    const {
+      params: { orgId, serviceId },
+    } = match;
 
     if (isEmpty(service) || error) {
       if (loading) {
@@ -74,7 +112,16 @@ class ServiceDetails extends Component {
       {
         name: "About",
         activeIndex: 0,
-        component: <AboutService service={service} history={history} serviceAvailable={service.is_available} />,
+        component: (
+          <AboutService
+            service={service}
+            history={history}
+            serviceAvailable={service.is_available}
+            demoExampleRef={this.demoExampleRef}
+            scrollToView={this.scrollToView}
+            noDemoComponent={!service.demo_component_available}
+          />
+        ),
       },
       {
         name: "Install and Run",
@@ -83,8 +130,17 @@ class ServiceDetails extends Component {
       },
     ];
 
+    const seoURL = `${process.env.REACT_APP_BASE_URL}/servicedetails/org/${orgId}/service/${serviceId}`;
+
     return (
       <div>
+        <SeoMetadata
+          title={service.display_name}
+          description={service.short_description}
+          image={service.org_assets_url ? service.org_assets_url.hero_image : CardImg}
+          url={seoURL}
+          keywords={service.tags}
+        />
         <Grid container spacing={24} className={classes.serviceDetailContainer}>
           <div className={classes.notificationBar}>
             <NotificationBar
@@ -98,17 +154,16 @@ class ServiceDetails extends Component {
             <TitleCard
               organizationName={service.organization_name}
               display_name={service.display_name}
-              serviceImg={service.assets_url && service.assets_url.hero_image}
+              service={service.media}
               orgImg={service.org_assets_url && service.org_assets_url.hero_image}
               star_rating={service.service_rating && service.service_rating.rating}
               totalRating={service.service_rating ? service.service_rating.total_users_rated : 0}
+              shortDescription={service.short_description}
             />
             <PricingDetails
               serviceAvailable={service.is_available}
-              activeTab={activeTab}
               pricing={pricing}
-              handleTabChange={this.handleTabChange}
-              history={history}
+              handleDemoClick={this.handleDemoClick}
             />
           </div>
           <StyledTabs tabs={tabs} activeTab={activeTab} onTabChange={this.handleTabChange} />

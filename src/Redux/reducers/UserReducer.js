@@ -21,6 +21,9 @@ const InitialUserDetails = {
   emailAlerts: false,
   isTermsAccepted: true,
   transactionHistory: [],
+  jwt: {
+    exp: "",
+  },
 };
 
 const userReducer = (state = InitialUserDetails, action) => {
@@ -114,6 +117,9 @@ const userReducer = (state = InitialUserDetails, action) => {
     case userActions.UPDATE_TRANSACTION_HISTORY: {
       return { ...state, transactionHistory: action.payload };
     }
+    case userActions.SET_JWT_EXP: {
+      return { ...state, jwt: { ...state.jwt, exp: action.payload } };
+    }
     default: {
       return state;
     }
@@ -125,7 +131,10 @@ export const channelInfo = state => {
   if (isEmpty(walletList)) {
     return {};
   }
-  const walletWithChannel = walletList.find(wallet => !isEmpty(wallet.channels[0]));
+
+  const walletWithChannel = walletList.find(
+    wallet => wallet.type === walletTypes.GENERAL && !isEmpty(wallet.channels[0])
+  );
   if (walletWithChannel) {
     const selectedChannel = walletWithChannel.channels[0];
     return {

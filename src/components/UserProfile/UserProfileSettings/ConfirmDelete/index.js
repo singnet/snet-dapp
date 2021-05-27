@@ -20,7 +20,7 @@ import AlertBox, { alertTypes } from "../../../common/AlertBox";
 
 const warningMessage = [
   "Your wallet or any wallets you have used will remain in your possession. We do not have any access to your wallet and cannot help you recover wallet keys.",
-  "Any remaining AGI tokens on your SingularityNET account will remain yours. Your account balance is linked to your wallet and can thus be accessed directly via the third party wallet service you have been using.",
+  "Any remaining AGIX tokens on your SingularityNET account will remain yours. Your account balance is linked to your wallet and can thus be accessed directly via the third party wallet service you have been using.",
   "All personal data associated with your account will be deleted from our records.",
 ];
 
@@ -35,9 +35,15 @@ const resonForLeaving = [
 
 const ConfirmDelete = ({ open, handleClose, handleSubmit, error }) => {
   const classes = useStyles();
+  const [reasonForLeaving, setReasonForLeaving] = React.useState("");
 
   const handleCancel = () => {
+    setReasonForLeaving("");
     handleClose();
+  };
+
+  const handleChange = event => {
+    setReasonForLeaving(event.target.value);
   };
 
   return (
@@ -72,11 +78,12 @@ const ConfirmDelete = ({ open, handleClose, handleSubmit, error }) => {
               <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel htmlFor="outlined-age-simple">Help us improve, tell us why you are leaving</InputLabel>
                 <Select
-                  value="Help us improve, tell us why you are leaving"
+                  value={reasonForLeaving}
+                  onChange={handleChange}
                   input={<OutlinedInput labelWidth={320} name="age" id="outlined-age-simple" />}
                 >
                   {resonForLeaving.map(item => (
-                    <MenuItem className={classes.menuItem} key={item.value} value={item.value}>
+                    <MenuItem className={classes.menuItem} key={item.label} value={item.label}>
                       {item.label}
                     </MenuItem>
                   ))}

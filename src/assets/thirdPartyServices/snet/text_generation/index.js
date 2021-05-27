@@ -18,7 +18,7 @@ import AnchorLink from "../../../../components/common/AnchorLink";
 
 const imgPath = (name, extension = "jpg") => {
   const trimmedName = name.replace(/[\s\.\'']/g, "");
-  return `${process.env.REACT_APP_SNET_CDN}/assets/images/ThirdPartyServices/snet/text_generation/${trimmedName}.${extension}`;
+  return `${process.env.REACT_APP_SNET_CDN}/dapp/assets/images/ThirdPartyServices/snet/text_generation/${trimmedName}.${extension}`;
 };
 
 const avatarPath = (name, extension = "jpg") => {
@@ -78,14 +78,14 @@ const runNamesWithoutMedia = [
   { key: "thetweetofgod", value: "God" },
   { key: "ticbot", value: "TicBot" },
 
-  { 
-    key: "goodfellow_ian", 
-    value: "Ian Goodfellow" ,
+  {
+    key: "goodfellow_ian",
+    value: "Ian Goodfellow",
     image: imgPath("Ian Goodfellow", "jpg"),
     avatar: avatarPath("Ian Goodfellow", "jpg"),
   },
-  { 
-    key: "nietzsche", 
+  {
+    key: "nietzsche",
     value: "Friedrich Nietzsche",
     image: imgPath("Friedrich Nietzsche", "jpg"),
     avatar: avatarPath("Friedrich Nietzsche", "jpg"),
@@ -94,17 +94,17 @@ const runNamesWithoutMedia = [
   { key: "songdata", value: "Song Lyrics" },
   { key: "cmdr_hadfield", value: "Chris Hadfield" },
   { key: "dril", value: "Dril" },
-  { 
-    key: "officialmcafee", 
+  {
+    key: "officialmcafee",
     value: "John MacAfee",
     image: imgPath("John MacAfee", "jpg"),
     avatar: avatarPath("John MacAfee", "jpg"),
   },
-  { 
-    key: "virginiahughes", 
+  {
+    key: "virginiahughes",
     value: "Virginia Huges",
     image: imgPath("Virginia Huges", "jpg"),
-    avatar: avatarPath("Virginia Huges", "jpg"), 
+    avatar: avatarPath("Virginia Huges", "jpg"),
   },
 ];
 
@@ -374,7 +374,7 @@ class TextGenerationService extends React.Component {
 
         <Grid item xs={12} sm={12} md={12} lg={12} className={classes.resultsContent}>
           <Grid item xs={12} sm={12} md={12} lg={12} className={classes.imgContainer}>
-            <img src={response.image} onError={this.handleResponseImgError} />
+            <img src={response.image} onError={this.handleResponseImgError} loading="lazy" />
           </Grid>
 
           <Grid item xs={12} sm={12} md={12} lg={12} className={classes.resultDetails}>

@@ -1,21 +1,22 @@
 export const useStyles = theme => ({
   projectDetailsContainer: {
     boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
-    padding: "0 25px 30px 0",
+    padding: "0 14px 25px 0",
     borderRadius: 4,
     backgroundColor: theme.palette.text.white,
     "& h3": { marginBottom: 15 },
     "& > div": {
       paddingLeft: 30,
-      marginBottom: 30,
+      marginTop: 17,
       display: "flex",
       "& h5": {
-        width: "50%",
+        paddingBottom: 34,
         margin: 0,
         color: theme.palette.text.darkShadedGray,
         fontSize: 16,
         fontWeight: 400,
         lineHeight: "22px",
+        "&:last-of-type": { paddingBottom: 0 },
       },
       "& a": {
         display: "block",
@@ -35,19 +36,38 @@ export const useStyles = theme => ({
       "&:last-of-type": { marginBottom: 0 },
     },
   },
+  projectDetailsHeadings: { width: "35%" },
+  projectDetailsValue: {
+    width: "65%",
+    "& > span": {
+      display: "block",
+      color: theme.palette.text.mediumShadeGray,
+      fontSize: 14,
+      wordBreak: "break-all",
+    },
+  },
+  orgIdValue: { paddingTop: 39 },
+  serviceIdValue: { paddingTop: 39 },
   contributors: {
     "& p": { marginLeft: "30px !important" },
   },
-  projectDetailsContent: { paddingTop: 10 },
+  contributorsName: { paddingTop: 39 },
+  projectDetailsContent: {
+    "& h5": { padding: "0 !important" },
+    paddingBottom: 39,
+  },
   projectURLContainer: {
-    width: "100%",
-    display: "flex",
+    "& > div": { display: "flex" },
     "& svg": {
       paddingTop: 3,
       marginRight: 5,
       color: theme.palette.text.primary,
       fontSize: 14,
     },
-    marginTop: 2,
+    "& a": {
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+    },
   },
 });

@@ -14,7 +14,7 @@ export const useStyles = theme => ({
     borderTopWidth: 1,
     borderTopStyle: "solid",
     borderTopColor: theme.palette.text.verticalTabLeftBorder,
-    "& h3": {
+    "& h2": {
       padding: "12px 22px",
       borderBottomWidth: 1,
       borderBottomStyle: "solid",
@@ -25,7 +25,7 @@ export const useStyles = theme => ({
       fontWeight: 400,
     },
     "& .ProjectDetails-projectDetailsContainer-415": {
-      "& h3": { marginBottom: 20 },
+      "& h2": { marginBottom: 20 },
     },
   },
   infoIcon: {
@@ -91,12 +91,6 @@ export const useStyles = theme => ({
     "& .Mui-selected": { color: theme.palette.text.primary },
     "& .MuiTabs-indicator": { backgroundColor: theme.palette.text.primary },
   },
-  intSetupTitle: {
-    marginTop: 24,
-    color: theme.palette.text.darkShadedGray,
-    fontSize: 18,
-    lineHeight: "23px",
-  },
   intSetupDesc: {
     paddingRight: 42,
     margin: "16px 0 21px",
@@ -116,16 +110,44 @@ export const useStyles = theme => ({
       },
     },
     "& .MuiFormControl-root": {
-      width: 344,
+      width: 595,
       margin: 0,
     },
   },
   publicAddDesc: {
-    marginLeft: 40,
+    padding: "0 20px 0 40px",
     color: theme.palette.text.lightShadedGray,
     fontSize: 14,
     lineHeight: "20px",
     letterSpacing: 0.25,
     "@media(max-width: 600px)": { margin: "10px 0" },
+  },
+  setingUpFilesContainer: {
+    marginTop: 40,
+    "& h3": {
+      margin: 0,
+      color: theme.palette.text.darkShadedGray,
+      fontSize: 18,
+      fontWeight: 400,
+      lineHeight: "23px",
+    },
+    "& span": {
+      margin: "18px 0 10px",
+      display: "inline-block",
+      color: theme.palette.text.lightShadedGray,
+      fontSize: 14,
+      letterSpacing: 0.25,
+      lineHeight: "20px",
+    },
+  },
+  descriptionBtnsContainer: {
+    "& p": {
+      margin: "16px 0 24px",
+      color: theme.palette.text.mediumShadeGray,
+      fontSize: 14,
+      letterSpacing: 0.25,
+      lineHeight: "20px",
+    },
+    "& div": { display: "none" },
   },
 });

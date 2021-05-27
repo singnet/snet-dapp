@@ -12,7 +12,7 @@ class Onboarding extends Component {
   state = {
     verificationCode: "",
     activeSection: 1,
-    progressText: ["Authentication", "Terms of service"],
+    progressText: [{ label: "Authentication" }, { label: "Terms of service" }],
   };
 
   componentDidMount = () => {

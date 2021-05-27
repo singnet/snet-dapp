@@ -1,7 +1,6 @@
 export const useStyles = theme => ({
   serviceDetailContainer: {
     width: "auto",
-    color: theme.palette.text.primary,
     "& > div": {
       paddingLeft: 60,
       paddingRight: 60,
@@ -20,7 +19,7 @@ export const useStyles = theme => ({
     position: "fixed",
     right: 0,
     left: 0,
-    zIndex: 1,
+    zIndex: 15,
   },
   TopSection: {
     width: "100%",

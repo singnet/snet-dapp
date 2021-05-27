@@ -2,8 +2,8 @@ import { makeStyles } from "@material-ui/styles";
 
 export const useStyles = makeStyles(theme => ({
   header: {
-    padding: "13px 65px 6px 60px",
     display: "flex",
+    flexDirection: "column",
     alignItems: "center",
     position: "fixed",
     right: 0,
@@ -11,7 +11,17 @@ export const useStyles = makeStyles(theme => ({
     zIndex: 5,
     backgroundColor: theme.palette.text.purple,
     boxShadow: "0 2px 6px 0 rgba(0,0,0,0.3)",
-    "@media (max-width:1280px)": { padding: "13px 10px 3px 10px" },
+  },
+  updateNotificationBar: {
+    width: "100%",
+  },
+  mainHeader: {
+    boxSizing: "border-box",
+    width: "100%",
+    padding: "13px 65px 6px 60px",
+    display: "flex",
+    alignItems: "center",
+    "@media (max-width:1280px)": { padding: "13px 10px 6px 10px" },
   },
   logoSection: {
     width: "30%",
@@ -37,6 +47,7 @@ export const useStyles = makeStyles(theme => ({
     "@media (max-width:1024px)": { display: "none" },
   },
   headerDropDown: {
+    marginRight: 53,
     "& > div": {
       display: "flex",
       alignItems: "flex-start",
@@ -45,6 +56,8 @@ export const useStyles = makeStyles(theme => ({
       "& button": { color: theme.palette.text.white },
       "& svg": { color: theme.palette.text.white },
     },
+    "&:last-of-type": { marginRight: 0 },
+    "@media (max-width:1280px) and (min-width: 1024px)": { marginRight: 26 },
   },
   navUl: {
     padding: 0,

@@ -10,9 +10,16 @@ import StyledTable from "../../../../../../../../common/StyledTable";
 import InfoIcon from "@material-ui/icons/Info";
 import { agiInDecimal } from "../../../../../../../../../utility/PricingStrategy";
 import { currentServiceDetails } from "../../../../../../../../../Redux/reducers/ServiceDetailsReducer";
+import { orderTypes } from "../../../../../../../../../utility/constants/PaymentConstants";
+
+const successMessage = {
+  [orderTypes.CREATE_WALLET]: "Successfully Created Wallet for :",
+  [orderTypes.TOPUP_WALLET]: "Successfully Topped Up the Wallet for :",
+  [orderTypes.CREATE_CHANNEL]: "Successfully Linked the Wallet for :",
+};
 
 const Summary = props => {
-  const { classes, amount, item, quantity, handlePaymentComplete, serviceDetails } = props;
+  const { classes, amount, item, quantity, handlePaymentComplete, serviceDetails, orderType } = props;
 
   const columns = [
     { key: "item", label: "Total $USD spent" },
@@ -22,7 +29,7 @@ const Summary = props => {
   const rows = [
     {
       key: 1,
-      values: [{ label: "Total AGI tokens", icon: InfoIcon }, { label: `${agiInDecimal(quantity)} ${item}` }],
+      values: [{ label: "Total AGIX tokens", icon: InfoIcon }, { label: `${agiInDecimal(quantity)} ${item}` }],
       highlight: true,
     },
   ];
@@ -30,7 +37,7 @@ const Summary = props => {
   return (
     <div className={classes.summaryContainer}>
       <Typography variant="body2" className={classes.successMsg}>
-        Successfully Created Wallet for : {serviceDetails.organization_name}
+        {successMessage[orderType]} {serviceDetails.organization_name}
       </Typography>
       <StyledTable title="Transaction Receipt" columns={columns} rows={rows} />
       <div className={classes.btnContainer}>

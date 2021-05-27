@@ -22,20 +22,20 @@ import { startAppLoader, stopAppLoader } from "../../../Redux/actionCreators/Loa
 import { LoaderContent } from "../../../utility/constants/LoaderContent";
 import { initialWallet } from "../../../Redux/reducers/UserReducer";
 
-const UserProfileAccount = ({ classes, startAppLoader, stopAppLoader, wallet, updateWallet }) => {
+const UserProfileAccount = ({ classes, startAppLoader, stopAppLoader, wallet, updateWallet, fetchUserWallets }) => {
   const [alert, setAlert] = useState({});
   const [wallets, updateWallets] = useState([]);
   const [linkedProviders, updateLinkedProviders] = useState([]);
   useEffect(() => {
     const fetchWallets = async () => {
-      const availableWallets = await fetchAvailableUserWallets();
+      const availableWallets = await fetchUserWallets();
       const enhancedWallets = map(availableWallets, ({ address, type }) => {
         return { address, type, value: address, label: `${type} (${address})` };
       });
       updateWallets(enhancedWallets);
     };
     fetchWallets();
-  }, []);
+  }, [fetchUserWallets]);
 
   const isSameMetaMaskAddress = address => {
     const selectedEthAddress = window.ethereum && window.ethereum.selectedAddress;
@@ -124,10 +124,8 @@ const mapDispatchToProps = dispatch => {
     updateWallet: args => dispatch(userActions.updateWallet(args)),
     startAppLoader: () => dispatch(startAppLoader(LoaderContent.FETCH_LINKED_PROVIDERS)),
     stopAppLoader: () => dispatch(stopAppLoader),
+    fetchUserWallets: () => dispatch(fetchAvailableUserWallets),
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(useStyles)(UserProfileAccount));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(UserProfileAccount));

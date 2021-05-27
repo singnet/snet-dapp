@@ -4,7 +4,7 @@ export const useStyles = theme => ({
     borderTopWidth: 1,
     borderTopStyle: "solid",
     borderTopColor: theme.palette.text.verticalTabLeftBorder,
-    "& h3": {
+    "& h2": {
       padding: "11px 22px",
       borderBottomWidth: 1,
       borderBottomStyle: "solid",
@@ -16,6 +16,7 @@ export const useStyles = theme => ({
     },
     "@media(max-width:768px)": {
       padding: " 20px 10px 0",
+      position: "relative",
       flexDirection: "column",
     },
   },
@@ -44,6 +45,9 @@ export const useStyles = theme => ({
       color: theme.palette.text.mediumShadeGray,
       letterSpacing: "0.25px",
       lineHeight: "20px",
+    },
+    "& strong": {
+      padding: "15px 22px 0",
     },
     "& h4": {
       margin: "30px 0 0",
@@ -105,17 +109,13 @@ export const useStyles = theme => ({
     margin: "30px 0 0",
     display: "flex",
     alignItems: "center",
-    "& span": { color: theme.palette.text.primary },
+    "& svg": { color: theme.palette.text.primary },
     "& a": {
-      marginLeft: 11,
+      marginLeft: 7,
       color: theme.palette.text.primary,
       textDecoration: "none",
       fontSize: 16,
-      "&:hover": { fontWeight: 600 },
-    },
-    "@media(max-width:768px)": {
-      marginTop: 15,
-      marginBottom: 15,
+      "&:hover": { textDecoration: "underline" },
     },
   },
   creatorDetailsContainer: {

@@ -8,7 +8,7 @@ The beta dapp is under active development and will see several changes in the up
 1. Navigate to the SingularityNET beta [dapp](http://beta.singularitynet.io/)
 2. Sign up / Login to the DApp account
 3. Every service has a free trial, so you can invoke the service without any payment
-4. If free trial has expired, you need to use your AGI tokens to make the call using Metamask (this is on the mainnet)
+4. If free trial has expired, you need to use your AGIX tokens to make the call using Metamask (this is on the mainnet)
 5. Authorize and Transfer tokens to the Multi party escrow in the Accounts page
 6. Follow the service execution steps on the service details page
 7. The result from the operation is displayed in the result tab
@@ -40,6 +40,10 @@ This approach will change in the future as we support a generic mechanism to dec
     2. `REACT_APP_SANDBOX_ORG_ID` & `REACT_APP_SANDBOX_SERVICE_ID` 
 
         The `org_id` to which the service belongs and the `service_id` of the service. The values set for these variables will be used for registering the custom ui.
+    
+    3. `REACT_APP_WEB3_PROVIDER`
+
+        The infura endpoint to be used for the Web3 connection.
 
 2. Start the AI service locally along with the snet daemon. Make sure the blockchain is disabled in the daemon configuration. 
 3. Building the custom ui

@@ -4,11 +4,11 @@ import { withStyles } from "@material-ui/styles";
 
 import { useStyles } from "./styles";
 
-const Row = ({ header, content, isURL, classes }) => {
+const Row = ({ header, content, isURL, classes, className }) => {
   return (
-    <div className={classes.projectDetailsContent}>
-      <h5>{header}</h5>
-      <div className={classes.projectURLContainer}>{content}</div>
+    <div className={className}>
+      {header ? <h5>{header}</h5> : null}
+      <div>{content}</div>
     </div>
   );
 };

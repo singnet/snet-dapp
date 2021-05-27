@@ -1,4 +1,6 @@
 import React, { useState, useEffect, Fragment } from "react";
+// import { parse, formatDistanceToNow, toDate } from "date-fns";
+import { RESULT_ADDR, downloadSchemeFile, downloadCSVfiles } from "../service";
 import { RESULT_ADDR, downloadSchemeFile, downloadCSVfiles } from "../service";
 import TabbedTables from "../tables";
 import Visualizer from "../visualizer";
@@ -21,11 +23,11 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 const width = document.body.clientWidth || window.screen.width;
 
-export const AnnotationStatus = {
-  ACTIVE: 1,
-  COMPLETED: 2,
-  ERROR: -1,
-};
+// export const AnnotationStatus = {
+//   ACTIVE: 1,
+//   COMPLETED: 2,
+//   ERROR: -1,
+// };
 
 const AnnotationResult = props => {
   const [response, setResponse] = useState(undefined);
@@ -35,7 +37,7 @@ const AnnotationResult = props => {
   const [isSummaryShown, setSummaryShown] = useState(false);
   const [summaryTab, setSummaryTab] = useState(0);
   const [summary, setSummary] = useState(undefined);
-  const { ACTIVE, COMPLETED, ERROR } = AnnotationStatus;
+  // const { ACTIVE, COMPLETED, ERROR } = AnnotationStatus;
   const id = props.id;
 
   useEffect(() => {
@@ -125,7 +127,7 @@ const AnnotationResult = props => {
           <TableRow>
             <TableCell />
             {Object.keys(rows).map(r => (
-              <TableCell>{r.split("_").join(" ")}</TableCell>
+              <TableCell key={r}>{r.split("_").join(" ")}</TableCell>
             ))}
           </TableRow>
         </TableHead>
@@ -134,7 +136,7 @@ const AnnotationResult = props => {
             <TableRow>
               <TableCell>{k}</TableCell>
               {Object.keys(rows).map(r => (
-                <TableCell>{tableData[k][0][r] || "-"}</TableCell>
+                <TableCell key={r}>{tableData[k][0][r] || "-"}</TableCell>
               ))}
             </TableRow>
           ))}
@@ -203,15 +205,16 @@ const AnnotationResult = props => {
     <div className="content-wrapper">
       {/* Logo and title */}
       <div className="landing-page container">
-        {response && response.status === COMPLETED && renderComplete()}
+        {/* {response && response.status === COMPLETED && renderComplete()}
         {response && response.status === ACTIVE && renderActive()}
-        {response && response.status === ERROR && renderError()}
+        {response && response.status === ERROR && renderError()} */}
         {/* Show loader if there is a request being processed */}
         {isFetchingResult && (
           <div className="spin-wrapper">
             <CircularProgress color="primary" size={24} style={{ marginRight: 15 }} /> Fetching results ...
           </div>
         )}
+        {!isFetchingResult && response && renderComplete()}
       </div>
       {isVisualizerShown && (
         <Visualizer

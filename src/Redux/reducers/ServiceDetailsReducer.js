@@ -15,7 +15,7 @@ const serviceDetailsReducer = (state = InitialServiceDetails, action) => {
       return InitialServiceDetails;
     }
     case serviceDetailsActions.UPDATE_SERVICE_DETAILS: {
-      return { ...state, details: action.payload.data };
+      return { ...state, details: action.payload };
     }
     case serviceDetailsActions.UPDATE_FREE_CALLS_INFO: {
       return { ...state, freeCallsUsed: action.payload };

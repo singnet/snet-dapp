@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/styles";
 export const useStyles = makeStyles(theme => ({
   paginationContainer: {
     paddingTop: 14,
-    "@media(max-width: 480px)": {
+    "@media(max-width: 668px)": {
       flexDirection: "column-reverse",
       alignItems: "center",
     },

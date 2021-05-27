@@ -19,7 +19,8 @@ export const useStyles = theme => ({
   },
   companyName: {
     paddingLeft: 20,
-    "& h4": {
+    wordBreak: "break-word",
+    "& h3": {
       margin: 0,
       color: theme.palette.text.primary,
       fontSize: 18,
