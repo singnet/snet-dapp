@@ -89,8 +89,8 @@ class ExpiredSession extends Component {
           message={
             <Fragment>
               <span>
-                We have temporarily disabled this action as we are hard forking the AGI token to make it cross
-                compatible. We will enable it as soon as the hard fork is completed. Read more{" "}
+                We have temporarily disabled this action as we are hard forking the AGI token to make it cross chain
+                compatible. We will enable it as soon as the hard fork is completed. Read more
               </span>
               <a
                 href="https://blog.singularitynet.io/singularitynet-phase-ii-launch-sequence-activated-agi-token-to-be-hard-forked-to-10ede4b6c89"
