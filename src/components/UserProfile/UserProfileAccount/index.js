@@ -124,7 +124,7 @@ const mapDispatchToProps = dispatch => {
     updateWallet: args => dispatch(userActions.updateWallet(args)),
     startAppLoader: () => dispatch(startAppLoader(LoaderContent.FETCH_LINKED_PROVIDERS)),
     stopAppLoader: () => dispatch(stopAppLoader),
-    fetchUserWallets: () => dispatch(fetchAvailableUserWallets),
+    fetchUserWallets: () => dispatch(fetchAvailableUserWallets()),
   };
 };
 

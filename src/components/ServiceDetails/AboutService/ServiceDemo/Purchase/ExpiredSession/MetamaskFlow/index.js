@@ -99,7 +99,14 @@ class MetamaskFlow extends Component {
   };
 
   handleConnectMM = async () => {
-    const { startMMconnectLoader, stopLoader, registerWallet, walletList, updateWallet } = this.props;
+    const {
+      startMMconnectLoader,
+      stopLoader,
+      registerWallet,
+      walletList,
+      updateWallet,
+      fetchAvailableUserWallets,
+    } = this.props;
     this.setState({ alert: {} });
     try {
       startMMconnectLoader();
@@ -107,10 +114,13 @@ class MetamaskFlow extends Component {
       const mpeBal = await sdk.account.escrowBalance();
       await this.paymentChannelManagement.updateChannelInfo();
       const address = await sdk.account.getAddress();
-      const addressAlreadyRegistered = walletList.some(wallet => wallet.address.toLowerCase() === address);
+      const availableUserWallets = await fetchAvailableUserWallets();
+      const addressAlreadyRegistered = availableUserWallets.some(wallet => wallet.address.toLowerCase() === address);
+
       if (!addressAlreadyRegistered) {
         await registerWallet(address, walletTypes.METAMASK);
       }
+
       updateWallet({ type: walletTypes.METAMASK, address });
       this.PaymentInfoCardData.map(el => {
         if (el.title === "Escrow Balance") {
@@ -333,6 +343,7 @@ const mapDispatchToProps = dispatch => ({
   startChannelSetupLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.SETUP_CHANNEL_FOR_SERV_EXEC)),
   updateWallet: ({ type, address }) => dispatch(userActions.updateWallet({ type, address })),
   registerWallet: (address, type) => dispatch(userActions.registerWallet(address, type)),
+  fetchAvailableUserWallets: () => dispatch(userActions.fetchAvailableUserWallets()),
   stopLoader: () => dispatch(loaderActions.stopAppLoader),
 });
 
