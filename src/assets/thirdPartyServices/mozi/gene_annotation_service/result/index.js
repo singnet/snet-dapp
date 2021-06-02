@@ -1,9 +1,8 @@
 import React, { useState, useEffect, Fragment } from "react";
 // import { parse, formatDistanceToNow, toDate } from "date-fns";
 import { RESULT_ADDR, downloadSchemeFile, downloadCSVfiles } from "../service";
-import { RESULT_ADDR, downloadSchemeFile, downloadCSVfiles } from "../service";
 import TabbedTables from "../tables";
-import Visualizer from "../visualizer";
+import TabbedViz from "../tabs"
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -13,6 +12,7 @@ import VisibilityIcon from "@material-ui/icons/VisibilityOutlined";
 import AssessmentIcon from "@material-ui/icons/AssessmentOutlined";
 import "./style.css";
 import Modal from "@material-ui/core/Modal";
+import Dialog from '@material-ui/core/Dialog';
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -29,8 +29,13 @@ const width = document.body.clientWidth || window.screen.width;
 //   ERROR: -1,
 // };
 
+const modalRoot = document.getElementById("viz-wrapper")
+
 const AnnotationResult = props => {
   const [response, setResponse] = useState(undefined);
+  const [goGraph, setGOGraph] = useState(null);
+  const [nonGOGraph, setNonGoGraph] = useState(null);
+  const [value, setValue] = useState(0);
   const [isTableShown, setTableShown] = useState(false);
   const [isVisualizerShown, setVisualizerShown] = useState(false);
   const [isFetchingResult, setFetchingResult] = useState(false);
@@ -44,10 +49,28 @@ const AnnotationResult = props => {
     if (id) {
       setFetchingResult(true);
       fetch(`${RESULT_ADDR}/${id}`)
-        .then(res => res.json())
-        .then(result => {
+        .then((res) => res.json())
+        .then((result) => {
+          if (result.go) {
+            fetch(`${RESULT_ADDR}/${id}/go`)
+              .then((res) => res.json())
+              .then((result) => {
+                setGOGraph(result);
+              });
+          } else {
+            setValue(0);
+          }
+          if (result.nongo) {
+            fetch(`${RESULT_ADDR}/${id}/nongo`)
+              .then((res) => res.json())
+              .then((result) => {
+                setNonGoGraph(result);
+              });
+          } else {
+            setValue(1);
+          }
+
           setFetchingResult(false);
-          setResponse({ result });
         });
     }
   }, [id]);
@@ -80,11 +103,22 @@ const AnnotationResult = props => {
   );
 
   const renderComplete = () => {
-    const { nodes, edges } = response.result.elements;
+    let nodes = 0;
+    let edges = 0;
+
+    if(nonGOGraph !== null){
+        nodes += nonGOGraph.elements.nodes.length;
+        edges += nonGOGraph.elements.edges.length;
+    }
+    if (goGraph != null){
+      nodes += goGraph.elements.nodes.length;
+      edges += goGraph.elements.edges.length;
+    }
+
     return (
       <Fragment>
         <Typography variant="body2">
-          The result contains {nodes.length} entities and {edges.length} connections between them.
+          The result contains {nodes} entities and {edges} connections between them.
         </Typography>
         <div className="inline-buttons">
           <Button
@@ -105,7 +139,7 @@ const AnnotationResult = props => {
           >
             <AssessmentIcon style={{ marginRight: 15 }} /> View summary
           </Button>
-          <Button variant="contained" onClick={() => downloadCSVfiles(props.match.params.id)}>
+          <Button variant="contained" onClick={() => downloadCSVfiles(props.id)}>
             <TableChartOutlinedIcon style={{ marginRight: 15 }} /> Download CSV files
           </Button>
           <Button variant="contained" onClick={() => downloadSchemeFile(id)}>
@@ -214,17 +248,8 @@ const AnnotationResult = props => {
             <CircularProgress color="primary" size={24} style={{ marginRight: 15 }} /> Fetching results ...
           </div>
         )}
-        {!isFetchingResult && response && renderComplete()}
+        {!isFetchingResult && renderComplete()}
       </div>
-      {isVisualizerShown && (
-        <Visualizer
-          graph={JSON.parse(JSON.stringify({ ...response.result.elements }))}
-          annotations={response.result.elements.nodes
-            .reduce((acc, n) => [...acc, ...n.data.group, n.data.subgroup], [])
-            .filter((a, i, self) => a && self.indexOf(a) === i)}
-          onClose={() => setVisualizerShown(false)}
-        />
-      )}
       {/* Show annotations tables */}
       {isTableShown && (
         <TabbedTables
@@ -235,6 +260,10 @@ const AnnotationResult = props => {
         />
       )}
       {isSummaryShown && renderSummary(summary)}
+
+      <Dialog fullscreen open={isVisualizerShown} onClose={() => setVisualizerShown(false)}>
+        <TabbedViz initVal={value} nonGOGraph={nonGOGraph} goGraph={goGraph} close={() => setVisualizerShown(false)} />
+      </Dialog>
     </div>
   );
 };
