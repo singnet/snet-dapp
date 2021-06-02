@@ -76,12 +76,12 @@ const AnnotationForm = props => {
   const [pathways, setPathways] = useState(["reactome"]);
   const [includeSmallMolecules, setIncludeSmallMolecules] = useState(false);
   const [geneLevel, setGeneLevel] = useState(false);
-  const [includeCoding, setIncludeCoding] = useState(false);
-  const [includeNonCoding, setincludeNonCoding] = useState(false);
+  const [includeCodingRNA, setIncludeCodingRNA] = useState(false);
+  const [includeNonCodingRNA, setIncludeNonCodingRNA] = useState(false);
 
   const [includeProtiens, setIncludeProtiens] = useState(true);
 
-  const [includeCoV, setIncludeCoV] = useState(true);
+  const [includeCov, setIncludeCov] = useState(true);
 
   const [loading, setLoading] = useState(false);
   const [GOSubgroups, setGOSubgroups] = useState(["biological_process", "cellular_component", "molecular_function"]);
@@ -108,7 +108,6 @@ const AnnotationForm = props => {
 
   const toggleAnnotation = (annotation, e) => {
     if (annotation === "biogrid-interaction-annotation" && !geneLevel && e.target.checked) {
-      message.error("Genes only must be on before selecting BioGRID");
       e.target.checked = false;
     } else {
       const updated = e.target.checked ? [...annotations, annotation] : annotations.filter(a => a !== annotation);
@@ -177,13 +176,12 @@ const AnnotationForm = props => {
         ism.setValue(capitalizeFirstLetter(includeSmallMolecules.toString()));
         const capb = new Filter();
         capb.setFilter("string?");
-        capb.setValue(capitalizeFirstLetter(annotatePathwayWithString.toString()));
         const coding = new Filter();
         coding.setFilter("coding");
         coding.setValue(capitalizeFirstLetter(includeCodingRNA.toString()));
         const noncoding = new Filter();
         noncoding.setFilter("noncoding");
-        noncoding.setValue(capitalizeFirstLetter(includeNoncodingRNA.toString()));
+        noncoding.setValue(capitalizeFirstLetter(includeNonCodingRNA.toString()));
         annotation.setFiltersList([ps, gl, ism, capb, coding, noncoding]);
       } else if (sa === "biogrid-interaction-annotation") {
         const cov = new Filter();
@@ -195,7 +193,7 @@ const AnnotationForm = props => {
         coding.setValue(capitalizeFirstLetter(includeCodingRNA.toString()));
         const noncoding = new Filter();
         noncoding.setFilter("noncoding");
-        noncoding.setValue(capitalizeFirstLetter(includeNoncodingRNA.toString()));
+        noncoding.setValue(capitalizeFirstLetter(includeNonCodingRNA.toString()));
         annotation.setFiltersList([coding, noncoding, cov]);
       } else if (sa === "go-annotation") {
         const pars = new Filter();
@@ -213,11 +211,11 @@ const AnnotationForm = props => {
     coding.setValue(capitalizeFirstLetter(includeCodingRNA.toString()));
     const noncoding = new Filter();
     noncoding.setFilter("noncoding");
-    noncoding.setValue(capitalizeFirstLetter(includeNoncodingRNA.toString()));
+    noncoding.setValue(capitalizeFirstLetter(includeNonCodingRNA.toString()));
     const protein = new Filter();
     includeRNA.setFiltersList([gl, coding, noncoding]);
 
-    annotationRequest.setAnnotationsList(includeCoding || includeNonCoding ? [...annList, includeRNA] : annList);
+    annotationRequest.setAnnotationsList(includeCodingRNA || includeNonCodingRNA ? [...annList, includeRNA] : annList);
     const requestProps = {
       request: annotationRequest,
       onEnd: ({ status, statusMessage, message: msg }) => {
@@ -472,7 +470,7 @@ const AnnotationForm = props => {
         <li>
           <FormControlLabel
             control={<Checkbox color="primary" onChange={e => toggleAnnotation("go-annotation", e)} />}
-            label={GO}
+            label="GO Term"
           />
           {annotations.includes("go-annotation") && (
             <div className="annotation-parameters">
@@ -502,12 +500,18 @@ const AnnotationForm = props => {
         Include RNA
       </Typography>
       <FormControlLabel
-        control={<Switch checked={includeCoding} onChange={e => setIncludeCoding(e.target.checked)} color="primary" />}
+        control={
+          <Switch checked={includeCodingRNA} onChange={e => setIncludeCodingRNA(e.target.checked)} color="primary" />
+        }
         label="Coding RNA"
       />
       <FormControlLabel
         control={
-          <Switch checked={includeNonCoding} onChange={e => setincludeNonCoding(e.target.checked)} color="primary" />
+          <Switch
+            checked={includeNonCodingRNA}
+            onChange={e => setIncludeNonCodingRNA(e.target.checked)}
+            color="primary"
+          />
         }
         label="Non-coding RNA"
       />
@@ -523,7 +527,7 @@ const AnnotationForm = props => {
         SARS-CoV-2
       </Typography>
       <FormControlLabel
-        control={<Switch checked={includeCoV} onChange={e => setIncludeCoV(e.target.checked)} color="primary" />}
+        control={<Switch checked={includeCov} onChange={e => setIncludeCov(e.target.checked)} color="primary" />}
         label="Include SARS-CoV-2"
       />
       {annotatePathwayWithBiogrid && (
