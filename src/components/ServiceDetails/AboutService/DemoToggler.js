@@ -69,7 +69,7 @@ const DemoToggler = ({
     );
   }
 
-  if (process.env.REACT_APP_SANDBOX !== true && noDemoComponent) {
+  if (process.env.REACT_APP_SANDBOX !== "true" && noDemoComponent) {
     return (
       <div className={classes.serviceOfflineContainer} ref={demoExampleRef}>
         <h2>Demo Example</h2>
