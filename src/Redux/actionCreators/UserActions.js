@@ -457,7 +457,7 @@ const fetchAvailableUserWalletsAPI = token => {
   return API.get(apiName, apiPath, apiOptions);
 };
 
-export const fetchAvailableUserWallets = async dispatch => {
+export const fetchAvailableUserWallets = () => async dispatch => {
   const { token } = await dispatch(fetchAuthenticatedUser());
   const response = await fetchAvailableUserWalletsAPI(token);
   return response.data.wallets;

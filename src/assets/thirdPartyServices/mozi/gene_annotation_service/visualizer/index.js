@@ -34,6 +34,7 @@ import Drawer from "@material-ui/core/Drawer";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import { useSnackbar } from "notistack";
 import "./style.css";
+import Snackbar from "@material-ui/core/Snackbar";
 
 const cytoscape = require("cytoscape");
 const cola = require("cytoscape-cola");
@@ -42,178 +43,176 @@ const Color = require("color");
 contextMenus(cytoscape, $);
 
 const AnnotationGroups = [
-  {
-    group: "gene-go-annotation",
-    subgroups: [
-      { subgroup: "cellular_component", color: "#F57C00" },
-      { subgroup: "molecular_function", color: "#F1C40F" },
-      { subgroup: "biological_process", color: "#8BC34A" },
-    ],
-  },
-  {
-    group: "gene-pathway-annotation",
-    color: "#9B59B6",
-    subgroups: [{ subgroup: "Reactome" }],
-  },
-  {
-    group: "biogrid-interaction-annotation",
-    color: "#3498DB",
-    subgroups: [],
-  },
-  {
-    group: "rna-annotation",
-    color: "#eb2f96",
-    subgroups: [],
-  },
+    {
+        group: "gene-go-annotation",
+        subgroups: [
+            {name: "cellularcomponent", color: "#F57C00"},
+            {name: "molecularfunction", color: "#F1C40F"},
+            {name: "biologicalprocess", color: "#8BC34A"}
+        ]
+    },
+    {
+        group: "gene-pathway-annotation",
+        color: "#9B59B6",
+        subgroups: [{name: "reactome"}, {"name": "smp"}]
+    },
+    {
+        group: "biogrid-interaction-annotation",
+        color: "#1f92e0",
+        subgroups: []
+    },
+    {
+        group: "rna-annotation",
+        color: "#eb2f96",
+        subgroups: []
+    },
+    {
+        group: "string-interaction-annotation",
+        color: "#2fdbeb",
+        subgroups: []
+    },
+    {
+        group: "go-annotation",
+        color: "#bf8374",
+        subgroups: []
+    }
 ];
 
-const CYTOSCAPE_COLA_CONFIG = {
-  name: "cola",
-  fit: true,
-  animate: true,
-  padding: 10,
-  nodeSpacing: 10,
-  maxSimulationTime: 3000,
-  ungrabifyWhileSimulating: true,
-  randomize: true,
-  avoidOverlap: true,
-  handleDisconnected: true,
-  infinite: false,
-};
-
 const CYTOSCAPE_STYLE = [
-  {
-    selector: "node",
-    css: {
-      content: "data(id)",
-      shape: "round-rectangle",
-      width: "mapData(id.length, 0, 20, 50, 300)",
-      height: 40,
-      color: "#fff",
-      "text-wrap": "wrap",
-      "text-max-width": "350px",
-      "text-valign": "center",
-      "text-halign": "center",
-      "background-color": "#565656",
-      "text-outline-color": "#565656",
-      "text-outline-width": 1,
+    {
+        selector: "node",
+        css: {
+            content: "data(id)",
+            shape: "round-rectangle",
+            width: "mapData(id.length, 0, 20, 50, 200)",
+            height: 40,
+            color: "#fff",
+            "text-wrap": "wrap",
+            "text-max-width": "350px",
+            "text-valign": "center",
+            "text-halign": "center",
+            "background-color": "#565656",
+            "text-outline-color": "#565656",
+            "text-outline-width": 1
+        }
     },
-  },
-  {
-    selector: n => n.data().subgroup === "Genes",
-    style: {
-      shape: "ellipse",
-      height: 75,
-      width: 75,
+    {
+        selector: n => n.data().type === "gene",
+        style: {
+            shape: "ellipse",
+            height: 75,
+            width: 75
+        }
     },
-  },
-  {
-    selector: 'node[subgroup="Uniprot"]',
-    css: { shape: "hexagon" },
-  },
-  {
-    selector: 'node[subgroup="ChEBI"]',
-    css: {
-      shape: "diamond",
-      height: 75,
+    {
+        selector: 'node[type="uniprot"]',
+        css: {shape: "hexagon"}
     },
-  },
-  {
-    selector: "node:selected",
-    css: {
-      "border-width": 5,
-      "border-color": "#87bef5",
+    {
+        selector: 'node[type="chebi"]',
+        css: {
+            shape: "diamond",
+            height: 75
+        }
     },
-  },
-  {
-    selector: "edge",
-    css: {
-      "curve-style": "straight",
-      "line-color": "#ccc",
-      width: 4,
+    {
+        selector: "node:selected",
+        css: {
+            "border-width": 5,
+            "border-color": "#87bef5"
+        }
     },
-  },
-  {
-    selector: e => e.data().group.includes("gene-go-annotation"),
-    css: {
-      "target-arrow-shape": "triangle",
-      "target-arrow-fill": "filled",
+    {
+        selector: "edge",
+        css: {
+            "curve-style": "straight",
+            "line-color": "#ccc",
+            width: 4
+        }
     },
-  },
-  {
-    selector: e => {
-      return e.group() == "nodes" && e.data().group.includes("rna-annotation");
+    {
+        selector: e => e.data().group.includes("gene-go-annotation"),
+        css: {
+            "target-arrow-shape": "triangle",
+            "target-arrow-fill": "filled"
+        }
     },
-    css: {
-      shape: "round-pentagon",
-      width: 200,
-    },
-  },
+    {
+        selector: e => {
+            return e.group() == "nodes" && e.data().group.includes("rna-annotation");
+        },
+        css: {
+            shape: "round-pentagon",
+            width: 200
+        }
+    }
 ];
 
 const Visualizer = props => {
   const { enqueueSnackbar } = useSnackbar();
   cytoscape.use(cola);
-  const cy_wrapper = React.createRef();
-  const [cy, setCy] = useState(undefined);
-  const [layout, setLayout] = useState(undefined);
-  const [filteredElements, setFilteredElements] = useState(undefined);
-  const [contextMenu, setContextMenu] = useState(undefined);
-  const nodeTypes = props.graph.nodes
-    .map(n => n.data.subgroup)
-    .filter((s, i, arr) => {
-      return arr.indexOf(s) === i && ["Genes", "Uniprot", "ChEBI"].includes(s);
-    });
-  const linkTypes = props.graph.edges
-    .map(e => e.data.subgroup)
-    .filter((s, i, arr) => {
-      return arr.indexOf(s) === i;
-    });
-
-  const [visibleNodeTypes, setVisibleNodeTypes] = useState(nodeTypes);
-  const [visibleLinkTypes, setVisibleLinkTypes] = useState(linkTypes);
-  const [visibleAnnotations, setVisibleAnnotations] = useState([
-    "main%",
-    "gene-go-annotation%biological_process",
-    "gene-go-annotation%cellular_component",
-    "gene-go-annotation%molecular_function",
-    "gene-pathway-annotation%Reactome",
-    "biogrid-interaction-annotation%",
-    "rna-annotation%",
-  ]);
-  const [selectedNode, setSelectedNode] = useState({
-    node: null,
-    position: null,
-  });
-  const [selectedEdge, setSelectedEdge] = useState({
-    pubmed: null,
-  });
-  const [searchToken, setSearchToken] = useState(undefined);
-  const [loaderText, setLoaderText] = useState(undefined);
-  const [isDrawerOpen, setDrawerOpen] = useState(false);
-  const [MLLPositions, setMLLPositions] = useState(undefined);
-  // Save MLL positions
-  !MLLPositions &&
-    setMLLPositions(
-      JSON.parse(JSON.stringify(props.graph.nodes)).reduce((prevVal, n, i) => {
-        return { ...prevVal, [n.data.id]: n.position };
-      }, {})
+    const cy_wrapper = React.createRef();
+    const [cy, setCy] = useState(undefined);
+    const [layout, setLayout] = useState(undefined);
+    const [filteredElements, setFilteredElements] = useState(undefined);
+    const [contextMenu, setContextMenu] = useState(undefined);
+    const [loaderText, setLoaderText] = useState(undefined);
+    const [isDrawerOpen, setDrawerOpen] = useState(true);
+    const [nodeTypes, setNodeTypes] = useState(
+        props.graph.nodes
+            .map(n => n.data.type)
+            .filter((s, i, arr) => {
+                return (
+                    arr.indexOf(s) === i && ["gene", "uniprot", "chebi", "reactome", "smp"].includes(s)
+                );
+            })
     );
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    setCy(
-      cytoscape({
-        container: cy_wrapper.current,
-        hideEdgesOnViewport: true,
-        wheelSensitivity: 0.3,
-      })
+    const [linkTypes, setLinkTypes] = useState(
+        props.graph.edges
+            .map(e => e.data.name)
+            .filter((s, i, arr) => {
+                return arr.indexOf(s) === i;
+            })
     );
-  }, []);
+    const [visibleNodeTypes, setVisibleNodeTypes] = useState(nodeTypes);
+    const [visibleLinkTypes, setVisibleLinkTypes] = useState(linkTypes);
+    const [visibleAnnotations, setVisibleAnnotations] = useState([
+        "main%",
+        "gene-go-annotation%",
+        "gene-pathway-annotation%",
+        "biogrid-interaction-annotation%",
+        "string-interaction-annotation%",
+        "rna-annotation%",
+        "go-annotation%"
+    ]);
+    const [selectedNode, setSelectedNode] = useState({
+        node: null,
+        position: null
+    });
+    const [selectedEdge, setSelectedEdge] = useState({
+        pubmed: null
+    });
 
-  useEffect(() => {
-    cy && toggleAnnotationVisibility(visibleAnnotations);
-  }, [visibleAnnotations, visibleNodeTypes, visibleLinkTypes, cy]);
+    const [searchToken, setSearchToken] = useState(null);
+    const [errorMsg, setErrorMsg] = useState("");
+    const [showSnack, setShowSnack] = useState(false);
+
+    useEffect(function () {
+        setCy(
+            cytoscape({
+                container: cy_wrapper.current,
+                hideEdgesOnViewport: true,
+                wheelSensitivity: 0.3
+            })
+        );
+    }, []);
+
+    useEffect(
+        function () {
+            cy && toggleAnnotationVisibility(visibleAnnotations);
+        },
+        [visibleAnnotations, visibleNodeTypes, visibleLinkTypes, cy]
+    );
 
   useEffect(
     function() {
@@ -247,7 +246,6 @@ const Visualizer = props => {
   useEffect(
     function() {
       if (cy) {
-        MLLLayout();
         cy.style([
           ...CYTOSCAPE_STYLE,
           ...assignColorToAnnotations(),
@@ -260,6 +258,7 @@ const Visualizer = props => {
             }
           }
         ]);
+         setLayout({"name": "preset"})
         // var nav = cy.navigator(NAVIGATOR_CONFIG);
         var options = {
           menuItems: [
@@ -309,52 +308,28 @@ const Visualizer = props => {
           contextMenuClasses: ["context-menu"]
         };
         setContextMenu(cy.contextMenus(options));
-      }
-    },
-    [cy]
-  );
-
- useEffect(
-    function() {
-      if (layout) {
-        const l = filteredElements
-          ? filteredElements.layout(layout)
-          : cy.layout(layout);
-        setLoaderText("Applying layout, please wait ...");
-        l.pon("layoutstop", function() {
-          setLoaderText(undefined);
-        });
-        l.run();
-      }
-    },
-    [layout]
-  );
-
-
-  const randomLayout = () => {
-    setLayout(CYTOSCAPE_COLA_CONFIG);
-  };
-
-  const MLLLayout = () => {
-    setLayout({
-      name: "preset",
-      positions(n) {
-        return MLLPositions[n.id()];
+        }
       },
-    });
-  };
+        [cy]
+    );
 
-  const breadthFirstLayout = () => {
-    setLayout({ name: "breadthfirst" });
-  };
+    useEffect(
+        function () {
+            if (layout) {
+                const l = filteredElements
+                    ? filteredElements.layout(layout)
+                    : cy.layout(layout);
+                setLoaderText("Applying layout, please wait ...");
+                l.pon("layoutstop", function () {
+                    setLoaderText(undefined);
+                });
+                l.run();
+            }
+        },
+        [layout]
+    );
 
-  const concentricLayout = () => {
-    setLayout({
-      name: "concentric",
-      concentric: node => node.degree(),
-      levelWidth: () => 3,
-    });
-  };
+
 
   const takeScreenshot = () => {
     const link = document.createElement("a");
@@ -370,7 +345,7 @@ const Visualizer = props => {
       .on("select", e =>
         setSelectedNode({
           node: e.target.data(),
-          position: e.target.renderedPosition(),
+          position: e.target.renderedPosition()
         })
       )
       .on("unselect", e => setSelectedNode({ node: null }));
@@ -380,7 +355,7 @@ const Visualizer = props => {
         let pubMedIds = e.target.data().pubmedId.split(",");
         pubMedIds[0] !== ""
           ? setSelectedEdge({
-              pubmed: pubMedIds,
+              pubmed: pubMedIds
             })
           : setSelectedEdge({ pubmed: null });
       })
@@ -392,7 +367,9 @@ const Visualizer = props => {
   };
 
   const removeFromFilter = id => {
-    const hood = cy.getElementById(id).union(cy.getElementById(id).connectedEdges());
+    const hood = cy
+      .getElementById(id)
+      .union(cy.getElementById(id).connectedEdges());
     setFilteredElements(eles => eles.difference(hood));
   };
 
@@ -404,7 +381,7 @@ const Visualizer = props => {
   const downloadGraphJSON = () => {
     let exportJson = {
       data: { name: "Annotation Service Export" },
-      elements: cy.json().elements,
+      elements: cy.json().elements
     };
     let json = JSON.stringify(exportJson);
     const link = document.createElement("a");
@@ -418,7 +395,8 @@ const Visualizer = props => {
 
   const formatDescription = description => {
     if (!description) return "";
-    return description.includes("https://") || description.includes("http://") ? (
+    return description.includes("https://") ||
+      description.includes("http://") ? (
       <a href={description} rel="noopener noreferrer" target="_blank">
         Learn more
       </a>
@@ -430,40 +408,49 @@ const Visualizer = props => {
   const toggleAnnotationVisibility = visibleAnnotations => {
     const { nodes, edges } = props.graph;
     const visibleNodes = nodes.filter(n => {
-      const { group, subgroup } = n.data;
+      const { group, type } = n.data;
       return (
         visibleAnnotations.some(a => {
           const [g, sg] = a.split("%");
           return (
             group.includes(g) &&
-            (["Genes", "Uniprot", "ChEBI"].includes(subgroup)
-              ? visibleNodeTypes.includes(subgroup)
+            (["gene", "uniprot", "chebi", "reactome"].includes(type)
+              ? visibleNodeTypes.includes(type)
               : sg
-              ? sg === subgroup
+              ? sg === type
               : true)
           );
         }) || group.includes("main")
       );
     });
     const visibleEdges = edges.filter(e => {
-      const { source, target, subgroup } = e.data;
+      const { source, target, name } = e.data;
       return (
         visibleNodes.some(n => n.data.id === source) &&
         visibleNodes.some(n => n.data.id === target) &&
-        visibleLinkTypes.some(s => s === subgroup)
+        visibleLinkTypes.some(s => s === name)
       );
     });
     cy.json({ elements: { nodes: visibleNodes } });
     cy.add(visibleEdges);
-    cy.remove(cy.filter(ele => ele.isNode() && !ele.degree() && !ele.data().group.includes("main")));
+    cy.remove(
+      cy.filter(
+        ele =>
+          ele.isNode() && !ele.degree() && !ele.data().group.includes("main")
+      )
+    );
     clearFilter();
     registerEventListeners();
   };
 
   const getAnnotationPercentage = (group, subgroup) => {
     const { nodes } = props.graph;
-    let filteredNodes = group ? nodes.filter(n => n.data.group.includes(group)) : nodes;
-    filteredNodes = subgroup ? filteredNodes.filter(n => n.data.subgroup === subgroup) : filteredNodes;
+    let filteredNodes = group
+      ? nodes.filter(n => n.data.group.includes(group))
+      : nodes;
+    filteredNodes = subgroup
+      ? filteredNodes.filter(n => n.data.type === subgroup)
+      : filteredNodes;
     return (filteredNodes.length * 100) / nodes.length;
   };
 
@@ -471,11 +458,13 @@ const Visualizer = props => {
     const styles = AnnotationGroups.reduce((acc, annotation) => {
       const subGroupColors = annotation.subgroups.map(sg => {
         return {
-          selector: n => n.data().group.includes(annotation.group) && n.data().subgroup === sg.subgroup,
+          selector: n =>
+            n.data().group.includes(annotation.group) &&
+            n.data().type === sg.name,
           style: {
             "background-color": annotation.color || sg.color,
-            "text-outline-color": annotation.color || sg.color,
-          },
+            "text-outline-color": annotation.color || sg.color
+          }
         };
       });
       return annotation.color
@@ -488,10 +477,10 @@ const Visualizer = props => {
                 "text-outline-color": annotation.color,
                 "line-color": Color(annotation.color)
                   .lighten(0.6)
-                  .hex(),
-              },
+                  .hex()
+              }
             },
-            ...subGroupColors,
+            ...subGroupColors
           ]
         : [...acc, ...subGroupColors];
     }, []);
@@ -505,7 +494,8 @@ const Visualizer = props => {
         "background-gradient-stop-colors": n =>
           n.data().group.reduce((acc, group) => {
             if (group === "main") return acc;
-            const color = AnnotationGroups.find(g => g.group === group).color || "#565656";
+            const color =
+              AnnotationGroups.find(g => g.group === group).color || "#565656";
             return `${acc} ${color} ${color}`;
           }, ""),
         "background-gradient-stop-positions": n => {
@@ -516,28 +506,23 @@ const Visualizer = props => {
             value += ` ${width * i}% ${width * i}%`;
           }
           return value + " 100%";
-        },
-      },
+        }
+      }
     };
 
     return [...styles, multipleGroupsStyle];
   };
 
   const search = id => {
-    cy.batch(() => {
-      const selected = cy.nodes(`[id @= "${id}"]`);
+    cy.batch(function() {
+      const selected = cy.nodes(`[id @= "${id.toUpperCase()}"]`);
       if (selected.size()) {
         selected.select();
         cy.zoom(2);
         cy.center(selected);
       } else {
-        enqueueSnackbar("No matching results.", {
-          variant: "warning",
-          anchorOrigin: {
-            vertical: "top",
-            horizontal: "center",
-          },
-        });
+        setErrorMsg("No matching results.");
+        setShowSnack(true);
       }
     });
   };
@@ -764,26 +749,6 @@ const Visualizer = props => {
             <ArrowBackIcon />
           </IconButton>
         </Tooltip>
-        <Tooltip placement="right" title={<Typography variant="body1">Multi-level layout</Typography>}>
-          <IconButton onClick={MLLLayout}>
-            <BubbleChartIcon />
-          </IconButton>
-        </Tooltip>
-        <Tooltip placement="right" title={<Typography variant="body1">Randomize layout</Typography>}>
-          <IconButton onClick={randomLayout}>
-            <ShuffleIcon />
-          </IconButton>
-        </Tooltip>
-        <Tooltip placement="right" title={<Typography variant="body1">Breadth-first layout</Typography>}>
-          <IconButton onClick={breadthFirstLayout}>
-            <CategoryIcon />
-          </IconButton>
-        </Tooltip>
-        <Tooltip placement="right" title={<Typography variant="body1">Concentric layout</Typography>}>
-          <IconButton onClick={concentricLayout}>
-            <AdjustIcon />
-          </IconButton>
-        </Tooltip>
         <Tooltip placement="right" title={<Typography variant="body1">Save screenshot</Typography>}>
           <IconButton onClick={takeScreenshot}>
             <CameraAltIcon />
@@ -828,6 +793,12 @@ const Visualizer = props => {
           ))
         )}
       {filteredElements && renderFilterControls()}
+      {/*<Snackbar*/}
+      {/*  anchorOrigin="bottom, center"*/}
+      {/*  open={showSnack}*/}
+      {/*  onClose={setShowSnack(false)}*/}
+      {/*  message={errorMsg}*/}
+      {/*/>*/}
     </Fragment>
   );
 };

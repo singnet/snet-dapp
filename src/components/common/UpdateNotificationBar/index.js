@@ -14,7 +14,7 @@ const UpdateNotificationBar = ({ classes, showNotification, onCloseClick }) => {
       <p>
         <span>
           SingularityNET Phase II has officially launched!!! Check your brand new AGIX balance on your wallets or use
-          our{" "}
+          our
         </span>
         <a
           href="https://snapshot.singularitynet.io/"
