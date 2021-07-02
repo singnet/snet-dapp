@@ -28,6 +28,7 @@ export const useStyles = theme => ({
     borderRadius: 4,
     backgroundColor: "#F6F6F6",
     boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
+    "@media(max-width: 780px)": { width: "90%" },
   },
   aiRequestFormFooterContainer: {
     marginTop: 16,

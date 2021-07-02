@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import { withStyles } from "@material-ui/styles";
+import MenuIcon from "@material-ui/icons/Menu";
 import { connect } from "react-redux";
 import { stylesActions } from "../../../../Redux/actionCreators";
 import CloseIcon from "@material-ui/icons/Close";
@@ -14,9 +15,7 @@ const MobileHeader = ({ classes, data, hamburgerMenu, updateHamburgerState }) =>
   if (!hamburgerMenu) {
     return (
       <div className={classes.hamburger} onClick={toggleMobileMenu}>
-        <span />
-        <span />
-        <span />
+        <MenuIcon />
       </div>
     );
   }
