@@ -6,6 +6,7 @@ import MainSection from "./MainSection";
 import { useStyles } from "./styles";
 import SeoMetadata from "../common/SeoMetadata";
 import ServiceListingHeader from "./ServiceListingHeader";
+import PromoComponent from "../PromoComponent";
 
 const seoData = {
   title: "SingularityNET Beta Dapp",
@@ -28,6 +29,7 @@ const AiMarketplace = ({ classes, isLoggedIn }) => {
         twitterImage={seoData.twitterImage}
       />
       <MainSection />
+      <PromoComponent />
     </React.Fragment>
   );
 };
