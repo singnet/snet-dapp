@@ -10,6 +10,7 @@ const Routes = {
   SERVICE_DETAILS: "servicedetails",
   USER_PROFILE: "userprofile",
   GET_STARTED: "getstarted",
+  AI_REQUEST_FORM: "airequestform",
   hash: {
     SERVICE_DEMO: "#demo",
   },

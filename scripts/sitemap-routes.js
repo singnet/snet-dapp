@@ -16,5 +16,6 @@ export default (
     <Route path={`/${Routes.USER_PROFILE}/:activeTab?`} />
     <Route path="/" exact />
     <Route path={`/${Routes.GET_STARTED}`} />
+    <Route path={`/${Routes.AI_REQUEST_FORM}`} />
   </Route>
 );
