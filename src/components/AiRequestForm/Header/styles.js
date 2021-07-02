@@ -70,6 +70,11 @@ export const useStyles = makeStyles(theme => ({
         fontWeight: 200,
         lineHeight: "20px",
       },
+      "&:hover": {
+        "& div": {
+          "& span": { fontWeight: 400 },
+        },
+      },
     },
   },
 }));
