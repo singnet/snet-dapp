@@ -10,7 +10,7 @@ const AiRequestForm = ({ classes }) => {
     {
       title: "AI Marketplace",
       link: "https://beta.singularitynet.io/",
-      newTab: true,
+      newTab: false,
     },
     {
       title: "Singularity Studio",

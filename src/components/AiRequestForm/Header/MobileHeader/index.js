@@ -1,6 +1,9 @@
 import React, { Fragment } from "react";
 import { withStyles } from "@material-ui/styles";
 import MenuIcon from "@material-ui/icons/Menu";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
 import { connect } from "react-redux";
 import { stylesActions } from "../../../../Redux/actionCreators";
 import CloseIcon from "@material-ui/icons/Close";
@@ -26,18 +29,14 @@ const MobileHeader = ({ classes, data, hamburgerMenu, updateHamburgerState }) =>
         <div className={classes.closeMenuIcon}>
           <CloseIcon onClick={toggleMobileMenu} />
         </div>
-        <nav className={classes.mobileNavigation}>
-          <ul>
-            {data.map(tab => (
-              // eslint-disable-next-line react/jsx-key
-              <li className={classes.navLinks}>
-                <a href={tab.link} title={tab.title} target={tab.newTab ? "_blank" : "_self"}>
-                  {tab.title}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        <List component="nav" className={classes.mobileNavigation}>
+          {data.map(tab => (
+            // eslint-disable-next-line react/jsx-key
+            <ListItem button component="a" href={tab.link} target={tab.newTab ? "_blank" : "_self"} title={tab.title}>
+              <ListItemText primary={tab.title} />
+            </ListItem>
+          ))}
+        </List>
       </div>
     </Fragment>
   );
