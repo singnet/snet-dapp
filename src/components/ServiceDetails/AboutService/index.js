@@ -41,6 +41,19 @@ const AboutService = ({
           <ArrowBackIcon />
           <Link to={`/${Routes.AI_MARKETPLACE}`}>Back to AI Marketplace</Link>
         </div>
+        <div className={classes.promoContainer}>
+          <img src="http://placehold.it/100x100" alt="Looking for New AI Service" />
+          <div>
+            <span>Looking for a different AI Service?</span>
+            <p>
+              If you have a need for a specific AI service, we would love to know! We will discuss the details with you
+              or use the suggestion to incentivize our network.
+            </p>
+            <a href={`/${Routes.AI_REQUEST_FORM}`} title="Request AI Form" target="_blank">
+              request ai form
+            </a>
+          </div>
+        </div>
       </Grid>
 
       <Grid item xs={12} sm={4} md={4} lg={4} className={classes.rightSideSection}>

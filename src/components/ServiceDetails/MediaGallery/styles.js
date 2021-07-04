@@ -1,7 +1,7 @@
 export const useStyles = theme => ({
   mediaGalleryContainer: {
     boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
-    margin: "25px 0 70px",
+    margin: "25px 0 0",
     borderRadius: 4,
     backgroundColor: theme.palette.text.white,
     "& iframe": { width: "100%" },
