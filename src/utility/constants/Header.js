@@ -40,7 +40,6 @@ const dropdowns = [
       { label: "AGIX Staking", link: "https://staking.singularitynet.io/", newTab: true },
       { label: "Developer portal", link: "https://dev.singularitynet.io/", newTab: true },
       { label: "AI Publisher", link: "https://publisher.singularitynet.io/", newTab: true },
-      { label: "Request for AI", link: "https://rfai.singularitynet.io/", newTab: true },
     ],
   },
   {
