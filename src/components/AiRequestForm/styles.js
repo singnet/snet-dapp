@@ -1,8 +1,16 @@
+import googleFormBG from "../../assets/images/googleFormBG.svg";
+
 export const useStyles = theme => ({
+  googleFormMainContainer: {
+    backgroundImage: `url(${googleFormBG})`,
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+    backgroundPosition: "79% 100%",
+    "@media(min-width:1600px)": { backgroundPosition: "85% 100%" },
+    "@media(min-width:1800px)": { backgroundPosition: "100%" },
+  },
   aiRequestFormMainContainer: {
     padding: "138px 0 26px",
-    backgroundColor: theme.palette.text.purple,
-    boxShadow: "0 2px 6px 0 rgba(0,0,0,0.3)",
   },
   aiRequestFormWrapper: {
     "& h2": {
@@ -23,11 +31,17 @@ export const useStyles = theme => ({
   },
   formContainer: {
     width: 736,
+    paddingTop: 20,
     border: "2px solid #FFFFFF",
     margin: "40px auto 0",
     borderRadius: 4,
     backgroundColor: "#F6F6F6",
     boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
+    "& iframe": {
+      height: 1300,
+      "@media(max-width: 780px)": { height: 1400 },
+      "@media(max-width: 530px)": { height: 1500 },
+    },
     "@media(max-width: 780px)": { width: "90%" },
   },
   aiRequestFormFooterContainer: {
