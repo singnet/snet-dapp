@@ -31,7 +31,7 @@ const PromoComponent = ({ classes }) => {
               We've made it fast and easy to publish your own services through AI Publisher. Start earning AGIX tokens
               by publishing services into AI Marketplace.
             </p>
-            <a href="https://publisher.singularitynet.io/" title="Visit AI Publisher">
+            <a href="https://publisher.singularitynet.io/" title="Visit AI Publisher" target="_blank">
               visit ai publisher
             </a>
           </div>
