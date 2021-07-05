@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 
 import { withStyles } from "@material-ui/styles";
 
@@ -19,7 +19,7 @@ const AiRequestForm = ({ classes }) => {
     },
   ];
   return (
-    <Fragment>
+    <div className={classes.googleFormMainContainer}>
       <Header data={headerTabs} />
       <div className={classes.aiRequestFormMainContainer}>
         <div className={classes.aiRequestFormWrapper}>
@@ -47,7 +47,7 @@ const AiRequestForm = ({ classes }) => {
           </div>
         </div>
       </div>
-    </Fragment>
+    </div>
   );
 };
 

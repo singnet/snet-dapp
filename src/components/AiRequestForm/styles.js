@@ -1,8 +1,14 @@
+import googleFormBG from "../../assets/images/googleFormBG.svg";
+
 export const useStyles = theme => ({
+  googleFormMainContainer: {
+    backgroundImage: `url(${googleFormBG})`,
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+    backgroundPosition: "79% 100%",
+  },
   aiRequestFormMainContainer: {
     padding: "138px 0 26px",
-    backgroundColor: theme.palette.text.purple,
-    boxShadow: "0 2px 6px 0 rgba(0,0,0,0.3)",
   },
   aiRequestFormWrapper: {
     "& h2": {

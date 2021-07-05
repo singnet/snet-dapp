@@ -9,8 +9,6 @@ export const useStyles = makeStyles(theme => ({
     right: 0,
     left: 0,
     zIndex: 5,
-    backgroundColor: theme.palette.text.purple,
-    boxShadow: "0 2px 6px 0 rgba(0,0,0,0.3)",
   },
   updateNotificationBar: {
     width: "100%",
