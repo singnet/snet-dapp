@@ -289,4 +289,11 @@ export const useStyles = theme => ({
       },
     },
   },
+  showInResponsive: {
+    display: "none",
+    "@media(max-width:768px)": { display: "block" },
+  },
+  showOnNrmalResolution: {
+    "@media(max-width:768px)": { display: "none" },
+  },
 });

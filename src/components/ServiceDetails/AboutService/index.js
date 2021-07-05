@@ -2,17 +2,14 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 import { useStyles } from "./styles";
 import DemoToggler from "./DemoToggler";
 import ServiceOverview from "./ServiceOverview";
-import Routes from "../../../utility/constants/Routes";
 import CreatorDetails from "../CreatorDetails";
 import ProjectDetails from "../ProjectDetails";
 import MediaGallery from "../MediaGallery";
-import newAIServiceDetailsPageIcon from "../../../assets/images/newAIServiceDetailsPageIcon.svg";
+import PromoComponent from "./PromoComponent";
 
 const AboutService = ({
   classes,
@@ -38,22 +35,8 @@ const AboutService = ({
           scrollToView={scrollToView}
           noDemoComponent={noDemoComponent}
         />
-        <div className={classes.backToLink}>
-          <ArrowBackIcon />
-          <Link to={`/${Routes.AI_MARKETPLACE}`}>Back to AI Marketplace</Link>
-        </div>
-        <div className={classes.promoContainer}>
-          <img src={newAIServiceDetailsPageIcon} alt="Looking for New AI Service" />
-          <div>
-            <span>Looking for a different AI Service?</span>
-            <p>
-              If you have a need for a specific AI service, we would love to know! We will discuss the details with you
-              or use your suggestion to incentivize our network.
-            </p>
-            <a href={`/${Routes.AI_REQUEST_FORM}`} title="Request AI Form" target="_blank">
-              request ai form
-            </a>
-          </div>
+        <div className={classes.showOnNrmalResolution}>
+          <PromoComponent />
         </div>
       </Grid>
 
@@ -70,6 +53,9 @@ const AboutService = ({
           serviceId={service.service_id}
         />
         <MediaGallery data={service.media} />
+        <div className={classes.showInResponsive}>
+          <PromoComponent />
+        </div>
       </Grid>
     </Grid>
   );
