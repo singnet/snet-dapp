@@ -1,6 +1,6 @@
 export const useStyles = theme => ({
   mainSection: {
-    padding: "40px 0 60px",
+    padding: "40px 0 48px",
     "& div": {
       "@media(max-width: 1024px)": { maxWidth: "100%" },
     },
