@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { withStyles } from "@material-ui/styles";
 
@@ -6,6 +6,8 @@ import Header from "./Header";
 import { useStyles } from "./styles";
 
 const AiRequestForm = ({ classes }) => {
+  const [fixHeader, setfixHeader] = useState(false);
+
   const headerTabs = [
     {
       title: "AI Marketplace",
@@ -18,9 +20,24 @@ const AiRequestForm = ({ classes }) => {
       newTab: true,
     },
   ];
+
+  useEffect(() => {
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 50) {
+        setfixHeader(true);
+      } else {
+        setfixHeader(false);
+      }
+    });
+    return () => {
+      // eslint-disable-next-line no-empty-function
+      window.removeEventListener("scroll", () => {});
+    };
+  }, []);
+
   return (
     <div className={classes.googleFormMainContainer}>
-      <Header data={headerTabs} />
+      <Header data={headerTabs} fixHeader={fixHeader} />
       <div className={classes.aiRequestFormMainContainer}>
         <div className={classes.aiRequestFormWrapper}>
           <h2>Looking for New AI Service?</h2>

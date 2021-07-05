@@ -8,11 +8,11 @@ import MobileHeader from "./MobileHeader";
 import SnetSvgLogo from "../../../assets/images/WhiteLogo.svg";
 import Routes from "../../../utility/constants/Routes";
 
-const Header = ({ data, portalName }) => {
+const Header = ({ data, fixHeader }) => {
   const classes = useStyles();
 
   return (
-    <header className={classes.header}>
+    <header className={`${classes.header} ${fixHeader ? classes.addBg : ""}`}>
       <div className={classes.mainHeader}>
         <div className={classes.logoSection}>
           <MobileHeader data={data} />

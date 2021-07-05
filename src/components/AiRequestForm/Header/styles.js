@@ -1,6 +1,10 @@
 import { makeStyles } from "@material-ui/styles";
 
 export const useStyles = makeStyles(theme => ({
+  addBg: {
+    backgroundColor: theme.palette.text.purple,
+    boxShadow: "0 2px 6px 0 rgba(0,0,0,0.3)",
+  },
   header: {
     display: "flex",
     flexDirection: "column",
