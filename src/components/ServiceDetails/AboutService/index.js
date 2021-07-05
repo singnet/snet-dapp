@@ -12,6 +12,7 @@ import Routes from "../../../utility/constants/Routes";
 import CreatorDetails from "../CreatorDetails";
 import ProjectDetails from "../ProjectDetails";
 import MediaGallery from "../MediaGallery";
+import newAIServiceDetailsPageIcon from "../../../assets/images/newAIServiceDetailsPageIcon.svg";
 
 const AboutService = ({
   classes,
@@ -42,12 +43,12 @@ const AboutService = ({
           <Link to={`/${Routes.AI_MARKETPLACE}`}>Back to AI Marketplace</Link>
         </div>
         <div className={classes.promoContainer}>
-          <img src="http://placehold.it/100x100" alt="Looking for New AI Service" />
+          <img src={newAIServiceDetailsPageIcon} alt="Looking for New AI Service" />
           <div>
             <span>Looking for a different AI Service?</span>
             <p>
               If you have a need for a specific AI service, we would love to know! We will discuss the details with you
-              or use the suggestion to incentivize our network.
+              or use your suggestion to incentivize our network.
             </p>
             <a href={`/${Routes.AI_REQUEST_FORM}`} title="Request AI Form" target="_blank">
               request ai form

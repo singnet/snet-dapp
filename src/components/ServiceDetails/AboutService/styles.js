@@ -268,7 +268,7 @@ export const useStyles = theme => ({
       "& p": {
         margin: "16px 0 32px",
         color: "#666",
-        fontWeight: 200,
+        fontWeight: 300,
         lineHeight: "24px",
       },
       "& a": {
