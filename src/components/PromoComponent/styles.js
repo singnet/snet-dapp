@@ -7,6 +7,7 @@ export const useStyles = theme => ({
     padding: "0 60px 64px",
     margin: "0 auto",
     display: "flex",
+    justifyContent: "space-between",
     "& > div": {
       "&:first-of-type": {
         backgroundImage: `url(${newAIServiceBG})`,
@@ -19,11 +20,18 @@ export const useStyles = theme => ({
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         backgroundPosition: "center",
+        "@media(max-width:1113px)": { marginTop: 20 },
       },
     },
+    "@media(max-width:1113px)": {
+      flexDirection: "column",
+      alignItems: "center",
+    },
+    "@media(max-width:790px)": { alignItems: "center" },
   },
   box: {
-    width: 631,
+    boxSizing: "border-box",
+    width: "49%",
     padding: "37px 29px 37px 30px",
     borderRadius: 6,
     display: "flex",
@@ -35,6 +43,7 @@ export const useStyles = theme => ({
         fontSize: 24,
         fontWeight: 600,
         lineHeight: "32px",
+        "@media(max-width:600px)": { marginTop: 15, display: "inline-bloxk" },
       },
       "& p": {
         margin: "16px 0 24px",
@@ -58,6 +67,13 @@ export const useStyles = theme => ({
         textDecoration: "none",
         textTransform: "uppercase",
       },
+      "@media(max-width:600px)": { marginLeft: 0, textAlign: "center" },
     },
+    "@media(max-width:1113px)": {
+      width: 635,
+      marginRight: 20,
+    },
+    "@media(max-width:790px)": { width: "100%" },
+    "@media(max-width:600px)": { flexDirection: "column", alignItems: "center" },
   },
 });
