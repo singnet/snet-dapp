@@ -1,3 +1,6 @@
+import publisherPromoBG from "../../assets/images/publisherPromoBG.svg";
+import newAIServiceBG from "../../assets/images/newAIServiceBG.svg";
+
 export const useStyles = theme => ({
   promoWrapper: {
     maxWidth: 1280,
@@ -5,8 +8,18 @@ export const useStyles = theme => ({
     margin: "0 auto",
     display: "flex",
     "& > div": {
-      "&:first-of-type": { background: "linear-gradient(136.03deg, #5A1F69 0.06%, #270D4E 100%)" },
-      "&:last-of-type": { background: "linear-gradient(45deg, #5C2C9A 0%, #1F1661 99.95%)" },
+      "&:first-of-type": {
+        backgroundImage: `url(${newAIServiceBG})`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      },
+      "&:last-of-type": {
+        backgroundImage: `url(${publisherPromoBG})`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      },
     },
   },
   box: {

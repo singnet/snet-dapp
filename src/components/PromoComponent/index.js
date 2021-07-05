@@ -2,6 +2,8 @@ import React from "react";
 import { withStyles } from "@material-ui/styles";
 
 import { useStyles } from "./styles";
+import newAIService from "../../assets/images/newAIService.svg";
+import pubisherIcon from "../../assets/images/pubisherIcon.svg";
 import Routes from "../../utility/constants/Routes";
 
 const PromoComponent = ({ classes }) => {
@@ -9,20 +11,20 @@ const PromoComponent = ({ classes }) => {
     <div className={classes.promoContainer}>
       <div className={classes.promoWrapper}>
         <div className={classes.box}>
-          <img src="http://placehold.it/100x100" alt="Looking for New AI Service" />
+          <img src={newAIService} alt="Looking for New AI Service" />
           <div>
             <span>Looking for a different AI Service?</span>
             <p>
               If you have a need for a specific AI service, we would love to know! We will discuss the details with you
               or use the suggestion to incentivize our network.
             </p>
-            <a href={`/${Routes.AI_REQUEST_FORM}`} title="Request AI Form">
+            <a href={`/${Routes.AI_REQUEST_FORM}`} title="Request AI Form" target="_blank">
               request ai form
             </a>
           </div>
         </div>
         <div className={classes.box}>
-          <img src="http://placehold.it/100x100" alt="Looking for New AI Service" />
+          <img src={pubisherIcon} alt="Interested in earning AGIX?" />
           <div>
             <span>Interested in earning AGIX?</span>
             <p>
