@@ -1,6 +1,5 @@
 import React, { Fragment } from "react";
 import { withStyles } from "@material-ui/styles";
-import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
@@ -32,8 +31,4 @@ const PromoComponent = ({ classes }) => {
   );
 };
 
-const mapStateToProps = state => ({
-  isLoggedIn: state.userReducer.login.isLoggedIn,
-});
-
-export default connect(mapStateToProps)(withStyles(useStyles)(PromoComponent));
+export default withStyles(useStyles)(PromoComponent);
