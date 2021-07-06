@@ -35,6 +35,10 @@ const AiRequestForm = ({ classes }) => {
     };
   }, []);
 
+  const onIframeLoad = () => {
+    window.scrollTo(0, 0);
+  };
+
   return (
     <div className={classes.googleFormMainContainer}>
       <Header data={headerTabs} fixHeader={fixHeader} />
@@ -51,6 +55,7 @@ const AiRequestForm = ({ classes }) => {
               marginheight="0"
               marginwidth="0"
               title="AI Request Form"
+              onLoad={onIframeLoad}
             >
               Loading…
             </iframe>
