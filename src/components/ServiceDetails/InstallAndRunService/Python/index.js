@@ -1,17 +1,24 @@
 import React from "react";
 import { withStyles } from "@material-ui/styles";
-
+import { useSelector } from "react-redux";
 import { useStyles } from "../styles";
 import CodeSnippet from "../../../common/CodeSnippet";
 import StyledButton from "../../../common/StyledButton";
+import DownloadMedia from "../../../../utility/MediaHelper"
 
 const Python = ({ classes, description }) => {
+
+  const { media } = useSelector(state => state.serviceDetailsReducer.details)
+  const downloadIntegrationFiles = () => {
+    DownloadMedia(media, 'grpc-stub/python', 'python.zip')
+  }
+
   return (
     <section className={classes.languageTabSection}>
       <div className={classes.descriptionBtnsContainer}>
         <p>{description}</p>
         <div className={classes.btnContainer}>
-          <StyledButton type="blue" btnText="Download Integration files" />
+          <StyledButton type="blue" btnText="Download Integration files" onClick={downloadIntegrationFiles} />
         </div>
       </div>
       <div className={classes.setingUpFilesContainer}>
