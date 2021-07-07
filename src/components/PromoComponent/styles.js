@@ -66,6 +66,7 @@ export const useStyles = theme => ({
         lineHeight: "16px",
         textDecoration: "none",
         textTransform: "uppercase",
+        "&:hover": { background: "rgba(241,241,241,0.15)" },
       },
       "@media(max-width:600px)": { marginLeft: 0, textAlign: "center" },
     },

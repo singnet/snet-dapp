@@ -46,6 +46,7 @@ export const useStyles = theme => ({
         lineHeight: "16px",
         textDecoration: "none",
         textTransform: "uppercase",
+        "&:hover": { background: "rgb(64 134 255 / 15%)" },
       },
     },
   },
