@@ -7,7 +7,7 @@ import { useStyles } from "./styles";
 import Routes from "../../../../utility/constants/Routes";
 import newAIServiceDetailsPageIcon from "../../../../assets/images/newAIServiceDetailsPageIcon.svg";
 
-const PromoComponent = ({ classes }) => {
+const PromoBox = ({ classes }) => {
   return (
     <Fragment>
       <div className={classes.backToLink}>
@@ -31,4 +31,4 @@ const PromoComponent = ({ classes }) => {
   );
 };
 
-export default withStyles(useStyles)(PromoComponent);
+export default withStyles(useStyles)(PromoBox);

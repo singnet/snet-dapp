@@ -9,7 +9,7 @@ import ServiceOverview from "./ServiceOverview";
 import CreatorDetails from "../CreatorDetails";
 import ProjectDetails from "../ProjectDetails";
 import MediaGallery from "../MediaGallery";
-import PromoComponent from "./PromoComponent";
+import PromoBox from "./PromoBox";
 
 const AboutService = ({
   classes,
@@ -36,7 +36,7 @@ const AboutService = ({
           noDemoComponent={noDemoComponent}
         />
         <div className={classes.showOnNrmalResolution}>
-          <PromoComponent />
+          <PromoBox />
         </div>
       </Grid>
 
@@ -54,7 +54,7 @@ const AboutService = ({
         />
         <MediaGallery data={service.media} />
         <div className={classes.showInResponsive}>
-          <PromoComponent />
+          <PromoBox />
         </div>
       </Grid>
     </Grid>
