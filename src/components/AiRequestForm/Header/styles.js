@@ -66,15 +66,14 @@ export const useStyles = makeStyles(theme => ({
       padding: 0,
       marginRight: 40,
       "& span": {
-        color: theme.palette.text.white,
+        color: "#9b9b9b",
         fontFamily: theme.typography.primary.main,
         fontSize: 16,
-        fontWeight: 200,
         lineHeight: "20px",
       },
       "&:hover": {
         "& div": {
-          "& span": { fontWeight: 400 },
+          "& span": { color: theme.palette.text.white },
         },
       },
     },
