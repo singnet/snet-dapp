@@ -4,6 +4,7 @@ import { withStyles } from "@material-ui/styles";
 
 import Header from "./Header";
 import { useStyles } from "./styles";
+import Routes from "../../utility/constants/Routes";
 
 const AiRequestForm = ({ classes }) => {
   const [fixHeader, setfixHeader] = useState(false);
@@ -11,13 +12,8 @@ const AiRequestForm = ({ classes }) => {
   const headerTabs = [
     {
       title: "AI Marketplace",
-      link: "https://beta.singularitynet.io/",
+      link: `/${Routes.AI_MARKETPLACE}`,
       newTab: false,
-    },
-    {
-      title: "Singularity Studio",
-      link: "https://singularity.studio/",
-      newTab: true,
     },
   ];
 
