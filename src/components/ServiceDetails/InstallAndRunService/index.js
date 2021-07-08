@@ -11,7 +11,6 @@ import Web3 from "web3";
 import StyledTabs from "../StyledTabs";
 import Python from "./Python";
 import Nodejs from "./Nodejs";
-import Javascript from "./Javascript";
 import ProjectDetails from "../ProjectDetails";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../../Redux/actionCreators";
@@ -65,19 +64,23 @@ class InstallAndRunService extends Component {
         name: "Python",
         activeIndex: 0,
         component: (
-          <Python description="Download the Python SDK to help you integrate this AI service with your application. Once you setup your configuration, use the token generator below to test the servcie with a number of free calls." />
+          <Python
+            description="Download the Python SDK to help you integrate this AI service with your application. Once you setup your configuration, use the token generator below to test the servcie with a number of free calls."
+            orgId={service.org_id}
+            serviceId={service.service_id}
+          />
         ),
       },
-      {
-        name: "Javascript",
-        activeIndex: 1,
-        component: (
-          <Javascript description="Download the Javascript SDK to help you integrate this AI service with your application. Once you setup your configuration, use the token generator below to test the servcie with a number of free calls." />
-        ),
-      },
+      // {
+      //   name: "Javascript",
+      //   activeIndex: 1,
+      //   component: (
+      //     <Javascript description="Download the Javascript SDK to help you integrate this AI service with your application. Once you setup your configuration, use the token generator below to test the servcie with a number of free calls." />
+      //   ),
+      // },
       {
         name: "Nodejs",
-        activeIndex: 2,
+        activeIndex: 1,
         component: (
           <Nodejs description="Download the Nodejs SDK to help you integrate this AI service with your application. Once you setup your configuration, use the token generator below to test the servcie with a number of free calls." />
         ),
