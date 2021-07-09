@@ -8,6 +8,7 @@ import DownloadMedia from "../../../../utility/MediaHelper";
 
 const Python = ({ classes, description, orgId, serviceId }) => {
   const { media } = useSelector(state => state.serviceDetailsReducer.details);
+
   const downloadIntegrationFiles = () => {
     DownloadMedia(media, "grpc-stub/python", "python.zip");
   };
