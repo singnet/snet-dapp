@@ -1,0 +1,53 @@
+export const useStyles = theme => ({
+  backToLink: {
+    margin: "30px 0 0",
+    display: "flex",
+    alignItems: "center",
+    "& svg": { color: theme.palette.text.primary },
+    "& a": {
+      marginLeft: 7,
+      color: theme.palette.text.primary,
+      textDecoration: "none",
+      fontSize: 16,
+      "&:hover": { textDecoration: "underline" },
+    },
+  },
+  promoContainer: {
+    padding: "40px 9% 37px 0",
+    borderRadius: 6,
+    display: "flex",
+    alignItems: "flex-start",
+    "& div": {
+      marginLeft: 32,
+      "& > span": {
+        color: "#222",
+        fontSize: 24,
+        fontWeight: 600,
+        lineHeight: "32px",
+      },
+      "& p": {
+        margin: "16px 0 32px",
+        color: "#666",
+        fontWeight: 300,
+        lineHeight: "24px",
+      },
+      "& a": {
+        padding: "7px 32px",
+        border: "1px solid #4086ff",
+        borderRadius: 4,
+        display: "inline-block",
+        background: "transparent",
+        color: "#4086ff",
+        cursor: "pointer",
+        fontFamily: "Muli",
+        fontSize: 14,
+        fontWeight: 600,
+        letterSpacing: 1.25,
+        lineHeight: "16px",
+        textDecoration: "none",
+        textTransform: "uppercase",
+        "&:hover": { background: "rgb(64 134 255 / 15%)" },
+      },
+    },
+  },
+});
