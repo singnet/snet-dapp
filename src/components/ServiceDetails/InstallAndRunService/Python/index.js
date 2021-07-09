@@ -1,25 +1,25 @@
 import React from "react";
 import { withStyles } from "@material-ui/styles";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import { useStyles } from "../styles";
 import CodeSnippet from "../../../common/CodeSnippet";
-import StyledButton from "../../../common/StyledButton";
-import DownloadMedia from "../../../../utility/MediaHelper";
+// import StyledButton from "../../../common/StyledButton";
+// import DownloadMedia from "../../../../utility/MediaHelper";
 
 const Python = ({ classes, description, orgId, serviceId }) => {
-  const { media } = useSelector(state => state.serviceDetailsReducer.details);
+  // const { media } = useSelector(state => state.serviceDetailsReducer.details);
 
-  const downloadIntegrationFiles = () => {
-    DownloadMedia(media, "grpc-stub/python", "python.zip");
-  };
+  // const downloadIntegrationFiles = () => {
+  //   DownloadMedia(media, "grpc-stub/python", "python.zip");
+  // };
 
   return (
     <section className={classes.languageTabSection}>
       <div className={classes.descriptionBtnsContainer}>
         <p>{description}</p>
-        <div className={classes.btnContainer}>
-          <StyledButton type="blue" disabled btnText="Download Integration files" onClick={downloadIntegrationFiles} />
-        </div>
+        {/* <div className={classes.btnContainer}>
+          <StyledButton type="blue" btnText="Download Integration files" onClick={downloadIntegrationFiles} />
+        </div> */}
       </div>
       <div className={classes.setingUpFilesContainer}>
         <h3>Setting Up Files</h3>
@@ -34,11 +34,24 @@ const Python = ({ classes, description, orgId, serviceId }) => {
           </span>
           <CodeSnippet>pip install snet-cli</CodeSnippet>
         </div>
-        {/* <div>
+        <div>
           <span>Once you have the CLI installed, run the following command to generate gRPC stubs for service </span>
           <CodeSnippet>snet sdk generate-client-library python &lt;org_id&gt; &lt;service_id&gt;</CodeSnippet>
-        </div> */}
+        </div>
         <div>
+          <span>Run the code</span>
+          <CodeSnippet>
+            from snet.sdk import SnetSDK <br />
+            import &lt;stub&gt;_pb2 <br />
+            import &lt;stub&gt;_pb2_grpc <br />
+            from config import config <br /> <br />
+            sdk = SnetSDK(config) <br />
+            service_client = sdk.create_service_client( <br />
+            &lt;org_id&gt;, &lt;service_id&gt;, example_service_pb2_grpc.CalculatorStub) <br />
+            request = example_service_pb2.Numbers(a=20, b=3) <br />
+          </CodeSnippet>
+        </div>
+        {/* <div>
           <span>Run the code</span>
           <CodeSnippet>
             from snet.sdk import SnetSDK <br />
@@ -67,7 +80,7 @@ const Python = ({ classes, description, orgId, serviceId }) => {
             &nbsp;&nbsp;&nbsp;&nbsp;response = service_client.service.add(request) <br />
             &nbsp;&nbsp;&nbsp;&nbsp;print("service invoked successfully") <br />
           </CodeSnippet>
-        </div>
+        </div> */}
       </div>
     </section>
   );

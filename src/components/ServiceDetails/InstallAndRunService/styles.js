@@ -148,5 +148,6 @@ export const useStyles = theme => ({
       letterSpacing: 0.25,
       lineHeight: "20px",
     },
+    "& div": { display: "none" },
   },
 });
