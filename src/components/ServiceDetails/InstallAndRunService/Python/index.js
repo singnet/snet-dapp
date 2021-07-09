@@ -17,7 +17,7 @@ const Python = ({ classes, description, orgId, serviceId }) => {
       <div className={classes.descriptionBtnsContainer}>
         <p>{description}</p>
         <div className={classes.btnContainer}>
-          <StyledButton type="blue" btnText="Download Integration files" onClick={downloadIntegrationFiles} />
+          <StyledButton type="blue" disabled btnText="Download Integration files" onClick={downloadIntegrationFiles} />
         </div>
       </div>
       <div className={classes.setingUpFilesContainer}>
