@@ -18,7 +18,7 @@ const Nodejs = ({ classes, description }) => {
       <div className={classes.descriptionBtnsContainer}>
         <p>{description}</p>
         <div className={classes.btnContainer}>
-          <StyledButton type="blue" disabled btnText="Download Integration files" onClick={downloadIntegrationFiles} />
+          <StyledButton type="blue" btnText="Download Integration files" onClick={downloadIntegrationFiles} />
         </div>
       </div>
       <div className={classes.setingUpFilesContainer}>
@@ -58,7 +58,7 @@ const Nodejs = ({ classes, description }) => {
           <span>
             Replace the result with appropriate response expected on <b>aiService.js</b>
           </span>
-          <CodeSnippet>{"result.getValue();"}</CodeSnippet>
+          <CodeSnippet>result.getValue();</CodeSnippet>
         </div>
         <div>
           <span>Invoke service by running </span>
