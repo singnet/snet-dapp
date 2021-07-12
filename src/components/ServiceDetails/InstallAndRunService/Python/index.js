@@ -19,6 +19,7 @@ const downloadIntegrationFiles = () => {
         <p>{description}</p>
         <div className={classes.btnContainer}>
           <StyledButton type="blue" btnText="Download Integration files" onClick={downloadIntegrationFiles} />
+          <StyledButton type="transparent" btnText="view tutorial" href="https://dev.singularitynet.io/docs/ai-consumers/sdk-tutorial/" target="_blank"/>
         </div> 
       </div>
       <div className={classes.setingUpFilesContainer}>
@@ -38,9 +39,11 @@ const downloadIntegrationFiles = () => {
           <span>Run the code</span>
           <CodeSnippet>
             from snet.sdk import SnetSDK <br />
-            # from the folder downloaded using above button import the below stubs. <br />
-            from python import &#60;stub&#62;_pb2 <br />
-            from python import &#60;stub&#62;_pb2_grpc <br />
+            # Download and copy the stubs in the root folder. <br />
+            # /root_folder/&#60;stub&#62;_pb2.py <br />
+            # /root_folder/&#60;stub&#62;_pb2_grpc.py <br />
+            import &#60;stub&#62;_pb2 <br />
+            import &#60;stub&#62;_pb2_grpc <br />
             <br />
             def invoke_service(): <br />
             &nbsp;&nbsp;&nbsp;&nbsp;config =&#123; <br />
