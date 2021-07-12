@@ -19,6 +19,7 @@ const downloadIntegrationFiles = () => {
         <p>{description}</p>
         <div className={classes.btnContainer}>
           <StyledButton type="blue" btnText="Download Integration files" onClick={downloadIntegrationFiles} />
+          <StyledButton type="transparent" btnText="view tutorial" href="https://dev.singularitynet.io/docs/ai-consumers/sdk-tutorial/" target="_blank"/>
         </div> 
       </div>
       <div className={classes.setingUpFilesContainer}>
@@ -35,37 +36,22 @@ const downloadIntegrationFiles = () => {
           <CodeSnippet>pip install snet-cli</CodeSnippet>
         </div>
         <div>
-          <span>Once you have the CLI installed, run the following command to generate gRPC stubs for service </span>
-          <CodeSnippet>snet sdk generate-client-library python &lt;org_id&gt; &lt;service_id&gt;</CodeSnippet>
-        </div>
-        <div>
           <span>Run the code</span>
           <CodeSnippet>
             from snet.sdk import SnetSDK <br />
-            import &lt;stub&gt;_pb2 <br />
-            import &lt;stub&gt;_pb2_grpc <br />
-            from config import config <br /> <br />
-            sdk = SnetSDK(config) <br />
-            service_client = sdk.create_service_client( <br />
-            &lt;org_id&gt;, &lt;service_id&gt;, example_service_pb2_grpc.CalculatorStub) <br />
-            request = example_service_pb2.Numbers(a=20, b=3) <br />
-          </CodeSnippet>
-        </div>
-        <div>
-          <span>Run the code</span>
-          <CodeSnippet>
-            from snet.sdk import SnetSDK <br />
-            # from the folder downloaded using above button import the below stubs. <br />
-            from python import &#60;stub&#62;_pb2 <br />
-            from python import &#60;stub&#62;_pb2_grpc <br />
+            # Download and copy the stubs in the root folder. <br />
+            # /root_folder/&#60;stub&#62;_pb2.py <br />
+            # /root_folder/&#60;stub&#62;_pb2_grpc.py <br />
+            import &#60;stub&#62;_pb2 <br />
+            import &#60;stub&#62;_pb2_grpc <br />
             <br />
             def invoke_service(): <br />
             &nbsp;&nbsp;&nbsp;&nbsp;config =&#123; <br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"private_key": "&#60;your wallet's private key&#62;", <br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"eth_rpc_endpoint": "https://ropsten.infura.io/v3/&#60;your infura
             key&#62;", <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"org_id": {orgId}, <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"service_id": {serviceId}, <br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"org_id": "{orgId}", <br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"service_id": "{serviceId}", <br />
             &nbsp;&nbsp;&nbsp;&nbsp;&#125;
             <br />
             &nbsp;&nbsp;&nbsp;&nbsp;sdk = SnetSDK(config=config) <br />
