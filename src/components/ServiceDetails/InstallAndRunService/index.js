@@ -49,6 +49,7 @@ class InstallAndRunService extends Component {
         this.setState({ alert: { type: alertTypes.ERROR, message: "invalid public key" } });
       }
     } catch (e) {
+      console.log(e);
       this.setState({ alert: { type: alertTypes.ERROR, message: "Unable to download the token. Please try later" } });
     }
   };
@@ -99,45 +100,47 @@ class InstallAndRunService extends Component {
           <div className={classes.integrationSetupContainer}>
             <h2>Free Call Authentication Token</h2>
             <div className={classes.overViewContainer}>
-              <Typography className={classes.intSetupDesc}>
-                Generate the free call token to use in your SDK. The address used to generate this token should be the
-                same as the identity specified in your SDK configuation. This will allow you to invoke the service from
-                your SDK on a trial basis
-              </Typography>
-              <div className={classes.textfieldContainer}>
-                <div>
-                  <InfoIcon className={classes.infoIcon} />
-                  <TextField
-                    id="outlined-user-name"
-                    label="Public Address"
-                    className={classes.textField}
-                    margin="normal"
-                    variant="outlined"
-                    value={this.state.publickey}
-                    onChange={this.handlePublicKey}
-                  />
-                  <Typography className={classes.publicAddDesc}>
-                    Ethereum address used in your SDK. This is the public address corresponding to the private key you
-                    use in the SDK
-                  </Typography>
+              <div className={classes.freecallContainer}>
+                <Typography className={classes.intSetupDesc}>
+                  Generate the free call token to use in your SDK. The address used to generate this token should be the
+                  same as the identity specified in your SDK configuation. This will allow you to invoke the service
+                  from your SDK on a trial basis
+                </Typography>
+                <div className={classes.textfieldContainer}>
+                  <div>
+                    <InfoIcon className={classes.infoIcon} />
+                    <TextField
+                      id="outlined-user-name"
+                      label="Public Address"
+                      className={classes.textField}
+                      margin="normal"
+                      variant="outlined"
+                      value={this.state.publickey}
+                      onChange={this.handlePublicKey}
+                    />
+                    <Typography className={classes.publicAddDesc}>
+                      Ethereum address used in your SDK. This is the public address corresponding to the private key you
+                      use in the SDK
+                    </Typography>
+                  </div>
+                  {!downloadTokenURL && (
+                    <Button
+                      type="submit"
+                      className={classes.DownloadTokenBtn}
+                      color="primary"
+                      onClick={this.generateToken}
+                    >
+                      Generate Token
+                    </Button>
+                  )}
+                  {downloadTokenURL && (
+                    <a href={downloadTokenURL} download={downloadTokenFileName}>
+                      Download Token
+                    </a>
+                  )}
                 </div>
-                {!downloadTokenURL && (
-                  <Button
-                    type="submit"
-                    className={classes.DownloadTokenBtn}
-                    color="primary"
-                    onClick={this.generateToken}
-                  >
-                    Generate Token
-                  </Button>
-                )}
-                {downloadTokenURL && (
-                  <a href={downloadTokenURL} download={downloadTokenFileName}>
-                    Download Token
-                  </a>
-                )}
+                <AlertBox type={alert.type} message={alert.message} />
               </div>
-              <AlertBox type={alert.type} message={alert.message} />
             </div>
           </div>
         </Grid>

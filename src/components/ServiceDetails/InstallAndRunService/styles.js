@@ -8,6 +8,10 @@ export const useStyles = theme => ({
       backgroundColor: "#005ACB",
     },
   },
+  freecallContainer: {
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
   installAndRunContainer: {
     paddingTop: 11,
     marginBottom: 25,
@@ -35,7 +39,6 @@ export const useStyles = theme => ({
     verticalAlign: "sub",
   },
   overViewContainer: {
-    paddingLeft: 20,
     "& ul": {
       margin: "20px 0 0",
       padding: "0 22px",
