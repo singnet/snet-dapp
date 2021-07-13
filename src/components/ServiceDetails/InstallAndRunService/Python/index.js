@@ -5,7 +5,7 @@ import { useStyles } from "../styles";
 import CodeSnippet from "../../../common/CodeSnippet";
 import StyledButton from "../../../common/StyledButton";
 import DownloadMedia from "../../../../utility/MediaHelper";
-import { Environments } from "../../../../utility/constants/EthereumUtils"; 
+import { networkName } from "../../../../config/Networks";
 
 const Python = ({ classes, description, orgId, serviceId }) => {
 const { media } = useSelector(state => state.serviceDetailsReducer.details);
@@ -49,7 +49,7 @@ const downloadIntegrationFiles = () => {
             def invoke_service(): <br />
             &nbsp;&nbsp;&nbsp;&nbsp;config =&#123; <br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"private_key": "&#60;your wallet's private key&#62;", <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"eth_rpc_endpoint": "https://{Environments[process.env.REACT_APP_ETH_NETWORK]}.infura.io/v3/&#60;your infura
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"eth_rpc_endpoint": "https://{networkName[process.env.REACT_APP_ETH_NETWORK]}.infura.io/v3/&#60;your infura
             key&#62;", <br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"org_id": "{orgId}", <br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"service_id": "{serviceId}", <br />
