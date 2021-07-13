@@ -49,7 +49,6 @@ class InstallAndRunService extends Component {
         this.setState({ alert: { type: alertTypes.ERROR, message: "invalid public key" } });
       }
     } catch (e) {
-      console.log(e);
       this.setState({ alert: { type: alertTypes.ERROR, message: "Unable to download the token. Please try later" } });
     }
   };
