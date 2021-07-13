@@ -48,7 +48,7 @@ const downloadIntegrationFiles = () => {
             def invoke_service(): <br />
             &nbsp;&nbsp;&nbsp;&nbsp;config =&#123; <br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"private_key": "&#60;your wallet's private key&#62;", <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"eth_rpc_endpoint": "https://ropsten.infura.io/v3/&#60;your infura
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"eth_rpc_endpoint": "https://{process.env.REACT_APP_ENVIRONMENT}.infura.io/v3/&#60;your infura
             key&#62;", <br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"org_id": "{orgId}", <br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"service_id": "{serviceId}", <br />
