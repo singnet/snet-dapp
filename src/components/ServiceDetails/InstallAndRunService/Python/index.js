@@ -62,8 +62,8 @@ const downloadIntegrationFiles = () => {
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;service_id=config["service_id"], <br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;service_stub=&#60;stub&#62;_pb2_grpc.&#60;service_stub&#62; <br />
             &nbsp;&nbsp;&nbsp;&nbsp;) <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;request = &#60;stub&#62;_pb2.&#60;method_name&#62;(&#60;arguments&#62;) <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;response = service_client.service.add(request) <br />
+            &nbsp;&nbsp;&nbsp;&nbsp;request = &#60;stub&#62;_pb2.&#60;input_method&#62;(&#60;arguments&#62;) <br />
+            &nbsp;&nbsp;&nbsp;&nbsp;response = service_client.service.&#60;service_method&#62;(request) <br />
             &nbsp;&nbsp;&nbsp;&nbsp;print("service invoked successfully") <br />
           </CodeSnippet>
         </div>
