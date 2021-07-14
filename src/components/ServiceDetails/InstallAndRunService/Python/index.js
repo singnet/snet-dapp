@@ -40,7 +40,8 @@ const downloadIntegrationFiles = () => {
           <span>Run the code</span>
           <CodeSnippet>
             from snet.sdk import SnetSDK <br />
-            # Download and copy the stubs in the root folder. <br />
+            # Download integration files from the above button <br />
+            # Extract and copy the stubs from {serviceId}-grpc-stubs folder into your root folder<br />
             # /root_folder/&#60;stub&#62;_pb2.py <br />
             # /root_folder/&#60;stub&#62;_pb2_grpc.py <br />
             import &#60;stub&#62;_pb2 <br />
