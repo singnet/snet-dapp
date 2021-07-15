@@ -44,7 +44,7 @@ async function fetchServices(pagination = defaultPagination, step = 50) {
     }
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.log("error", error);
+    console.log("fetch service error", error);
   }
 }
 
