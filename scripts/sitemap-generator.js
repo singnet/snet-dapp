@@ -38,11 +38,7 @@ async function fetchServices(pagination = defaultPagination, step = 50) {
       if (enhancedPagination.offset > data.total_count) {
         throw new Error("Trying to fetch more than total count");
       }
-      try {
-        await fetchServices(enhancedPagination);
-      } catch (error) {
-        console.log("recursive fetchService error", error);
-      }
+      await fetchServices(enhancedPagination);
     } else {
       return services;
     }
