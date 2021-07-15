@@ -25,18 +25,26 @@ async function fetchServices(pagination = defaultPagination, step = 50) {
       data: { data },
     } = await axios.post(url, pagination);
     const { result } = data;
+    console.log("offset", data.offset);
+    console.log("limit", data.limit);
+    console.log("services length", services.length);
+    console.log("total count", data.total_count);
+    console.log("-----****-----");
     services = services.concat(result);
     if (services.length < data.total_count) {
       const enhancedPagination = Object.assign({}, pagination, {
         offset: pagination.offset + step,
       });
+      if (enhancedPagination.offset > data.total_count) {
+        throw new Error("Trying to fetch more than total count");
+      }
       await fetchServices(enhancedPagination);
     } else {
       return services;
     }
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.log("error", error);
+    console.log("fetch service error", error);
   }
 }
 
@@ -44,7 +52,9 @@ const router = require("./sitemap-routes").default;
 const Sitemap = require("react-router-sitemap").default;
 
 async function generateSitemap() {
+  console.log("fetching service");
   await fetchServices();
+  console.log("fetched all services");
   const idMap = services.map(service => ({
     orgId: service.org_id,
     serviceId: service.service_id,
