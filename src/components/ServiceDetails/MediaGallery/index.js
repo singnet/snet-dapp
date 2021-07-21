@@ -14,6 +14,7 @@ import DefaultIconForVideo from "../../../assets/images/Play_1.png";
 import { useStyles } from "./styles";
 
 const mediaTypes = { IMAGE: "IMAGE", VIDEO: "VIDEO" };
+const MEDIA_GALLERY = "media_gallery";
 
 class MediaGallery extends Component {
   constructor(props) {
@@ -41,7 +42,7 @@ class MediaGallery extends Component {
 
     this.filteredData = this.props.data
       ? this.props.data.filter(item => {
-          return item.asset_type === "media_gallery";
+          return item.asset_type === MEDIA_GALLERY;
         })
       : [];
 
