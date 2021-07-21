@@ -173,7 +173,4 @@ const mapDispatchToProps = dispatch => ({
   stopLoader: () => dispatch(loaderActions.stopAppLoader),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(useStyles)(withRouter(UserProfileSettings)));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(withRouter(UserProfileSettings)));
