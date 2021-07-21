@@ -8,13 +8,11 @@ import CloseIcon from "@material-ui/icons/Close";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 
 import getVideoId from "get-video-id";
-
 import DefaultIconForVideo from "../../../assets/images/Play_1.png";
-
+import { mediaAssetType } from "../../../utility/constants/MediaAssetType";
 import { useStyles } from "./styles";
 
 const mediaTypes = { IMAGE: "IMAGE", VIDEO: "VIDEO" };
-const MEDIA_GALLERY = "media_gallery";
 
 class MediaGallery extends Component {
   constructor(props) {
@@ -42,7 +40,7 @@ class MediaGallery extends Component {
 
     this.filteredData = this.props.data
       ? this.props.data.filter(item => {
-          return item.asset_type === MEDIA_GALLERY;
+          return item.asset_type === mediaAssetType.MEDIA_GALLERY;
         })
       : [];
 
