@@ -107,7 +107,6 @@ class ServiceDetails extends Component {
     }
 
     const { activeTab } = this.state;
-
     const tabs = [
       {
         name: "About",
@@ -119,7 +118,7 @@ class ServiceDetails extends Component {
             serviceAvailable={service.is_available}
             demoExampleRef={this.demoExampleRef}
             scrollToView={this.scrollToView}
-            noDemoComponent={!service.demo_component_available}
+            demoComponentRequired={service.demo_component_required ? !!service.demo_component_required : false}
           />
         ),
       },
