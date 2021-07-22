@@ -19,7 +19,7 @@ const AboutService = ({
   serviceAvailable,
   demoExampleRef,
   scrollToView,
-  noDemoComponent,
+  demoComponentRequired,
 }) => {
   return (
     <Grid container spacing={24} className={classes.aboutContainer}>
@@ -33,7 +33,7 @@ const AboutService = ({
           serviceAvailable={serviceAvailable}
           demoExampleRef={demoExampleRef}
           scrollToView={scrollToView}
-          noDemoComponent={noDemoComponent}
+          demoComponentRequired={demoComponentRequired}
         />
         <div className={classes.showOnNrmalResolution}>
           <PromoBox />

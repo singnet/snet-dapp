@@ -20,7 +20,7 @@ const DemoToggler = ({
   serviceAvailable,
   demoExampleRef,
   scrollToView,
-  noDemoComponent,
+  demoComponentRequired,
 }) => {
   if (!showDemo) {
     return (
@@ -69,7 +69,7 @@ const DemoToggler = ({
     );
   }
 
-  if (process.env.REACT_APP_SANDBOX !== "true" && noDemoComponent) {
+  if (process.env.REACT_APP_SANDBOX !== "true" && !demoComponentRequired) {
     return (
       <div className={classes.serviceOfflineContainer} ref={demoExampleRef}>
         <h2>Demo Example</h2>
