@@ -1,4 +1,4 @@
-import SnetSDK, { WebServiceClient as ServiceClient, DefaultPaymentStrategy } from "snet-sdk-web";
+import SnetSDK, { WebServiceClient as ServiceClient } from "snet-sdk-web";
 import API from "@aws-amplify/api";
 import MPEContract from "singularitynet-platform-contracts/networks/MultiPartyEscrow";
 
@@ -8,6 +8,7 @@ import { fetchAuthenticatedUser, walletTypes } from "../Redux/actionCreators/Use
 import PaypalPaymentMgmtStrategy from "./PaypalPaymentMgmtStrategy";
 import { ethereumMethods } from "./constants/EthereumUtils";
 import { store } from "../";
+import ProxyPaymentChannelManagementStrategy from "./ProxyPaymentChannelManagementStrategy";
 
 const DEFAULT_GAS_PRICE = 4700000;
 const DEFAULT_GAS_LIMIT = 210000;
@@ -228,7 +229,7 @@ export const createServiceClient = (
   const options = generateOptions(callType, wallet, serviceRequestErrorHandler, groupInfo, org_id, service_id);
   let paymentChannelManagementStrategy = sdk && sdk._paymentChannelManagementStrategy;
   if (!(paymentChannelManagementStrategy instanceof PaypalPaymentMgmtStrategy)) {
-    paymentChannelManagementStrategy = new DefaultPaymentStrategy(1);
+    paymentChannelManagementStrategy = new ProxyPaymentChannelManagementStrategy(channel);
   }
   const serviceClient = new ServiceClient(
     sdk,
