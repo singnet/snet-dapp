@@ -209,7 +209,7 @@ class MetamaskFlow extends Component {
 
   shouldContinueBeEnabled = () => {
     const { channelBalance, totalPrice } = this.state;
-    return channelBalance >= totalPrice;
+    return Number(channelBalance) >= Number(totalPrice);
   };
 
   shouldDepositToEscrowBeHighlighted = () => this.state.mpeBal <= 0;
