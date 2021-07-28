@@ -293,7 +293,5 @@ export const useStyles = theme => ({
     display: "none",
     "@media(max-width:768px)": { display: "block" },
   },
-  showOnNrmalResolution: {
-    "@media(max-width:768px)": { display: "none" },
-  },
+  showOnNrmalResolution: { "@media(max-width:768px)": { display: "none" } },
 });
