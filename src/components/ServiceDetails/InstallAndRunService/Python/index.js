@@ -21,53 +21,60 @@ const downloadIntegrationFiles = () => {
         <div className={classes.btnContainer}>
           <StyledButton type="blue" btnText="Download Integration files" onClick={downloadIntegrationFiles} />
           <StyledButton type="transparent" btnText="view tutorial" href="https://dev.singularitynet.io/docs/ai-consumers/sdk-tutorial/" target="_blank"/>
-        </div> 
+        </div>
       </div>
       <div className={classes.setingUpFilesContainer}>
         <h3>Setting Up Files</h3>
         <div>
-          <span>Install the SDK using PIP</span>
-          <CodeSnippet>pip install snet.sdk</CodeSnippet>
+          <span>Download and extract integration files</span>
+          <CodeSnippet>cd {serviceId}-boilerplate</CodeSnippet>
         </div>
         <div>
           <span>
-            To generate the gRPC client libraries, you need the SingularityNET Command Line Interface, or CLI, which you
-            can install using pip
+            Create and activate virtual environment
           </span>
-          <CodeSnippet>pip install snet-cli</CodeSnippet>
+          <CodeSnippet>
+            # For unix/macOS:<br />
+            &nbsp;&nbsp;-sudo apt-get install python3-venv<br />
+            &nbsp;&nbsp;-sudo python3 -m venv venv<br />
+            &nbsp;&nbsp;-source ./venv/bin/activate<br />
+            # For Windows:<br />
+            &nbsp;&nbsp;-py -m pip install --user virtualenv<br />
+            &nbsp;&nbsp;-py -m venv venv<br />
+            &nbsp;&nbsp;-.\venv\Scripts\activate<br />
+          </CodeSnippet>
         </div>
         <div>
-          <span>Run the code</span>
+          <span>Install python requirements</span>
+          <CodeSnippet>pip install -r requirement.txt</CodeSnippet>
+        </div>
+        <div>
+          <span>update config.py with the following points</span>
           <CodeSnippet>
-            from snet.sdk import SnetSDK <br />
-            # Download integration files from the above button <br />
-            # Extract and copy the stubs from {serviceId}-grpc-stubs folder into your root folder<br />
-            # /root_folder/&#60;stub&#62;_pb2.py <br />
-            # /root_folder/&#60;stub&#62;_pb2_grpc.py <br />
-            import &#60;stub&#62;_pb2 <br />
-            import &#60;stub&#62;_pb2_grpc <br />
-            <br />
-            def invoke_service(): <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;config =&#123; <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"private_key": "&#60;your wallet's private key&#62;", <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"eth_rpc_endpoint": "https://{networkName[process.env.REACT_APP_ETH_NETWORK]}.infura.io/v3/&#60;your infura
-            key&#62;", <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"org_id": "{orgId}", <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"service_id": "{serviceId}", <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&#125;
-            <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;sdk = SnetSDK(config=config) <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;# Initiate service client with your organization and sevice details and the service
-            stub you want to invoke <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;service_client = sdk.create_service_client( <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;org_id=config["org_id"], <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;service_id=config["service_id"], <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;service_stub=&#60;stub&#62;_pb2_grpc.&#60;service_stub&#62; <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;) <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;request = &#60;stub&#62;_pb2.&#60;input_method&#62;(&#60;arguments&#62;) <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;response = service_client.service.&#60;service_method&#62;(request) <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;print("service invoked successfully") <br />
+            1. update <b>&#60;your wallet's private key&#62;</b> with your wallet's private key<br />
+            2. update <b>&#60;your infura key&#62;</b> with your infura provider key
           </CodeSnippet>
+        </div>
+        <div>
+          <span>update service.py with the following points</span>
+          <CodeSnippet>
+            1. update <b>service_stub</b> with your service stub from &#60;stub&#62;_pb2_grpc.py file<br />
+            2. update <b>input_method</b> with your service's input method<br />
+            3. update <b>arguments</b> with your service's arguments<br />
+            4. update <b>service_method</b> with your service's output method<br /><br />
+            # This is an example snippet, change accordingly to the interested service<br />
+            service_client = sdk.create_service_client(<br />
+              org_id=config.ORG_ID,<br />
+              service_id=config.SERVICE_ID,<br />
+              service_stub= example_service_pb2_grpc.CalculatorStub<br />
+            )<br />
+            request = example_service_pb2.Numbers(a=10, b=2)<br />
+            response = service_client.service.add(request)<br />
+          </CodeSnippet>
+        </div>
+        <div>
+          <span>Invoke service by running</span>
+          <CodeSnippet>python service.py</CodeSnippet>
         </div>
       </div>
     </section>
