@@ -207,7 +207,10 @@ class MetamaskFlow extends Component {
     return this.PaymentInfoCardData.find(el => el.title === "Channel Balance").value;
   };
 
-  shouldContinueBeEnabled = () => this.state.mpeBal > 0 && this.props.isServiceAvailable;
+  shouldContinueBeEnabled = () => {
+    const { mpeBal, totalPrice, channelBalance } = this.state;
+    return this.props.isServiceAvailable && (mpeBal >= totalPrice || channelBalance >= totalPrice);
+  };
 
   shouldDepositToEscrowBeHighlighted = () => this.state.mpeBal <= 0;
 

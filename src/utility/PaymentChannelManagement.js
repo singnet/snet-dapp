@@ -86,7 +86,7 @@ export default class PaymentChannelManagement {
   async _channelExtensionBlockNumber() {
     const currentBlockNumber = await this._sdkContext.web3.eth.getBlockNumber();
 
-    const channelExpiryBlock = this._channel.state.expiry;
+    const channelExpiryBlock = this._channel?.state?.expiry ?? 0;
 
     const defaultExpiration =
       currentBlockNumber + this.serviceClient.group.payment_expiration_threshold + ONE_YEAR_BLOCKS;
