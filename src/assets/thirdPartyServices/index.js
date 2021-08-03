@@ -51,6 +51,7 @@ const SoundSpleeterService = lazy(() => import("./snet/sound_spleeter"));
 const RealTimeVoiceCloningService = lazy(() => import("./snet/real_time_voice_cloning"));
 const ColorizationService = lazy(() => import("./snet/deoldify-colorizer"));
 const FBProphetForecastService = lazy(() => import("./snet/fbprophet-forecast"));
+const CovidDetection = lazy(() => import("./rejuve/covid-detection"));
 
 //ADD_CONSTANTS_HERE
 
@@ -93,6 +94,10 @@ const addOrg2CustomUI = (serviceId, CustomUIComponent) => {
 
 const addAr3CustomUI = (serviceId, CustomUIComponent) => {
   thirdPartyCustomUIComponents.addCustomUIComponent("ar3", serviceId, CustomUIComponent);
+};
+
+const rejuveCustomUI = (serviceId, CustomUIComponent) => {
+  thirdPartyCustomUIComponents.addCustomUIComponent("rejuve", serviceId, CustomUIComponent);
 };
 
 addSnetCustomUI("example-service", ExampleService);
@@ -146,6 +151,7 @@ addSnetCustomUI("sound-spleeter", SoundSpleeterService);
 addSnetCustomUI("real-time-voice-cloning", RealTimeVoiceCloningService);
 addSnetCustomUI("deoldify-colorizer", ColorizationService);
 addSnetCustomUI("fbprophet-forecast", FBProphetForecastService);
+rejuveCustomUI("covid-detection", CovidDetection);
 
 //TODO remove before deploying to mainnet
 addOrg2CustomUI("freecall", ExampleService);
