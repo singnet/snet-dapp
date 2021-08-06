@@ -175,7 +175,9 @@ class MetamaskFlow extends Component {
           await this.paymentChannelManagement.extendChannel();
         }
         this.props.handleContinue();
-      } catch (e) {}
+      } catch (e) {
+        this.setState({ alert: { type: alertTypes.ERROR, message: e.message } });
+      }
       this.props.stopLoader();
       return;
     }
