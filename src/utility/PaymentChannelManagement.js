@@ -4,6 +4,7 @@ import isEmpty from "lodash/isEmpty";
 import { updateChannel } from "./sdk";
 
 const ONE_YEAR_BLOCKS = 2102400;
+const EXPIRATION_THRESHOLD = 40320;
 
 export default class PaymentChannelManagement {
   constructor(sdkContext, serviceClient) {
@@ -65,6 +66,14 @@ export default class PaymentChannelManagement {
 
   noOfCallsToCogs(noOfServiceCalls) {
     return this._pricePerServiceCall() * noOfServiceCalls;
+  }
+
+  async isChannelNearToExpiry() {
+    const _channelExpiry = (await this._channel?.state?.expiry) ?? 0;
+    const _blockNumber = await this._sdkContext.web3.eth.getBlockNumber();
+    const _difference = Math.abs(_channelExpiry - _blockNumber);
+    if (_difference > EXPIRATION_THRESHOLD) return false;
+    return true;
   }
 
   async _isValid() {
