@@ -169,7 +169,15 @@ class MetamaskFlow extends Component {
 
     let { noOfServiceCalls, selectedPayType } = this.state;
     if (selectedPayType === payTypes.CHANNEL_BALANCE) {
-      this.props.handleContinue();
+      try {
+        const isChannelNearToExpiry = await this.paymentChannelManagement.isChannelNearToExpiry();
+        if (isChannelNearToExpiry) {
+          await this.paymentChannelManagement.extendChannel();
+        }
+        this.props.handleContinue();
+      } catch (e) {
+        this.setState({ alert: { type: alertTypes.ERROR, message: e.message } });
+      }
       this.props.stopLoader();
       return;
     }
