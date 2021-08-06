@@ -2,8 +2,10 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import upperFirst from "lodash/upperFirst";
 
 import FileUploader from "../../common/FileUploader";
+import OutlinedDropDown from "../../common/OutlinedDropdown";
 
 import { COVID } from "./cough_test_pb_service";
 
@@ -13,6 +15,26 @@ const maxFilePerUpload = 1;
 const fileType = { COUGH: "COUGH", BREATH: "BREATH", VOWEL: "VOWEL" };
 
 const initialState = {
+  sampleIndex: 0,
+  samples: [
+    {
+      label: "From file",
+      content: undefined,
+      value: 0,
+    },
+    {
+      label: "Sample files",
+      content: {
+        coughUrl:
+          "https://rejuve-user-assets.s3.us-west-2.amazonaws.com/public/COUGH_TEST_84C3FE4B-9859-4E0F-B657-B637802D557C/COUGH_RECORD.wav",
+        breathUrl:
+          "https://rejuve-user-assets.s3.us-west-2.amazonaws.com/public/COUGH_TEST_84C3FE4B-9859-4E0F-B657-B637802D557C/BREATHE_RECORD.wav",
+        vowelUrl:
+          "https://rejuve-user-assets.s3.us-west-2.amazonaws.com/public/COUGH_TEST_84C3FE4B-9859-4E0F-B657-B637802D557C/A_RECORD.wav",
+      },
+      value: 1,
+    },
+  ],
   uploadedFiles: { [fileType.COUGH]: undefined, [fileType.BREATH]: undefined, [fileType.VOWEL]: undefined },
 };
 
@@ -28,6 +50,7 @@ export default class CovidDetection extends React.Component {
     this.isEnabled = this.isEnabled.bind(this);
     this.validateFile = this.validateFile.bind(this);
     this.createTmpPath = this.createTmpPath.bind(this);
+    this.handleFormUpdate = this.handleFormUpdate.bind(this);
 
     this.state = { ...initialState, response: undefined };
   }
@@ -38,16 +61,29 @@ export default class CovidDetection extends React.Component {
   }
 
   submitAction() {
+    let _coughUrl;
+    let _breathUrl;
+    let _vowelUrl;
+
+    const { uploadedFiles, sampleIndex } = this.state;
+
+    if (sampleIndex === 1) {
+      const { content } = this.state.samples[sampleIndex];
+      _coughUrl = content.coughUrl;
+      _breathUrl = content.breathUrl;
+      _vowelUrl = content.vowelUrl;
+    } else {
+      _coughUrl = this.createTmpPath(uploadedFiles[fileType.COUGH]);
+      _breathUrl = this.createTmpPath(uploadedFiles[fileType.BREATH]);
+      _vowelUrl = this.createTmpPath(uploadedFiles[fileType.VOWEL]);
+    }
+
     const methodDescriptor = COVID["s2t"];
     const request = new methodDescriptor.requestType();
 
-    const { uploadedFiles } = this.state;
-
-    request.setCoughUrl(this.createTmpPath(uploadedFiles[fileType.COUGH]));
-    request.setBreathUrl(this.createTmpPath(uploadedFiles[fileType.BREATH]));
-    request.setVowelSoundUrl(this.createTmpPath(uploadedFiles[fileType.VOWEL]));
-    request.setUserId("some-random");
-    request.setSubmissionId("random-id");
+    request.setCoughUrl(_coughUrl);
+    request.setBreathUrl(_breathUrl);
+    request.setVowelSoundUrl(_vowelUrl);
 
     const props = {
       request,
@@ -57,7 +93,7 @@ export default class CovidDetection extends React.Component {
           throw new Error(statusMessage);
         }
         this.setState({
-          response: { status: "success", language: message.getText() },
+          response: { status: "success", result: message.getText() },
         });
       },
     };
@@ -81,23 +117,39 @@ export default class CovidDetection extends React.Component {
     this.handleFileUpload(files, fileType.COUGH);
   }
 
+  handleFormUpdate(event) {
+    const { value } = event.target;
+    this.setState({ ...this.state, sampleIndex: value });
+  }
+
   handleFileUpload(files, name) {
     const [file] = files;
+
     this.setState({ ...this.state, uploadedFiles: { ...this.state.uploadedFiles, [name]: file } });
   }
 
   isEnabled() {
-    const { uploadedFiles } = this.state;
-    if (uploadedFiles[fileType.BREATH] && uploadedFiles[fileType.COUGH] && uploadedFiles[fileType.VOWEL]) {
+    const { uploadedFiles, sampleIndex } = this.state;
+    if (
+      (uploadedFiles[fileType.BREATH] && uploadedFiles[fileType.COUGH] && uploadedFiles[fileType.VOWEL]) ||
+      sampleIndex === 1
+    ) {
       return true;
     }
     return false;
   }
 
+  response() {
+    const { result } = this.state.response;
+    return upperFirst(result.replace("_", " "));
+  }
+
   renderComplete() {
     return (
       <Grid item xs={12} container justify="center">
-        <p style={{ fontSize: "20px" }}>Response from service: {this.state.response} </p>
+        <p style={{ fontSize: "20px", marginTop: "40px" }}>
+          Response from service: <b>{this.response()}</b>
+        </p>
       </Grid>
     );
   }
@@ -107,6 +159,17 @@ export default class CovidDetection extends React.Component {
     return (
       <Grid container direction="column" alignItems="center" justify="center">
         <Grid item xs={8} container justify="flex-start" style={{ textAlign: "center", marginTop: margin }}>
+          <Grid item xs={12} container justify="center" style={{ textAlign: "center" }}>
+            <OutlinedDropDown
+              id="sample"
+              name="sampleIndex"
+              label="Sample"
+              fullWidth={true}
+              list={this.state.samples}
+              value={this.state.sampleIndex}
+              onChange={this.handleFormUpdate}
+            />
+          </Grid>
           <Typography variant="body2" component="p" align="left" style={{ marginBottom: margin, marginTop: margin }}>
             Select Vowel file to upload
           </Typography>
