@@ -96,7 +96,7 @@ const addAr3CustomUI = (serviceId, CustomUIComponent) => {
   thirdPartyCustomUIComponents.addCustomUIComponent("ar3", serviceId, CustomUIComponent);
 };
 
-const rejuveCustomUI = (serviceId, CustomUIComponent) => {
+const addRejuveCustomUI = (serviceId, CustomUIComponent) => {
   thirdPartyCustomUIComponents.addCustomUIComponent("rejuve", serviceId, CustomUIComponent);
 };
 
@@ -151,7 +151,7 @@ addSnetCustomUI("sound-spleeter", SoundSpleeterService);
 addSnetCustomUI("real-time-voice-cloning", RealTimeVoiceCloningService);
 addSnetCustomUI("deoldify-colorizer", ColorizationService);
 addSnetCustomUI("fbprophet-forecast", FBProphetForecastService);
-rejuveCustomUI("covid-detection", CovidDetection);
+addRejuveCustomUI("covid-detection", CovidDetection);
 
 //TODO remove before deploying to mainnet
 addOrg2CustomUI("freecall", ExampleService);
