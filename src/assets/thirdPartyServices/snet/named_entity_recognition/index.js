@@ -182,9 +182,9 @@ export default class NamedEntityRecognitionService extends React.Component {
     const responseTime = (new Date() - this.state.reqStart) / 1000;
     let highlitedText = this.state.message;
     if (response) {
-      response.map((item, index) => {
-        return (highlitedText = highlitedText.replace(item.entity.name, `<b>${item.entity.name}</b>`));
-      });
+      response.forEach(
+        (item, index) => (highlitedText = highlitedText.replace(item.entity.name, `<b>${item.entity.name}</b>`))
+      );
     }
 
     return (
