@@ -1,11 +1,11 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import {RecognizeMessage} from "./named_entity_recognition_rpc_pb_service";
+import { RecognizeMessage } from "./named_entity_recognition_rpc_pb_service";
 import OutlinedDropDown from "../../common/OutlinedDropdown";
 import OutlinedTextArea from "../../common/OutlinedTextArea";
 import OutlinedLabel from "../../common/OutlinedLabel";
-import parse from 'html-react-parser';
+import parse from "html-react-parser";
 
 export default class NamedEntityRecognitionService extends React.Component {
   constructor(props) {
@@ -28,7 +28,8 @@ export default class NamedEntityRecognitionService extends React.Component {
         {
           label: "Example 1",
           value: 1,
-          content: "Our concept of operations is to flow in our military assets with a priority to build up southern " +
+          content:
+            "Our concept of operations is to flow in our military assets with a priority to build up southern " +
             "Texas, and then Arizona, and then California, Donald Trump said Monday, adding that the soldiers normally " +
             "assigned weapons will be carrying them at the border.  We'll reinforce along priority points of entry, and " +
             "while this happens, Trump Hotels is falling down in stock market.",
@@ -44,23 +45,25 @@ export default class NamedEntityRecognitionService extends React.Component {
 
   handleFormUpdate(event) {
     this.setState({ [event.target.name]: event.target.value });
-  };
+  }
 
   handleParameterChange(event) {
-    this.setState({
-      selectedExample: event.target.value,
-    }, () => {
-      if (this.state.selectedExample !== "default") {
-        this.state.exampleList.forEach(item => {
-          if (item.value == event.target.value) {
-            this.setState({ message: item.content }, () => {
+    this.setState(
+      {
+        selectedExample: event.target.value,
+      },
+      () => {
+        if (this.state.selectedExample !== "default") {
+          this.state.exampleList.forEach(item => {
+            if (item.value == event.target.value) {
+              this.setState({ message: item.content }, () => {
                 this.textInput.current.inputRef.current.focus();
-              },
-            );
-          }
-        });
+              });
+            }
+          });
+        }
       }
-    });
+    );
   }
 
   handleInputText(event) {
@@ -75,7 +78,7 @@ export default class NamedEntityRecognitionService extends React.Component {
         tempArray.push(tempMessages[i]);
       }
     }
-    let filterArray = tempArray.filter(function(el) {
+    let filterArray = tempArray.filter(el => {
       return el != null;
     });
 
@@ -96,9 +99,9 @@ export default class NamedEntityRecognitionService extends React.Component {
         const tempStartSpan = { startSpan: entityItem["start_span"] };
         const tempEndSpan = { endSpan: entityItem["end_span"] };
         const tempEntity = {
-          "entity": {
-            "name": entityItem["name"],
-            "type": entityItem["type"],
+          entity: {
+            name: entityItem["name"],
+            type: entityItem["type"],
           },
         };
         resultItems.push(Object.assign(tempEntity, tempStartSpan, tempEndSpan));
@@ -123,14 +126,13 @@ export default class NamedEntityRecognitionService extends React.Component {
       },
     };
     this.props.serviceClient.unary(methodDescriptor, props);
-    this.setState({reqStart: new Date()});
+    this.setState({ reqStart: new Date() });
   }
 
   renderForm() {
     return (
       <React.Fragment>
         <Grid item xs={12} style={{ textAlign: "left" }}>
-
           <OutlinedDropDown
             id="params"
             name="selected_example"
@@ -149,7 +151,6 @@ export default class NamedEntityRecognitionService extends React.Component {
           />
         </Grid>
         <Grid item xs={12} style={{ textAlign: "left" }}>
-
           <OutlinedTextArea
             id="input_text"
             ref={this.textInput}
@@ -166,7 +167,6 @@ export default class NamedEntityRecognitionService extends React.Component {
               </div>
             }
           />
-
         </Grid>
         <Grid item xs={12} style={{ textAlign: "center" }}>
           <Button variant="contained" color="primary" onClick={this.submitAction} disabled={!this.canBeInvoked()}>
@@ -181,89 +181,70 @@ export default class NamedEntityRecognitionService extends React.Component {
     const response = this.parseResponse(this.state.value);
     const responseTime = (new Date() - this.state.reqStart) / 1000;
     let highlitedText = this.state.message;
-    if(response){
-      response.map((item,index) => {
-        highlitedText = highlitedText.replace(item.entity.name, `<b>${item.entity.name}</b>`);
+    if (response) {
+      response.map((item, index) => {
+        return (highlitedText = highlitedText.replace(item.entity.name, `<b>${item.entity.name}</b>`));
       });
     }
 
     return (
-
       <div style={{ background: "#F8F8F8", padding: "24px" }}>
-
-        <OutlinedLabel
-          infoTitle="Status"
-          value="Success"
-          variant="bottomLine"
-          htmlTooltip={
-            <p>Service status</p>
-          }
-        />
+        <OutlinedLabel infoTitle="Status" value="Success" variant="bottomLine" htmlTooltip={<p>Service status</p>} />
 
         <OutlinedLabel
           infoTitle="Time"
           value={`${responseTime} seconds`}
           variant="bottomLine"
-          htmlTooltip={
-            <p>Service processing time</p>
-          }
+          htmlTooltip={<p>Service processing time</p>}
         />
 
         <OutlinedLabel
           infoTitle="Input Text"
-          htmlValue={
-            <p>{parse(highlitedText)}</p>
-          }
+          htmlValue={<p>{parse(highlitedText)}</p>}
           // value={highlitedText}
           variant="bottomLine"
-          htmlTooltip={
-            <p>Informed text</p>
-          }
+          htmlTooltip={<p>Informed text</p>}
         />
 
         <OutlinedLabel
           infoTitle="Named Entity Recognition"
           htmlValue={
-            <Grid container
-                  direction="row"
-                  justify="center"
-                  alignItems="center"
-            >
-              <Grid item xs={4}><span style={{ color: "#212121" }}>Entity</span></Grid>
-              <Grid item xs={4}><span style={{ color: "#212121" }}>Type</span></Grid>
-              <Grid item xs={4}><span style={{ color: "#212121" }}>Char position</span></Grid>
-              {response.map((item,index) => {
-
+            <Grid container direction="row" justify="center" alignItems="center">
+              <Grid item xs={4}>
+                <span style={{ color: "#212121" }}>Entity</span>
+              </Grid>
+              <Grid item xs={4}>
+                <span style={{ color: "#212121" }}>Type</span>
+              </Grid>
+              <Grid item xs={4}>
+                <span style={{ color: "#212121" }}>Char position</span>
+              </Grid>
+              {response.map((item, index) => {
                 return (
-                  <Grid key={index} item xs={12}
-                        style={{
-                          padding: 0,
-                          marginTop: 12,
-                          backgroundColor: "rgba(155, 155, 155, 0.05)" }}
+                  <Grid
+                    key={index}
+                    item
+                    xs={12}
+                    style={{
+                      padding: 0,
+                      marginTop: 12,
+                      backgroundColor: "rgba(155, 155, 155, 0.05)",
+                    }}
                   >
-
-                    <Grid container
-                          direction="row"
-                          justify="center"
-                          alignItems="center"
-                    >
-
+                    <Grid container direction="row" justify="center" alignItems="center">
                       <Grid item xs={4}>
                         <span style={{ color: "#666" }}>{item.entity.name}</span>
                       </Grid>
 
                       <Grid item xs={4}>
-                          <span style={{ color: "#666" }}>
-                            {item.entity.type}
-                          </span>
+                        <span style={{ color: "#666" }}>{item.entity.type}</span>
                       </Grid>
 
                       <Grid item xs={4}>
-                          <span style={{ color: "#666" }}>
-                            {item.startSpan} - {item.endSpan}
-                          </span>
+                        <span style={{ color: "#666" }}>
+                          {item.startSpan} - {item.endSpan}
+                        </span>
                       </Grid>
-
                     </Grid>
                   </Grid>
                 );
@@ -271,12 +252,9 @@ export default class NamedEntityRecognitionService extends React.Component {
             </Grid>
           }
           variant="bottomLine"
-          htmlTooltip={
-            <p>Service response details</p>
-          }
+          htmlTooltip={<p>Service response details</p>}
         />
       </div>
-
     );
   }
 
