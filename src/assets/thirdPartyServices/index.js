@@ -103,7 +103,7 @@ const addRejuveCustomUI = (serviceId, CustomUIComponent) => {
 };
 
 const addNunetCustomUI = (serviceId, CustomUIComponent) => {
-  thirdPartyCustomUIComponents.addCustomUIComponent("nunet-org", serviceId, CustomUIComponent);
+  thirdPartyCustomUIComponents.addCustomUIComponent("nunet-org-new", serviceId, CustomUIComponent);
 };
 
 addSnetCustomUI("example-service", ExampleService);
@@ -158,7 +158,7 @@ addSnetCustomUI("real-time-voice-cloning", RealTimeVoiceCloningService);
 addSnetCustomUI("deoldify-colorizer", ColorizationService);
 addSnetCustomUI("fbprophet-forecast", FBProphetForecastService);
 addRejuveCustomUI("covid-detection", CovidDetection);
-addNunetCustomUI("binary-classification", BinaryClassification);
+addNunetCustomUI("binary-classification-service", BinaryClassification);
 addNunetCustomUI("uclnlp-service", UclnlpService);
 //addNunetCustomUI("fake-news-score-service", FakeNewsScoreService);
 
