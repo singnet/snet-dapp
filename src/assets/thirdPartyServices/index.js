@@ -103,7 +103,7 @@ const addRejuveCustomUI = (serviceId, CustomUIComponent) => {
 };
 
 const addNunetCustomUI = (serviceId, CustomUIComponent) => {
-  thirdPartyCustomUIComponents.addCustomUIComponent("nunet-org-new", serviceId, CustomUIComponent);
+  thirdPartyCustomUIComponents.addCustomUIComponent("nunet", serviceId, CustomUIComponent);
 };
 
 addSnetCustomUI("example-service", ExampleService);
