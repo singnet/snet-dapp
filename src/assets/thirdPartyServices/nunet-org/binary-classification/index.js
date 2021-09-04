@@ -11,6 +11,8 @@ import TableRow from "@material-ui/core/TableRow";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import Typography from "@material-ui/core/Typography";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
 
 const initialUserInput = {
   method: "classify",
@@ -141,7 +143,12 @@ export default class BinaryClassification extends React.Component {
         </Grid>
 
         <Box align="center">
-          <p>Json Result: {JSON.stringify(res)}</p>
+          <Card>
+            <CardContent>
+              <Typography>JSON Result</Typography>
+              <Typography>{JSON.stringify(res)}</Typography>
+            </CardContent>
+          </Card>
         </Box>
       </Box>
     );
