@@ -7,6 +7,8 @@ import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
 
 import OutlinedTextArea from "../../common/OutlinedTextArea";
 
@@ -136,7 +138,7 @@ export default class UclnlpService extends React.Component {
                     <Typography variant="subtitle1">Agree</Typography>
                   </TableCell>
                   <TableCell align="left">
-                    <Typography variant="subtitle1">{res.agree}</Typography>
+                    <Typography variant="subtitle1">{res.agree.toFixed(2)}</Typography>
                   </TableCell>
                 </TableRow>
                 <TableRow>
@@ -144,7 +146,7 @@ export default class UclnlpService extends React.Component {
                     <Typography variant="subtitle1">Disagree</Typography>
                   </TableCell>
                   <TableCell align="left">
-                    <Typography variant="subtitle1">{res.disagree}</Typography>
+                    <Typography variant="subtitle1">{res.disagree.toFixed(2)}</Typography>
                   </TableCell>
                 </TableRow>
                 <TableRow>
@@ -152,7 +154,7 @@ export default class UclnlpService extends React.Component {
                     <Typography variant="subtitle1">Discuss</Typography>
                   </TableCell>
                   <TableCell align="left">
-                    <Typography variant="subtitle1">{res.discuss}</Typography>
+                    <Typography variant="subtitle1">{res.discuss.toFixed(2)}</Typography>
                   </TableCell>
                 </TableRow>
                 <TableRow>
@@ -160,7 +162,7 @@ export default class UclnlpService extends React.Component {
                     <Typography variant="subtitle1">Unrelated</Typography>
                   </TableCell>
                   <TableCell align="left">
-                    <Typography variant="subtitle1">{res.unrelated}</Typography>
+                    <Typography variant="subtitle1">{res.unrelated.toFixed(2)}</Typography>
                   </TableCell>
                 </TableRow>
               </TableBody>
@@ -169,7 +171,13 @@ export default class UclnlpService extends React.Component {
           <Grid item xs={4} />
         </Grid>
         <Box align="center">
-          <p>Json Result: {JSON.stringify(res)}</p>
+          <Card>
+            <CardContent>
+              <Typography>JSON Result</Typography>
+              <Typography>{JSON.stringify(res).substring(0, 43)}</Typography>
+              <Typography>{JSON.stringify(res).substring(43)}</Typography>
+            </CardContent>
+          </Card>
         </Box>
       </Box>
     );
