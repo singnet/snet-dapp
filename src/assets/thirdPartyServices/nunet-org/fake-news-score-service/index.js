@@ -136,7 +136,13 @@ renderForm() {
     const { response } = this.state;
     var res = response.result;
     res = res.replaceAll("'", '"');
-    res = JSON.parse(res);
+    try {
+      res = JSON.parse(res);
+    } catch (error) {
+      console.log('Error Parsing Json')
+    }
+
+    // res = JSON.parse(res);
 
     return (
       <Box>
