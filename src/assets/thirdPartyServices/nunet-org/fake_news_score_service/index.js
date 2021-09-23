@@ -154,7 +154,7 @@ export default class FakeNewsScoreService extends React.Component {
               <TableBody>
                 <TableRow>
                   <TableCell align="center">
-                    <Typography variant="subtitle1"> Global Probablility</Typography>
+                    <Typography variant="subtitle1"> Global Probability</Typography>
                   </TableCell>
                   <TableCell align="left">
                     <Typography variant="subtitle1">{res.call.result.general_probability}</Typography>
