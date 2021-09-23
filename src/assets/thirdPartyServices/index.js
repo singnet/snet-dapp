@@ -54,7 +54,7 @@ const FBProphetForecastService = lazy(() => import("./snet/fbprophet-forecast"))
 const CovidDetection = lazy(() => import("./rejuve/covid-detection"));
 const BinaryClassification = lazy(() => import("./nunet-org/binary-classification"));
 const UclnlpService = lazy(() => import("./nunet-org/uclnlp-service"));
-//const FakeNewsScoreService = lazy(() => import("./nunet-org/fake-news-score-service"));
+const FakeNewsScoreService = lazy(() => import("./nunet-org/fake_news_score_service"));
 //ADD_CONSTANTS_HERE
 
 class ThirdPartyCustomUIComponents {
@@ -103,7 +103,7 @@ const addRejuveCustomUI = (serviceId, CustomUIComponent) => {
 };
 
 const addNunetCustomUI = (serviceId, CustomUIComponent) => {
-  thirdPartyCustomUIComponents.addCustomUIComponent("nunet", serviceId, CustomUIComponent);
+  thirdPartyCustomUIComponents.addCustomUIComponent("nunet-org-new", serviceId, CustomUIComponent);
 };
 
 addSnetCustomUI("example-service", ExampleService);
@@ -160,7 +160,7 @@ addSnetCustomUI("fbprophet-forecast", FBProphetForecastService);
 addRejuveCustomUI("covid-detection", CovidDetection);
 addNunetCustomUI("binary-classification-service", BinaryClassification);
 addNunetCustomUI("uclnlp-service", UclnlpService);
-//addNunetCustomUI("fake-news-score-service", FakeNewsScoreService);
+addNunetCustomUI("fake-news-score-service", FakeNewsScoreService);
 
 //TODO remove before deploying to mainnet
 addOrg2CustomUI("freecall", ExampleService);
