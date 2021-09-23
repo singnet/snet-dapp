@@ -126,7 +126,6 @@ export default class FakeNewsScoreService extends React.Component {
       console.log("Error Parsing Json");
     }
 
-    // res = JSON.parse(res);
 
     return (
       <Box>
