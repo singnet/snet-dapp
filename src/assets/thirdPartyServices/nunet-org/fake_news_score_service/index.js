@@ -15,19 +15,6 @@ import OutlinedTextArea from "../../common/OutlinedTextArea";
 
 import { FakeNewsScore } from "./fake_news_score_pb_service";
 
-// const initialUserInput = {
-//   methodIndex: "0",
-//   methodNames: [
-//     {
-//       label: "fn_score_calc",
-//       content: "fn_score_calc",
-//       value: "0",
-//     },
-//   ],
-//   headline: "news_headline",
-//   body: "news_body lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
-// };
-
 const initialUserInput = {
   method: "fn_score_calc",
   headline: "news_headline",
