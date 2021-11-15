@@ -51,7 +51,10 @@ const SoundSpleeterService = lazy(() => import("./snet/sound_spleeter"));
 const RealTimeVoiceCloningService = lazy(() => import("./snet/real_time_voice_cloning"));
 const ColorizationService = lazy(() => import("./snet/deoldify-colorizer"));
 const FBProphetForecastService = lazy(() => import("./snet/fbprophet-forecast"));
-
+const CovidDetection = lazy(() => import("./rejuve/covid-detection"));
+const BinaryClassification = lazy(() => import("./nunet-org/binary-classification"));
+const UclnlpService = lazy(() => import("./nunet-org/uclnlp-service"));
+//const FakeNewsScoreService = lazy(() => import("./nunet-org/fake-news-score-service"));
 //ADD_CONSTANTS_HERE
 
 class ThirdPartyCustomUIComponents {
@@ -93,6 +96,14 @@ const addOrg2CustomUI = (serviceId, CustomUIComponent) => {
 
 const addAr3CustomUI = (serviceId, CustomUIComponent) => {
   thirdPartyCustomUIComponents.addCustomUIComponent("ar3", serviceId, CustomUIComponent);
+};
+
+const addRejuveCustomUI = (serviceId, CustomUIComponent) => {
+  thirdPartyCustomUIComponents.addCustomUIComponent("rejuve", serviceId, CustomUIComponent);
+};
+
+const addNunetCustomUI = (serviceId, CustomUIComponent) => {
+  thirdPartyCustomUIComponents.addCustomUIComponent("nunet", serviceId, CustomUIComponent);
 };
 
 addSnetCustomUI("example-service", ExampleService);
@@ -146,6 +157,10 @@ addSnetCustomUI("sound-spleeter", SoundSpleeterService);
 addSnetCustomUI("real-time-voice-cloning", RealTimeVoiceCloningService);
 addSnetCustomUI("deoldify-colorizer", ColorizationService);
 addSnetCustomUI("fbprophet-forecast", FBProphetForecastService);
+addRejuveCustomUI("covid-detection", CovidDetection);
+addNunetCustomUI("binary-classification-service", BinaryClassification);
+addNunetCustomUI("uclnlp-service", UclnlpService);
+//addNunetCustomUI("fake-news-score-service", FakeNewsScoreService);
 
 //TODO remove before deploying to mainnet
 addOrg2CustomUI("freecall", ExampleService);

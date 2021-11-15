@@ -12,7 +12,7 @@ const Purchase = ({
   handlePurchaseError,
   isServiceAvailable,
 }) => {
-  if (freeCallsRemaining <= 0) {
+  if (freeCallsRemaining < 1) {
     return (
       <ExpiredSession
         handleComplete={handleComplete}

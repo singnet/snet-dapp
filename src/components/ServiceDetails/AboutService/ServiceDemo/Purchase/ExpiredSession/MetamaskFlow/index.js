@@ -169,7 +169,15 @@ class MetamaskFlow extends Component {
 
     let { noOfServiceCalls, selectedPayType } = this.state;
     if (selectedPayType === payTypes.CHANNEL_BALANCE) {
-      this.props.handleContinue();
+      try {
+        const isChannelNearToExpiry = await this.paymentChannelManagement.isChannelNearToExpiry();
+        if (isChannelNearToExpiry) {
+          await this.paymentChannelManagement.extendChannel();
+        }
+        this.props.handleContinue();
+      } catch (e) {
+        this.setState({ alert: { type: alertTypes.ERROR, message: e.message } });
+      }
       this.props.stopLoader();
       return;
     }
@@ -207,7 +215,10 @@ class MetamaskFlow extends Component {
     return this.PaymentInfoCardData.find(el => el.title === "Channel Balance").value;
   };
 
-  shouldContinueBeEnabled = () => this.state.mpeBal > 0 && this.props.isServiceAvailable;
+  shouldContinueBeEnabled = () => {
+    const { mpeBal, totalPrice, channelBalance } = this.state;
+    return this.props.isServiceAvailable && (mpeBal >= totalPrice || channelBalance >= totalPrice);
+  };
 
   shouldDepositToEscrowBeHighlighted = () => this.state.mpeBal <= 0;
 

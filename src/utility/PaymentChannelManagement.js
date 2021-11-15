@@ -40,6 +40,13 @@ export default class PaymentChannelManagement {
     this._sdkContext.currentChannel = this._channel;
   }
 
+  async extendChannel() {
+    const defaultExpiration = await this._channelExtensionBlockNumber();
+
+    await this._channel.extendExpiry(defaultExpiration);
+    await this._channel.syncState();
+  }
+
   async extendAndAddFunds(noOfServiceCalls = 1) {
     const serviceCallPrice = this.noOfCallsToCogs(noOfServiceCalls);
     const defaultExpiration = await this._channelExtensionBlockNumber();
@@ -67,6 +74,14 @@ export default class PaymentChannelManagement {
     return this._pricePerServiceCall() * noOfServiceCalls;
   }
 
+  async isChannelNearToExpiry() {
+    const channelExpiry = (await this._channel?.state?.expiry) ?? 0;
+    const blockNumber = await this._sdkContext.web3.eth.getBlockNumber();
+    const threshold = this.serviceClient.group.payment_expiration_threshold;
+    const difference = Math.abs(channelExpiry - blockNumber);
+    return difference <= threshold;
+  }
+
   async _isValid() {
     const expiry = await this._defaultChannelExpiration();
     return this._channel.state.expiration > expiry;
@@ -85,7 +100,13 @@ export default class PaymentChannelManagement {
 
   async _channelExtensionBlockNumber() {
     const currentBlockNumber = await this._sdkContext.web3.eth.getBlockNumber();
-    return currentBlockNumber + this.serviceClient.group.payment_expiration_threshold + ONE_YEAR_BLOCKS;
+
+    const channelExpiryBlock = this._channel?.state?.expiry ?? 0;
+
+    const defaultExpiration =
+      currentBlockNumber + this.serviceClient.group.payment_expiration_threshold + ONE_YEAR_BLOCKS;
+
+    return channelExpiryBlock < defaultExpiration ? defaultExpiration : channelExpiryBlock;
   }
 
   async _defaultChannelExpiration() {

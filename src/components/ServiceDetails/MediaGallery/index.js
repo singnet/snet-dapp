@@ -8,10 +8,8 @@ import CloseIcon from "@material-ui/icons/Close";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 
 import getVideoId from "get-video-id";
-
 import DefaultIconForVideo from "../../../assets/images/Play_1.png";
-import { HERO_IMG } from "../";
-
+import { mediaAssetType } from "../../../utility/constants/MediaAssetType";
 import { useStyles } from "./styles";
 
 const mediaTypes = { IMAGE: "IMAGE", VIDEO: "VIDEO" };
@@ -42,7 +40,7 @@ class MediaGallery extends Component {
 
     this.filteredData = this.props.data
       ? this.props.data.filter(item => {
-          return item.asset_type !== HERO_IMG;
+          return item.asset_type === mediaAssetType.MEDIA_GALLERY;
         })
       : [];
 
@@ -316,6 +314,7 @@ class MediaGallery extends Component {
                 <img src={this.images[activeIndex].original} alt={this.images[activeIndex].alt_text} loading="lazy" />
               ) : (
                 <iframe
+                  title="Media Gallery Iframe"
                   src={this.images[activeIndex].embedUrl}
                   frameborder="0"
                   allowFullScreen
