@@ -2,6 +2,7 @@ import React, { lazy } from "react";
 import AlertBox from "../../components/common/AlertBox";
 
 const ExampleService = lazy(() => import("./snet/example_service"));
+const IceCreamService = lazy(() => import("./snet/icecream_order_service/index"));
 const CNTKImageRecognition = lazy(() => import("./snet/cntk_image_recon"));
 const CNTKNextDayTrend = lazy(() => import("./snet/cntk_next_day_trend"));
 const CNTKLSTMForecast = lazy(() => import("./snet/cntk_lstm_forecast"));
@@ -55,6 +56,9 @@ const CovidDetection = lazy(() => import("./rejuve/covid-detection"));
 const BinaryClassification = lazy(() => import("./nunet-org/binary-classification"));
 const UclnlpService = lazy(() => import("./nunet-org/uclnlp-service"));
 //const FakeNewsScoreService = lazy(() => import("./nunet-org/fake-news-score-service"));
+
+
+
 //ADD_CONSTANTS_HERE
 
 class ThirdPartyCustomUIComponents {
@@ -162,6 +166,8 @@ addNunetCustomUI("binary-classification-service", BinaryClassification);
 addNunetCustomUI("uclnlp-service", UclnlpService);
 //addNunetCustomUI("fake-news-score-service", FakeNewsScoreService);
 
+addSnetCustomUI("icecream_order_service", IceCreamService);
+
 //TODO remove before deploying to mainnet
 addOrg2CustomUI("freecall", ExampleService);
 
@@ -187,9 +193,9 @@ thirdPartyCustomUIComponents.addCustomUIComponent(
   ExampleService
 );
 
-thirdPartyCustomUIComponents.addCustomUIComponent("org_id_test_praveen", "test_claims", ExampleService);
 
-// For testing phase 2 ropsten
-thirdPartyCustomUIComponents.addCustomUIComponent("new_contract_test_1", "speed_detector_rt_v2", ExampleService);
+
+//For building custom UI
+thirdPartyCustomUIComponents.addCustomUIComponent("snet", "icecream_order_service", IceCreamService);
 
 export default thirdPartyCustomUIComponents;
