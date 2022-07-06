@@ -1,6 +1,6 @@
 # snet-dapp
 
-This Dapp allows you to browse the list of services from the SingularityNET Registry and call them.
+This Dapp allows you to browse the list of services from the SingularityNET Registry and call them. Once you register and publish the AI service in the publisher portal it reflect in the snet-dapp.
 The beta dapp is under active development and will see several changes in the upcoming weeks
 
 ## How to call a Service
@@ -87,4 +87,18 @@ For the following [proto file](https://github.com/singnet/example-service/blob/m
 5. Assuming that the snet daemon is running on port `8088`, running the bellow commands should bring up the DApp in sandbox mode for local development.
 
         npm run sandbox
+
+
+## Frequently Asked Questions
+
+Q:While creating the js files from proto file protoc-gen-grpc :unknown option:--js_out
+A:Add the protoc-gen-grpc.exe in to the programm files and to the system environment variables
+
+Q:During the creation of js files from the proto --grpc_out: options:mode is required
+A:Add mode --grpc_out=mode=grpcwebtext 
+
+Q:For windows machine faced the eslint issues
+A:For temporarly solving this issue, disable the eslint using this command /*eslint-disable */
+
+Q: While publishing the service in to the publisher portal the metamask interaction looks    failed with enough Ropsten ETH  (It shown Not able to estimate gas)
 
