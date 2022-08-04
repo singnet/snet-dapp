@@ -59,11 +59,15 @@ const UserFeedback = ({ open, handleClose, feedback, submitFeedback, orgId, serv
   };
 
   const shouldSubmitBeEnabled = () => {
-    return rating !== feedback.rating || comment !== feedback.comment;
+    return (rating > 0);
   };
 
   const handleSnackbarClose = () => {
     setOpenSnackbar(false);
+  };
+
+  const handlestartclick = (nextValue, prevValue, name) => {
+    setRating(nextValue);
   };
 
   return (
@@ -81,7 +85,7 @@ const UserFeedback = ({ open, handleClose, feedback, submitFeedback, orgId, serv
           />
           <CardContent className={classes.cardContent}>
             <div className={classes.ratingConatiner}>
-              <StarRatingComponent name="rate1" starCount={5} value={rating} className={classes.ratingStars} />
+              <StarRatingComponent name="rate1" starCount={5} value={rating} className={classes.ratingStars} onStarClick={handlestartclick}/>
               <RatingsCount ratingGiven={rating} />
             </div>
             <div className={classes.InputWrapper}>
