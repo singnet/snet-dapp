@@ -66,7 +66,7 @@ const UserFeedback = ({ open, handleClose, feedback, submitFeedback, orgId, serv
     setOpenSnackbar(false);
   };
 
-  const handlestartclick = (nextValue, prevValue, name) => {
+  const handlestartclick = (nextValue, _prevValue, _name) => {
     setRating(nextValue);
   };
 
