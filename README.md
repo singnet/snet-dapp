@@ -88,3 +88,4 @@ For the following [proto file](https://github.com/singnet/example-service/blob/m
 
         npm run sandbox
 
+5. Click the button `Run for Free` to see the developing UI for your AI Service.
