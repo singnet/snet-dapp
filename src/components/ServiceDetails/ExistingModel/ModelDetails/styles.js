@@ -42,6 +42,7 @@ export const useStyles = theme => ({
 			justifyContent: 'space-between',
 			alignItems: 'center',
 			'& > div': {
+				width: '60%',
 				display: 'flex',
 				alignItems: 'center',
 				'& p': {
@@ -52,14 +53,18 @@ export const useStyles = theme => ({
 					'& span': { color: theme.palette.text.mediumShadeGray },
 					[`& span[data-status-type="${modelStatus.IN_PROGRESS}"]`]: { color: '#2CB7CF' },
 					[`& span[data-status-type="${modelStatus.PUBLISHED}"]`]: { color: '#0B8E1C' },
-					'&:first-of-type': { paddingRight: 33 }
+					'&:first-of-type': { paddingRight: '5%' },
 				}
 			},
 			'& > p': {
 				color: theme.palette.text.mediumShadeGray,
 				fontSize: 12,
 				lineHeight: '15px',
-			}
+			},
+			'@media(max-width: 520px)': { 
+				flexDirection: 'column',
+				alignItems: 'flex-start'
+			},
 		},
 		actionButtons: {
 			paddingTop: 16,

@@ -16,8 +16,7 @@ export const useStyles = theme => ({
       fontWeight: 400,
     },
     "@media(max-width:768px)": {
-      padding: " 20px 10px 0",
-      position: "relative",
+      padding: "17px 22px",
       flexDirection: "column",
     },
   },
