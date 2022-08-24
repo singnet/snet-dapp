@@ -118,6 +118,42 @@ export const useStyles = theme => ({
 					'&:hover': { backgroundColor: theme.palette.text.redBtnBg }
 				}
 			}
+		},
+		accessValue: {
+			position: 'relative',
+			'& span': {
+				'&:hover': {
+					'& + ul': { display: 'block' }
+				}
+			},
+			'& ul': {
+				margin: '7px 0 0',
+				padding: '5px 12px 10px 11px',
+				display: 'none',
+				position: 'absolute',				
+				left: '50%',
+				transform: 'translateX(-10%)',
+				zIndex: 1,
+				background: '#333',
+				color: theme.palette.text.white,
+				fontWeight: 400,
+				listStyle: 'none',
+				'& li': {
+					paddingBottom: 5,
+					'&:last-of-type': { paddingBottom: 0 }
+				},
+				'&::after': {
+					content: '" "',
+					position: 'absolute',
+					left: '50%',
+					top: -7,
+					transform: 'translateX(-50%)',
+					borderTop: 'none',
+					borderRight: '7px solid transparent',
+					borderLeft: '7px solid transparent',
+					borderBottom: '7px solid #333'
+				}
+			},
 		}
   });
 

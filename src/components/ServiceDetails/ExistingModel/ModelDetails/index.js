@@ -33,8 +33,21 @@ const ModelDetails = ({ classes, title, id, description, status, accessTo, lastU
             <p>
               Status: <span data-status-type={status}>{status}</span>
             </p>
-            <p>
-              Access: <span>{accessTo}</span>
+            <p className={classes.accessValue}>
+              Access:
+							{/* { */}
+								{/* accessTo === 'limited' ? */}
+								<>
+									<span> limited(4)</span>
+									<ul>
+										<li>90986239898</li>
+										<li>90986239898</li>
+										<li>90986239898</li>
+										<li>90986239898</li>
+									</ul>
+									</>
+								{/* : <span>{accessTo}</span> */}
+							{/* } */}
             </p>
           </div>
           <p>Last update: {lastUpdate}</p>
