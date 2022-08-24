@@ -18,13 +18,7 @@ const ExistingModel = ({ classes }) => {
 				lastUpdate="12-Aug-2022"
       />
 			<div className={classes.btnContainer}>
-				<StyledButton
-					btnText="Ethrim Address"
-					type="red"
-				/>
-				<StyledButton
-					btnText="request a new model" 
-				/>
+				<StyledButton btnText="request a new model" />
 			</div>
     </div>
   );
