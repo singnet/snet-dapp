@@ -81,7 +81,6 @@ export const useStyles = theme => ({
 		updateBtn: { color: theme.palette.text.darkShadedGray },
 		testBtn: { color: theme.palette.text.primary },
 		deleteBtn: { color: theme.palette.text.redBtnText },
-		deleteModal: { backgroundColor: '##00000080' },
 		deleteModalContent: {
 			width: 580,
 			padding: '30px 22px 24px',
