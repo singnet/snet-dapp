@@ -127,6 +127,11 @@ class ServiceDetails extends Component {
         activeIndex: 1,
         component: <InstallAndRunService service={service} groupId={groupInfo.group_id} />,
       },
+      {
+        name: "Models",
+        activeIndex: 2,
+        component: <ModelTraining />,
+      },
     ];
 
     const seoURL = `${process.env.REACT_APP_BASE_URL}/servicedetails/org/${orgId}/service/${serviceId}`;
