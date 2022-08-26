@@ -1,8 +1,7 @@
 export const useStyles = theme => ({
   existingModelContainer: {
-    padding: '17px 22px',
     borderRadius: 4,
-    marginTop: 25,
+    margin: '25px 0',
     boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
     backgroundColor: theme.palette.text.white,		
     "& h2": {
@@ -20,8 +19,8 @@ export const useStyles = theme => ({
       flexDirection: "column",
     },
   },
-  btnContainer: { 
-    marginTop: 24,
-    textAlign: 'center'
+  btnContainer: {
+    textAlign: 'center',
+    '& button': { margin: '24px 0' }
   }
 });
