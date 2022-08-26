@@ -10,6 +10,7 @@ import CreatorDetails from "../CreatorDetails";
 import ProjectDetails from "../ProjectDetails";
 import MediaGallery from "../MediaGallery";
 import PromoBox from "./PromoBox";
+import ExistingModel from '../ExistingModel';
 
 const AboutService = ({
   classes,
@@ -35,6 +36,7 @@ const AboutService = ({
           scrollToView={scrollToView}
           demoComponentRequired={demoComponentRequired}
         />
+        <ExistingModel />
         <div className={classes.showOnNrmalResolution}>
           <PromoBox />
         </div>

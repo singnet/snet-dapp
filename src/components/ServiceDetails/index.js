@@ -18,6 +18,7 @@ import ErrorBox from "../common/ErrorBox";
 import SeoMetadata from "../common/SeoMetadata";
 import Routes from "../../utility/constants/Routes";
 import CardImg from "../../assets/images/SnetDefaultServiceImage.png";
+import TrainingModels from "./TrainingModels";
 
 export const HERO_IMG = "hero_image";
 
@@ -130,7 +131,7 @@ class ServiceDetails extends Component {
       {
         name: "Models",
         activeIndex: 2,
-        component: <ModelTraining />,
+        component: <TrainingModels service={service} groupId={groupInfo.group_id} />,
       },
     ];
 
