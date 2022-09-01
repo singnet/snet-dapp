@@ -72,7 +72,7 @@ const AboutService = ({
   const generateSignature = async address => {
     const currentBlockNumber = await web3.eth.getBlockNumber();
     const sha3Message = await web3.utils.soliditySha3(
-      { type: "string", value: "Signaute for existing models" },
+      { type: "string", value: "Signature for existing models" },
       { type: "string", value: address },
       { type: "uint64", value: currentBlockNumber }
     );
