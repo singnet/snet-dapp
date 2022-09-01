@@ -128,12 +128,15 @@ class ServiceDetails extends Component {
         activeIndex: 1,
         component: <InstallAndRunService service={service} groupId={groupInfo.group_id} />,
       },
-      {
+    ];
+
+    if (process.env.REACT_APP_TRAINING_ENABLE === 'true') {
+      tabs.push({
         name: "Models",
         activeIndex: 2,
         component: <TrainingModels service={service} groupId={groupInfo.group_id} />,
-      },
-    ];
+      });
+    }
 
     const seoURL = `${process.env.REACT_APP_BASE_URL}/servicedetails/org/${orgId}/service/${serviceId}`;
 

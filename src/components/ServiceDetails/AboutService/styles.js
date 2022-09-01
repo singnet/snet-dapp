@@ -294,4 +294,13 @@ export const useStyles = theme => ({
     "@media(max-width:768px)": { display: "block" },
   },
   showOnNrmalResolution: { "@media(max-width:768px)": { display: "none" } },
+  connectMatamaskContainer: {
+    textAlign: "center",
+    "& button": {
+      marginTop: 20,
+      marginBottom: 36,
+      marginRight: "0 !important",
+      paddingBottomg: 15,
+    },
+  },
 });
