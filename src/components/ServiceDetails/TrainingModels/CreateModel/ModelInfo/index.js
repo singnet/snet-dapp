@@ -14,6 +14,7 @@ import { useStyles } from "./styles";
 const ModelInfo = ({ classes }) => {
   const [defaultModel, setDefaultModel] = React.useState(false);
   const [enableAccessModel, setEnableAccessModel] = React.useState(false);
+  const [counter, setCounter] = React.useState(0);
 
   const onChangeDefaultModelSwitch = () => {
     setDefaultModel(true);
@@ -21,6 +22,11 @@ const ModelInfo = ({ classes }) => {
 
   const onAccessModelSwitchChange = () => {
     setEnableAccessModel(true);
+  };
+
+  const addInput = () => {
+    setCounter(counter + 1);
+    console.log(counter);
   };
 
   return (
@@ -74,7 +80,15 @@ const ModelInfo = ({ classes }) => {
               <StyledTextField placeholder="Enter ID" />
               <DeleteOutlineIcon />
             </div>
-            <div className={classes.addTextBox}>
+            {Array.from(Array(counter)).map((c, index) => {
+              return (
+                <div className={classes.ethAddTextBox}>
+                  <StyledTextField placeholder="Enter ID" />
+                  <DeleteOutlineIcon />
+                </div>
+              );
+            })}
+            <div className={classes.addTextBox} onClick={addInput}>
               <AddIcon />
               <span>Add another address</span>
             </div>

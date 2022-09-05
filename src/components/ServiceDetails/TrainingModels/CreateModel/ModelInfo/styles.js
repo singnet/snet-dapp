@@ -128,6 +128,7 @@ export const useStyles = theme => ({
     display: 'flex',
     alignItems: 'center',
     color: theme.palette.text.primary,
+    cursor: 'pointer',
     '& svg': { fontSize: 20 },
     '& span': { fontSize: 14 }    
   },
