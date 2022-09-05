@@ -22,5 +22,27 @@ export const useStyles = theme => ({
   btnContainer: {
     textAlign: 'center',
     '& button': { margin: '24px 0' }
+  },
+  connectMMContainer: {
+    width: '100%',
+    padding: '80px 0',
+    margin: '0 auto',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    textAlign: 'center',
+    '& > span': {
+      marginTop: 24,
+      color: theme.palette.text.primary,
+      fontSize: 18,
+      lineHeight: '23px'
+    },
+    '& p': {
+      margin: '9px 0',
+      color: theme.palette.text.mediumShadedGrey,
+      fontSize: 14,
+      fontWeight: 300,
+      lineHeight: '24px'
+    }
   }
 });
