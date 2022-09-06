@@ -45,6 +45,7 @@ export const useStyles = theme => ({
       },
       "&:last-of-type": { marginBottom: 0 },
     },
+    "@media(max-width:960px)": { marginTop: 25 }
   },
   projectDetailsHeadings: { width: "35%" },
   projectDetailsValue: {

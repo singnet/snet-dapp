@@ -98,7 +98,7 @@ const AboutService = ({
 
   return (
     <Grid container spacing={24} className={classes.aboutContainer}>
-      <Grid item xs={12} sm={8} md={8} lg={8} className={classes.leftSideSection}>
+      <Grid item xs={12} sm={12} md={8} lg={8} className={classes.leftSideSection}>
         <ServiceOverview description={service.description} service_url={service.url} tags={service.tags} />
         <DemoToggler
           showDemo={isLoggedIn}
@@ -116,7 +116,7 @@ const AboutService = ({
         </div>
       </Grid>
 
-      <Grid item xs={12} sm={4} md={4} lg={4} className={classes.rightSideSection}>
+      <Grid item xs={12} sm={12} md={4} lg={4} className={classes.rightSideSection}>
         <CreatorDetails
           organizationName={service.organization_name}
           orgImg={service.org_assets_url && service.org_assets_url.hero_image}
