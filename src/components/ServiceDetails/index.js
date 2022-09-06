@@ -130,7 +130,8 @@ class ServiceDetails extends Component {
       },
     ];
 
-    if (process.env.REACT_APP_TRAINING_ENABLE === 'true') {
+    // if (process.env.REACT_APP_TRAINING_ENABLE === 'true') {
+      if (!process.env.REACT_APP_TRAINING_ENABLE) {
       tabs.push({
         name: "Models",
         activeIndex: 2,

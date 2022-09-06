@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState} from "react";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 import StyledButton from "../../common/StyledButton";
@@ -10,13 +10,21 @@ import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import CreateModel from "./CreateModel";
 
 const TrainingModels = ({ classes, service }) => {
-  const [showCreateModel, setShowCreateModel] = React.useState(false);
-  const [metamaskConnected, setMetamaskConnected] = React.useState(false);
+  const [showCreateModel, setShowCreateModel] = useState(false);
+  const [MMconnected, setMMConnected] = useState(true);
+
+  // useEffect(() => {
+  //   if (wallet.address) {
+  //     setMMConnected(true);
+  //     generateSignature(wallet.address);
+  //   }
+  // }, [wallet]);
+  
   const handleRequestModel = () => {
     setShowCreateModel(true);
   };
 
-  if (!metamaskConnected) {
+  if (!MMconnected) {
     return (
       <Grid item xs={12} sm={12} md={8} lg={8} className={classes.leftSideSection}>
         <ExistingModel />
