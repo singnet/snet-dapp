@@ -15,7 +15,7 @@ export const useStyles = theme => ({
       },
       '& p': {
         margin: '9px 0',
-        color: theme.palette.text.mediumShadedGrey,
+        color: theme.palette.text.mediumShadeGray,
         fontSize: 14,
         fontWeight: 300,
         lineHeight: '24px'

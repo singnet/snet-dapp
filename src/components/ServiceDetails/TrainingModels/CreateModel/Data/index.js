@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import { withStyles } from "@material-ui/styles";
 import Upload from "./Upload";
 import StyledButton from "../../../../common/StyledButton";
+import fileDownload from "../../../../../assets/images/fileDownload.svg";
 import { useStyles } from "./styles";
 
 const Data = ({ classes }) => {
@@ -13,7 +14,7 @@ const Data = ({ classes }) => {
           This AI requires a certain type of data set for Model trainng. Download sample data from following and submit.
         </p>
         <div>
-          <i class="fa-solid fa-file-arrow-down"></i>
+          <img src={fileDownload} alt="File Download" />
           <span>filename.zip</span>
           <StyledButton type="blue" btnText="Download Sample" />
         </div>

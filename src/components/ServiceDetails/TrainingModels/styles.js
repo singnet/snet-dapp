@@ -52,5 +52,5 @@ export const useStyles = theme => ({
       },
     },
 		"& button": { marginLeft: 22 }
-  },
+  }
 });
