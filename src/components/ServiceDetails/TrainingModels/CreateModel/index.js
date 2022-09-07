@@ -3,20 +3,21 @@ import { withStyles } from "@material-ui/styles";
 
 import { useStyles } from "./styles";
 import CreateModelContainer from "./CreateModelContainer";
-import ModelInfo from './ModelInfo';
+import ModelInfo from "./ModelInfo";
+import Data from './Data';
 
 const CreateModel = ({ classes }) => {
-	const [activeSection, setActiveSection] = React.useState(1);
+  const [activeSection, setActiveSection] = React.useState(1);
 
   const createModelTabs = [
     {
       key: "modelInfo",
-      component: <ModelInfo />
+      component: <ModelInfo />,
     },
-    // {
-    //   key: "data",
-    //   component: <Data />
-    // },
+    {
+      key: "data",
+      component: <Data />,
+    },
     // {
     //   key: "payment",
     //   component: <Payment />
@@ -24,13 +25,13 @@ const CreateModel = ({ classes }) => {
     //   key: "finish",
     //   component: <Finish />
     // },
-  ]
-  
-  const progressText = [{ label: "Model Info" }, { label: "Data" }, { label: "Payment"}, {label: "Finish"}];
+  ];
+
+  const progressText = [{ label: "Model Info" }, { label: "Data" }, { label: "Payment" }, { label: "Finish" }];
 
   return (
-		<div className={classes.createModelContainer}>
-			<h2>New Model Request</h2>
+    <div className={classes.createModelContainer}>
+      <h2>New Model Request</h2>
       {createModelTabs.map((item, index) => (
         <CreateModelContainer
           key={item.title}
@@ -41,7 +42,7 @@ const CreateModel = ({ classes }) => {
           progressText={progressText}
         />
       ))}
-		</div>
+    </div>
   );
 };
 

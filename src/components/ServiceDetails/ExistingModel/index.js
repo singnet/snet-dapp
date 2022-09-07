@@ -1,12 +1,59 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import Web3 from "web3";
 import { withStyles } from "@material-ui/styles";
 import ModelDetails from "./ModelDetails";
 import StyledButton from "../../common/StyledButton";
-import MetamaskImg from "../../../assets/images/Metamask.png";
 import { useStyles } from "./styles";
+import ConnectMetamask from "../ConnectMetamask";
+import { initSdk } from "../../../utility/sdk";
+import { walletTypes } from "../../../Redux/actionCreators/UserActions";
+import { alertTypes } from "../../common/AlertBox";
+import { loaderActions, userActions } from "../../../Redux/actionCreators";
+import { LoaderContent } from "../../../utility/constants/LoaderContent";
 
-const ExistingModel = ({ classes }) => {
-  const [metamaskConnected, setMetamaskConnected] = React.useState(false);
+const web3 = new Web3(process.env.REACT_APP_WEB3_PROVIDER, null, {});
+
+const ExistingModel = ({ classes, showReqNewModelBtn,  startMMconnectLoader, fetchAvailableUserWallets, stopLoader, registerWallet, updateWallet, wallet }) => {
+  const [metamaskConnected, setMetamaskConnected] = useState(false);
+  const [alert, setAlert] = useState({});
+
+  useEffect(() => {
+    if (wallet.address) {
+      setMetamaskConnected(true);
+      generateSignature(wallet.address);
+    }
+  }, [wallet]);
+
+  const generateSignature = async address => {
+    const currentBlockNumber = await web3.eth.getBlockNumber();
+    const sha3Message = await web3.utils.soliditySha3(
+      { type: "string", value: "Signature for existing models" },
+      { type: "string", value: address },
+      { type: "uint64", value: currentBlockNumber }
+    );
+    const { signature } = await web3.eth.accounts.sign(sha3Message, address);
+    console.log({ signature });
+  };
+
+  const handleConnectMM = async () => {
+    try {
+      startMMconnectLoader();
+      const sdk = await initSdk();
+      const address = await sdk.account.getAddress();
+      const availableUserWallets = await fetchAvailableUserWallets();
+      const addressAlreadyRegistered = availableUserWallets.some(wallet => wallet.address.toLowerCase() === address);
+
+      if (!addressAlreadyRegistered) {
+        await registerWallet(address, walletTypes.METAMASK);
+      }
+      updateWallet({ type: walletTypes.METAMASK, address });
+    } catch (error) {
+      setAlert({ type: alertTypes.ERROR, message: error.message });
+    }
+    stopLoader();
+  };
+
   return (
     <div className={classes.existingModelContainer}>
       <h2>Existing Model</h2>
@@ -21,21 +68,30 @@ const ExistingModel = ({ classes }) => {
             accessTo="Public"
             lastUpdate="12-Aug-2022"
           />
-          <div className={classes.btnContainer}>
-            <StyledButton btnText="request a new model" />
-          </div>
+          {showReqNewModelBtn ? 
+            <div className={classes.btnContainer}>
+              <StyledButton btnText="request a new model"  />
+            </div>
+          : null }
         </>
         ) : (
-          <div className={classes.connectMMContainer}>
-              <img src={MetamaskImg} alt="Metamask" />
-              <span>Metamask</span>
-              <p>Connect to your Metamask Wallet</p>
-              <StyledButton btnText="Connect" />
-          </div>
+          <ConnectMetamask handleConnectMM={handleConnectMM} />
         ) 
       }
     </div>
   );
 };
 
-export default withStyles(useStyles)(ExistingModel);
+const mapStateToProps = state => ({
+  wallet: state.userReducer.wallet,
+});
+
+const mapDispatchToProps = dispatch => ({
+  startMMconnectLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.CONNECT_METAMASK)),
+  fetchAvailableUserWallets: () => dispatch(userActions.fetchAvailableUserWallets()),
+  registerWallet: (address, type) => dispatch(userActions.registerWallet(address, type)),
+  updateWallet: ({ type, address }) => dispatch(userActions.updateWallet({ type, address })),
+  stopLoader: () => dispatch(loaderActions.stopAppLoader),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(ExistingModel));

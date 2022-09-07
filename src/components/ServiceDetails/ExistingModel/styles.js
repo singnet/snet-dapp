@@ -1,7 +1,7 @@
 export const useStyles = theme => ({
   existingModelContainer: {
     borderRadius: 4,
-    margin: '25px 0',
+    margin: '25px 0 0',
     boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
     backgroundColor: theme.palette.text.white,		
     "& h2": {
@@ -39,7 +39,7 @@ export const useStyles = theme => ({
     },
     '& p': {
       margin: '9px 0',
-      color: theme.palette.text.mediumShadedGrey,
+      color: theme.palette.text.mediumShadeGray,
       fontSize: 14,
       fontWeight: 300,
       lineHeight: '24px'
