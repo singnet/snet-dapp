@@ -10,21 +10,9 @@ import ProjectDetails from "../ProjectDetails";
 import MediaGallery from "../MediaGallery";
 import PromoBox from "./PromoBox";
 import ExistingModel from "../ExistingModel";
-import AlertBox, { alertTypes } from "../../common/AlertBox";
-import StyledButton from "../../common/StyledButton";
-import { initSdk } from "../../../utility/sdk";
+import { alertTypes } from "../../common/AlertBox";
 import { LoaderContent } from "../../../utility/constants/LoaderContent";
-import Web3 from "web3";
 import { loaderActions, userActions } from "../../../Redux/actionCreators";
-import { walletTypes } from "../../../Redux/actionCreators/UserActions";
-
-const web3 = new Web3(process.env.REACT_APP_WEB3_PROVIDER, null, {});
-
-const connectMMinfo = {
-  type: alertTypes.WARNING,
-  message: `Please install Metamask and use your Metamask wallet to connect to SingularityNet. 
-Click below to connect.`,
-};
 
 const AboutService = ({
   classes,
@@ -35,64 +23,11 @@ const AboutService = ({
   demoExampleRef,
   scrollToView,
   demoComponentRequired,
-  startMMconnectLoader,
-  stopLoader,
-  registerWallet,
-  updateWallet,
-  fetchAvailableUserWallets,
-  wallet,
 }) => {
-  const [MMconnected, setMMConnected] = useState(false);
-  const [alert, setAlert] = useState({});
-  useEffect(() => {
-    if (wallet.address) {
-      setMMConnected(true);
-      generateSignature(wallet.address);
-    }
-  }, [wallet]);
-
-  const handleConnectMM = async () => {
-    try {
-      startMMconnectLoader();
-      const sdk = await initSdk();
-      const address = await sdk.account.getAddress();
-      const availableUserWallets = await fetchAvailableUserWallets();
-      const addressAlreadyRegistered = availableUserWallets.some(wallet => wallet.address.toLowerCase() === address);
-
-      if (!addressAlreadyRegistered) {
-        await registerWallet(address, walletTypes.METAMASK);
-      }
-      updateWallet({ type: walletTypes.METAMASK, address });
-    } catch (error) {
-      setAlert({ type: alertTypes.ERROR, message: error.message });
-    }
-    stopLoader();
-  };
-
-  const generateSignature = async address => {
-    const currentBlockNumber = await web3.eth.getBlockNumber();
-    const sha3Message = await web3.utils.soliditySha3(
-      { type: "string", value: "Signature for existing models" },
-      { type: "string", value: address },
-      { type: "uint64", value: currentBlockNumber }
-    );
-    const { signature } = await web3.eth.accounts.sign(sha3Message, address);
-    console.log({ signature });
-  };
-
   const RenderExistingModel = () => {
     if (process.env.REACT_APP_TRAINING_ENABLE === "true") {
-      return !MMconnected ? (
-        <div className={classes.connectMatamaskContainer}>
-          <AlertBox type={connectMMinfo.type} message={connectMMinfo.message} />
-          <AlertBox type={alert.type} message={alert.message} />
-          <StyledButton type="blue" btnText="connect metamask" onClick={handleConnectMM} />
-        </div>
-      ) : (
-        <ExistingModel />
-      );
+      return <ExistingModel showReqNewModelBtn />;
     }
-
     return null;
   };
 

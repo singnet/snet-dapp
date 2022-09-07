@@ -7,7 +7,7 @@ import ModelInfo from "./ModelInfo";
 import Data from './Data';
 
 const CreateModel = ({ classes }) => {
-  const [activeSection, setActiveSection] = React.useState(2);
+  const [activeSection, setActiveSection] = React.useState(1);
 
   const createModelTabs = [
     {
