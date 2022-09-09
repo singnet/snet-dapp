@@ -5,9 +5,10 @@ import { useStyles } from "./styles";
 import CreateModelContainer from "./CreateModelContainer";
 import ModelInfo from "./ModelInfo";
 import Data from './Data';
+import Payment from "./Payment";
 
 const CreateModel = ({ classes }) => {
-  const [activeSection, setActiveSection] = React.useState(1);
+  const [activeSection, setActiveSection] = React.useState(3);
 
   const createModelTabs = [
     {
@@ -18,10 +19,11 @@ const CreateModel = ({ classes }) => {
       key: "data",
       component: <Data />,
     },
+    {
+      key: "payment",
+      component: <Payment />
+    },
     // {
-    //   key: "payment",
-    //   component: <Payment />
-    // },{
     //   key: "finish",
     //   component: <Finish />
     // },
