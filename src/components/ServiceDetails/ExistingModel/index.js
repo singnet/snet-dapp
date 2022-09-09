@@ -14,10 +14,9 @@ import { LoaderContent } from "../../../utility/constants/LoaderContent";
 
 const web3 = new Web3(process.env.REACT_APP_WEB3_PROVIDER, null, {});
 
-const ExistingModel = ({ classes, showReqNewModelBtn,  startMMconnectLoader, fetchAvailableUserWallets, stopLoader, registerWallet, updateWallet, wallet }) => {
+const ExistingModel = ({ classes, showReqNewModelBtn,  startMMconnectLoader, fetchAvailableUserWallets, stopLoader, registerWallet, updateWallet, wallet,training,haveANewModel }) => {
   const [metamaskConnected, setMetamaskConnected] = useState(false);
   const [alert, setAlert] = useState({});
-
   useEffect(() => {
     if (wallet.address) {
       setMetamaskConnected(true);
@@ -68,9 +67,9 @@ const ExistingModel = ({ classes, showReqNewModelBtn,  startMMconnectLoader, fet
             accessTo="Public"
             lastUpdate="12-Aug-2022"
           />
-          {showReqNewModelBtn ? 
+          {showReqNewModelBtn && (haveANewModel === true) ? 
             <div className={classes.btnContainer}>
-              <StyledButton btnText="request a new model"  />
+              <StyledButton btnText="request a new model"/>
             </div>
           : null }
         </>

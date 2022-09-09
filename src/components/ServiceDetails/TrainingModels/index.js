@@ -9,7 +9,7 @@ import ProjectDetails from "../ProjectDetails";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import CreateModel from "./CreateModel";
 
-const TrainingModels = ({ classes, service }) => {
+const TrainingModels = ({ classes, service,haveANewModel }) => {
   const [showCreateModel, setShowCreateModel] = useState(false);
   const [MMconnected, setMMConnected] = useState(true);
 
@@ -48,7 +48,8 @@ const TrainingModels = ({ classes, service }) => {
                   and manage models. The models you create in this project inherit the name of the project.
                 </p>
               </div>
-              <StyledButton btnText="request a new model" onClick={handleRequestModel} />
+              {(haveANewModel === true)?
+              <StyledButton btnText="request a new model" onClick={handleRequestModel} />:null}
             </div>
             <ExistingModel />
           </>
