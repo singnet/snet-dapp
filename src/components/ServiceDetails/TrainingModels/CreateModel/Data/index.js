@@ -5,7 +5,7 @@ import StyledButton from "../../../../common/StyledButton";
 import fileDownload from "../../../../../assets/images/fileDownload.svg";
 import { useStyles } from "./styles";
 
-const Data = ({ classes }) => {
+const Data = ({ classes, handleNextSection }) => {
   return (
     <div className={classes.modelDataContaienr}>
       <div className={classes.createDatasetContainer}>
@@ -25,7 +25,7 @@ const Data = ({ classes }) => {
       </div>
       <div className={classes.btnContainer}>
         <StyledButton btnText="Back" type="transparent" />
-        <StyledButton btnText="Next" type="blue" />
+        <StyledButton btnText="Next" type="blue" onClick={handleNextSection} />
       </div>
     </div>
   );

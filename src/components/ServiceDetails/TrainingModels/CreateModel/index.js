@@ -5,23 +5,29 @@ import { useStyles } from "./styles";
 import CreateModelContainer from "./CreateModelContainer";
 import ModelInfo from "./ModelInfo";
 import Data from './Data';
+import Payment from "./Payment";
 
 const CreateModel = ({ classes }) => {
   const [activeSection, setActiveSection] = React.useState(1);
 
+  const handleNextSection = () => {
+    setActiveSection(activeSection + 1);
+  };
+
   const createModelTabs = [
     {
       key: "modelInfo",
-      component: <ModelInfo />,
+      component: <ModelInfo handleNextSection={handleNextSection} />,
     },
     {
       key: "data",
-      component: <Data />,
+      component: <Data handleNextSection={handleNextSection} />,
+    },
+    {
+      key: "payment",
+      component: <Payment handleNextSection={handleNextSection} />
     },
     // {
-    //   key: "payment",
-    //   component: <Payment />
-    // },{
     //   key: "finish",
     //   component: <Finish />
     // },

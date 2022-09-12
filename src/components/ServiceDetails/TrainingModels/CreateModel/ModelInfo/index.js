@@ -11,7 +11,7 @@ import StyledTextField from "../../../../common/StyledTextField";
 import StyledButton from "../../../../common/StyledButton";
 import { useStyles } from "./styles";
 
-const ModelInfo = ({ classes, handleNextClick }) => {
+const ModelInfo = ({ classes, handleNextSection }) => {
   const [defaultModel, setDefaultModel] = React.useState(false);
   const [enableAccessModel, setEnableAccessModel] = React.useState(false);
   const [counter, setCounter] = React.useState(0);
@@ -96,7 +96,7 @@ const ModelInfo = ({ classes, handleNextClick }) => {
         ) : null}
       </div>
       <div className={classes.btnContainer}>
-        <StyledButton btnText="Next" onClick={handleNextClick} />
+        <StyledButton btnText="Next" onClick={handleNextSection} />
       </div>
     </div>
   );
