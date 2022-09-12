@@ -11,17 +11,17 @@ import StyledTextField from "../../../../common/StyledTextField";
 import StyledButton from "../../../../common/StyledButton";
 import { useStyles } from "./styles";
 
-const ModelInfo = ({ classes, handleNextSection }) => {
+const ModelInfo = ({ classes, handleNextClick }) => {
   const [defaultModel, setDefaultModel] = React.useState(false);
   const [enableAccessModel, setEnableAccessModel] = React.useState(false);
   const [counter, setCounter] = React.useState(0);
 
   const onChangeDefaultModelSwitch = () => {
-    setDefaultModel(true);
+    setDefaultModel(!defaultModel);
   };
 
   const onAccessModelSwitchChange = () => {
-    setEnableAccessModel(true);
+    setEnableAccessModel(!enableAccessModel);
   };
 
   const addInput = () => {
@@ -32,11 +32,10 @@ const ModelInfo = ({ classes, handleNextSection }) => {
   return (
     <div className={classes.modelInfoContaienr}>
       <FormControlLabel
-        checked={defaultModel}
-        onChange={onChangeDefaultModelSwitch}
-        className={classes.switchToggle}
-        control={<Switch />}
         label="Make this model as default"
+        control={
+          <Switch checked={defaultModel} onChange={onChangeDefaultModelSwitch} color="primary" className={classes.switchToggle}/>
+        }
       />
       <div className={classes.trainingBasicDetails}>
         <div className={classes.methodDropBox}>
@@ -65,13 +64,12 @@ const ModelInfo = ({ classes, handleNextSection }) => {
         </div>
       </div>
       <div className={classes.accessModelContainer}>
-        <FormControlLabel
-          checked={enableAccessModel}
-          onChange={onAccessModelSwitchChange}
-          className={classes.switchToggle}
-          control={<Switch />}
-          label="Enable access for this model"
-        />
+      <FormControlLabel
+        label="Enable access for this model"
+        control={
+          <Switch checked={enableAccessModel} onChange={onChangeDefaultModelSwitch} color="primary" className={classes.switchToggle}/>
+        }
+      />
         <span>Add a list ofaddress that can access this model.</span>
         {enableAccessModel ? (
           <div className={classes.ethAddresses}>
@@ -96,7 +94,7 @@ const ModelInfo = ({ classes, handleNextSection }) => {
         ) : null}
       </div>
       <div className={classes.btnContainer}>
-        <StyledButton btnText="Next" onClick={handleNextSection} />
+        <StyledButton btnText="Next" onClick={handleNextClick} />
       </div>
     </div>
   );

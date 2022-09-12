@@ -3,19 +3,20 @@ export const useStyles = theme => ({
     padding: "61px 24px 24px",
   },
   switchToggle: {
+    width: 45,
+    height: 20,
+    padding: 0,
+    borderRadius: 25,
     margin: 0,
-    "& .MuiSwitch-root": {
-      width: 45,
-      height: 20,
-      padding: 0,
-      borderRadius: 15,
-      marginRight: 8,
-      display: "initial",
-      backgroundColor: "#8C939B",
+    '& > span': { padding: 0 },
+    '& + span': {
+      paddingLeft: 8,
+      color: theme.palette.text.darkShadedGray,
+      fontSize: 14,
+      lineHeight: "18px",
     },
-    "& .MuiSwitch-switchBase": { padding: 0 },
-    "& .MuiSwitch-colorSecondary.Mui-checked": { color: theme.palette.text.white },
-    "& .MuiSwitch-colorSecondary.Mui-checked + .MuiSwitch-track": {
+    "& .MuiSwitch-colorPrimary.Mui-checked": { color: theme.palette.text.white },
+    "& .MuiSwitch-colorPrimary.Mui-checked + .MuiSwitch-track": {
       backgroundColor: theme.palette.text.primary,
       opacity: 1,
     },
@@ -24,11 +25,6 @@ export const useStyles = theme => ({
       width: 16,
       height: 16,
       margin: 2,
-    },
-    "& .MuiFormControlLabel-label": {
-      color: theme.palette.text.darkShadedGray,
-      fontSize: 14,
-      lineHeight: "18px",
     },
   },
   trainingBasicDetails: {

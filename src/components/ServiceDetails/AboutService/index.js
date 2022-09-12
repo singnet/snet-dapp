@@ -23,12 +23,10 @@ const AboutService = ({
   demoExampleRef,
   scrollToView,
   demoComponentRequired,
-  haveTrainingModel,
-  training,
   haveANewModel
 }) => {
   const RenderExistingModel = () => {
-    if ((process.env.REACT_APP_TRAINING_ENABLE === "true") && (haveTrainingModel === true)) {
+    if (process.env.REACT_APP_TRAINING_ENABLE === "true") {
       return <ExistingModel showReqNewModelBtn haveANewModel={haveANewModel}/>;
     }
     return null;
