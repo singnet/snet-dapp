@@ -6,8 +6,9 @@ import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 
 import { useStyles } from "./styles";
 import PaymentMode from "./PaymentMode";
+import StyledButton from "../../../../common/StyledButton";
 
-const Payment = ({ classes }) => {
+const Payment = ({ classes, handleNextSection }) => {
 
   const addEllipsisAtEndOfString = str => `${str.substr(0, 40)}...`;
 
@@ -106,6 +107,9 @@ const Payment = ({ classes }) => {
         </div>
       </div>
       <PaymentMode />
+      <div className={classes.btnContainer}>
+        <StyledButton btnText="Continue" onClick={handleNextSection} />
+      </div>
     </div>
   );
 };

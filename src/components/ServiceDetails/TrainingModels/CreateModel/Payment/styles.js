@@ -145,4 +145,5 @@ export const useStyles = theme => ({
     letterSpacing: 0.4,
   },
   walletIcon: { color: theme.palette.text.lightShadedGray },
+  btnContainer: { textAlign: 'center' }
 });
