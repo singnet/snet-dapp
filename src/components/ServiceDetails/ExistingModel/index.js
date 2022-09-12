@@ -14,18 +14,7 @@ import { LoaderContent } from "../../../utility/constants/LoaderContent";
 
 const web3 = new Web3(process.env.REACT_APP_WEB3_PROVIDER, null, {});
 
-const ExistingModel = ({
-  classes,
-  showReqNewModelBtn,
-  startMMconnectLoader,
-  fetchAvailableUserWallets,
-  stopLoader,
-  registerWallet,
-  updateWallet,
-  wallet,
-  training,
-  haveANewModel,
-}) => {
+const ExistingModel = ({ classes, showReqNewModelBtn,  startMMconnectLoader, fetchAvailableUserWallets, stopLoader, registerWallet, updateWallet, wallet,training,haveANewModel }) => {
   const [metamaskConnected, setMetamaskConnected] = useState(false);
   const [alert, setAlert] = useState({});
   useEffect(() => {
@@ -67,21 +56,27 @@ const ExistingModel = ({
   return (
     <div className={classes.existingModelContainer}>
       <h2>Existing Model</h2>
-      <>
-        <ModelDetails
-          title="Region Recognition"
-          id="4432"
-          description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley."
-          status="Inprogress"
-          accessTo="Public"
-          lastUpdate="12-Aug-2022"
-        />
-        {showReqNewModelBtn && haveANewModel === true ? (
-          <div className={classes.btnContainer}>
-            <StyledButton btnText="request a new model" />
-          </div>
-        ) : null}
-      </>
+      {
+        metamaskConnected ? (
+          <>
+            <ModelDetails
+            title="Region Recognition"
+            id="4432"
+            description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley."
+            status="Inprogress"
+            accessTo="Public"
+            lastUpdate="12-Aug-2022"
+          />
+          {showReqNewModelBtn && (haveANewModel === true) ? 
+            <div className={classes.btnContainer}>
+              <StyledButton btnText="request a new model"/>
+            </div>
+          : null }
+        </>
+        ) : (
+          <ConnectMetamask handleConnectMM={handleConnectMM} />
+        ) 
+      }
     </div>
   );
 };
