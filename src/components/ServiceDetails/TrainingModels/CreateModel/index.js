@@ -6,6 +6,7 @@ import CreateModelContainer from "./CreateModelContainer";
 import ModelInfo from "./ModelInfo";
 import Data from './Data';
 import Payment from "./Payment";
+import Finish from './Finish';
 
 const CreateModel = ({ classes }) => {
   const [activeSection, setActiveSection] = React.useState(1);
@@ -29,10 +30,10 @@ const CreateModel = ({ classes }) => {
       key: "payment",
       component: <Payment handleNextClick={handleNextClick} />
     },
-    // {
-    //   key: "finish",
-    //   component: <Finish />
-    // },
+    {
+      key: "finish",
+      component: <Finish />
+    },
   ];
 
   const progressText = [{ label: "Model Info" }, { label: "Data" }, { label: "Payment" }, { label: "Finish" }];
