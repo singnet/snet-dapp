@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 import StyledButton from "../../common/StyledButton";
@@ -9,17 +9,10 @@ import ProjectDetails from "../ProjectDetails";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import CreateModel from "./CreateModel";
 
-const TrainingModels = ({ classes, service,haveANewModel }) => {
+const TrainingModels = ({ classes, service, haveANewModel }) => {
   const [showCreateModel, setShowCreateModel] = useState(false);
   const [MMconnected, setMMConnected] = useState(true);
 
-  // useEffect(() => {
-  //   if (wallet.address) {
-  //     setMMConnected(true);
-  //     generateSignature(wallet.address);
-  //   }
-  // }, [wallet]);
-  
   const handleRequestModel = () => {
     setShowCreateModel(true);
   };
@@ -48,8 +41,8 @@ const TrainingModels = ({ classes, service,haveANewModel }) => {
                   and manage models. The models you create in this project inherit the name of the project.
                 </p>
               </div>
-              {(haveANewModel === true)?
-              <StyledButton btnText="request a new model" onClick={handleRequestModel} />:null}
+              {/* {haveANewModel ? <StyledButton btnText="request a new model" onClick={handleRequestModel} /> : null} */}
+              <StyledButton btnText="request a new model" onClick={handleRequestModel} />
             </div>
             <ExistingModel />
           </>

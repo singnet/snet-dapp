@@ -47,6 +47,7 @@ const ExistingModel = ({ classes, showReqNewModelBtn,  startMMconnectLoader, fet
         await registerWallet(address, walletTypes.METAMASK);
       }
       updateWallet({ type: walletTypes.METAMASK, address });
+      setMetamaskConnected(true)
     } catch (error) {
       setAlert({ type: alertTypes.ERROR, message: error.message });
     }

@@ -106,7 +106,7 @@ class ServiceDetails extends Component {
     const {
       params: { orgId, serviceId },
     } = match;
-    let haveTrainingModel = (Object.keys(training).length === 0? false : true);
+    let haveTrainingModel = (Object.keys(training).length === 0 ? false : true);
     let haveANewModel = (((training !== undefined) && ((training.training_methods === undefined)||((training.training_methods).length === 0)))? false : true);
     if (isEmpty(service) || error) {
       if (loading) {

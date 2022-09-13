@@ -10,22 +10,24 @@ import Payment from "./Payment";
 const CreateModel = ({ classes }) => {
   const [activeSection, setActiveSection] = React.useState(1);
 
-  const handleNextSection = () => {
+  const handleNextClick = () => {
+    console.log('before', activeSection)
     setActiveSection(activeSection + 1);
+    console.log('after', activeSection)
   };
 
   const createModelTabs = [
     {
       key: "modelInfo",
-      component: <ModelInfo handleNextSection={handleNextSection} />,
+      component: <ModelInfo handleNextClick={handleNextClick} />,
     },
     {
       key: "data",
-      component: <Data handleNextSection={handleNextSection} />,
+      component: <Data handleNextClick={handleNextClick} />,
     },
     {
       key: "payment",
-      component: <Payment handleNextSection={handleNextSection} />
+      component: <Payment handleNextClick={handleNextClick} />
     },
     // {
     //   key: "finish",
