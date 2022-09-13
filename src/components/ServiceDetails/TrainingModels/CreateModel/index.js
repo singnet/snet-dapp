@@ -9,7 +9,7 @@ import Payment from "./Payment";
 import Finish from './Finish';
 
 const CreateModel = ({ classes }) => {
-  const [activeSection, setActiveSection] = React.useState(4);
+  const [activeSection, setActiveSection] = React.useState(1);
 
   const handleNextSection = () => {
     setActiveSection(activeSection + 1);
