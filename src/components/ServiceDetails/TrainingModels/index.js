@@ -48,7 +48,8 @@ const TrainingModels = ({ classes, service, haveANewModel }) => {
                   and manage models. The models you create in this project inherit the name of the project.
                 </p>
               </div>
-              {haveANewModel ? <StyledButton btnText="request a new model" onClick={handleRequestModel} /> : null}
+              {/* {haveANewModel ? <StyledButton btnText="request a new model" onClick={handleRequestModel} /> : null} */}
+              <StyledButton btnText="request a new model" onClick={handleRequestModel} />
             </div>
             <ExistingModel />
           </>
