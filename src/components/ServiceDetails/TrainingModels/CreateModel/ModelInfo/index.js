@@ -26,8 +26,11 @@ const ModelInfo = ({ classes, handleNextClick }) => {
 
   const addInput = () => {
     setCounter(counter + 1);
-    console.log(counter);
   };
+
+  const handleDeleteEthAdd = (index) => {
+    console.log('delete')
+  }
 
   return (
     <div className={classes.modelInfoContaienr}>
@@ -67,7 +70,7 @@ const ModelInfo = ({ classes, handleNextClick }) => {
       <FormControlLabel
         label="Enable access for this model"
         control={
-          <Switch checked={enableAccessModel} onChange={onChangeDefaultModelSwitch} color="primary" className={classes.switchToggle}/>
+          <Switch checked={enableAccessModel} onChange={onAccessModelSwitchChange} color="primary" className={classes.switchToggle}/>
         }
       />
         <span>Add a list ofaddress that can access this model.</span>
@@ -82,7 +85,7 @@ const ModelInfo = ({ classes, handleNextClick }) => {
               return (
                 <div className={classes.ethAddTextBox}>
                   <StyledTextField placeholder="Enter ID" />
-                  <DeleteOutlineIcon />
+                  <DeleteOutlineIcon onClick={handleDeleteEthAdd(index)}/>
                 </div>
               );
             })}

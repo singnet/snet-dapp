@@ -8,7 +8,7 @@ import { useStyles } from "./styles";
 import PaymentMode from "./PaymentMode";
 import StyledButton from "../../../../common/StyledButton";
 
-const Payment = ({ classes, handleNextSection }) => {
+const Payment = ({ classes, handleNextClick }) => {
 
   const addEllipsisAtEndOfString = str => `${str.substr(0, 40)}...`;
 
@@ -108,7 +108,7 @@ const Payment = ({ classes, handleNextSection }) => {
       </div>
       <PaymentMode />
       <div className={classes.btnContainer}>
-        <StyledButton btnText="Continue" onClick={handleNextSection} />
+        <StyledButton btnText="Continue" onClick={handleNextClick} />
       </div>
     </div>
   );

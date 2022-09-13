@@ -13,13 +13,6 @@ const TrainingModels = ({ classes, service, haveANewModel }) => {
   const [showCreateModel, setShowCreateModel] = useState(false);
   const [MMconnected, setMMConnected] = useState(true);
 
-  // useEffect(() => {
-  //   if (wallet.address) {
-  //     setMMConnected(true);
-  //     generateSignature(wallet.address);
-  //   }
-  // }, [wallet]);
-
   const handleRequestModel = () => {
     setShowCreateModel(true);
   };
