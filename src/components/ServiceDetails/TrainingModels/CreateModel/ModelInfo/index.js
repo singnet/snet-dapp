@@ -3,12 +3,11 @@ import React from "react";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import { withStyles } from "@material-ui/styles";
-import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
-import AddIcon from "@material-ui/icons/Add";
 
 import StyledDropdown from "../../../../common/StyledDropdown";
 import StyledTextField from "../../../../common/StyledTextField";
 import StyledButton from "../../../../common/StyledButton";
+import AddEthAddress from "./AddEthAddress";
 import { useStyles } from "./styles";
 
 const ModelInfo = ({ classes, handleNextClick }) => {
@@ -74,27 +73,7 @@ const ModelInfo = ({ classes, handleNextClick }) => {
         }
       />
         <span>Add a list ofaddress that can access this model.</span>
-        {enableAccessModel ? (
-          <div className={classes.ethAddresses}>
-            <span>Etherum addresses</span>
-            <div className={classes.ethAddTextBox}>
-              <StyledTextField placeholder="Enter ID" />
-              <DeleteOutlineIcon />
-            </div>
-            {Array.from(Array(counter)).map((c, index) => {
-              return (
-                <div className={classes.ethAddTextBox}>
-                  <StyledTextField placeholder="Enter ID" />
-                  <DeleteOutlineIcon onClick={handleDeleteEthAdd(index)}/>
-                </div>
-              );
-            })}
-            <div className={classes.addTextBox} onClick={addInput}>
-              <AddIcon />
-              <span>Add another address</span>
-            </div>
-          </div>
-        ) : null}
+        {enableAccessModel ? <AddEthAddress /> : null}
       </div>
       <div className={classes.btnContainer}>
         <StyledButton btnText="Next" onClick={handleNextClick} />

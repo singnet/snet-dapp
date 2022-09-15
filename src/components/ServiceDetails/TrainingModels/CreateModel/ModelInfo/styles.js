@@ -117,6 +117,7 @@ export const useStyles = theme => ({
       marginLeft: 24,
       color: theme.palette.text.redBtnText,
       fontSize: 20,
+      cursor: 'pointer'
     },
   },
   addTextBox: {

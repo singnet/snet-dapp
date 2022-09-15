@@ -17,7 +17,9 @@ const web3 = new Web3(process.env.REACT_APP_WEB3_PROVIDER, null, {});
 const ExistingModel = ({ classes, showReqNewModelBtn,  startMMconnectLoader, fetchAvailableUserWallets, stopLoader, registerWallet, updateWallet, wallet,training,haveANewModel }) => {
   const [metamaskConnected, setMetamaskConnected] = useState(false);
   const [alert, setAlert] = useState({});
+
   useEffect(() => {
+    console.log('wallet', wallet.address)
     if (wallet.address) {
       setMetamaskConnected(true);
       generateSignature(wallet.address);
@@ -47,12 +49,15 @@ const ExistingModel = ({ classes, showReqNewModelBtn,  startMMconnectLoader, fet
         await registerWallet(address, walletTypes.METAMASK);
       }
       updateWallet({ type: walletTypes.METAMASK, address });
+      console.log('@@@@@')
       setMetamaskConnected(true)
     } catch (error) {
+      console.log('error', error)
       setAlert({ type: alertTypes.ERROR, message: error.message });
     }
     stopLoader();
   };
+  console.log('metamask connect', metamaskConnected)
 
   return (
     <div className={classes.existingModelContainer}>
