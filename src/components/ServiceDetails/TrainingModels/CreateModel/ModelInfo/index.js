@@ -11,13 +11,8 @@ import AddEthAddress from "./AddEthAddress";
 import { useStyles } from "./styles";
 
 const ModelInfo = ({ classes, handleNextClick }) => {
-  const [defaultModel, setDefaultModel] = React.useState(false);
   const [enableAccessModel, setEnableAccessModel] = React.useState(false);
   const [counter, setCounter] = React.useState(0);
-
-  const onChangeDefaultModelSwitch = () => {
-    setDefaultModel(!defaultModel);
-  };
 
   const onAccessModelSwitchChange = () => {
     setEnableAccessModel(!enableAccessModel);
@@ -33,12 +28,6 @@ const ModelInfo = ({ classes, handleNextClick }) => {
 
   return (
     <div className={classes.modelInfoContaienr}>
-      <FormControlLabel
-        label="Make this model as default"
-        control={
-          <Switch checked={defaultModel} onChange={onChangeDefaultModelSwitch} color="primary" className={classes.switchToggle}/>
-        }
-      />
       <div className={classes.trainingBasicDetails}>
         <div className={classes.methodDropBox}>
           <StyledDropdown labelTxt="Select Method" inputLabel="Training Method" />

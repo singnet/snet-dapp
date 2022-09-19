@@ -11,6 +11,7 @@ export const useStyles = theme => ({
       margin: 0,
       color: theme.palette.text.darkShadedGray,
       fontSize: 20,
+      fontWeight: 400,
       "@media(max-width:1280px)": {
         boxSizing: "border-box",
         width: 1280,
@@ -20,7 +21,7 @@ export const useStyles = theme => ({
   transactionHistoryContainer: { "@media(max-width: 1280px)": { overflow: "auto" } },
   transactionHistoryContent: { "@media(max-width:1280px)": { width: 1280 } },
   tabsHeader: {
-    padding: "7px 26px 0",
+    padding: "7px 22px 0",
     borderBottomWidth: 1,
     borderBottomStyle: "solid",
     borderBottomColor: "#e2e2e2",
