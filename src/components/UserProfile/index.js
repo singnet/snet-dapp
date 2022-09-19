@@ -31,7 +31,7 @@ const tabs = [
   { name: "Account", activeIndex: 0, path: userProfileRoutes.ACCOUNT.path },
   { name: "Settings", activeIndex: 1, path: userProfileRoutes.SETTINGS.path },
   { name: "Transactions", activeIndex: 2, path: userProfileRoutes.TRANSACTIONS.path },
-  { name: "Models", activeIndex: 3, path: userProfileRoutes.MODELS.path },
+  // { name: "Models", activeIndex: 3, path: userProfileRoutes.MODELS.path },
 ];
 
 const UserProfile = ({ classes, nickname, history, location, email }) => {

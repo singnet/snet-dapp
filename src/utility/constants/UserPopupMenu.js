@@ -23,11 +23,11 @@ export const UserMenuList = [
     menuTitle: "Transactions",
     menuLink: `${Routes.USER_PROFILE}/transactions`,
   },
-  {
-    menuIcon: SettingIcon,
-    menuTitle: "Models",
-    menuLink: `${Routes.USER_PROFILE}/models`,
-  },
+  // {
+  //   menuIcon: SettingIcon,
+  //   menuTitle: "Models",
+  //   menuLink: `${Routes.USER_PROFILE}/models`,
+  // },
 ];
 
 export const UserMenuActionList = [
