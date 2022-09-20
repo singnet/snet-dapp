@@ -22,13 +22,16 @@ export const UserMenuList = [
     menuIcon: SettingIcon,
     menuTitle: "Transactions",
     menuLink: `${Routes.USER_PROFILE}/transactions`,
-  },
-  {
+  }
+];
+
+if (process.env.REACT_APP_TRAINING_ENABLE === "true") {
+  UserMenuList.push({
     menuIcon: SettingIcon,
     menuTitle: "Models",
     menuLink: `${Routes.USER_PROFILE}/models`,
-  },
-];
+  });
+}
 
 export const UserMenuActionList = [
   {
