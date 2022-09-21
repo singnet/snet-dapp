@@ -1,15 +1,13 @@
 export const useStyles = theme => ({
-  modelInfoContaienr: {
-    padding: "61px 24px 24px",
-  },
+  modelInfoContaienr: { padding: "61px 24px 24px" },
   switchToggle: {
     width: 45,
     height: 20,
     padding: 0,
     borderRadius: 25,
     margin: 0,
-    '& > span': { padding: 0 },
-    '& + span': {
+    "& > span": { padding: 0 },
+    "& + span": {
       paddingLeft: 8,
       color: theme.palette.text.darkShadedGray,
       fontSize: 14,
@@ -42,9 +40,9 @@ export const useStyles = theme => ({
     },
   },
   methodDropBox: {
-    "& .MuiFormControl-root": { 
+    "& .MuiFormControl-root": {
       width: 512,
-      '@media(max-width: 570px)': { width: '100%' }
+      "@media(max-width: 570px)": { width: "100%" },
     },
     "& .MuiFormLabel-root": {
       padding: "0 15px 0 5px",
@@ -65,13 +63,13 @@ export const useStyles = theme => ({
       "& .MuiFormLabel-root": { color: theme.palette.text.darkShadedGray },
       "& fieldset": { borderColor: "#c4c4c4" },
       "& input": { color: theme.palette.text.darkShadedGray },
-      '@media(max-width: 570px)': { width: '100%' },
+      "@media(max-width: 570px)": { width: "100%" },
     },
   },
   modelDescriptionContainer: {
-    "& > div": { 
+    "& > div": {
       width: 512,
-      '@media(max-width: 570px)': { width: '100%' }
+      "@media(max-width: 570px)": { width: "100%" },
     },
   },
   accessModelContainer: {
@@ -86,50 +84,67 @@ export const useStyles = theme => ({
       lineHeight: "24px",
     },
   },
-  ethAddresses: {
-    marginTop: 30,
+  ethAddressContainer: {
+    margin: "30px 0 0 53px",
     display: "flex",
     flexDirection: "column",
     "& > span": {
+      marginBottom: 16,
+      display: 'inline-block',
       color: theme.palette.text.darkShadedGray,
       fontSize: 14,
       lineHeight: "18px",
     },
   },
-  ethAddTextBox: {
-    display: "flex",
-    alignItems: "center",
-    "& > div": {
-      width: 512,
-      margin: "12px 0 16px",
+  addMoreEthAdd: {
+    "& > div:first-of-type": {
+      width: 370,
+      margin: 0,
       "& input": {
-        padding: "15.7px 14px",
+        padding: "19.7px 14px",
         color: theme.palette.text.mediumShadeGray,
         fontSize: 14,
-        '&::placeholder': {
+        "&::placeholder": {
           color: theme.palette.text.mediumShadeGray,
-          opacity: 1
-        }
+          opacity: 1,
+        },
       },
-      '@media(max-width: 570px)': { width: '100%' }
-    },
-    "& svg": {
-      marginLeft: 24,
-      color: theme.palette.text.redBtnText,
-      fontSize: 20,
+      "@media(max-width: 570px)": { width: "100%" },
     },
   },
   addTextBox: {
-    marginTop: 24,
-    display: 'flex',
-    alignItems: 'center',
+    marginTop: 16,
+    display: "flex",
+    alignItems: "center",
     color: theme.palette.text.primary,
-    cursor: 'pointer',
-    '& svg': { fontSize: 20 },
-    '& span': { fontSize: 14 }    
+    cursor: "pointer",
+    "& svg": {
+      marginRight: 10,
+      fontSize: 20,
+    },
+    "& span": { fontSize: 14 },
   },
-  btnContainer: { 
+  addedEthAdd: {
+    marginBottom: 8,
+    "& span": {
+      boxSizing: 'border-box',
+      width: 370,
+      padding: '17px 15px',
+      border: "1px solid #828282",
+      borderRadius: 4,
+      marginRight: 24,
+      display: 'inline-block',
+    },
+    "& svg": { color: "#D6201F" }
+  },
+  btnContainer: {
     marginTop: 24,
-    textAlign: 'center' 
-  }
+    textAlign: "center",
+  },
 });
+
+// "& svg": {
+//   marginLeft: 24,
+//   color: theme.palette.text.redBtnText,
+//   fontSize: 20,
+// },

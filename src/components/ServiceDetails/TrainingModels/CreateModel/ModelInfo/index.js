@@ -1,31 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import { withStyles } from "@material-ui/styles";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
-import AddIcon from "@material-ui/icons/Add";
 
+import AddMoreEthAddress from "./AddMoreEthAddress";
 import StyledDropdown from "../../../../common/StyledDropdown";
 import StyledTextField from "../../../../common/StyledTextField";
 import StyledButton from "../../../../common/StyledButton";
 import { useStyles } from "./styles";
 
 const ModelInfo = ({ classes, handleNextClick }) => {
-  const [enableAccessModel, setEnableAccessModel] = React.useState(false);
-  const [counter, setCounter] = React.useState(0);
+  const [enableAccessModel, setEnableAccessModel] = useState(false);
+  const [ethAddress, setEthAddress] = useState([]);
 
   const onAccessModelSwitchChange = () => {
     setEnableAccessModel(!enableAccessModel);
   };
 
-  const addInput = () => {
-    setCounter(counter + 1);
+  const addEthAddress = text => setEthAddress([...ethAddress, { text }]);
+
+  const toggleEthAddress = index => {
+    const newTEthAddress = [...ethAddress];
+    newTEthAddress[index].isCompleted = !newTEthAddress[index].isCompleted;
+    setEthAddress(newTEthAddress);
   };
 
-  const handleDeleteEthAdd = (index) => {
-    console.log('delete')
-  }
+  const removeEthAddress = index => {
+    const newEthAddress = [...ethAddress];
+    newEthAddress.splice(index, 1);
+    setEthAddress(newEthAddress);
+  };
 
   return (
     <div className={classes.modelInfoContaienr}>
@@ -56,32 +62,28 @@ const ModelInfo = ({ classes, handleNextClick }) => {
         </div>
       </div>
       <div className={classes.accessModelContainer}>
-      <FormControlLabel
-        label="Enable access for this model"
-        control={
-          <Switch checked={enableAccessModel} onChange={onAccessModelSwitchChange} color="primary" className={classes.switchToggle}/>
-        }
-      />
+        <FormControlLabel
+          label="Enable access for this model"
+          control={
+            <Switch
+              checked={enableAccessModel}
+              onChange={onAccessModelSwitchChange}
+              color="primary"
+              className={classes.switchToggle}
+            />
+          }
+        />
         <span>Add a list ofaddress that can access this model.</span>
         {enableAccessModel ? (
-          <div className={classes.ethAddresses}>
-            <span>Etherum addresses</span>
-            <div className={classes.ethAddTextBox}>
-              <StyledTextField placeholder="Enter ID" />
-              <DeleteOutlineIcon />
-            </div>
-            {Array.from(Array(counter)).map((c, index) => {
-              return (
-                <div className={classes.ethAddTextBox}>
-                  <StyledTextField placeholder="Enter ID" />
-                  <DeleteOutlineIcon onClick={handleDeleteEthAdd(index)}/>
-                </div>
-              );
-            })}
-            <div className={classes.addTextBox} onClick={addInput}>
-              <AddIcon />
-              <span>Add another address</span>
-            </div>
+          <div className={classes.ethAddressContainer}>
+            <span>Ethereum addresses</span>
+            {ethAddress.map((address, index) => (
+              <div className={classes.addedEthAdd}>
+                <span onClick={() => toggleEthAddress(index)}>{address.text}</span>
+                <DeleteOutlineIcon onClick={() => removeEthAddress(index)} />
+              </div>
+            ))}
+            <AddMoreEthAddress addEthAddress={addEthAddress} />
           </div>
         ) : null}
       </div>
