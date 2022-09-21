@@ -96,4 +96,8 @@ export const LoaderContent = {
     loaderHeader: "Generating Auth Token",
     loaderText: "Please wait while we generate the token to download",
   },
+  FETCH_TRAINING_EXISTING_MODEL: {
+    loaderHeader: "Fetching existing training models",
+    loaderText: "Please wait. we're fetching existing models",
+  },
 };
