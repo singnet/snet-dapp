@@ -54,7 +54,7 @@ class ServiceDetails extends Component {
       },
     } = this.props;
     await fetchTrainingModel(orgId, serviceId);
-  }
+  };
 
   fetchServiceDetails = async () => {
     const {
@@ -106,8 +106,11 @@ class ServiceDetails extends Component {
     const {
       params: { orgId, serviceId },
     } = match;
-    let haveTrainingModel = (Object.keys(training).length === 0 ? false : true);
-    let haveANewModel = (((training !== undefined) && ((training.training_methods === undefined)||((training.training_methods).length === 0)))? false : true);
+    let haveTrainingModel = Object.keys(training).length === 0 ? false : true;
+    let haveANewModel =
+      training !== undefined && (training.training_methods === undefined || training.training_methods.length === 0)
+        ? false
+        : true;
     if (isEmpty(service) || error) {
       if (loading) {
         return null;
@@ -145,14 +148,21 @@ class ServiceDetails extends Component {
       },
     ];
 
-    if (process.env.REACT_APP_TRAINING_ENABLE === 'true') {
+    if (process.env.REACT_APP_TRAINING_ENABLE === "true") {
       tabs.push({
         name: "Models",
         activeIndex: 2,
-        component: <TrainingModels service={service} groupId={groupInfo.group_id} haveANewModel={haveANewModel}/>,
+        component: (
+          <TrainingModels
+            service={service}
+            groupId={groupInfo.group_id}
+            haveANewModel={haveANewModel}
+            training={training}
+          />
+        ),
       });
     }
-    
+
     const seoURL = `${process.env.REACT_APP_BASE_URL}/servicedetails/org/${orgId}/service/${serviceId}`;
 
     return (
