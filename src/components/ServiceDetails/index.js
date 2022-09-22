@@ -18,7 +18,8 @@ import ErrorBox from "../common/ErrorBox";
 import SeoMetadata from "../common/SeoMetadata";
 import Routes from "../../utility/constants/Routes";
 import CardImg from "../../assets/images/SnetDefaultServiceImage.png";
-
+import TrainingModels from "./TrainingModels";
+import { fetchTrainingModel } from "../../Redux/actionCreators/ServiceDetailsActions";
 export const HERO_IMG = "hero_image";
 
 class ServiceDetails extends Component {
@@ -42,6 +43,17 @@ class ServiceDetails extends Component {
     if (isEmpty(this.props.service)) {
       this.fetchServiceDetails();
     }
+    this.fetchTrainingModel();
+  }
+
+  fetchTrainingModel = async () => {
+    const {
+      fetchTrainingModel,
+      match: {
+        params: { orgId, serviceId },
+      },
+    } = this.props;
+    await fetchTrainingModel(orgId, serviceId);
   }
 
   fetchServiceDetails = async () => {
@@ -89,12 +101,13 @@ class ServiceDetails extends Component {
   };
 
   render() {
-    const { classes, service, pricing, loading, error, history, groupInfo, match } = this.props;
+    const { classes, service, pricing, loading, error, history, groupInfo, match, training } = this.props;
     const { offlineNotication } = this.state;
     const {
       params: { orgId, serviceId },
     } = match;
-
+    let haveTrainingModel = (Object.keys(training).length === 0 ? false : true);
+    let haveANewModel = (((training !== undefined) && ((training.training_methods === undefined)||((training.training_methods).length === 0)))? false : true);
     if (isEmpty(service) || error) {
       if (loading) {
         return null;
@@ -119,6 +132,9 @@ class ServiceDetails extends Component {
             demoExampleRef={this.demoExampleRef}
             scrollToView={this.scrollToView}
             demoComponentRequired={!!service.demo_component_required}
+            haveTrainingModel={haveTrainingModel}
+            training={training}
+            haveANewModel={haveANewModel}
           />
         ),
       },
@@ -129,6 +145,14 @@ class ServiceDetails extends Component {
       },
     ];
 
+    if (process.env.REACT_APP_TRAINING_ENABLE === 'true') {
+      tabs.push({
+        name: "Models",
+        activeIndex: 2,
+        component: <TrainingModels service={service} groupId={groupInfo.group_id} haveANewModel={haveANewModel}/>,
+      });
+    }
+    
     const seoURL = `${process.env.REACT_APP_BASE_URL}/servicedetails/org/${orgId}/service/${serviceId}`;
 
     return (
@@ -184,11 +208,13 @@ const mapStateToProps = (state, ownProps) => {
     groupInfo: groupInfo(state),
     pricing: pricing(state),
     loading: state.loaderReducer.app.loading,
+    training: state.serviceDetailsReducer.detailsTraining,
   };
 };
 
 const mapDispatchToProps = dispatch => ({
   fetchServiceDetails: (orgId, serviceId) => dispatch(serviceDetailsActions.fetchServiceDetails(orgId, serviceId)),
+  fetchTrainingModel: (orgId, serviceId) => dispatch(fetchTrainingModel(orgId, serviceId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(ServiceDetails));

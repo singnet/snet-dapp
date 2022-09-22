@@ -10,6 +10,7 @@ import { LoaderContent } from "../../utility/constants/LoaderContent";
 export const UPDATE_SERVICE_DETAILS = "UPDATE_SERVICE_DETAILS";
 export const RESET_SERVICE_DETAILS = "RESET_SERVICE_DETAILS";
 export const UPDATE_FREE_CALLS_INFO = "UPDATE_FREE_CALLS_INFO";
+export const UPDATE_TRAINING_DETAILS = "UPDATE_TRAINING_DETAILS";
 
 const resetServiceDetails = dispatch => {
   dispatch({ type: RESET_SERVICE_DETAILS });
@@ -51,6 +52,28 @@ const fetchMeteringDataSuccess = usageData => dispatch => {
     type: UPDATE_FREE_CALLS_INFO,
     payload: usageData.total_calls_made,
   });
+};
+
+const fetchTrainingModelSuccess = serviceTrainingData => dispatch => {
+  dispatch({ type: UPDATE_TRAINING_DETAILS, payload: serviceTrainingData });
+};
+
+const fetchServiceTrainingDataAPI = async(orgId, serviceId)=>{
+  try{
+  const dataForUrl = await fetchServiceDetailsAPI(orgId, serviceId);
+  const url = `${dataForUrl.data.groups[0].endpoints[0].endpoint}/servicemethoddetails`;
+  const response = await fetch(url);
+  return response.json();
+  }
+  catch(error){
+    return {};
+  }
+};
+
+export const fetchTrainingModel = (orgId, serviceId) => async dispatch =>{
+  const serviceTrainingData = await fetchServiceTrainingDataAPI(orgId, serviceId);
+  dispatch(fetchTrainingModelSuccess(serviceTrainingData));
+
 };
 
 const meteringAPI = (token, orgId, serviceId, groupId, userId) => {

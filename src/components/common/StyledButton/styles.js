@@ -2,10 +2,11 @@ import { makeStyles } from "@material-ui/styles";
 
 export const useStyles = makeStyles(theme => ({
   styledButton: {
+    minWidth: 170,
     borderWidth: 1,
     borderStyle: "solid",
     borderColor: "transparent",
-    padding: "7px 28px",
+    padding: "11px 28px",
     color: theme.palette.text.white,
     textTransform: "uppercase",
     fontFamily: theme.typography.primary.main,

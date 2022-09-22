@@ -14,23 +14,12 @@ export const useStyles = theme => ({
       fontSize: 20,
       fontWeight: 400,
     },
-    "@media(max-width:768px)": {
-      padding: " 20px 10px 0",
-      position: "relative",
-      flexDirection: "column",
-    },
   },
   leftSideSection: {
     paddingRight: 25,
-    "@media(max-width:768px)": {
+    "@media(max-width:960px)": {
       maxWidth: "100%",
       paddingRight: 0,
-    },
-  },
-  rightSideSection: {
-    "@media(max-width:768px)": {
-      maxWidth: "100%",
-      marginTop: 25,
     },
   },
   overViewContainer: {
@@ -294,4 +283,13 @@ export const useStyles = theme => ({
     "@media(max-width:768px)": { display: "block" },
   },
   showOnNrmalResolution: { "@media(max-width:768px)": { display: "none" } },
+  connectMatamaskContainer: {
+    textAlign: "center",
+    "& button": {
+      marginTop: 20,
+      marginBottom: 36,
+      marginRight: "0 !important",
+      paddingBottomg: 15,
+    },
+  },
 });

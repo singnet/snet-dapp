@@ -4,6 +4,16 @@ export const useStyles = theme => ({
     padding: "0 14px 25px 0",
     borderRadius: 4,
     backgroundColor: theme.palette.text.white,
+    "& h2": {
+      padding: "12px 22px",
+      borderBottomWidth: 1,
+      borderBottomStyle: "solid",
+      borderBottomColor: theme.palette.text.gray1,
+      margin: 0,
+      color: theme.palette.text.darkShadedGray,
+      fontSize: 20,
+      fontWeight: 400,
+    },
     "& h3": { marginBottom: 15 },
     "& > div": {
       paddingLeft: 30,
@@ -35,6 +45,7 @@ export const useStyles = theme => ({
       },
       "&:last-of-type": { marginBottom: 0 },
     },
+    "@media(max-width:960px)": { marginTop: 25 }
   },
   projectDetailsHeadings: { width: "35%" },
   projectDetailsValue: {
