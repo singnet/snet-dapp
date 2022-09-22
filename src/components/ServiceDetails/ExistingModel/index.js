@@ -44,7 +44,8 @@ const ExistingModel = ({
       dispatch(loaderActions.startAppLoader(LoaderContent.FETCH_TRAINING_EXISTING_MODEL));
       getExistingModel();
     }
-  }, [dispatch, getExistingModel, wallet]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [wallet]);
 
   const getTrainingModels = serviceClient => {
     const promises = training.training_methods.map(async method => {
