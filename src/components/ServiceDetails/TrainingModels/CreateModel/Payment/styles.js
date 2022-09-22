@@ -88,7 +88,7 @@ export const useStyles = theme => ({
     },
   },
   paymentMode: {
-		marginTop: 24,
+    marginTop: 24,
     "& p": {
       color: theme.palette.text.mediumShadeGray,
       fontSize: 14,
@@ -145,5 +145,22 @@ export const useStyles = theme => ({
     letterSpacing: 0.4,
   },
   walletIcon: { color: theme.palette.text.lightShadedGray },
-  btnContainer: { textAlign: 'center' }
+  btnContainer: {
+    "& > div": {
+      "& > svg": {
+        marginRight: 5,
+        color: '#05C38C',
+        fontSize: 22,
+        verticalAlign: 'middle'
+      },
+      "& > span": {
+        fontSize: 14,
+        lineHeight: "18px",
+      },
+    },
+    marginTop: 45,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
 });
