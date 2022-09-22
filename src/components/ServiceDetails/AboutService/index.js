@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
@@ -10,7 +10,6 @@ import ProjectDetails from "../ProjectDetails";
 import MediaGallery from "../MediaGallery";
 import PromoBox from "./PromoBox";
 import ExistingModel from "../ExistingModel";
-import { alertTypes } from "../../common/AlertBox";
 import { LoaderContent } from "../../../utility/constants/LoaderContent";
 import { loaderActions, userActions } from "../../../Redux/actionCreators";
 
@@ -23,11 +22,12 @@ const AboutService = ({
   demoExampleRef,
   scrollToView,
   demoComponentRequired,
-  haveANewModel
+  haveANewModel,
+  training,
 }) => {
   const RenderExistingModel = () => {
     if (process.env.REACT_APP_TRAINING_ENABLE === "true") {
-      return <ExistingModel showReqNewModelBtn haveANewModel={haveANewModel}/>;
+      return <ExistingModel showReqNewModelBtn haveANewModel={haveANewModel} training={training} />;
     }
     return null;
   };
