@@ -8,7 +8,7 @@ import Data from './Data';
 import Payment from "./Payment";
 import Finish from './Finish';
 
-const CreateModel = ({ classes }) => {
+const CreateModel = ({ classes ,training}) => {
   const [activeSection, setActiveSection] = React.useState(1);
 
   const handleNextClick = () => {
@@ -22,7 +22,7 @@ const CreateModel = ({ classes }) => {
   const createModelTabs = [
     {
       key: "modelInfo",
-      component: <ModelInfo handleNextClick={handleNextClick} />
+      component: <ModelInfo handleNextClick={handleNextClick} training={training}/>
     },
     {
       key: "data",

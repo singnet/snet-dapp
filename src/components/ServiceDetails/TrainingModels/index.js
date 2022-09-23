@@ -29,7 +29,7 @@ const TrainingModels = ({ classes, service, haveANewModel, training }) => {
     <Grid container spacing={24} className={classes.trainingModelContainer}>
       <Grid item xs={12} sm={12} md={8} lg={8} className={classes.leftSideSection}>
         {showCreateModel ? (
-          <CreateModel />
+          <CreateModel training={training}/>
         ) : (
           <>
             <div className={classes.requestModelContainer}>
