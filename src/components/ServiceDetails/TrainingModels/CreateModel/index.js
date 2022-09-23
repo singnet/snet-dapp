@@ -12,19 +12,21 @@ const CreateModel = ({ classes }) => {
   const [activeSection, setActiveSection] = React.useState(1);
 
   const handleNextClick = () => {
-    console.log('before', activeSection)
     setActiveSection(activeSection + 1);
-    console.log('after', activeSection)
   };
+
+  const onBackClick = () => {
+    setActiveSection(activeSection - 1)
+  }
 
   const createModelTabs = [
     {
       key: "modelInfo",
-      component: <ModelInfo handleNextClick={handleNextClick} />,
+      component: <ModelInfo handleNextClick={handleNextClick} />
     },
     {
       key: "data",
-      component: <Data handleNextClick={handleNextClick} />,
+      component: <Data handleNextClick={handleNextClick} onBackClick={onBackClick} />
     },
     {
       key: "payment",
