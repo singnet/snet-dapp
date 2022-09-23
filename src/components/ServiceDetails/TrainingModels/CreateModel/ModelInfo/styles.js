@@ -28,20 +28,22 @@ export const useStyles = theme => ({
   trainingBasicDetails: {
     marginTop: 27,
     "& > div": {
+      marginBottom: 24,
       display: "flex",
-      flexDirection: "column",
+      alignItems: 'center',
       "& span": {
-        margin: "8px 0 24px",
-        color: theme.palette.text.mediumShadeGray,
+        margin: "0 0 0 24px",
+        color: theme.palette.text.lightShadedGray,
         fontSize: 14,
-        fontWeight: 300,
-        lineHeight: "24px",
+        letterSpacing: 0.25,
+        lineHeight: "20px",
       },
     },
   },
   methodDropBox: {
+    '& .MuiOutlinedInput-notchedOutline': { borderColor: '#828282'},
     "& .MuiFormControl-root": {
-      width: 512,
+      width: 370,
       "@media(max-width: 570px)": { width: "100%" },
     },
     "& .MuiFormLabel-root": {
@@ -58,7 +60,7 @@ export const useStyles = theme => ({
   },
   modelNameContainer: {
     "& > div": {
-      width: 512,
+      width: 370,
       margin: 0,
       "& .MuiFormLabel-root": { color: theme.palette.text.darkShadedGray },
       "& fieldset": { borderColor: "#c4c4c4" },

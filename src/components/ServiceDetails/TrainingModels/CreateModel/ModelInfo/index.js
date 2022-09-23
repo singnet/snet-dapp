@@ -42,10 +42,7 @@ const ModelInfo = ({ classes, handleNextClick }) => {
         </div>
         <div className={classes.modelNameContainer}>
           <StyledTextField label="Model name" />
-          <span>
-            The model name can't be more then 63 characters. It can only contain alphanumeric characters, with no spaces
-            or special characters.
-          </span>
+          <span>The name of your service can not be same name as another service.</span>
         </div>
         <div className={classes.modelDescriptionContainer}>
           <StyledTextField
@@ -73,7 +70,7 @@ const ModelInfo = ({ classes, handleNextClick }) => {
             />
           }
         />
-        <span>Add a list ofaddress that can access this model.</span>
+        <span>Add a list of address that can access this model.</span>
         {enableAccessModel ? (
           <div className={classes.ethAddressContainer}>
             <span>Ethereum addresses</span>
