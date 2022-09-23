@@ -14,23 +14,23 @@ import { useStyles } from "./styles";
 const ModelInfo = ({ classes, handleNextClick, training }) => {
   const [enableAccessModel, setEnableAccessModel] = useState(false);
   const [ethAddress, setEthAddress] = useState([]);
-  const [trainingmethod,setTrainingMethod]=useState(undefined);
+  const [trainingmethod, setTrainingMethod] = useState(undefined);
 
   const onAccessModelSwitchChange = () => {
     setEnableAccessModel(!enableAccessModel);
   };
 
-  const trainingModelAccess = (training.training_methods);
-  const trainingDropDownObject = trainingModelAccess.map((e)=>({
-    value:e , label:e
+  const trainingModelAccess = training.training_methods;
+  const trainingDropDownObject = trainingModelAccess.map(e => ({
+    value: e,
+    label: e,
   }));
-  const trainingMethodDropDownBox = event =>{
-    const{value}= event.target;
-    if(value !== "default")
-    {
+  const trainingMethodDropDownBox = event => {
+    const { value } = event.target;
+    if (value !== "default") {
       setTrainingMethod(value);
     }
-};
+  };
 
   const addEthAddress = text => setEthAddress([...ethAddress, { text }]);
 
@@ -50,10 +50,12 @@ const ModelInfo = ({ classes, handleNextClick, training }) => {
     <div className={classes.modelInfoContaienr}>
       <div className={classes.trainingBasicDetails}>
         <div className={classes.methodDropBox}>
-          <StyledDropdown labelTxt="Select Method" inputLabel="Training Method" 
-          list={trainingDropDownObject}
-          value={trainingmethod}
-          onChange={trainingMethodDropDownBox}
+          <StyledDropdown
+            labelTxt="Select Method"
+            inputLabel="Training Method"
+            list={trainingDropDownObject}
+            value={trainingmethod}
+            onChange={trainingMethodDropDownBox}
           />
           <span>Please select a method to train as a first step.</span>
         </div>
