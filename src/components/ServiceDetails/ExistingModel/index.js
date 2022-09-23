@@ -26,10 +26,8 @@ const ExistingModel = ({
   groupInfo,
   haveANewModel,
 }) => {
-  
   const [metamaskConnected, setMetamaskConnected] = useState(false);
   const dispatch = useDispatch();
-
   const getExistingModel = async () => {
     const sdk = await initSdk();
     const { org_id, service_id } = serviceDetails;
@@ -48,8 +46,6 @@ const ExistingModel = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [wallet]);
-
-  console.log("training", training);
 
   const getTrainingModels = serviceClient => {
     const promises = training.training_methods.map(async method => {
