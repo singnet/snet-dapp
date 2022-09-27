@@ -100,4 +100,8 @@ export const LoaderContent = {
     loaderHeader: "Fetching existing training models",
     loaderText: "Please wait. we're fetching existing models",
   },
+  CREATE_TRAINING_MODEL:{
+    loaderHeader: "Fetching web url",
+    loaderText: "Please wait. we're fetching web url",
+  }
 };
