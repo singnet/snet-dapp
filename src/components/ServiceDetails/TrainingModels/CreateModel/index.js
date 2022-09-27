@@ -89,7 +89,7 @@ const CreateModel = ({ classes, training ,
     
     console.log(trainingModelDescription,'description');
     console.log(trainingDataLink,"trainingDataLink");
-    // console.log(ethAddress,'ethaddress');
+    console.log(ethAddress,'ethaddress');
     const createModel = await createModelForTraining(serviceClientState);
     console.log(createModel,"----createModel---");
 
@@ -97,7 +97,7 @@ const CreateModel = ({ classes, training ,
     // stopLoader();
   };
   const createModelForTraining = async (serviceClientState) =>{
-    const create_model = await serviceClientState.create_model(trainingMethod,wallet.address,trainingModelServiceName,trainingModelDescription,enableAccessModel,ethAddress,trainingDataLink);
+    const create_model = await serviceClientState.createModel(trainingMethod,wallet.address,trainingModelServiceName,trainingModelDescription,enableAccessModel,ethAddress,trainingDataLink);
     return create_model;
     
   }
