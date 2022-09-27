@@ -80,7 +80,7 @@ const CreateModel = ({ classes, training ,
     setMetamaskConnected(true);
     stopLoader();
   };
-  console.log(ethAddress,'ethaddress');
+  // console.log(ethAddress,'ethaddress');
   //create_model for Nexttt
   const create_model = async () => {
     // const sdk = await initSdk();
