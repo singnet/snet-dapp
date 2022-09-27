@@ -34,11 +34,7 @@ const ExistingModel = ({
     console.log({ serviceDetails, groupInfo });
     const serviceClient = new ServiceClient(sdk, org_id, service_id, sdk._mpeContract, {}, groupInfo);
     const existingModel = await getTrainingModels(serviceClient);
-   
-    // const deleteModel = await modelForDeletion(serviceClient);
     console.log("===existing models==", existingModel);
-    
-    // console.log(deleteModel,"---deleteModel---");
     setMetamaskConnected(true);
     stopLoader();
   };
@@ -58,15 +54,6 @@ const ExistingModel = ({
     });
     return Promise.all(promises);
   };
-
-  
-
-  //delete_model
-  const modelForDeletion = async (serviceClient) =>{
-    const delete_model = await serviceClient.delete_model("eeca255a-3afc-11ed-9621-126f8cb9a39c",wallet.address);
-    return delete_model;
-  }
-  //
 
   const handleConnectMM = async () => {
     try {

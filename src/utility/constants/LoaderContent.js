@@ -100,5 +100,4 @@ export const LoaderContent = {
     loaderHeader: "Fetching existing training models",
     loaderText: "Please wait. we're fetching existing models",
   },
-  
 };

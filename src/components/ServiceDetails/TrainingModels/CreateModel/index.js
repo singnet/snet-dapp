@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { withStyles } from "@material-ui/styles";
 
 import { useStyles } from "./styles";
@@ -17,8 +17,10 @@ import ConnectMetamask from "../../ConnectMetamask";
 import { currentServiceDetails, groupInfo } from "../../../../Redux/reducers/ServiceDetailsReducer";
 import { WebServiceClient as ServiceClient } from "snet-sdk-web";
 
-const CreateModel = ({ classes, training ,
- 
+const CreateModel = ({
+  classes,
+  training,
+
   startMMconnectLoader,
   fetchAvailableUserWallets,
   stopLoader,
@@ -29,9 +31,7 @@ const CreateModel = ({ classes, training ,
   serviceDetails,
   groupInfo,
   haveANewModel,
-
 }) => {
-
   const [metamaskConnected, setMetamaskConnected] = useState(false);
   const [activeSection, setActiveSection] = React.useState(1);
   const [enableAccessModel, setEnableAccessModel] = useState(false);
@@ -39,21 +39,20 @@ const CreateModel = ({ classes, training ,
   const [trainingMethod, setTrainingMethod] = useState(undefined);
   const [trainingModelServiceName, setTrainingModelServiceName] = useState("");
   const [trainingModelDescription, setTrainingModelDescription] = useState("");
-  const [trainingDataLink,setTrainingDataLink] = useState("");
-  const [serviceClientState,setServiceClientState] = useState({});
- 
-  
-  const  ethAddressToPass = ethAddress.map(e=>(e.text));
-  
+  const [trainingDataLink, setTrainingDataLink] = useState("");
+  const [serviceClientState, setServiceClientState] = useState({});
+
+  const ethAddressToPass = ethAddress.map(e => e.text);
+
   const handleNextClick = () => {
     handleConnectMM();
-    setActiveSection(activeSection + 1);   
+    setActiveSection(activeSection + 1);
   };
 
-  const handleNextClickCreateModel =  ()=>{
+  const handleNextClickCreateModel = () => {
     create_model();
     setActiveSection(activeSection + 1);
-  }
+  };
 
   const handleConnectMM = async () => {
     try {
@@ -88,19 +87,26 @@ const CreateModel = ({ classes, training ,
     setMetamaskConnected(true);
     stopLoader();
   };
-  
+
   const create_model = async () => {
-    console.log(trainingModelDescription,'description');
-    console.log(trainingDataLink,"trainingDataLink");
-    console.log(ethAddress,'ethaddress');
+    console.log(trainingModelDescription, "description");
+    console.log(trainingDataLink, "trainingDataLink");
+    console.log(ethAddress, "ethaddress");
     const createModel = await createModelForTraining(serviceClientState);
-    console.log(createModel,"----createModel---");
+    console.log(createModel, "----createModel---");
   };
-  const createModelForTraining = async (serviceClientState) =>{
-    const create_model = await serviceClientState.createModel(trainingMethod,wallet.address,trainingModelServiceName,trainingModelDescription,enableAccessModel,ethAddressToPass,trainingDataLink);
+  const createModelForTraining = async serviceClientState => {
+    const create_model = await serviceClientState.createModel(
+      trainingMethod,
+      wallet.address,
+      trainingModelServiceName,
+      trainingModelDescription,
+      enableAccessModel,
+      ethAddressToPass,
+      trainingDataLink
+    );
     return create_model;
-    
-  }  
+  };
   const onBackClick = () => {
     setActiveSection(activeSection - 1);
   };
@@ -108,22 +114,37 @@ const CreateModel = ({ classes, training ,
   const createModelTabs = [
     {
       key: "modelInfo",
-      component: <ModelInfo handleNextClick={handleNextClick} training={training}
-      trainingMethod={trainingMethod} setTrainingMethod={setTrainingMethod}
-      trainingModelServiceName={trainingModelServiceName} setTrainingModelServiceName={setTrainingModelServiceName}
-      trainingModelDescription={trainingModelDescription} setTrainingModelDescription={setTrainingModelDescription}
-      enableAccessModel={enableAccessModel} setEnableAccessModel={setEnableAccessModel}
-      ethAddress={ethAddress} setEthAddress={setEthAddress}
-      metamaskConnected={metamaskConnected}  setMetamaskConnected={setMetamaskConnected}
-      handleConnectMM={handleConnectMM}
-      />,
+      component: (
+        <ModelInfo
+          handleNextClick={handleNextClick}
+          training={training}
+          trainingMethod={trainingMethod}
+          setTrainingMethod={setTrainingMethod}
+          trainingModelServiceName={trainingModelServiceName}
+          setTrainingModelServiceName={setTrainingModelServiceName}
+          trainingModelDescription={trainingModelDescription}
+          setTrainingModelDescription={setTrainingModelDescription}
+          enableAccessModel={enableAccessModel}
+          setEnableAccessModel={setEnableAccessModel}
+          ethAddress={ethAddress}
+          setEthAddress={setEthAddress}
+          metamaskConnected={metamaskConnected}
+          setMetamaskConnected={setMetamaskConnected}
+          handleConnectMM={handleConnectMM}
+        />
+      ),
     },
     {
       key: "data",
-      component: <Data handleNextClick={handleNextClick} onBackClick={onBackClick}
-      trainingDataLink={trainingDataLink} setTrainingDataLink={setTrainingDataLink}
-      handleNextClickCreateModel={handleNextClickCreateModel}
-      />,
+      component: (
+        <Data
+          handleNextClick={handleNextClick}
+          onBackClick={onBackClick}
+          trainingDataLink={trainingDataLink}
+          setTrainingDataLink={setTrainingDataLink}
+          handleNextClickCreateModel={handleNextClickCreateModel}
+        />
+      ),
     },
     {
       key: "payment",
@@ -154,7 +175,6 @@ const CreateModel = ({ classes, training ,
   );
 };
 
-
 const mapStateToProps = state => ({
   wallet: state.userReducer.wallet,
   serviceDetails: currentServiceDetails(state),
@@ -169,7 +189,4 @@ const mapDispatchToProps = dispatch => ({
   stopLoader: () => dispatch(loaderActions.stopAppLoader),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps) (withStyles(useStyles)(CreateModel));
-
-
-
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(CreateModel));

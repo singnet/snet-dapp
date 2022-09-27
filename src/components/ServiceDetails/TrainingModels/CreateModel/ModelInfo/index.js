@@ -9,15 +9,27 @@ import StyledTextField from "../../../../common/StyledTextField";
 import StyledButton from "../../../../common/StyledButton";
 import { useStyles } from "./styles";
 
-
-const ModelInfo = ({ classes, handleNextClick, training ,enableAccessModel, setEnableAccessModel,ethAddress, setEthAddress,trainingMethod, setTrainingMethod,trainingModelServiceName, setTrainingModelServiceName, trainingModelDescription, setTrainingModelDescription,metamaskConnected, setMetamaskConnected,handleConnectMM,
+const ModelInfo = ({
+  classes,
+  handleNextClick,
+  training,
+  enableAccessModel,
+  setEnableAccessModel,
+  ethAddress,
+  setEthAddress,
+  trainingMethod,
+  setTrainingMethod,
+  trainingModelServiceName,
+  setTrainingModelServiceName,
+  trainingModelDescription,
+  setTrainingModelDescription,
+  metamaskConnected,
+  setMetamaskConnected,
+  handleConnectMM,
 }) => {
-  
   const onAccessModelSwitchChange = () => {
     setEnableAccessModel(!enableAccessModel);
   };
-
-  
 
   const trainingModelAccess = training.training_methods;
   const trainingDropDownObject = trainingModelAccess.map(e => ({
@@ -31,13 +43,12 @@ const ModelInfo = ({ classes, handleNextClick, training ,enableAccessModel, setE
     }
   };
 
-  const handleModelServiceName = event =>{
+  const handleModelServiceName = event => {
     setTrainingModelServiceName(event.target.value);
-  }
-  const handleModelDescription = event =>{
+  };
+  const handleModelDescription = event => {
     setTrainingModelDescription(event.target.value);
-  }
-  
+  };
 
   const addEthAddress = text => setEthAddress([...ethAddress, { text }]);
 
@@ -53,7 +64,6 @@ const ModelInfo = ({ classes, handleNextClick, training ,enableAccessModel, setE
     setEthAddress(newEthAddress);
   };
 
-
   return (
     <div className={classes.modelInfoContaienr}>
       <div className={classes.trainingBasicDetails}>
@@ -68,9 +78,7 @@ const ModelInfo = ({ classes, handleNextClick, training ,enableAccessModel, setE
           <span>Please select a method to train as a first step.</span>
         </div>
         <div className={classes.modelNameContainer}>
-          <StyledTextField label="Model name" 
-          onChange ={handleModelServiceName}
-          />
+          <StyledTextField label="Model name" onChange={handleModelServiceName} />
           <span>The name of your service can not be same name as another service.</span>
         </div>
         <div className={classes.modelDescriptionContainer}>
@@ -109,20 +117,15 @@ const ModelInfo = ({ classes, handleNextClick, training ,enableAccessModel, setE
                 <DeleteOutlineIcon onClick={() => removeEthAddress(index)} />
               </div>
             ))}
-            <AddMoreEthAddress addEthAddress={addEthAddress}  />
+            <AddMoreEthAddress addEthAddress={addEthAddress} />
           </div>
         ) : null}
       </div>
       <div className={classes.btnContainer}>
         <StyledButton btnText="Next" onClick={handleNextClick} />
-        {/* <StyledButton btnText="Next" onClick={(metamaskConnected?handleNextClick:
-          handleConnectMM)
-        } /> */}
       </div>
     </div>
   );
 };
 
-
 export default withStyles(useStyles)(ModelInfo);
-

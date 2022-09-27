@@ -5,10 +5,14 @@ import StyledButton from "../../../../common/StyledButton";
 import fileDownload from "../../../../../assets/images/fileDownload.svg";
 import { useStyles } from "./styles";
 
-const Data = ({ classes, handleNextClick, onBackClick,trainingDataLink, setTrainingDataLink,
-  handleNextClickCreateModel
+const Data = ({
+  classes,
+  handleNextClick,
+  onBackClick,
+  trainingDataLink,
+  setTrainingDataLink,
+  handleNextClickCreateModel,
 }) => {
-  
   return (
     <div className={classes.modelDataContaienr}>
       <div className={classes.createDatasetContainer}>
@@ -24,11 +28,10 @@ const Data = ({ classes, handleNextClick, onBackClick,trainingDataLink, setTrain
       </div>
       <div className={classes.uploadDatasetContainer}>
         <span>Upload your dataset</span>
-        <Upload trainingDataLink={trainingDataLink} setTrainingDataLink={setTrainingDataLink}/>
+        <Upload trainingDataLink={trainingDataLink} setTrainingDataLink={setTrainingDataLink} />
       </div>
       <div className={classes.btnContainer}>
         <StyledButton btnText="Back" type="transparent" onClick={onBackClick} />
-        {/* <StyledButton btnText="Next" type="blue" onClick={handleNextClick} /> */}
         <StyledButton btnText="Next" type="blue" onClick={handleNextClickCreateModel} />
       </div>
     </div>
