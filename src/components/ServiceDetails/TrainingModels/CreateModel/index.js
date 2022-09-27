@@ -74,8 +74,6 @@ const CreateModel = ({ classes, training ,
 
   useEffect(() => {
     if (wallet.address) {
-      // dispatch(loaderActions.startAppLoader(LoaderContent.FETCH_TRAINING_EXISTING_MODEL));
-      // dispatch(loaderActions.startAppLoader(LoaderContent.CREATE_TRAINING_MODEL));
       createANewOne();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
