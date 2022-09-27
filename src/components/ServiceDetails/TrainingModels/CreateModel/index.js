@@ -34,7 +34,17 @@ const CreateModel = ({ classes, training ,
 
   const [metamaskConnected, setMetamaskConnected] = useState(false);
   const [activeSection, setActiveSection] = React.useState(1);
-
+  const [enableAccessModel, setEnableAccessModel] = useState(false);
+  const [ethAddress, setEthAddress] = useState([]);
+  const [trainingMethod, setTrainingMethod] = useState(undefined);
+  const [trainingModelServiceName, setTrainingModelServiceName] = useState("");
+  const [trainingModelDescription, setTrainingModelDescription] = useState("");
+  const [trainingDataLink,setTrainingDataLink] = useState("");
+  const [serviceClientState,setServiceClientState] = useState({});
+ 
+  
+  const  ethAddressToPass = ethAddress.map(e=>(e.text));
+  
   const handleNextClick = () => {
     handleConnectMM();
     setActiveSection(activeSection + 1);   
@@ -80,39 +90,19 @@ const CreateModel = ({ classes, training ,
     setMetamaskConnected(true);
     stopLoader();
   };
-  // console.log(ethAddress,'ethaddress');
-  //create_model for Nexttt
+  
   const create_model = async () => {
-    // const sdk = await initSdk();
-    // const { org_id, service_id } = serviceDetails;
-    // const serviceClient = new ServiceClient(sdk, org_id, service_id, sdk._mpeContract, {}, groupInfo);
-    
     console.log(trainingModelDescription,'description');
     console.log(trainingDataLink,"trainingDataLink");
     console.log(ethAddress,'ethaddress');
     const createModel = await createModelForTraining(serviceClientState);
     console.log(createModel,"----createModel---");
-
-    // setMetamaskConnected(true);
-    // stopLoader();
   };
   const createModelForTraining = async (serviceClientState) =>{
-    const create_model = await serviceClientState.createModel(trainingMethod,wallet.address,trainingModelServiceName,trainingModelDescription,enableAccessModel,ethAddress,trainingDataLink);
+    const create_model = await serviceClientState.createModel(trainingMethod,wallet.address,trainingModelServiceName,trainingModelDescription,enableAccessModel,ethAddressToPass,trainingDataLink);
     return create_model;
     
-  }
-
-    
-  //copy
-  const [enableAccessModel, setEnableAccessModel] = useState(false);
-  const [ethAddress, setEthAddress] = useState([]);
-  const [trainingMethod, setTrainingMethod] = useState(undefined);
-  const [trainingModelServiceName, setTrainingModelServiceName] = useState("");
-  const [trainingModelDescription, setTrainingModelDescription] = useState("");
-  const [trainingDataLink,setTrainingDataLink] = useState("");
-  const [serviceClientState,setServiceClientState] = useState({});
-  //
-  
+  }  
   const onBackClick = () => {
     setActiveSection(activeSection - 1);
   };
@@ -166,7 +156,6 @@ const CreateModel = ({ classes, training ,
   );
 };
 
-//create model
 
 const mapStateToProps = state => ({
   wallet: state.userReducer.wallet,
@@ -182,8 +171,6 @@ const mapDispatchToProps = dispatch => ({
   stopLoader: () => dispatch(loaderActions.stopAppLoader),
 });
 
-
-// export default withStyles(useStyles)(CreateModel);
 export default connect(mapStateToProps, mapDispatchToProps) (withStyles(useStyles)(CreateModel));
 
 
