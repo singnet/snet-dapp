@@ -1,21 +1,32 @@
-import React, { useState } from "react";
-
+import React from "react";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import { withStyles } from "@material-ui/styles";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
-
 import AddMoreEthAddress from "./AddMoreEthAddress";
 import StyledDropdown from "../../../../common/StyledDropdown";
 import StyledTextField from "../../../../common/StyledTextField";
 import StyledButton from "../../../../common/StyledButton";
 import { useStyles } from "./styles";
 
-const ModelInfo = ({ classes, handleNextClick, training }) => {
-  const [enableAccessModel, setEnableAccessModel] = useState(false);
-  const [ethAddress, setEthAddress] = useState([]);
-  const [trainingmethod, setTrainingMethod] = useState(undefined);
-
+const ModelInfo = ({
+  classes,
+  handleNextClick,
+  training,
+  enableAccessModel,
+  setEnableAccessModel,
+  ethAddress,
+  setEthAddress,
+  trainingMethod,
+  setTrainingMethod,
+  trainingModelServiceName,
+  setTrainingModelServiceName,
+  trainingModelDescription,
+  setTrainingModelDescription,
+  metamaskConnected,
+  setMetamaskConnected,
+  handleConnectMM,
+}) => {
   const onAccessModelSwitchChange = () => {
     setEnableAccessModel(!enableAccessModel);
   };
@@ -30,6 +41,13 @@ const ModelInfo = ({ classes, handleNextClick, training }) => {
     if (value !== "default") {
       setTrainingMethod(value);
     }
+  };
+
+  const handleModelServiceName = event => {
+    setTrainingModelServiceName(event.target.value);
+  };
+  const handleModelDescription = event => {
+    setTrainingModelDescription(event.target.value);
   };
 
   const addEthAddress = text => setEthAddress([...ethAddress, { text }]);
@@ -54,13 +72,13 @@ const ModelInfo = ({ classes, handleNextClick, training }) => {
             labelTxt="Select Method"
             inputLabel="Training Method"
             list={trainingDropDownObject}
-            value={trainingmethod}
+            value={trainingMethod}
             onChange={trainingMethodDropDownBox}
           />
           <span>Please select a method to train as a first step.</span>
         </div>
         <div className={classes.modelNameContainer}>
-          <StyledTextField label="Model name" />
+          <StyledTextField label="Model name" onChange={handleModelServiceName} />
           <span>The name of your service can not be same name as another service.</span>
         </div>
         <div className={classes.modelDescriptionContainer}>
@@ -71,7 +89,7 @@ const ModelInfo = ({ classes, handleNextClick, training }) => {
             multiline
             rows={5}
             rowsMax="10"
-            // onChange={handleModelDescription}
+            onChange={handleModelDescription}
             inputProps={{ maxLength: 500 }}
             InputLabelProps={{ shrink: true }}
           />

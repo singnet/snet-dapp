@@ -3,7 +3,7 @@ import { withStyles } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
-import DoneIcon from '@material-ui/icons/Done';
+import DoneIcon from "@material-ui/icons/Done";
 
 import { useStyles } from "./styles";
 import PaymentMode from "./PaymentMode";
