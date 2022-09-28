@@ -1,32 +1,76 @@
-import React from "react";
+import React, { useState } from "react";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import { withStyles } from "@material-ui/styles";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import { WebServiceClient as ServiceClient } from "snet-sdk-web";
 import AddMoreEthAddress from "./AddMoreEthAddress";
 import StyledDropdown from "../../../../common/StyledDropdown";
 import StyledTextField from "../../../../common/StyledTextField";
 import StyledButton from "../../../../common/StyledButton";
 import { useStyles } from "./styles";
+import { connect, useDispatch } from "react-redux";
+import { loaderActions, userActions } from "../../../../../Redux/actionCreators";
+import { LoaderContent } from "../../../../../utility/constants/LoaderContent";
+import { initSdk } from "../../../../../utility/sdk";
+import { walletTypes } from "../../../../../Redux/actionCreators/UserActions";
+import { currentServiceDetails, groupInfo } from "../../../../../Redux/reducers/ServiceDetailsReducer";
 
 const ModelInfo = ({
   classes,
   handleNextClick,
   training,
-  enableAccessModel,
-  setEnableAccessModel,
-  ethAddress,
-  setEthAddress,
-  trainingMethod,
-  setTrainingMethod,
-  trainingModelServiceName,
-  setTrainingModelServiceName,
-  trainingModelDescription,
-  setTrainingModelDescription,
-  metamaskConnected,
-  setMetamaskConnected,
-  handleConnectMM,
+  groupInfo,
+  serviceDetails,
+  startMMconnectLoader,
+  fetchAvailableUserWallets,
+  stopLoader,
+  registerWallet,
+  updateWallet,
 }) => {
+  const [enableAccessModel, setEnableAccessModel] = useState(false);
+  const [ethAddress, setEthAddress] = useState([]);
+  const [trainingMethod, setTrainingMethod] = useState(undefined);
+  // eslint-disable-next-line
+  const [trainingModelServiceName, setTrainingModelServiceName] = useState("");
+  const [trainingModelDescription, setTrainingModelDescription] = useState("");
+  const dispatch = useDispatch();
+
+  const createModel = async (sdk, address) => {
+    const { org_id, service_id } = serviceDetails;
+    const serviceClient = new ServiceClient(sdk, org_id, service_id, sdk._mpeContract, {}, groupInfo);
+    // Note: Passing service name blank string becasuse with value it's not working issue is from demon.
+    const params = {
+      method: trainingMethod,
+      name: "",
+      description: trainingModelDescription,
+      enableAccess: enableAccessModel,
+      address: ethAddress.map(e => e.text),
+    };
+    const create_model = await serviceClient.createModel(address, params);
+    console.log("========createdModel===", create_model);
+    stopLoader();
+  };
+
+  const onNext = async () => {
+    try {
+      startMMconnectLoader();
+      const sdk = await initSdk();
+      const address = await sdk.account.getAddress();
+      const availableUserWallets = await fetchAvailableUserWallets();
+      const addressAlreadyRegistered = availableUserWallets.some(wallet => wallet.address.toLowerCase() === address);
+
+      if (!addressAlreadyRegistered) {
+        await registerWallet(address, walletTypes.METAMASK);
+      }
+      updateWallet({ type: walletTypes.METAMASK, address });
+      dispatch(loaderActions.startAppLoader(LoaderContent.CREATE_TRAINING_MODEL));
+      await createModel(sdk, address);
+      handleNextClick();
+    } catch (error) {
+      console.log("===error==", error);
+    }
+  };
   const onAccessModelSwitchChange = () => {
     setEnableAccessModel(!enableAccessModel);
   };
@@ -54,7 +98,7 @@ const ModelInfo = ({
 
   const toggleEthAddress = index => {
     const newTEthAddress = [...ethAddress];
-    newTEthAddress[index].isCompleted = !newTEthAddress[index].isCompleted;
+    newTEthAddress[index].isCompleted = !newTEthAddress[index]?.isCompleted;
     setEthAddress(newTEthAddress);
   };
 
@@ -112,7 +156,7 @@ const ModelInfo = ({
           <div className={classes.ethAddressContainer}>
             <span>Ethereum addresses</span>
             {ethAddress.map((address, index) => (
-              <div className={classes.addedEthAdd}>
+              <div key={index.toString()} className={classes.addedEthAdd}>
                 <span onClick={() => toggleEthAddress(index)}>{address.text}</span>
                 <DeleteOutlineIcon onClick={() => removeEthAddress(index)} />
               </div>
@@ -122,10 +166,24 @@ const ModelInfo = ({
         ) : null}
       </div>
       <div className={classes.btnContainer}>
-        <StyledButton btnText="Next" onClick={handleNextClick} />
+        <StyledButton btnText="Next" onClick={onNext} />
       </div>
     </div>
   );
 };
 
-export default withStyles(useStyles)(ModelInfo);
+const mapStateToProps = state => ({
+  wallet: state.userReducer.wallet,
+  serviceDetails: currentServiceDetails(state),
+  groupInfo: groupInfo(state),
+});
+
+const mapDispatchToProps = dispatch => ({
+  startMMconnectLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.CONNECT_METAMASK)),
+  fetchAvailableUserWallets: () => dispatch(userActions.fetchAvailableUserWallets()),
+  registerWallet: (address, type) => dispatch(userActions.registerWallet(address, type)),
+  updateWallet: ({ type, address }) => dispatch(userActions.updateWallet({ type, address })),
+  stopLoader: () => dispatch(loaderActions.stopAppLoader),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(ModelInfo));
