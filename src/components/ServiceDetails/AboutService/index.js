@@ -10,8 +10,6 @@ import ProjectDetails from "../ProjectDetails";
 import MediaGallery from "../MediaGallery";
 import PromoBox from "./PromoBox";
 import ExistingModel from "../ExistingModel";
-import { LoaderContent } from "../../../utility/constants/LoaderContent";
-import { loaderActions, userActions } from "../../../Redux/actionCreators";
 
 const AboutService = ({
   classes,
@@ -75,15 +73,6 @@ const AboutService = ({
 
 const mapStateToProps = state => ({
   isLoggedIn: state.userReducer.login.isLoggedIn,
-  wallet: state.userReducer.wallet,
 });
 
-const mapDispatchToProps = dispatch => ({
-  startMMconnectLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.CONNECT_METAMASK)),
-  updateWallet: ({ type, address }) => dispatch(userActions.updateWallet({ type, address })),
-  registerWallet: (address, type) => dispatch(userActions.registerWallet(address, type)),
-  fetchAvailableUserWallets: () => dispatch(userActions.fetchAvailableUserWallets()),
-  stopLoader: () => dispatch(loaderActions.stopAppLoader),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(AboutService));
+export default connect(mapStateToProps)(withStyles(useStyles)(AboutService));

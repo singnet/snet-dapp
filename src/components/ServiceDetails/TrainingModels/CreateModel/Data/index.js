@@ -1,18 +1,11 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { withStyles } from "@material-ui/styles";
 import Upload from "./Upload";
 import StyledButton from "../../../../common/StyledButton";
 import fileDownload from "../../../../../assets/images/fileDownload.svg";
 import { useStyles } from "./styles";
 
-const Data = ({
-  classes,
-  handleNextClick,
-  onBackClick,
-  trainingDataLink,
-  setTrainingDataLink,
-  handleNextClickCreateModel,
-}) => {
+const Data = ({ classes, handleNextClick, onBackClick, trainingDataLink, setTrainingDataLink }) => {
   return (
     <div className={classes.modelDataContaienr}>
       <div className={classes.createDatasetContainer}>
@@ -32,7 +25,7 @@ const Data = ({
       </div>
       <div className={classes.btnContainer}>
         <StyledButton btnText="Back" type="transparent" onClick={onBackClick} />
-        <StyledButton btnText="Next" type="blue" onClick={handleNextClickCreateModel} />
+        <StyledButton btnText="Next" type="blue" onClick={handleNextClick} />
       </div>
     </div>
   );
