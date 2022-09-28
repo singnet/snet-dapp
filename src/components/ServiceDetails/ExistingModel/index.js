@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { withStyles } from "@material-ui/styles";
 import { WebServiceClient as ServiceClient } from "snet-sdk-web";
@@ -11,6 +11,7 @@ import { walletTypes } from "../../../Redux/actionCreators/UserActions";
 import { loaderActions, userActions } from "../../../Redux/actionCreators";
 import { LoaderContent } from "../../../utility/constants/LoaderContent";
 import { currentServiceDetails, groupInfo } from "../../../Redux/reducers/ServiceDetailsReducer";
+import Typography from "@material-ui/core/Typography";
 
 const ExistingModel = ({
   classes,
@@ -20,39 +21,21 @@ const ExistingModel = ({
   stopLoader,
   registerWallet,
   updateWallet,
-  wallet,
   training,
   serviceDetails,
   groupInfo,
   haveANewModel,
 }) => {
   const [metamaskConnected, setMetamaskConnected] = useState(false);
+  const [existingModels, setExistingModels] = useState([]);
   const dispatch = useDispatch();
-  const getExistingModel = async () => {
-    const sdk = await initSdk();
+
+  const getTrainingModels = async (sdk, address) => {
     const { org_id, service_id } = serviceDetails;
-    console.log({ serviceDetails, groupInfo });
     const serviceClient = new ServiceClient(sdk, org_id, service_id, sdk._mpeContract, {}, groupInfo);
-    const existingModel = await getTrainingModels(serviceClient);
-    console.log("===existing models==", existingModel);
-    setMetamaskConnected(true);
-    stopLoader();
-  };
-
-  useEffect(() => {
-    if (wallet.address) {
-      dispatch(loaderActions.startAppLoader(LoaderContent.FETCH_TRAINING_EXISTING_MODEL));
-      getExistingModel();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [wallet]);
-
-  const getTrainingModels = serviceClient => {
-    const promises = training.training_methods.map(async method => {
-      const existingModel = await serviceClient.getExistingModel(method, wallet.address);
-      return existingModel.array;
-    });
-    return Promise.all(promises);
+    const promises = training.training_methods.map(method => serviceClient.getExistingModel(method, address));
+    const response = await Promise.all(promises);
+    return response.flat();
   };
 
   const handleConnectMM = async () => {
@@ -67,24 +50,46 @@ const ExistingModel = ({
         await registerWallet(address, walletTypes.METAMASK);
       }
       updateWallet({ type: walletTypes.METAMASK, address });
+      dispatch(loaderActions.startAppLoader(LoaderContent.FETCH_TRAINING_EXISTING_MODEL));
+      const existingModel = await getTrainingModels(sdk, address);
+      setExistingModels(existingModel);
+      setMetamaskConnected(true);
+      stopLoader();
     } catch (error) {
       console.log("===error==", error);
     }
   };
 
+  const ModelList = useCallback(() => {
+    if (existingModels.length) {
+      return existingModels.map(model => {
+        return (
+          <div key={model.modelId}>
+            <ModelDetails
+              title="Region Recognition"
+              id={model.modelId}
+              description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley."
+              status="Inprogress"
+              accessTo="Public"
+              lastUpdate="12-Aug-2022"
+            />
+          </div>
+        );
+      });
+    } else {
+      return (
+        <div className={classes.btnContainer}>
+          <Typography>No data found</Typography>
+        </div>
+      );
+    }
+  }, [classes.btnContainer, existingModels]);
   return (
     <div className={classes.existingModelContainer}>
       <h2>Existing Model</h2>
       {metamaskConnected ? (
         <>
-          <ModelDetails
-            title="Region Recognition"
-            id="4432"
-            description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley."
-            status="Inprogress"
-            accessTo="Public"
-            lastUpdate="12-Aug-2022"
-          />
+          <ModelList />
           {showReqNewModelBtn && haveANewModel === true ? (
             <div className={classes.btnContainer}>
               <StyledButton btnText="request a new model" />
