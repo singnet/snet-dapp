@@ -119,7 +119,6 @@ const Payment = ({ classes, handleNextClick }) => {
           <span>Auto Save</span>
         )}
         <StyledButton btnText="submit request" disabled onClick={handleNextClick} />
-        {/* <StyledButton btnText="submit request"  onClick={handleNextClick} /> */}
         <StyledButton btnText="finish later" type="transparent" />
       </div>
     </div>
