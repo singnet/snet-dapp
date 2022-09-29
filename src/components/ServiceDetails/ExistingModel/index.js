@@ -59,7 +59,6 @@ const ExistingModel = ({
       console.log("===error==", error);
     }
   };
-  console.log('metamask connect', metamaskConnected)
 
   const ModelList = useCallback(() => {
     if (existingModels.length) {
