@@ -1,38 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 import { withStyles } from "@material-ui/styles";
 
 import { useStyles } from "./styles";
 import CreateModelContainer from "./CreateModelContainer";
 import ModelInfo from "./ModelInfo";
-import Data from './Data';
+import Data from "./Data";
 import Payment from "./Payment";
-import Finish from './Finish';
+import Finish from "./Finish";
 
-const CreateModel = ({ classes }) => {
+const CreateModel = ({ service, classes, training }) => {
   const [activeSection, setActiveSection] = React.useState(1);
+  const [trainingDataLink, setTrainingDataLink] = useState("");
 
   const handleNextClick = () => {
-    console.log('before', activeSection)
     setActiveSection(activeSection + 1);
-    console.log('after', activeSection)
+  };
+
+  const onBackClick = () => {
+    setActiveSection(activeSection - 1);
   };
 
   const createModelTabs = [
     {
       key: "modelInfo",
-      component: <ModelInfo handleNextClick={handleNextClick} />,
+      component: <ModelInfo handleNextClick={handleNextClick} training={training} />,
     },
     {
       key: "data",
-      component: <Data handleNextClick={handleNextClick} />,
+      component: (
+        <Data
+          handleNextClick={handleNextClick}
+          onBackClick={onBackClick}
+          trainingDataLink={trainingDataLink}
+          setTrainingDataLink={setTrainingDataLink}
+        />
+      ),
     },
     {
       key: "payment",
-      component: <Payment handleNextClick={handleNextClick} />
+      component: <Payment handleNextClick={handleNextClick} service={service} />,
     },
     {
       key: "finish",
-      component: <Finish />
+      component: <Finish />,
     },
   ];
 

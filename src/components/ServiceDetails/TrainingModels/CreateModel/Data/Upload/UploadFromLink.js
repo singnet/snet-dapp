@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { withStyles, styled } from "@material-ui/styles";
 import InputBase from "@material-ui/core/InputBase";
 import SubdirectoryArrowLeftIcon from "@material-ui/icons/SubdirectoryArrowLeft";
@@ -10,7 +10,7 @@ const Search = styled("div")(({ theme }) => ({
   borderRadius: 4,
   display: "flex",
   justifyContent: "space-between",
-  alignItems: 'center',
+  alignItems: "center",
   backgroundColor: theme.palette.text.white,
   //   [theme.breakpoints.up("sm")]: {
   //     marginLeft: theme.spacing(1),
@@ -28,11 +28,20 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   fontSize: 14,
 }));
 
-const UploadFromLink = ({ classes }) => {
+const UploadFromLink = ({ classes, trainingDataLink, setTrainingDataLink }) => {
+  const handleTrainingDataLinkBox = event => {
+    setTrainingDataLink(event.target.value);
+  };
+
   return (
     <div className={classes.uploadFromLinkContainer}>
       <Search>
-        <StyledInputBase placeholder="URL: http://www.url.com/file" inputProps={{ "aria-label": "search" }} />
+        <StyledInputBase
+          placeholder="URL: http://www.url.com/file"
+          inputProps={{ "aria-label": "search" }}
+          trainingDataLink={trainingDataLink}
+          onChange={handleTrainingDataLinkBox}
+        />
         <SearchIconWrapper>
           <SubdirectoryArrowLeftIcon />
         </SearchIconWrapper>

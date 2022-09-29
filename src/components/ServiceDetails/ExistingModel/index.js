@@ -1,40 +1,41 @@
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import Web3 from "web3";
+import React, { useCallback, useState } from "react";
+import { connect, useDispatch } from "react-redux";
 import { withStyles } from "@material-ui/styles";
+import { WebServiceClient as ServiceClient } from "snet-sdk-web";
 import ModelDetails from "./ModelDetails";
 import StyledButton from "../../common/StyledButton";
 import { useStyles } from "./styles";
 import ConnectMetamask from "../ConnectMetamask";
 import { initSdk } from "../../../utility/sdk";
 import { walletTypes } from "../../../Redux/actionCreators/UserActions";
-import { alertTypes } from "../../common/AlertBox";
 import { loaderActions, userActions } from "../../../Redux/actionCreators";
 import { LoaderContent } from "../../../utility/constants/LoaderContent";
+import { currentServiceDetails, groupInfo } from "../../../Redux/reducers/ServiceDetailsReducer";
+import Typography from "@material-ui/core/Typography";
 
-const web3 = new Web3(process.env.REACT_APP_WEB3_PROVIDER, null, {});
-
-const ExistingModel = ({ classes, showReqNewModelBtn,  startMMconnectLoader, fetchAvailableUserWallets, stopLoader, registerWallet, updateWallet, wallet,training,haveANewModel }) => {
+const ExistingModel = ({
+  classes,
+  showReqNewModelBtn,
+  startMMconnectLoader,
+  fetchAvailableUserWallets,
+  stopLoader,
+  registerWallet,
+  updateWallet,
+  training,
+  serviceDetails,
+  groupInfo,
+  haveANewModel,
+}) => {
   const [metamaskConnected, setMetamaskConnected] = useState(false);
-  const [alert, setAlert] = useState({});
+  const [existingModels, setExistingModels] = useState([]);
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log('wallet', wallet.address)
-    if (wallet.address) {
-      setMetamaskConnected(true);
-      generateSignature(wallet.address);
-    }
-  }, [wallet]);
-
-  const generateSignature = async address => {
-    const currentBlockNumber = await web3.eth.getBlockNumber();
-    const sha3Message = await web3.utils.soliditySha3(
-      { type: "string", value: "Signature for existing models" },
-      { type: "string", value: address },
-      { type: "uint64", value: currentBlockNumber }
-    );
-    const { signature } = await web3.eth.accounts.sign(sha3Message, address);
-    console.log({ signature });
+  const getTrainingModels = async (sdk, address) => {
+    const { org_id, service_id } = serviceDetails;
+    const serviceClient = new ServiceClient(sdk, org_id, service_id, sdk._mpeContract, {}, groupInfo);
+    const promises = training.training_methods.map(method => serviceClient.getExistingModel(method, address));
+    const response = await Promise.all(promises);
+    return response.flat();
   };
 
   const handleConnectMM = async () => {
@@ -49,46 +50,64 @@ const ExistingModel = ({ classes, showReqNewModelBtn,  startMMconnectLoader, fet
         await registerWallet(address, walletTypes.METAMASK);
       }
       updateWallet({ type: walletTypes.METAMASK, address });
-      console.log('@@@@@')
-      setMetamaskConnected(true)
+      dispatch(loaderActions.startAppLoader(LoaderContent.FETCH_TRAINING_EXISTING_MODEL));
+      const existingModel = await getTrainingModels(sdk, address);
+      setExistingModels(existingModel);
+      setMetamaskConnected(true);
+      stopLoader();
     } catch (error) {
-      console.log('error', error)
-      setAlert({ type: alertTypes.ERROR, message: error.message });
+      console.log("===error==", error);
     }
-    stopLoader();
   };
   console.log('metamask connect', metamaskConnected)
 
+  const ModelList = useCallback(() => {
+    if (existingModels.length) {
+      return existingModels.map(model => {
+        return (
+          <div key={model.modelId}>
+            <ModelDetails
+              title="Region Recognition"
+              id={model.modelId}
+              description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley."
+              status="Inprogress"
+              accessTo="Public"
+              lastUpdate="12-Aug-2022"
+            />
+          </div>
+        );
+      });
+    } else {
+      return (
+        <div className={classes.btnContainer}>
+          <Typography>No data found</Typography>
+        </div>
+      );
+    }
+  }, [classes.btnContainer, existingModels]);
   return (
     <div className={classes.existingModelContainer}>
       <h2>Existing Model</h2>
-      {
-        metamaskConnected ? (
-          <>
-            <ModelDetails
-            title="Region Recognition"
-            id="4432"
-            description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley."
-            status="Inprogress"
-            accessTo="Public"
-            lastUpdate="12-Aug-2022"
-          />
-          {showReqNewModelBtn && (haveANewModel === true) ? 
+      {metamaskConnected ? (
+        <>
+          <ModelList />
+          {showReqNewModelBtn && haveANewModel === true ? (
             <div className={classes.btnContainer}>
-              <StyledButton btnText="request a new model"/>
+              <StyledButton btnText="request a new model" />
             </div>
-          : null }
+          ) : null}
         </>
-        ) : (
-          <ConnectMetamask handleConnectMM={handleConnectMM} />
-        ) 
-      }
+      ) : (
+        <ConnectMetamask handleConnectMM={handleConnectMM} />
+      )}
     </div>
   );
 };
 
 const mapStateToProps = state => ({
   wallet: state.userReducer.wallet,
+  serviceDetails: currentServiceDetails(state),
+  groupInfo: groupInfo(state),
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -9,9 +9,9 @@ import ProjectDetails from "../ProjectDetails";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import CreateModel from "./CreateModel";
 
-const TrainingModels = ({ classes, service, haveANewModel }) => {
+const TrainingModels = ({ classes, service, haveANewModel, training }) => {
   const [showCreateModel, setShowCreateModel] = useState(false);
-  const [MMconnected, setMMConnected] = useState(true);
+  const [MMconnected] = useState(true);
 
   const handleRequestModel = () => {
     setShowCreateModel(true);
@@ -20,7 +20,7 @@ const TrainingModels = ({ classes, service, haveANewModel }) => {
   if (!MMconnected) {
     return (
       <Grid item xs={12} sm={12} md={8} lg={8} className={classes.leftSideSection}>
-        <ExistingModel />
+        <ExistingModel showReqNewModelBtn haveANewModel={haveANewModel} training={training} />
       </Grid>
     );
   }
@@ -29,7 +29,7 @@ const TrainingModels = ({ classes, service, haveANewModel }) => {
     <Grid container spacing={24} className={classes.trainingModelContainer}>
       <Grid item xs={12} sm={12} md={8} lg={8} className={classes.leftSideSection}>
         {showCreateModel ? (
-          <CreateModel />
+          <CreateModel training={training} />
         ) : (
           <>
             <div className={classes.requestModelContainer}>
@@ -44,7 +44,7 @@ const TrainingModels = ({ classes, service, haveANewModel }) => {
               {/* {haveANewModel ? <StyledButton btnText="request a new model" onClick={handleRequestModel} /> : null} */}
               <StyledButton btnText="request a new model" onClick={handleRequestModel} />
             </div>
-            <ExistingModel />
+            <ExistingModel showReqNewModelBtn haveANewModel={haveANewModel} training={training} />
           </>
         )}
       </Grid>

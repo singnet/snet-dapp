@@ -3,12 +3,14 @@ import { withStyles } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
+import DoneIcon from "@material-ui/icons/Done";
 
 import { useStyles } from "./styles";
 import PaymentMode from "./PaymentMode";
 import StyledButton from "../../../../common/StyledButton";
 
 const Payment = ({ classes, handleNextClick }) => {
+  const [autoSave, setAutoSave] = React.useState(true);
 
   const addEllipsisAtEndOfString = str => `${str.substr(0, 40)}...`;
 
@@ -108,7 +110,16 @@ const Payment = ({ classes, handleNextClick }) => {
       </div>
       <PaymentMode />
       <div className={classes.btnContainer}>
-        <StyledButton btnText="Continue" onClick={handleNextClick} />
+        {autoSave ? (
+          <div>
+            <DoneIcon />
+            <span>Auto Saved</span>
+          </div>
+        ) : (
+          <span>Auto Save</span>
+        )}
+        <StyledButton btnText="submit request" disabled onClick={handleNextClick} />
+        <StyledButton btnText="finish later" type="transparent" />
       </div>
     </div>
   );
