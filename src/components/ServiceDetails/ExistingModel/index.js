@@ -25,15 +25,21 @@ const ExistingModel = ({
   serviceDetails,
   groupInfo,
   haveANewModel,
+  wallet
+  
 }) => {
   const [metamaskConnected, setMetamaskConnected] = useState(false);
   const [existingModels, setExistingModels] = useState([]);
+  const [serviceClientState,setServiceClientState]=useState();
   const dispatch = useDispatch();
 
   const getTrainingModels = async (sdk, address) => {
     const { org_id, service_id } = serviceDetails;
     const serviceClient = new ServiceClient(sdk, org_id, service_id, sdk._mpeContract, {}, groupInfo);
+    setServiceClientState(serviceClient);
+    console.log(training,'-----training existingmodel----');
     const promises = training.training_methods.map(method => serviceClient.getExistingModel(method, address));
+    
     const response = await Promise.all(promises);
     return response.flat();
   };
@@ -60,6 +66,13 @@ const ExistingModel = ({
     }
   };
 
+//delete model
+const deleteModels = async (modelId) => {
+  const delete_model = await serviceClientState.deleteModel(modelId,wallet.address);
+  console.log(delete_model,"-------delete model---");
+};
+//
+
   const ModelList = useCallback(() => {
     if (existingModels.length) {
       return existingModels.map(model => {
@@ -72,6 +85,11 @@ const ExistingModel = ({
               status="Inprogress"
               accessTo="Public"
               lastUpdate="12-Aug-2022"
+              setMetamaskConnected={setMetamaskConnected}
+              metamaskConnected={metamaskConnected}
+              training={training}
+              // deleteModels={deleteModels}
+              deleteModels={() => deleteModels(model.modelId)}
             />
           </div>
         );
