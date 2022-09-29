@@ -4,10 +4,10 @@ import Switch from "@material-ui/core/Switch";
 import { withStyles } from "@material-ui/styles";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import { WebServiceClient as ServiceClient } from "snet-sdk-web";
-import AddMoreEthAddress from "./AddMoreEthAddress";
 import StyledDropdown from "../../../../common/StyledDropdown";
 import StyledTextField from "../../../../common/StyledTextField";
 import StyledButton from "../../../../common/StyledButton";
+import AddMoreEthAddress from "./AddMoreEthAddress";
 import { useStyles } from "./styles";
 import { connect, useDispatch } from "react-redux";
 import { loaderActions, userActions } from "../../../../../Redux/actionCreators";
@@ -108,6 +108,13 @@ const ModelInfo = ({
     setEthAddress(newEthAddress);
   };
 
+  const addEllipsisInBetweenString = (str) => {
+    if (str.length) {
+      return `${str.substr(0, 17)}...${str.substr(str.length - 17)}`;
+    }
+    return str;
+  };
+
   return (
     <div className={classes.modelInfoContaienr}>
       <div className={classes.trainingBasicDetails}>
@@ -157,7 +164,7 @@ const ModelInfo = ({
             <span>Ethereum addresses</span>
             {ethAddress.map((address, index) => (
               <div key={index.toString()} className={classes.addedEthAdd}>
-                <span onClick={() => toggleEthAddress(index)}>{address.text}</span>
+                <span onClick={() => toggleEthAddress(index)}>{addEllipsisInBetweenString(address.text)}</span>
                 <DeleteOutlineIcon onClick={() => removeEthAddress(index)} />
               </div>
             ))}

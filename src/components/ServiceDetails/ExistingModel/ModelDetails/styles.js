@@ -17,7 +17,6 @@ export const useStyles = theme => ({
       fontWeight: 300,
       lineHeight: "18px",
     },
-	'&:last-of-type': { marginBottom:  0 }
   },
   titleIdContainer: {
     display: "flex",

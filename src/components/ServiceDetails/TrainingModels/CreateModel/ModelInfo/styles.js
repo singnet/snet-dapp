@@ -123,6 +123,7 @@ export const useStyles = theme => ({
     "& svg": {
       marginRight: 10,
       fontSize: 20,
+      cursor: 'pointer'
     },
     "& span": { fontSize: 14 },
   },
