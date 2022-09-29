@@ -27,11 +27,11 @@ const ModelInfo = ({
   stopLoader,
   registerWallet,
   updateWallet,
+  setModelData,
 }) => {
   const [enableAccessModel, setEnableAccessModel] = useState(false);
   const [ethAddress, setEthAddress] = useState([]);
   const [trainingMethod, setTrainingMethod] = useState(undefined);
-  // eslint-disable-next-line
   const [trainingModelServiceName, setTrainingModelServiceName] = useState("");
   const [trainingModelDescription, setTrainingModelDescription] = useState("");
   const dispatch = useDispatch();
@@ -47,9 +47,7 @@ const ModelInfo = ({
       enableAccess: enableAccessModel,
       address: ethAddress.map(e => e.text),
     };
-    const create_model = await serviceClient.createModel(address, params);
-    console.log("========createdModel===", create_model);
-    stopLoader();
+    return await serviceClient.createModel(address, params);
   };
 
   const onNext = async () => {
@@ -65,7 +63,17 @@ const ModelInfo = ({
       }
       updateWallet({ type: walletTypes.METAMASK, address });
       dispatch(loaderActions.startAppLoader(LoaderContent.CREATE_TRAINING_MODEL));
-      await createModel(sdk, address);
+      const createdModelData = await createModel(sdk, address);
+      const data = {
+        modelId: createdModelData?.modelId || "",
+        method: trainingMethod,
+        name: trainingModelServiceName,
+        description: trainingModelDescription,
+        enableAccess: enableAccessModel,
+        address: createdModelData?.addressList || [],
+      };
+      setModelData(data);
+      stopLoader();
       handleNextClick();
     } catch (error) {
       console.log("===error==", error);

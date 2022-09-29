@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { withStyles } from "@material-ui/styles";
-
 import { useStyles } from "./styles";
 import CreateModelContainer from "./CreateModelContainer";
 import ModelInfo from "./ModelInfo";
@@ -10,7 +9,8 @@ import Finish from "./Finish";
 
 const CreateModel = ({ service, classes, training }) => {
   const [activeSection, setActiveSection] = React.useState(1);
-  const [trainingDataLink, setTrainingDataLink] = useState("");
+  const [modelData, setModelData] = useState({});
+  const [trainModelId, setTrainModelId] = useState();
 
   const handleNextClick = () => {
     setActiveSection(activeSection + 1);
@@ -23,7 +23,7 @@ const CreateModel = ({ service, classes, training }) => {
   const createModelTabs = [
     {
       key: "modelInfo",
-      component: <ModelInfo handleNextClick={handleNextClick} training={training} />,
+      component: <ModelInfo handleNextClick={handleNextClick} training={training} setModelData={setModelData} />,
     },
     {
       key: "data",
@@ -31,18 +31,25 @@ const CreateModel = ({ service, classes, training }) => {
         <Data
           handleNextClick={handleNextClick}
           onBackClick={onBackClick}
-          trainingDataLink={trainingDataLink}
-          setTrainingDataLink={setTrainingDataLink}
+          modelData={modelData}
+          setModelData={setModelData}
         />
       ),
     },
     {
       key: "payment",
-      component: <Payment handleNextClick={handleNextClick} service={service} />,
+      component: (
+        <Payment
+          handleNextClick={handleNextClick}
+          service={service}
+          modelData={modelData}
+          setTrainModelId={setTrainModelId}
+        />
+      ),
     },
     {
       key: "finish",
-      component: <Finish />,
+      component: <Finish trainModelId={trainModelId} />,
     },
   ];
 
