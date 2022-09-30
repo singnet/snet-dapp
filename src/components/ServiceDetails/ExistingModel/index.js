@@ -31,7 +31,6 @@ const ExistingModel = ({
   const [existingModels, setExistingModels] = useState([]);
   const [serviceClientState, setServiceClientState] = useState();
   const [sdkService, setSdkService] = useState();
-  const [addressService, setAddressService] = useState();
   const dispatch = useDispatch();
 
   const getTrainingModels = async (sdk, address) => {
@@ -49,7 +48,6 @@ const ExistingModel = ({
       const sdk = await initSdk();
       setSdkService(sdk);
       const address = await sdk.account.getAddress();
-      setAddressService(address);
       const availableUserWallets = await fetchAvailableUserWallets();
       const addressAlreadyRegistered = availableUserWallets.some(wallet => wallet.address.toLowerCase() === address);
 
@@ -70,7 +68,7 @@ const ExistingModel = ({
   const deleteModels = async (modelId, methodName) => {
     const modelName = "";
     const delete_model = await serviceClientState.deleteModel(modelId, wallet.address, methodName, modelName);
-    const existingModel = await getTrainingModels(sdkService, addressService);
+    const existingModel = await getTrainingModels(sdkService, wallet.address);
     setExistingModels(existingModel);
   };
 
