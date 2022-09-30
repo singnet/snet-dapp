@@ -4,10 +4,10 @@ import Switch from "@material-ui/core/Switch";
 import { withStyles } from "@material-ui/styles";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import { WebServiceClient as ServiceClient } from "snet-sdk-web";
-import AddMoreEthAddress from "./AddMoreEthAddress";
 import StyledDropdown from "../../../../common/StyledDropdown";
 import StyledTextField from "../../../../common/StyledTextField";
 import StyledButton from "../../../../common/StyledButton";
+import AddMoreEthAddress from "./AddMoreEthAddress";
 import { useStyles } from "./styles";
 import { connect, useDispatch } from "react-redux";
 import { loaderActions, userActions } from "../../../../../Redux/actionCreators";
@@ -27,11 +27,11 @@ const ModelInfo = ({
   stopLoader,
   registerWallet,
   updateWallet,
+  setModelData,
 }) => {
   const [enableAccessModel, setEnableAccessModel] = useState(false);
   const [ethAddress, setEthAddress] = useState([]);
   const [trainingMethod, setTrainingMethod] = useState(undefined);
-  // eslint-disable-next-line
   const [trainingModelServiceName, setTrainingModelServiceName] = useState("");
   const [trainingModelDescription, setTrainingModelDescription] = useState("");
   const dispatch = useDispatch();
@@ -47,9 +47,7 @@ const ModelInfo = ({
       enableAccess: enableAccessModel,
       address: ethAddress.map(e => e.text),
     };
-    const create_model = await serviceClient.createModel(address, params);
-    console.log("========createdModel===", create_model);
-    stopLoader();
+    return await serviceClient.createModel(address, params);
   };
 
   const onNext = async () => {
@@ -65,7 +63,17 @@ const ModelInfo = ({
       }
       updateWallet({ type: walletTypes.METAMASK, address });
       dispatch(loaderActions.startAppLoader(LoaderContent.CREATE_TRAINING_MODEL));
-      await createModel(sdk, address);
+      const createdModelData = await createModel(sdk, address);
+      const data = {
+        modelId: createdModelData?.modelId || "",
+        method: trainingMethod,
+        name: trainingModelServiceName,
+        description: trainingModelDescription,
+        enableAccess: enableAccessModel,
+        address: createdModelData?.addressList || [],
+      };
+      setModelData(data);
+      stopLoader();
       handleNextClick();
     } catch (error) {
       console.log("===error==", error);
@@ -106,6 +114,13 @@ const ModelInfo = ({
     const newEthAddress = [...ethAddress];
     newEthAddress.splice(index, 1);
     setEthAddress(newEthAddress);
+  };
+
+  const addEllipsisInBetweenString = (str) => {
+    if (str.length) {
+      return `${str.substr(0, 17)}...${str.substr(str.length - 17)}`;
+    }
+    return str;
   };
 
   return (
@@ -157,7 +172,7 @@ const ModelInfo = ({
             <span>Ethereum addresses</span>
             {ethAddress.map((address, index) => (
               <div key={index.toString()} className={classes.addedEthAdd}>
-                <span onClick={() => toggleEthAddress(index)}>{address.text}</span>
+                <span onClick={() => toggleEthAddress(index)}>{addEllipsisInBetweenString(address.text)}</span>
                 <DeleteOutlineIcon onClick={() => removeEthAddress(index)} />
               </div>
             ))}
