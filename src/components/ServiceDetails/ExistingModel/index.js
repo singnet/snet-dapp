@@ -25,14 +25,18 @@ const ExistingModel = ({
   serviceDetails,
   groupInfo,
   haveANewModel,
+  wallet,
 }) => {
   const [metamaskConnected, setMetamaskConnected] = useState(false);
   const [existingModels, setExistingModels] = useState([]);
+  const [serviceClientState, setServiceClientState] = useState();
+  const [sdkService, setSdkService] = useState();
   const dispatch = useDispatch();
 
   const getTrainingModels = async (sdk, address) => {
     const { org_id, service_id } = serviceDetails;
     const serviceClient = new ServiceClient(sdk, org_id, service_id, sdk._mpeContract, {}, groupInfo);
+    setServiceClientState(serviceClient);
     const promises = training.training_methods.map(method => serviceClient.getExistingModel(method, address));
     const response = await Promise.all(promises);
     return response.flat();
@@ -42,6 +46,7 @@ const ExistingModel = ({
     try {
       startMMconnectLoader();
       const sdk = await initSdk();
+      setSdkService(sdk);
       const address = await sdk.account.getAddress();
       const availableUserWallets = await fetchAvailableUserWallets();
       const addressAlreadyRegistered = availableUserWallets.some(wallet => wallet.address.toLowerCase() === address);
@@ -60,6 +65,13 @@ const ExistingModel = ({
     }
   };
 
+  const deleteModels = async (modelId, methodName) => {
+    const modelName = "";
+    const delete_model = await serviceClientState.deleteModel(modelId, wallet.address, methodName, modelName);
+    const existingModel = await getTrainingModels(sdkService, wallet.address);
+    setExistingModels(existingModel);
+  };
+
   const ModelList = useCallback(() => {
     if (existingModels.length) {
       return existingModels.map(model => {
@@ -72,6 +84,7 @@ const ExistingModel = ({
               status="Inprogress"
               accessTo="Public"
               lastUpdate="12-Aug-2022"
+              deleteModels={() => deleteModels(model.modelId, model.methodName)}
             />
           </div>
         );
