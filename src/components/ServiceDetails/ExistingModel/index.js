@@ -25,21 +25,20 @@ const ExistingModel = ({
   serviceDetails,
   groupInfo,
   haveANewModel,
-  wallet
-  
+  wallet,
 }) => {
   const [metamaskConnected, setMetamaskConnected] = useState(false);
   const [existingModels, setExistingModels] = useState([]);
-  const [serviceClientState,setServiceClientState]=useState();
+  const [serviceClientState, setServiceClientState] = useState();
+  const [sdkService, setSdkService] = useState();
+  const [addressService, setAddressService] = useState();
   const dispatch = useDispatch();
 
   const getTrainingModels = async (sdk, address) => {
     const { org_id, service_id } = serviceDetails;
     const serviceClient = new ServiceClient(sdk, org_id, service_id, sdk._mpeContract, {}, groupInfo);
     setServiceClientState(serviceClient);
-    console.log(training,'-----training existingmodel----');
     const promises = training.training_methods.map(method => serviceClient.getExistingModel(method, address));
-    
     const response = await Promise.all(promises);
     return response.flat();
   };
@@ -48,7 +47,9 @@ const ExistingModel = ({
     try {
       startMMconnectLoader();
       const sdk = await initSdk();
+      setSdkService(sdk);
       const address = await sdk.account.getAddress();
+      setAddressService(address);
       const availableUserWallets = await fetchAvailableUserWallets();
       const addressAlreadyRegistered = availableUserWallets.some(wallet => wallet.address.toLowerCase() === address);
 
@@ -66,12 +67,12 @@ const ExistingModel = ({
     }
   };
 
-//delete model
-const deleteModels = async (modelId,method,name) => {
-  const delete_model = await serviceClientState.deleteModel(modelId,wallet.address,method,name);
-  console.log(delete_model,"-------delete model---");
-};
-//
+  const deleteModels = async (modelId, methodName) => {
+    const modelName = "";
+    const delete_model = await serviceClientState.deleteModel(modelId, wallet.address, methodName, modelName);
+    const existingModel = await getTrainingModels(sdkService, addressService);
+    setExistingModels(existingModel);
+  };
 
   const ModelList = useCallback(() => {
     if (existingModels.length) {
@@ -81,15 +82,12 @@ const deleteModels = async (modelId,method,name) => {
             <ModelDetails
               title="Region Recognition"
               id={model.modelId}
+              idd={model}
               description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley."
               status="Inprogress"
               accessTo="Public"
               lastUpdate="12-Aug-2022"
-              setMetamaskConnected={setMetamaskConnected}
-              metamaskConnected={metamaskConnected}
-              training={training}
-              // deleteModels={deleteModels}
-              deleteModels={() => deleteModels(model.modelId, model.method,model.name)}
+              deleteModels={() => deleteModels(model.modelId, model.methodName)}
             />
           </div>
         );
