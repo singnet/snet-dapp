@@ -67,8 +67,8 @@ const ExistingModel = ({
   };
 
 //delete model
-const deleteModels = async (modelId) => {
-  const delete_model = await serviceClientState.deleteModel(modelId,wallet.address);
+const deleteModels = async (modelId,method,name) => {
+  const delete_model = await serviceClientState.deleteModel(modelId,wallet.address,method,name);
   console.log(delete_model,"-------delete model---");
 };
 //
@@ -89,7 +89,7 @@ const deleteModels = async (modelId) => {
               metamaskConnected={metamaskConnected}
               training={training}
               // deleteModels={deleteModels}
-              deleteModels={() => deleteModels(model.modelId)}
+              deleteModels={() => deleteModels(model.modelId, model.method,model.name)}
             />
           </div>
         );
