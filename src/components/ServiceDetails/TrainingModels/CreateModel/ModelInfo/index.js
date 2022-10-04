@@ -40,11 +40,12 @@ const ModelInfo = ({
     const { org_id, service_id } = serviceDetails;
     const serviceClient = new ServiceClient(sdk, org_id, service_id, sdk._mpeContract, {}, groupInfo);
     // Note: Passing service name blank string becasuse with value it's not working issue is from demon.
+    const serviceName = trainingMethod.split(".")[1].split("/")[0];
     const params = {
       method: trainingMethod,
-      name: "",
+      serviceName,
       description: trainingModelDescription,
-      enableAccess: enableAccessModel,
+      publicAccess: enableAccessModel,
       address: ethAddress.map(e => e.text),
     };
     return await serviceClient.createModel(address, params);
@@ -64,12 +65,13 @@ const ModelInfo = ({
       updateWallet({ type: walletTypes.METAMASK, address });
       dispatch(loaderActions.startAppLoader(LoaderContent.CREATE_TRAINING_MODEL));
       const createdModelData = await createModel(sdk, address);
+      console.log("===createdModelData=", createdModelData);
       const data = {
         modelId: createdModelData?.modelId || "",
         method: trainingMethod,
         name: trainingModelServiceName,
         description: trainingModelDescription,
-        enableAccess: enableAccessModel,
+        publicAccess: enableAccessModel,
         address: createdModelData?.addressList || [],
       };
       setModelData(data);
@@ -83,7 +85,7 @@ const ModelInfo = ({
     setEnableAccessModel(!enableAccessModel);
   };
 
-  const trainingModelAccess = training.training_methods;
+  const trainingModelAccess = training?.training_methods || [];
   const trainingDropDownObject = trainingModelAccess.map(e => ({
     value: e,
     label: e,
@@ -116,7 +118,7 @@ const ModelInfo = ({
     setEthAddress(newEthAddress);
   };
 
-  const addEllipsisInBetweenString = (str) => {
+  const addEllipsisInBetweenString = str => {
     if (str.length) {
       return `${str.substr(0, 17)}...${str.substr(str.length - 17)}`;
     }

@@ -106,11 +106,6 @@ class ServiceDetails extends Component {
     const {
       params: { orgId, serviceId },
     } = match;
-    let haveTrainingModel = Object.keys(training).length === 0 ? false : true;
-    let haveANewModel =
-      training !== undefined && (training.training_methods === undefined || training.training_methods.length === 0)
-        ? false
-        : true;
     if (isEmpty(service) || error) {
       if (loading) {
         return null;
@@ -135,9 +130,7 @@ class ServiceDetails extends Component {
             demoExampleRef={this.demoExampleRef}
             scrollToView={this.scrollToView}
             demoComponentRequired={!!service.demo_component_required}
-            haveTrainingModel={haveTrainingModel}
             training={training}
-            haveANewModel={haveANewModel}
           />
         ),
       },
@@ -152,14 +145,7 @@ class ServiceDetails extends Component {
       tabs.push({
         name: "Models",
         activeIndex: 2,
-        component: (
-          <TrainingModels
-            service={service}
-            groupId={groupInfo.group_id}
-            haveANewModel={haveANewModel}
-            training={training}
-          />
-        ),
+        component: <TrainingModels service={service} groupId={groupInfo.group_id} training={training} />,
       });
     }
 

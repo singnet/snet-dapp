@@ -108,4 +108,8 @@ export const LoaderContent = {
     loaderHeader: "Training model",
     loaderText: "Please wait. we're training model",
   },
+  DELETE_MODEL: {
+    loaderHeader: "Deleting model",
+    loaderText: "Please wait. we're deleting model",
+  },
 };
