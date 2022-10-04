@@ -12,6 +12,7 @@ import { loaderActions, userActions } from "../../../Redux/actionCreators";
 import { LoaderContent } from "../../../utility/constants/LoaderContent";
 import { currentServiceDetails, groupInfo } from "../../../Redux/reducers/ServiceDetailsReducer";
 import Typography from "@material-ui/core/Typography";
+import AlertBox, { alertTypes } from "../../common/AlertBox";
 
 const ExistingModel = ({
   classes,
@@ -31,15 +32,24 @@ const ExistingModel = ({
   const [existingModels, setExistingModels] = useState([]);
   const [serviceClientState, setServiceClientState] = useState();
   const [sdkService, setSdkService] = useState();
+  const [alert, setAlert] = useState({});
   const dispatch = useDispatch();
 
   const getTrainingModels = async (sdk, address) => {
+    dispatch(loaderActions.startAppLoader(LoaderContent.FETCH_TRAINING_EXISTING_MODEL));
     const { org_id, service_id } = serviceDetails;
     const serviceClient = new ServiceClient(sdk, org_id, service_id, sdk._mpeContract, {}, groupInfo);
     setServiceClientState(serviceClient);
-    const promises = training.training_methods.map(method => serviceClient.getExistingModel(method, address));
-    const response = await Promise.all(promises);
-    return response.flat();
+    const serviceName = training.training_methods[0].split(".")[1].split("/")[0];
+    const params = {
+      grpcMethod: training.training_methods[0],
+      grpcService: serviceName,
+      address,
+    };
+    const response = await serviceClient.getExistingModel(params);
+    console.log("=====existingModel==", response.flat());
+    setExistingModels(response.flat());
+    stopLoader();
   };
 
   const handleConnectMM = async () => {
@@ -50,26 +60,28 @@ const ExistingModel = ({
       const address = await sdk.account.getAddress();
       const availableUserWallets = await fetchAvailableUserWallets();
       const addressAlreadyRegistered = availableUserWallets.some(wallet => wallet.address.toLowerCase() === address);
-
       if (!addressAlreadyRegistered) {
         await registerWallet(address, walletTypes.METAMASK);
       }
       updateWallet({ type: walletTypes.METAMASK, address });
-      dispatch(loaderActions.startAppLoader(LoaderContent.FETCH_TRAINING_EXISTING_MODEL));
-      const existingModel = await getTrainingModels(sdk, address);
-      setExistingModels(existingModel);
+      await getTrainingModels(sdk, address);
       setMetamaskConnected(true);
-      stopLoader();
     } catch (error) {
+      setAlert({ type: alertTypes.ERROR, message: "Error connecting Matamask" });
       console.log("===error==", error);
     }
   };
 
-  const deleteModels = async (modelId, methodName) => {
-    const modelName = "";
-    const delete_model = await serviceClientState.deleteModel(modelId, wallet.address, methodName, modelName);
-    const existingModel = await getTrainingModels(sdkService, wallet.address);
-    setExistingModels(existingModel);
+  const deleteModels = async model => {
+    dispatch(loaderActions.startAppLoader(LoaderContent.DELETE_MODEL));
+    const params = {
+      modelId: model.modelId,
+      address: wallet.address,
+      method: model.methodName,
+      name: "",
+    };
+    await serviceClientState.deleteModel(params);
+    await getTrainingModels(sdkService, wallet.address);
   };
 
   const ModelList = useCallback(() => {
@@ -77,15 +89,7 @@ const ExistingModel = ({
       return existingModels.map(model => {
         return (
           <div key={model.modelId}>
-            <ModelDetails
-              title="Region Recognition"
-              id={model.modelId}
-              description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley."
-              status="Inprogress"
-              accessTo="Public"
-              lastUpdate="12-Aug-2022"
-              deleteModels={() => deleteModels(model.modelId, model.methodName)}
-            />
+            <ModelDetails model={model} deleteModels={deleteModels} />
           </div>
         );
       });
@@ -96,7 +100,8 @@ const ExistingModel = ({
         </div>
       );
     }
-  }, [classes.btnContainer, existingModels]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [existingModels]);
   return (
     <div className={classes.existingModelContainer}>
       <h2>Existing Model</h2>
@@ -110,7 +115,10 @@ const ExistingModel = ({
           ) : null}
         </>
       ) : (
-        <ConnectMetamask handleConnectMM={handleConnectMM} />
+        <>
+          <ConnectMetamask handleConnectMM={handleConnectMM} />
+          <AlertBox type={alert.type} message={alert.message} />
+        </>
       )}
     </div>
   );

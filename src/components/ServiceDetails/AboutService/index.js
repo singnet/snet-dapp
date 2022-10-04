@@ -20,12 +20,17 @@ const AboutService = ({
   demoExampleRef,
   scrollToView,
   demoComponentRequired,
-  haveANewModel,
   training,
 }) => {
   const RenderExistingModel = () => {
-    if (process.env.REACT_APP_TRAINING_ENABLE === "true") {
-      return <ExistingModel showReqNewModelBtn haveANewModel={haveANewModel} training={training} />;
+    if (process.env.REACT_APP_TRAINING_ENABLE === "true" && Object.keys(training).length) {
+      return (
+        <ExistingModel
+          showReqNewModelBtn
+          haveANewModel={training?.training_methods?.length || false}
+          training={training}
+        />
+      );
     }
     return null;
   };

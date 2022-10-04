@@ -75,7 +75,8 @@ const Payment = ({
       wallet,
       channelInfo
     );
-    const methodDescriptor = Calculator.train_add;
+    const descriptor = modelData.method.split(".")[1].split("/")[1];
+    const methodDescriptor = Calculator[descriptor];
     const request = new methodDescriptor.requestType();
     request.setLink(modelData.dataLink);
     request.setAddress(wallet.address);

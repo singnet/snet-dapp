@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 import StyledButton from "../../common/StyledButton";
@@ -9,21 +9,25 @@ import ProjectDetails from "../ProjectDetails";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import CreateModel from "./CreateModel";
 
-const TrainingModels = ({ classes, service, haveANewModel, training }) => {
+const TrainingModels = ({ classes, service, training }) => {
   const [showCreateModel, setShowCreateModel] = useState(false);
-  const [MMconnected] = useState(true);
 
   const handleRequestModel = () => {
     setShowCreateModel(true);
   };
 
-  if (!MMconnected) {
-    return (
-      <Grid item xs={12} sm={12} md={8} lg={8} className={classes.leftSideSection}>
-        <ExistingModel showReqNewModelBtn haveANewModel={haveANewModel} training={training} />
-      </Grid>
-    );
-  }
+  const RenderExistingModel = useCallback(() => {
+    if (process.env.REACT_APP_TRAINING_ENABLE === "true" && Object.keys(training).length) {
+      return (
+        <ExistingModel
+          showReqNewModelBtn
+          haveANewModel={training?.training_methods?.length || false}
+          training={training}
+        />
+      );
+    }
+    return null;
+  }, [training]);
 
   return (
     <Grid container spacing={24} className={classes.trainingModelContainer}>
@@ -41,10 +45,9 @@ const TrainingModels = ({ classes, service, haveANewModel, training }) => {
                   and manage models. The models you create in this project inherit the name of the project.
                 </p>
               </div>
-              {/* {haveANewModel ? <StyledButton btnText="request a new model" onClick={handleRequestModel} /> : null} */}
               <StyledButton btnText="request a new model" onClick={handleRequestModel} />
             </div>
-            <ExistingModel showReqNewModelBtn haveANewModel={haveANewModel} training={training} />
+            <RenderExistingModel />
           </>
         )}
       </Grid>
