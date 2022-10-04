@@ -22,10 +22,18 @@ const AboutService = ({
   demoComponentRequired,
   haveANewModel,
   training,
+  onEditTrainingModel,
 }) => {
   const RenderExistingModel = () => {
     if (process.env.REACT_APP_TRAINING_ENABLE === "true") {
-      return <ExistingModel showReqNewModelBtn haveANewModel={haveANewModel} training={training} />;
+      return (
+        <ExistingModel
+          showReqNewModelBtn
+          haveANewModel={haveANewModel}
+          training={training}
+          onEditTrainingModel={onEditTrainingModel}
+        />
+      );
     }
     return null;
   };

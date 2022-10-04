@@ -7,7 +7,7 @@ import Data from "./Data";
 import Payment from "./Payment";
 import Finish from "./Finish";
 
-const CreateModel = ({ service, classes, training }) => {
+const CreateModel = ({ service, classes, training, editTrainingModel, onCancelEdit,onUpdateModel }) => {
   const [activeSection, setActiveSection] = React.useState(1);
   const [modelData, setModelData] = useState({});
   const [trainModelId, setTrainModelId] = useState();
@@ -23,7 +23,16 @@ const CreateModel = ({ service, classes, training }) => {
   const createModelTabs = [
     {
       key: "modelInfo",
-      component: <ModelInfo handleNextClick={handleNextClick} training={training} setModelData={setModelData} />,
+      component: (
+        <ModelInfo
+          handleNextClick={handleNextClick}
+          training={training}
+          setModelData={setModelData}
+          editTrainingModel={editTrainingModel}
+          onCancelEdit={onCancelEdit}
+          onUpdateModel={onUpdateModel}
+        />
+      ),
     },
     {
       key: "data",
@@ -55,9 +64,21 @@ const CreateModel = ({ service, classes, training }) => {
 
   const progressText = [{ label: "Model Info" }, { label: "Data" }, { label: "Payment" }, { label: "Finish" }];
 
+
+  console.log('@@@@', editTrainingModel)
+
   return (
     <div className={classes.createModelContainer}>
-      <h2>New Model Request</h2>
+      <div>
+        {editTrainingModel ? (
+          <>
+            <h2>Edit:</h2>
+            <span></span>
+          </>
+        ) : (
+          <h2>New Model Request</h2>
+        )}
+      </div>
       {createModelTabs.map((item, index) => (
         <CreateModelContainer
           key={item.title}

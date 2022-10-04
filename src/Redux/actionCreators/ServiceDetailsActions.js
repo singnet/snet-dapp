@@ -11,6 +11,9 @@ export const UPDATE_SERVICE_DETAILS = "UPDATE_SERVICE_DETAILS";
 export const RESET_SERVICE_DETAILS = "RESET_SERVICE_DETAILS";
 export const UPDATE_FREE_CALLS_INFO = "UPDATE_FREE_CALLS_INFO";
 export const UPDATE_TRAINING_DETAILS = "UPDATE_TRAINING_DETAILS";
+export const SET_EDIT_TRAINING_MODEL = "SET_EDIT_TRAINING_MODEL";
+
+export const setEditTrainingModel = editTrainingModel => ({ type: SET_EDIT_TRAINING_MODEL, payload: editTrainingModel });
 
 const resetServiceDetails = dispatch => {
   dispatch({ type: RESET_SERVICE_DETAILS });

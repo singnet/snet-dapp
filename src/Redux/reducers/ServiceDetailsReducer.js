@@ -8,6 +8,7 @@ const InitialServiceDetails = {
   details: {},
   freeCallsUsed: "",
   detailsTraining: {},
+  editTrainingModel: false
 };
 
 const serviceDetailsReducer = (state = InitialServiceDetails, action) => {
@@ -23,6 +24,9 @@ const serviceDetailsReducer = (state = InitialServiceDetails, action) => {
     }
     case serviceDetailsActions.UPDATE_TRAINING_DETAILS: {
       return { ...state, detailsTraining: action.payload };
+    }
+    case serviceDetailsActions.SET_EDIT_TRAINING_MODEL: {
+      return { ...state, editTrainingModel: action.payload };
     }
     default: {
       return state;

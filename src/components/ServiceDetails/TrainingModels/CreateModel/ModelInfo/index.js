@@ -28,6 +28,9 @@ const ModelInfo = ({
   registerWallet,
   updateWallet,
   setModelData,
+  editTrainingModel,
+  onCancelEdit,
+  onUpdateModel
 }) => {
   const [enableAccessModel, setEnableAccessModel] = useState(false);
   const [ethAddress, setEthAddress] = useState([]);
@@ -88,6 +91,7 @@ const ModelInfo = ({
     value: e,
     label: e,
   }));
+
   const trainingMethodDropDownBox = event => {
     const { value } = event.target;
     if (value !== "default") {
@@ -116,7 +120,7 @@ const ModelInfo = ({
     setEthAddress(newEthAddress);
   };
 
-  const addEllipsisInBetweenString = (str) => {
+  const addEllipsisInBetweenString = str => {
     if (str.length) {
       return `${str.substr(0, 17)}...${str.substr(str.length - 17)}`;
     }
@@ -180,9 +184,19 @@ const ModelInfo = ({
           </div>
         ) : null}
       </div>
-      <div className={classes.btnContainer}>
-        <StyledButton btnText="Next" onClick={onNext} />
-      </div>
+      {editTrainingModel ? (
+        <div className={classes.editVersionBtnContainer}>
+          <StyledButton btnText="Delete" type="redBg" />
+          <div>
+            <StyledButton btnText="Cancel" onClick={onCancelEdit} />
+            <StyledButton btnText="Update" type="blue" onClick={onUpdateModel} />
+          </div>
+        </div>
+      ) : (
+        <div className={classes.btnContainer}>
+          <StyledButton btnText="Next" onClick={onNext} />
+        </div>
+      )}
     </div>
   );
 };

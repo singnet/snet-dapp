@@ -12,6 +12,9 @@ import { loaderActions, userActions } from "../../../Redux/actionCreators";
 import { LoaderContent } from "../../../utility/constants/LoaderContent";
 import { currentServiceDetails, groupInfo } from "../../../Redux/reducers/ServiceDetailsReducer";
 import Typography from "@material-ui/core/Typography";
+import { serviceDetailsActions } from "../../../Redux/actionCreators";
+import ServiceDetails from "../index";
+import TrainingModels from "../TrainingModels";
 
 const ExistingModel = ({
   classes,
@@ -25,6 +28,7 @@ const ExistingModel = ({
   serviceDetails,
   groupInfo,
   haveANewModel,
+  onEditTrainingModel
 }) => {
   const [metamaskConnected, setMetamaskConnected] = useState(false);
   const [existingModels, setExistingModels] = useState([]);
@@ -60,6 +64,11 @@ const ExistingModel = ({
     }
   };
 
+  const onEditModel = () => {
+    dispatch(serviceDetailsActions.setEditTrainingModel(true))
+    onEditTrainingModel();
+  };
+
   const ModelList = useCallback(() => {
     if (existingModels.length) {
       return existingModels.map(model => {
@@ -68,10 +77,11 @@ const ExistingModel = ({
             <ModelDetails
               title="Region Recognition"
               id={model.modelId}
-              description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley."
+              description={model.description}
               status="Inprogress"
               accessTo="Public"
               lastUpdate="12-Aug-2022"
+              onEditModel={onEditModel}
             />
           </div>
         );
@@ -84,6 +94,7 @@ const ExistingModel = ({
       );
     }
   }, [classes.btnContainer, existingModels]);
+
   return (
     <div className={classes.existingModelContainer}>
       <h2>Existing Model</h2>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 import StyledButton from "../../common/StyledButton";
@@ -9,13 +10,18 @@ import ProjectDetails from "../ProjectDetails";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import CreateModel from "./CreateModel";
 
-const TrainingModels = ({ classes, service, haveANewModel, training }) => {
+const TrainingModels = ({ classes, service, haveANewModel, training, editTrainingModel, onCancelEdit,onUpdateModel }) => {
   const [showCreateModel, setShowCreateModel] = useState(false);
   const [MMconnected] = useState(true);
 
   const handleRequestModel = () => {
     setShowCreateModel(true);
   };
+
+  if(editTrainingModel) {
+    return <CreateModel service={service} training={training} editTrainingModel={editTrainingModel} onCancelEdit={onCancelEdit} 
+    onUpdateModel={onUpdateModel} />
+  }
 
   if (!MMconnected) {
     return (
@@ -29,7 +35,7 @@ const TrainingModels = ({ classes, service, haveANewModel, training }) => {
     <Grid container spacing={24} className={classes.trainingModelContainer}>
       <Grid item xs={12} sm={12} md={8} lg={8} className={classes.leftSideSection}>
         {showCreateModel ? (
-          <CreateModel service={service} training={training} />
+          <CreateModel service={service} training={training} editTrainingModel={editTrainingModel} />
         ) : (
           <>
             <div className={classes.requestModelContainer}>
@@ -60,4 +66,8 @@ const TrainingModels = ({ classes, service, haveANewModel, training }) => {
   );
 };
 
-export default withStyles(useStyles)(TrainingModels);
+const mapStateToProps = state => ({
+  editTrainingModel: state.serviceDetailsReducer.editTrainingModel
+});
+
+export default connect(mapStateToProps)(withStyles(useStyles)(TrainingModels));

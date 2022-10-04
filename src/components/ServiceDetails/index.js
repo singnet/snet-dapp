@@ -27,7 +27,7 @@ class ServiceDetails extends Component {
     super(props);
     this.demoExampleRef = React.createRef();
     this.state = {
-      activeTab: 0,
+      activeTab: this.props.editTrainingModel ? 2 : 0,
       alert: {},
       offlineNotication: {
         type: notificationBarTypes.WARNING,
@@ -100,6 +100,18 @@ class ServiceDetails extends Component {
     this.scrollToView();
   };
 
+  onEditTrainingModel = () => {
+    this.setState({ activeTab: 2})
+  }
+
+  onCancelEdit = () => {
+    this.setState({ activeTab: 0})
+  }
+
+  onUpdateModel = () => {
+    this.setState({ activeTab: 0})
+  }
+
   render() {
     const { classes, service, pricing, loading, error, history, groupInfo, match, training } = this.props;
     const { offlineNotication } = this.state;
@@ -138,6 +150,7 @@ class ServiceDetails extends Component {
             haveTrainingModel={haveTrainingModel}
             training={training}
             haveANewModel={haveANewModel}
+            onEditTrainingModel={this.onEditTrainingModel}
           />
         ),
       },
@@ -158,6 +171,8 @@ class ServiceDetails extends Component {
             groupId={groupInfo.group_id}
             haveANewModel={haveANewModel}
             training={training}
+            onCancelEdit={this.onCancelEdit}
+            onUpdateModel={this.onUpdateModel}
           />
         ),
       });
@@ -219,6 +234,7 @@ const mapStateToProps = (state, ownProps) => {
     pricing: pricing(state),
     loading: state.loaderReducer.app.loading,
     training: state.serviceDetailsReducer.detailsTraining,
+    editTrainingModel: state.serviceDetailsReducer.editTrainingModel
   };
 };
 
