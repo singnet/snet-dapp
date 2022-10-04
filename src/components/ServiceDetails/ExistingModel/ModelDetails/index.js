@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { withStyles } from "@material-ui/styles";
-
 import { useStyles } from "./styles";
 import Button from "@material-ui/core/Button";
 import EditIcon from "@material-ui/icons/Edit";
@@ -11,13 +10,14 @@ import Typography from "@material-ui/core/Typography";
 import Modal from "@material-ui/core/Modal";
 import StyledButton from "../../../common/StyledButton";
 
-const ModelDetails = ({ classes, title, id, description, status, accessTo, lastUpdate, onEditModel }) => {
+const ModelDetails = ({ classes, title, id, description, status, accessTo, lastUpdate, onEditModel, deleteModels }) => {
   const [open, setOpen] = React.useState(false);
   const handleOpenModal = () => setOpen(true);
   const handleCloseModal = () => setOpen(false);
-	const handleDeleteModel = () => {
-		setOpen(false);
-	}
+  const handleDeleteModel = () => {
+    deleteModels();
+    setOpen(false);
+  };
   return (
     <>
       <div className={classes.modelDetailsContainer}>
@@ -35,19 +35,19 @@ const ModelDetails = ({ classes, title, id, description, status, accessTo, lastU
             </p>
             <p className={classes.accessValue}>
               Access:
-							{/* { */}
-								{/* accessTo === 'limited' ? */}
-								<>
-									<span> limited(4)</span>
-									<ul>
-										<li>90986239898</li>
-										<li>90986239898</li>
-										<li>90986239898</li>
-										<li>90986239898</li>
-									</ul>
-									</>
-								{/* : <span>{accessTo}</span> */}
-							{/* } */}
+              {/* { */}
+              {/* accessTo === 'limited' ? */}
+              <>
+                <span> limited(4)</span>
+                <ul>
+                  <li>90986239898</li>
+                  <li>90986239898</li>
+                  <li>90986239898</li>
+                  <li>90986239898</li>
+                </ul>
+              </>
+              {/* : <span>{accessTo}</span> */}
+              {/* } */}
             </p>
           </div>
           <p>Last update: {lastUpdate}</p>

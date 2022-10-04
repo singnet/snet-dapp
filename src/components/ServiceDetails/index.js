@@ -106,10 +106,12 @@ class ServiceDetails extends Component {
 
   onCancelEdit = () => {
     this.setState({ activeTab: 0})
+    this.props.dispatch(serviceDetailsActions.setEditTrainingModel(false))
   }
 
   onUpdateModel = () => {
     this.setState({ activeTab: 0})
+    this.props.dispatch(serviceDetailsActions.setEditTrainingModel(false))
   }
 
   render() {
