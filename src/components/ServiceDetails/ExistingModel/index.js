@@ -84,12 +84,27 @@ const ExistingModel = ({
     await getTrainingModels(sdkService, wallet.address);
   };
 
+  //update model
+  const updateModels = async model => {
+    // dispatch(loaderActions.startAppLoader(LoaderContent.DELETE_MODEL));
+    const params = {
+      modelId: model.modelId,
+      address: wallet.address,
+      method: model.methodName,
+      name: "",
+    };
+    await serviceClientState.updateModel(params);
+    // await getTrainingModels(sdkService, wallet.address);
+  };
+  console.log(updateModels,'-------updatemodel----');
+  //
+
   const ModelList = useCallback(() => {
     if (existingModels.length) {
       return existingModels.map(model => {
         return (
           <div key={model.modelId}>
-            <ModelDetails model={model} deleteModels={deleteModels} />
+            <ModelDetails model={model} deleteModels={deleteModels} updateModels={updateModels} />
           </div>
         );
       });
