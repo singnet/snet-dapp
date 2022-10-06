@@ -112,4 +112,8 @@ export const LoaderContent = {
     loaderHeader: "Deleting model",
     loaderText: "Please wait. we're deleting model",
   },
+  UPDATE_MODEL: {
+    loaderHeader: "Updating model",
+    loaderText: "Please wait. we're updating model",
+  },
 };
