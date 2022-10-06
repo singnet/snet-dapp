@@ -35,15 +35,18 @@ const ExistingModel = ({
   const [alert, setAlert] = useState({});
   const dispatch = useDispatch();
 
+  const getServiceName = () => {
+    return training.training_methods[0].split(".")[1].split("/")[0];
+  };
+
   const getTrainingModels = async (sdk, address) => {
     dispatch(loaderActions.startAppLoader(LoaderContent.FETCH_TRAINING_EXISTING_MODEL));
     const { org_id, service_id } = serviceDetails;
     const serviceClient = new ServiceClient(sdk, org_id, service_id, sdk._mpeContract, {}, groupInfo);
     setServiceClientState(serviceClient);
-    const serviceName = training.training_methods[0].split(".")[1].split("/")[0];
     const params = {
       grpcMethod: training.training_methods[0],
-      grpcService: serviceName,
+      grpcService: getServiceName(),
       address,
     };
     const response = await serviceClient.getExistingModel(params);
@@ -78,7 +81,7 @@ const ExistingModel = ({
       modelId: model.modelId,
       address: wallet.address,
       method: model.methodName,
-      name: "",
+      name: getServiceName(),
     };
     await serviceClientState.deleteModel(params);
     await getTrainingModels(sdkService, wallet.address);

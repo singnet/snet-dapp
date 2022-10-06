@@ -2,7 +2,7 @@
 // file: singnet/snet-daemon/training/training.proto
 /* eslint-disable */
 
-var singnet_snet_daemon_training_training_pb = require("../../../singnet/snet-daemon/training/training_pb");
+var singnet_snet_daemon_training_training_pb = require("./training_pb");
 var grpc = require("@improbable-eng/grpc-web").grpc;
 
 var Model = (function () {

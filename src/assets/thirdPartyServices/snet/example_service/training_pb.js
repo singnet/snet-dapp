@@ -47,7 +47,7 @@ if (goog.DEBUG && !COMPILED) {
  * @private {!Array<number>}
  * @const
  */
-training.ModelDetails.repeatedFields_ = [6];
+training.ModelDetails.repeatedFields_ = [8];
 
 
 
@@ -82,13 +82,15 @@ training.ModelDetails.toObject = function(includeInstance, msg) {
     grpcMethodName: jspb.Message.getFieldWithDefault(msg, 2, ""),
     grpcServiceName: jspb.Message.getFieldWithDefault(msg, 3, ""),
     description: jspb.Message.getFieldWithDefault(msg, 4, ""),
-    isPubliclyAccessible: jspb.Message.getFieldWithDefault(msg, 5, false),
-    addressListList: jspb.Message.getRepeatedField(msg, 6),
-    trainingDataLink: jspb.Message.getFieldWithDefault(msg, 7, ""),
-    isDefaultModel: jspb.Message.getFieldWithDefault(msg, 8, false),
-    organizationId: jspb.Message.getFieldWithDefault(msg, 9, ""),
-    serviceId: jspb.Message.getFieldWithDefault(msg, 10, ""),
-    groupId: jspb.Message.getFieldWithDefault(msg, 11, "")
+    status: jspb.Message.getFieldWithDefault(msg, 6, ""),
+    updatedDate: jspb.Message.getFieldWithDefault(msg, 7, ""),
+    addressListList: jspb.Message.getRepeatedField(msg, 8),
+    trainingDataLink: jspb.Message.getFieldWithDefault(msg, 9, ""),
+    modelName: jspb.Message.getFieldWithDefault(msg, 10, ""),
+    organizationId: jspb.Message.getFieldWithDefault(msg, 11, ""),
+    serviceId: jspb.Message.getFieldWithDefault(msg, 12, ""),
+    groupId: jspb.Message.getFieldWithDefault(msg, 13, ""),
+    isPubliclyAccessible: jspb.Message.getFieldWithDefault(msg, 14, false)
   };
 
   if (includeInstance) {
@@ -141,33 +143,41 @@ training.ModelDetails.deserializeBinaryFromReader = function(msg, reader) {
       var value = /** @type {string} */ (reader.readString());
       msg.setDescription(value);
       break;
-    case 5:
-      var value = /** @type {boolean} */ (reader.readBool());
-      msg.setIsPubliclyAccessible(value);
-      break;
     case 6:
       var value = /** @type {string} */ (reader.readString());
-      msg.addAddressList(value);
+      msg.setStatus(value);
       break;
     case 7:
       var value = /** @type {string} */ (reader.readString());
-      msg.setTrainingDataLink(value);
+      msg.setUpdatedDate(value);
       break;
     case 8:
-      var value = /** @type {boolean} */ (reader.readBool());
-      msg.setIsDefaultModel(value);
+      var value = /** @type {string} */ (reader.readString());
+      msg.addAddressList(value);
       break;
     case 9:
       var value = /** @type {string} */ (reader.readString());
-      msg.setOrganizationId(value);
+      msg.setTrainingDataLink(value);
       break;
     case 10:
       var value = /** @type {string} */ (reader.readString());
-      msg.setServiceId(value);
+      msg.setModelName(value);
       break;
     case 11:
       var value = /** @type {string} */ (reader.readString());
+      msg.setOrganizationId(value);
+      break;
+    case 12:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setServiceId(value);
+      break;
+    case 13:
+      var value = /** @type {string} */ (reader.readString());
       msg.setGroupId(value);
+      break;
+    case 14:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setIsPubliclyAccessible(value);
       break;
     default:
       reader.skipField();
@@ -226,52 +236,66 @@ training.ModelDetails.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getIsPubliclyAccessible();
-  if (f) {
-    writer.writeBool(
-      5,
-      f
-    );
-  }
-  f = message.getAddressListList();
+  f = message.getStatus();
   if (f.length > 0) {
-    writer.writeRepeatedString(
+    writer.writeString(
       6,
       f
     );
   }
-  f = message.getTrainingDataLink();
+  f = message.getUpdatedDate();
   if (f.length > 0) {
     writer.writeString(
       7,
       f
     );
   }
-  f = message.getIsDefaultModel();
-  if (f) {
-    writer.writeBool(
+  f = message.getAddressListList();
+  if (f.length > 0) {
+    writer.writeRepeatedString(
       8,
       f
     );
   }
-  f = message.getOrganizationId();
+  f = message.getTrainingDataLink();
   if (f.length > 0) {
     writer.writeString(
       9,
       f
     );
   }
-  f = message.getServiceId();
+  f = message.getModelName();
   if (f.length > 0) {
     writer.writeString(
       10,
       f
     );
   }
-  f = message.getGroupId();
+  f = message.getOrganizationId();
   if (f.length > 0) {
     writer.writeString(
       11,
+      f
+    );
+  }
+  f = message.getServiceId();
+  if (f.length > 0) {
+    writer.writeString(
+      12,
+      f
+    );
+  }
+  f = message.getGroupId();
+  if (f.length > 0) {
+    writer.writeString(
+      13,
+      f
+    );
+  }
+  f = message.getIsPubliclyAccessible();
+  if (f) {
+    writer.writeBool(
+      14,
       f
     );
   }
@@ -339,34 +363,47 @@ training.ModelDetails.prototype.setDescription = function(value) {
 
 
 /**
- * optional bool is_publicly_accessible = 5;
- * Note that Boolean fields may be set to 0/1 when serialized from a Java server.
- * You should avoid comparisons like {@code val === true/false} in those cases.
- * @return {boolean}
+ * optional string status = 6;
+ * @return {string}
  */
-training.ModelDetails.prototype.getIsPubliclyAccessible = function() {
-  return /** @type {boolean} */ (jspb.Message.getFieldWithDefault(this, 5, false));
+training.ModelDetails.prototype.getStatus = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
 };
 
 
-/** @param {boolean} value */
-training.ModelDetails.prototype.setIsPubliclyAccessible = function(value) {
-  jspb.Message.setProto3BooleanField(this, 5, value);
+/** @param {string} value */
+training.ModelDetails.prototype.setStatus = function(value) {
+  jspb.Message.setProto3StringField(this, 6, value);
 };
 
 
 /**
- * repeated string address_list = 6;
+ * optional string updated_date = 7;
+ * @return {string}
+ */
+training.ModelDetails.prototype.getUpdatedDate = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
+};
+
+
+/** @param {string} value */
+training.ModelDetails.prototype.setUpdatedDate = function(value) {
+  jspb.Message.setProto3StringField(this, 7, value);
+};
+
+
+/**
+ * repeated string address_list = 8;
  * @return {!Array<string>}
  */
 training.ModelDetails.prototype.getAddressListList = function() {
-  return /** @type {!Array<string>} */ (jspb.Message.getRepeatedField(this, 6));
+  return /** @type {!Array<string>} */ (jspb.Message.getRepeatedField(this, 8));
 };
 
 
 /** @param {!Array<string>} value */
 training.ModelDetails.prototype.setAddressListList = function(value) {
-  jspb.Message.setField(this, 6, value || []);
+  jspb.Message.setField(this, 8, value || []);
 };
 
 
@@ -375,7 +412,7 @@ training.ModelDetails.prototype.setAddressListList = function(value) {
  * @param {number=} opt_index
  */
 training.ModelDetails.prototype.addAddressList = function(value, opt_index) {
-  jspb.Message.addToRepeatedField(this, 6, value, opt_index);
+  jspb.Message.addToRepeatedField(this, 8, value, opt_index);
 };
 
 
@@ -385,79 +422,94 @@ training.ModelDetails.prototype.clearAddressListList = function() {
 
 
 /**
- * optional string training_data_link = 7;
+ * optional string training_data_link = 9;
  * @return {string}
  */
 training.ModelDetails.prototype.getTrainingDataLink = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
-};
-
-
-/** @param {string} value */
-training.ModelDetails.prototype.setTrainingDataLink = function(value) {
-  jspb.Message.setProto3StringField(this, 7, value);
-};
-
-
-/**
- * optional bool is_default_model = 8;
- * Note that Boolean fields may be set to 0/1 when serialized from a Java server.
- * You should avoid comparisons like {@code val === true/false} in those cases.
- * @return {boolean}
- */
-training.ModelDetails.prototype.getIsDefaultModel = function() {
-  return /** @type {boolean} */ (jspb.Message.getFieldWithDefault(this, 8, false));
-};
-
-
-/** @param {boolean} value */
-training.ModelDetails.prototype.setIsDefaultModel = function(value) {
-  jspb.Message.setProto3BooleanField(this, 8, value);
-};
-
-
-/**
- * optional string organization_id = 9;
- * @return {string}
- */
-training.ModelDetails.prototype.getOrganizationId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 9, ""));
 };
 
 
 /** @param {string} value */
-training.ModelDetails.prototype.setOrganizationId = function(value) {
+training.ModelDetails.prototype.setTrainingDataLink = function(value) {
   jspb.Message.setProto3StringField(this, 9, value);
 };
 
 
 /**
- * optional string service_id = 10;
+ * optional string model_name = 10;
  * @return {string}
  */
-training.ModelDetails.prototype.getServiceId = function() {
+training.ModelDetails.prototype.getModelName = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 10, ""));
 };
 
 
 /** @param {string} value */
-training.ModelDetails.prototype.setServiceId = function(value) {
+training.ModelDetails.prototype.setModelName = function(value) {
   jspb.Message.setProto3StringField(this, 10, value);
 };
 
 
 /**
- * optional string group_id = 11;
+ * optional string organization_id = 11;
  * @return {string}
  */
-training.ModelDetails.prototype.getGroupId = function() {
+training.ModelDetails.prototype.getOrganizationId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 11, ""));
 };
 
 
 /** @param {string} value */
-training.ModelDetails.prototype.setGroupId = function(value) {
+training.ModelDetails.prototype.setOrganizationId = function(value) {
   jspb.Message.setProto3StringField(this, 11, value);
+};
+
+
+/**
+ * optional string service_id = 12;
+ * @return {string}
+ */
+training.ModelDetails.prototype.getServiceId = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 12, ""));
+};
+
+
+/** @param {string} value */
+training.ModelDetails.prototype.setServiceId = function(value) {
+  jspb.Message.setProto3StringField(this, 12, value);
+};
+
+
+/**
+ * optional string group_id = 13;
+ * @return {string}
+ */
+training.ModelDetails.prototype.getGroupId = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 13, ""));
+};
+
+
+/** @param {string} value */
+training.ModelDetails.prototype.setGroupId = function(value) {
+  jspb.Message.setProto3StringField(this, 13, value);
+};
+
+
+/**
+ * optional bool is_publicly_accessible = 14;
+ * Note that Boolean fields may be set to 0/1 when serialized from a Java server.
+ * You should avoid comparisons like {@code val === true/false} in those cases.
+ * @return {boolean}
+ */
+training.ModelDetails.prototype.getIsPubliclyAccessible = function() {
+  return /** @type {boolean} */ (jspb.Message.getFieldWithDefault(this, 14, false));
+};
+
+
+/** @param {boolean} value */
+training.ModelDetails.prototype.setIsPubliclyAccessible = function(value) {
+  jspb.Message.setProto3BooleanField(this, 14, value);
 };
 
 
