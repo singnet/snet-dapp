@@ -85,18 +85,20 @@ const ExistingModel = ({
   };
 
   //update model
-  const updateModels = async model => {
-    // dispatch(loaderActions.startAppLoader(LoaderContent.DELETE_MODEL));
+  const updateModel = async model => {
+    // dispatch(loaderActions.startAppLoader(LoaderContent.UPDATE_MODEL));
     const params = {
       modelId: model.modelId,
       address: wallet.address,
       method: model.methodName,
       name: "",
+      description:"sdfghj",
+      addressList:["456g"],
     };
     await serviceClientState.updateModel(params);
-    // await getTrainingModels(sdkService, wallet.address);
+    await getTrainingModels(sdkService, wallet.address);
   };
-  console.log(updateModels,'-------updatemodel----');
+  console.log(updateModel,'-------updatemodel----');
   //
 
   const ModelList = useCallback(() => {
@@ -104,7 +106,7 @@ const ExistingModel = ({
       return existingModels.map(model => {
         return (
           <div key={model.modelId}>
-            <ModelDetails model={model} deleteModels={deleteModels} updateModels={updateModels} />
+            <ModelDetails model={model} deleteModels={deleteModels} updateModel={updateModel} />
           </div>
         );
       });
