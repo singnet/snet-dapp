@@ -32,7 +32,7 @@ const ModelInfo = ({
   const [enableAccessModel, setEnableAccessModel] = useState(false);
   const [ethAddress, setEthAddress] = useState([]);
   const [trainingMethod, setTrainingMethod] = useState(undefined);
-  const [trainingModelServiceName, setTrainingModelServiceName] = useState("");
+  const [trainingModelName, setTrainingServiceName] = useState("");
   const [trainingModelDescription, setTrainingModelDescription] = useState("");
   const dispatch = useDispatch();
 
@@ -42,6 +42,7 @@ const ModelInfo = ({
     // Note: Passing service name blank string becasuse with value it's not working issue is from demon.
     const serviceName = trainingMethod.split(".")[1].split("/")[0];
     const params = {
+      modelName: trainingModelName,
       method: trainingMethod,
       serviceName,
       description: trainingModelDescription,
@@ -68,11 +69,14 @@ const ModelInfo = ({
       console.log("===createdModelData=", createdModelData);
       const data = {
         modelId: createdModelData?.modelId || "",
-        method: trainingMethod,
-        name: trainingModelServiceName,
-        description: trainingModelDescription,
-        publicAccess: enableAccessModel,
+        method: createdModelData?.methodName || "",
+        serviceName: createdModelData?.serviceName || "",
+        name: createdModelData?.modelName || "",
+        description: createdModelData?.description || "",
+        publicAccess: createdModelData?.publicAccess || "",
         address: createdModelData?.addressList || [],
+        updatedDate: createdModelData?.updatedDate || "",
+        status: createdModelData?.status || "",
       };
       setModelData(data);
       stopLoader();
@@ -98,7 +102,7 @@ const ModelInfo = ({
   };
 
   const handleModelServiceName = event => {
-    setTrainingModelServiceName(event.target.value);
+    setTrainingServiceName(event.target.value);
   };
   const handleModelDescription = event => {
     setTrainingModelDescription(event.target.value);

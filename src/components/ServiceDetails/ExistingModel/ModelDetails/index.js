@@ -26,7 +26,7 @@ const ModelDetails = ({ classes, model, deleteModels,updateModel }) => {
     <>
       <div className={classes.modelDetailsContainer}>
         <div className={classes.titleIdContainer}>
-          <h3>Demo Service</h3>
+          <h3>{model.modelName}</h3>
           <p>
             Model id: <span>{model.modelId}</span>
           </p>
@@ -35,7 +35,7 @@ const ModelDetails = ({ classes, model, deleteModels,updateModel }) => {
         <div className={classes.statusAccessLastUpdateContainer}>
           <div>
             <p>
-              Status: <span data-status-type="Inprogress">Inprogress</span>
+              Status: <span data-status-type="Inprogress">{model.status}</span>
             </p>
             <p className={classes.accessValue}>
               Access:
@@ -53,7 +53,7 @@ const ModelDetails = ({ classes, model, deleteModels,updateModel }) => {
               {/* } */}
             </p>
           </div>
-          <p>Last update: 12-Aug-2022</p>
+          <p>Last update: {model.updatedDate}</p>
         </div>
         <div className={classes.actionButtons}>
           <div>
