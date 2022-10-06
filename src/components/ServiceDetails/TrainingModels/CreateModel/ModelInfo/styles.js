@@ -137,6 +137,8 @@ export const useStyles = theme => ({
       borderRadius: 4,
       marginRight: 24,
       display: 'inline-block',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis'
     },
     "& svg": { color: "#D6201F" }
   },
@@ -146,8 +148,3 @@ export const useStyles = theme => ({
   },
 });
 
-// "& svg": {
-//   marginLeft: 24,
-//   color: theme.palette.text.redBtnText,
-//   fontSize: 20,
-// },

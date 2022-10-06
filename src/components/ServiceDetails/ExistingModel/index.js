@@ -120,7 +120,7 @@ const ExistingModel = ({
       });
     } else {
       return (
-        <div className={classes.btnContainer}>
+        <div className={classes.noDataFoundTxt}>
           <Typography>No data found</Typography>
         </div>
       );
