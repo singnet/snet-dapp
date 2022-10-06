@@ -96,6 +96,7 @@ const ExistingModel = ({
       address: wallet.address,
       method: model.methodName,
       name: getServiceName(),
+      modelName:model.modelName,
       description:"asdfghj",
       addressList:["234gf"],
       status:model.status,
