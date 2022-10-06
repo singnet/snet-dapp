@@ -88,17 +88,22 @@ const ExistingModel = ({
   };
 
   //update model
-  const updateModel = async model => {
+  const updateModels = async model => {
+    console.log(model,'---model---');
     dispatch(loaderActions.startAppLoader(LoaderContent.UPDATE_MODEL));
     const params = {
       modelId: model.modelId,
       address: wallet.address,
       method: model.methodName,
-      name: "",
-      description:"sdfghj",
-      addressList:["456g"],
+      name: getServiceName(),
+      description:"asdfghj",
+      addressList:["234gf"],
+      status:model.status,
+      updatedDate:model.updatedDate,
+      publicAccess:model.publicAccess,
     };
-    await serviceClientState.updateModel(params);
+    const response=await serviceClientState.updateModel(params);
+    console.log("=====updatingModel==", response);
     await getTrainingModels(sdkService, wallet.address);
   };
   //
@@ -108,7 +113,7 @@ const ExistingModel = ({
       return existingModels.map(model => {
         return (
           <div key={model.modelId}>
-            <ModelDetails model={model} deleteModels={deleteModels} updateModel={updateModel} />
+            <ModelDetails model={model} deleteModels={deleteModels} updateModels={updateModels} />
           </div>
         );
       });
