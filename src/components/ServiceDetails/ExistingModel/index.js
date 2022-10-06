@@ -86,7 +86,7 @@ const ExistingModel = ({
 
   //update model
   const updateModel = async model => {
-    // dispatch(loaderActions.startAppLoader(LoaderContent.UPDATE_MODEL));
+    dispatch(loaderActions.startAppLoader(LoaderContent.UPDATE_MODEL));
     const params = {
       modelId: model.modelId,
       address: wallet.address,
@@ -98,7 +98,6 @@ const ExistingModel = ({
     await serviceClientState.updateModel(params);
     await getTrainingModels(sdkService, wallet.address);
   };
-  console.log(updateModel,'-------updatemodel----');
   //
 
   const ModelList = useCallback(() => {
