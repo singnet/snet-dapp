@@ -101,7 +101,7 @@ class ServiceDetails extends Component {
   };
 
   render() {
-    const { classes, service, pricing, loading, error, history, groupInfo, match, training } = this.props;
+    const { classes, service, pricing, loading, error, history, groupInfo, match, training, isLoggedIn } = this.props;
     const { offlineNotication } = this.state;
     const {
       params: { orgId, serviceId },
@@ -141,7 +141,7 @@ class ServiceDetails extends Component {
       },
     ];
 
-    if (process.env.REACT_APP_TRAINING_ENABLE === "true") {
+    if (process.env.REACT_APP_TRAINING_ENABLE === "true" && isLoggedIn) {
       tabs.push({
         name: "Models",
         activeIndex: 2,
@@ -205,6 +205,7 @@ const mapStateToProps = (state, ownProps) => {
     pricing: pricing(state),
     loading: state.loaderReducer.app.loading,
     training: state.serviceDetailsReducer.detailsTraining,
+    isLoggedIn: state.userReducer.login.isLoggedIn,
   };
 };
 

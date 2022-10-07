@@ -23,7 +23,7 @@ const AboutService = ({
   training,
 }) => {
   const RenderExistingModel = () => {
-    if (process.env.REACT_APP_TRAINING_ENABLE === "true" && Object.keys(training).length) {
+    if (process.env.REACT_APP_TRAINING_ENABLE === "true" && Object.keys(training).length && isLoggedIn) {
       return (
         <ExistingModel
           showReqNewModelBtn
