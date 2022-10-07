@@ -15,6 +15,7 @@ import { LoaderContent } from "../../../../../utility/constants/LoaderContent";
 import { initSdk } from "../../../../../utility/sdk";
 import { walletTypes } from "../../../../../Redux/actionCreators/UserActions";
 import { currentServiceDetails, groupInfo } from "../../../../../Redux/reducers/ServiceDetailsReducer";
+import AlertBox, { alertTypes } from "../../../../common/AlertBox";
 
 const ModelInfo = ({
   classes,
@@ -34,6 +35,7 @@ const ModelInfo = ({
   const [trainingMethod, setTrainingMethod] = useState(undefined);
   const [trainingModelName, setTrainingServiceName] = useState("");
   const [trainingModelDescription, setTrainingModelDescription] = useState("");
+  const [alert, setAlert] = useState({});
   const dispatch = useDispatch();
 
   const createModel = async (sdk, address) => {
@@ -83,6 +85,8 @@ const ModelInfo = ({
       handleNextClick();
     } catch (error) {
       console.log("===error==", error);
+      setAlert({ type: alertTypes.ERROR, message: error.message || error });
+      stopLoader();
     }
   };
   const onAccessModelSwitchChange = () => {
@@ -182,6 +186,7 @@ const ModelInfo = ({
       <div className={classes.btnContainer}>
         <StyledButton btnText="Next" onClick={onNext} />
       </div>
+      <AlertBox type={alert.type} message={alert.message} />
     </div>
   );
 };

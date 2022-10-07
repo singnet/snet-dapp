@@ -70,8 +70,9 @@ const ExistingModel = ({
       await getTrainingModels(sdk, address);
       setMetamaskConnected(true);
     } catch (error) {
-      setAlert({ type: alertTypes.ERROR, message: "Error connecting Matamask" });
       console.log("===error==", error);
+      setAlert({ type: alertTypes.ERROR, message: error.message || error });
+      stopLoader();
     }
   };
 
