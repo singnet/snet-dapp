@@ -27,6 +27,7 @@ const ExistingModel = ({
   groupInfo,
   haveANewModel,
   wallet,
+  handleEditModel
 }) => {
   const [metamaskConnected, setMetamaskConnected] = useState(false);
   const [existingModels, setExistingModels] = useState([]);
@@ -115,7 +116,7 @@ const ExistingModel = ({
       return existingModels.map(model => {
         return (
           <div key={model.modelId}>
-            <ModelDetails model={model} deleteModels={deleteModels} updateModels={updateModels} />
+            <ModelDetails model={model} deleteModels={deleteModels} updateModels={updateModels} handleEditModel={handleEditModel} />
           </div>
         );
       });

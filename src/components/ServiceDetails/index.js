@@ -33,6 +33,7 @@ class ServiceDetails extends Component {
         type: notificationBarTypes.WARNING,
         message: "Service temporarily offline by the provider. Please check back later.",
       },
+      createModelCalled: 'new'
     };
   }
 
@@ -100,6 +101,13 @@ class ServiceDetails extends Component {
     this.scrollToView();
   };
 
+  handleEditModel = () => {
+    this.setState({ 
+      activeTab: 2,
+      createModelCalled: 'edit'
+    })
+  }
+
   render() {
     const { classes, service, pricing, loading, error, history, groupInfo, match, training, isLoggedIn } = this.props;
     const { offlineNotication } = this.state;
@@ -131,6 +139,7 @@ class ServiceDetails extends Component {
             scrollToView={this.scrollToView}
             demoComponentRequired={!!service.demo_component_required}
             training={training}
+            handleEditModel={this.handleEditModel}
           />
         ),
       },
@@ -145,7 +154,7 @@ class ServiceDetails extends Component {
       tabs.push({
         name: "Models",
         activeIndex: 2,
-        component: <TrainingModels service={service} groupId={groupInfo.group_id} training={training} />,
+        component: <TrainingModels service={service} groupId={groupInfo.group_id} training={training} createModelCalled={this.state.createModelCalled} />,
       });
     }
 
