@@ -33,7 +33,7 @@ const ModelInfo = ({
   cancelEditModel,
   updateModel
 }) => {
-  const [enableAccessModel, setEnableAccessModel] = useState(modelDetailsOnEdit.publicAccess === true ? true : false);
+  const [enableAccessModel, setEnableAccessModel] = useState(modelDetailsOnEdit && modelDetailsOnEdit.publicAccess === true ? true : false);
   const [ethAddress, setEthAddress] = useState(modelDetailsOnEdit ? modelDetailsOnEdit.addressList : []);
   const [trainingMethod, setTrainingMethod] = useState(modelDetailsOnEdit ? modelDetailsOnEdit.methodName : undefined);
   const [trainingModelName, setTrainingServiceName] = useState(modelDetailsOnEdit ? modelDetailsOnEdit.modelName : "");
@@ -118,7 +118,7 @@ const ModelInfo = ({
     setTrainingModelDescription(event.target.value);
   };
 
-  const addEthAddress = text => setEthAddress([...ethAddress, { text }]);
+  const addEthAddress = text => setEthAddress([...ethAddress, text]);
 
   const toggleEthAddress = index => {
     const newTEthAddress = [...ethAddress];
