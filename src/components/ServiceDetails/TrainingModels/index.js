@@ -17,6 +17,7 @@ const TrainingModels = ({
   modelDetailsOnEdit,
   cancelEditModel,
   updateModel,
+  editModel
 }) => {
   const [showCreateModel, setShowCreateModel] = useState(false);
 
@@ -31,6 +32,7 @@ const TrainingModels = ({
           showReqNewModelBtn
           haveANewModel={training?.training_methods?.length || false}
           training={training}
+          editModel={editModel}
         />
       );
     }
