@@ -173,6 +173,7 @@ class ServiceDetails extends Component {
             modelDetailsOnEdit={modelDetailsOnEdit}
             cancelEditModel={this.onCancelEditModel}
             updateModel={this.onUpdateModel}
+            editModel={this.editModel}
           />
         ),
       });
