@@ -10,17 +10,24 @@ import Typography from "@material-ui/core/Typography";
 import Modal from "@material-ui/core/Modal";
 import StyledButton from "../../../common/StyledButton";
 
-const ModelDetails = ({ classes, model, deleteModels,updateModels, handleEditModel }) => {
+const ModelDetails = ({ classes, model, deleteModels, updateModels, editModel }) => {
   const [open, setOpen] = React.useState(false);
   const handleOpenModal = () => setOpen(true);
   const handleCloseModal = () => setOpen(false);
+
   const handleDeleteModel = () => {
     deleteModels(model);
     setOpen(false);
   };
-  const handleUpdateModels = ()=>{
+
+  const handleUpdateModels = () => {
     updateModels(model);
-  }
+  };
+
+  const handleEditModel = () => {
+    editModel(model);
+  };
+
   return (
     <>
       <div className={classes.modelDetailsContainer}>
@@ -56,7 +63,7 @@ const ModelDetails = ({ classes, model, deleteModels,updateModels, handleEditMod
         </div>
         <div className={classes.actionButtons}>
           <div>
-          <Button className={classes.updateBtn} onClick={handleEditModel}>
+            <Button className={classes.updateBtn} onClick={handleEditModel}>
               <EditIcon />
               <span>Edit</span>
             </Button>

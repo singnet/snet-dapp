@@ -39,4 +39,15 @@ export const useStyles = theme => ({
       }
     }
 	},
+  editModelHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    '& h2': {
+      color: theme.palette.text.darkShadedGray,
+      fontSize: 16,
+      lineHeight: '25px',
+      '& span': { fontSize: 18 }
+    }
+  }
 });

@@ -29,12 +29,15 @@ const ModelInfo = ({
   registerWallet,
   updateWallet,
   setModelData,
+  modelDetailsOnEdit,
+  cancelEditModel,
+  updateModel
 }) => {
-  const [enableAccessModel, setEnableAccessModel] = useState(false);
-  const [ethAddress, setEthAddress] = useState([]);
-  const [trainingMethod, setTrainingMethod] = useState(undefined);
-  const [trainingModelName, setTrainingServiceName] = useState("");
-  const [trainingModelDescription, setTrainingModelDescription] = useState("");
+  const [enableAccessModel, setEnableAccessModel] = useState(modelDetailsOnEdit.publicAccess === true ? true : false);
+  const [ethAddress, setEthAddress] = useState(modelDetailsOnEdit ? modelDetailsOnEdit.addressList : []);
+  const [trainingMethod, setTrainingMethod] = useState(modelDetailsOnEdit ? modelDetailsOnEdit.methodName : undefined);
+  const [trainingModelName, setTrainingServiceName] = useState(modelDetailsOnEdit ? modelDetailsOnEdit.modelName : "");
+  const [trainingModelDescription, setTrainingModelDescription] = useState(modelDetailsOnEdit ? modelDetailsOnEdit.description : "");
   const [alert, setAlert] = useState({});
   const dispatch = useDispatch();
 
@@ -94,10 +97,12 @@ const ModelInfo = ({
   };
 
   const trainingModelAccess = training?.training_methods || [];
+
   const trainingDropDownObject = trainingModelAccess.map(e => ({
     value: e,
     label: e,
   }));
+
   const trainingMethodDropDownBox = event => {
     const { value } = event.target;
     if (value !== "default") {
@@ -108,6 +113,7 @@ const ModelInfo = ({
   const handleModelServiceName = event => {
     setTrainingServiceName(event.target.value);
   };
+
   const handleModelDescription = event => {
     setTrainingModelDescription(event.target.value);
   };
@@ -140,13 +146,17 @@ const ModelInfo = ({
           <span>Please select a method to train as a first step.</span>
         </div>
         <div className={classes.modelNameContainer}>
-          <StyledTextField label="Model name" onChange={handleModelServiceName} />
+          <StyledTextField
+            label="Model name"
+            value={trainingModelName}
+            onChange={handleModelServiceName}
+          />
           <span>The name of your service can not be same name as another service.</span>
         </div>
         <div className={classes.modelDescriptionContainer}>
           <StyledTextField
             label="Model Description"
-            // value={description}
+            value={trainingModelDescription}
             fullWidth
             multiline
             rows={5}
@@ -175,7 +185,7 @@ const ModelInfo = ({
             <span>Ethereum addresses</span>
             {ethAddress.map((address, index) => (
               <div key={index.toString()} className={classes.addedEthAdd}>
-                <span onClick={() => toggleEthAddress(index)}>{address.text}</span>
+                <span onClick={() => toggleEthAddress(index)}>{address}</span>
                 <DeleteOutlineIcon onClick={() => removeEthAddress(index)} />
               </div>
             ))}
@@ -183,9 +193,19 @@ const ModelInfo = ({
           </div>
         ) : null}
       </div>
-      <div className={classes.btnContainer}>
-        <StyledButton btnText="Next" onClick={onNext} />
-      </div>
+      {modelDetailsOnEdit ? (
+        <div className={classes.editVersionBtnContainer}>
+          <StyledButton btnText="Delete" type="redBg" />
+          <div>
+            <StyledButton btnText="Cancel" onClick={cancelEditModel} />
+            <StyledButton btnText="Update" type="blue" onClick={updateModel} />
+          </div>
+        </div>
+      ) : (
+        <div className={classes.btnContainer}>
+          <StyledButton btnText="Next" onClick={onNext} />
+        </div>
+      )}
       <AlertBox type={alert.type} message={alert.message} />
     </div>
   );

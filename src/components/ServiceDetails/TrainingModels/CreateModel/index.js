@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import isEmpty from "lodash/isEmpty";
 import { withStyles } from "@material-ui/styles";
 import { useStyles } from "./styles";
 import CreateModelContainer from "./CreateModelContainer";
@@ -7,7 +8,7 @@ import Data from "./Data";
 import Payment from "./Payment";
 import Finish from "./Finish";
 
-const CreateModel = ({ service, classes, training }) => {
+const CreateModel = ({ service, classes, training, modelDetailsOnEdit, cancelEditModel, updateModel  }) => {
   const [activeSection, setActiveSection] = React.useState(1);
   const [modelData, setModelData] = useState({});
   const [trainModelId, setTrainModelId] = useState();
@@ -23,7 +24,16 @@ const CreateModel = ({ service, classes, training }) => {
   const createModelTabs = [
     {
       key: "modelInfo",
-      component: <ModelInfo handleNextClick={handleNextClick} training={training} setModelData={setModelData} />,
+      component: (
+        <ModelInfo
+          handleNextClick={handleNextClick}
+          training={training}
+          setModelData={setModelData}
+          modelDetailsOnEdit={modelDetailsOnEdit}
+          cancelEditModel={cancelEditModel}
+          updateModel={updateModel}
+        />
+      ),
     },
     {
       key: "data",
@@ -57,7 +67,18 @@ const CreateModel = ({ service, classes, training }) => {
 
   return (
     <div className={classes.createModelContainer}>
-      <h2>New Model Request</h2>
+      {isEmpty(modelDetailsOnEdit) ? (
+        <h2>New Model Request</h2>
+      ) : (
+        <div className={classes.editModelHeader}>
+          <h2>
+            <span>Edit:</span> {modelDetailsOnEdit.modelName}
+          </h2>
+          <h2>
+            <span>Model id:</span> {modelDetailsOnEdit.modelId}
+          </h2>
+        </div>
+      )}
       {createModelTabs.map((item, index) => (
         <CreateModelContainer
           key={item.title}
