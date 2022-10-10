@@ -27,6 +27,7 @@ const ExistingModel = ({
   groupInfo,
   haveANewModel,
   wallet,
+  editModel
 }) => {
   const [metamaskConnected, setMetamaskConnected] = useState(false);
   const [existingModels, setExistingModels] = useState([]);
@@ -115,13 +116,13 @@ const ExistingModel = ({
       return existingModels.map(model => {
         return (
           <div key={model.modelId}>
-            <ModelDetails model={model} deleteModels={deleteModels} updateModels={updateModels} />
+            <ModelDetails model={model} deleteModels={deleteModels} updateModels={updateModels} editModel={editModel} />
           </div>
         );
       });
     } else {
       return (
-        <div className={classes.btnContainer}>
+        <div className={classes.noDataFoundTxt}>
           <Typography>No data found</Typography>
         </div>
       );

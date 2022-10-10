@@ -9,7 +9,15 @@ import ProjectDetails from "../ProjectDetails";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import CreateModel from "./CreateModel";
 
-const TrainingModels = ({ classes, service, training }) => {
+const TrainingModels = ({
+  classes,
+  service,
+  training,
+  createModelCalled,
+  modelDetailsOnEdit,
+  cancelEditModel,
+  updateModel,
+}) => {
   const [showCreateModel, setShowCreateModel] = useState(false);
 
   const handleRequestModel = () => {
@@ -28,6 +36,18 @@ const TrainingModels = ({ classes, service, training }) => {
     }
     return null;
   }, [training]);
+
+  if (createModelCalled === "edit") {
+    return (
+      <CreateModel
+        service={service}
+        training={training}
+        modelDetailsOnEdit={modelDetailsOnEdit}
+        cancelEditModel={cancelEditModel}
+        updateModel={updateModel}
+      />
+    );
+  }
 
   return (
     <Grid container spacing={24} className={classes.trainingModelContainer}>

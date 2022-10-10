@@ -137,6 +137,8 @@ export const useStyles = theme => ({
       borderRadius: 4,
       marginRight: 24,
       display: 'inline-block',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis'
     },
     "& svg": { color: "#D6201F" }
   },
@@ -144,10 +146,23 @@ export const useStyles = theme => ({
     marginTop: 24,
     textAlign: "center",
   },
+  editVersionBtnContainer: {
+    marginTop: 32,
+    display: 'flex',
+    justifyContent: 'space-between',
+    '& button': { textTransform: 'capitalize' },
+    '& > button': {
+      '&:first-of-type': { backgroundColor: '#DC1616' }
+    },
+    '& div': {
+      '& button': {
+        '&:first-of-type': { 
+          marginRight: 16,
+          backgroundColor: '#F8F8F8',
+          color: theme.palette.text.darkShadedGray
+        }
+      },
+    }
+  }
 });
 
-// "& svg": {
-//   marginLeft: 24,
-//   color: theme.palette.text.redBtnText,
-//   fontSize: 20,
-// },

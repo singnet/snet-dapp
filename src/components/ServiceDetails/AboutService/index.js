@@ -21,6 +21,7 @@ const AboutService = ({
   scrollToView,
   demoComponentRequired,
   training,
+  editModel
 }) => {
   const RenderExistingModel = () => {
     if (process.env.REACT_APP_TRAINING_ENABLE === "true" && Object.keys(training).length && isLoggedIn) {
@@ -29,6 +30,7 @@ const AboutService = ({
           showReqNewModelBtn
           haveANewModel={training?.training_methods?.length || false}
           training={training}
+          editModel={editModel}
         />
       );
     }

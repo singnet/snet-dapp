@@ -44,5 +44,10 @@ export const useStyles = theme => ({
       fontWeight: 300,
       lineHeight: '24px'
     }
+  },
+  noDataFoundTxt: {
+    paddingTop: 24,
+    textAlign: 'center',
+    '& p': { fontFamily: theme.typography.primary.main }
   }
 });

@@ -33,6 +33,8 @@ class ServiceDetails extends Component {
         type: notificationBarTypes.WARNING,
         message: "Service temporarily offline by the provider. Please check back later.",
       },
+      createModelCalled: "new",
+      modelDetailsOnEdit: undefined,
     };
   }
 
@@ -100,6 +102,22 @@ class ServiceDetails extends Component {
     this.scrollToView();
   };
 
+  editModel = model => {
+    this.setState({
+      activeTab: 2,
+      createModelCalled: "edit",
+      modelDetailsOnEdit: model,
+    });
+  };
+
+  onCancelEditModel = () => {
+    this.setState({ activeTab: 0 })
+  }
+
+  onUpdateModel = () => {
+    this.setState({ activeTab: 0 })
+  }
+
   render() {
     const { classes, service, pricing, loading, error, history, groupInfo, match, training, isLoggedIn } = this.props;
     const { offlineNotication } = this.state;
@@ -117,7 +135,7 @@ class ServiceDetails extends Component {
       );
     }
 
-    const { activeTab } = this.state;
+    const { activeTab, modelDetailsOnEdit } = this.state;
     const tabs = [
       {
         name: "About",
@@ -131,6 +149,7 @@ class ServiceDetails extends Component {
             scrollToView={this.scrollToView}
             demoComponentRequired={!!service.demo_component_required}
             training={training}
+            editModel={this.editModel}
           />
         ),
       },
@@ -145,7 +164,17 @@ class ServiceDetails extends Component {
       tabs.push({
         name: "Models",
         activeIndex: 2,
-        component: <TrainingModels service={service} groupId={groupInfo.group_id} training={training} />,
+        component: (
+          <TrainingModels
+            service={service}
+            groupId={groupInfo.group_id}
+            training={training}
+            createModelCalled={this.state.createModelCalled}
+            modelDetailsOnEdit={modelDetailsOnEdit}
+            cancelEditModel={this.onCancelEditModel}
+            updateModel={this.onUpdateModel}
+          />
+        ),
       });
     }
 
