@@ -20,6 +20,11 @@ import Routes from "../../utility/constants/Routes";
 import CardImg from "../../assets/images/SnetDefaultServiceImage.png";
 import TrainingModels from "./TrainingModels";
 import { fetchTrainingModel } from "../../Redux/actionCreators/ServiceDetailsActions";
+
+import { WebServiceClient as ServiceClient } from "snet-sdk-web";
+// import { loaderActions, userActions } from "../../Redux/actionCreators";
+// import { LoaderContent } from "../../utility/constants/LoaderContent";
+import { initSdk } from "../../utility/sdk";
 export const HERO_IMG = "hero_image";
 
 class ServiceDetails extends Component {
@@ -103,6 +108,7 @@ class ServiceDetails extends Component {
   };
 
   editModel = model => {
+    console.log(model,'--model---');
     this.setState({
       activeTab: 2,
       createModelCalled: "edit",
@@ -114,12 +120,29 @@ class ServiceDetails extends Component {
     this.setState({ activeTab: 0 })
   }
 
-  onUpdateModel = () => {
+  onUpdateModel = async(modelDetailsOnEdit,trainingModelName,trainingModelDescription,ethAddress) => {
+    const { org_id, service_id } = this.props.service;
+      const sdk = await initSdk();
+      const serviceClient = new ServiceClient(sdk, org_id, service_id, sdk._mpeContract, {}, this.props.groupInfo);
+      const params = {
+        modelId: modelDetailsOnEdit.modelId,
+        address: this.props.wallet.address,
+        method: modelDetailsOnEdit.methodName,
+        name: modelDetailsOnEdit.serviceName,
+        modelName:trainingModelName,
+        description:trainingModelDescription,
+        addressList:ethAddress,
+        status:modelDetailsOnEdit.status,
+        updatedDate:modelDetailsOnEdit.updatedDate,
+        publicAccess:modelDetailsOnEdit.publicAccess,
+      };
+      const response=await serviceClient.updateModel(params);
+      console.log("=====updatingModel==", response);
     this.setState({ activeTab: 0 })
   }
 
   render() {
-    const { classes, service, pricing, loading, error, history, groupInfo, match, training, isLoggedIn } = this.props;
+    const { classes, service, pricing, loading, error, history, groupInfo, match, training, isLoggedIn,wallet } = this.props;
     const { offlineNotication } = this.state;
     const {
       params: { orgId, serviceId },
@@ -236,6 +259,7 @@ const mapStateToProps = (state, ownProps) => {
     loading: state.loaderReducer.app.loading,
     training: state.serviceDetailsReducer.detailsTraining,
     isLoggedIn: state.userReducer.login.isLoggedIn,
+    wallet:state.userReducer.wallet,
   };
 };
 

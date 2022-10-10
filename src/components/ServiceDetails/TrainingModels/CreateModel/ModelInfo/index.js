@@ -198,7 +198,7 @@ const ModelInfo = ({
           <StyledButton btnText="Delete" type="redBg" />
           <div>
             <StyledButton btnText="Cancel" onClick={cancelEditModel} />
-            <StyledButton btnText="Update" type="blue" onClick={updateModel} />
+            <StyledButton btnText="Update" type="blue" onClick={updateModel(trainingModelName,trainingModelDescription,ethAddress)} />
           </div>
         </div>
       ) : (
