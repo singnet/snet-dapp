@@ -1,6 +1,5 @@
 import React from "react";
 import { withStyles } from "@material-ui/styles";
-
 import { useStyles } from "./styles";
 import Button from "@material-ui/core/Button";
 import EditIcon from "@material-ui/icons/Edit";
@@ -11,52 +10,54 @@ import Typography from "@material-ui/core/Typography";
 import Modal from "@material-ui/core/Modal";
 import StyledButton from "../../../common/StyledButton";
 
-const ModelDetails = ({ classes, title, id, description, status, accessTo, lastUpdate }) => {
+const ModelDetails = ({ classes, model, deleteModels, editModel }) => {
   const [open, setOpen] = React.useState(false);
   const handleOpenModal = () => setOpen(true);
   const handleCloseModal = () => setOpen(false);
-	const handleDeleteModel = () => {
-		setOpen(false);
-	}
+
+  const handleDeleteModel = () => {
+    deleteModels(model);
+    setOpen(false);
+  };
+
+  const handleEditModel = () => {
+    editModel(model);
+  };
+
   return (
     <>
       <div className={classes.modelDetailsContainer}>
         <div className={classes.titleIdContainer}>
-          <h3>{title}</h3>
+          <h3>{model.modelName}</h3>
           <p>
-            Model id: <span>{id}</span>
+            Model id: <span>{model.modelId}</span>
           </p>
         </div>
-        <p>{description}</p>
+        <p>{model.description}</p>
         <div className={classes.statusAccessLastUpdateContainer}>
           <div>
             <p>
-              Status: <span data-status-type={status}>{status}</span>
+              Status: <span data-status-type="Inprogress">{model.status}</span>
             </p>
             <p className={classes.accessValue}>
               Access:
-							{/* { */}
-								{/* accessTo === 'limited' ? */}
-								<>
-									<span> limited(4)</span>
-									<ul>
-										<li>90986239898</li>
-										<li>90986239898</li>
-										<li>90986239898</li>
-										<li>90986239898</li>
-									</ul>
-									</>
-								{/* : <span>{accessTo}</span> */}
-							{/* } */}
+              <>
+                <span> {`limited(${model.addressList.length})`}</span>
+                <ul>
+                  {model.addressList.map(address => (
+                    <li key={address}>{address}</li>
+                  ))}
+                </ul>
+              </>
             </p>
           </div>
-          <p>Last update: {lastUpdate}</p>
+          <p>Last update: {model.updatedDate}</p>
         </div>
         <div className={classes.actionButtons}>
           <div>
-            <Button className={classes.updateBtn}>
+            <Button className={classes.updateBtn} onClick={handleEditModel}>
               <EditIcon />
-              <span>Update</span>
+              <span>Edit</span>
             </Button>
             <Button className={classes.testBtn}>
               <NearMeOutlinedIcon />
@@ -78,7 +79,7 @@ const ModelDetails = ({ classes, title, id, description, status, accessTo, lastU
       >
         <Box className={classes.deleteModalContent}>
           <Typography variant="h6" component="h2">
-            Are you sure you want to delete this ?{" "}
+            Are you sure you want to delete this ?
           </Typography>
           <Typography>
             Are you sure you want ot delete ”Region Recognition” model? This action cannot be undone and you model will

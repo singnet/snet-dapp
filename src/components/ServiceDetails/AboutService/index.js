@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
@@ -10,9 +10,6 @@ import ProjectDetails from "../ProjectDetails";
 import MediaGallery from "../MediaGallery";
 import PromoBox from "./PromoBox";
 import ExistingModel from "../ExistingModel";
-import { alertTypes } from "../../common/AlertBox";
-import { LoaderContent } from "../../../utility/constants/LoaderContent";
-import { loaderActions, userActions } from "../../../Redux/actionCreators";
 
 const AboutService = ({
   classes,
@@ -23,11 +20,19 @@ const AboutService = ({
   demoExampleRef,
   scrollToView,
   demoComponentRequired,
-  haveANewModel
+  training,
+  editModel
 }) => {
   const RenderExistingModel = () => {
-    if (process.env.REACT_APP_TRAINING_ENABLE === "true") {
-      return <ExistingModel showReqNewModelBtn haveANewModel={haveANewModel}/>;
+    if (process.env.REACT_APP_TRAINING_ENABLE === "true" && Object.keys(training).length && isLoggedIn) {
+      return (
+        <ExistingModel
+          showReqNewModelBtn
+          haveANewModel={training?.training_methods?.length || false}
+          training={training}
+          editModel={editModel}
+        />
+      );
     }
     return null;
   };
@@ -75,15 +80,6 @@ const AboutService = ({
 
 const mapStateToProps = state => ({
   isLoggedIn: state.userReducer.login.isLoggedIn,
-  wallet: state.userReducer.wallet,
 });
 
-const mapDispatchToProps = dispatch => ({
-  startMMconnectLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.CONNECT_METAMASK)),
-  updateWallet: ({ type, address }) => dispatch(userActions.updateWallet({ type, address })),
-  registerWallet: (address, type) => dispatch(userActions.registerWallet(address, type)),
-  fetchAvailableUserWallets: () => dispatch(userActions.fetchAvailableUserWallets()),
-  stopLoader: () => dispatch(loaderActions.stopAppLoader),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(AboutService));
+export default connect(mapStateToProps)(withStyles(useStyles)(AboutService));

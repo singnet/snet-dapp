@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 import StyledButton from "../../common/StyledButton";
@@ -9,18 +9,57 @@ import ProjectDetails from "../ProjectDetails";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import CreateModel from "./CreateModel";
 
-const TrainingModels = ({ classes, service, haveANewModel }) => {
+const TrainingModels = ({
+  classes,
+  service,
+  training,
+  createModelCalled,
+  modelDetailsOnEdit,
+  cancelEditModel,
+  updateModel,
+  editModel,
+  deleteModel,
+}) => {
   const [showCreateModel, setShowCreateModel] = useState(false);
-  const [MMconnected, setMMConnected] = useState(true);
 
   const handleRequestModel = () => {
     setShowCreateModel(true);
   };
 
-  if (!MMconnected) {
+  const RenderExistingModel = useCallback(() => {
+    if (process.env.REACT_APP_TRAINING_ENABLE === "true" && Object.keys(training).length) {
+      return (
+        <ExistingModel
+          showReqNewModelBtn
+          haveANewModel={training?.training_methods?.length || false}
+          training={training}
+          editModel={editModel}
+        />
+      );
+    }
+    return null;
+  }, [editModel, training]);
+
+  if (createModelCalled === "edit") {
     return (
-      <Grid item xs={12} sm={12} md={8} lg={8} className={classes.leftSideSection}>
-        <ExistingModel />
+      <Grid container spacing={24} className={classes.trainingModelContainer}>
+        <Grid item xs={12} sm={12} md={8} lg={8} className={classes.leftSideSection}>
+          <CreateModel
+            service={service}
+            training={training}
+            modelDetailsOnEdit={modelDetailsOnEdit}
+            cancelEditModel={cancelEditModel}
+            updateModel={updateModel}
+          />
+        </Grid>
+        <Grid item xs={12} sm={12} md={4} lg={4} className={classes.rightSideSection}>
+          <ProjectDetails
+            projectURL={service.url}
+            contributors={service.contributors}
+            orgId={service.org_id}
+            serviceId={service.service_id}
+          />
+        </Grid>
       </Grid>
     );
   }
@@ -29,7 +68,7 @@ const TrainingModels = ({ classes, service, haveANewModel }) => {
     <Grid container spacing={24} className={classes.trainingModelContainer}>
       <Grid item xs={12} sm={12} md={8} lg={8} className={classes.leftSideSection}>
         {showCreateModel ? (
-          <CreateModel />
+          <CreateModel service={service} training={training} />
         ) : (
           <>
             <div className={classes.requestModelContainer}>
@@ -41,10 +80,9 @@ const TrainingModels = ({ classes, service, haveANewModel }) => {
                   and manage models. The models you create in this project inherit the name of the project.
                 </p>
               </div>
-              {/* {haveANewModel ? <StyledButton btnText="request a new model" onClick={handleRequestModel} /> : null} */}
               <StyledButton btnText="request a new model" onClick={handleRequestModel} />
             </div>
-            <ExistingModel />
+            <RenderExistingModel />
           </>
         )}
       </Grid>

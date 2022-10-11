@@ -1,11 +1,16 @@
-import React, { Fragment } from "react";
+import React, { useState } from "react";
 import { withStyles } from "@material-ui/styles";
 import Upload from "./Upload";
 import StyledButton from "../../../../common/StyledButton";
 import fileDownload from "../../../../../assets/images/fileDownload.svg";
 import { useStyles } from "./styles";
 
-const Data = ({ classes, handleNextClick }) => {
+const Data = ({ classes, handleNextClick, onBackClick, modelData, setModelData }) => {
+  const [trainingDataLink, setTrainingDataLink] = useState("");
+  const onNextPress = () => {
+    setModelData({ ...modelData, dataLink: trainingDataLink });
+    handleNextClick();
+  };
   return (
     <div className={classes.modelDataContaienr}>
       <div className={classes.createDatasetContainer}>
@@ -21,11 +26,11 @@ const Data = ({ classes, handleNextClick }) => {
       </div>
       <div className={classes.uploadDatasetContainer}>
         <span>Upload your dataset</span>
-        <Upload />
+        <Upload trainingDataLink={trainingDataLink} setTrainingDataLink={setTrainingDataLink} />
       </div>
       <div className={classes.btnContainer}>
-        <StyledButton btnText="Back" type="transparent" />
-        <StyledButton btnText="Next" type="blue" onClick={handleNextClick} />
+        <StyledButton btnText="Back" type="transparent" onClick={onBackClick} />
+        <StyledButton btnText="Next" type="blue" onClick={onNextPress} />
       </div>
     </div>
   );

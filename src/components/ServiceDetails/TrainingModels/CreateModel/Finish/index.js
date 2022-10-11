@@ -8,14 +8,14 @@ import { userProfileRoutes } from "../../../../UserProfile";
 import { useStyles } from "./styles";
 import StyledButton from "../../../../common/StyledButton";
 
-const Payment = ({ classes }) => {
+const Payment = ({ classes, trainModelId }) => {
   return (
     <div className={classes.finishContaienr}>
       <CheckCircleIcon />
       <span>Training Request Submitted</span>
       <p>Your model request has been submitted and will be processed soon.</p>
       <p>
-        Model Request Reference ID: <span>231212</span>
+        Model Request Reference ID: <span>{trainModelId}</span>
       </p>
       <div className={classes.btnContainer}>
         <Link to={userProfileRoutes.TRANSACTIONS.path} className={classes.routerLink}>

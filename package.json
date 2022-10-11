@@ -55,7 +55,7 @@
     "scrypt": "github:barrysteyn/node-scrypt#fb60a8d3c158fe115a624b5ffa7480f3a24b03fb",
     "singularitynet-platform-contracts": "1.0.1",
     "slick-carousel": "^1.8.1",
-    "snet-sdk-web": "2.0.0-beta.0",
+    "snet-sdk-web": "3.0.0",
     "style-loader": "^2.0.0",
     "utf8": "^3.0.0",
     "validate.js": "^0.13.1",

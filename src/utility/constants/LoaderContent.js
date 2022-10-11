@@ -96,4 +96,24 @@ export const LoaderContent = {
     loaderHeader: "Generating Auth Token",
     loaderText: "Please wait while we generate the token to download",
   },
+  FETCH_TRAINING_EXISTING_MODEL: {
+    loaderHeader: "Fetching existing training models",
+    loaderText: "Please wait. we're fetching existing models",
+  },
+  CREATE_TRAINING_MODEL: {
+    loaderHeader: "Creating training models",
+    loaderText: "Please wait. we're creating training models",
+  },
+  TRAIN_MODEL: {
+    loaderHeader: "Training model",
+    loaderText: "Please wait. we're training model",
+  },
+  DELETE_MODEL: {
+    loaderHeader: "Deleting model",
+    loaderText: "Please wait. we're deleting model",
+  },
+  UPDATE_MODEL: {
+    loaderHeader: "Updating model",
+    loaderText: "Please wait. we're updating model",
+  },
 };

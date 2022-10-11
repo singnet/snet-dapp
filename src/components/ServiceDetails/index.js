@@ -12,7 +12,7 @@ import AboutService from "./AboutService";
 import InstallAndRunService from "./InstallAndRunService";
 import { useStyles } from "./styles";
 import NotificationBar, { notificationBarTypes } from "../common/NotificationBar";
-import { serviceDetailsActions } from "../../Redux/actionCreators";
+import { loaderActions, serviceDetailsActions } from "../../Redux/actionCreators";
 import { pricing, serviceDetails, groupInfo } from "../../Redux/reducers/ServiceDetailsReducer";
 import ErrorBox from "../common/ErrorBox";
 import SeoMetadata from "../common/SeoMetadata";
@@ -20,12 +20,16 @@ import Routes from "../../utility/constants/Routes";
 import CardImg from "../../assets/images/SnetDefaultServiceImage.png";
 import TrainingModels from "./TrainingModels";
 import { fetchTrainingModel } from "../../Redux/actionCreators/ServiceDetailsActions";
+import { WebServiceClient as ServiceClient } from "snet-sdk-web";
+import { initSdk } from "../../utility/sdk";
+import { LoaderContent } from "../../utility/constants/LoaderContent";
 export const HERO_IMG = "hero_image";
 
 class ServiceDetails extends Component {
   constructor(props) {
     super(props);
     this.demoExampleRef = React.createRef();
+    this.lastActiveTab = 0;
     this.state = {
       activeTab: 0,
       alert: {},
@@ -33,8 +37,16 @@ class ServiceDetails extends Component {
         type: notificationBarTypes.WARNING,
         message: "Service temporarily offline by the provider. Please check back later.",
       },
+      createModelCalled: "new",
+      modelDetailsOnEdit: undefined,
     };
   }
+
+  initializeService = async () => {
+    const { org_id, service_id } = this.props.service;
+    const sdk = await initSdk();
+    this.serviceClient = new ServiceClient(sdk, org_id, service_id, sdk._mpeContract, {}, this.props.groupInfo);
+  };
 
   componentDidMount() {
     if (process.env.REACT_APP_SANDBOX) {
@@ -42,6 +54,8 @@ class ServiceDetails extends Component {
     }
     if (isEmpty(this.props.service)) {
       this.fetchServiceDetails();
+    } else {
+      this.initializeService();
     }
     this.fetchTrainingModel();
   }
@@ -54,7 +68,7 @@ class ServiceDetails extends Component {
       },
     } = this.props;
     await fetchTrainingModel(orgId, serviceId);
-  }
+  };
 
   fetchServiceDetails = async () => {
     const {
@@ -65,6 +79,7 @@ class ServiceDetails extends Component {
     } = this.props;
     try {
       await fetchServiceDetails(orgId, serviceId);
+      this.initializeService();
     } catch (error) {
       this.setState({ error: true });
     }
@@ -75,6 +90,7 @@ class ServiceDetails extends Component {
       const currentUrl = this.props.location.pathname;
       this.props.history.push(currentUrl);
     }
+    this.lastActiveTab = activeTab;
     this.setState({ activeTab });
   };
 
@@ -100,14 +116,60 @@ class ServiceDetails extends Component {
     this.scrollToView();
   };
 
+  editModel = model => {
+    this.setState({
+      activeTab: 2,
+      createModelCalled: "edit",
+      modelDetailsOnEdit: model,
+    });
+  };
+
+  onCancelEditModel = () => {
+    this.setState({ activeTab: this.lastActiveTab, createModelCalled: "new", modelDetailsOnEdit: undefined });
+  };
+
+  onUpdateModel = async updateModelParams => {
+    const { startUpdateLoader, stopLoader, wallet } = this.props;
+    const { modelDetailsOnEdit } = this.state;
+    startUpdateLoader();
+    const params = {
+      modelId: modelDetailsOnEdit.modelId,
+      address: wallet.address,
+      method: modelDetailsOnEdit.methodName,
+      name: modelDetailsOnEdit.serviceName,
+      modelName: updateModelParams.trainingModelName,
+      description: updateModelParams.trainingModelDescription,
+      publicAccess: updateModelParams.enableAccessModel,
+      addressList: updateModelParams.ethAddress,
+      status: modelDetailsOnEdit.status,
+      updatedDate: modelDetailsOnEdit.updatedDate,
+    };
+    await this.serviceClient.updateModel(params);
+    stopLoader();
+    this.onCancelEditModel();
+  };
+
+  deleteModel = async model => {
+    const { startDeleteLoader, stopLoader, wallet } = this.props;
+    const { modelDetailsOnEdit } = this.state;
+    startDeleteLoader();
+    const params = {
+      modelId: modelDetailsOnEdit.modelId,
+      address: wallet.address,
+      method: modelDetailsOnEdit.methodName,
+      name: modelDetailsOnEdit.serviceName,
+    };
+    await this.serviceClient.deleteModel(params);
+    stopLoader();
+    this.onCancelEditModel();
+  };
+
   render() {
-    const { classes, service, pricing, loading, error, history, groupInfo, match, training } = this.props;
+    const { classes, service, pricing, loading, error, history, groupInfo, match, training, isLoggedIn } = this.props;
     const { offlineNotication } = this.state;
     const {
       params: { orgId, serviceId },
     } = match;
-    let haveTrainingModel = (Object.keys(training).length === 0 ? false : true);
-    let haveANewModel = (((training !== undefined) && ((training.training_methods === undefined)||((training.training_methods).length === 0)))? false : true);
     if (isEmpty(service) || error) {
       if (loading) {
         return null;
@@ -119,7 +181,7 @@ class ServiceDetails extends Component {
       );
     }
 
-    const { activeTab } = this.state;
+    const { activeTab, modelDetailsOnEdit } = this.state;
     const tabs = [
       {
         name: "About",
@@ -132,9 +194,8 @@ class ServiceDetails extends Component {
             demoExampleRef={this.demoExampleRef}
             scrollToView={this.scrollToView}
             demoComponentRequired={!!service.demo_component_required}
-            haveTrainingModel={haveTrainingModel}
             training={training}
-            haveANewModel={haveANewModel}
+            editModel={this.editModel}
           />
         ),
       },
@@ -145,14 +206,26 @@ class ServiceDetails extends Component {
       },
     ];
 
-    if (process.env.REACT_APP_TRAINING_ENABLE === 'true') {
+    if (process.env.REACT_APP_TRAINING_ENABLE === "true" && isLoggedIn) {
       tabs.push({
         name: "Models",
         activeIndex: 2,
-        component: <TrainingModels service={service} groupId={groupInfo.group_id} haveANewModel={haveANewModel}/>,
+        component: (
+          <TrainingModels
+            service={service}
+            groupId={groupInfo.group_id}
+            training={training}
+            createModelCalled={this.state.createModelCalled}
+            modelDetailsOnEdit={modelDetailsOnEdit}
+            cancelEditModel={this.onCancelEditModel}
+            updateModel={this.onUpdateModel}
+            editModel={this.editModel}
+            deleteModel={this.deleteModel}
+          />
+        ),
       });
     }
-    
+
     const seoURL = `${process.env.REACT_APP_BASE_URL}/servicedetails/org/${orgId}/service/${serviceId}`;
 
     return (
@@ -209,12 +282,17 @@ const mapStateToProps = (state, ownProps) => {
     pricing: pricing(state),
     loading: state.loaderReducer.app.loading,
     training: state.serviceDetailsReducer.detailsTraining,
+    isLoggedIn: state.userReducer.login.isLoggedIn,
+    wallet: state.userReducer.wallet,
   };
 };
 
 const mapDispatchToProps = dispatch => ({
   fetchServiceDetails: (orgId, serviceId) => dispatch(serviceDetailsActions.fetchServiceDetails(orgId, serviceId)),
   fetchTrainingModel: (orgId, serviceId) => dispatch(fetchTrainingModel(orgId, serviceId)),
+  startUpdateLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.UPDATE_MODEL)),
+  startDeleteLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.DELETE_MODEL)),
+  stopLoader: () => dispatch(loaderActions.stopAppLoader),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(ServiceDetails));

@@ -1,16 +1,99 @@
-import React from "react";
+import React, { useState } from "react";
 import { withStyles } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
-
+import DoneIcon from "@material-ui/icons/Done";
 import { useStyles } from "./styles";
 import PaymentMode from "./PaymentMode";
 import StyledButton from "../../../../common/StyledButton";
+import AlertBox, { alertTypes } from "../../../../common/AlertBox";
+import { callTypes, createServiceClient } from "../../../../../utility/sdk";
+import { Calculator } from "../../../../../assets/thirdPartyServices/snet/example_service/example_service_pb_service";
+import { channelInfo } from "../../../../../Redux/reducers/UserReducer";
+import { currentServiceDetails, groupInfo } from "../../../../../Redux/reducers/ServiceDetailsReducer";
+import { LoaderContent } from "../../../../../utility/constants/LoaderContent";
+import { loaderActions } from "../../../../../Redux/actionCreators";
+import { connect } from "react-redux";
 
-const Payment = ({ classes, handleNextClick }) => {
-
+const Payment = ({
+  classes,
+  handleNextClick,
+  service,
+  serviceDetails: { org_id, service_id },
+  groupInfo,
+  modelData,
+  channelInfo,
+  wallet,
+  stopLoader,
+  startLoader,
+  setTrainModelId,
+}) => {
+  const [autoSave] = useState(true);
+  const [purchaseCompleted, setPurchaseCompleted] = useState(false);
+  const [alert, setAlert] = useState({});
   const addEllipsisAtEndOfString = str => `${str.substr(0, 40)}...`;
+
+  const AddressList = () => {
+    if (modelData?.address?.length) {
+      return modelData?.address.map(address => <li key={address}>{addEllipsisAtEndOfString(address)}</li>);
+    }
+
+    return null;
+  };
+
+  const serviceRequestStartHandler = () => {
+    setAlert({});
+    startLoader();
+  };
+
+  const serviceRequestCompleteHandler = () => {
+    stopLoader();
+    handleNextClick();
+  };
+
+  const serviceRequestErrorHandler = error => {
+    const alert = { type: alertTypes.ERROR };
+    if (error.response && error.response.data && error.response.data.error) {
+      alert.message = error.response.data.error;
+    } else {
+      alert.message = error.message || error;
+    }
+    setAlert(alert);
+    stopLoader();
+  };
+
+  const onNextPress = async () => {
+    const serviceClient = await createServiceClient(
+      org_id,
+      service_id,
+      groupInfo,
+      serviceRequestStartHandler,
+      serviceRequestCompleteHandler,
+      serviceRequestErrorHandler,
+      callTypes,
+      wallet,
+      channelInfo
+    );
+    const descriptor = modelData.method.split(".")[1].split("/")[1];
+    const methodDescriptor = Calculator[descriptor];
+    const request = new methodDescriptor.requestType();
+    request.setLink(modelData.dataLink);
+    request.setAddress(wallet.address);
+    request.setModelId(modelData.modelId);
+    request.setRequestId("");
+    const props = {
+      request,
+      onEnd: ({ message }) => {
+        setTrainModelId(message.getModelId());
+      },
+    };
+    serviceClient.unary(methodDescriptor, props);
+  };
+
+  const handlePurchaseComplete = () => {
+    setPurchaseCompleted(true);
+  };
 
   return (
     <div className={classes.paymentContaienr}>
@@ -30,7 +113,7 @@ const Payment = ({ classes, handleNextClick }) => {
           </Grid>
           <Grid item xs={9}>
             <Typography>
-              Animal detection
+              {modelData?.name || ""}
               <EditOutlinedIcon />
             </Typography>
           </Grid>
@@ -41,9 +124,7 @@ const Payment = ({ classes, handleNextClick }) => {
           </Grid>
           <Grid item xs={9}>
             <Typography>
-              Helping wildlife researchers in studying the wild animal species collectively and making strategies to
-              protect them. Artificial intelligence tracks wildlife patterns and predicts the extinction of endangered
-              animal species.
+              {modelData?.description}
               <EditOutlinedIcon />
             </Typography>
           </Grid>
@@ -65,8 +146,8 @@ const Payment = ({ classes, handleNextClick }) => {
           </Grid>
           <Grid item xs={9}>
             <Typography>
-              <a href="#" title="Zipped File Name">
-                https://www.littlebigfiles.com/file234565432123454321.zip
+              <a href={modelData.dataLink} title="Zipped File Name">
+                {modelData?.dataLink}
               </a>
               <EditOutlinedIcon />
             </Typography>
@@ -89,11 +170,7 @@ const Payment = ({ classes, handleNextClick }) => {
           </Grid>
           <Grid item xs={9}>
             <ul>
-              <li>{addEllipsisAtEndOfString("456iorkjahfjouo23eyu3o2u01982409un9u092")}</li>
-              <li>{addEllipsisAtEndOfString("456iorkjahfjouo23eyu3o2u01982409un9u092")}</li>
-              <li>{addEllipsisAtEndOfString("456iorkjahfjouo23eyu3o2u01982409un9u092")}</li>
-              <li>{addEllipsisAtEndOfString("456iorkjahfjouo23eyu3o2u01982409un9u092")}</li>
-              <li>{addEllipsisAtEndOfString("456iorkjahfjouo23eyu3o2u01982409un9u092")}</li>
+              <AddressList />
             </ul>
           </Grid>
         </Grid>
@@ -106,12 +183,36 @@ const Payment = ({ classes, handleNextClick }) => {
           <span>0.002</span>
         </div>
       </div>
-      <PaymentMode />
+      {!purchaseCompleted ? (
+        <PaymentMode service={service} modelData={modelData} handlePurchaseComplete={handlePurchaseComplete} />
+      ) : null}
       <div className={classes.btnContainer}>
-        <StyledButton btnText="Continue" onClick={handleNextClick} />
+        {autoSave ? (
+          <div>
+            <DoneIcon />
+            <span>Auto Saved</span>
+          </div>
+        ) : (
+          <span>Auto Save</span>
+        )}
+        <StyledButton btnText="submit request" disabled={!purchaseCompleted} onClick={onNextPress} />
+        <StyledButton btnText="finish later" type="transparent" />
+        <AlertBox type={alert.type} message={alert.message} />
       </div>
     </div>
   );
 };
 
-export default withStyles(useStyles)(Payment);
+const mapStateToProps = state => ({
+  wallet: state.userReducer.wallet,
+  channelInfo: channelInfo(state),
+  groupInfo: groupInfo(state),
+  serviceDetails: currentServiceDetails(state),
+});
+
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  startLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.TRAIN_MODEL)),
+  stopLoader: () => dispatch(loaderActions.stopAppLoader),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(Payment));
