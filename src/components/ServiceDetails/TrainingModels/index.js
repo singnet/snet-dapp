@@ -17,7 +17,8 @@ const TrainingModels = ({
   modelDetailsOnEdit,
   cancelEditModel,
   updateModel,
-  editModel
+  editModel,
+  deleteModel,
 }) => {
   const [showCreateModel, setShowCreateModel] = useState(false);
 
@@ -37,7 +38,7 @@ const TrainingModels = ({
       );
     }
     return null;
-  }, [training]);
+  }, [editModel, training]);
 
   if (createModelCalled === "edit") {
     return (
@@ -47,6 +48,7 @@ const TrainingModels = ({
         modelDetailsOnEdit={modelDetailsOnEdit}
         cancelEditModel={cancelEditModel}
         updateModel={updateModel}
+        deleteModel={deleteModel}
       />
     );
   }

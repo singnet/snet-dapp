@@ -30,7 +30,7 @@ export const useStyles = theme => ({
     "& > div": {
       marginBottom: 24,
       display: "flex",
-      alignItems: 'center',
+      alignItems: "center",
       "& span": {
         margin: "0 0 0 24px",
         color: theme.palette.text.lightShadedGray,
@@ -41,7 +41,7 @@ export const useStyles = theme => ({
     },
   },
   methodDropBox: {
-    '& .MuiOutlinedInput-notchedOutline': { borderColor: '#828282'},
+    "& .MuiOutlinedInput-notchedOutline": { borderColor: "#828282" },
     "& .MuiFormControl-root": {
       width: 370,
       "@media(max-width: 570px)": { width: "100%" },
@@ -92,7 +92,7 @@ export const useStyles = theme => ({
     flexDirection: "column",
     "& > span": {
       marginBottom: 16,
-      display: 'inline-block',
+      display: "inline-block",
       color: theme.palette.text.darkShadedGray,
       fontSize: 14,
       lineHeight: "18px",
@@ -123,24 +123,26 @@ export const useStyles = theme => ({
     "& svg": {
       marginRight: 10,
       fontSize: 20,
-      cursor: 'pointer'
+      cursor: "pointer",
     },
     "& span": { fontSize: 14 },
   },
   addedEthAdd: {
     marginBottom: 8,
+    display: "flex",
+    alignItems: "center",
     "& span": {
-      boxSizing: 'border-box',
+      boxSizing: "border-box",
       width: 370,
-      padding: '17px 15px',
+      padding: "17px 15px",
       border: "1px solid #828282",
       borderRadius: 4,
       marginRight: 24,
-      display: 'inline-block',
-      overflow: 'hidden',
-      textOverflow: 'ellipsis'
+      display: "inline-block",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
     },
-    "& svg": { color: "#D6201F" }
+    "& svg": { color: "#D6201F" },
   },
   btnContainer: {
     marginTop: 24,
@@ -148,21 +150,20 @@ export const useStyles = theme => ({
   },
   editVersionBtnContainer: {
     marginTop: 32,
-    display: 'flex',
-    justifyContent: 'space-between',
-    '& button': { textTransform: 'capitalize' },
-    '& > button': {
-      '&:first-of-type': { backgroundColor: '#DC1616' }
+    display: "flex",
+    justifyContent: "space-between",
+    "& button": { textTransform: "capitalize" },
+    "& > button": {
+      "&:first-of-type": { backgroundColor: "#DC1616" },
     },
-    '& div': {
-      '& button': {
-        '&:first-of-type': { 
+    "& div": {
+      "& button": {
+        "&:first-of-type": {
           marginRight: 16,
-          backgroundColor: '#F8F8F8',
-          color: theme.palette.text.darkShadedGray
-        }
+          backgroundColor: "#F8F8F8",
+          color: theme.palette.text.darkShadedGray,
+        },
       },
-    }
-  }
+    },
+  },
 });
-

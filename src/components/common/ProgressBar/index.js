@@ -28,7 +28,7 @@ const ProgressBar = ({ classes, activeSection, progressText }) => {
             progressNumber={index + 1}
             progressText={text.label}
             progressStatus={computeProgressStatus(index + 1, activeSection, text.status)}
-            key={text}
+            key={index.toString()}
           />
         ))}
       </ul>

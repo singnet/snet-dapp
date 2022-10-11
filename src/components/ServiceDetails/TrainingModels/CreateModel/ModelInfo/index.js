@@ -31,13 +31,18 @@ const ModelInfo = ({
   setModelData,
   modelDetailsOnEdit,
   cancelEditModel,
-  updateModel
+  updateModel,
+  deleteModel,
 }) => {
-  const [enableAccessModel, setEnableAccessModel] = useState(modelDetailsOnEdit && modelDetailsOnEdit.publicAccess === true ? true : false);
+  const [enableAccessModel, setEnableAccessModel] = useState(
+    modelDetailsOnEdit && modelDetailsOnEdit.publicAccess === true ? true : false
+  );
   const [ethAddress, setEthAddress] = useState(modelDetailsOnEdit ? modelDetailsOnEdit.addressList : []);
   const [trainingMethod, setTrainingMethod] = useState(modelDetailsOnEdit ? modelDetailsOnEdit.methodName : undefined);
   const [trainingModelName, setTrainingServiceName] = useState(modelDetailsOnEdit ? modelDetailsOnEdit.modelName : "");
-  const [trainingModelDescription, setTrainingModelDescription] = useState(modelDetailsOnEdit ? modelDetailsOnEdit.description : "");
+  const [trainingModelDescription, setTrainingModelDescription] = useState(
+    modelDetailsOnEdit ? modelDetailsOnEdit.description : ""
+  );
   const [alert, setAlert] = useState({});
   const dispatch = useDispatch();
 
@@ -56,12 +61,15 @@ const ModelInfo = ({
     return await serviceClient.createModel(address, params);
   };
 
-  const updateModelParams = {
-    trainingModelName:trainingModelName,
-    trainingModelDescription:trainingModelDescription,
-    ethAddress:ethAddress,
-    enableAccessModel:enableAccessModel
-  }
+  const onUpdate = () => {
+    const updateModelParams = {
+      trainingModelName,
+      trainingModelDescription,
+      ethAddress,
+      enableAccessModel,
+    };
+    updateModel(updateModelParams);
+  };
 
   const onNext = async () => {
     try {
@@ -77,7 +85,6 @@ const ModelInfo = ({
       updateWallet({ type: walletTypes.METAMASK, address });
       dispatch(loaderActions.startAppLoader(LoaderContent.CREATE_TRAINING_MODEL));
       const createdModelData = await createModel(sdk, address);
-      console.log("===createdModelData=", createdModelData);
       const data = {
         modelId: createdModelData?.modelId || "",
         method: createdModelData?.methodName || "",
@@ -152,11 +159,7 @@ const ModelInfo = ({
           <span>Please select a method to train as a first step.</span>
         </div>
         <div className={classes.modelNameContainer}>
-          <StyledTextField
-            label="Model name"
-            value={trainingModelName}
-            onChange={handleModelServiceName}
-          />
+          <StyledTextField label="Model name" value={trainingModelName} onChange={handleModelServiceName} />
           <span>The name of your service can not be same name as another service.</span>
         </div>
         <div className={classes.modelDescriptionContainer}>
@@ -165,8 +168,8 @@ const ModelInfo = ({
             value={trainingModelDescription}
             fullWidth
             multiline
-            rows={5}
-            rowsMax="10"
+            minRows={5}
+            maxRows="10"
             onChange={handleModelDescription}
             inputProps={{ maxLength: 500 }}
             InputLabelProps={{ shrink: true }}
@@ -201,10 +204,10 @@ const ModelInfo = ({
       </div>
       {modelDetailsOnEdit ? (
         <div className={classes.editVersionBtnContainer}>
-          <StyledButton btnText="Delete" type="redBg" />
+          <StyledButton btnText="Delete" type="redBg" onClick={deleteModel} />
           <div>
             <StyledButton btnText="Cancel" onClick={cancelEditModel} />
-            <StyledButton btnText="Update" type="blue" onClick={()=>updateModel(updateModelParams)} />
+            <StyledButton btnText="Update" type="blue" onClick={onUpdate} />
           </div>
         </div>
       ) : (

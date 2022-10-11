@@ -8,7 +8,7 @@ import Data from "./Data";
 import Payment from "./Payment";
 import Finish from "./Finish";
 
-const CreateModel = ({ service, classes, training, modelDetailsOnEdit, cancelEditModel, updateModel  }) => {
+const CreateModel = ({ service, classes, training, modelDetailsOnEdit, cancelEditModel, updateModel, deleteModel }) => {
   const [activeSection, setActiveSection] = React.useState(1);
   const [modelData, setModelData] = useState({});
   const [trainModelId, setTrainModelId] = useState();
@@ -32,6 +32,7 @@ const CreateModel = ({ service, classes, training, modelDetailsOnEdit, cancelEdi
           modelDetailsOnEdit={modelDetailsOnEdit}
           cancelEditModel={cancelEditModel}
           updateModel={updateModel}
+          deleteModel={deleteModel}
         />
       ),
     },
@@ -81,7 +82,7 @@ const CreateModel = ({ service, classes, training, modelDetailsOnEdit, cancelEdi
       )}
       {createModelTabs.map((item, index) => (
         <CreateModelContainer
-          key={item.title}
+          key={index.toString()}
           classes={classes}
           item={item}
           active={activeSection === index + 1}
