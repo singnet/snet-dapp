@@ -10,7 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import Modal from "@material-ui/core/Modal";
 import StyledButton from "../../../common/StyledButton";
 
-const ModelDetails = ({ classes, model, deleteModels, updateModels, editModel }) => {
+const ModelDetails = ({ classes, model, deleteModels, editModel }) => {
   const [open, setOpen] = React.useState(false);
   const handleOpenModal = () => setOpen(true);
   const handleCloseModal = () => setOpen(false);
@@ -18,10 +18,6 @@ const ModelDetails = ({ classes, model, deleteModels, updateModels, editModel })
   const handleDeleteModel = () => {
     deleteModels(model);
     setOpen(false);
-  };
-
-  const handleUpdateModels = () => {
-    updateModels(model);
   };
 
   const handleEditModel = () => {
@@ -45,8 +41,6 @@ const ModelDetails = ({ classes, model, deleteModels, updateModels, editModel })
             </p>
             <p className={classes.accessValue}>
               Access:
-              {/* { */}
-              {/* accessTo === 'limited' ? */}
               <>
                 <span> {`limited(${model.addressList.length})`}</span>
                 <ul>
@@ -55,8 +49,6 @@ const ModelDetails = ({ classes, model, deleteModels, updateModels, editModel })
                   ))}
                 </ul>
               </>
-              {/* : <span>{accessTo}</span> */}
-              {/* } */}
             </p>
           </div>
           <p>Last update: {model.updatedDate}</p>
@@ -66,10 +58,6 @@ const ModelDetails = ({ classes, model, deleteModels, updateModels, editModel })
             <Button className={classes.updateBtn} onClick={handleEditModel}>
               <EditIcon />
               <span>Edit</span>
-            </Button>
-            <Button className={classes.updateBtn} onClick={handleUpdateModels}>
-              <EditIcon />
-              <span>Update</span>
             </Button>
             <Button className={classes.testBtn}>
               <NearMeOutlinedIcon />

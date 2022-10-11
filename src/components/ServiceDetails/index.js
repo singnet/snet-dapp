@@ -20,10 +20,7 @@ import Routes from "../../utility/constants/Routes";
 import CardImg from "../../assets/images/SnetDefaultServiceImage.png";
 import TrainingModels from "./TrainingModels";
 import { fetchTrainingModel } from "../../Redux/actionCreators/ServiceDetailsActions";
-
 import { WebServiceClient as ServiceClient } from "snet-sdk-web";
-// import { loaderActions, userActions } from "../../Redux/actionCreators";
-// import { LoaderContent } from "../../utility/constants/LoaderContent";
 import { initSdk } from "../../utility/sdk";
 export const HERO_IMG = "hero_image";
 
@@ -108,33 +105,33 @@ class ServiceDetails extends Component {
   };
 
   editModel = model => {
-    console.log(model,'--model---');
     this.setState({
       activeTab: 2,
       createModelCalled: "edit",
       modelDetailsOnEdit: model,
     });
+    
   };
 
   onCancelEditModel = () => {
     this.setState({ activeTab: 0 })
   }
 
-  onUpdateModel = async(modelDetailsOnEdit,trainingModelName,trainingModelDescription,ethAddress) => {
+  onUpdateModel = async(updateModelParams) => {
     const { org_id, service_id } = this.props.service;
       const sdk = await initSdk();
       const serviceClient = new ServiceClient(sdk, org_id, service_id, sdk._mpeContract, {}, this.props.groupInfo);
       const params = {
-        modelId: modelDetailsOnEdit.modelId,
+        modelId: this.state.modelDetailsOnEdit.modelId,
         address: this.props.wallet.address,
-        method: modelDetailsOnEdit.methodName,
-        name: modelDetailsOnEdit.serviceName,
-        modelName:trainingModelName,
-        description:trainingModelDescription,
-        addressList:ethAddress,
-        status:modelDetailsOnEdit.status,
-        updatedDate:modelDetailsOnEdit.updatedDate,
-        publicAccess:modelDetailsOnEdit.publicAccess,
+        method: this.state.modelDetailsOnEdit.methodName,
+        name: this.state.modelDetailsOnEdit.serviceName,
+        modelName:updateModelParams.trainingModelName,
+        description:updateModelParams.trainingModelDescription,
+        publicAccess:updateModelParams.enableAccessModel,
+        addressList:updateModelParams.ethAddress,
+        status:this.state.modelDetailsOnEdit.status,
+        updatedDate:this.state.modelDetailsOnEdit.updatedDate,
       };
       const response=await serviceClient.updateModel(params);
       console.log("=====updatingModel==", response);
@@ -142,7 +139,7 @@ class ServiceDetails extends Component {
   }
 
   render() {
-    const { classes, service, pricing, loading, error, history, groupInfo, match, training, isLoggedIn,wallet } = this.props;
+    const { classes, service, pricing, loading, error, history, groupInfo, match, training, isLoggedIn,wallet} = this.props;
     const { offlineNotication } = this.state;
     const {
       params: { orgId, serviceId },

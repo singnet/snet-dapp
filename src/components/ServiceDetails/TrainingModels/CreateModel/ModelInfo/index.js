@@ -44,7 +44,6 @@ const ModelInfo = ({
   const createModel = async (sdk, address) => {
     const { org_id, service_id } = serviceDetails;
     const serviceClient = new ServiceClient(sdk, org_id, service_id, sdk._mpeContract, {}, groupInfo);
-    // Note: Passing service name blank string becasuse with value it's not working issue is from demon.
     const serviceName = trainingMethod.split(".")[1].split("/")[0];
     const params = {
       modelName: trainingModelName,
@@ -56,6 +55,13 @@ const ModelInfo = ({
     };
     return await serviceClient.createModel(address, params);
   };
+
+  const updateModelParams = {
+    trainingModelName:trainingModelName,
+    trainingModelDescription:trainingModelDescription,
+    ethAddress:ethAddress,
+    enableAccessModel:enableAccessModel
+  }
 
   const onNext = async () => {
     try {
@@ -198,7 +204,7 @@ const ModelInfo = ({
           <StyledButton btnText="Delete" type="redBg" />
           <div>
             <StyledButton btnText="Cancel" onClick={cancelEditModel} />
-            <StyledButton btnText="Update" type="blue" onClick={updateModel(trainingModelName,trainingModelDescription,ethAddress)} />
+            <StyledButton btnText="Update" type="blue" onClick={()=>updateModel(updateModelParams)} />
           </div>
         </div>
       ) : (
