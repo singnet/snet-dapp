@@ -110,36 +110,53 @@ class ServiceDetails extends Component {
       createModelCalled: "edit",
       modelDetailsOnEdit: model,
     });
-    
   };
 
   onCancelEditModel = () => {
-    this.setState({ activeTab: 0 })
-  }
+    this.setState({
+      activeTab: 0,
+      createModelCalled: "new",
+    });
+  };
 
-  onUpdateModel = async(updateModelParams) => {
+  onUpdateModel = async updateModelParams => {
     const { org_id, service_id } = this.props.service;
-      const sdk = await initSdk();
-      const serviceClient = new ServiceClient(sdk, org_id, service_id, sdk._mpeContract, {}, this.props.groupInfo);
-      const params = {
-        modelId: this.state.modelDetailsOnEdit.modelId,
-        address: this.props.wallet.address,
-        method: this.state.modelDetailsOnEdit.methodName,
-        name: this.state.modelDetailsOnEdit.serviceName,
-        modelName:updateModelParams.trainingModelName,
-        description:updateModelParams.trainingModelDescription,
-        publicAccess:updateModelParams.enableAccessModel,
-        addressList:updateModelParams.ethAddress,
-        status:this.state.modelDetailsOnEdit.status,
-        updatedDate:this.state.modelDetailsOnEdit.updatedDate,
-      };
-      const response=await serviceClient.updateModel(params);
-      console.log("=====updatingModel==", response);
-    this.setState({ activeTab: 0 })
-  }
+    const sdk = await initSdk();
+    const serviceClient = new ServiceClient(sdk, org_id, service_id, sdk._mpeContract, {}, this.props.groupInfo);
+    const params = {
+      modelId: this.state.modelDetailsOnEdit.modelId,
+      address: this.props.wallet.address,
+      method: this.state.modelDetailsOnEdit.methodName,
+      name: this.state.modelDetailsOnEdit.serviceName,
+      modelName: updateModelParams.trainingModelName,
+      description: updateModelParams.trainingModelDescription,
+      publicAccess: updateModelParams.enableAccessModel,
+      addressList: updateModelParams.ethAddress,
+      status: this.state.modelDetailsOnEdit.status,
+      updatedDate: this.state.modelDetailsOnEdit.updatedDate,
+    };
+    const response = await serviceClient.updateModel(params);
+    console.log("=====updatingModel==", response);
+    this.setState({ 
+      activeTab: 0,
+      createModelCalled: "new",
+    });
+  };
 
   render() {
-    const { classes, service, pricing, loading, error, history, groupInfo, match, training, isLoggedIn,wallet} = this.props;
+    const {
+      classes,
+      service,
+      pricing,
+      loading,
+      error,
+      history,
+      groupInfo,
+      match,
+      training,
+      isLoggedIn,
+      wallet,
+    } = this.props;
     const { offlineNotication } = this.state;
     const {
       params: { orgId, serviceId },
@@ -256,7 +273,7 @@ const mapStateToProps = (state, ownProps) => {
     loading: state.loaderReducer.app.loading,
     training: state.serviceDetailsReducer.detailsTraining,
     isLoggedIn: state.userReducer.login.isLoggedIn,
-    wallet:state.userReducer.wallet,
+    wallet: state.userReducer.wallet,
   };
 };
 
