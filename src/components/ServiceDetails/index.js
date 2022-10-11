@@ -12,7 +12,7 @@ import AboutService from "./AboutService";
 import InstallAndRunService from "./InstallAndRunService";
 import { useStyles } from "./styles";
 import NotificationBar, { notificationBarTypes } from "../common/NotificationBar";
-import { serviceDetailsActions } from "../../Redux/actionCreators";
+import { loaderActions, serviceDetailsActions } from "../../Redux/actionCreators";
 import { pricing, serviceDetails, groupInfo } from "../../Redux/reducers/ServiceDetailsReducer";
 import ErrorBox from "../common/ErrorBox";
 import SeoMetadata from "../common/SeoMetadata";
@@ -22,12 +22,14 @@ import TrainingModels from "./TrainingModels";
 import { fetchTrainingModel } from "../../Redux/actionCreators/ServiceDetailsActions";
 import { WebServiceClient as ServiceClient } from "snet-sdk-web";
 import { initSdk } from "../../utility/sdk";
+import { LoaderContent } from "../../utility/constants/LoaderContent";
 export const HERO_IMG = "hero_image";
 
 class ServiceDetails extends Component {
   constructor(props) {
     super(props);
     this.demoExampleRef = React.createRef();
+    this.lastActiveTab = 0;
     this.state = {
       activeTab: 0,
       alert: {},
@@ -40,12 +42,20 @@ class ServiceDetails extends Component {
     };
   }
 
+  initializeService = async () => {
+    const { org_id, service_id } = this.props.service;
+    const sdk = await initSdk();
+    this.serviceClient = new ServiceClient(sdk, org_id, service_id, sdk._mpeContract, {}, this.props.groupInfo);
+  };
+
   componentDidMount() {
     if (process.env.REACT_APP_SANDBOX) {
       return;
     }
     if (isEmpty(this.props.service)) {
       this.fetchServiceDetails();
+    } else {
+      this.initializeService();
     }
     this.fetchTrainingModel();
   }
@@ -69,6 +79,7 @@ class ServiceDetails extends Component {
     } = this.props;
     try {
       await fetchServiceDetails(orgId, serviceId);
+      this.initializeService();
     } catch (error) {
       this.setState({ error: true });
     }
@@ -79,6 +90,7 @@ class ServiceDetails extends Component {
       const currentUrl = this.props.location.pathname;
       this.props.history.push(currentUrl);
     }
+    this.lastActiveTab = activeTab;
     this.setState({ activeTab });
   };
 
@@ -113,50 +125,47 @@ class ServiceDetails extends Component {
   };
 
   onCancelEditModel = () => {
-    this.setState({
-      activeTab: 0,
-      createModelCalled: "new",
-    });
+    this.setState({ activeTab: this.lastActiveTab, createModelCalled: "new", modelDetailsOnEdit: undefined });
   };
 
   onUpdateModel = async updateModelParams => {
-    const { org_id, service_id } = this.props.service;
-    const sdk = await initSdk();
-    const serviceClient = new ServiceClient(sdk, org_id, service_id, sdk._mpeContract, {}, this.props.groupInfo);
+    const { startUpdateLoader, stopLoader, wallet } = this.props;
+    const { modelDetailsOnEdit } = this.state;
+    startUpdateLoader();
     const params = {
-      modelId: this.state.modelDetailsOnEdit.modelId,
-      address: this.props.wallet.address,
-      method: this.state.modelDetailsOnEdit.methodName,
-      name: this.state.modelDetailsOnEdit.serviceName,
+      modelId: modelDetailsOnEdit.modelId,
+      address: wallet.address,
+      method: modelDetailsOnEdit.methodName,
+      name: modelDetailsOnEdit.serviceName,
       modelName: updateModelParams.trainingModelName,
       description: updateModelParams.trainingModelDescription,
       publicAccess: updateModelParams.enableAccessModel,
       addressList: updateModelParams.ethAddress,
-      status: this.state.modelDetailsOnEdit.status,
-      updatedDate: this.state.modelDetailsOnEdit.updatedDate,
+      status: modelDetailsOnEdit.status,
+      updatedDate: modelDetailsOnEdit.updatedDate,
     };
-    const response = await serviceClient.updateModel(params);
-    console.log("=====updatingModel==", response);
-    this.setState({ 
-      activeTab: 0,
-      createModelCalled: "new",
-    });
+    await this.serviceClient.updateModel(params);
+    stopLoader();
+    this.onCancelEditModel();
+  };
+
+  deleteModel = async model => {
+    const { startDeleteLoader, stopLoader, wallet } = this.props;
+    const { modelDetailsOnEdit } = this.state;
+    startDeleteLoader();
+    const params = {
+      modelId: modelDetailsOnEdit.modelId,
+      address: wallet.address,
+      method: modelDetailsOnEdit.methodName,
+      name: modelDetailsOnEdit.serviceName,
+    };
+    await this.serviceClient.deleteModel(params);
+    stopLoader();
+    this.onCancelEditModel();
   };
 
   render() {
-    const {
-      classes,
-      service,
-      pricing,
-      loading,
-      error,
-      history,
-      groupInfo,
-      match,
-      training,
-      isLoggedIn,
-      wallet,
-    } = this.props;
+    const { classes, service, pricing, loading, error, history, groupInfo, match, training, isLoggedIn } = this.props;
     const { offlineNotication } = this.state;
     const {
       params: { orgId, serviceId },
@@ -211,6 +220,7 @@ class ServiceDetails extends Component {
             cancelEditModel={this.onCancelEditModel}
             updateModel={this.onUpdateModel}
             editModel={this.editModel}
+            deleteModel={this.deleteModel}
           />
         ),
       });
@@ -280,6 +290,9 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => ({
   fetchServiceDetails: (orgId, serviceId) => dispatch(serviceDetailsActions.fetchServiceDetails(orgId, serviceId)),
   fetchTrainingModel: (orgId, serviceId) => dispatch(fetchTrainingModel(orgId, serviceId)),
+  startUpdateLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.UPDATE_MODEL)),
+  startDeleteLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.DELETE_MODEL)),
+  stopLoader: () => dispatch(loaderActions.stopAppLoader),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(ServiceDetails));
