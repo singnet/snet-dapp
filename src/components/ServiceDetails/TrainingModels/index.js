@@ -42,14 +42,25 @@ const TrainingModels = ({
 
   if (createModelCalled === "edit") {
     return (
-      <CreateModel
-        service={service}
-        training={training}
-        modelDetailsOnEdit={modelDetailsOnEdit}
-        cancelEditModel={cancelEditModel}
-        updateModel={updateModel}
-        deleteModel={deleteModel}
-      />
+      <Grid container spacing={24} className={classes.trainingModelContainer}>
+        <Grid item xs={12} sm={12} md={8} lg={8} className={classes.leftSideSection}>
+          <CreateModel
+            service={service}
+            training={training}
+            modelDetailsOnEdit={modelDetailsOnEdit}
+            cancelEditModel={cancelEditModel}
+            updateModel={updateModel}
+          />
+        </Grid>
+        <Grid item xs={12} sm={12} md={4} lg={4} className={classes.rightSideSection}>
+          <ProjectDetails
+            projectURL={service.url}
+            contributors={service.contributors}
+            orgId={service.org_id}
+            serviceId={service.service_id}
+          />
+        </Grid>
+      </Grid>
     );
   }
 
