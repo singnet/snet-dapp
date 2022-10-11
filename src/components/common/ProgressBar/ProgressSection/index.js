@@ -10,11 +10,11 @@ export const ProgressStatusList = {
   COMPLETED: "completed",
 };
 
-const ProgressSection = ({ progressNumber, progressText, progressStatus }) => {
+const ProgressSection = ({ progressNumber, progressText, progressStatus, key }) => {
   const classes = useStyles();
 
   return (
-    <li className={classes[progressStatus]}>
+    <li key={key} className={classes[progressStatus]}>
       <StatusToggler progressStatus={progressStatus} progressNumber={progressNumber} />
       <span className={classes.TabTitle}>{progressText}</span>
     </li>
