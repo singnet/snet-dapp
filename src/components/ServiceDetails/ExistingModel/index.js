@@ -27,7 +27,7 @@ const ExistingModel = ({
   groupInfo,
   haveANewModel,
   wallet,
-  editModel
+  editModel,
 }) => {
   const [metamaskConnected, setMetamaskConnected] = useState(false);
   const [existingModels, setExistingModels] = useState([]);
@@ -71,22 +71,26 @@ const ExistingModel = ({
       await getTrainingModels(sdk, address);
       setMetamaskConnected(true);
     } catch (error) {
-      console.log("===error==", error);
-      setAlert({ type: alertTypes.ERROR, message: error.message || error });
+      setAlert({ type: alertTypes.ERROR, message: "Unable to fetch existing models. Please try again" });
       stopLoader();
     }
   };
 
   const deleteModels = async model => {
-    dispatch(loaderActions.startAppLoader(LoaderContent.DELETE_MODEL));
-    const params = {
-      modelId: model.modelId,
-      address: wallet.address,
-      method: model.methodName,
-      name: getServiceName(),
-    };
-    await serviceClientState.deleteModel(params);
-    await getTrainingModels(sdkService, wallet.address);
+    try {
+      dispatch(loaderActions.startAppLoader(LoaderContent.DELETE_MODEL));
+      const params = {
+        modelId: model.modelId,
+        address: wallet.address,
+        method: model.methodName,
+        name: getServiceName(),
+      };
+      await serviceClientState.deleteModel(params);
+      await getTrainingModels(sdkService, wallet.address);
+    } catch (error) {
+      setAlert({ type: alertTypes.ERROR, message: "Unable to delete model. Please try again" });
+      stopLoader();
+    }
   };
 
   const ModelList = useCallback(() => {

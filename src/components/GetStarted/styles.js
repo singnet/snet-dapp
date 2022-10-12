@@ -31,4 +31,7 @@ export const useStyles = theme => ({
     },
     "& button": { padding: "13px 16% 11px" },
   },
+  alertBox :{ 
+    margin: "0 auto",
+  }
 });
