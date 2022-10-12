@@ -50,6 +50,7 @@ const TrainingModels = ({
             modelDetailsOnEdit={modelDetailsOnEdit}
             cancelEditModel={cancelEditModel}
             updateModel={updateModel}
+            deleteModel={deleteModel}
           />
         </Grid>
         <Grid item xs={12} sm={12} md={4} lg={4} className={classes.rightSideSection}>

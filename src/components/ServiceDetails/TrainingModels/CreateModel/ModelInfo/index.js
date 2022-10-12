@@ -100,8 +100,7 @@ const ModelInfo = ({
       stopLoader();
       handleNextClick();
     } catch (error) {
-      console.log("===error==", error);
-      setAlert({ type: alertTypes.ERROR, message: error.message || error });
+      setAlert({ type: alertTypes.ERROR, message: "Unable to create model. Please try again" });
       stopLoader();
     }
   };

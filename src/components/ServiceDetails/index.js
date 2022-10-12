@@ -23,6 +23,7 @@ import { fetchTrainingModel } from "../../Redux/actionCreators/ServiceDetailsAct
 import { WebServiceClient as ServiceClient } from "snet-sdk-web";
 import { initSdk } from "../../utility/sdk";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
+import AlertBox, { alertTypes } from "../common/AlertBox";
 export const HERO_IMG = "hero_image";
 
 class ServiceDetails extends Component {
@@ -91,7 +92,7 @@ class ServiceDetails extends Component {
       this.props.history.push(currentUrl);
     }
     this.lastActiveTab = activeTab;
-    this.setState({ activeTab });
+    this.setState({ activeTab, createModelCalled: "new", modelDetailsOnEdit: undefined, alert: {} });
   };
 
   scrollToView = () => {
@@ -125,43 +126,60 @@ class ServiceDetails extends Component {
   };
 
   onCancelEditModel = () => {
-    this.setState({ activeTab: this.lastActiveTab, createModelCalled: "new", modelDetailsOnEdit: undefined });
+    this.setState({
+      activeTab: this.lastActiveTab,
+      createModelCalled: "new",
+      modelDetailsOnEdit: undefined,
+      alert: {},
+    });
   };
 
   onUpdateModel = async updateModelParams => {
     const { startUpdateLoader, stopLoader, wallet } = this.props;
-    const { modelDetailsOnEdit } = this.state;
-    startUpdateLoader();
-    const params = {
-      modelId: modelDetailsOnEdit.modelId,
-      address: wallet.address,
-      method: modelDetailsOnEdit.methodName,
-      name: modelDetailsOnEdit.serviceName,
-      modelName: updateModelParams.trainingModelName,
-      description: updateModelParams.trainingModelDescription,
-      publicAccess: updateModelParams.enableAccessModel,
-      addressList: updateModelParams.ethAddress,
-      status: modelDetailsOnEdit.status,
-      updatedDate: modelDetailsOnEdit.updatedDate,
-    };
-    await this.serviceClient.updateModel(params);
-    stopLoader();
-    this.onCancelEditModel();
+    this.setState({ alert: {} });
+    try {
+      const { modelDetailsOnEdit } = this.state;
+      startUpdateLoader();
+      const params = {
+        modelId: modelDetailsOnEdit.modelId,
+        address: wallet.address,
+        method: modelDetailsOnEdit.methodName,
+        name: modelDetailsOnEdit.serviceName,
+        modelName: updateModelParams.trainingModelName,
+        description: updateModelParams.trainingModelDescription,
+        publicAccess: updateModelParams.enableAccessModel,
+        addressList: updateModelParams.ethAddress,
+        status: modelDetailsOnEdit.status,
+        updatedDate: modelDetailsOnEdit.updatedDate,
+      };
+      await this.serviceClient.updateModel(params);
+      stopLoader();
+      this.onCancelEditModel();
+    } catch (error) {
+      this.setState({ alert: { type: alertTypes.ERROR, message: "Unable to update model. Please try again" } });
+      stopLoader();
+    }
   };
 
-  deleteModel = async model => {
+  deleteModel = async () => {
     const { startDeleteLoader, stopLoader, wallet } = this.props;
-    const { modelDetailsOnEdit } = this.state;
-    startDeleteLoader();
-    const params = {
-      modelId: modelDetailsOnEdit.modelId,
-      address: wallet.address,
-      method: modelDetailsOnEdit.methodName,
-      name: modelDetailsOnEdit.serviceName,
-    };
-    await this.serviceClient.deleteModel(params);
-    stopLoader();
-    this.onCancelEditModel();
+    this.setState({ alert: {} });
+    try {
+      const { modelDetailsOnEdit } = this.state;
+      startDeleteLoader();
+      const params = {
+        modelId: modelDetailsOnEdit.modelId,
+        address: wallet.address,
+        method: modelDetailsOnEdit.methodName,
+        name: modelDetailsOnEdit.serviceName,
+      };
+      await this.serviceClient.deleteModel(params);
+      stopLoader();
+      this.onCancelEditModel();
+    } catch (error) {
+      this.setState({ alert: { type: alertTypes.ERROR, message: "Unable to Delete model. Please try again" } });
+      stopLoader();
+    }
   };
 
   render() {
@@ -206,7 +224,7 @@ class ServiceDetails extends Component {
       },
     ];
 
-    if (process.env.REACT_APP_TRAINING_ENABLE === "true" && isLoggedIn) {
+    if (process.env.REACT_APP_TRAINING_ENABLE === "true" && Object.keys(training).length && isLoggedIn) {
       tabs.push({
         name: "Models",
         activeIndex: 2,
@@ -263,6 +281,9 @@ class ServiceDetails extends Component {
             />
           </div>
           <StyledTabs tabs={tabs} activeTab={activeTab} onTabChange={this.handleTabChange} />
+          <div className={classes.alertBox}>
+            <AlertBox type={this.state.alert.type} message={this.state.alert.message} />
+          </div>
         </Grid>
       </div>
     );
