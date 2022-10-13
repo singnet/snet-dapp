@@ -25,13 +25,13 @@ export const UserMenuList = [
   }
 ];
 
-if (process.env.REACT_APP_TRAINING_ENABLE === "true") {
-  UserMenuList.push({
-    menuIcon: SettingIcon,
-    menuTitle: "Models",
-    menuLink: `${Routes.USER_PROFILE}/models`,
-  });
-}
+// if (process.env.REACT_APP_TRAINING_ENABLE === "true") {
+//   UserMenuList.push({
+//     menuIcon: SettingIcon,
+//     menuTitle: "Models",
+//     menuLink: `${Routes.USER_PROFILE}/models`,
+//   });
+// }
 
 export const UserMenuActionList = [
   {
