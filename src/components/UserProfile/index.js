@@ -68,7 +68,7 @@ const UserProfile = ({ classes, nickname, history, location, email }) => {
           </Tabs>
         </AppBar>
         <Switch>
-          <Route path={userProfileRoutes.MODELS.path} component={userProfileRoutes.MODELS.component} />
+          {/* <Route path={userProfileRoutes.MODELS.path} component={userProfileRoutes.MODELS.component} /> */}
           <Route path={userProfileRoutes.TRANSACTIONS.path} component={userProfileRoutes.TRANSACTIONS.component} />
           <Route path={userProfileRoutes.SETTINGS.path} component={userProfileRoutes.SETTINGS.component} />
           <Route path={Routes.userProfileRoutes} component={userProfileRoutes.ACCOUNT.component} />
