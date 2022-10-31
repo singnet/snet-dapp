@@ -8,15 +8,14 @@ import Data from "./Data";
 import Payment from "./Payment";
 import Finish from "./Finish";
 
-const CreateModel = ({ service, classes, training, modelDetailsOnEdit, cancelEditModel, updateModel, deleteModel }) => {
+const CreateModel = (props) => {
+  const { service, classes, training, modelDetailsOnEdit, cancelEditModel, updateModel, deleteModel, } = props;
   const [activeSection, setActiveSection] = React.useState(1);
   const [modelData, setModelData] = useState({});
   const [trainModelId, setTrainModelId] = useState();
-
   const handleNextClick = () => {
     setActiveSection(activeSection + 1);
   };
-
   const onBackClick = () => {
     setActiveSection(activeSection - 1);
   };
@@ -55,6 +54,8 @@ const CreateModel = ({ service, classes, training, modelDetailsOnEdit, cancelEdi
           service={service}
           modelData={modelData}
           setTrainModelId={setTrainModelId}
+          setModelData={setModelData}
+          modelDetailsOnEdit={modelDetailsOnEdit}
         />
       ),
     },
