@@ -45,7 +45,6 @@ const ModelInfo = ({
   );
   const [alert, setAlert] = useState({});
   const dispatch = useDispatch();
-
   const createModel = async (sdk, address) => {
     const { org_id, service_id } = serviceDetails;
     const serviceClient = new ServiceClient(sdk, org_id, service_id, sdk._mpeContract, {}, groupInfo);
@@ -56,7 +55,7 @@ const ModelInfo = ({
       serviceName,
       description: trainingModelDescription,
       publicAccess: enableAccessModel,
-      address: ethAddress.map(e => e.text),
+      address: ethAddress,
     };
     return await serviceClient.createModel(address, params);
   };
