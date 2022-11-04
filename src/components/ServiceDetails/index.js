@@ -46,7 +46,7 @@ class ServiceDetails extends Component {
   initializeService = async () => {
     const { org_id, service_id } = this.props.service;
     const sdk = await initSdk();
-    this.serviceClient = new ServiceClient(sdk, org_id, service_id, sdk._mpeContract, {}, this.props.groupInfo);
+    this.serviceClient = new ServiceClient(sdk, org_id, service_id, sdk?._mpeContract, {}, this.props.groupInfo);
   };
 
   componentDidMount() {
@@ -148,7 +148,7 @@ class ServiceDetails extends Component {
         modelName: updateModelParams.trainingModelName,
         description: updateModelParams.trainingModelDescription,
         publicAccess: updateModelParams.enableAccessModel,
-        addressList: updateModelParams.ethAddress,
+        addressList: !updateModelParams.enableAccessModel ? updateModelParams.ethAddress : [],
         status: modelDetailsOnEdit.status,
         updatedDate: modelDetailsOnEdit.updatedDate,
       };
