@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { withStyles } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import DoneIcon from "@material-ui/icons/Done";
 import { useStyles } from "./styles";
 import PaymentMode from "./PaymentMode";
@@ -16,6 +15,7 @@ import { LoaderContent } from "../../../../../utility/constants/LoaderContent";
 import { loaderActions } from "../../../../../Redux/actionCreators";
 import { connect } from "react-redux";
 
+
 const Payment = ({
   classes,
   handleNextClick,
@@ -28,18 +28,18 @@ const Payment = ({
   stopLoader,
   startLoader,
   setTrainModelId,
+
 }) => {
   const [autoSave] = useState(true);
   const [purchaseCompleted, setPurchaseCompleted] = useState(false);
   const [alert, setAlert] = useState({});
   const addEllipsisAtEndOfString = str => `${str.substr(0, 40)}...`;
-
+ 
   const AddressList = () => {
     if (modelData?.address?.length) {
       return modelData?.address.map(address => <li key={address}>{addEllipsisAtEndOfString(address)}</li>);
     }
-
-    return null;
+  return null;
   };
 
   const serviceRequestStartHandler = () => {
@@ -112,10 +112,7 @@ const Payment = ({
             <span>Model name:</span>
           </Grid>
           <Grid item xs={9}>
-            <Typography>
-              {modelData?.name || ""}
-              <EditOutlinedIcon />
-            </Typography>
+          <Typography>{modelData?.name || ""}</Typography>
           </Grid>
         </Grid>
         <Grid container>
@@ -123,21 +120,7 @@ const Payment = ({
             <span>Model description:</span>
           </Grid>
           <Grid item xs={9}>
-            <Typography>
-              {modelData?.description}
-              <EditOutlinedIcon />
-            </Typography>
-          </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item xs={3}>
-            <span>Data set name:</span>
-          </Grid>
-          <Grid item xs={9}>
-            <Typography>
-              Butterflies & Caterpillers
-              <EditOutlinedIcon />
-            </Typography>
+            <Typography>{modelData?.description || ""}</Typography>
           </Grid>
         </Grid>
         <Grid container>
@@ -145,32 +128,16 @@ const Payment = ({
             <span>Data files:</span>
           </Grid>
           <Grid item xs={9}>
-            <Typography>
-              <a href={modelData.dataLink} title="Zipped File Name">
-                {modelData?.dataLink}
-              </a>
-              <EditOutlinedIcon />
-            </Typography>
+            <Typography>{modelData?.dataLink || ""}</Typography>
           </Grid>
         </Grid>
         <Grid container>
           <Grid item xs={3}>
-            <span>Access for this model:</span>
-          </Grid>
-          <Grid item xs={9}>
-            <Typography>
-              Public(5)
-              <EditOutlinedIcon />
-            </Typography>
-          </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item xs={3}>
-            <span>Cardano ID:</span>
+            <span>Ethereum address:</span>
           </Grid>
           <Grid item xs={9}>
             <ul>
-              <AddressList />
+            <AddressList />
             </ul>
           </Grid>
         </Grid>

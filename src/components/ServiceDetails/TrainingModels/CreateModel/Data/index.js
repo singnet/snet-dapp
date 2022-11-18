@@ -11,6 +11,16 @@ const Data = ({ classes, handleNextClick, onBackClick, modelData, setModelData }
     setModelData({ ...modelData, dataLink: trainingDataLink });
     handleNextClick();
   };
+
+  const onDownloadSample = () => {
+    const url =
+      "https://marketplace-service-assets.s3.amazonaws.com/assets/snet/example-service/Calculator/add/TrainingSample.zip";
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", "training_sample_add.txt");
+    document.body.appendChild(link);
+    link.click();
+  };
   return (
     <div className={classes.modelDataContaienr}>
       <div className={classes.createDatasetContainer}>
@@ -21,7 +31,7 @@ const Data = ({ classes, handleNextClick, onBackClick, modelData, setModelData }
         <div>
           <img src={fileDownload} alt="File Download" />
           <span>filename.zip</span>
-          <StyledButton type="blue" btnText="Download Sample" />
+          <StyledButton type="blue" btnText="Download Sample" onClick={onDownloadSample} />
         </div>
       </div>
       <div className={classes.uploadDatasetContainer}>

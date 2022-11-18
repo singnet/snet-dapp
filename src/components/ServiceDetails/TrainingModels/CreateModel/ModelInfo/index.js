@@ -45,7 +45,6 @@ const ModelInfo = ({
   );
   const [alert, setAlert] = useState({});
   const dispatch = useDispatch();
-
   const createModel = async (sdk, address) => {
     const { org_id, service_id } = serviceDetails;
     const serviceClient = new ServiceClient(sdk, org_id, service_id, sdk._mpeContract, {}, groupInfo);
@@ -56,7 +55,7 @@ const ModelInfo = ({
       serviceName,
       description: trainingModelDescription,
       publicAccess: enableAccessModel,
-      address: ethAddress.map(e => e.text),
+      address: !enableAccessModel ? ethAddress : [],
     };
     return await serviceClient.createModel(address, params);
   };
@@ -91,7 +90,7 @@ const ModelInfo = ({
         serviceName: createdModelData?.serviceName || "",
         name: createdModelData?.modelName || "",
         description: createdModelData?.description || "",
-        publicAccess: createdModelData?.publicAccess || "",
+        publicAccess: createdModelData?.publicAccess || false,
         address: createdModelData?.addressList || [],
         updatedDate: createdModelData?.updatedDate || "",
         status: createdModelData?.status || "",
@@ -187,17 +186,19 @@ const ModelInfo = ({
             />
           }
         />
-        <span>Add a list of address that can access this model.</span>
-        {enableAccessModel ? (
-          <div className={classes.ethAddressContainer}>
-            <span>Ethereum addresses</span>
-            {ethAddress.map((address, index) => (
-              <div key={index.toString()} className={classes.addedEthAdd}>
-                <span onClick={() => toggleEthAddress(index)}>{address}</span>
-                <DeleteOutlineIcon onClick={() => removeEthAddress(index)} />
-              </div>
-            ))}
-            <AddMoreEthAddress addEthAddress={addEthAddress} />
+        {!enableAccessModel ? (
+          <div className={classes.accessModelContainer}>
+            <span>Add a list of address that can access this model.</span>
+            <div className={classes.ethAddressContainer}>
+              <span>Ethereum addresses</span>
+              {ethAddress.map((address, index) => (
+                <div key={index.toString()} className={classes.addedEthAdd}>
+                  <span onClick={() => toggleEthAddress(index)}>{address}</span>
+                  <DeleteOutlineIcon onClick={() => removeEthAddress(index)} />
+                </div>
+              ))}
+              <AddMoreEthAddress addEthAddress={addEthAddress} />
+            </div>
           </div>
         ) : null}
       </div>
