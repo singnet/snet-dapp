@@ -12,7 +12,12 @@ import { useStyles } from "./styles";
 import { walletTypes } from "../../../Redux/actionCreators/UserActions";
 import { initSdk } from "../../../utility/sdk";
 import { Networks } from "../../../config/Networks";
-// import { type } from "jquery";
+import { ethereumEvents,ethereumMethods } from "../../../utility/snetSdk";
+import { isNil } from "lodash";
+import Web3 from "web3";
+
+const ethereum = window.ethereum;
+const web3 = new Web3(ethereum, null, {});
 
 const accountChangeAlert = {
   header: "Incorrect Metamask Account",
@@ -36,8 +41,20 @@ class NetworkChangeOverlay extends Component {
   }
 
   sdk;
+  validateChainId = chainIdHex => {
+    const chainId = web3.utils.hexToNumber(chainIdHex);
+    if (chainId !== Number(process.env.REACT_APP_ETH_NETWORK)) {
+      this.setState({ invalidMetaMaskDetails: true, alert: networkChangeAlert });
+    } else {
+      this.setState({ invalidMetaMaskDetails: false, alert: {} });
+    }
+  };
 
   componentDidMount() {
+    if (!isNil(ethereum)) {
+      ethereum.request({ method: ethereumMethods.REQUEST_CHAIN_ID }).then(this.validateChainId);
+      ethereum.on(ethereumEvents.CHAIN_CHANGED, this.validateChainId);
+    }
     window.addEventListener("snetMMAccountChanged", this.handleMetaMaskAccountChange);
     window.addEventListener("snetMMNetworkChanged", this.handleMetaMaskNetworkChange);
   }
