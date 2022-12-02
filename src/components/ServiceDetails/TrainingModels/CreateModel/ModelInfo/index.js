@@ -64,10 +64,6 @@ const ModelInfo = ({
       createModelRestrictChange();
       return await serviceClient.createModel(address, params);
     }
-    else
-    {
-      console.log("20 is over");
-    }
   };
   const onUpdate = () => {
     const updateModelParams = {
