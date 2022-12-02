@@ -59,7 +59,7 @@ const ModelInfo = ({
       publicAccess: enableAccessModel,
       address: !enableAccessModel ? ethAddress : [],
     };
-    if(createModelRestrict < 10)
+    if(createModelRestrict < 20)
     {
       createModelRestrictChange();
       return await serviceClient.createModel(address, params);
