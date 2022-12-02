@@ -33,6 +33,8 @@ const ModelInfo = ({
   cancelEditModel,
   updateModel,
   deleteModel,
+  createModelRestrict,
+  createModelRestrictChange
 }) => {
   const [enableAccessModel, setEnableAccessModel] = useState(
     modelDetailsOnEdit && modelDetailsOnEdit.publicAccess === true ? true : false
@@ -57,9 +59,16 @@ const ModelInfo = ({
       publicAccess: enableAccessModel,
       address: !enableAccessModel ? ethAddress : [],
     };
-    return await serviceClient.createModel(address, params);
+    if(createModelRestrict < 10)
+    {
+      createModelRestrictChange();
+      return await serviceClient.createModel(address, params);
+    }
+    else
+    {
+      console.log("20 is over");
+    }
   };
-
   const onUpdate = () => {
     const updateModelParams = {
       trainingModelName,
@@ -69,6 +78,7 @@ const ModelInfo = ({
     };
     updateModel(updateModelParams);
   };
+
 
   const onNext = async () => {
     try {

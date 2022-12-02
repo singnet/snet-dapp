@@ -28,6 +28,9 @@ const ExistingModel = ({
   haveANewModel,
   wallet,
   editModel,
+  createModelRestrict,
+  createModelRestrictChange,
+  setCreateModel 
 }) => {
   const [metamaskConnected, setMetamaskConnected] = useState(false);
   const [existingModels, setExistingModels] = useState([]);
@@ -35,7 +38,6 @@ const ExistingModel = ({
   const [sdkService, setSdkService] = useState();
   const [alert, setAlert] = useState({});
   const dispatch = useDispatch();
-
   const getServiceName = () => {
     return training.training_methods[0].split(".")[1].split("/")[0];
   };
@@ -52,6 +54,7 @@ const ExistingModel = ({
     };
     const response = await serviceClient.getExistingModel(params);
     console.log("=====existingModel==", response.flat());
+    setCreateModel (response.flat().length)
     setExistingModels(response.flat());
     stopLoader();
   };
