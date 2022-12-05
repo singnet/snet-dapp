@@ -9,19 +9,22 @@ import ProjectDetails from "../ProjectDetails";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import CreateModel from "./CreateModel";
 
-const TrainingModels = ({
-  classes,
-  service,
-  training,
-  createModelCalled,
-  modelDetailsOnEdit,
-  cancelEditModel,
-  updateModel,
-  editModel,
-  deleteModel,
-}) => {
+const TrainingModels = (props) => {
+  const {
+    classes,
+    service,
+    training,
+    createModelCalled,
+    modelDetailsOnEdit,
+    cancelEditModel,
+    updateModel,
+    editModel,
+    deleteModel,
+    createModelRestrict,
+    createModelRestrictChange,
+    setCreateModel 
+  } = props
   const [showCreateModel, setShowCreateModel] = useState(false);
-
   const handleRequestModel = () => {
     setShowCreateModel(true);
   };
@@ -34,6 +37,9 @@ const TrainingModels = ({
           haveANewModel={training?.training_methods?.length || false}
           training={training}
           editModel={editModel}
+          createModelRestrict={createModelRestrict}
+          createModelRestrictChange={createModelRestrictChange}
+          setCreateModel ={ setCreateModel }
         />
       );
     }
@@ -69,7 +75,8 @@ const TrainingModels = ({
     <Grid container spacing={24} className={classes.trainingModelContainer}>
       <Grid item xs={12} sm={12} md={8} lg={8} className={classes.leftSideSection}>
         {showCreateModel ? (
-          <CreateModel service={service} training={training} />
+          <CreateModel service={service} training={training} createModelRestrict={createModelRestrict}
+          createModelRestrictChange={createModelRestrictChange}/>
         ) : (
           <>
             <div className={classes.requestModelContainer}>
