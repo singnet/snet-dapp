@@ -9,7 +9,7 @@ import Payment from "./Payment";
 import Finish from "./Finish";
 
 const CreateModel = (props) => {
-  const { service, classes, training, modelDetailsOnEdit, cancelEditModel, updateModel, deleteModel,createModelRestrict,createModelRestrictChange } = props;
+  const { service, classes, training, modelDetailsOnEdit, cancelEditModel, updateModel, deleteModel } = props;
   const [activeSection, setActiveSection] = React.useState(1);
   const [modelData, setModelData] = useState({});
   const [trainModelId, setTrainModelId] = useState();
@@ -31,8 +31,6 @@ const CreateModel = (props) => {
           cancelEditModel={cancelEditModel}
           updateModel={updateModel}
           deleteModel={deleteModel}
-          createModelRestrict={createModelRestrict}
-          createModelRestrictChange={createModelRestrictChange}
         />
       ),
     },

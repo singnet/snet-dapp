@@ -19,14 +19,12 @@ const TrainingModels = (props) => {
     cancelEditModel,
     updateModel,
     editModel,
-    deleteModel,
-    createModelRestrict,
-    createModelRestrictChange,
-    setCreateModel 
+    deleteModel
   } = props
   const [showCreateModel, setShowCreateModel] = useState(false);
   const handleRequestModel = () => {
     setShowCreateModel(true);
+    
   };
 
   const RenderExistingModel = useCallback(() => {
@@ -37,9 +35,6 @@ const TrainingModels = (props) => {
           haveANewModel={training?.training_methods?.length || false}
           training={training}
           editModel={editModel}
-          createModelRestrict={createModelRestrict}
-          createModelRestrictChange={createModelRestrictChange}
-          setCreateModel ={ setCreateModel }
         />
       );
     }
@@ -75,8 +70,7 @@ const TrainingModels = (props) => {
     <Grid container spacing={24} className={classes.trainingModelContainer}>
       <Grid item xs={12} sm={12} md={8} lg={8} className={classes.leftSideSection}>
         {showCreateModel ? (
-          <CreateModel service={service} training={training} createModelRestrict={createModelRestrict}
-          createModelRestrictChange={createModelRestrictChange}/>
+          <CreateModel service={service} training={training} />
         ) : (
           <>
             <div className={classes.requestModelContainer}>

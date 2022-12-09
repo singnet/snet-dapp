@@ -40,18 +40,9 @@ class ServiceDetails extends Component {
       },
       createModelCalled: "new",
       modelDetailsOnEdit: undefined,
-      createModelRestrict: 0
     };
   }
   
-  setCreateModel = (response)=>{
-    this.setState({ ...this.state, createModelRestrict: response })
-  }
-
-  createModelRestrictChange = () =>{
-    this.setState({ ...this.state, createModelRestrict: this.state.createModelRestrict+1 })
-  }
-
   initializeService = async () => {
     const { org_id, service_id } = this.props.service;
     const sdk = await initSdk();
@@ -193,7 +184,7 @@ class ServiceDetails extends Component {
 
   render() {
     const { classes, service, pricing, loading, error, history, groupInfo, match, training, isLoggedIn } = this.props;
-    const { offlineNotication,createModelRestrict } = this.state;
+    const { offlineNotication } = this.state;
     const {
       params: { orgId, serviceId },
     } = match;
@@ -248,9 +239,6 @@ class ServiceDetails extends Component {
             updateModel={this.onUpdateModel}
             editModel={this.editModel}
             deleteModel={this.deleteModel}
-            createModelRestrict={createModelRestrict}
-            createModelRestrictChange={this.createModelRestrictChange}
-            setCreateModel ={this.setCreateModel}
           />
         ),
       });
