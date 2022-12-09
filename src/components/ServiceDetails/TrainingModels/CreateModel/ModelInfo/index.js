@@ -33,8 +33,6 @@ const ModelInfo = ({
   cancelEditModel,
   updateModel,
   deleteModel,
-  createModelRestrict,
-  createModelRestrictChange
 }) => {
   const [enableAccessModel, setEnableAccessModel] = useState(
     modelDetailsOnEdit && modelDetailsOnEdit.publicAccess === true ? true : false
@@ -59,9 +57,14 @@ const ModelInfo = ({
       publicAccess: enableAccessModel,
       address: !enableAccessModel ? ethAddress : [],
     };
-    if(createModelRestrict < 20)
+    const param = {
+        grpcMethod: training.training_methods[0],
+        grpcService: serviceName,
+        address,
+    };
+    const response = await serviceClient.getExistingModel(param);
+    if(response.length < 20)
     {
-      createModelRestrictChange();
       return await serviceClient.createModel(address, params);
     }
   };
@@ -83,7 +86,6 @@ const ModelInfo = ({
       const address = await sdk.account.getAddress();
       const availableUserWallets = await fetchAvailableUserWallets();
       const addressAlreadyRegistered = availableUserWallets.some(wallet => wallet.address.toLowerCase() === address);
-
       if (!addressAlreadyRegistered) {
         await registerWallet(address, walletTypes.METAMASK);
       }

@@ -28,9 +28,6 @@ const ExistingModel = ({
   haveANewModel,
   wallet,
   editModel,
-  createModelRestrict,
-  createModelRestrictChange,
-  setCreateModel 
 }) => {
   const [metamaskConnected, setMetamaskConnected] = useState(false);
   const [existingModels, setExistingModels] = useState([]);
@@ -54,7 +51,6 @@ const ExistingModel = ({
     };
     const response = await serviceClient.getExistingModel(params);
     console.log("=====existingModel==", response.flat());
-    setCreateModel (response.flat().length)
     setExistingModels(response.flat());
     stopLoader();
   };
