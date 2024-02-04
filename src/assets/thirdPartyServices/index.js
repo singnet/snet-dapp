@@ -1,6 +1,8 @@
+import { add } from "lodash";
 import React, { lazy } from "react";
 import AlertBox from "../../components/common/AlertBox";
 
+const ClientData = lazy(() => import("./snet/client_data"));
 const ExampleService = lazy(() => import("./snet/example_service"));
 const CNTKImageRecognition = lazy(() => import("./snet/cntk_image_recon"));
 const CNTKNextDayTrend = lazy(() => import("./snet/cntk_next_day_trend"));
@@ -106,6 +108,7 @@ const addNunetCustomUI = (serviceId, CustomUIComponent) => {
   thirdPartyCustomUIComponents.addCustomUIComponent("nunet", serviceId, CustomUIComponent);
 };
 
+addSnetCustomUI("client-data", ClientData);
 addSnetCustomUI("example-service", ExampleService);
 addSnetCustomUI("freecall", ExampleService);
 addSnetCustomUI("cntk-image-recon", CNTKImageRecognition);
@@ -191,5 +194,8 @@ thirdPartyCustomUIComponents.addCustomUIComponent("org_id_test_praveen", "test_c
 
 // For testing phase 2 ropsten
 thirdPartyCustomUIComponents.addCustomUIComponent("new_contract_test_1", "speed_detector_rt_v2", ExampleService);
+
+// thirdPartyCustomUIComponents.addCustomUIComponent("org_id", "service_id", ExampleService);
+thirdPartyCustomUIComponents.addCustomUIComponent("snet","test_data_client_data",ClientData);
 
 export default thirdPartyCustomUIComponents;
