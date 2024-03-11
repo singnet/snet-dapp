@@ -55,10 +55,10 @@ const Contacts = ({ contacts, show, handleClose, classes }) => {
             <ListItem alignItems="flex-start" divider>
               <ListItemText
                 primary="Support email"
-                secondary={supportContact.email_id}
+                secondary={supportContact.email}
                 secondaryTypographyProps={{
                   component: "a",
-                  href: `mailTo:${supportContact.email_id}`,
+                  href: `mailTo:${supportContact.email}`,
                   target: "_blank",
                   rel: "noopener noreferrer",
                   className: classes.anchor,
