@@ -62,6 +62,7 @@ export const useStyles = makeStyles(theme => ({
     "@media(max-width: 548px)": { margin: "15px 0 0" },
   },
   iconsContainer: {
+    minHeight: 34,
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-end",
@@ -73,7 +74,7 @@ export const useStyles = makeStyles(theme => ({
       cursor: "pointer",
       "& span": {
         color: theme.palette.text.lightShadedGray,
-        fontSize: 17,
+        fontSize: 18,
       },
     },
     "@media(max-width: 768px)": { paddingTop: 15 },
