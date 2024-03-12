@@ -23,7 +23,7 @@ export default class DatasetUpload extends React.Component {
     const props = {
       name: "dataset",
       multiple: false,
-      onDrop: files => {
+      onDrop: (files) => {
         const file = files[0];
         this.props.handleFileUpload(file);
         return false;

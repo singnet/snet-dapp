@@ -35,10 +35,10 @@ export default class MasonryLayout extends React.Component {
     }
     if (this.items && this.items.length) {
       const columnIndex = this.getShortestColumnIndex();
-      this.setState(state => {
+      this.setState((state) => {
         const columns = state.columns.slice();
         columns[columnIndex].push(this.items.pop());
-        return { columns: columns };
+        return { columns };
       });
     }
   }

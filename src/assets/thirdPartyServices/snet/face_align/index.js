@@ -41,7 +41,7 @@ export default class FaceAlignService extends React.Component {
     var bbList = [];
 
     var inputBoudingBox = JSON.parse(this.state.facesString);
-    inputBoudingBox.forEach(item => {
+    inputBoudingBox.forEach((item) => {
       var bb = new BoundingBox();
       bb.setX(JSON.parse(item.x));
       bb.setY(JSON.parse(item.y));
@@ -77,9 +77,9 @@ export default class FaceAlignService extends React.Component {
     let inputValid = true;
     try {
       let faces = JSON.parse(this.state.facesString);
-      faces.forEach(item => {
+      faces.forEach((item) => {
         let expectedKeys = ["x", "y", "w", "h"];
-        expectedKeys.forEach(k => {
+        expectedKeys.forEach((k) => {
           if (!(k in item)) inputValid = false;
         });
       });

@@ -8,7 +8,7 @@ var Diagnosis = (function () {
   function Diagnosis() {}
   Diagnosis.serviceName = "pneumonia_diagnosis.Diagnosis";
   return Diagnosis;
-}());
+})();
 
 Diagnosis.check = {
   methodName: "check",
@@ -16,7 +16,7 @@ Diagnosis.check = {
   requestStream: false,
   responseStream: false,
   requestType: pneumonia_diagnosis_pb.Input,
-  responseType: pneumonia_diagnosis_pb.Output
+  responseType: pneumonia_diagnosis_pb.Output,
 };
 
 exports.Diagnosis = Diagnosis;
@@ -33,10 +33,10 @@ DiagnosisClient.prototype.check = function check(requestMessage, metadata, callb
   var client = grpc.unary(Diagnosis.check, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -47,15 +47,14 @@ DiagnosisClient.prototype.check = function check(requestMessage, metadata, callb
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.DiagnosisClient = DiagnosisClient;
-

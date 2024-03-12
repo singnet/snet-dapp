@@ -14,7 +14,7 @@ export default class TargetFeatureForm extends React.Component {
   }
 
   updateValidationStatus() {
-    this.props.setValidationStatus(Object.values(this.state.validationErrors).filter(v => v).length === 0);
+    this.props.setValidationStatus(Object.values(this.state.validationErrors).filter((v) => v).length === 0);
   }
 
   validateForm(oldValues, newValues) {
@@ -34,7 +34,7 @@ export default class TargetFeatureForm extends React.Component {
       valuesChanged = true;
     }
 
-    return valuesChanged ? this.setState({ validationErrors: validationErrors }) : null;
+    return valuesChanged ? this.setState({ validationErrors }) : null;
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -55,7 +55,7 @@ export default class TargetFeatureForm extends React.Component {
                   margin="dense"
                   variant="outlined"
                   name="targetFeature"
-                  onChange={e => this.props.changeInput(e)}
+                  onChange={(e) => this.props.changeInput(e)}
                   required
                   fullWidth
                   defaultValue={this.props.defaults.targetFeature}
@@ -72,21 +72,21 @@ export default class TargetFeatureForm extends React.Component {
               <Tooltip title="" placement="top-start">
                 <FormControl variant="outlined">
                   <Select
-                    onChange={e => {
+                    onChange={(e) => {
                       this.props.handleFilterChange({ name: e.target.value });
                     }}
                     value={this.props.defaults.filter.name}
                     input={<OutlinedInput labelWidth={0} id="outlined-age-simple" />}
                     displayEmpty
                   >
-                    <MenuItem value={""}>
+                    <MenuItem value="">
                       <em>None</em>
                     </MenuItem>
-                    <MenuItem value={"accuracy"}>Accuracy</MenuItem>
-                    <MenuItem value={"precision"}>Precision</MenuItem>
-                    <MenuItem value={"recall"}>Recall</MenuItem>
-                    <MenuItem value={"p_value"}>P-Value</MenuItem>
-                    <MenuItem value={"f1_value"}>F1-Value</MenuItem>
+                    <MenuItem value="accuracy">Accuracy</MenuItem>
+                    <MenuItem value="precision">Precision</MenuItem>
+                    <MenuItem value="recall">Recall</MenuItem>
+                    <MenuItem value="p_value">P-Value</MenuItem>
+                    <MenuItem value="f1_value">F1-Value</MenuItem>
                   </Select>
                 </FormControl>
               </Tooltip>
@@ -96,13 +96,13 @@ export default class TargetFeatureForm extends React.Component {
                 <TextField
                   label="Value"
                   inputProps={{
-                    ref: node => {
+                    ref: (node) => {
                       this.filterValue = node;
                     },
                   }}
                   variant="outlined"
                   name="filterValue"
-                  onChange={e => this.props.handleFilterChange({ value: +e.target.value })}
+                  onChange={(e) => this.props.handleFilterChange({ value: +e.target.value })}
                   fullWidth
                   {...this.state.validationErrors.filter}
                 />

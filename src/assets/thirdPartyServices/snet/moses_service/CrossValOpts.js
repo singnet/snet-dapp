@@ -15,7 +15,7 @@ export default class CrossValidationOptionsForm extends React.Component {
   }
 
   updateValidationStatus() {
-    this.props.setValidationStatus(Object.values(this.state.validationErrors).filter(v => v).length === 0);
+    this.props.setValidationStatus(Object.values(this.state.validationErrors).filter((v) => v).length === 0);
   }
 
   validateForm(oldValues, newValues) {
@@ -33,7 +33,7 @@ export default class CrossValidationOptionsForm extends React.Component {
       validationErrors.testSize = checkRequired(newValues.testSize) || checkBetween(newValues.testSize, 0, 1);
       valuesChanged = true;
     }
-    return valuesChanged ? this.setState({ validationErrors: validationErrors }) : null;
+    return valuesChanged ? this.setState({ validationErrors }) : null;
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -56,7 +56,7 @@ export default class CrossValidationOptionsForm extends React.Component {
                   name="folds"
                   fullWidth
                   defaultValue={this.props.defaults.folds}
-                  onChange={e => this.props.changeInput(e)}
+                  onChange={(e) => this.props.changeInput(e)}
                   {...this.state.validationErrors.folds}
                 />
               </Tooltip>
@@ -71,7 +71,7 @@ export default class CrossValidationOptionsForm extends React.Component {
                   name="randomSeed"
                   fullWidth
                   defaultValue={this.props.defaults.randomSeed}
-                  onChange={e => this.props.changeInput(e)}
+                  onChange={(e) => this.props.changeInput(e)}
                   {...this.state.validationErrors.randomSeed}
                 />
               </Tooltip>
@@ -90,7 +90,7 @@ export default class CrossValidationOptionsForm extends React.Component {
                   name="testSize"
                   fullWidth
                   defaultValue={this.props.defaults.testSize}
-                  onChange={e => this.props.changeInput(e)}
+                  onChange={(e) => this.props.changeInput(e)}
                   {...this.state.validationErrors.testSize}
                 />
               </Tooltip>

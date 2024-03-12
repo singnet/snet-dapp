@@ -8,7 +8,7 @@ var OpencogServices = (function () {
   function OpencogServices() {}
   OpencogServices.serviceName = "opencog_services.OpencogServices";
   return OpencogServices;
-}());
+})();
 
 OpencogServices.Execute = {
   methodName: "Execute",
@@ -16,7 +16,7 @@ OpencogServices.Execute = {
   requestStream: false,
   responseStream: false,
   requestType: opencog_pb.Command,
-  responseType: opencog_pb.CommandOutput
+  responseType: opencog_pb.CommandOutput,
 };
 
 OpencogServices.AsynchronousTask = {
@@ -25,7 +25,7 @@ OpencogServices.AsynchronousTask = {
   requestStream: false,
   responseStream: false,
   requestType: opencog_pb.Command,
-  responseType: opencog_pb.CommandOutput
+  responseType: opencog_pb.CommandOutput,
 };
 
 exports.OpencogServices = OpencogServices;
@@ -42,10 +42,10 @@ OpencogServicesClient.prototype.execute = function execute(requestMessage, metad
   var client = grpc.unary(OpencogServices.Execute, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -56,13 +56,13 @@ OpencogServicesClient.prototype.execute = function execute(requestMessage, metad
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
@@ -73,10 +73,10 @@ OpencogServicesClient.prototype.asynchronousTask = function asynchronousTask(req
   var client = grpc.unary(OpencogServices.AsynchronousTask, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -87,15 +87,14 @@ OpencogServicesClient.prototype.asynchronousTask = function asynchronousTask(req
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.OpencogServicesClient = OpencogServicesClient;
-

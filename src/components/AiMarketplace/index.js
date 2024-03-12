@@ -34,7 +34,7 @@ const AiMarketplace = ({ classes, isLoggedIn }) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isLoggedIn: state.userReducer.login.isLoggedIn,
 });
 

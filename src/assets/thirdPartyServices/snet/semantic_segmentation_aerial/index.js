@@ -1,10 +1,10 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
-import { Grid, IconButton, MuiThemeProvider, Tooltip } from "@material-ui/core";
+import { Grid, MuiThemeProvider, Tooltip } from "@material-ui/core";
 import { blue } from "@material-ui/core/colors";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import InfoIcon from "@material-ui/icons/Info";
-import { createMuiTheme } from "@material-ui/core/styles";
+import { createTheme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import grey from "@material-ui/core/es/colors/grey";
@@ -55,7 +55,7 @@ export default class SemanticSegmentationAerial extends React.Component {
     this.handleChange = this.handleChange.bind(this);
 
     // Color Palette
-    this.theme = createMuiTheme({
+    this.theme = createTheme({
       palette: {
         primary: blue,
         secondary: grey,
@@ -100,7 +100,7 @@ export default class SemanticSegmentationAerial extends React.Component {
       input: "",
     });
 
-    if (event.target.value.match(url_pattern) != null) {
+    if (event.target.value.match(url_pattern) !== null) {
       this.setState({ input: event.target.value });
     }
   }
@@ -139,7 +139,7 @@ export default class SemanticSegmentationAerial extends React.Component {
             <Grid item xs container justify="flex-start" alignItems="center">
               <FormControl variant="outlined">
                 <InputLabel
-                  ref={ref => {
+                  ref={(ref) => {
                     this.SWSLabelRef = ref;
                   }}
                   htmlFor="outlined-sws"
@@ -161,7 +161,7 @@ export default class SemanticSegmentationAerial extends React.Component {
             <Grid item xs container justify="flex-end" alignItems="center">
               <FormControl variant="outlined">
                 <InputLabel
-                  ref={ref => {
+                  ref={(ref) => {
                     this.StrideLabelRef = ref;
                   }}
                   htmlFor="outlined-stride"
@@ -235,7 +235,7 @@ export default class SemanticSegmentationAerial extends React.Component {
         return (
           <Grid item xs={12} container justify="center">
             <SNETImageUpload
-              imageDataFunc={function() {
+              imageDataFunc={function () {
                 return 0;
               }}
               outputImage={this.props.response.data}

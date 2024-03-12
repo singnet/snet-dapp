@@ -982,7 +982,7 @@ snet_network_analytics_robustness.MinNodesToRemoveRequest.prototype.serializeBin
 snet_network_analytics_robustness.MinNodesToRemoveRequest.prototype.serializeBinaryToWriter = function (writer) {
   var f = undefined;
   f = this.getGraph();
-  if (f != null) {
+  if (f !==null) {
     writer.writeMessage(
       1,
       f,
@@ -1041,7 +1041,7 @@ snet_network_analytics_robustness.MinNodesToRemoveRequest.prototype.clearGraph =
  * @return{!boolean}
  */
 snet_network_analytics_robustness.MinNodesToRemoveRequest.prototype.hasGraph = function() {
-  return jspb.Message.getField(this, 1) != null;
+  return jspb.Message.getField(this, 1) !==null;
 };
 
 
@@ -1505,7 +1505,7 @@ snet_network_analytics_robustness.MostImportantNodesEdgesSubsetRequest.prototype
 snet_network_analytics_robustness.MostImportantNodesEdgesSubsetRequest.prototype.serializeBinaryToWriter = function (writer) {
   var f = undefined;
   f = this.getGraph();
-  if (f != null) {
+  if (f !==null) {
     writer.writeMessage(
       1,
       f,
@@ -1585,7 +1585,7 @@ snet_network_analytics_robustness.MostImportantNodesEdgesSubsetRequest.prototype
  * @return{!boolean}
  */
 snet_network_analytics_robustness.MostImportantNodesEdgesSubsetRequest.prototype.hasGraph = function() {
-  return jspb.Message.getField(this, 1) != null;
+  return jspb.Message.getField(this, 1) !==null;
 };
 
 
@@ -1839,7 +1839,7 @@ snet_network_analytics_robustness.MostImportantNodesEdgesSubsetResponse.prototyp
     );
   }
   f = this.getNodeBetweennessCentrality();
-  if (f != null) {
+  if (f !==null) {
     writer.writeMessage(
       3,
       f,
@@ -1847,7 +1847,7 @@ snet_network_analytics_robustness.MostImportantNodesEdgesSubsetResponse.prototyp
     );
   }
   f = this.getEdgeBetweennessCentrality();
-  if (f != null) {
+  if (f !==null) {
     writer.writeMessage(
       4,
       f,
@@ -1924,7 +1924,7 @@ snet_network_analytics_robustness.MostImportantNodesEdgesSubsetResponse.prototyp
  * @return{!boolean}
  */
 snet_network_analytics_robustness.MostImportantNodesEdgesSubsetResponse.prototype.hasNodeBetweennessCentrality = function() {
-  return jspb.Message.getField(this, 3) != null;
+  return jspb.Message.getField(this, 3) !==null;
 };
 
 
@@ -1954,7 +1954,7 @@ snet_network_analytics_robustness.MostImportantNodesEdgesSubsetResponse.prototyp
  * @return{!boolean}
  */
 snet_network_analytics_robustness.MostImportantNodesEdgesSubsetResponse.prototype.hasEdgeBetweennessCentrality = function() {
-  return jspb.Message.getField(this, 4) != null;
+  return jspb.Message.getField(this, 4) !==null;
 };
 
 

@@ -62,7 +62,7 @@ const UserProfile = ({ classes, nickname, history, location, email }) => {
       <div>
         <AppBar position="static" className={classes.tabsHeader}>
           <Tabs value={activeTab()}>
-            {tabs.map(value => (
+            {tabs.map((value) => (
               <Tab key={value.name} label={value.name} onClick={() => onTabChange(value.activeIndex, value.path)} />
             ))}
           </Tabs>
@@ -78,7 +78,7 @@ const UserProfile = ({ classes, nickname, history, location, email }) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   nickname: state.userReducer.nickname,
   email: state.userReducer.email,
 });

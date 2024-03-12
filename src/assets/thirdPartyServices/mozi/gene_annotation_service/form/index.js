@@ -65,7 +65,7 @@ const VirusGenes = [
   "NSP15",
 ];
 
-const AnnotationForm = props => {
+const AnnotationForm = (props) => {
   const { enqueueSnackbar } = useSnackbar();
   const geneInputRef = React.createRef();
   const [genes, setGenes] = useState([]);
@@ -79,8 +79,6 @@ const AnnotationForm = props => {
   const [includeCodingRNA, setIncludeCodingRNA] = useState(false);
   const [includeNonCodingRNA, setIncludeNonCodingRNA] = useState(false);
 
-  const [includeProtiens, setIncludeProtiens] = useState(true);
-
   const [includeCov, setIncludeCov] = useState(true);
 
   const [loading, setLoading] = useState(false);
@@ -88,13 +86,13 @@ const AnnotationForm = props => {
   const [geneInputMethod, setGeneInputMethod] = useState(GeneInputMethods.Manual);
   const [annotatePathwayWithBiogrid, setAnnotatePathwayWithBiogrid] = useState(false);
 
-  const addGene = e => {
+  const addGene = (e) => {
     const gene = e
       .trim()
       .toUpperCase()
       .split(" ")
-      .filter(g => g);
-    gene.some(g => genes.includes(g))
+      .filter((g) => g);
+    gene.some((g) => genes.includes(g))
       ? enqueueSnackbar("Gene already exists", {
           variant: "warning",
           anchorOrigin: {
@@ -110,22 +108,22 @@ const AnnotationForm = props => {
     if (annotation === "biogrid-interaction-annotation" && !geneLevel && e.target.checked) {
       e.target.checked = false;
     } else {
-      const updated = e.target.checked ? [...annotations, annotation] : annotations.filter(a => a !== annotation);
+      const updated = e.target.checked ? [...annotations, annotation] : annotations.filter((a) => a !== annotation);
       setAnnotations(updated);
     }
   };
 
   const toggleGoSubgroup = (subgroup, e) => {
-    const updated = e.target.checked ? [...GOSubgroups, subgroup] : GOSubgroups.filter(s => s !== subgroup);
+    const updated = e.target.checked ? [...GOSubgroups, subgroup] : GOSubgroups.filter((s) => s !== subgroup);
     setGOSubgroups(updated);
   };
 
   const togglePathways = (subgroup, e) => {
-    const updated = e.target.checked ? [...pathways, subgroup] : pathways.filter(s => s !== subgroup);
+    const updated = e.target.checked ? [...pathways, subgroup] : pathways.filter((s) => s !== subgroup);
     setPathways(updated);
   };
 
-  const handleFileUpload = file => {
+  const handleFileUpload = (file) => {
     const reader = new FileReader();
     reader.onload = () => {
       setGenes(reader.result.split("\n"));
@@ -144,7 +142,7 @@ const AnnotationForm = props => {
     setLoading(true);
     const annotationRequest = new AnnotationRequest();
     annotationRequest.setGenesList(
-      genes.map(g => {
+      genes.map((g) => {
         const gene = new Gene();
         gene.setGenename(g);
         return gene;
@@ -161,11 +159,10 @@ const AnnotationForm = props => {
     gl.setFilter("gene-level?");
     gl.setValue(capitalizeFirstLetter(geneLevel.toString()));
 
-    const annList = annotations.map(sa => {
+    const annList = annotations.map((sa) => {
       const annotation = new Annotation();
       annotation.setFunctionname(sa);
       if (sa === "gene-go-annotation") {
-        const ip = new Filter();
         annotation.setFiltersList([namespace, nop, gl]);
       } else if (sa === "gene-pathway-annotation") {
         const ps = new Filter();
@@ -212,7 +209,6 @@ const AnnotationForm = props => {
     const noncoding = new Filter();
     noncoding.setFilter("noncoding");
     noncoding.setValue(capitalizeFirstLetter(includeNonCodingRNA.toString()));
-    const protein = new Filter();
     includeRNA.setFiltersList([gl, coding, noncoding]);
 
     annotationRequest.setAnnotationsList(includeCodingRNA || includeNonCodingRNA ? [...annList, includeRNA] : annList);
@@ -227,9 +223,9 @@ const AnnotationForm = props => {
             const invalidGenes = statusMessage
               .split("`")[1]
               .split(",")
-              .map(g => g.trim())
-              .filter(g => g);
-            setGenes(genes.filter(g => !invalidGenes.includes(g)));
+              .map((g) => g.trim())
+              .filter((g) => g);
+            setGenes(genes.filter((g) => !invalidGenes.includes(g)));
             enqueueSnackbar("Gene not found!", {
               variant: "warning",
               anchorOrigin: {
@@ -287,8 +283,8 @@ const AnnotationForm = props => {
           fullWidth
           value={currentGene}
           variant="outlined"
-          onChange={e => setCurrentGene(e.target.value)}
-          onKeyPress={e => {
+          onChange={(e) => setCurrentGene(e.target.value)}
+          onKeyPress={(e) => {
             if (e.key === "Enter") addGene(currentGene);
           }}
         />
@@ -296,7 +292,7 @@ const AnnotationForm = props => {
       {geneInputMethod === GeneInputMethods.Import && (
         <Dropzone
           multiple={false}
-          onDrop={files => {
+          onDrop={(files) => {
             const file = files[0];
             handleFileUpload(file);
           }}
@@ -330,18 +326,18 @@ const AnnotationForm = props => {
         </Dropzone>
       )}
       <div className="gene-list">
-        {genes.map(g => (
+        {genes.map((g) => (
           <Chip
             style={{ margin: 5 }}
             color={VirusGenes.includes(g) ? "secondary" : "primary"}
             key={g}
             label={g}
-            onDelete={() => setGenes(genes.filter(f => f !== g))}
+            onDelete={() => setGenes(genes.filter((f) => f !== g))}
           />
         ))}
         {genes.length > 1 && (
           <IconButton aria-label="delete" color="secondary">
-            <DeleteIcon onClick={e => setGenes([])} />
+            <DeleteIcon onClick={(e) => setGenes([])} />
           </IconButton>
         )}
       </div>
@@ -353,7 +349,7 @@ const AnnotationForm = props => {
         <li>
           <FormGroup row>
             <FormControlLabel
-              control={<Checkbox color="primary" onChange={e => toggleAnnotation("gene-go-annotation", e)} />}
+              control={<Checkbox color="primary" onChange={(e) => toggleAnnotation("gene-go-annotation", e)} />}
               label={<AnchorLink href="http://www.geneontology.org" label="Gene Ontology" newTab />}
             />
           </FormGroup>
@@ -362,7 +358,7 @@ const AnnotationForm = props => {
             <div className="annotation-parameters">
               <div className="parameter">
                 <FormGroup row>
-                  {GeneGoOptions.map(o => (
+                  {GeneGoOptions.map((o) => (
                     <FormControlLabel
                       key={o.label}
                       control={
@@ -370,7 +366,7 @@ const AnnotationForm = props => {
                           color="primary"
                           value={o.value}
                           defaultChecked={GOSubgroups.includes(o.value)}
-                          onChange={e => toggleGoSubgroup(o.value, e)}
+                          onChange={(e) => toggleGoSubgroup(o.value, e)}
                         />
                       }
                       label={o.label}
@@ -383,7 +379,7 @@ const AnnotationForm = props => {
                   label="Number of parents"
                   value={parents}
                   error={parents === "" || isNaN(parents)}
-                  onChange={e => setParents(e.target.value)}
+                  onChange={(e) => setParents(e.target.value)}
                   type="number"
                   variant="outlined"
                   helperText={
@@ -401,7 +397,7 @@ const AnnotationForm = props => {
         <li>
           <FormGroup row>
             <FormControlLabel
-              control={<Checkbox color="primary" onChange={e => toggleAnnotation("gene-pathway-annotation", e)} />}
+              control={<Checkbox color="primary" onChange={(e) => toggleAnnotation("gene-pathway-annotation", e)} />}
               label="Curated Pathways"
             />
           </FormGroup>
@@ -413,7 +409,7 @@ const AnnotationForm = props => {
                     <Checkbox
                       color="primary"
                       value="reactome"
-                      onChange={e => togglePathways("reactome", e)}
+                      onChange={(e) => togglePathways("reactome", e)}
                       defaultChecked={pathways.includes("reactome")}
                     />
                   }
@@ -426,7 +422,7 @@ const AnnotationForm = props => {
                     control={
                       <Switch
                         checked={includeSmallMolecules}
-                        onChange={e => setIncludeSmallMolecules(e.target.checked)}
+                        onChange={(e) => setIncludeSmallMolecules(e.target.checked)}
                         value="smallMolecules"
                         color="primary"
                       />
@@ -441,7 +437,7 @@ const AnnotationForm = props => {
                     control={
                       <Switch
                         checked={annotatePathwayWithBiogrid}
-                        onChange={e => setAnnotatePathwayWithBiogrid(e.target.checked)}
+                        onChange={(e) => setAnnotatePathwayWithBiogrid(e.target.checked)}
                         color="primary"
                       />
                     }
@@ -456,7 +452,7 @@ const AnnotationForm = props => {
           <FormGroup row>
             <FormControlLabel
               control={
-                <Checkbox color="primary" onChange={e => toggleAnnotation("biogrid-interaction-annotation", e)} />
+                <Checkbox color="primary" onChange={(e) => toggleAnnotation("biogrid-interaction-annotation", e)} />
               }
               label="Biogrid Protien Interaction"
             />
@@ -469,7 +465,7 @@ const AnnotationForm = props => {
       <ul className="annotation-list">
         <li>
           <FormControlLabel
-            control={<Checkbox color="primary" onChange={e => toggleAnnotation("go-annotation", e)} />}
+            control={<Checkbox color="primary" onChange={(e) => toggleAnnotation("go-annotation", e)} />}
             label="GO Term"
           />
           {annotations.includes("go-annotation") && (
@@ -479,7 +475,7 @@ const AnnotationForm = props => {
                   label="Number of parents"
                   value={goParents}
                   error={goParents === "" || isNaN(goParents)}
-                  onChange={e => setGOParents(e.target.value)}
+                  onChange={(e) => setGOParents(e.target.value)}
                   type="number"
                   variant="outlined"
                   helperText={
@@ -501,7 +497,7 @@ const AnnotationForm = props => {
       </Typography>
       <FormControlLabel
         control={
-          <Switch checked={includeCodingRNA} onChange={e => setIncludeCodingRNA(e.target.checked)} color="primary" />
+          <Switch checked={includeCodingRNA} onChange={(e) => setIncludeCodingRNA(e.target.checked)} color="primary" />
         }
         label="Coding RNA"
       />
@@ -509,7 +505,7 @@ const AnnotationForm = props => {
         control={
           <Switch
             checked={includeNonCodingRNA}
-            onChange={e => setIncludeNonCodingRNA(e.target.checked)}
+            onChange={(e) => setIncludeNonCodingRNA(e.target.checked)}
             color="primary"
           />
         }
@@ -518,7 +514,7 @@ const AnnotationForm = props => {
       <br />
       <br />
       <FormControlLabel
-        control={<Switch checked={geneLevel} onChange={e => setGeneLevel(e.target.checked)} color="primary" />}
+        control={<Switch checked={geneLevel} onChange={(e) => setGeneLevel(e.target.checked)} color="primary" />}
         label="Gene Only"
       />
       <br />
@@ -527,7 +523,7 @@ const AnnotationForm = props => {
         SARS-CoV-2
       </Typography>
       <FormControlLabel
-        control={<Switch checked={includeCov} onChange={e => setIncludeCov(e.target.checked)} color="primary" />}
+        control={<Switch checked={includeCov} onChange={(e) => setIncludeCov(e.target.checked)} color="primary" />}
         label="Include SARS-CoV-2"
       />
       {annotatePathwayWithBiogrid && (

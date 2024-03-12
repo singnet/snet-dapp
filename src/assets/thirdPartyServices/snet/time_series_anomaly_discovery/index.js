@@ -1,13 +1,8 @@
 import React from "react";
-import { hasOwnDefinedProperty } from "../../../../utility/JSHelper";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import Typography from "@material-ui/core/Typography";
-import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
-import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
@@ -48,8 +43,8 @@ class TimeSeriesChart extends React.Component {
   render() {
     return (
       <Chart
-        width={"100%"}
-        height={"400px"}
+        width="100%"
+        height="400px"
         chartType="LineChart"
         loader={<div>Loading Chart</div>}
         data={this.props.data}
@@ -94,8 +89,8 @@ class AnomaliesChart extends React.Component {
   render() {
     return (
       <Chart
-        width={"100%"}
-        height={"400px"}
+        width="100%"
+        height="400px"
         chartType="AreaChart"
         loader={<div>Loading Chart</div>}
         data={this.props.data}
@@ -178,7 +173,6 @@ export default class TimeSeriesAnomalyDiscoveryService extends React.Component {
     this.isComplete = false;
     this.to_render_time_series = undefined;
     this.to_render_anomalies = undefined;
-
   }
 
   thresholdChange(event, value) {
@@ -207,12 +201,12 @@ export default class TimeSeriesAnomalyDiscoveryService extends React.Component {
     var http = new XMLHttpRequest();
     http.open("HEAD", url, false);
     http.send();
-    return http.status != 404;
+    return http.status !== 404;
   }
 
   getThreshold() {
     var cur = parseFloat(this.state.threshold).toFixed(2);
-    if (cur != NaN) return cur;
+    if (!isNaN(cur)) return cur;
     else return "";
   }
 
@@ -228,11 +222,11 @@ export default class TimeSeriesAnomalyDiscoveryService extends React.Component {
     var expand_button = document.getElementsByClassName("fas fa-window-maximize mini-maxi-close");
     var minimize_button = document.getElementsByClassName("fas fa-window-minimize mini-maxi-close");
 
-    if (expand_button[0] != undefined && this.state.max_event_set === false) {
+    if (expand_button[0] !== undefined && this.state.max_event_set === false) {
       expand_button[0].addEventListener("click", this.minMaxWindowEvent, false);
       this.state.max_event_set = true;
     }
-    if (minimize_button[0] != undefined && this.state.min_event_set === false) {
+    if (minimize_button[0] !== undefined && this.state.min_event_set === false) {
       minimize_button[0].addEventListener("click", this.minMaxWindowEvent, false);
       this.state.min_event_set = true;
     }
@@ -252,10 +246,10 @@ export default class TimeSeriesAnomalyDiscoveryService extends React.Component {
     //var window_size = (this.state.invertedDensityCurveJson.length - 1) / 500;
     for (var i = 1; i < this.state.invertedDensityCurveJson.length; i = i + 1) {
       if (this.state.invertedDensityCurveJson[i][1] > this.state.norm_threshold) {
-        var pos_to_render_series = [i, this.state.timeSeriesJson[i][1], this.state.timeSeriesJson[i][1]];
+        const pos_to_render_series = [i, this.state.timeSeriesJson[i][1], this.state.timeSeriesJson[i][1]];
         time_series_rows.push(pos_to_render_series);
       } else {
-        var pos_to_render_series = [i, this.state.timeSeriesJson[i][1], null];
+        const pos_to_render_series = [i, this.state.timeSeriesJson[i][1], null];
         time_series_rows.push(pos_to_render_series);
       }
 
@@ -286,25 +280,28 @@ export default class TimeSeriesAnomalyDiscoveryService extends React.Component {
 
     const props = {
       request,
-      onEnd: response => {
+      onEnd: (response) => {
         const { message, status, statusMessage } = response;
         if (status !== 0) {
           throw new Error(statusMessage);
         }
         this.setState({
-          response: { status: "success", timeseries: message.getTimeseries(), density: message.getDensity(), normalized: message.getNormalized(), inverted: message.getInverted()},
+          response: {
+            status: "success",
+            timeseries: message.getTimeseries(),
+            density: message.getDensity(),
+            normalized: message.getNormalized(),
+            inverted: message.getInverted(),
+          },
         });
 
         this.state.timeSeriesJson = JSON.parse(this.state.response.timeseries);
         this.state.invertedDensityCurveJson = JSON.parse(this.state.response.inverted);
-
       },
     };
 
     this.props.serviceClient.unary(methodDescriptor, props);
   }
-
-
 
   renderForm() {
     return (
@@ -374,7 +371,6 @@ export default class TimeSeriesAnomalyDiscoveryService extends React.Component {
   }
 
   renderComplete() {
-
     return (
       // this.props.response.output
       <React.Fragment>
@@ -392,7 +388,7 @@ export default class TimeSeriesAnomalyDiscoveryService extends React.Component {
               forceRender={this.state.first_render}
             />
           </Grid>
-          <Grid item xs={1}></Grid>
+          <Grid item xs={1} />
           <Grid item xs={12} style={{ textAlign: "center" }}>
             <h3>Anomalies</h3>
             <p style={{ color: "grey", fontStyle: "italic", fontSize: 13 }}>
@@ -428,7 +424,7 @@ export default class TimeSeriesAnomalyDiscoveryService extends React.Component {
                   onChange={this.thresholdChange}
                   onDragEnd={this.updateRenderTimeSeries}
                   vertical
-                ></Slider>
+                />
               </div>
             </Tooltip>
           </Grid>
@@ -452,7 +448,6 @@ export default class TimeSeriesAnomalyDiscoveryService extends React.Component {
     this.updateParentExansion();
 
     if (this.props.isComplete) {
-
       if (this.state.first_render === true) {
         this.state.first_render = false;
         this.updateRenderTimeSeries();
@@ -495,7 +490,7 @@ export default class TimeSeriesAnomalyDiscoveryService extends React.Component {
             aria-describedby="alert-dialog-slide-description"
           >
             <DialogTitle id="alert-dialog-slide-title" style={{ fontSize: 15 }}>
-              {"Usage"}
+              Usage
             </DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-slide-description" style={{ fontSize: 15 }}>

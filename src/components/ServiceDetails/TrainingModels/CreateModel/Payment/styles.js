@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   paymentContaienr: {
     padding: "60px 24px 32px",
   },
@@ -149,9 +149,9 @@ export const useStyles = theme => ({
     "& > div": {
       "& > svg": {
         marginRight: 5,
-        color: '#05C38C',
+        color: "#05C38C",
         fontSize: 22,
-        verticalAlign: 'middle'
+        verticalAlign: "middle",
       },
       "& > span": {
         fontSize: 14,

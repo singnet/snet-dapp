@@ -1,4 +1,4 @@
-// package: 
+// package:
 // file: ProtoFiles/topic_analysis.proto
 
 var ProtoFiles_topic_analysis_pb = require("./topic_analysis_pb");
@@ -8,7 +8,7 @@ var TopicAnalysis = (function () {
   function TopicAnalysis() {}
   TopicAnalysis.serviceName = "TopicAnalysis";
   return TopicAnalysis;
-}());
+})();
 
 TopicAnalysis.PLSA = {
   methodName: "PLSA",
@@ -16,7 +16,7 @@ TopicAnalysis.PLSA = {
   requestStream: false,
   responseStream: false,
   requestType: ProtoFiles_topic_analysis_pb.PLSARequest,
-  responseType: ProtoFiles_topic_analysis_pb.PLSAResponse
+  responseType: ProtoFiles_topic_analysis_pb.PLSAResponse,
 };
 
 exports.TopicAnalysis = TopicAnalysis;
@@ -33,10 +33,10 @@ TopicAnalysisClient.prototype.pLSA = function pLSA(requestMessage, metadata, cal
   var client = grpc.unary(TopicAnalysis.PLSA, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -47,15 +47,14 @@ TopicAnalysisClient.prototype.pLSA = function pLSA(requestMessage, metadata, cal
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.TopicAnalysisClient = TopicAnalysisClient;
-

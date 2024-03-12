@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   serviceDetailContainer: {
     width: "auto",
     "& > div": {

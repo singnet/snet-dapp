@@ -27,29 +27,29 @@ const paymentReducer = (state = InitialPaymentDetails, action) => {
   }
 };
 
-export const anyPendingTxn = state => {
+export const anyPendingTxn = (state) => {
   if (process.env.REACT_APP_SANDBOX) {
     return false;
   }
   const { walletList } = state.userReducer;
   const istransactionsPending = walletList.some(
-    wallet => wallet.transactions && wallet.transactions.some(txn => txn.status === "PENDING")
+    (wallet) => wallet.transactions && wallet.transactions.some((txn) => txn.status === "PENDING")
   );
   return istransactionsPending;
 };
 
-export const anyFailedTxn = state => {
+export const anyFailedTxn = (state) => {
   if (process.env.REACT_APP_SANDBOX) {
     return false;
   }
   const { walletList } = state.userReducer;
   const istransactionsFailed = walletList.some(
-    wallet => wallet.transactions && wallet.transactions.some(txn => txn.status === "FAILED")
+    (wallet) => wallet.transactions && wallet.transactions.some((txn) => txn.status === "FAILED")
   );
   return istransactionsFailed;
 };
 
-export const USDToAgi = state => usd => {
+export const USDToAgi = (state) => (usd) => {
   const { usd_agi_rate, agi_divisibility } = state.paymentReducer;
   if (!usd_agi_rate) {
     return undefined;
@@ -57,7 +57,7 @@ export const USDToAgi = state => usd => {
   return (usd * usd_agi_rate).toFixed(agi_divisibility);
 };
 
-export const USDToCogs = state => usd => {
+export const USDToCogs = (state) => (usd) => {
   const { usd_cogs_rate } = state.paymentReducer;
   if (!usd_cogs_rate) {
     return undefined;

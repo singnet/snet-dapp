@@ -54,8 +54,8 @@ export default class NamedEntityRecognitionService extends React.Component {
       },
       () => {
         if (this.state.selectedExample !== "default") {
-          this.state.exampleList.forEach(item => {
-            if (item.value == event.target.value) {
+          this.state.exampleList.forEach((item) => {
+            if (item.value === event.target.value) {
               this.setState({ message: item.content }, () => {
                 this.textInput.current.inputRef.current.focus();
               });
@@ -78,8 +78,8 @@ export default class NamedEntityRecognitionService extends React.Component {
         tempArray.push(tempMessages[i]);
       }
     }
-    let filterArray = tempArray.filter(el => {
-      return el != null;
+    let filterArray = tempArray.filter((el) => {
+      return el !== null;
     });
 
     let itemsToAnalyze = [];

@@ -22,7 +22,7 @@ export const paymentTitles = {
   CREATE_CHANNEL: "Link Provider to General Account Wallet",
 };
 
-const GeneralAccountWallet = props => {
+const GeneralAccountWallet = (props) => {
   const { classes, channelInfo, handleContinue, paypalInProgress, anyGeneralWallet, anyPendingTxn } = props;
 
   const [showCreateWalletPopup, setShowCreateWalletPopup] = useState(false);
@@ -74,7 +74,7 @@ const GeneralAccountWallet = props => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   channelInfo: channelInfo(state),
   paypalInProgress: state.paymentReducer.paypalInProgress,
   wallet: state.userReducer.wallet,
@@ -82,11 +82,8 @@ const mapStateToProps = state => ({
   anyPendingTxn: anyPendingTxn(state),
 });
 
-const mapDispatchToProps = dispatch => ({
-  fetchOrderDetails: orderId => dispatch(paymentActions.fetchOrderDetails(orderId)),
+const mapDispatchToProps = (dispatch) => ({
+  fetchOrderDetails: (orderId) => dispatch(paymentActions.fetchOrderDetails(orderId)),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(useStyles)(GeneralAccountWallet));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(GeneralAccountWallet));

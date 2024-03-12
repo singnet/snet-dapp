@@ -72,17 +72,8 @@ export default class CNTKLSTMForecast extends React.Component {
   }
 
   submitAction() {
-    const {
-      sourceIndex,
-      sourceTypes,
-      window_len,
-      word_len,
-      alphabet_size,
-      source,
-      contract,
-      start_date,
-      end_date,
-    } = this.state;
+    const { sourceIndex, sourceTypes, window_len, word_len, alphabet_size, source, contract, start_date, end_date } =
+      this.state;
     const methodDescriptor = Forecast["forecast"];
     const request = new methodDescriptor.requestType();
 

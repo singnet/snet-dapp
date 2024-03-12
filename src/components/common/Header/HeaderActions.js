@@ -7,7 +7,7 @@ import UserProfileToggler from "../../UserProfilePopUp/UserProfileToggler";
 
 const HeaderActions = ({ isLoggedIn, history }) => {
   const classes = useStyles();
-  const handleRedirection = redirectTo => {
+  const handleRedirection = (redirectTo) => {
     const sourcePath = history.location.pathname;
     history.push({ pathname: redirectTo, state: { sourcePath } });
   };

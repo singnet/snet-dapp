@@ -6,9 +6,10 @@ var grpc = require("@improbable-eng/grpc-web").grpc;
 
 var EfficientRuleDensityBasedAnomalyDetection = (function () {
   function EfficientRuleDensityBasedAnomalyDetection() {}
-  EfficientRuleDensityBasedAnomalyDetection.serviceName = "timeSeriesAnomalyDetection.EfficientRuleDensityBasedAnomalyDetection";
+  EfficientRuleDensityBasedAnomalyDetection.serviceName =
+    "timeSeriesAnomalyDetection.EfficientRuleDensityBasedAnomalyDetection";
   return EfficientRuleDensityBasedAnomalyDetection;
-}());
+})();
 
 EfficientRuleDensityBasedAnomalyDetection.detectAnomalies = {
   methodName: "detectAnomalies",
@@ -16,7 +17,7 @@ EfficientRuleDensityBasedAnomalyDetection.detectAnomalies = {
   requestStream: false,
   responseStream: false,
   requestType: ProtoFiles_timeSeriesAnomalyDetection_pb.InputParameters,
-  responseType: ProtoFiles_timeSeriesAnomalyDetection_pb.OutputString
+  responseType: ProtoFiles_timeSeriesAnomalyDetection_pb.OutputString,
 };
 
 exports.EfficientRuleDensityBasedAnomalyDetection = EfficientRuleDensityBasedAnomalyDetection;
@@ -26,17 +27,21 @@ function EfficientRuleDensityBasedAnomalyDetectionClient(serviceHost, options) {
   this.options = options || {};
 }
 
-EfficientRuleDensityBasedAnomalyDetectionClient.prototype.detectAnomalies = function detectAnomalies(requestMessage, metadata, callback) {
+EfficientRuleDensityBasedAnomalyDetectionClient.prototype.detectAnomalies = function detectAnomalies(
+  requestMessage,
+  metadata,
+  callback
+) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
   var client = grpc.unary(EfficientRuleDensityBasedAnomalyDetection.detectAnomalies, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -47,15 +52,14 @@ EfficientRuleDensityBasedAnomalyDetectionClient.prototype.detectAnomalies = func
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.EfficientRuleDensityBasedAnomalyDetectionClient = EfficientRuleDensityBasedAnomalyDetectionClient;
-

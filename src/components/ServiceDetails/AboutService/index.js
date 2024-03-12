@@ -21,7 +21,7 @@ const AboutService = ({
   scrollToView,
   demoComponentRequired,
   training,
-  editModel
+  editModel,
 }) => {
   const RenderExistingModel = () => {
     if (process.env.REACT_APP_TRAINING_ENABLE === "true" && Object.keys(training).length && isLoggedIn) {
@@ -78,7 +78,7 @@ const AboutService = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isLoggedIn: state.userReducer.login.isLoggedIn,
 });
 

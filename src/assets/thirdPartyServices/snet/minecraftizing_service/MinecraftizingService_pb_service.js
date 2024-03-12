@@ -8,7 +8,7 @@ var MinecraftizingService = (function () {
   function MinecraftizingService() {}
   MinecraftizingService.serviceName = "MinecraftizingService.MinecraftizingService";
   return MinecraftizingService;
-}());
+})();
 
 MinecraftizingService.getMinecraftiziedImage = {
   methodName: "getMinecraftiziedImage",
@@ -16,7 +16,7 @@ MinecraftizingService.getMinecraftiziedImage = {
   requestStream: false,
   responseStream: false,
   requestType: MinecraftizingService_pb.minecraftRequest,
-  responseType: MinecraftizingService_pb.minecraftResponse
+  responseType: MinecraftizingService_pb.minecraftResponse,
 };
 
 exports.MinecraftizingService = MinecraftizingService;
@@ -26,17 +26,21 @@ function MinecraftizingServiceClient(serviceHost, options) {
   this.options = options || {};
 }
 
-MinecraftizingServiceClient.prototype.getMinecraftiziedImage = function getMinecraftiziedImage(requestMessage, metadata, callback) {
+MinecraftizingServiceClient.prototype.getMinecraftiziedImage = function getMinecraftiziedImage(
+  requestMessage,
+  metadata,
+  callback
+) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
   var client = grpc.unary(MinecraftizingService.getMinecraftiziedImage, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -47,15 +51,14 @@ MinecraftizingServiceClient.prototype.getMinecraftiziedImage = function getMinec
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.MinecraftizingServiceClient = MinecraftizingServiceClient;
-

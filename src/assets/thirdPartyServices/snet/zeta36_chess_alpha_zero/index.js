@@ -68,7 +68,7 @@ export default class Zeta36ChessAlphaZero extends React.Component {
 
     const props = {
       request,
-      onEnd: response => {
+      onEnd: (response) => {
         const { message, status, statusMessage } = response;
         if (status !== 0) {
           throw new Error(statusMessage);

@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   purchaseErrorContainer: {
     padding: "0 25px",
     "& p": { margin: "10px 0 0" },

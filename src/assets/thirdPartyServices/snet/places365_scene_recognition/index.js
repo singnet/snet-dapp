@@ -1,11 +1,11 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import SNETImageUpload from "./../../standardComponents/SNETImageUpload";
-import { Grid, IconButton, MuiThemeProvider, Tooltip } from "@material-ui/core";
+import { Grid, MuiThemeProvider } from "@material-ui/core";
 import { blue } from "@material-ui/core/colors";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import InfoIcon from "@material-ui/icons/Info";
-import { createMuiTheme } from "@material-ui/core/styles";
+import { createTheme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import grey from "@material-ui/core/es/colors/grey";
@@ -16,7 +16,7 @@ import Table from "@material-ui/core/Table";
 import TableRow from "@material-ui/core/TableRow";
 import TableBody from "@material-ui/core/TableBody";
 import HoverIcon from "../../standardComponents/HoverIcon";
-import {SceneRecognition} from "./scene_recognition_pb_service"
+import { SceneRecognition } from "./scene_recognition_pb_service";
 
 export default class Places365SceneRecognition extends React.Component {
   constructor(props) {
@@ -60,7 +60,7 @@ export default class Places365SceneRecognition extends React.Component {
     this.getImageData = this.getImageData.bind(this);
 
     // Color Palette
-    this.theme = createMuiTheme({
+    this.theme = createTheme({
       palette: {
         primary: blue,
         secondary: grey,
@@ -88,22 +88,21 @@ export default class Places365SceneRecognition extends React.Component {
   }
 
   submitAction() {
-    const { methodName, input_image,predict } = this.state;
+    const { methodName, input_image, predict } = this.state;
     const methodDescriptor = SceneRecognition[methodName];
     const request = new methodDescriptor.requestType();
 
-    request.setInputImage(input_image)
-    request.setPredict(predict)
+    request.setInputImage(input_image);
+    request.setPredict(predict);
 
     const props = {
       request,
-      onEnd: response => {
+      onEnd: (response) => {
         const { message, status, statusMessage } = response;
         if (status !== 0) {
           throw new Error(statusMessage);
         }
         this.setState({
-         
           response: { status: "success", data: message.getData() },
         });
       },
@@ -159,7 +158,7 @@ export default class Places365SceneRecognition extends React.Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {categories.map(category => {
+              {categories.map((category) => {
                 let [prob, cat] = category.split(" -> ");
                 return (
                   <TableRow key={cat}>

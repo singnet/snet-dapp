@@ -1,4 +1,4 @@
-// package: 
+// package:
 // file: ProtoFiles/object_detection.proto
 
 var ProtoFiles_object_detection_pb = require("./object_detection_pb");
@@ -8,7 +8,7 @@ var Detect = (function () {
   function Detect() {}
   Detect.serviceName = "Detect";
   return Detect;
-}());
+})();
 
 Detect.detect = {
   methodName: "detect",
@@ -16,7 +16,7 @@ Detect.detect = {
   requestStream: false,
   responseStream: false,
   requestType: ProtoFiles_object_detection_pb.Input,
-  responseType: ProtoFiles_object_detection_pb.Output
+  responseType: ProtoFiles_object_detection_pb.Output,
 };
 
 exports.Detect = Detect;
@@ -33,10 +33,10 @@ DetectClient.prototype.detect = function detect(requestMessage, metadata, callba
   var client = grpc.unary(Detect.detect, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -47,15 +47,14 @@ DetectClient.prototype.detect = function detect(requestMessage, metadata, callba
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.DetectClient = DetectClient;
-

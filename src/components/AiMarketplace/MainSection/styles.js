@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   mainSection: {
     padding: "40px 0 48px",
     "& div": {

@@ -55,12 +55,12 @@ async function generateSitemap() {
   console.log("fetching service");
   await fetchServices();
   console.log("fetched all services");
-  const idMap = services.map(service => ({
+  const idMap = services.map((service) => ({
     orgId: service.org_id,
     serviceId: service.service_id,
   }));
 
-  const activeUserTabsMap = ["account", "settings", "transactions"].map(tab => ({ "activeTab?": tab }));
+  const activeUserTabsMap = ["account", "settings", "transactions"].map((tab) => ({ "activeTab?": tab }));
 
   const paramsConfig = {
     "/servicedetails/org/:orgId/service/:serviceId": idMap,

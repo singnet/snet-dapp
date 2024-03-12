@@ -1,4 +1,4 @@
-// package: 
+// package:
 // file: ProtoFiles/summary.proto
 
 var ProtoFiles_summary_pb = require("./summary_pb");
@@ -8,7 +8,7 @@ var TextSummary = (function () {
   function TextSummary() {}
   TextSummary.serviceName = "TextSummary";
   return TextSummary;
-}());
+})();
 
 TextSummary.summary = {
   methodName: "summary",
@@ -16,7 +16,7 @@ TextSummary.summary = {
   requestStream: false,
   responseStream: false,
   requestType: ProtoFiles_summary_pb.Request,
-  responseType: ProtoFiles_summary_pb.Result
+  responseType: ProtoFiles_summary_pb.Result,
 };
 
 exports.TextSummary = TextSummary;
@@ -33,10 +33,10 @@ TextSummaryClient.prototype.summary = function summary(requestMessage, metadata,
   var client = grpc.unary(TextSummary.summary, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -47,15 +47,14 @@ TextSummaryClient.prototype.summary = function summary(requestMessage, metadata,
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.TextSummaryClient = TextSummaryClient;
-

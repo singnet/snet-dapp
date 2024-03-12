@@ -7,7 +7,7 @@ Date: 02 February 2019
 
 import React from "react";
 import PropTypes from "prop-types";
-import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
 
 import Grid from "@material-ui/core/Grid";
 
@@ -110,8 +110,8 @@ export default class SNETImageUpload extends React.Component {
             : 5
           : 4
         : this.props.disableUploadTab // Logic for defining the initial tab depending on which are available
-        ? this.props.disableUploadTab + this.props.disableUrlTab
-        : 0,
+          ? this.props.disableUploadTab + this.props.disableUrlTab
+          : 0,
       searchText: null,
       errorMessage: null,
       displayError: false,
@@ -148,7 +148,7 @@ export default class SNETImageUpload extends React.Component {
 
     // Color Palette
     this.mainColor = this.props.mainColor[500];
-    this.theme = createMuiTheme({
+    this.theme = createTheme({
       palette: {
         primary: this.props.mainColor,
         error: red,
@@ -355,7 +355,7 @@ export default class SNETImageUpload extends React.Component {
         img.filename = filename;
         img.maxImageWidth = this.props.maxImageWidth;
         img.maxImageHeight = this.props.maxImageHeight;
-        img.onload = function() {
+        img.onload = function () {
           if (this.maxImageHeight) {
             if (this.naturalHeight > this.maxImageHeight) {
               this.displayErrorMessage(
@@ -402,7 +402,7 @@ export default class SNETImageUpload extends React.Component {
   byteReaderOnLoadEnd(file) {
     let reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.onloadend = function() {
+    reader.onloadend = function () {
       this.verifyAndUpload(
         reader.result,
         new Uint8Array(this.state.byteReader.result),
@@ -422,7 +422,7 @@ export default class SNETImageUpload extends React.Component {
 
     // Is always used
     let reader = new FileReader();
-    reader.onloadend = function() {
+    reader.onloadend = function () {
       this.setState(
         {
           base64Reader: reader,
@@ -440,7 +440,7 @@ export default class SNETImageUpload extends React.Component {
     }.bind(this);
 
     let byteReader = new FileReader();
-    byteReader.onloadend = function() {
+    byteReader.onloadend = function () {
       this.setState({
         byteReader,
       });
@@ -463,8 +463,8 @@ export default class SNETImageUpload extends React.Component {
             type="file"
             style={{ display: "none" }}
             accept={this.props.allowedInputTypes}
-            onChange={e => this.handleImageUpload(e.target.files, e)}
-            ref={input => (this.inputElement = input)}
+            onChange={(e) => this.handleImageUpload(e.target.files, e)}
+            ref={(input) => (this.inputElement = input)}
           />
           <div
             onClick={() => this.inputElement.click()}
@@ -545,7 +545,7 @@ export default class SNETImageUpload extends React.Component {
 
     // Only triggered if returnByteArray === true
     let byteReader = new FileReader();
-    byteReader.onloadend = function() {
+    byteReader.onloadend = function () {
       this.setState({ byteReader });
       this.verifyAndUpload(
         dataURL,
@@ -557,13 +557,13 @@ export default class SNETImageUpload extends React.Component {
     }.bind(this);
 
     img.crossOrigin = "anonymous";
-    img.onerror = function() {
+    img.onerror = function () {
       this.displayErrorMessage(this.urlErrorMessage);
     }.bind(this);
 
     if (this.props.returnByteArray) {
       img.outputFormat = this.props.outputFormat; // intentionally added prop to img tag to access it later
-      img.onload = function() {
+      img.onload = function () {
         const canvas = document.createElement("canvas"),
           context = canvas.getContext("2d");
 
@@ -571,12 +571,12 @@ export default class SNETImageUpload extends React.Component {
         canvas.width = this.naturalWidth;
         context.drawImage(this, 0, 0);
         dataURL = canvas.toDataURL(this.outputFormat);
-        canvas.toBlob(blob => {
+        canvas.toBlob((blob) => {
           byteReader.readAsArrayBuffer(blob);
         }, this.outputFormat);
       };
     } else {
-      img.onload = function() {
+      img.onload = function () {
         const canvas = document.createElement("canvas"),
           context = canvas.getContext("2d");
         let dataURL;

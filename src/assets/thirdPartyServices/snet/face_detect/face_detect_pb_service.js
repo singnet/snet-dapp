@@ -1,7 +1,7 @@
-// package: 
+// package:
 // file: face_detect.proto
 
-var face_detect_pb = require("./face_detect_pb");
+// var face_detect_pb = require("./face_detect_pb");
 var face_common_pb = require("./face_common_pb");
 var grpc = require("@improbable-eng/grpc-web").grpc;
 
@@ -9,7 +9,7 @@ var FaceDetect = (function () {
   function FaceDetect() {}
   FaceDetect.serviceName = "FaceDetect";
   return FaceDetect;
-}());
+})();
 
 FaceDetect.FindFace = {
   methodName: "FindFace",
@@ -17,7 +17,7 @@ FaceDetect.FindFace = {
   requestStream: false,
   responseStream: false,
   requestType: face_common_pb.ImageRGB,
-  responseType: face_common_pb.FaceDetections
+  responseType: face_common_pb.FaceDetections,
 };
 
 exports.FaceDetect = FaceDetect;
@@ -34,10 +34,10 @@ FaceDetectClient.prototype.findFace = function findFace(requestMessage, metadata
   var client = grpc.unary(FaceDetect.FindFace, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -48,15 +48,14 @@ FaceDetectClient.prototype.findFace = function findFace(requestMessage, metadata
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.FaceDetectClient = FaceDetectClient;
-

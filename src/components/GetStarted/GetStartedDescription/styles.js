@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   GetStartedDescription: {
     "& h2": {
       color: theme.palette.text.darkShadedGray,

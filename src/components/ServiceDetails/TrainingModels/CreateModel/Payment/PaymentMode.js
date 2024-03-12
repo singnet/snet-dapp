@@ -37,7 +37,7 @@ class PaymentMode extends Component {
     return {};
   };
 
-  handlePayTypeChange = async event => {
+  handlePayTypeChange = async (event) => {
     const { value } = event.target;
     const { updateWallet, stopWalletDetailsPolling } = this.props;
     this.setState({ alert: {} });
@@ -67,7 +67,7 @@ class PaymentMode extends Component {
     updateWallet({ type: value });
   };
 
-  handlePurchaseError = error => {
+  handlePurchaseError = (error) => {
     this.setState({
       alert: { type: alertTypes.ERROR, message: "Purchase could not be completed. Please try again" },
     });
@@ -127,7 +127,7 @@ class PaymentMode extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   wallet: state.userReducer.wallet,
   channelInfo: channelInfo(state),
   anyPendingTxn: anyPendingTxn(state),
@@ -137,7 +137,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch) => ({
   stopLoader: () => dispatch(loaderActions.stopAppLoader),
-  updateWallet: args => dispatch(userActions.updateWallet(args)),
+  updateWallet: (args) => dispatch(userActions.updateWallet(args)),
   stopWalletDetailsPolling: () => dispatch(userActions.stopWalletDetailsPolling),
 });
 

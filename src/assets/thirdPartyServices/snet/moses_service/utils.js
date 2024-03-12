@@ -10,7 +10,7 @@ export function parseMosesOptions(options) {
   const additionalParameters = {};
 
   for (let i = 0; i < splitString.length; i = i + 2) {
-    const mapping = MosesOptionsMapping.find(m => m[1] === splitString[i]);
+    const mapping = MosesOptionsMapping.find((m) => m[1] === splitString[i]);
     // check if the string is a numeric value, if so convert it to number
     // if not, assign original value
     let value = isNaN(splitString[i + 1]) ? splitString[i + 1] : +splitString[i + 1];
@@ -25,8 +25,8 @@ export function parseMosesOptions(options) {
     }
   }
   return {
-    mosesOptions: mosesOptions,
-    additionalParameters: additionalParameters,
+    mosesOptions,
+    additionalParameters,
   };
 }
 
@@ -45,7 +45,7 @@ export function stringifyMosesOptions(mosesOptions, additionalParameters) {
   }
 
   let optionsString = Object.keys(options).reduce((accumulator, key) => {
-    return (accumulator += ` ${MosesOptionsMapping.find(mapping => mapping[0] === key)[1]} ${options[key]}`);
+    return (accumulator += ` ${MosesOptionsMapping.find((mapping) => mapping[0] === key)[1]} ${options[key]}`);
   }, "");
 
   additionalParameters &&
@@ -56,7 +56,7 @@ export function stringifyMosesOptions(mosesOptions, additionalParameters) {
   return optionsString.trim();
 }
 
-export const checkRequired = value => {
+export const checkRequired = (value) => {
   return value !== ""
     ? null
     : {

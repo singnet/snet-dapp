@@ -21,10 +21,10 @@ import * as papa from "papaparse";
 import "./style.css";
 import AnchorLink from "../../../../../components/common/AnchorLink";
 
-const parseTable = tableData => papa.parse(tableData);
+const parseTable = (tableData) => papa.parse(tableData);
 const width = document.body.clientWidth || window.screen.width;
 
-const ResultTables = props => {
+const ResultTables = (props) => {
   const [tab, setTab] = useState(0);
   const { handleClose, tables, fetchTableData } = props;
 
@@ -37,7 +37,7 @@ const ResultTables = props => {
   }, [tab]);
 
   const renderGeneGOTable = () => {
-    const data = tables.find(t => t.displayName === "GO").data;
+    const data = tables.find((t) => t.displayName === "GO").data;
     const table = parseTable(data).data;
     const genes = table[0].slice(1).filter((g, i) => table[0].indexOf(g) === i);
     const tableData = table.slice(4);
@@ -73,7 +73,7 @@ const ResultTables = props => {
                   </TableHead>
                   <TableBody>
                     {tableData
-                      .filter(row => {
+                      .filter((row) => {
                         const values = row.slice(i * 6 + 1, i * 6 + 7);
                         return values[0] || values[1] || values[2] || values[3] || values[4] || values[5];
                       })
@@ -116,7 +116,7 @@ const ResultTables = props => {
     );
   };
 
-  const renderChebi = c =>
+  const renderChebi = (c) =>
     c ? (
       <AnchorLink href={`https://www.ebi.ac.uk/chebi/searchId.do?chebiId=${c.slice(c.indexOf(":") + 1)}`} label={c} />
     ) : (
@@ -124,7 +124,7 @@ const ResultTables = props => {
     );
 
   const renderPathwayTable = () => {
-    const data = tables.find(t => t.displayName === "PATHWAY").data;
+    const data = tables.find((t) => t.displayName === "PATHWAY").data;
     const table = parseTable(data).data;
     const pathways = table[0].slice(1).filter((g, i) => table[0].indexOf(g) === i);
     const tableData = table.slice(3);
@@ -152,7 +152,7 @@ const ResultTables = props => {
                   </TableHead>
                   <TableBody>
                     {tableData
-                      .filter(row => {
+                      .filter((row) => {
                         const values = row.slice(i * 3 + 1, i * 3 + 4);
                         return values[0] || values[1] || values[2];
                       })
@@ -161,7 +161,7 @@ const ResultTables = props => {
                         const protien = values[1]
                           .trim()
                           .split(" ")
-                          .filter(s => s);
+                          .filter((s) => s);
                         return (
                           <TableRow key={"row" + j}>
                             <TableCell>{j + 1}</TableCell>
@@ -212,7 +212,7 @@ const ResultTables = props => {
   };
 
   const renderBiogridTable = () => {
-    const data = tables.find(t => t.displayName === "BIOGRID").data;
+    const data = tables.find((t) => t.displayName === "BIOGRID").data;
     const table = parseTable(data).data;
     const interactions = table[0].slice(1).filter((g, i) => table[0].indexOf(g) === i);
     const tableData = table.slice(3);
@@ -240,7 +240,7 @@ const ResultTables = props => {
                   </TableHead>
                   <TableBody>
                     {tableData
-                      .filter(row => {
+                      .filter((row) => {
                         const values = row.slice(i * 3 + 1, i * 3 + 4);
                         return values[0] || values[1] || values[2] || values[3];
                       })
@@ -280,7 +280,7 @@ const ResultTables = props => {
                                 ? values[2]
                                     .trim()
                                     .split(",")
-                                    .map(t =>
+                                    .map((t) =>
                                       t.includes("http") ? (
                                         <Typography variant="body1" key={t}>
                                           <a
@@ -321,7 +321,7 @@ const ResultTables = props => {
       >
         <AppBar position="static" color="default">
           <Tabs indicatorColor="primary" value={tab} onChange={(e, value) => setTab(value)}>
-            {tables.map(t => (
+            {tables.map((t) => (
               <Tab key={t} label={t.displayName} id={t.displayName} />
             ))}
           </Tabs>

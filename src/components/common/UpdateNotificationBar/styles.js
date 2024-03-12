@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   updateNotificationBar: {
     padding: "2px 0",
     display: "flex",

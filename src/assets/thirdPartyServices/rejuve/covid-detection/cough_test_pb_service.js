@@ -4,7 +4,7 @@
 var src_assets_thirdPartyServices_rejuve_covid_detection_cough_test_pb = require("./cough_test_pb");
 var grpc = require("@improbable-eng/grpc-web").grpc;
 
-var COVID = (function() {
+var COVID = (function () {
   function COVID() {}
   COVID.serviceName = "covid.COVID";
   return COVID;

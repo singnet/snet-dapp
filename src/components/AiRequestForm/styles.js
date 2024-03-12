@@ -1,6 +1,6 @@
 import googleFormBG from "../../assets/images/googleFormBG.svg";
 
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   googleFormMainContainer: {
     backgroundImage: `url(${googleFormBG})`,
     backgroundRepeat: "no-repeat",

@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   card: {
     maxWidth: 345,
     margin: "200px auto 0",

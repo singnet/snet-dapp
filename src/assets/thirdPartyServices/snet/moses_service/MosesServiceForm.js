@@ -6,7 +6,7 @@ import { stringifyMosesOptions } from "./utils";
 import TargetFeatureForm from "./TargetFeature";
 import { Grid, Button, Divider, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from "@material-ui/core";
 import { Check } from "@material-ui/icons";
-import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
 import * as utf8 from "utf8";
 
 const Options = {
@@ -16,7 +16,7 @@ const Options = {
   TARGET_FEATURE: 3,
 };
 
-const theme = createMuiTheme({
+const theme = createTheme({
   typography: {
     htmlFontSize: 12,
     useNextVariants: true,
@@ -76,11 +76,11 @@ export default class MosesServiceForm extends React.Component {
 
   setValidationStatus(key, valid) {
     if (this.state.isValid[key] !== valid) {
-      this.setState(state => {
+      this.setState((state) => {
         const isValid = Object.assign({}, state.isValid);
         isValid[key] = valid;
 
-        return { isValid: isValid };
+        return { isValid };
       });
     }
   }
@@ -99,7 +99,7 @@ export default class MosesServiceForm extends React.Component {
   handleInputChange(option, event) {
     const target = event.target;
     const update = { [target.name]: this.parseValue(target) };
-    this.setState(state => {
+    this.setState((state) => {
       switch (option) {
         case Options.MOSES_OPTIONS:
           return { mosesOpts: Object.assign({}, state.mosesOpts, update) };
@@ -117,7 +117,7 @@ export default class MosesServiceForm extends React.Component {
   }
 
   handleFilterChange(update) {
-    this.setState(state => ({
+    this.setState((state) => ({
       filter: Object.assign({}, state.filter, update),
     }));
   }
@@ -132,7 +132,7 @@ export default class MosesServiceForm extends React.Component {
   handleAdditionalParametersRemoved(name) {
     const additionalParameters = Object.assign({}, this.state.additionalParameters);
     delete additionalParameters[name];
-    this.setState({ additionalParameters: additionalParameters });
+    this.setState({ additionalParameters });
   }
 
   parseValue(target) {
@@ -190,7 +190,7 @@ export default class MosesServiceForm extends React.Component {
             <DatasetUpload
               uploadedFile={this.state.datasetFile}
               handleFileUpload={this.handleFileUpload}
-              setValidationStatus={valid => this.setValidationStatus("dataset", valid)}
+              setValidationStatus={(valid) => this.setValidationStatus("dataset", valid)}
             />
           </ExpansionPanelDetails>
         </ExpansionPanel>
@@ -202,10 +202,10 @@ export default class MosesServiceForm extends React.Component {
             <MosesOptionsForm
               defaults={this.state.mosesOpts}
               additionalParameters={this.state.additionalParameters}
-              changeInput={event => this.handleInputChange(Options.MOSES_OPTIONS, event)}
+              changeInput={(event) => this.handleInputChange(Options.MOSES_OPTIONS, event)}
               addAdditionalParameter={this.handleAdditionalParametersAdded}
               removeAdditionalParameter={this.handleAdditionalParametersRemoved}
-              setValidationStatus={valid => this.setValidationStatus("mosesOptions", valid)}
+              setValidationStatus={(valid) => this.setValidationStatus("mosesOptions", valid)}
             />
           </ExpansionPanelDetails>
         </ExpansionPanel>
@@ -216,8 +216,8 @@ export default class MosesServiceForm extends React.Component {
           <ExpansionPanelDetails>
             <CrossValidationOptionsForm
               defaults={this.state.crossValOptions}
-              changeInput={event => this.handleInputChange(Options.CROSS_VALIDATION_OPTIONS, event)}
-              setValidationStatus={valid => this.setValidationStatus("crossValOptions", valid)}
+              changeInput={(event) => this.handleInputChange(Options.CROSS_VALIDATION_OPTIONS, event)}
+              setValidationStatus={(valid) => this.setValidationStatus("crossValOptions", valid)}
             />
           </ExpansionPanelDetails>
         </ExpansionPanel>
@@ -231,9 +231,9 @@ export default class MosesServiceForm extends React.Component {
                 targetFeature: this.state.targetFeature,
                 filter: this.state.filter,
               }}
-              changeInput={event => this.handleInputChange(Options.TARGET_FEATURE, event)}
+              changeInput={(event) => this.handleInputChange(Options.TARGET_FEATURE, event)}
               handleFilterChange={this.handleFilterChange}
-              setValidationStatus={valid => this.setValidationStatus("targetFeatureAndFilters", valid)}
+              setValidationStatus={(valid) => this.setValidationStatus("targetFeatureAndFilters", valid)}
             />
           </ExpansionPanelDetails>
         </ExpansionPanel>

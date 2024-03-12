@@ -82,7 +82,7 @@ export default class LanguageDetectionService extends React.Component {
 
     const props = {
       request,
-      onEnd: response => {
+      onEnd: (response) => {
         const { message, status, statusMessage } = response;
         if (status !== 0) {
           throw new Error(statusMessage);
@@ -169,7 +169,7 @@ export default class LanguageDetectionService extends React.Component {
 
   renderComplete() {
     const response = this.state.response;
-    const CustomTableCell = withStyles(theme => ({
+    const CustomTableCell = withStyles((theme) => ({
       head: {
         backgroundColor: theme.palette.common.black,
         color: theme.palette.common.white,

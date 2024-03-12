@@ -1,4 +1,4 @@
-// package: 
+// package:
 // file: image_recon.proto
 
 var image_recon_pb = require("./image_recon_pb");
@@ -8,7 +8,7 @@ var Recognizer = (function () {
   function Recognizer() {}
   Recognizer.serviceName = "Recognizer";
   return Recognizer;
-}());
+})();
 
 Recognizer.flowers = {
   methodName: "flowers",
@@ -16,7 +16,7 @@ Recognizer.flowers = {
   requestStream: false,
   responseStream: false,
   requestType: image_recon_pb.Input,
-  responseType: image_recon_pb.Output
+  responseType: image_recon_pb.Output,
 };
 
 Recognizer.dogs = {
@@ -25,7 +25,7 @@ Recognizer.dogs = {
   requestStream: false,
   responseStream: false,
   requestType: image_recon_pb.Input,
-  responseType: image_recon_pb.Output
+  responseType: image_recon_pb.Output,
 };
 
 exports.Recognizer = Recognizer;
@@ -42,10 +42,10 @@ RecognizerClient.prototype.flowers = function flowers(requestMessage, metadata, 
   var client = grpc.unary(Recognizer.flowers, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -56,13 +56,13 @@ RecognizerClient.prototype.flowers = function flowers(requestMessage, metadata, 
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
@@ -73,10 +73,10 @@ RecognizerClient.prototype.dogs = function dogs(requestMessage, metadata, callba
   var client = grpc.unary(Recognizer.dogs, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -87,15 +87,14 @@ RecognizerClient.prototype.dogs = function dogs(requestMessage, metadata, callba
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.RecognizerClient = RecognizerClient;
-

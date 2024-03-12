@@ -55,7 +55,7 @@ export default class S2VTVideoCaptioning extends React.Component {
 
     const props = {
       request,
-      onEnd: response => {
+      onEnd: (response) => {
         const { message, status, statusMessage } = response;
         if (status !== 0) {
           throw new Error(statusMessage);
@@ -69,7 +69,7 @@ export default class S2VTVideoCaptioning extends React.Component {
     this.props.serviceClient.unary(methodDescriptor, props);
   }
 
-  handleFocus = event => event.target.select();
+  handleFocus = (event) => event.target.select();
 
   renderForm() {
     return (

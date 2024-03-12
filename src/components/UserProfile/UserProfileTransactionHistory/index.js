@@ -13,7 +13,7 @@ import { useStyles } from "./styles";
 class UserProfileTransactionHistory extends Component {
   state = { activeTab: 0 };
 
-  onTabChange = activeTab => {
+  onTabChange = (activeTab) => {
     this.setState({ activeTab });
   };
 
@@ -30,7 +30,7 @@ class UserProfileTransactionHistory extends Component {
       { name: "Payments", activeIndex: 0, component: <Payments transactionHistory={transactionHistory} /> },
     ];
 
-    const activeComponent = tabs.filter(el => el.activeIndex === activeTab)[0].component;
+    const activeComponent = tabs.filter((el) => el.activeIndex === activeTab)[0].component;
 
     return (
       <Grid container spacing={24} className={classes.transactionHistoryMainContainer}>
@@ -39,7 +39,7 @@ class UserProfileTransactionHistory extends Component {
           <div className={classes.transactionHistoryContent}>
             <AppBar position="static" className={classes.tabsHeader}>
               <Tabs value={activeTab}>
-                {tabs.map(value => (
+                {tabs.map((value) => (
                   <Tab key={value.name} label={value.name} onClick={() => this.onTabChange(value.activeIndex)} />
                 ))}
               </Tabs>
@@ -52,15 +52,12 @@ class UserProfileTransactionHistory extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchUserTransactions: () => dispatch(userActions.fetchUserTransactions),
 });
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   transactionHistory: state.userReducer.transactionHistory,
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(useStyles)(UserProfileTransactionHistory));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(UserProfileTransactionHistory));

@@ -3,7 +3,7 @@ import ArrowRightHover from "../../../assets/images/arrowRightHover.svg";
 import ArrowLeft from "../../../assets/images/arrowLeft.svg";
 import ArrowLeftHover from "../../../assets/images/arrowLeftHover.svg";
 
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   serviceListingHeaderContainer: {
     padding: "20px 10px 25px",
     background: "linear-gradient(to top, rgb(34, 15, 72) 0%, rgb(58, 13, 76) 100%)",

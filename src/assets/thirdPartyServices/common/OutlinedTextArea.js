@@ -12,7 +12,7 @@ class OutlinedTextArea extends React.Component {
 
   // Fixing Firefox issue at TextFields with type="number"
   num_onChange(event, onChange) {
-    if(isNaN(parseInt(event.target.value))) return;
+    if (isNaN(parseInt(event.target.value))) return;
     onChange(event);
   }
 
@@ -75,8 +75,8 @@ class OutlinedTextArea extends React.Component {
             helperText={helperTxt ? helperTxt : null}
             inputProps={{
               maxLength: charLimit ? charLimit : 5000,
-              min: typeof(min) === "number" ? min : null,
-              max: typeof(max) === "number" ? max : null,
+              min: typeof min === "number" ? min : null,
+              max: typeof max === "number" ? max : null,
             }}
             ref={ref}
           />

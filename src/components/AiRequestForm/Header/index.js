@@ -30,6 +30,6 @@ const Header = ({ data, fixHeader }) => {
   );
 };
 
-const mapStateToProps = state => ({ isLoggedIn: state.userReducer.login.isLoggedIn });
+const mapStateToProps = (state) => ({ isLoggedIn: state.userReducer.login.isLoggedIn });
 
 export default connect(mapStateToProps)(Header);

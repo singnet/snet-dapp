@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   appBar: {
     marginTop: 24,
     backgroundColor: theme.palette.text.white,
@@ -28,7 +28,7 @@ export const useStyles = theme => ({
     },
   },
   uploadFromSystemContainer: {
-    boxSizing: 'border-box',
+    boxSizing: "border-box",
     width: "100%",
     padding: "60px 64px 24px",
     border: "1px dashed #D6D6D6",
@@ -61,16 +61,16 @@ export const useStyles = theme => ({
     },
     "& div": {
       width: 474,
-      padding: '8px 15px',
+      padding: "8px 15px",
       marginTop: 24,
       display: "flex",
       justifyContent: "space-between",
-      alignItems: 'center',
+      alignItems: "center",
       backgroundColor: theme.palette.text.white,
-      '& svg': { 
+      "& svg": {
         color: theme.palette.text.mediumShadeGray,
         fontSize: 16,
-    }
+      },
     },
   },
 });

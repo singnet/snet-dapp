@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   VerifyKeyContainer: { padding: "0 25px !important" },
   VerifyKeyDesc: {
     margin: 0,

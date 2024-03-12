@@ -1,4 +1,4 @@
-// package: 
+// package:
 // file: ProtoFiles/network_analytics_bipartite.proto
 
 var ProtoFiles_network_analytics_bipartite_pb = require("./network_analytics_bipartite_pb");
@@ -8,7 +8,7 @@ var NetworkAnalyticsBipartite = (function () {
   function NetworkAnalyticsBipartite() {}
   NetworkAnalyticsBipartite.serviceName = "NetworkAnalyticsBipartite";
   return NetworkAnalyticsBipartite;
-}());
+})();
 
 NetworkAnalyticsBipartite.BipartiteGraph = {
   methodName: "BipartiteGraph",
@@ -16,7 +16,7 @@ NetworkAnalyticsBipartite.BipartiteGraph = {
   requestStream: false,
   responseStream: false,
   requestType: ProtoFiles_network_analytics_bipartite_pb.BipartiteGraphRequest,
-  responseType: ProtoFiles_network_analytics_bipartite_pb.BipartiteGraphResponse
+  responseType: ProtoFiles_network_analytics_bipartite_pb.BipartiteGraphResponse,
 };
 
 NetworkAnalyticsBipartite.ProjectedGraph = {
@@ -25,7 +25,7 @@ NetworkAnalyticsBipartite.ProjectedGraph = {
   requestStream: false,
   responseStream: false,
   requestType: ProtoFiles_network_analytics_bipartite_pb.ProjecetedGraphRequest,
-  responseType: ProtoFiles_network_analytics_bipartite_pb.ProjecetedGraphResponse
+  responseType: ProtoFiles_network_analytics_bipartite_pb.ProjecetedGraphResponse,
 };
 
 exports.NetworkAnalyticsBipartite = NetworkAnalyticsBipartite;
@@ -42,10 +42,10 @@ NetworkAnalyticsBipartiteClient.prototype.bipartiteGraph = function bipartiteGra
   var client = grpc.unary(NetworkAnalyticsBipartite.BipartiteGraph, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -56,13 +56,13 @@ NetworkAnalyticsBipartiteClient.prototype.bipartiteGraph = function bipartiteGra
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
@@ -73,10 +73,10 @@ NetworkAnalyticsBipartiteClient.prototype.projectedGraph = function projectedGra
   var client = grpc.unary(NetworkAnalyticsBipartite.ProjectedGraph, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -87,15 +87,14 @@ NetworkAnalyticsBipartiteClient.prototype.projectedGraph = function projectedGra
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.NetworkAnalyticsBipartiteClient = NetworkAnalyticsBipartiteClient;
-

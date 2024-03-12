@@ -8,7 +8,7 @@ var QA = (function () {
   function QA() {}
   QA.serviceName = "qa.QA";
   return QA;
-}());
+})();
 
 QA.qa = {
   methodName: "qa",
@@ -16,7 +16,7 @@ QA.qa = {
   requestStream: false,
   responseStream: false,
   requestType: ProtoFiles_qa_pb.Question,
-  responseType: ProtoFiles_qa_pb.Answer
+  responseType: ProtoFiles_qa_pb.Answer,
 };
 
 exports.QA = QA;
@@ -33,10 +33,10 @@ QAClient.prototype.qa = function qa(requestMessage, metadata, callback) {
   var client = grpc.unary(QA.qa, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -47,15 +47,14 @@ QAClient.prototype.qa = function qa(requestMessage, metadata, callback) {
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.QAClient = QAClient;
-

@@ -3,15 +3,9 @@ import isEmpty from "lodash/isEmpty";
 
 import StyledButton from "../../../../../../common/StyledButton";
 
-const NextAction = props => {
-  const {
-    channel,
-    setShowCreateWalletPopup,
-    setShowLinkProvider,
-    handleContinue,
-    anyPendingTxn,
-    anyGeneralWallet,
-  } = props;
+const NextAction = (props) => {
+  const { channel, setShowCreateWalletPopup, setShowLinkProvider, handleContinue, anyPendingTxn, anyGeneralWallet } =
+    props;
 
   if (!anyGeneralWallet) {
     return (

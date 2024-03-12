@@ -35,7 +35,7 @@ const TitleCard = ({
     setshowLightBox(false);
   };
 
-  const serviceImage = mediaData => {
+  const serviceImage = (mediaData) => {
     if (!mediaData) return CardImg;
     const serviceImgObj = mediaData.find(({ asset_type }) => asset_type === HERO_IMG);
     return serviceImgObj ? (serviceImgObj.url ? serviceImgObj.url : CardImg) : CardImg;

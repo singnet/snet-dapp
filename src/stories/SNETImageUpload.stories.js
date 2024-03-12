@@ -3,7 +3,7 @@ import { storiesOf } from "@storybook/react";
 import SNETImageUpload from "../assets/thirdPartyServices/standardComponents/SNETImageUpload";
 import withLiveEditScope from "storybook-addon-react-live-edit/dist/withLiveEditScope";
 
-const setImagePath = data => data;
+const setImagePath = (data) => data;
 
 const styleGallery = [
   "https://raw.githubusercontent.com/dxyang/StyleTransfer/master/style_imgs/mosaic.jpg",

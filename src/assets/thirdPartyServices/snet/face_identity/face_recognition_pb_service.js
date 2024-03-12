@@ -1,4 +1,4 @@
-// package: 
+// package:
 // file: face_recognition.proto
 
 var face_recognition_pb = require("./face_recognition_pb");
@@ -8,7 +8,7 @@ var FaceRecognition = (function () {
   function FaceRecognition() {}
   FaceRecognition.serviceName = "FaceRecognition";
   return FaceRecognition;
-}());
+})();
 
 FaceRecognition.RecogniseFace = {
   methodName: "RecogniseFace",
@@ -16,7 +16,7 @@ FaceRecognition.RecogniseFace = {
   requestStream: false,
   responseStream: false,
   requestType: face_recognition_pb.FaceRecognitionRequest,
-  responseType: face_recognition_pb.FaceRecognitionResponse
+  responseType: face_recognition_pb.FaceRecognitionResponse,
 };
 
 FaceRecognition.RecogniseFacePrealigned = {
@@ -25,7 +25,7 @@ FaceRecognition.RecogniseFacePrealigned = {
   requestStream: false,
   responseStream: false,
   requestType: face_recognition_pb.FaceRecognitionRequest,
-  responseType: face_recognition_pb.FaceRecognitionResponse
+  responseType: face_recognition_pb.FaceRecognitionResponse,
 };
 
 exports.FaceRecognition = FaceRecognition;
@@ -42,10 +42,10 @@ FaceRecognitionClient.prototype.recogniseFace = function recogniseFace(requestMe
   var client = grpc.unary(FaceRecognition.RecogniseFace, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -56,27 +56,31 @@ FaceRecognitionClient.prototype.recogniseFace = function recogniseFace(requestMe
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
-FaceRecognitionClient.prototype.recogniseFacePrealigned = function recogniseFacePrealigned(requestMessage, metadata, callback) {
+FaceRecognitionClient.prototype.recogniseFacePrealigned = function recogniseFacePrealigned(
+  requestMessage,
+  metadata,
+  callback
+) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
   var client = grpc.unary(FaceRecognition.RecogniseFacePrealigned, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -87,15 +91,14 @@ FaceRecognitionClient.prototype.recogniseFacePrealigned = function recogniseFace
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.FaceRecognitionClient = FaceRecognitionClient;
-

@@ -108,7 +108,7 @@ const runNamesWithoutMedia = [
   },
 ];
 
-const runNames = runNamesWithoutMedia.map(runName => {
+const runNames = runNamesWithoutMedia.map((runName) => {
   const updatedRunName = { ...runName };
   if (!runName.image) {
     updatedRunName.image = imgPath(runName.value);
@@ -182,12 +182,12 @@ class TextGenerationService extends React.Component {
 
     const props = {
       request,
-      onEnd: response => {
+      onEnd: (response) => {
         const { message, status, statusMessage } = response;
         if (status !== 0) {
           throw new Error(statusMessage);
         }
-        const selectedRunName = runNames.find(el => el.key === this.state.run_name);
+        const selectedRunName = runNames.find((el) => el.key === this.state.run_name);
         const image = (selectedRunName && selectedRunName.image) || defaultImgPath;
         this.setState({
           ...initialUserInput,
@@ -199,8 +199,8 @@ class TextGenerationService extends React.Component {
     this.props.serviceClient.unary(methodDescriptor, props);
   }
 
-  parseAvatarSrc = run_name => {
-    const selectedRunName = runNames.find(el => el.key === run_name);
+  parseAvatarSrc = (run_name) => {
+    const selectedRunName = runNames.find((el) => el.key === run_name);
     const selectedAvatar = (selectedRunName && selectedRunName.avatar) || defaultImgPath;
     this.setState({ selectedAvatar });
   };
@@ -210,7 +210,7 @@ class TextGenerationService extends React.Component {
   };
 
   handleResponseImgError = () => {
-    this.setState(prevState => ({ response: { ...prevState.response, image: defaultImgPath } }));
+    this.setState((prevState) => ({ response: { ...prevState.response, image: defaultImgPath } }));
   };
 
   renderForm() {
@@ -251,7 +251,7 @@ class TextGenerationService extends React.Component {
                   name="run_name"
                   input={<OutlinedInput labelWidth={320} name="age" id="outlined-age-simple" />}
                 >
-                  {runNames.map(item => (
+                  {runNames.map((item) => (
                     <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
                       {item.value}
                     </MenuItem>
@@ -281,7 +281,7 @@ class TextGenerationService extends React.Component {
               variant="outlined"
               value={start_text}
               onChange={this.handleFormUpdate}
-              onKeyPress={e => this.onKeyPressvalidator(e)}
+              onKeyPress={(e) => this.onKeyPressvalidator(e)}
             />
           </Grid>
 

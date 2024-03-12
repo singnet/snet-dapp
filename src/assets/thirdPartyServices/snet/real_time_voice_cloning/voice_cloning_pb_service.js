@@ -1,4 +1,4 @@
-// package: 
+// package:
 // file: voice_cloning.proto
 
 var voice_cloning_pb = require("./voice_cloning_pb");
@@ -8,7 +8,7 @@ var RealTimeVoiceCloning = (function () {
   function RealTimeVoiceCloning() {}
   RealTimeVoiceCloning.serviceName = "RealTimeVoiceCloning";
   return RealTimeVoiceCloning;
-}());
+})();
 
 RealTimeVoiceCloning.clone = {
   methodName: "clone",
@@ -16,7 +16,7 @@ RealTimeVoiceCloning.clone = {
   requestStream: false,
   responseStream: false,
   requestType: voice_cloning_pb.Input,
-  responseType: voice_cloning_pb.Output
+  responseType: voice_cloning_pb.Output,
 };
 
 exports.RealTimeVoiceCloning = RealTimeVoiceCloning;
@@ -33,10 +33,10 @@ RealTimeVoiceCloningClient.prototype.clone = function clone(requestMessage, meta
   var client = grpc.unary(RealTimeVoiceCloning.clone, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -47,15 +47,14 @@ RealTimeVoiceCloningClient.prototype.clone = function clone(requestMessage, meta
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.RealTimeVoiceCloningClient = RealTimeVoiceCloningClient;
-

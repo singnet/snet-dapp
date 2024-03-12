@@ -35,7 +35,7 @@ output.on("close", () => {
   console.log(`Your component has been archived successfully. \n${outputFilePath}`);
 });
 
-archive.on("error", err => {
+archive.on("error", (err) => {
   throw err;
 });
 

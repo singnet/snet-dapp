@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   userMenuItemList: {
     padding: 0,
     margin: 0,

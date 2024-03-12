@@ -23,15 +23,15 @@ class Login extends Component {
     this.props.resetError();
   };
 
-  handleEmail = event => {
+  handleEmail = (event) => {
     this.setState({ email: event.currentTarget.value.toLowerCase() });
   };
 
-  handlePassword = event => {
+  handlePassword = (event) => {
     this.setState({ password: event.currentTarget.value });
   };
 
-  handleSubmit = async event => {
+  handleSubmit = async (event) => {
     const { history, updateError } = this.props;
     let route = `/${Routes.ONBOARDING}`;
     if (history.location.state && history.location.state.sourcePath) {
@@ -90,15 +90,15 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isLoggedIn: state.userReducer.login.isLoggedIn,
   loginError: state.userReducer.login.error,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchUserDetails: () => dispatch(userActions.fetchUserDetails),
-  login: args => dispatch(userActions.login(args)),
+  login: (args) => dispatch(userActions.login(args)),
   resetError: () => dispatch(userActions.resetLoginError),
-  updateError: error => dispatch(userActions.updateLoginError(error)),
+  updateError: (error) => dispatch(userActions.updateLoginError(error)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(Login));

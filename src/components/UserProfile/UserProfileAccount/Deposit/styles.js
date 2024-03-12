@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   depositAmtContainer: {
     padding: 15,
     borderWidth: 1,

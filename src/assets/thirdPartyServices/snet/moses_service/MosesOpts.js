@@ -43,7 +43,7 @@ export default class MosesOptionsForm extends React.Component {
       delete validationErrors.hcCrossoverMinNeighbors;
       delete validationErrors.hcCrossoverPopSize;
     }
-    this.props.setValidationStatus(Object.values(validationErrors).filter(v => v).length === 0);
+    this.props.setValidationStatus(Object.values(validationErrors).filter((v) => v).length === 0);
   }
 
   validateForm(oldValues, newValues) {
@@ -87,7 +87,7 @@ export default class MosesOptionsForm extends React.Component {
     }
 
     if (valuesChanged) {
-      this.setState({ validationErrors: validationErrors });
+      this.setState({ validationErrors });
     }
   }
 
@@ -97,7 +97,7 @@ export default class MosesOptionsForm extends React.Component {
 
   parseAdditionalParameters() {
     if (!this.props.additionalParameters) return [];
-    return Object.keys(this.props.additionalParameters).map(key => {
+    return Object.keys(this.props.additionalParameters).map((key) => {
       return { name: key, value: this.props.additionalParameters[key] };
     });
   }
@@ -130,7 +130,7 @@ export default class MosesOptionsForm extends React.Component {
                     <Switch
                       defaultChecked={this.props.defaults.enableFeatureSelection}
                       name="enableFeatureSelection"
-                      onChange={e => this.props.changeInput(e)}
+                      onChange={(e) => this.props.changeInput(e)}
                     />
                   }
                   label={<span>Enable feature selection</span>}
@@ -148,7 +148,7 @@ export default class MosesOptionsForm extends React.Component {
                     <Switch
                       defaultChecked={this.props.defaults.hcWidenSearch}
                       name="hcWidenSearch"
-                      onChange={e => this.props.changeInput(e)}
+                      onChange={(e) => this.props.changeInput(e)}
                     />
                   }
                   label="hc Widen Search"
@@ -166,7 +166,7 @@ export default class MosesOptionsForm extends React.Component {
                     <Switch
                       defaultChecked={this.props.defaults.balance}
                       name="balance"
-                      onChange={e => this.props.changeInput(e)}
+                      onChange={(e) => this.props.changeInput(e)}
                     />
                   }
                   label="Balance"
@@ -190,7 +190,7 @@ export default class MosesOptionsForm extends React.Component {
                 </Tooltip>
 
                 <RadioGroup
-                  onChange={e => this.props.changeInput(e)}
+                  onChange={(e) => this.props.changeInput(e)}
                   name="featureSelectionAlgorithm"
                   style={{ display: "flex", flexDirection: "row" }}
                   value={this.props.defaults.featureSelectionAlgorithm}
@@ -213,7 +213,7 @@ export default class MosesOptionsForm extends React.Component {
                     variant="outlined"
                     name="featureSelectionTargetSize"
                     fullWidth
-                    onChange={e => this.props.changeInput(e)}
+                    onChange={(e) => this.props.changeInput(e)}
                     defaultValue={this.props.defaults.featureSelectionTargetSize}
                     {...this.state.validationErrors.featureSelectionTargetSize}
                   />
@@ -235,7 +235,7 @@ export default class MosesOptionsForm extends React.Component {
                     variant="outlined"
                     name="hcCrossoverMinNeighbors"
                     fullWidth
-                    onChange={e => this.props.changeInput(e)}
+                    onChange={(e) => this.props.changeInput(e)}
                     defaultValue={this.props.defaults.hcCrossoverMinNeighbors}
                     {...this.state.validationErrors.hcCrossoverMinNeighbors}
                   />
@@ -253,7 +253,7 @@ export default class MosesOptionsForm extends React.Component {
                     variant="outlined"
                     name="hcCrossoverPopSize"
                     fullWidth
-                    onChange={e => this.props.changeInput(e)}
+                    onChange={(e) => this.props.changeInput(e)}
                     defaultValue={this.props.defaults.hcCrossoverPopSize}
                     {...this.state.validationErrors.hcCrossoverPopSize}
                   />
@@ -271,7 +271,7 @@ export default class MosesOptionsForm extends React.Component {
                   variant="outlined"
                   name="maximumEvals"
                   fullWidth
-                  onChange={e => this.props.changeInput(e)}
+                  onChange={(e) => this.props.changeInput(e)}
                   defaultValue={this.props.defaults.maximumEvals}
                   {...this.state.validationErrors.maximumEvals}
                 />
@@ -289,7 +289,7 @@ export default class MosesOptionsForm extends React.Component {
                   variant="outlined"
                   name="resultCount"
                   fullWidth
-                  onChange={e => this.props.changeInput(e)}
+                  onChange={(e) => this.props.changeInput(e)}
                   defaultValue={this.props.defaults.resultCount}
                   {...this.state.validationErrors.resultCount}
                 />
@@ -304,7 +304,7 @@ export default class MosesOptionsForm extends React.Component {
                   variant="outlined"
                   name="numberOfThreads"
                   fullWidth
-                  onChange={e => this.props.changeInput(e)}
+                  onChange={(e) => this.props.changeInput(e)}
                   defaultValue={this.props.defaults.numberOfThreads}
                   {...this.state.validationErrors.numberOfThreads}
                 />
@@ -320,15 +320,15 @@ export default class MosesOptionsForm extends React.Component {
                 <FormLabel component="legend">Reduct Knob Building Effort</FormLabel>
               </Tooltip>
               <RadioGroup
-                onChange={e => this.props.changeInput(e)}
+                onChange={(e) => this.props.changeInput(e)}
                 name="reductKnobBuildingEffort"
                 style={{ display: "flex", flexDirection: "row" }}
                 value={this.props.defaults.reductKnobBuildingEffort.toString()}
               >
-                <FormControlLabel value={"0"} control={<Radio />} label="0" />
-                <FormControlLabel value={"1"} control={<Radio />} label="1" />
-                <FormControlLabel value={"2"} control={<Radio />} label="2" />
-                <FormControlLabel value={"3"} control={<Radio />} label="3" />
+                <FormControlLabel value="0" control={<Radio />} label="0" />
+                <FormControlLabel value="1" control={<Radio />} label="1" />
+                <FormControlLabel value="2" control={<Radio />} label="2" />
+                <FormControlLabel value="3" control={<Radio />} label="3" />
               </RadioGroup>
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -343,7 +343,7 @@ export default class MosesOptionsForm extends React.Component {
                   variant="outlined"
                   name="complexityRatio"
                   fullWidth
-                  onChange={e => this.props.changeInput(e)}
+                  onChange={(e) => this.props.changeInput(e)}
                   defaultValue={this.props.defaults.complexityRatio}
                   {...this.state.validationErrors.complexityRatio}
                 />
@@ -356,7 +356,7 @@ export default class MosesOptionsForm extends React.Component {
           <Grid container spacing={24}>
             <Grid item xs={12}>
               <FormLabel component="legend">Additional parameters</FormLabel>
-              {additionalParameters.map(item => {
+              {additionalParameters.map((item) => {
                 return (
                   <Chip
                     key={item.name}
@@ -366,7 +366,7 @@ export default class MosesOptionsForm extends React.Component {
                         <b>{item.name}</b> {item.value}
                       </span>
                     }
-                    onDelete={e => this.props.removeAdditionalParameter(item.name)}
+                    onDelete={(e) => this.props.removeAdditionalParameter(item.name)}
                     color="primary"
                   />
                 );
@@ -380,7 +380,7 @@ export default class MosesOptionsForm extends React.Component {
                 margin="dense"
                 variant="outlined"
                 value={this.state.additionalParameterName}
-                onChange={e => {
+                onChange={(e) => {
                   let validationErrors = Object.assign({}, this.state.validationErrors);
 
                   validationErrors.additionalParameterName = checkDuplicate(
@@ -388,7 +388,7 @@ export default class MosesOptionsForm extends React.Component {
                     Object.keys(this.props.additionalParameters)
                   );
                   this.setState({
-                    validationErrors: validationErrors,
+                    validationErrors,
                     additionalParameterName: e.target.value.trim(),
                   });
                 }}
@@ -400,7 +400,7 @@ export default class MosesOptionsForm extends React.Component {
                 margin="dense"
                 variant="outlined"
                 value={this.state.additionalParameterValue}
-                onChange={e =>
+                onChange={(e) =>
                   this.setState({
                     additionalParameterValue: e.target.value,
                   })
@@ -412,7 +412,7 @@ export default class MosesOptionsForm extends React.Component {
                 variant="contained"
                 size="large"
                 style={{ marginTop: "10px" }}
-                onClick={e => {
+                onClick={(e) => {
                   this.props.addAdditionalParameter(
                     this.state.additionalParameterName,
                     this.state.additionalParameterValue

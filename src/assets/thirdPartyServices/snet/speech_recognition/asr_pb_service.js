@@ -8,7 +8,7 @@ var ASR = (function () {
   function ASR() {}
   ASR.serviceName = "asr.ASR";
   return ASR;
-}());
+})();
 
 ASR.s2t = {
   methodName: "s2t",
@@ -16,7 +16,7 @@ ASR.s2t = {
   requestStream: false,
   responseStream: false,
   requestType: ProtoFiles_asr_pb.Audio,
-  responseType: ProtoFiles_asr_pb.Text
+  responseType: ProtoFiles_asr_pb.Text,
 };
 
 exports.ASR = ASR;
@@ -33,10 +33,10 @@ ASRClient.prototype.s2t = function s2t(requestMessage, metadata, callback) {
   var client = grpc.unary(ASR.s2t, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -47,15 +47,14 @@ ASRClient.prototype.s2t = function s2t(requestMessage, metadata, callback) {
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.ASRClient = ASRClient;
-

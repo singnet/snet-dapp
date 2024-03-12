@@ -1,11 +1,11 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import SNETImageUpload from "../../standardComponents/SNETImageUpload";
-import { Grid, IconButton, MuiThemeProvider, Tooltip } from "@material-ui/core";
+import { Grid, MuiThemeProvider, Tooltip } from "@material-ui/core";
 import { blue } from "@material-ui/core/colors";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import InfoIcon from "@material-ui/icons/Info";
-import { createMuiTheme } from "@material-ui/core/styles";
+import { createTheme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import grey from "@material-ui/core/es/colors/grey";
@@ -26,7 +26,6 @@ const initialUserInput = {
   model: "",
   scale: "",
 };
-
 
 export default class SuperResolutionService extends React.Component {
   constructor(props) {
@@ -59,7 +58,7 @@ export default class SuperResolutionService extends React.Component {
     this.getImageData = this.getImageData.bind(this);
 
     // Color Palette
-    this.theme = createMuiTheme({
+    this.theme = createTheme({
       palette: {
         primary: blue,
         secondary: grey,
@@ -104,7 +103,7 @@ export default class SuperResolutionService extends React.Component {
 
     const props = {
       request,
-      onEnd: response => {
+      onEnd: (response) => {
         const { message, status, statusMessage } = response;
         if (status !== 0) {
           throw new Error(statusMessage);
@@ -164,7 +163,7 @@ export default class SuperResolutionService extends React.Component {
               }}
             >
               <InputLabel
-                ref={ref => {
+                ref={(ref) => {
                   this.ModelLabelRef = ref;
                 }}
                 htmlFor="outlined-model"
@@ -198,7 +197,7 @@ export default class SuperResolutionService extends React.Component {
           <Grid item xs container justify="center">
             <FormControl variant="outlined">
               <InputLabel
-                ref={ref => {
+                ref={(ref) => {
                   this.ScaleLabelRef = ref;
                 }}
                 htmlFor="outlined-scale"
@@ -239,10 +238,9 @@ export default class SuperResolutionService extends React.Component {
   }
 
   parseResponse() {
-
-    const { response} = this.state;
+    const { response } = this.state;
     const { isComplete } = this.props;
-    
+
     if (isComplete) {
       if (typeof response !== "undefined") {
         if (typeof response === "string") {

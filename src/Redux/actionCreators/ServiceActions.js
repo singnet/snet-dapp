@@ -16,15 +16,15 @@ export const UPDATE_ACTIVE_FILTER_ITEM = "UPDATE_ACTIVE_FILTER_ITEM";
 export const RESET_FILTER_ITEM = "RESET_FILTER_ITEM";
 export const UPDATE_FEEDBACK = "UPDATE_FEEDBACK";
 
-export const updateActiveFilterItem = activeFilterItem => dispatch => {
+export const updateActiveFilterItem = (activeFilterItem) => (dispatch) => {
   dispatch({ type: UPDATE_ACTIVE_FILTER_ITEM, payload: { ...activeFilterItem } });
 };
 
-export const resetFilterItem = dispatch => {
+export const resetFilterItem = (dispatch) => {
   dispatch({ type: RESET_FILTER_ITEM });
 };
 
-export const fetchServiceSuccess = res => dispatch => {
+export const fetchServiceSuccess = (res) => (dispatch) => {
   dispatch({
     type: UPDATE_PAGINATION_DETAILS,
     payload: {
@@ -39,51 +39,57 @@ export const fetchServiceSuccess = res => dispatch => {
   dispatch(loaderActions.stopAIServiceListLoader);
 };
 
-export const fetchService = (pagination, filters = []) => dispatch => {
-  dispatch(loaderActions.startAIServiceListLoader);
-  const url = new URL(`${APIEndpoints.CONTRACT.endpoint}/service`);
-  return fetch(url, {
-    method: "POST",
-    body: JSON.stringify({ ...pagination, filters }),
-  })
-    .then(res => res.json())
-    .then(res => dispatch(fetchServiceSuccess(res)))
-    .catch(() => dispatch(loaderActions.stopAIServiceListLoader));
-};
+export const fetchService =
+  (pagination, filters = []) =>
+  (dispatch) => {
+    dispatch(loaderActions.startAIServiceListLoader);
+    const url = new URL(`${APIEndpoints.CONTRACT.endpoint}/service`);
+    return fetch(url, {
+      method: "POST",
+      body: JSON.stringify({ ...pagination, filters }),
+    })
+      .then((res) => res.json())
+      .then((res) => dispatch(fetchServiceSuccess(res)))
+      .catch(() => dispatch(loaderActions.stopAIServiceListLoader));
+  };
 
-export const updatePagination = pagination => dispatch => {
+export const updatePagination = (pagination) => (dispatch) => {
   dispatch({
     type: UPDATE_PAGINATION_DETAILS,
     payload: pagination,
   });
 };
 
-export const fetchFilterData = attribute => dispatch => {
+export const fetchFilterData = (attribute) => (dispatch) => {
   const url = `${APIEndpoints.CONTRACT.endpoint}${APIPaths.FILTER_DATA}${attribute}`;
   return fetch(url)
-    .then(res => res.json())
-    .then(res => {
+    .then((res) => res.json())
+    .then((res) => {
       dispatch({ type: UPDATE_FILTER_DATA, payload: { [attribute]: res.data.values } });
     });
 };
 
-export const handleFilterChange = ({ pagination, filterObj, currentActiveFilterData }) => dispatch => {
-  dispatch(loaderActions.startAIServiceListLoader);
-  Promise.all([
-    dispatch(updatePagination(pagination)),
-    dispatch(fetchService(pagination, filterObj)),
-    dispatch(updateActiveFilterItem(currentActiveFilterData)),
-  ])
-    .then(() => dispatch(loaderActions.stopAIServiceListLoader))
-    .catch(() => dispatch(loaderActions.stopAIServiceListLoader));
-};
+export const handleFilterChange =
+  ({ pagination, filterObj, currentActiveFilterData }) =>
+  (dispatch) => {
+    dispatch(loaderActions.startAIServiceListLoader);
+    Promise.all([
+      dispatch(updatePagination(pagination)),
+      dispatch(fetchService(pagination, filterObj)),
+      dispatch(updateActiveFilterItem(currentActiveFilterData)),
+    ])
+      .then(() => dispatch(loaderActions.stopAIServiceListLoader))
+      .catch(() => dispatch(loaderActions.stopAIServiceListLoader));
+  };
 
-export const resetFilter = ({ pagination }) => dispatch => {
-  dispatch(loaderActions.startAIServiceListLoader);
-  Promise.all([dispatch(updatePagination(pagination)), dispatch(fetchService(pagination)), dispatch(resetFilterItem)])
-    .then(() => dispatch(loaderActions.stopAIServiceListLoader))
-    .catch(() => dispatch(loaderActions.stopAIServiceListLoader));
-};
+export const resetFilter =
+  ({ pagination }) =>
+  (dispatch) => {
+    dispatch(loaderActions.startAIServiceListLoader);
+    Promise.all([dispatch(updatePagination(pagination)), dispatch(fetchService(pagination)), dispatch(resetFilterItem)])
+      .then(() => dispatch(loaderActions.stopAIServiceListLoader))
+      .catch(() => dispatch(loaderActions.stopAIServiceListLoader));
+  };
 
 const fetchFeedbackAPI = (email, orgId, serviceId, token) => {
   const apiName = APIEndpoints.USER.name;
@@ -106,7 +112,7 @@ const fetchAuthTokenAPI = (serviceId, groupId, publicKey, orgId, userId, token) 
   return API.get(apiName, apiPath, apiOptions);
 };
 
-export const downloadAuthToken = (serviceId, groupId, publicKey, orgId) => async dispatch => {
+export const downloadAuthToken = (serviceId, groupId, publicKey, orgId) => async (dispatch) => {
   try {
     dispatch(loaderActions.startAppLoader(LoaderContent.GENERATE_AUTH_TOKEN));
     const { token, email } = await dispatch(userActions.fetchAuthenticatedUser());
@@ -129,7 +135,7 @@ export const downloadAuthToken = (serviceId, groupId, publicKey, orgId) => async
 };
 
 //Username review
-export const fetchFeedback = (orgId, serviceId) => async dispatch => {
+export const fetchFeedback = (orgId, serviceId) => async (dispatch) => {
   const { email, token } = await dispatch(userActions.fetchAuthenticatedUser());
   return fetchFeedbackAPI(email, orgId, serviceId, token);
 };
@@ -141,7 +147,7 @@ const submitFeedbackAPI = (feedbackObj, token) => {
   return API.post(apiName, path, apiOptions);
 };
 
-export const submitFeedback = (orgId, serviceId, feedback) => async dispatch => {
+export const submitFeedback = (orgId, serviceId, feedback) => async (dispatch) => {
   const { token } = await dispatch(userActions.fetchAuthenticatedUser());
   const feedbackObj = {
     feedback: {

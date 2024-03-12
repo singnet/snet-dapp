@@ -1,4 +1,4 @@
-// package: 
+// package:
 // file: ProtoFiles/translate.proto
 
 var ProtoFiles_translate_pb = require("./translate_pb");
@@ -8,7 +8,7 @@ var Translation = (function () {
   function Translation() {}
   Translation.serviceName = "Translation";
   return Translation;
-}());
+})();
 
 Translation.translate = {
   methodName: "translate",
@@ -16,7 +16,7 @@ Translation.translate = {
   requestStream: false,
   responseStream: false,
   requestType: ProtoFiles_translate_pb.Request,
-  responseType: ProtoFiles_translate_pb.Result
+  responseType: ProtoFiles_translate_pb.Result,
 };
 
 exports.Translation = Translation;
@@ -33,10 +33,10 @@ TranslationClient.prototype.translate = function translate(requestMessage, metad
   var client = grpc.unary(Translation.translate, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -47,15 +47,14 @@ TranslationClient.prototype.translate = function translate(requestMessage, metad
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.TranslationClient = TranslationClient;
-

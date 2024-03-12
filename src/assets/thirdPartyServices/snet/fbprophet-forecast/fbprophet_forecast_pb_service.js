@@ -8,7 +8,7 @@ var Forecast = (function () {
   function Forecast() {}
   Forecast.serviceName = "series_decomposition.Forecast";
   return Forecast;
-}());
+})();
 
 Forecast.forecast = {
   methodName: "forecast",
@@ -16,7 +16,7 @@ Forecast.forecast = {
   requestStream: false,
   responseStream: false,
   requestType: fbprophet_forecast_pb.Input,
-  responseType: fbprophet_forecast_pb.Output
+  responseType: fbprophet_forecast_pb.Output,
 };
 
 exports.Forecast = Forecast;
@@ -33,10 +33,10 @@ ForecastClient.prototype.forecast = function forecast(requestMessage, metadata, 
   var client = grpc.unary(Forecast.forecast, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -47,15 +47,14 @@ ForecastClient.prototype.forecast = function forecast(requestMessage, metadata, 
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.ForecastClient = ForecastClient;
-

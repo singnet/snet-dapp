@@ -38,7 +38,7 @@ export default class FaceDetectService extends React.Component {
 
     const props = {
       request,
-      onEnd: response => {
+      onEnd: (response) => {
         const { message, status, statusMessage } = response;
         if (status !== 0) {
           throw new Error(statusMessage);
@@ -89,7 +89,7 @@ export default class FaceDetectService extends React.Component {
     ctx.drawImage(img, 0, 0);
     ctx.globalAlpha = 1;
 
-    result.image_chunk.faceBboxList.forEach(item => {
+    result.image_chunk.faceBboxList.forEach((item) => {
       ctx.beginPath();
       ctx.rect(item.x, item.y, item.w, item.h);
       ctx.lineWidth = 3;

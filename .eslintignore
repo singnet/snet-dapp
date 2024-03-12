@@ -83,3 +83,6 @@ src/aws_config.js
 
 #external scripts
 src/assets/externalScripts
+
+# test new version sdk
+/snet-sdk-js

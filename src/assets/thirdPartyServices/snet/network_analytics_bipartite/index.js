@@ -129,7 +129,7 @@ export default class NetworkAnalysisBipartite extends React.Component {
 
   setValidationStatus(key, valid) {
     if (this.state.isValid[key] !== valid) {
-      this.setState(state => {
+      this.setState((state) => {
         const isValid = Object.assign({}, state.isValid);
         isValid[key] = valid;
         return { isValid };
@@ -266,7 +266,7 @@ export default class NetworkAnalysisBipartite extends React.Component {
 
     if (method === "BipartiteGraph") {
       const sample_keys = Object.keys(SampleInputBipartiteGraph);
-      let found_keys = sample_keys.every(r => user_value_keys.indexOf(r) > -1);
+      let found_keys = sample_keys.every((r) => user_value_keys.indexOf(r) > -1);
       if (!found_keys) {
         this.setState({
           internal_error: "One or both of nodes and/or edges is/are missing.",
@@ -280,7 +280,7 @@ export default class NetworkAnalysisBipartite extends React.Component {
 
     if (method === "ProjectedGraph") {
       const sample_keys = Object.keys(SampleInputProjectedGraph);
-      let found_keys = sample_keys.every(r => user_value_keys.indexOf(r) > -1);
+      let found_keys = sample_keys.every((r) => user_value_keys.indexOf(r) > -1);
       if (!found_keys) {
         this.setState({
           internal_error: "One or more of graph, nodes or weight is/are missing.",
@@ -339,7 +339,7 @@ export default class NetworkAnalysisBipartite extends React.Component {
                 uploadedFiles={this.state.datasetFile}
                 handleFileUpload={this.handleFileUpload}
                 fileAccept={this.state.fileAccept}
-                setValidationStatus={valid => this.setValidationStatus("datasetFile", valid)}
+                setValidationStatus={(valid) => this.setValidationStatus("datasetFile", valid)}
               />
               <Grid item xs={12} container justify="center" style={{ textAlign: "center" }}>
                 <p>

@@ -45,7 +45,7 @@ export default class CNTKImageRecognition extends React.Component {
   }
 
   canBeInvoked() {
-    if(this.state.img_path) return true;
+    if (this.state.img_path) return true;
     return false;
   }
 
@@ -82,7 +82,7 @@ export default class CNTKImageRecognition extends React.Component {
     return (
       <React.Fragment>
         <Grid container spacing={2} justify="center" alignItems="center">
-          <Grid item xs={12} container justify="center" style={{ textAlign: 'center' }}>
+          <Grid item xs={12} container justify="center" style={{ textAlign: "center" }}>
             <OutlinedDropDown
               id="method"
               name="methodIndex"

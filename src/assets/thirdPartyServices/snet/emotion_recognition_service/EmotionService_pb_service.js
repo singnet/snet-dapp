@@ -1,4 +1,4 @@
-// package: 
+// package:
 // file: ProtoFiles/EmotionService.proto
 
 var ProtoFiles_EmotionService_pb = require("./EmotionService_pb");
@@ -8,7 +8,7 @@ var EmotionRecognition = (function () {
   function EmotionRecognition() {}
   EmotionRecognition.serviceName = "EmotionRecognition";
   return EmotionRecognition;
-}());
+})();
 
 EmotionRecognition.classify = {
   methodName: "classify",
@@ -16,7 +16,7 @@ EmotionRecognition.classify = {
   requestStream: false,
   responseStream: false,
   requestType: ProtoFiles_EmotionService_pb.RecognizeRequest,
-  responseType: ProtoFiles_EmotionService_pb.RecognizeResponse
+  responseType: ProtoFiles_EmotionService_pb.RecognizeResponse,
 };
 
 exports.EmotionRecognition = EmotionRecognition;
@@ -33,10 +33,10 @@ EmotionRecognitionClient.prototype.classify = function classify(requestMessage, 
   var client = grpc.unary(EmotionRecognition.classify, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -47,15 +47,14 @@ EmotionRecognitionClient.prototype.classify = function classify(requestMessage, 
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.EmotionRecognitionClient = EmotionRecognitionClient;
-

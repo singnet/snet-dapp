@@ -1,4 +1,4 @@
-// package: 
+// package:
 // file: ProtoFiles/romance_translator.proto
 
 var ProtoFiles_romance_translator_pb = require("./romance_translator_pb");
@@ -8,7 +8,7 @@ var RomanceTranslator = (function () {
   function RomanceTranslator() {}
   RomanceTranslator.serviceName = "RomanceTranslator";
   return RomanceTranslator;
-}());
+})();
 
 RomanceTranslator.translate = {
   methodName: "translate",
@@ -16,7 +16,7 @@ RomanceTranslator.translate = {
   requestStream: false,
   responseStream: false,
   requestType: ProtoFiles_romance_translator_pb.Input,
-  responseType: ProtoFiles_romance_translator_pb.Output
+  responseType: ProtoFiles_romance_translator_pb.Output,
 };
 
 exports.RomanceTranslator = RomanceTranslator;
@@ -33,10 +33,10 @@ RomanceTranslatorClient.prototype.translate = function translate(requestMessage,
   var client = grpc.unary(RomanceTranslator.translate, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -47,15 +47,14 @@ RomanceTranslatorClient.prototype.translate = function translate(requestMessage,
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.RomanceTranslatorClient = RomanceTranslatorClient;
-

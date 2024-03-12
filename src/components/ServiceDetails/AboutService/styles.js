@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   aboutContainer: {
     padding: "15px 0 64px",
     borderTopWidth: 1,

@@ -1,4 +1,4 @@
-// package: 
+// package:
 // file: ProtoFiles/NamedEntityDisambiguation.proto
 
 var ProtoFiles_NamedEntityDisambiguation_pb = require("./NamedEntityDisambiguation_pb");
@@ -8,7 +8,7 @@ var Disambiguate = (function () {
   function Disambiguate() {}
   Disambiguate.serviceName = "Disambiguate";
   return Disambiguate;
-}());
+})();
 
 Disambiguate.named_entity_disambiguation = {
   methodName: "named_entity_disambiguation",
@@ -16,7 +16,7 @@ Disambiguate.named_entity_disambiguation = {
   requestStream: false,
   responseStream: false,
   requestType: ProtoFiles_NamedEntityDisambiguation_pb.Input,
-  responseType: ProtoFiles_NamedEntityDisambiguation_pb.Output
+  responseType: ProtoFiles_NamedEntityDisambiguation_pb.Output,
 };
 
 exports.Disambiguate = Disambiguate;
@@ -26,17 +26,21 @@ function DisambiguateClient(serviceHost, options) {
   this.options = options || {};
 }
 
-DisambiguateClient.prototype.named_entity_disambiguation = function named_entity_disambiguation(requestMessage, metadata, callback) {
+DisambiguateClient.prototype.named_entity_disambiguation = function named_entity_disambiguation(
+  requestMessage,
+  metadata,
+  callback
+) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
   var client = grpc.unary(Disambiguate.named_entity_disambiguation, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -47,15 +51,14 @@ DisambiguateClient.prototype.named_entity_disambiguation = function named_entity
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.DisambiguateClient = DisambiguateClient;
-

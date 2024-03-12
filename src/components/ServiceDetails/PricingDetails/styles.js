@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   creditsContainer: {
     padding: "12px 0",
     backgroundColor: theme.palette.text.cardBackground,

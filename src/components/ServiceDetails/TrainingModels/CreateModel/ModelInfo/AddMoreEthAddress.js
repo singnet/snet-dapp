@@ -8,7 +8,7 @@ import { useStyles } from "./styles";
 const AddMoreEthAddress = ({ classes, addEthAddress }) => {
   const [value, setValue] = useState("");
 
-  const addInput = e => {
+  const addInput = (e) => {
     e.preventDefault();
     value && addEthAddress(value);
     setValue("");
@@ -16,7 +16,7 @@ const AddMoreEthAddress = ({ classes, addEthAddress }) => {
 
   return (
     <div className={classes.addMoreEthAdd}>
-      <StyledTextField value={value} placeholder="Enter ID" onChange={e => setValue(e.target.value)} />
+      <StyledTextField value={value} placeholder="Enter ID" onChange={(e) => setValue(e.target.value)} />
       <div onClick={addInput} className={classes.addTextBox}>
         <AddIcon />
         <span>Add another address</span>

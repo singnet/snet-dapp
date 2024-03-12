@@ -18,7 +18,7 @@ const initiatePaymentAPI = (token, paymentObj) => {
   return API.post(apiName, apiPath, apiOptions);
 };
 
-export const initiatePayment = paymentObj => async dispatch => {
+export const initiatePayment = (paymentObj) => async (dispatch) => {
   try {
     dispatch(loaderActions.startAppLoader(LoaderContent.INITIATE_PAYPAL));
     const { token } = await dispatch(userActions.fetchAuthenticatedUser());
@@ -40,7 +40,7 @@ const executePaymentAPI = (token, paymentExecObj) => {
   return API.post(apiName, apiPath, apiOptions);
 };
 
-export const executePayment = paymentExecObj => async dispatch => {
+export const executePayment = (paymentExecObj) => async (dispatch) => {
   const { token } = await dispatch(userActions.fetchAuthenticatedUser());
   return await executePaymentAPI(token, paymentExecObj);
 };
@@ -52,17 +52,17 @@ const orderDetailsAPI = (token, orderId) => {
   return API.get(apiName, apiPath, apiOptions);
 };
 
-export const fetchOrderDetails = orderId => async dispatch => {
+export const fetchOrderDetails = (orderId) => async (dispatch) => {
   const { token } = await dispatch(userActions.fetchAuthenticatedUser());
   return await orderDetailsAPI(token, orderId);
 };
 
-export const updatePaypalInProgress = (orderId, orderType, paymentId, paypalPaymentId, PayerID) => dispatch => {
+export const updatePaypalInProgress = (orderId, orderType, paymentId, paypalPaymentId, PayerID) => (dispatch) => {
   dispatch({ type: UPDATE_PAYPAL_IN_PROGRESS, payload: { orderId, orderType, paymentId, paypalPaymentId, PayerID } });
   dispatch(userActions.updateWallet({ type: walletTypes.GENERAL }));
 };
 
-export const updatePaypalCompleted = dispatch => {
+export const updatePaypalCompleted = (dispatch) => {
   dispatch({ type: UPDATE_PAYPAL_COMPLETED });
 };
 
@@ -73,23 +73,23 @@ const cancelOrderAPI = (token, orderId) => () => {
   return API.get(apiName, path, apiOptions);
 };
 
-export const cancelOrder = orderId => async dispatch => {
+export const cancelOrder = (orderId) => async (dispatch) => {
   const { token } = await dispatch(fetchAuthenticatedUser());
   await dispatch(cancelOrderAPI(token, orderId));
 };
 
-const fetchUSDConversionRateSuccess = data => async dispatch => {
+const fetchUSDConversionRateSuccess = (data) => async (dispatch) => {
   await dispatch({ type: UPDATE_USD_AGI_RATE, payload: data.amount_in_agi });
   return dispatch({ type: UPDATE_USD_COGS_RATE, payload: data.amount_in_cogs });
 };
 
-const USDConversionRateAPI = async amount => {
+const USDConversionRateAPI = async (amount) => {
   const url = new URL(`${APIEndpoints.ORCHESTRATOR.endpoint}${APIPaths.USD_RATE}?amount=${amount}`);
   const response = await fetch(url);
   return response.json();
 };
 
-export const fetchUSDConversionRate = async dispatch => {
+export const fetchUSDConversionRate = async (dispatch) => {
   const { data } = await USDConversionRateAPI(1);
   return dispatch(fetchUSDConversionRateSuccess(data));
 };

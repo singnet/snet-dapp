@@ -39,7 +39,7 @@ class MediaGallery extends Component {
     };
 
     this.filteredData = this.props.data
-      ? this.props.data.filter(item => {
+      ? this.props.data.filter((item) => {
           return item.asset_type === mediaAssetType.MEDIA_GALLERY;
         })
       : [];
@@ -95,7 +95,7 @@ class MediaGallery extends Component {
   _onImageClick(event) {
     const lightBoxMedia = event.target.getAttribute("src");
 
-    const currentVideoObj = this.images.find(value => {
+    const currentVideoObj = this.images.find((value) => {
       return value.original === lightBoxMedia;
     });
 
@@ -221,7 +221,7 @@ class MediaGallery extends Component {
     this.setState({ showLightBox: false });
   };
 
-  showPrev = data => {
+  showPrev = (data) => {
     const { activeIndex } = this.state;
     let mediaType;
     const nextIndex = activeIndex === 0 ? data.length - 1 : activeIndex - 1;
@@ -232,7 +232,7 @@ class MediaGallery extends Component {
       mediaType = mediaTypes.IMAGE;
     }
 
-    this.setState(prevState => {
+    this.setState((prevState) => {
       return {
         activeIndex: prevState.activeIndex === 0 ? data.length - 1 : prevState.activeIndex - 1,
         mediaType,
@@ -240,7 +240,7 @@ class MediaGallery extends Component {
     });
   };
 
-  showNext = data => {
+  showNext = (data) => {
     const { activeIndex } = this.state;
     let mediaType;
     const nextIndex = activeIndex === data.length - 1 ? 0 : activeIndex + 1;
@@ -251,7 +251,7 @@ class MediaGallery extends Component {
       mediaType = mediaTypes.IMAGE;
     }
 
-    this.setState(prevState => {
+    this.setState((prevState) => {
       return {
         activeIndex: prevState.activeIndex === data.length - 1 ? 0 : prevState.activeIndex + 1,
         mediaType,
@@ -268,7 +268,7 @@ class MediaGallery extends Component {
         <div className={classes.mediaGalleryContainer}>
           <h2>Media Gallery ({this.images.length})</h2>
           <ImageGallery
-            ref={i => (this._imageGallery = i)}
+            ref={(i) => (this._imageGallery = i)}
             items={this.images}
             lazyLoad={false}
             onClick={this._onImageClick.bind(this)}

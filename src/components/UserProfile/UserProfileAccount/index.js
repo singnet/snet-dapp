@@ -37,7 +37,7 @@ const UserProfileAccount = ({ classes, startAppLoader, stopAppLoader, wallet, up
     fetchWallets();
   }, [fetchUserWallets]);
 
-  const isSameMetaMaskAddress = address => {
+  const isSameMetaMaskAddress = (address) => {
     const selectedEthAddress = window.ethereum && window.ethereum.selectedAddress;
     if (selectedEthAddress && address) {
       return selectedEthAddress.toLowerCase() === address.toLowerCase();
@@ -46,7 +46,7 @@ const UserProfileAccount = ({ classes, startAppLoader, stopAppLoader, wallet, up
     return false;
   };
 
-  const handleWalletTypeChange = async event => {
+  const handleWalletTypeChange = async (event) => {
     setAlert({});
     const { value: selectedValue } = event.target;
     const selectedWallet = find(wallets, ({ value }) => selectedValue === value);
@@ -115,13 +115,13 @@ const UserProfileAccount = ({ classes, startAppLoader, stopAppLoader, wallet, up
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   wallet: state.userReducer.wallet,
 });
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    updateWallet: args => dispatch(userActions.updateWallet(args)),
+    updateWallet: (args) => dispatch(userActions.updateWallet(args)),
     startAppLoader: () => dispatch(startAppLoader(LoaderContent.FETCH_LINKED_PROVIDERS)),
     stopAppLoader: () => dispatch(stopAppLoader),
     fetchUserWallets: () => dispatch(fetchAvailableUserWallets()),

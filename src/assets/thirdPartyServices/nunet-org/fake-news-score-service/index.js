@@ -33,7 +33,7 @@ export default class FakeNewsScoreService extends React.Component {
     });
   }
 
-  handleFocus = event => event.target.select();
+  handleFocus = (event) => event.target.select();
 
   submitAction() {
     //const { methodIndex, methodNames } = this.state;

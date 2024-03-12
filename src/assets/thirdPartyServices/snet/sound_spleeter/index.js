@@ -106,7 +106,7 @@ export default class SoundSpleeterService extends React.Component {
 
     const props = {
       request,
-      onEnd: response => {
+      onEnd: (response) => {
         const { message, status, statusMessage } = response;
         if (status !== 0) {
           throw new Error(statusMessage);
@@ -155,7 +155,7 @@ export default class SoundSpleeterService extends React.Component {
                 type="file"
                 uploadedFiles={this.state.uploadedFiles}
                 handleFileUpload={this.handleFileUpload}
-                setValidationStatus={valid => this.setValidationStatus("validAudioFile", valid)}
+                setValidationStatus={(valid) => this.setValidationStatus("validAudioFile", valid)}
                 fileAccept=".wav, .mp3"
               />
             </Grid>

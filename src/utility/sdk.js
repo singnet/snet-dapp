@@ -24,12 +24,12 @@ export const callTypes = {
   REGULAR: "REGULAR",
 };
 
-export const parseSignature = hexSignature => {
+export const parseSignature = (hexSignature) => {
   const signatureBuffer = Buffer.from(hexSignature.slice(2), "hex");
   return signatureBuffer.toString("base64");
 };
 
-export const decodeGroupId = encodedGroupId => {
+export const decodeGroupId = (encodedGroupId) => {
   const groupIdBuffer = Buffer.from(encodedGroupId, "base64");
   return `0x${groupIdBuffer.toString("hex")}`;
 };
@@ -67,7 +67,7 @@ const parseChannelStateRequestSigner = ({ data }) => ({
   signatureBytes: parseSignature(data.signature),
 });
 
-const channelStateRequestSigner = async channelId => {
+const channelStateRequestSigner = async (channelId) => {
   const apiName = APIEndpoints.SIGNER_SERVICE.name;
   const stateServicePayload = { channel_id: Number(channelId) };
   const { token } = await store.dispatch(fetchAuthenticatedUser());
@@ -77,7 +77,7 @@ const channelStateRequestSigner = async channelId => {
   );
 };
 
-const paidCallMetadataGenerator = serviceRequestErrorHandler => async (channelId, signingAmount, nonce) => {
+const paidCallMetadataGenerator = (serviceRequestErrorHandler) => async (channelId, signingAmount, nonce) => {
   try {
     const apiName = APIEndpoints.SIGNER_SERVICE.name;
     const enhancedChannelId = parseInt(channelId.toFixed());
@@ -153,13 +153,16 @@ export const initPaypalSdk = (address, channelInfo) => {
   sdk.paymentChannelManagementStrategy = new PaypalPaymentMgmtStrategy(sdk, channelInfo.id);
 };
 
-export const updateChannel = newChannel => {
+export const updateChannel = (newChannel) => {
   channel = newChannel;
 };
 
-export const initSdk = async address => {
+export const initSdk = async (address) => {
   const updateSDK = async () => {
-    const chainIdHex = web3Provider.chainId;
+    const chainIdHex = await web3Provider.request({
+      method: "eth_chainId",
+      params: [],
+    });
     const networkId = parseInt(chainIdHex);
 
     const config = {
@@ -190,11 +193,11 @@ export const initSdk = async address => {
   if (hasEth) {
     web3Provider = window.ethereum;
     await web3Provider.request({ method: ethereumMethods.REQUEST_ACCOUNTS });
-    web3Provider.addListener(ON_ACCOUNT_CHANGE, accounts => {
+    web3Provider.addListener(ON_ACCOUNT_CHANGE, (accounts) => {
       const event = new CustomEvent("snetMMAccountChanged", { detail: { address: accounts[0] } });
       window.dispatchEvent(event);
     });
-    web3Provider.addListener(ON_NETWORK_CHANGE, network => {
+    web3Provider.addListener(ON_NETWORK_CHANGE, (network) => {
       const event = new CustomEvent("snetMMNetworkChanged", { detail: { network } });
       window.dispatchEvent(event);
     });
@@ -203,9 +206,9 @@ export const initSdk = async address => {
   return Promise.resolve(sdk);
 };
 
-const getMethodNames = service => {
+const getMethodNames = (service) => {
   const ownProperties = Object.getOwnPropertyNames(service);
-  return ownProperties.filter(property => {
+  return ownProperties.filter((property) => {
     if (service[property] && typeof service[property] === typeof {}) {
       return !!service[property].methodName;
     }
@@ -242,21 +245,23 @@ export const createServiceClient = (
     options
   );
 
-  const onEnd = props => (...args) => {
-    try {
-      const { status, statusMessage } = args[0];
-      if (status !== 0) {
-        serviceRequestErrorHandler(statusMessage);
-        return;
+  const onEnd =
+    (props) =>
+    (...args) => {
+      try {
+        const { status, statusMessage } = args[0];
+        if (status !== 0) {
+          serviceRequestErrorHandler(statusMessage);
+          return;
+        }
+        props.onEnd(...args);
+        if (serviceRequestCompleteHandler) {
+          serviceRequestCompleteHandler();
+        }
+      } catch (error) {
+        serviceRequestErrorHandler(error);
       }
-      props.onEnd(...args);
-      if (serviceRequestCompleteHandler) {
-        serviceRequestCompleteHandler();
-      }
-    } catch (error) {
-      serviceRequestErrorHandler(error);
-    }
-  };
+    };
 
   const requestStartHandler = () => {
     if (serviceRequestStartHandler) {

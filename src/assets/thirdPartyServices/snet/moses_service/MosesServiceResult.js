@@ -56,7 +56,7 @@ export default class MosesServiceResult extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Grid container justify={"center"}>
+        <Grid container justify="center">
           <Grid xs={12} item style={{ textAlign: "center", paddingTop: "10%" }}>
             {this.props.result.resultUrl ? this.renderCompleted() : this.renderError()}
           </Grid>

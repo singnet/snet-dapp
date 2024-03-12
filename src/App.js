@@ -38,7 +38,7 @@ Amplify.configure(aws_config);
 ReactGA.initialize(process.env.REACT_APP_GA_TRACKING_ID);
 
 const history = createBrowserHistory();
-history.listen(location => {
+history.listen((location) => {
   ReactGA.set({ page: location.pathname });
   ReactGA.pageview(location.pathname);
 });
@@ -155,14 +155,14 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isLoggedIn: state.userReducer.login.isLoggedIn,
   isTermsAccepted: state.userReducer.isTermsAccepted,
   isInitialized: state.userReducer.isInitialized,
   hamburgerMenu: state.stylesReducer.hamburgerMenu,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchUserDetails: () => dispatch(userActions.fetchUserDetails),
 });
 

@@ -6,7 +6,7 @@ import { withStyles } from "@material-ui/styles";
 import { useStyles } from "./styles";
 
 const VerticalTabs = ({ classes, activeIndex, handleChange, title }) => {
-  const titles = title.map(tab => <Tab key={tab.title} label={tab.title} />);
+  const titles = title.map((tab) => <Tab key={tab.title} label={tab.title} />);
 
   return (
     <div className={classes.VerticalTabsContainer}>

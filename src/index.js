@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import { Provider as ReduxProvider } from "react-redux";
 import * as Sentry from "@sentry/browser";
 
@@ -14,9 +14,9 @@ if (process.env.NODE_ENV === "production") {
 
 export const store = configureStore();
 
-ReactDOM.render(
+const root = createRoot(document.getElementById("root"));
+root.render(
   <ReduxProvider store={store}>
     <SnetApp />
-  </ReduxProvider>,
-  document.getElementById("root")
+  </ReduxProvider>
 );

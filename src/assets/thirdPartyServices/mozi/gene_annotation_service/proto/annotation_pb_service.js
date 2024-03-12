@@ -4,7 +4,7 @@
 var src_proto_annotation_pb = require("./annotation_pb");
 var grpc = require("@improbable-eng/grpc-web").grpc;
 
-var Annotate = (function() {
+var Annotate = (function () {
   function Annotate() {}
   Annotate.serviceName = "Annotate";
   return Annotate;
@@ -33,10 +33,10 @@ AnnotateClient.prototype.annotate = function annotate(requestMessage, metadata, 
   var client = grpc.unary(Annotate.Annotate, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function(response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -50,7 +50,7 @@ AnnotateClient.prototype.annotate = function annotate(requestMessage, metadata, 
     },
   });
   return {
-    cancel: function() {
+    cancel() {
       callback = null;
       client.close();
     },

@@ -60,7 +60,7 @@ class MetamaskDetails extends Component {
 
   handleAmountChange = (event, txnType) => {
     const { value } = event.target;
-    this.setState(prevState => ({ amount: { ...prevState.amount, [txnType]: value } }));
+    this.setState((prevState) => ({ amount: { ...prevState.amount, [txnType]: value } }));
   };
 
   handleDeposit = async () => {
@@ -108,7 +108,7 @@ class MetamaskDetails extends Component {
           <StyledTextField
             label="Amount to be deposited in AGIX"
             value={amount[txnTypes.DEPOSIT] || ""}
-            onChange={event => this.handleAmountChange(event, txnTypes.DEPOSIT)}
+            onChange={(event) => this.handleAmountChange(event, txnTypes.DEPOSIT)}
           />
         ),
       },
@@ -120,12 +120,12 @@ class MetamaskDetails extends Component {
           <StyledTextField
             label="Amount to be withdrawn in AGIX"
             value={amount[txnTypes.WITHDRAW] || ""}
-            onChange={event => this.handleAmountChange(event, txnTypes.WITHDRAW)}
+            onChange={(event) => this.handleAmountChange(event, txnTypes.WITHDRAW)}
           />
         ),
       },
     ];
-    const activeComponent = tabs.filter(el => el.activeIndex === activeTab)[0];
+    const activeComponent = tabs.filter((el) => el.activeIndex === activeTab)[0];
 
     return (
       <Fragment>
@@ -162,7 +162,7 @@ class MetamaskDetails extends Component {
         <div className={classes.tabsContainer}>
           <AppBar position="static" className={classes.tabsHeader}>
             <Tabs value={activeTab} onChange={this.onTabChange}>
-              {tabs.map(value => (
+              {tabs.map((value) => (
                 <Tab key={value.name} label={value.name} />
               ))}
             </Tabs>
@@ -178,11 +178,11 @@ class MetamaskDetails extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   wallet: state.userReducer.wallet,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   startAccBalLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.FETCH_MM_ACC_DETAILS)),
   startDepositLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.DEPOSIT)),
   startWithdrawLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.WITHDRAW)),

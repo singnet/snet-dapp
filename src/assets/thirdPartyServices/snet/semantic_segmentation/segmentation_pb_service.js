@@ -1,4 +1,4 @@
-// package: 
+// package:
 // file: ProtoFiles/segmentation.proto
 
 var ProtoFiles_segmentation_pb = require("./segmentation_pb");
@@ -8,7 +8,7 @@ var SemanticSegmentation = (function () {
   function SemanticSegmentation() {}
   SemanticSegmentation.serviceName = "SemanticSegmentation";
   return SemanticSegmentation;
-}());
+})();
 
 SemanticSegmentation.segment = {
   methodName: "segment",
@@ -16,7 +16,7 @@ SemanticSegmentation.segment = {
   requestStream: false,
   responseStream: false,
   requestType: ProtoFiles_segmentation_pb.Request,
-  responseType: ProtoFiles_segmentation_pb.Result
+  responseType: ProtoFiles_segmentation_pb.Result,
 };
 
 SemanticSegmentation.meta = {
@@ -25,7 +25,7 @@ SemanticSegmentation.meta = {
   requestStream: false,
   responseStream: false,
   requestType: ProtoFiles_segmentation_pb.MetaRequest,
-  responseType: ProtoFiles_segmentation_pb.MetaResult
+  responseType: ProtoFiles_segmentation_pb.MetaResult,
 };
 
 exports.SemanticSegmentation = SemanticSegmentation;
@@ -42,10 +42,10 @@ SemanticSegmentationClient.prototype.segment = function segment(requestMessage, 
   var client = grpc.unary(SemanticSegmentation.segment, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -56,13 +56,13 @@ SemanticSegmentationClient.prototype.segment = function segment(requestMessage, 
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
@@ -73,10 +73,10 @@ SemanticSegmentationClient.prototype.meta = function meta(requestMessage, metada
   var client = grpc.unary(SemanticSegmentation.meta, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -87,15 +87,14 @@ SemanticSegmentationClient.prototype.meta = function meta(requestMessage, metada
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.SemanticSegmentationClient = SemanticSegmentationClient;
-
