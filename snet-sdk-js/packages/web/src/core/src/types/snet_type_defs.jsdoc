@@ -1,0 +1,185 @@
+/**
+ * @typedef {Object} Config
+ * @property {string|object} web3Provider - A URL or one of the Web3 provider classes.
+ * @property {string} privateKey - The accounts private key for performing token operations.
+ * @property {string} signerPrivateKey - The accounts private key for signing grpc calls to service.
+ * @property {number} networkId - Ethereum network ID.
+ * @property {string} [ipfsEndpoint=http://ipfs.singularitynet.io:80] - A URL for fetching service related metadata.
+ * @property {number} [defaultGasPrice=4700000] - The gas price to be used in case of fetching the gas price form the blockchain fails.
+ * @property {number} [defaultGasLimit=210000] - The gas limit to be used in case of fetching the gas estimate from the blockchain fails.
+ */
+
+/**
+ * @typedef {Object} ServiceClientOptions
+ * @property {string} email
+ * @property {string} tokenToMakeFreeCall
+ * @property {number} tokenExpirationBlock
+ * @property {boolean} disableBlockchainOperations
+ * @property {string} [endpoint]
+ * @property {boolean} concurrency
+ */
+
+/**
+ * typedef {Object} StateRequestSignerResponse
+ * @property {Number} currentBlockNumber
+ * @property {String} signatureBytes
+ */
+
+/**
+ * @function
+ * @name ServiceClientOptions#channelStateRequestSigner
+ * @param {Number} channelId
+ * @returns {StateRequestSignerResponse} The state request signer response
+ */
+
+/**
+ * typedef {Object} FreeCallSignature
+ * @property {String} signatureBytes
+ */
+
+/**
+ * @function
+ * @name ServiceClientOptions#paidCallMetadataGenerator
+ * @param {Number} channelId
+ * @param {Number} signingAmount
+ * @param {Number} nonce
+ * @returns {FreeCallSignature} Free call signature object
+ */
+
+/**
+ * typedef {Object} FreeCallGRPCMetadata
+ * @property {String} snet-payment-type
+ * @property {String} snet-free-call-user-id
+ * @property {String} snet-current-block-number
+ * @property {String} snet-payment-channel-signature-bin
+ */
+
+
+/**
+ * @function
+ * @name ServiceClientOptions#metadataGenerator
+ * @param {ServiceClient} serviceClient
+ * @param {String} serviceName
+ * @param {String} method
+ * @returns {FreeCallGRPCMetadata} Free call metadata to be appended for service method invocation
+ */
+
+/**
+ * Interface for implementing identity.
+ *
+ * @interface Identity
+ */
+
+/**
+ * Returns the address for the given identity
+ *
+ * @function
+ * @name Identity#address
+ * @returns {String} The wallet address of the identity
+ */
+
+/**
+ * Signs data using a specific account in the identity
+ *
+ * @function
+ * @name Identity#signData
+ * @param {String} message Data to sign
+ * @returns {String} the signature
+ */
+
+/**
+ * @typedef {Object} TransactionObject
+ * @property {String} nonce
+ * @property {String} gas
+ * @property {String} gasPrice
+ * @property {String} to
+ * @property {String} data
+ */
+
+/**
+ * Sends a transaction to the network
+ *
+ * @function
+ * @name Identity#sendTransaction
+ * @param {TransactionObject} transactionObject
+ * @returns {Promise.<String>} the transaction hash
+ */
+
+/**
+ * Interface for implementing payment channel management strategies.
+ *
+ * @interface PaymentChannelManagementStrategy
+ */
+
+/**
+ * Select a payment channel for the given service
+ *
+ * @function
+ * @name PaymentChannelManagementStrategy#selectChannel
+ * @param {ServiceClient} serviceClient
+ * @returns {Promise.<PaymentChannel>} The payment channel used for making a grpc call to the ai service
+ */
+
+/**
+ * @typedef {Object} Pricing
+ * @property {Number} pricing_in_cogs
+ * @property {String} pricing_model
+ * @property {Boolean} default
+ */
+
+/**
+ * @typedef {Object} GroupPayment
+ * @property {String} payment_address
+ * @property {Number} payment_expiration_threshold
+ * @property {String} payment_channel_storage_type
+ * @property {Object} payment_channel_storage_client
+ */
+
+/**
+ * @typedef {Object} Group
+ * @property {String} group_id
+ * @property {String} group_name
+ * @property {GroupPayment} payment
+ * @property {Pricing[]} pricing
+ * @property {String[]} endpoints
+ */
+
+/**
+ * @typedef {Object} ServiceMetadata
+ * @property {String} display_name
+ * @property {String} encoding
+ * @property {String} service_type
+ * @property {String} model_ipfs_hash
+ * @property {String} mpe_address
+ * @property {Object} assets
+ * @property {Group[]} groups
+ * @property {Object} service_description
+ */
+
+/**
+ * @typedef {Object} PaymentChannelState
+ * @property {BigNumber} [nonce=0]
+ * @property {BigNumber} [currentNonce]
+ * @property {BigNumber} [expiry]
+ * @property {BigNumber} [amountDeposited]
+ * @property {BigNumber} [currentSignedAmount=0]
+ * @property {BigNumber} [availableAmount]
+ */
+
+/**
+ * @typedef {Object} ServiceDetails
+ * @property {String} orgId
+ * @property {String} serviceId
+ * @property {String} groupId
+ * @property {String} daemonEndpoint
+ */
+
+ /**
+  * @typedef {Object} FreeCallConfig
+  * @property {String} email
+  * @property {String} tokenToMakeFreeCall
+  * @property {String} tokenExpirationBlock
+  */
+
+
+

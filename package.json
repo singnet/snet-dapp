@@ -56,7 +56,7 @@
     "scrypt": "github:barrysteyn/node-scrypt#fb60a8d3c158fe115a624b5ffa7480f3a24b03fb",
     "singularitynet-platform-contracts": "1.0.2",
     "slick-carousel": "^1.8.1",
-    "snet-sdk-web": "3.0.0",
+    "snet-sdk-web": "file:./snet-sdk-js/packages/web",
     "utf8": "^3.0.0",
     "validate.js": "^0.13.1",
     "web3": "^4.5.0"
@@ -76,7 +76,8 @@
     "build-storybook": "build-storybook",
     "sitemap": "babel-node scripts/sitemap-generator.js",
     "zip-components": "REACT_APP_SANDBOX=true babel-node scripts/zip-components.js",
-    "generate-stubs": "babel-node scripts/generate-stubs.js"
+    "generate-stubs": "babel-node scripts/generate-stubs.js",
+    "preinstall": "cd snet-sdk-js/packages/web && yarn install && npm run build && yarn link"
   },
   "lint-staged": {
     "*.{js,jsx}": [

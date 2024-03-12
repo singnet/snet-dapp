@@ -1,0 +1,5 @@
+/**
+ * The transaction receipt same as returned from Web3 sendTransaction
+ * @typedef {object} TransactionReceipt
+ * @see {@link https://web3js.readthedocs.io/en/1.0/web3-eth.html#eth-sendtransaction-return|Web3 TransactionReceipt}
+ */
