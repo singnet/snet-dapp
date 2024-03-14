@@ -9,7 +9,7 @@ import Payment from "./Payment";
 import Finish from "./Finish";
 
 const CreateModel = (props) => {
-  const { service, classes, training, modelDetailsOnEdit, cancelEditModel, updateModel, deleteModel, } = props;
+  const { service, classes, training, modelDetailsOnEdit, cancelEditModel, updateModel, deleteModel } = props;
   const [activeSection, setActiveSection] = React.useState(1);
   const [modelData, setModelData] = useState({});
   const [trainModelId, setTrainModelId] = useState();
@@ -19,7 +19,6 @@ const CreateModel = (props) => {
   const onBackClick = () => {
     setActiveSection(activeSection - 1);
   };
-
   const createModelTabs = [
     {
       key: "modelInfo",

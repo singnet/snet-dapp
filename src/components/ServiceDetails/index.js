@@ -42,7 +42,7 @@ class ServiceDetails extends Component {
       modelDetailsOnEdit: undefined,
     };
   }
-
+  
   initializeService = async () => {
     const { org_id, service_id } = this.props.service;
     const sdk = await initSdk();
@@ -245,7 +245,6 @@ class ServiceDetails extends Component {
     }
 
     const seoURL = `${process.env.REACT_APP_BASE_URL}/servicedetails/org/${orgId}/service/${serviceId}`;
-
     return (
       <div>
         <SeoMetadata

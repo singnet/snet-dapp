@@ -57,9 +57,17 @@ const ModelInfo = ({
       publicAccess: enableAccessModel,
       address: !enableAccessModel ? ethAddress : [],
     };
-    return await serviceClient.createModel(address, params);
+    const param = {
+        grpcMethod: training.training_methods[0],
+        grpcService: serviceName,
+        address,
+    };
+    const response = await serviceClient.getExistingModel(param);
+    if(response.length < 20)
+    {
+      return await serviceClient.createModel(address, params);
+    }
   };
-
   const onUpdate = () => {
     const updateModelParams = {
       trainingModelName,
@@ -70,6 +78,7 @@ const ModelInfo = ({
     updateModel(updateModelParams);
   };
 
+
   const onNext = async () => {
     try {
       startMMconnectLoader();
@@ -77,7 +86,6 @@ const ModelInfo = ({
       const address = await sdk.account.getAddress();
       const availableUserWallets = await fetchAvailableUserWallets();
       const addressAlreadyRegistered = availableUserWallets.some(wallet => wallet.address.toLowerCase() === address);
-
       if (!addressAlreadyRegistered) {
         await registerWallet(address, walletTypes.METAMASK);
       }

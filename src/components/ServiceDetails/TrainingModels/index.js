@@ -9,21 +9,22 @@ import ProjectDetails from "../ProjectDetails";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import CreateModel from "./CreateModel";
 
-const TrainingModels = ({
-  classes,
-  service,
-  training,
-  createModelCalled,
-  modelDetailsOnEdit,
-  cancelEditModel,
-  updateModel,
-  editModel,
-  deleteModel,
-}) => {
+const TrainingModels = (props) => {
+  const {
+    classes,
+    service,
+    training,
+    createModelCalled,
+    modelDetailsOnEdit,
+    cancelEditModel,
+    updateModel,
+    editModel,
+    deleteModel
+  } = props
   const [showCreateModel, setShowCreateModel] = useState(false);
-
   const handleRequestModel = () => {
     setShowCreateModel(true);
+    
   };
 
   const RenderExistingModel = useCallback(() => {

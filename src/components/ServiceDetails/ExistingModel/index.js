@@ -35,7 +35,6 @@ const ExistingModel = ({
   const [sdkService, setSdkService] = useState();
   const [alert, setAlert] = useState({});
   const dispatch = useDispatch();
-
   const getServiceName = () => {
     return training.training_methods[0].split(".")[1].split("/")[0];
   };
