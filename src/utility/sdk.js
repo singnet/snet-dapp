@@ -176,10 +176,8 @@ const isUserAtExpectedEthereumNetwork = async () => {
 };
 
 const switchNetwork = async () => {
-  console.log("switchNetwork in sdk");
   const web3 = new Web3(window.ethereum);
   const hexifiedChainId = web3.utils.toHex(EXPECTED_ID_ETHEREUM_NETWORK);
-  console.log("hexifiedChainId: ", hexifiedChainId);
   await window.ethereum.request({
     method: "wallet_switchEthereumChain",
     params: [{ chainId: hexifiedChainId }],
