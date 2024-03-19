@@ -26,7 +26,7 @@ const payTypes = {
 };
 
 const connectMMinfo = {
-  type: alertTypes.WARNING,
+  type: alertTypes.ERROR,
   message: `Please install Metamask and use your Metamask wallet to connect to SingularityNet. 
 Click below to install and learn more about how to use Metamask and your AGIX credits with SinguarlityNet AI Marketplace.`,
 };
@@ -131,7 +131,7 @@ class MetamaskFlow extends Component {
 
       this.setState({ MMconnected: true, mpeBal, channelBalance });
     } catch (error) {
-      this.setState({ alert: { type: alertTypes.ERROR, message: error.message } });
+      this.setState({ alert: { type: connectMMinfo.type, message: connectMMinfo.message } });
     }
     stopLoader();
   };
@@ -243,7 +243,6 @@ class MetamaskFlow extends Component {
     if (!MMconnected) {
       return (
         <div className={classes.ExpiredSessionContainer}>
-          <AlertBox type={connectMMinfo.type} message={connectMMinfo.message} />
           <AlertBox type={alert.type} message={alert.message} />
           <StyledButton type="blue" btnText="connect metamask" onClick={this.handleConnectMM} />
         </div>
