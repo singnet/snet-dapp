@@ -43,7 +43,7 @@ class MetamaskFlow extends Component {
     alert: {},
     showTooltip: false,
   };
-
+  sdk;
   serviceClient;
 
   paymentChannelManagement;
@@ -58,9 +58,9 @@ class MetamaskFlow extends Component {
         serviceDetails: { org_id, service_id },
         groupInfo,
       } = this.props;
-      const sdk = await initSdk();
-      this.serviceClient = new ServiceClient(sdk, org_id, service_id, sdk._mpeContract, {}, groupInfo);
-      this.paymentChannelManagement = new PaymentChannelManagement(sdk, this.serviceClient);
+      this.sdk = await initSdk();
+      this.serviceClient = new ServiceClient(this.sdk, org_id, service_id, this.sdk._mpeContract, {}, groupInfo);
+      this.paymentChannelManagement = new PaymentChannelManagement(this.sdk, this.serviceClient);
     } catch (error) {
       this.props.handlePurchaseError("Unable to initialize payment channel. Please try again");
     }
@@ -99,21 +99,16 @@ class MetamaskFlow extends Component {
   };
 
   handleConnectMM = async () => {
-    const {
-      startMMconnectLoader,
-      stopLoader,
-      registerWallet,
-      walletList,
-      updateWallet,
-      fetchAvailableUserWallets,
-    } = this.props;
+    const { startMMconnectLoader, stopLoader, registerWallet, updateWallet, fetchAvailableUserWallets } = this.props;
     this.setState({ alert: {} });
     try {
       startMMconnectLoader();
-      const sdk = await initSdk();
-      const mpeBal = await sdk.account.escrowBalance();
+      if (!this.sdk) {
+        this.initializePaymentChannel();
+      }
+      const mpeBal = await this.sdk.account.escrowBalance();
       await this.paymentChannelManagement.updateChannelInfo();
-      const address = await sdk.account.getAddress();
+      const address = await this.sdk.account.getAddress();
       const availableUserWallets = await fetchAvailableUserWallets();
       const addressAlreadyRegistered = availableUserWallets.some(wallet => wallet.address.toLowerCase() === address);
 
