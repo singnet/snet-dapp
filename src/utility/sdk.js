@@ -291,7 +291,7 @@ export const createServiceClient = (
         props.onEnd(...args);
       }
 
-      if (props.closeServiceOnEnd) {
+      if (props.preventCloseServiceOnEnd) {
         return;
       }
 
