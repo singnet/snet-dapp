@@ -97,7 +97,7 @@ class MethodPricing {
   }
 }
 
-export const cogsToAgi = cogs => (cogs / priceData.agi_precision).toFixed(priceData.agi_divisibility);
+export const cogsToAgi = cogs => (Number(cogs) / priceData.agi_precision).toFixed(priceData.agi_divisibility);
 
 export const agiToCogs = agi => Math.round(agi * priceData.agi_precision);
 
