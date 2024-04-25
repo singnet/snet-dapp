@@ -272,6 +272,13 @@ export const createServiceClient = (
     options
   );
 
+  const finishServiceInteraction = () => {
+    if(serviceRequestCompleteHandler) {
+      serviceRequestCompleteHandler();
+      return;
+    }
+  }
+
   const onEnd = props => (...args) => {
     try {
       const { status, statusMessage } = args[0];
@@ -279,7 +286,15 @@ export const createServiceClient = (
         serviceRequestErrorHandler(statusMessage);
         return;
       }
-      props.onEnd(...args);
+
+      if(props.onEnd) {
+        props.onEnd(...args);
+      }
+
+      if (props.preventCloseServiceOnEnd) {
+        return;
+      }
+
       if (serviceRequestCompleteHandler) {
         serviceRequestCompleteHandler();
       }
@@ -287,7 +302,7 @@ export const createServiceClient = (
       serviceRequestErrorHandler(error);
     }
   };
-
+ 
   const requestStartHandler = () => {
     if (serviceRequestStartHandler) {
       serviceRequestStartHandler();
@@ -302,6 +317,9 @@ export const createServiceClient = (
       unary(methodDescriptor, props) {
         requestStartHandler();
         serviceClient.unary(methodDescriptor, { ...props, onEnd: onEnd(props) });
+      },
+      stopService() {
+        finishServiceInteraction();
       },
       getMethodNames,
     };
