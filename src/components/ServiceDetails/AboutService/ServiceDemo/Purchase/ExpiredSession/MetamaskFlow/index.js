@@ -26,7 +26,7 @@ const payTypes = {
 };
 
 const connectMMinfo = {
-  type: alertTypes.WARNING,
+  type: alertTypes.ERROR,
   message: `Please install Metamask and use your Metamask wallet to connect to SingularityNet. 
 Click below to install and learn more about how to use Metamask and your AGIX credits with SinguarlityNet AI Marketplace.`,
 };
@@ -44,6 +44,8 @@ class MetamaskFlow extends Component {
     showTooltip: false,
   };
 
+  sdk;
+
   serviceClient;
 
   paymentChannelManagement;
@@ -58,9 +60,9 @@ class MetamaskFlow extends Component {
         serviceDetails: { org_id, service_id },
         groupInfo,
       } = this.props;
-      const sdk = await initSdk();
-      this.serviceClient = new ServiceClient(sdk, org_id, service_id, sdk._mpeContract, {}, groupInfo);
-      this.paymentChannelManagement = new PaymentChannelManagement(sdk, this.serviceClient);
+      this.sdk = await initSdk();
+      this.serviceClient = new ServiceClient(this.sdk, org_id, service_id, this.sdk._mpeContract, {}, groupInfo);
+      this.paymentChannelManagement = new PaymentChannelManagement(this.sdk, this.serviceClient);
     } catch (error) {
       this.props.handlePurchaseError("Unable to initialize payment channel. Please try again");
     }
@@ -103,10 +105,12 @@ class MetamaskFlow extends Component {
     this.setState({ alert: {} });
     try {
       startMMconnectLoader();
-      const sdk = await initSdk();
-      const mpeBal = await sdk.account.escrowBalance();
+      if (!this.sdk) {
+        this.initializePaymentChannel();
+      }
+      const mpeBal = await this.sdk.account.escrowBalance();
       await this.paymentChannelManagement.updateChannelInfo();
-      const address = await sdk.account.getAddress();
+      const address = await this.sdk.account.getAddress();
       const availableUserWallets = await fetchAvailableUserWallets();
       const addressAlreadyRegistered = availableUserWallets.some((wallet) => wallet.address.toLowerCase() === address);
 
@@ -129,7 +133,7 @@ class MetamaskFlow extends Component {
 
       this.setState({ MMconnected: true, mpeBal, channelBalance });
     } catch (error) {
-      this.setState({ alert: { type: alertTypes.ERROR, message: error.message } });
+      this.setState({ alert: { type: connectMMinfo.type, message: connectMMinfo.message } });
     }
     stopLoader();
   };
@@ -241,7 +245,6 @@ class MetamaskFlow extends Component {
     if (!MMconnected) {
       return (
         <div className={classes.ExpiredSessionContainer}>
-          <AlertBox type={connectMMinfo.type} message={connectMMinfo.message} />
           <AlertBox type={alert.type} message={alert.message} />
           <StyledButton type="blue" btnText="connect metamask" onClick={this.handleConnectMM} />
         </div>

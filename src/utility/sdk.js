@@ -1,6 +1,7 @@
 import SnetSDK, { WebServiceClient as ServiceClient } from "snet-sdk-web";
 import API from "@aws-amplify/api";
 import MPEContract from "singularitynet-platform-contracts/networks/MultiPartyEscrow";
+import Web3 from "web3";
 
 import { APIEndpoints, APIPaths } from "../config/APIEndpoints";
 import { initializeAPIOptions } from "./API";
@@ -9,11 +10,14 @@ import PaypalPaymentMgmtStrategy from "./PaypalPaymentMgmtStrategy";
 import { ethereumMethods } from "./constants/EthereumUtils";
 import { store } from "../";
 import ProxyPaymentChannelManagementStrategy from "./ProxyPaymentChannelManagementStrategy";
+import { isUndefined } from "lodash";
 
 const DEFAULT_GAS_PRICE = 4700000;
 const DEFAULT_GAS_LIMIT = 210000;
 const ON_ACCOUNT_CHANGE = "accountsChanged";
 const ON_NETWORK_CHANGE = "chainChanged";
+
+const EXPECTED_ID_ETHEREUM_NETWORK = process.env.REACT_APP_ETH_NETWORK;
 
 let sdk;
 let channel;
@@ -157,16 +161,39 @@ export const updateChannel = (newChannel) => {
   channel = newChannel;
 };
 
+const detectEthereumNetwork = async () => {
+  const chainIdHex = await web3Provider.request({
+    method: "eth_chainId",
+    params: [],
+  });
+  const networkId = parseInt(chainIdHex);
+  return networkId;
+};
+
+const isUserAtExpectedEthereumNetwork = async () => {
+  const currentNetworkId = await detectEthereumNetwork();
+  return Number(currentNetworkId) === Number(EXPECTED_ID_ETHEREUM_NETWORK);
+};
+
+const switchNetwork = async () => {
+  const web3 = new Web3(window.ethereum);
+  const hexifiedChainId = web3.utils.toHex(EXPECTED_ID_ETHEREUM_NETWORK);
+  await window.ethereum.request({
+    method: "wallet_switchEthereumChain",
+    params: [{ chainId: hexifiedChainId }],
+  });
+};
+
 export const initSdk = async (address) => {
+  web3Provider = window.ethereum;
   const updateSDK = async () => {
-    const chainIdHex = await web3Provider.request({
-      method: "eth_chainId",
-      params: [],
-    });
-    const networkId = parseInt(chainIdHex);
+    const isExpectedNetwork = await isUserAtExpectedEthereumNetwork();
+    if (!isExpectedNetwork) {
+      await switchNetwork();
+    }
 
     const config = {
-      networkId,
+      networkId: await detectEthereumNetwork(),
       web3Provider,
       defaultGasPrice: DEFAULT_GAS_PRICE,
       defaultGasLimit: DEFAULT_GAS_LIMIT,
@@ -188,16 +215,16 @@ export const initSdk = async (address) => {
     return Promise.resolve(sdk);
   }
 
-  const hasEth = typeof window.ethereum !== "undefined";
+  const hasEth = !isUndefined(window.ethereum);
 
   if (hasEth) {
-    web3Provider = window.ethereum;
     await web3Provider.request({ method: ethereumMethods.REQUEST_ACCOUNTS });
     web3Provider.addListener(ON_ACCOUNT_CHANGE, (accounts) => {
       const event = new CustomEvent("snetMMAccountChanged", { detail: { address: accounts[0] } });
       window.dispatchEvent(event);
     });
     web3Provider.addListener(ON_NETWORK_CHANGE, (network) => {
+      switchNetwork();
       const event = new CustomEvent("snetMMNetworkChanged", { detail: { network } });
       window.dispatchEvent(event);
     });
@@ -245,6 +272,13 @@ export const createServiceClient = (
     options
   );
 
+  const finishServiceInteraction = () => {
+    if (serviceRequestCompleteHandler) {
+      serviceRequestCompleteHandler();
+      return;
+    }
+  };
+
   const onEnd =
     (props) =>
     (...args) => {
@@ -254,7 +288,15 @@ export const createServiceClient = (
           serviceRequestErrorHandler(statusMessage);
           return;
         }
-        props.onEnd(...args);
+
+        if (props.onEnd) {
+          props.onEnd(...args);
+        }
+
+        if (props.preventCloseServiceOnEnd) {
+          return;
+        }
+
         if (serviceRequestCompleteHandler) {
           serviceRequestCompleteHandler();
         }
@@ -277,6 +319,9 @@ export const createServiceClient = (
       unary(methodDescriptor, props) {
         requestStartHandler();
         serviceClient.unary(methodDescriptor, { ...props, onEnd: onEnd(props) });
+      },
+      stopService() {
+        finishServiceInteraction();
       },
       getMethodNames,
     };
