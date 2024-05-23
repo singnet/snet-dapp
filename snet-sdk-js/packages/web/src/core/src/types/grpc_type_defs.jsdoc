@@ -1,5 +1,0 @@
-/**
- * GRPC client constructor
- * @typedef GRPCClient
- * @see {@link https://grpc.github.io/grpc/node/grpc.Client.html|GRPC Client}
- */
