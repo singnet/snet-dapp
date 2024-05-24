@@ -73,6 +73,6 @@ async function generateSitemap() {
     .save("./public/sitemap.xml");
 }
 
-if (Number(process.env.REACT_APP_ETH_NETWORK) === 1) {
+// if (Number(process.env.REACT_APP_ETH_NETWORK) === 1) {
   generateSitemap();
-}
+// }
