@@ -1,6 +1,6 @@
 require("dotenv").config();
 require("babel-register")({
-  presets: ["es2015", "react"],
+  presets: ["babel-preset-es2015", "babel-preset-react"],
 });
 
 const axios = require("axios");
@@ -74,5 +74,5 @@ async function generateSitemap() {
 }
 
 // if (Number(process.env.REACT_APP_ETH_NETWORK) === 1) {
-  generateSitemap();
+generateSitemap();
 // }
