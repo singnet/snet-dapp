@@ -68,6 +68,10 @@ class ThirdPartyCustomUIComponents {
   };
 
   componentFor = (orgId, serviceId) => {
+    // eslint-disable-next-line
+    console.log("orgId: ", orgId, "serviceId: ", serviceId);
+    // eslint-disable-next-line
+    console.log("UIComponents: ", this.customUIComponents);
     const CustomUIComponent = this.customUIComponents[this._generateUniqueID(orgId, serviceId)];
     if (!CustomUIComponent) {
       return () => <AlertBox type="error" message="No Component matched. Please check the orgId and serviceId" />;
