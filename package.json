@@ -125,6 +125,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "husky": "^2.7.0",
     "lint-staged": "^8.2.0",
+    "path-browserify": "^1.0.1",
     "prettier": "^3.2.5",
     "prompts": "^2.4.1",
     "rimraf": "^3.0.2",
