@@ -204,7 +204,7 @@ export default class OpenCogMiner extends React.Component {
         break;
     }
 
-    if (index == 0) {
+    if (index === 0) {
       this.state.dataset = "";
     }
 
@@ -223,7 +223,7 @@ export default class OpenCogMiner extends React.Component {
 
     const props = {
       request,
-      onEnd: response => {
+      onEnd: (response) => {
         const { message, status, statusMessage } = response;
         if (status !== 0) {
           throw new Error(statusMessage);

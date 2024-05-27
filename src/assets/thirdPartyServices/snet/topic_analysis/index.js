@@ -93,7 +93,7 @@ export default class TopicAnalysisService extends React.Component {
 
   setValidationStatus(key, valid) {
     if (this.state.isValid[key] !== valid) {
-      this.setState(state => {
+      this.setState((state) => {
         const isValid = Object.assign({}, state.isValid);
         isValid[key] = valid;
         return { isValid };
@@ -154,7 +154,7 @@ export default class TopicAnalysisService extends React.Component {
 
     const props = {
       request,
-      onEnd: response => {
+      onEnd: (response) => {
         const { message, status, statusMessage } = response;
         if (status !== 0) {
           throw new Error(statusMessage);
@@ -202,7 +202,7 @@ export default class TopicAnalysisService extends React.Component {
 
     this.setState({ internal_error: "" });
 
-    let found_keys = sample_keys.every(r => user_value_keys.indexOf(r) > -1);
+    let found_keys = sample_keys.every((r) => user_value_keys.indexOf(r) > -1);
     if (!found_keys) {
       this.setState({
         internal_error: "One or more of docs, num_topics, topic_divider, maxiter or beta is/are missing.",
@@ -282,7 +282,7 @@ export default class TopicAnalysisService extends React.Component {
                 uploadedFiles={this.state.datasetFile}
                 handleFileUpload={this.handleFileUpload}
                 fileAccept={this.state.fileAccept}
-                setValidationStatus={valid => this.setValidationStatus("datasetFile", valid)}
+                setValidationStatus={(valid) => this.setValidationStatus("datasetFile", valid)}
               />
               <Grid item xs={12} container justify="center" style={{ textAlign: "center" }}>
                 <p>

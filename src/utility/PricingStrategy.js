@@ -71,9 +71,9 @@ class MethodPricing {
     this.maxPriceInCogs = 0;
     this.pricing = {};
 
-    pricingData.details.map(servicePrice => {
+    pricingData.details.map((servicePrice) => {
       this.pricing[servicePrice.service_name] = {};
-      servicePrice.method_pricing.map(methodPrice => {
+      servicePrice.method_pricing.map((methodPrice) => {
         if (methodPrice.price_in_cogs > this.maxPriceInCogs) {
           this.maxPriceInCogs = methodPrice.price_in_cogs;
         }
@@ -97,11 +97,11 @@ class MethodPricing {
   }
 }
 
-export const cogsToAgi = cogs => (Number(cogs) / priceData.agi_precision).toFixed(priceData.agi_divisibility);
+export const cogsToAgi = (cogs) => (Number(cogs) / priceData.agi_precision).toFixed(priceData.agi_divisibility);
 
-export const agiToCogs = agi => Math.round(agi * priceData.agi_precision);
+export const agiToCogs = (agi) => Math.round(agi * priceData.agi_precision);
 
-export const agiInDecimal = agi => parseFloat(agi).toFixed(priceData.agi_divisibility);
+export const agiInDecimal = (agi) => parseFloat(agi).toFixed(priceData.agi_divisibility);
 
 export const tenYearBlockOffset = 10 * 365 * 24 * 60 * 4;
 

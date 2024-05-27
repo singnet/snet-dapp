@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   finishContaienr: {
     margin: "68px 0 40px",
     display: "flex",
@@ -34,16 +34,16 @@ export const useStyles = theme => ({
   },
   btnContainer: {
     marginTop: 32,
-    '& a': { textDecoration: 'none' },
+    "& a": { textDecoration: "none" },
     "& button": {
-      "&:first-of-type": { 
+      "&:first-of-type": {
         marginRight: 16,
-        '@media(max-width: 480px)': { marginBottom: 20 }
+        "@media(max-width: 480px)": { marginBottom: 20 },
+      },
     },
+    "@media(max-width: 480px)": {
+      display: "flex",
+      flexDirection: "column",
     },
-    '@media(max-width: 480px)': { 
-        display: 'flex',
-        flexDirection: 'column'
-    }
   },
 });

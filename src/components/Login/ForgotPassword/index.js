@@ -26,11 +26,11 @@ const ForgotPassword = ({
   useEffect(() => {
     setEmail(email);
   }, [email]);
-  const handleEmail = event => {
+  const handleEmail = (event) => {
     setEmail(event.target.value.toLowerCase());
   };
 
-  const handleSubmit = event => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
     resetError();
@@ -75,16 +75,16 @@ const ForgotPassword = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   email: state.userReducer.email,
   error: state.errorReducer.forgotPassword,
 });
 
-const mapDispatchToProps = dispatch => ({
-  updateEmail: email => dispatch(userActions.updateEmail(email)),
-  handleForgotPassword: args => dispatch(userActions.forgotPassword(args)),
+const mapDispatchToProps = (dispatch) => ({
+  updateEmail: (email) => dispatch(userActions.updateEmail(email)),
+  handleForgotPassword: (args) => dispatch(userActions.forgotPassword(args)),
   resetError: () => dispatch(errorActions.resetForgotPasswordError),
-  updateError: error => dispatch(errorActions.updateForgotPasswordError(error)),
+  updateError: (error) => dispatch(errorActions.updateForgotPasswordError(error)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(ForgotPassword));

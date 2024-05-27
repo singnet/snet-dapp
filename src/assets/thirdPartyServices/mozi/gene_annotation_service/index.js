@@ -4,7 +4,7 @@ import AnnotationForm from "./form";
 import AnnotationResult from "./result";
 import "./style.css";
 
-const App = props => {
+const App = (props) => {
   const [id, setId] = useState(undefined);
 
   return (

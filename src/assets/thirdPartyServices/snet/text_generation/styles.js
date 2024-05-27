@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   description: {
     "& p": {
       margin: "25px 0 0",

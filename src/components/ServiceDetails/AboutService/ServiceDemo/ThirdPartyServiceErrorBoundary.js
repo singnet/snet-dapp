@@ -7,7 +7,7 @@ class ThirdPartyServiceErrorBoundary extends Component {
     info: "",
   };
 
-  static getDerivedStateFromError = error => {
+  static getDerivedStateFromError = (error) => {
     return { error };
   };
 

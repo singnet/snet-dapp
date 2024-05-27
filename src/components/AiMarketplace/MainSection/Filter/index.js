@@ -15,15 +15,15 @@ const Filter = ({ toolbarProps }) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   activeFilterItem: state.serviceReducer.activeFilterItem,
   pagination: state.serviceReducer.pagination,
   filterDataProps: state.serviceReducer.filterData,
 });
 
-const mapDispatchToProps = dispatch => ({
-  handleFilterChange: args => dispatch(serviceActions.handleFilterChange(args)),
-  resetFilter: args => dispatch(serviceActions.resetFilter(args)),
+const mapDispatchToProps = (dispatch) => ({
+  handleFilterChange: (args) => dispatch(serviceActions.handleFilterChange(args)),
+  resetFilter: (args) => dispatch(serviceActions.resetFilter(args)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filter);

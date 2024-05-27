@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { userActions } from "../../../Redux/actionCreators";
 import { useStyles } from "./styles";
 
-const SignOut = props => {
+const SignOut = (props) => {
   const classes = useStyles();
 
   const handleSignOut = () => {
@@ -18,11 +18,8 @@ const SignOut = props => {
   );
 };
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   signOut: () => dispatch(userActions.signOut),
 });
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(SignOut);
+export default connect(null, mapDispatchToProps)(SignOut);

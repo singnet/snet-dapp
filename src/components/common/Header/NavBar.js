@@ -11,10 +11,10 @@ const NavBar = ({ data, history }) => {
   return (
     <nav>
       <ul className={classes.navUl}>
-        {data.tabs.map(tab => (
+        {data.tabs.map((tab) => (
           <NavItem key={tab.title} title={tab.title} link={tab.link} />
         ))}
-        {data.dropdowns.map(dropdown => (
+        {data.dropdowns.map((dropdown) => (
           <div key={dropdown.label} className={classes.headerDropDown}>
             <StyledMenu label={dropdown.label} list={dropdown.list} />
           </div>

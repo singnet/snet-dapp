@@ -568,7 +568,7 @@ snet_moses_service.AnalysisParameters.prototype.serializeBinaryToWriter = functi
     );
   }
   f = this.getCrossvalopts();
-  if (f != null) {
+  if (f !==null) {
     writer.writeMessage(
       2,
       f,
@@ -583,7 +583,7 @@ snet_moses_service.AnalysisParameters.prototype.serializeBinaryToWriter = functi
     );
   }
   f = this.getFilter();
-  if (f != null) {
+  if (f !==null) {
     writer.writeMessage(
       4,
       f,
@@ -650,7 +650,7 @@ snet_moses_service.AnalysisParameters.prototype.clearCrossvalopts = function() {
  * @return{!boolean}
  */
 snet_moses_service.AnalysisParameters.prototype.hasCrossvalopts = function() {
-  return jspb.Message.getField(this, 2) != null;
+  return jspb.Message.getField(this, 2) !==null;
 };
 
 
@@ -695,7 +695,7 @@ snet_moses_service.AnalysisParameters.prototype.clearFilter = function() {
  * @return{!boolean}
  */
 snet_moses_service.AnalysisParameters.prototype.hasFilter = function() {
-  return jspb.Message.getField(this, 4) != null;
+  return jspb.Message.getField(this, 4) !==null;
 };
 
 

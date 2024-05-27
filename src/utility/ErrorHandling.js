@@ -1,4 +1,4 @@
-export const parseError = error => {
+export const parseError = (error) => {
   if (error.message) {
     return error.message;
   }

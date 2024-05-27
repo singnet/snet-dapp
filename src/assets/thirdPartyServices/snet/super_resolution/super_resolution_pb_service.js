@@ -1,4 +1,4 @@
-// package: 
+// package:
 // file: ProtoFiles/super_resolution.proto
 
 var ProtoFiles_super_resolution_pb = require("./super_resolution_pb");
@@ -8,7 +8,7 @@ var SuperResolution = (function () {
   function SuperResolution() {}
   SuperResolution.serviceName = "SuperResolution";
   return SuperResolution;
-}());
+})();
 
 SuperResolution.increase_image_resolution = {
   methodName: "increase_image_resolution",
@@ -16,7 +16,7 @@ SuperResolution.increase_image_resolution = {
   requestStream: false,
   responseStream: false,
   requestType: ProtoFiles_super_resolution_pb.SuperResolutionRequest,
-  responseType: ProtoFiles_super_resolution_pb.Image
+  responseType: ProtoFiles_super_resolution_pb.Image,
 };
 
 exports.SuperResolution = SuperResolution;
@@ -26,17 +26,21 @@ function SuperResolutionClient(serviceHost, options) {
   this.options = options || {};
 }
 
-SuperResolutionClient.prototype.increase_image_resolution = function increase_image_resolution(requestMessage, metadata, callback) {
+SuperResolutionClient.prototype.increase_image_resolution = function increase_image_resolution(
+  requestMessage,
+  metadata,
+  callback
+) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
   var client = grpc.unary(SuperResolution.increase_image_resolution, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -47,15 +51,14 @@ SuperResolutionClient.prototype.increase_image_resolution = function increase_im
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.SuperResolutionClient = SuperResolutionClient;
-

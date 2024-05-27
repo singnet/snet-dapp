@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/styles";
 
-export const useStyles = makeStyles(theme => ({
+export const useStyles = makeStyles((theme) => ({
   toolBar: {
     padding: "0 0 10px",
     borderBottom: "1px solid rgba(155,155,155,0.9);",

@@ -43,7 +43,9 @@ class MetamaskFlow extends Component {
     alert: {},
     showTooltip: false,
   };
+
   sdk;
+
   serviceClient;
 
   paymentChannelManagement;
@@ -110,14 +112,14 @@ class MetamaskFlow extends Component {
       await this.paymentChannelManagement.updateChannelInfo();
       const address = await this.sdk.account.getAddress();
       const availableUserWallets = await fetchAvailableUserWallets();
-      const addressAlreadyRegistered = availableUserWallets.some(wallet => wallet.address.toLowerCase() === address);
+      const addressAlreadyRegistered = availableUserWallets.some((wallet) => wallet.address.toLowerCase() === address);
 
       if (!addressAlreadyRegistered) {
         await registerWallet(address, walletTypes.METAMASK);
       }
 
       updateWallet({ type: walletTypes.METAMASK, address });
-      this.PaymentInfoCardData.map(el => {
+      this.PaymentInfoCardData.map((el) => {
         if (el.title === "Escrow Balance") {
           el.value = cogsToAgi(mpeBal);
         }
@@ -136,7 +138,7 @@ class MetamaskFlow extends Component {
     stopLoader();
   };
 
-  handlePayTypeChange = value => {
+  handlePayTypeChange = (value) => {
     const { disabledPayTypes, selectedPayType } = this.state;
     if (disabledPayTypes.includes(value) || selectedPayType === value) {
       return;
@@ -152,7 +154,7 @@ class MetamaskFlow extends Component {
     this.setState({ showPurchaseDialog: false });
   };
 
-  handleNoOfCallsChange = event => {
+  handleNoOfCallsChange = (event) => {
     const noOfServiceCalls = event.target.value;
     const totalPrice = String(cogsToAgi(this.paymentChannelManagement.noOfCallsToCogs(noOfServiceCalls)));
     this.setState({ noOfServiceCalls, totalPrice });
@@ -207,7 +209,7 @@ class MetamaskFlow extends Component {
   };
 
   parseChannelBalFromPaymentCard = () => {
-    return this.PaymentInfoCardData.find(el => el.title === "Channel Balance").value;
+    return this.PaymentInfoCardData.find((el) => el.title === "Channel Balance").value;
   };
 
   shouldContinueBeEnabled = () => {
@@ -257,7 +259,7 @@ class MetamaskFlow extends Component {
           the panel below. “Mouse over” for tool tips.
         </Typography>
         <div className={classes.paymentInfoCard}>
-          {this.PaymentInfoCardData.map(item => (
+          {this.PaymentInfoCardData.map((item) => (
             <PaymentInfoCard key={item.title} title={item.title} value={item.value} unit={item.unit} />
           ))}
         </div>
@@ -336,14 +338,14 @@ class MetamaskFlow extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   serviceDetails: currentServiceDetails(state),
   pricing: pricing(state),
   wallet: state.userReducer.wallet,
   walletList: state.userReducer.walletList,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   startMMconnectLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.CONNECT_METAMASK)),
   startChannelSetupLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.SETUP_CHANNEL_FOR_SERV_EXEC)),
   updateWallet: ({ type, address }) => dispatch(userActions.updateWallet({ type, address })),

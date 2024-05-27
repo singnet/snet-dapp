@@ -6,7 +6,7 @@ import { useStyles } from "./styles";
 import Tags from "./Tags";
 
 const ServiceOverview = ({ classes, description, tags }) => {
-  const parseDescription = description => {
+  const parseDescription = (description) => {
     if (description.startsWith("<div>")) {
       return parseHtml(description);
     }

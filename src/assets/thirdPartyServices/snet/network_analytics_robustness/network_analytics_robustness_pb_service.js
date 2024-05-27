@@ -1,4 +1,4 @@
-// package: 
+// package:
 // file: ProtoFiles/network_analytics_robustness.proto
 
 var ProtoFiles_network_analytics_robustness_pb = require("./network_analytics_robustness_pb");
@@ -8,7 +8,7 @@ var NetworkAnalyticsRobustness = (function () {
   function NetworkAnalyticsRobustness() {}
   NetworkAnalyticsRobustness.serviceName = "NetworkAnalyticsRobustness";
   return NetworkAnalyticsRobustness;
-}());
+})();
 
 NetworkAnalyticsRobustness.MinNodesToRemove = {
   methodName: "MinNodesToRemove",
@@ -16,7 +16,7 @@ NetworkAnalyticsRobustness.MinNodesToRemove = {
   requestStream: false,
   responseStream: false,
   requestType: ProtoFiles_network_analytics_robustness_pb.MinNodesToRemoveRequest,
-  responseType: ProtoFiles_network_analytics_robustness_pb.MinNodesToRemoveResponse
+  responseType: ProtoFiles_network_analytics_robustness_pb.MinNodesToRemoveResponse,
 };
 
 NetworkAnalyticsRobustness.MostImportantNodesEdgesSubset = {
@@ -25,7 +25,7 @@ NetworkAnalyticsRobustness.MostImportantNodesEdgesSubset = {
   requestStream: false,
   responseStream: false,
   requestType: ProtoFiles_network_analytics_robustness_pb.MostImportantNodesEdgesSubsetRequest,
-  responseType: ProtoFiles_network_analytics_robustness_pb.MostImportantNodesEdgesSubsetResponse
+  responseType: ProtoFiles_network_analytics_robustness_pb.MostImportantNodesEdgesSubsetResponse,
 };
 
 exports.NetworkAnalyticsRobustness = NetworkAnalyticsRobustness;
@@ -35,17 +35,21 @@ function NetworkAnalyticsRobustnessClient(serviceHost, options) {
   this.options = options || {};
 }
 
-NetworkAnalyticsRobustnessClient.prototype.minNodesToRemove = function minNodesToRemove(requestMessage, metadata, callback) {
+NetworkAnalyticsRobustnessClient.prototype.minNodesToRemove = function minNodesToRemove(
+  requestMessage,
+  metadata,
+  callback
+) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
   var client = grpc.unary(NetworkAnalyticsRobustness.MinNodesToRemove, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -56,27 +60,31 @@ NetworkAnalyticsRobustnessClient.prototype.minNodesToRemove = function minNodesT
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
-NetworkAnalyticsRobustnessClient.prototype.mostImportantNodesEdgesSubset = function mostImportantNodesEdgesSubset(requestMessage, metadata, callback) {
+NetworkAnalyticsRobustnessClient.prototype.mostImportantNodesEdgesSubset = function mostImportantNodesEdgesSubset(
+  requestMessage,
+  metadata,
+  callback
+) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
   var client = grpc.unary(NetworkAnalyticsRobustness.MostImportantNodesEdgesSubset, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -87,15 +95,14 @@ NetworkAnalyticsRobustnessClient.prototype.mostImportantNodesEdgesSubset = funct
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.NetworkAnalyticsRobustnessClient = NetworkAnalyticsRobustnessClient;
-

@@ -1,4 +1,4 @@
-// package: 
+// package:
 // file: sound_spleeter.proto
 
 var sound_spleeter_pb = require("./sound_spleeter_pb");
@@ -8,7 +8,7 @@ var SoundSpleeter = (function () {
   function SoundSpleeter() {}
   SoundSpleeter.serviceName = "SoundSpleeter";
   return SoundSpleeter;
-}());
+})();
 
 SoundSpleeter.spleeter = {
   methodName: "spleeter",
@@ -16,7 +16,7 @@ SoundSpleeter.spleeter = {
   requestStream: false,
   responseStream: false,
   requestType: sound_spleeter_pb.Input,
-  responseType: sound_spleeter_pb.Output
+  responseType: sound_spleeter_pb.Output,
 };
 
 exports.SoundSpleeter = SoundSpleeter;
@@ -33,10 +33,10 @@ SoundSpleeterClient.prototype.spleeter = function spleeter(requestMessage, metad
   var client = grpc.unary(SoundSpleeter.spleeter, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -47,15 +47,14 @@ SoundSpleeterClient.prototype.spleeter = function spleeter(requestMessage, metad
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.SoundSpleeterClient = SoundSpleeterClient;
-

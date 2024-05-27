@@ -1,4 +1,4 @@
-// package: 
+// package:
 // file: ProtoFiles/video_cap.proto
 
 var ProtoFiles_video_cap_pb = require("./video_cap_pb");
@@ -8,7 +8,7 @@ var VideoCaptioning = (function () {
   function VideoCaptioning() {}
   VideoCaptioning.serviceName = "VideoCaptioning";
   return VideoCaptioning;
-}());
+})();
 
 VideoCaptioning.video_cap = {
   methodName: "video_cap",
@@ -16,7 +16,7 @@ VideoCaptioning.video_cap = {
   requestStream: false,
   responseStream: false,
   requestType: ProtoFiles_video_cap_pb.Input,
-  responseType: ProtoFiles_video_cap_pb.Output
+  responseType: ProtoFiles_video_cap_pb.Output,
 };
 
 exports.VideoCaptioning = VideoCaptioning;
@@ -33,10 +33,10 @@ VideoCaptioningClient.prototype.video_cap = function video_cap(requestMessage, m
   var client = grpc.unary(VideoCaptioning.video_cap, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -47,15 +47,14 @@ VideoCaptioningClient.prototype.video_cap = function video_cap(requestMessage, m
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.VideoCaptioningClient = VideoCaptioningClient;
-

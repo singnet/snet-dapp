@@ -21,7 +21,7 @@ export default class FileUploader extends React.Component {
     const props = {
       name: "uploadedFiles",
       multiple: this.props.multiple ? true : false,
-      onDrop: files => {
+      onDrop: (files) => {
         this.props.handleFileUpload(files);
         return false;
       },

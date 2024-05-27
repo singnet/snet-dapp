@@ -1,4 +1,4 @@
-// package: 
+// package:
 // file: ProtoFiles/CoreferenceResolutionService.proto
 
 var ProtoFiles_CoreferenceResolutionService_pb = require("./CoreferenceResolutionService_pb");
@@ -8,7 +8,7 @@ var ResolveReference = (function () {
   function ResolveReference() {}
   ResolveReference.serviceName = "ResolveReference";
   return ResolveReference;
-}());
+})();
 
 ResolveReference.resolution = {
   methodName: "resolution",
@@ -16,7 +16,7 @@ ResolveReference.resolution = {
   requestStream: false,
   responseStream: false,
   requestType: ProtoFiles_CoreferenceResolutionService_pb.InputSentence,
-  responseType: ProtoFiles_CoreferenceResolutionService_pb.ReferenceResolution
+  responseType: ProtoFiles_CoreferenceResolutionService_pb.ReferenceResolution,
 };
 
 exports.ResolveReference = ResolveReference;
@@ -33,10 +33,10 @@ ResolveReferenceClient.prototype.resolution = function resolution(requestMessage
   var client = grpc.unary(ResolveReference.resolution, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -47,15 +47,14 @@ ResolveReferenceClient.prototype.resolution = function resolution(requestMessage
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.ResolveReferenceClient = ResolveReferenceClient;
-

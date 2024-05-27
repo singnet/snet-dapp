@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   styledProgressBar: {
     width: 553,
     height: 15,

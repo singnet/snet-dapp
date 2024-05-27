@@ -21,7 +21,7 @@ const ChannelList = ({ classes, linkedProviders }) => {
             <Typography>available tokens</Typography>
           </Grid>
         </Grid>
-        {map(linkedProviders, provider => {
+        {map(linkedProviders, (provider) => {
           const { org_name, hero_image, groups } = provider;
           const firstGroup = groups[0];
           const firstChannel = firstGroup && firstGroup.channels[0];

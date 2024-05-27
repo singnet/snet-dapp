@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   settingMainContainer: {
     margin: "13px 0 50px",
   },

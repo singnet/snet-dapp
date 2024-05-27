@@ -5,8 +5,8 @@ import Footer from "../../common/Footer";
 import { useStyles } from "./styles";
 import { localStorageKeys, useLocalStorage } from "../../Hooks/useLocalStorage";
 
-const withInAppWrapper = InputComponent => {
-  return props => {
+const withInAppWrapper = (InputComponent) => {
+  return (props) => {
     const classes = useStyles();
     const [showUpdateNotification, setShowUpdateNotificationBar] = useLocalStorage(
       localStorageKeys.SHOW_PHASE2_NOTIFICATION,

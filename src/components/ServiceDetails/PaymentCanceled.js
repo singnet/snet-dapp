@@ -23,11 +23,8 @@ class PaymentCanceled extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  cancelOrder: orderId => dispatch(paymentActions.cancelOrder(orderId)),
+const mapDispatchToProps = (dispatch) => ({
+  cancelOrder: (orderId) => dispatch(paymentActions.cancelOrder(orderId)),
 });
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(PaymentCanceled);
+export default connect(null, mapDispatchToProps)(PaymentCanceled);

@@ -1,11 +1,11 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import SNETImageUpload from "../../standardComponents/SNETImageUpload";
-import { Grid, IconButton, MuiThemeProvider, Tooltip } from "@material-ui/core";
+import { Grid, MuiThemeProvider, Tooltip } from "@material-ui/core";
 import { blue } from "@material-ui/core/colors";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import InfoIcon from "@material-ui/icons/Info";
-import { createMuiTheme } from "@material-ui/core/styles";
+import { createTheme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import grey from "@material-ui/core/es/colors/grey";
@@ -28,7 +28,6 @@ const initialUserInput = {
   saveExt: "",
 };
 
-
 export default class StyleTransferService extends React.Component {
   constructor(props) {
     super(props);
@@ -40,7 +39,6 @@ export default class StyleTransferService extends React.Component {
       serviceName: "StyleTransfer",
       methodName: "transfer_image_style",
       response: undefined,
-
     };
 
     this.mainFont = "Muli";
@@ -72,7 +70,7 @@ export default class StyleTransferService extends React.Component {
     this.handleSliderChange = this.handleSliderChange.bind(this);
 
     // Color Palette
-    this.theme = createMuiTheme({
+    this.theme = createTheme({
       palette: {
         primary: blue,
         secondary: grey,
@@ -104,8 +102,6 @@ export default class StyleTransferService extends React.Component {
     const methodDescriptor = StyleTransfer[methodName];
     const request = new methodDescriptor.requestType();
 
-
-
     request.setContent(content);
     request.setStyle(style);
     request.setContentsize(contentSize);
@@ -117,7 +113,7 @@ export default class StyleTransferService extends React.Component {
 
     const props = {
       request,
-      onEnd: response => {
+      onEnd: (response) => {
         const { message, status, statusMessage } = response;
         if (status !== 0) {
           throw new Error(statusMessage);
@@ -217,7 +213,8 @@ export default class StyleTransferService extends React.Component {
                   style={{ fontFamily: this.mainFont, fontSize: this.mainFontSize, color: "white" }}
                   id="slider_label"
                 >
-                  {Math.round(alpha * 100) / 100 // Rounds to 2 decimals
+                  {
+                    Math.round(alpha * 100) / 100 // Rounds to 2 decimals
                   }
                 </Typography>
               }
@@ -262,8 +259,7 @@ export default class StyleTransferService extends React.Component {
   }
 
   parseResponse() {
-
-    const { response} = this.state;
+    const { response } = this.state;
     const { isComplete } = this.props;
 
     if (isComplete) {

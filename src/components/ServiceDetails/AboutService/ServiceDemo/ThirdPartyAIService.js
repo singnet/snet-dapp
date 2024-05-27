@@ -89,14 +89,14 @@ class ThirdPartyAIService extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isComplete: state.serviceReducer.serviceMethodExecution.isComplete,
   email: state.userReducer.email,
   wallet: state.userReducer.wallet,
   channelInfo: channelInfo(state),
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchFeedback: (orgId, serviceId) => dispatch(serviceActions.fetchFeedback(orgId, serviceId)),
   stopLoader: () => dispatch(loaderActions.startAppLoader),
 });

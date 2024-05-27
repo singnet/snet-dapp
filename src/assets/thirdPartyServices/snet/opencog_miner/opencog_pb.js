@@ -95,7 +95,7 @@ opencog_services_snet_opencog_miner.Command.prototype.toObject = function(opt_in
  */
 opencog_services_snet_opencog_miner.Command.toObject = function(includeInstance, msg) {
   var f, obj = {
-    inputList: (f = jspb.Message.getRepeatedField(msg, 1)) == null ? undefined : f
+    inputList: (f = jspb.Message.getRepeatedField(msg, 1))===null ? undefined : f
   };
 
   if (includeInstance) {

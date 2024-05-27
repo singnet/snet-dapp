@@ -60,7 +60,7 @@ class ServiceDemo extends Component {
     }
   };
 
-  componentDidUpdate = async prevProps => {
+  componentDidUpdate = async (prevProps) => {
     const { wallet, channelInfo, anyPendingTxn, stopWalletDetailsPolling } = this.props;
     if (process.env.REACT_APP_SANDBOX) {
       return;
@@ -145,10 +145,10 @@ class ServiceDemo extends Component {
   };
 
   serviceRequestCompleteHandler = () => {
-    this.setState(prevState => {
+    this.setState((prevState) => {
       return {
         isServiceExecutionComplete: true,
-        progressText: prevState.progressText.map(item => {
+        progressText: prevState.progressText.map((item) => {
           if (item.label === "Results") {
             item.status = progressTabStatus.SUCCESS;
           }
@@ -160,18 +160,18 @@ class ServiceDemo extends Component {
   };
 
   handleResetAndRun = () => {
-    this.setState(prevState => {
+    this.setState((prevState) => {
       return {
         purchaseCompleted: false,
         isServiceExecutionComplete: false,
         alert: {},
-        progressText: prevState.progressText.map(item => ({ label: item.label })),
+        progressText: prevState.progressText.map((item) => ({ label: item.label })),
       };
     });
     this.fetchFreeCallsUsage();
   };
 
-  serviceRequestErrorHandler = error => {
+  serviceRequestErrorHandler = (error) => {
     const alert = { type: alertTypes.ERROR };
     if (error.response && error.response.data && error.response.data.error) {
       alert.message = error.response.data.error;
@@ -189,7 +189,7 @@ class ServiceDemo extends Component {
     this.setState({ purchaseCompleted: true });
   };
 
-  handlePurchaseError = error => {
+  handlePurchaseError = (error) => {
     this.setState({
       purchaseCompleted: false,
       alert: { type: alertTypes.ERROR, message: "Purchase could not be completed. Please try again" },
@@ -248,7 +248,7 @@ class ServiceDemo extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   freeCalls: freeCalls(state),
   groupInfo: groupInfo(state),
   email: state.userReducer.email,
@@ -262,12 +262,12 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   startLoader: () =>
     dispatch(loaderActions.startAppLoader(LoaderContent.SERVICE_INVOKATION(ownProps.service.display_name))),
   stopLoader: () => dispatch(loaderActions.stopAppLoader),
-  fetchMeteringData: args => dispatch(serviceDetailsActions.fetchMeteringData(args)),
+  fetchMeteringData: (args) => dispatch(serviceDetailsActions.fetchMeteringData(args)),
   startWalletDetailsPolling: (orgId, groupId) => dispatch(userActions.startWalletDetailsPolling(orgId, groupId)),
   stopWalletDetailsPolling: () => dispatch(userActions.stopWalletDetailsPolling),
 
-  fetchOrderDetails: orderId => dispatch(paymentActions.fetchOrderDetails(orderId)),
-  updateWallet: walletDetails => dispatch(userActions.updateWallet(walletDetails)),
+  fetchOrderDetails: (orderId) => dispatch(paymentActions.fetchOrderDetails(orderId)),
+  updateWallet: (walletDetails) => dispatch(userActions.updateWallet(walletDetails)),
   updatePaypalInProgress: (orderId, orderType, paymentId, paypalPaymentId, PayerID) =>
     dispatch(paymentActions.updatePaypalInProgress(orderId, orderType, paymentId, paypalPaymentId, PayerID)),
   startInitServiceDemoLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.INIT_SERVICE_DEMO)),

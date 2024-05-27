@@ -1,4 +1,4 @@
-// package: 
+// package:
 // file: ProtoFiles/scene_recognition.proto
 
 var ProtoFiles_scene_recognition_pb = require("./scene_recognition_pb");
@@ -8,7 +8,7 @@ var SceneRecognition = (function () {
   function SceneRecognition() {}
   SceneRecognition.serviceName = "SceneRecognition";
   return SceneRecognition;
-}());
+})();
 
 SceneRecognition.recognize_scene = {
   methodName: "recognize_scene",
@@ -16,7 +16,7 @@ SceneRecognition.recognize_scene = {
   requestStream: false,
   responseStream: false,
   requestType: ProtoFiles_scene_recognition_pb.SceneRecognitionRequest,
-  responseType: ProtoFiles_scene_recognition_pb.SceneRecognitionResult
+  responseType: ProtoFiles_scene_recognition_pb.SceneRecognitionResult,
 };
 
 exports.SceneRecognition = SceneRecognition;
@@ -33,10 +33,10 @@ SceneRecognitionClient.prototype.recognize_scene = function recognize_scene(requ
   var client = grpc.unary(SceneRecognition.recognize_scene, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -47,15 +47,14 @@ SceneRecognitionClient.prototype.recognize_scene = function recognize_scene(requ
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.SceneRecognitionClient = SceneRecognitionClient;
-

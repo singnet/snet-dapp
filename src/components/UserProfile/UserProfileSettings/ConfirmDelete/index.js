@@ -42,7 +42,7 @@ const ConfirmDelete = ({ open, handleClose, handleSubmit, error }) => {
     handleClose();
   };
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     setReasonForLeaving(event.target.value);
   };
 
@@ -68,7 +68,7 @@ const ConfirmDelete = ({ open, handleClose, handleSubmit, error }) => {
             <div className={classes.BeforeYouGoContent}>
               <h2>Before you go...</h2>
               <div className={classes.WarningBoxConatiner}>
-                {warningMessage.map(msg => (
+                {warningMessage.map((msg) => (
                   <BulletPoint key={msg} type="warning" message={msg} />
                 ))}
               </div>
@@ -82,7 +82,7 @@ const ConfirmDelete = ({ open, handleClose, handleSubmit, error }) => {
                   onChange={handleChange}
                   input={<OutlinedInput labelWidth={320} name="age" id="outlined-age-simple" />}
                 >
-                  {resonForLeaving.map(item => (
+                  {resonForLeaving.map((item) => (
                     <MenuItem className={classes.menuItem} key={item.label} value={item.label}>
                       {item.label}
                     </MenuItem>

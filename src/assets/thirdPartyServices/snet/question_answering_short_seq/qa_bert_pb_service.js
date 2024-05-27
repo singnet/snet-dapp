@@ -8,7 +8,7 @@ var QABERT = (function () {
   function QABERT() {}
   QABERT.serviceName = "qa_bert.QABERT";
   return QABERT;
-}());
+})();
 
 QABERT.qa_bert = {
   methodName: "qa_bert",
@@ -16,7 +16,7 @@ QABERT.qa_bert = {
   requestStream: false,
   responseStream: false,
   requestType: ProtoFiles_qa_bert_pb.Question,
-  responseType: ProtoFiles_qa_bert_pb.Answer
+  responseType: ProtoFiles_qa_bert_pb.Answer,
 };
 
 exports.QABERT = QABERT;
@@ -33,10 +33,10 @@ QABERTClient.prototype.qa_bert = function qa_bert(requestMessage, metadata, call
   var client = grpc.unary(QABERT.qa_bert, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -47,15 +47,14 @@ QABERTClient.prototype.qa_bert = function qa_bert(requestMessage, metadata, call
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.QABERTClient = QABERTClient;
-

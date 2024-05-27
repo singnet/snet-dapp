@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   UserProfilePopUpHeader: {
     padding: "15px 25px",
     borderBottom: 1,

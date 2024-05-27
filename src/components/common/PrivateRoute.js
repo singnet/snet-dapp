@@ -5,7 +5,7 @@ const PrivateRoute = ({ component: Component, isAllowed, redirectTo, path: sourc
   return (
     <Route
       {...rest}
-      render={props =>
+      render={(props) =>
         isAllowed ? <Component {...props} /> : <Redirect to={{ pathname: redirectTo, state: { sourcePath } }} />
       }
     />

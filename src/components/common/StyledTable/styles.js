@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   styledTable: { paddingTop: 20 },
   styledTableHeader: {
     color: theme.palette.text.mediumShadeGray,

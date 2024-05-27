@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/styles";
 
-export const useStyles = makeStyles(theme => ({
+export const useStyles = makeStyles((theme) => ({
   cardItemsContainer: {
     flexWrap: "nowrap",
     "@media(max-width: 768px)": { flexDirection: "column" },

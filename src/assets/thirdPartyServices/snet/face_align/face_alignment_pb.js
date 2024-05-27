@@ -325,7 +325,7 @@ snet_face_align.FaceAlignmentRequest.prototype.serializeBinary = function() {
 snet_face_align.FaceAlignmentRequest.prototype.serializeBinaryToWriter = function (writer) {
   var f = undefined;
   f = this.getHeader();
-  if (f != null) {
+  if (f !==null) {
     writer.writeMessage(
       1,
       f,
@@ -333,7 +333,7 @@ snet_face_align.FaceAlignmentRequest.prototype.serializeBinaryToWriter = functio
     );
   }
   f = this.getImageChunk();
-  if (f != null) {
+  if (f !==null) {
     writer.writeMessage(
       2,
       f,
@@ -378,7 +378,7 @@ snet_face_align.FaceAlignmentRequest.prototype.clearHeader = function() {
  * @return{!boolean}
  */
 snet_face_align.FaceAlignmentRequest.prototype.hasHeader = function() {
-  return jspb.Message.getField(this, 1) != null;
+  return jspb.Message.getField(this, 1) !==null;
 };
 
 
@@ -408,7 +408,7 @@ snet_face_align.FaceAlignmentRequest.prototype.clearImageChunk = function() {
  * @return{!boolean}
  */
 snet_face_align.FaceAlignmentRequest.prototype.hasImageChunk = function() {
-  return jspb.Message.getField(this, 2) != null;
+  return jspb.Message.getField(this, 2) !==null;
 };
 
 

@@ -1,4 +1,4 @@
-// package: 
+// package:
 // file: ProtoFiles/moses_service.proto
 
 var ProtoFiles_moses_service_pb = require("./moses_service_pb");
@@ -8,7 +8,7 @@ var MosesService = (function () {
   function MosesService() {}
   MosesService.serviceName = "MosesService";
   return MosesService;
-}());
+})();
 
 MosesService.StartAnalysis = {
   methodName: "StartAnalysis",
@@ -16,7 +16,7 @@ MosesService.StartAnalysis = {
   requestStream: false,
   responseStream: false,
   requestType: ProtoFiles_moses_service_pb.AnalysisParameters,
-  responseType: ProtoFiles_moses_service_pb.Result
+  responseType: ProtoFiles_moses_service_pb.Result,
 };
 
 exports.MosesService = MosesService;
@@ -33,10 +33,10 @@ MosesServiceClient.prototype.startAnalysis = function startAnalysis(requestMessa
   var client = grpc.unary(MosesService.StartAnalysis, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -47,15 +47,14 @@ MosesServiceClient.prototype.startAnalysis = function startAnalysis(requestMessa
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.MosesServiceClient = MosesServiceClient;
-

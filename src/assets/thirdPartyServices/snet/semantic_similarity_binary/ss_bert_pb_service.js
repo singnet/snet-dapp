@@ -8,7 +8,7 @@ var SSBERT = (function () {
   function SSBERT() {}
   SSBERT.serviceName = "ss_bert.SSBERT";
   return SSBERT;
-}());
+})();
 
 SSBERT.ss_bert = {
   methodName: "ss_bert",
@@ -16,7 +16,7 @@ SSBERT.ss_bert = {
   requestStream: false,
   responseStream: false,
   requestType: ProtoFiles_ss_bert_pb.Sentences,
-  responseType: ProtoFiles_ss_bert_pb.Answer
+  responseType: ProtoFiles_ss_bert_pb.Answer,
 };
 
 exports.SSBERT = SSBERT;
@@ -33,10 +33,10 @@ SSBERTClient.prototype.ss_bert = function ss_bert(requestMessage, metadata, call
   var client = grpc.unary(SSBERT.ss_bert, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -47,15 +47,14 @@ SSBERTClient.prototype.ss_bert = function ss_bert(requestMessage, metadata, call
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.SSBERTClient = SSBERTClient;
-

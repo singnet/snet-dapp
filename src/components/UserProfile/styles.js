@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   UserProfileContainer: {
     padding: "0 85px",
     backgroundColor: theme.palette.text.offWhiteColor,

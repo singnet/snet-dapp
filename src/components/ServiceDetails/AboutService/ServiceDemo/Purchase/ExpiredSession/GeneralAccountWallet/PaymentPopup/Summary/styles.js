@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   summaryContainer: { padding: "0 25px !important" },
   successMsg: {
     paddingBottom: 20,

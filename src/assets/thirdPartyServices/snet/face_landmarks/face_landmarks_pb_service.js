@@ -1,4 +1,4 @@
-// package: 
+// package:
 // file: face_landmarks.proto
 
 var face_landmarks_pb = require("./face_landmarks_pb");
@@ -9,7 +9,7 @@ var FaceLandmark = (function () {
   function FaceLandmark() {}
   FaceLandmark.serviceName = "FaceLandmark";
   return FaceLandmark;
-}());
+})();
 
 FaceLandmark.GetLandmarks = {
   methodName: "GetLandmarks",
@@ -17,7 +17,7 @@ FaceLandmark.GetLandmarks = {
   requestStream: false,
   responseStream: false,
   requestType: face_landmarks_pb.FaceLandmarkRequest,
-  responseType: face_landmarks_pb.FaceLandmarkResponse
+  responseType: face_landmarks_pb.FaceLandmarkResponse,
 };
 
 FaceLandmark.GetLandmarkModels = {
@@ -26,7 +26,7 @@ FaceLandmark.GetLandmarkModels = {
   requestStream: false,
   responseStream: false,
   requestType: face_landmarks_pb.Empty,
-  responseType: face_common_pb.FaceLandmarkModels
+  responseType: face_common_pb.FaceLandmarkModels,
 };
 
 exports.FaceLandmark = FaceLandmark;
@@ -43,10 +43,10 @@ FaceLandmarkClient.prototype.getLandmarks = function getLandmarks(requestMessage
   var client = grpc.unary(FaceLandmark.GetLandmarks, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -57,13 +57,13 @@ FaceLandmarkClient.prototype.getLandmarks = function getLandmarks(requestMessage
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
@@ -74,10 +74,10 @@ FaceLandmarkClient.prototype.getLandmarkModels = function getLandmarkModels(requ
   var client = grpc.unary(FaceLandmark.GetLandmarkModels, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -88,15 +88,14 @@ FaceLandmarkClient.prototype.getLandmarkModels = function getLandmarkModels(requ
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.FaceLandmarkClient = FaceLandmarkClient;
-

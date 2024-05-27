@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   columnTitle: {
     padding: "0 22px",
     marginBottom: 10,

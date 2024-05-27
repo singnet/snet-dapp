@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   ChannelSelectionBoxContainer: {
     cursor: "pointer",
     borderWidth: 1,

@@ -344,7 +344,7 @@ export default class MatchingService extends React.Component {
                 multiple={true}
                 uploadedFiles={this.state.selectedFiles}
                 handleFileUpload={this.handleFileUpload}
-                setValidationStatus={valid => this.setValidationStatus("selectedFiles", valid)}
+                setValidationStatus={(valid) => this.setValidationStatus("selectedFiles", valid)}
                 fileAccept=".png, .jpg, .jpeg"
               />
               Note: Upload one image to retrieve Top-5 closest images from uploaded database.

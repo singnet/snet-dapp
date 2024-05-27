@@ -27,7 +27,7 @@ const UserProfilePopUp = ({ classes, handleClick, nickname, email }) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   nickname: state.userReducer.nickname,
   email: state.userReducer.email,
 });

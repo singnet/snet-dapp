@@ -153,7 +153,7 @@ export default class FaceIdentityService extends React.Component {
 
     var inputBoundingBox = JSON.parse(this.state.facesString);
 
-    inputBoundingBox.forEach(item => {
+    inputBoundingBox.forEach((item) => {
       var bb = new BoundingBox();
       bb.setX(JSON.parse(item.x));
       bb.setY(JSON.parse(item.y));
@@ -171,7 +171,7 @@ export default class FaceIdentityService extends React.Component {
 
     const props = {
       request,
-      onEnd: response => {
+      onEnd: (response) => {
         const { message, status, statusMessage } = response;
         if (status !== 0) {
           throw new Error(statusMessage);
@@ -188,9 +188,9 @@ export default class FaceIdentityService extends React.Component {
     let inputValid = true;
     try {
       let faces = JSON.parse(this.state.facesString);
-      faces.forEach(item => {
+      faces.forEach((item) => {
         let expectedKeys = ["x", "y", "w", "h"];
-        expectedKeys.forEach(k => {
+        expectedKeys.forEach((k) => {
           if (!(k in item)) inputValid = false;
         });
       });
@@ -234,7 +234,7 @@ export default class FaceIdentityService extends React.Component {
     ctx.globalAlpha = 1;
 
     let inputBoundingBox = JSON.parse(this.state.facesString);
-    inputBoundingBox.forEach(item => {
+    inputBoundingBox.forEach((item) => {
       ctx.beginPath();
       ctx.rect(item.x, item.y, item.w, item.h);
       ctx.lineWidth = 3;

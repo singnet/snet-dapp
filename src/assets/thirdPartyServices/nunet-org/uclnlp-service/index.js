@@ -35,7 +35,7 @@ export default class UclnlpService extends React.Component {
     });
   }
 
-  handleFocus = event => event.target.select();
+  handleFocus = (event) => event.target.select();
 
   canBeInvoked() {
     return this.state.headline !== "" && this.state.body !== "";
@@ -55,7 +55,7 @@ export default class UclnlpService extends React.Component {
 
     const props = {
       request,
-      onEnd: response => {
+      onEnd: (response) => {
         const { message, status, statusMessage } = response;
         if (status !== 0) {
           throw new Error(statusMessage);

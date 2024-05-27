@@ -18,7 +18,7 @@ const SecondaryFooter = ({ data }) => {
       </Grid>
       <Grid item xs={12} sm={12} md={6} lg={6}>
         <ul className={classes.socialIconsList}>
-          {data.map(item => (
+          {data.map((item) => (
             <SocialIcon key={item.title} item={item} />
           ))}
         </ul>

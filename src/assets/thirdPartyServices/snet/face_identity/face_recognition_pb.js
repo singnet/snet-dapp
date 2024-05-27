@@ -326,7 +326,7 @@ snet_face_identity.FaceRecognitionRequest.prototype.serializeBinary = function()
 snet_face_identity.FaceRecognitionRequest.prototype.serializeBinaryToWriter = function (writer) {
   var f = undefined;
   f = this.getHeader();
-  if (f != null) {
+  if (f !==null) {
     writer.writeMessage(
       1,
       f,
@@ -334,7 +334,7 @@ snet_face_identity.FaceRecognitionRequest.prototype.serializeBinaryToWriter = fu
     );
   }
   f = this.getImageChunk();
-  if (f != null) {
+  if (f !==null) {
     writer.writeMessage(
       2,
       f,
@@ -379,7 +379,7 @@ snet_face_identity.FaceRecognitionRequest.prototype.clearHeader = function() {
  * @return{!boolean}
  */
 snet_face_identity.FaceRecognitionRequest.prototype.hasHeader = function() {
-  return jspb.Message.getField(this, 1) != null;
+  return jspb.Message.getField(this, 1) !==null;
 };
 
 
@@ -409,7 +409,7 @@ snet_face_identity.FaceRecognitionRequest.prototype.clearImageChunk = function()
  * @return{!boolean}
  */
 snet_face_identity.FaceRecognitionRequest.prototype.hasImageChunk = function() {
-  return jspb.Message.getField(this, 2) != null;
+  return jspb.Message.getField(this, 2) !==null;
 };
 
 

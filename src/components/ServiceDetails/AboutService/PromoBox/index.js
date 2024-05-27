@@ -22,7 +22,7 @@ const PromoBox = ({ classes }) => {
             If you have a need for a specific AI service, we would love to know! We will discuss the details with you or
             use your suggestion to incentivize our network.
           </p>
-          <a href={`/${Routes.AI_REQUEST_FORM}`} title="Request AI Form" target="_blank">
+          <a href={`/${Routes.AI_REQUEST_FORM}`} title="Request AI Form" target="_blank" rel="noreferrer">
             request ai form
           </a>
         </div>

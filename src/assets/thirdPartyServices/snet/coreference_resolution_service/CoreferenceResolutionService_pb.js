@@ -324,7 +324,7 @@ snet_coreference_resolution_service.ReferenceResolution.prototype.serializeBinar
     );
   }
   f = this.getWords();
-  if (f != null) {
+  if (f !==null) {
     writer.writeMessage(
       2,
       f,
@@ -392,7 +392,7 @@ snet_coreference_resolution_service.ReferenceResolution.prototype.clearWords = f
  * @return{!boolean}
  */
 snet_coreference_resolution_service.ReferenceResolution.prototype.hasWords = function() {
-  return jspb.Message.getField(this, 2) != null;
+  return jspb.Message.getField(this, 2) !==null;
 };
 
 
@@ -538,7 +538,7 @@ snet_coreference_resolution_service.References.prototype.serializeBinary = funct
 snet_coreference_resolution_service.References.prototype.serializeBinaryToWriter = function (writer) {
   var f = undefined;
   f = this.getKey();
-  if (f != null) {
+  if (f !==null) {
     writer.writeMessage(
       1,
       f,
@@ -591,7 +591,7 @@ snet_coreference_resolution_service.References.prototype.clearKey = function() {
  * @return{!boolean}
  */
 snet_coreference_resolution_service.References.prototype.hasKey = function() {
-  return jspb.Message.getField(this, 1) != null;
+  return jspb.Message.getField(this, 1) !==null;
 };
 
 

@@ -56,9 +56,9 @@ export default class FaceLandmarksService extends React.Component {
     let inputValid = true;
     try {
       let faces = JSON.parse(this.state.facesString);
-      faces.forEach(item => {
+      faces.forEach((item) => {
         let expectedKeys = ["x", "y", "w", "h"];
-        expectedKeys.forEach(k => {
+        expectedKeys.forEach((k) => {
           if (!(k in item)) inputValid = false;
         });
       });
@@ -95,7 +95,7 @@ export default class FaceLandmarksService extends React.Component {
     // Creating the Bounding Boxes object
     var inputBoundingBox = JSON.parse(this.state.facesString);
 
-    inputBoundingBox.forEach(item => {
+    inputBoundingBox.forEach((item) => {
       var bb = new BoundingBox();
       bb.setX(JSON.parse(item.x));
       bb.setY(JSON.parse(item.y));
@@ -121,7 +121,7 @@ export default class FaceLandmarksService extends React.Component {
 
     const props = {
       request,
-      onEnd: response => {
+      onEnd: (response) => {
         const { message, status, statusMessage } = response;
         if (status !== 0) {
           throw new Error(statusMessage);
@@ -159,9 +159,9 @@ export default class FaceLandmarksService extends React.Component {
     ctx.drawImage(img, 0, 0);
     ctx.globalAlpha = 1;
 
-    result.image_chunk.landmarkedFacesList.forEach(item => {
+    result.image_chunk.landmarkedFacesList.forEach((item) => {
       ctx.beginPath();
-      item.pointList.forEach(p => {
+      item.pointList.forEach((p) => {
         this.drawX(ctx, p.x, p.y);
       });
       ctx.lineWidth = 1;

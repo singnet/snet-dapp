@@ -12,15 +12,15 @@ export const RESET_SERVICE_DETAILS = "RESET_SERVICE_DETAILS";
 export const UPDATE_FREE_CALLS_INFO = "UPDATE_FREE_CALLS_INFO";
 export const UPDATE_TRAINING_DETAILS = "UPDATE_TRAINING_DETAILS";
 
-const resetServiceDetails = dispatch => {
+const resetServiceDetails = (dispatch) => {
   dispatch({ type: RESET_SERVICE_DETAILS });
 };
 
-const fetchServiceDetailsFailure = err => dispatch => {
+const fetchServiceDetailsFailure = (err) => (dispatch) => {
   dispatch(loaderActions.stopAppLoader);
 };
 
-const fetchServiceDetailsSuccess = serviceDetails => dispatch => {
+const fetchServiceDetailsSuccess = (serviceDetails) => (dispatch) => {
   // const enhancedServiceDetails = {
   //   ...serviceDetails,
   //   data: { ...serviceDetails.data, media: serviceDetails.data.media.map(el => ({ ...el, url: cacheS3Url(el.url) })) },
@@ -35,7 +35,7 @@ const fetchServiceDetailsAPI = async (orgId, serviceId) => {
   return response.json();
 };
 
-export const fetchServiceDetails = (orgId, serviceId) => async dispatch => {
+export const fetchServiceDetails = (orgId, serviceId) => async (dispatch) => {
   try {
     dispatch(loaderActions.startAppLoader(LoaderContent.FETCH_SERVICE_DETAILS));
     dispatch(resetServiceDetails);
@@ -47,33 +47,31 @@ export const fetchServiceDetails = (orgId, serviceId) => async dispatch => {
   }
 };
 
-const fetchMeteringDataSuccess = usageData => dispatch => {
+const fetchMeteringDataSuccess = (usageData) => (dispatch) => {
   dispatch({
     type: UPDATE_FREE_CALLS_INFO,
     payload: usageData.total_calls_made,
   });
 };
 
-const fetchTrainingModelSuccess = serviceTrainingData => dispatch => {
+const fetchTrainingModelSuccess = (serviceTrainingData) => (dispatch) => {
   dispatch({ type: UPDATE_TRAINING_DETAILS, payload: serviceTrainingData });
 };
 
-const fetchServiceTrainingDataAPI = async(orgId, serviceId)=>{
-  try{
-  const dataForUrl = await fetchServiceDetailsAPI(orgId, serviceId);
-  const url = `${dataForUrl.data.groups[0].endpoints[0].endpoint}/servicemethoddetails`;
-  const response = await fetch(url);
-  return response.json();
-  }
-  catch(error){
+const fetchServiceTrainingDataAPI = async (orgId, serviceId) => {
+  try {
+    const dataForUrl = await fetchServiceDetailsAPI(orgId, serviceId);
+    const url = `${dataForUrl.data.groups[0].endpoints[0].endpoint}/servicemethoddetails`;
+    const response = await fetch(url);
+    return response.json();
+  } catch (error) {
     return {};
   }
 };
 
-export const fetchTrainingModel = (orgId, serviceId) => async dispatch =>{
+export const fetchTrainingModel = (orgId, serviceId) => async (dispatch) => {
   const serviceTrainingData = await fetchServiceTrainingDataAPI(orgId, serviceId);
   dispatch(fetchTrainingModelSuccess(serviceTrainingData));
-
 };
 
 const meteringAPI = (token, orgId, serviceId, groupId, userId) => {
@@ -84,8 +82,10 @@ const meteringAPI = (token, orgId, serviceId, groupId, userId) => {
   return API.get(apiName, apiPath, apiOptions);
 };
 
-export const fetchMeteringData = ({ orgId, serviceId, groupId }) => async dispatch => {
-  const { email, token } = await dispatch(fetchAuthenticatedUser());
-  const usageData = await meteringAPI(token, orgId, serviceId, groupId, email);
-  return dispatch(fetchMeteringDataSuccess(usageData));
-};
+export const fetchMeteringData =
+  ({ orgId, serviceId, groupId }) =>
+  async (dispatch) => {
+    const { email, token } = await dispatch(fetchAuthenticatedUser());
+    const usageData = await meteringAPI(token, orgId, serviceId, groupId, email);
+    return dispatch(fetchMeteringDataSuccess(usageData));
+  };

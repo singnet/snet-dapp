@@ -2,7 +2,7 @@ import React, { useState, useEffect, Fragment } from "react";
 // import { parse, formatDistanceToNow, toDate } from "date-fns";
 import { RESULT_ADDR, downloadSchemeFile, downloadCSVfiles } from "../service";
 import TabbedTables from "../tables";
-import TabbedViz from "../tabs"
+import TabbedViz from "../tabs";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -12,7 +12,7 @@ import VisibilityIcon from "@material-ui/icons/VisibilityOutlined";
 import AssessmentIcon from "@material-ui/icons/AssessmentOutlined";
 import "./style.css";
 import Modal from "@material-ui/core/Modal";
-import Dialog from '@material-ui/core/Dialog';
+import Dialog from "@material-ui/core/Dialog";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -29,9 +29,9 @@ const width = document.body.clientWidth || window.screen.width;
 //   ERROR: -1,
 // };
 
-const modalRoot = document.getElementById("viz-wrapper")
+// const modalRoot = document.getElementById("viz-wrapper");
 
-const AnnotationResult = props => {
+const AnnotationResult = (props) => {
   const [response, setResponse] = useState(undefined);
   const [goGraph, setGOGraph] = useState(null);
   const [nonGOGraph, setNonGoGraph] = useState(null);
@@ -75,42 +75,42 @@ const AnnotationResult = props => {
     }
   }, [id]);
 
-  const fetchTableData = fileName => {
-    fetch(`${RESULT_ADDR}/csv_file/${id}/${fileName.substr(0, fileName.length - 4)}`).then(data => {
+  const fetchTableData = (fileName) => {
+    fetch(`${RESULT_ADDR}/csv_file/${id}/${fileName.substr(0, fileName.length - 4)}`).then((data) => {
       const res = Object.assign({}, response);
       data
         .clone()
         .text()
-        .then(text => {
-          res.csv_files.find(f => f.fileName === fileName).data = text;
+        .then((text) => {
+          res.csv_files.find((f) => f.fileName === fileName).data = text;
           setResponse(res);
         });
     });
   };
 
-  const renderActive = () => (
-    <Fragment>
-      <Typography variant="h6">Processing annotation</Typography>
-      <Typography variant="body2">The annotation task is still processing</Typography>
-    </Fragment>
-  );
+  // const renderActive = () => (
+  //   <Fragment>
+  //     <Typography variant="h6">Processing annotation</Typography>
+  //     <Typography variant="body2">The annotation task is still processing</Typography>
+  //   </Fragment>
+  // );
 
-  const renderError = () => (
-    <Typography variant="body2">
-      {response.statusMessage}. Try to
-      <Button color="primary">run another annotation</Button>
-    </Typography>
-  );
+  // const renderError = () => (
+  //   <Typography variant="body2">
+  //     {response.statusMessage}. Try to
+  //     <Button color="primary">run another annotation</Button>
+  //   </Typography>
+  // );
 
   const renderComplete = () => {
     let nodes = 0;
     let edges = 0;
 
-    if(nonGOGraph !== null){
-        nodes += nonGOGraph.elements.nodes.length;
-        edges += nonGOGraph.elements.edges.length;
+    if (nonGOGraph !== null) {
+      nodes += nonGOGraph.elements.nodes.length;
+      edges += nonGOGraph.elements.edges.length;
     }
-    if (goGraph != null){
+    if (goGraph !== null) {
       nodes += goGraph.elements.nodes.length;
       edges += goGraph.elements.edges.length;
     }
@@ -125,11 +125,11 @@ const AnnotationResult = props => {
             variant="contained"
             onClick={() => {
               if (!summary) {
-                fetch(`${RESULT_ADDR}/summary/${id}`).then(data => {
+                fetch(`${RESULT_ADDR}/summary/${id}`).then((data) => {
                   data
                     .clone()
                     .text()
-                    .then(t => {
+                    .then((t) => {
                       setSummary(JSON.parse(t));
                     });
                 });
@@ -153,23 +153,23 @@ const AnnotationResult = props => {
     );
   };
 
-  const renderSummaryTable = tableData => {
+  const renderSummaryTable = (tableData) => {
     const rows = Object.values(tableData).reduce((acc, v) => ({ ...acc, ...v[0] }), {});
     return (
       <Table className="mozi modal-table" size="small" style={{ minWidth: width - 300 }}>
         <TableHead>
           <TableRow>
             <TableCell />
-            {Object.keys(rows).map(r => (
+            {Object.keys(rows).map((r) => (
               <TableCell key={r}>{r.split("_").join(" ")}</TableCell>
             ))}
           </TableRow>
         </TableHead>
         <TableBody>
-          {Object.keys(tableData).map(k => (
-            <TableRow>
+          {Object.keys(tableData).map((k) => (
+            <TableRow key={k}>
               <TableCell>{k}</TableCell>
-              {Object.keys(rows).map(r => (
+              {Object.keys(rows).map((r) => (
                 <TableCell key={r}>{tableData[k][0][r] || "-"}</TableCell>
               ))}
             </TableRow>
@@ -179,7 +179,7 @@ const AnnotationResult = props => {
     );
   };
 
-  const renderSummary = data => (
+  const renderSummary = (data) => (
     <Modal className="mozi modal" onClose={() => setSummaryShown(false)} open={true}>
       {data ? (
         <div className="content">

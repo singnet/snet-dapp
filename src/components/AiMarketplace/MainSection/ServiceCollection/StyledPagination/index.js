@@ -12,7 +12,7 @@ const StyledPagination = ({ limit, offset, total_count, handleChange }) => {
   const [itemsPerPage, setItemsPerPage] = useState(36);
   const classes = useStyles();
 
-  const handleItemsPerPage = event => {
+  const handleItemsPerPage = (event) => {
     const pagination = {
       offset: 0,
       limit: event.target.value,
@@ -21,7 +21,7 @@ const StyledPagination = ({ limit, offset, total_count, handleChange }) => {
     handleChange(pagination);
   };
 
-  const handlePageChange = selectedOffset => {
+  const handlePageChange = (selectedOffset) => {
     if (selectedOffset === parseFloat(offset)) {
       return;
     }

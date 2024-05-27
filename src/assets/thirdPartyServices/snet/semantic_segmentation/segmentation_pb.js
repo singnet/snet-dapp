@@ -358,7 +358,7 @@ snet_semantic_segmentation.Request.prototype.serializeBinary = function() {
 snet_semantic_segmentation.Request.prototype.serializeBinaryToWriter = function (writer) {
   var f = undefined;
   f = this.getImg();
-  if (f != null) {
+  if (f !==null) {
     writer.writeMessage(
       1,
       f,
@@ -410,7 +410,7 @@ snet_semantic_segmentation.Request.prototype.clearImg = function() {
  * @return{!boolean}
  */
 snet_semantic_segmentation.Request.prototype.hasImg = function() {
-  return jspb.Message.getField(this, 1) != null;
+  return jspb.Message.getField(this, 1) !==null;
 };
 
 
@@ -874,7 +874,7 @@ snet_semantic_segmentation.Result.prototype.serializeBinaryToWriter = function (
     );
   }
   f = this.getDebugImg();
-  if (f != null) {
+  if (f !==null) {
     writer.writeMessage(
       7,
       f,
@@ -1031,7 +1031,7 @@ snet_semantic_segmentation.Result.prototype.clearDebugImg = function() {
  * @return{!boolean}
  */
 snet_semantic_segmentation.Result.prototype.hasDebugImg = function() {
-  return jspb.Message.getField(this, 7) != null;
+  return jspb.Message.getField(this, 7) !==null;
 };
 
 

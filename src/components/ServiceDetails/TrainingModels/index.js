@@ -19,12 +19,11 @@ const TrainingModels = (props) => {
     cancelEditModel,
     updateModel,
     editModel,
-    deleteModel
-  } = props
+    deleteModel,
+  } = props;
   const [showCreateModel, setShowCreateModel] = useState(false);
   const handleRequestModel = () => {
     setShowCreateModel(true);
-    
   };
 
   const RenderExistingModel = useCallback(() => {

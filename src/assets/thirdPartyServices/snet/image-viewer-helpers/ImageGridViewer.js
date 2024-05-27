@@ -33,7 +33,7 @@ export class ImageGridViewer extends React.Component {
           variant="outlined"
           color="primary"
           style={{ position: "absolute", right: "30px", top: "30px" }}
-          onClick={e => this.downloadImage("data:image/" + response.image_type + ";base64," + response.image)}
+          onClick={(e) => this.downloadImage("data:image/" + response.image_type + ";base64," + response.image)}
         >
           <ArrowDownward />
         </Button>

@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/styles";
 
-export const useStyles = makeStyles(theme => ({
+export const useStyles = makeStyles((theme) => ({
   selectEmpty: {
     fontFamily: theme.typography.primary.main,
     color: `${theme.palette.text.dialogTitle} !important`,

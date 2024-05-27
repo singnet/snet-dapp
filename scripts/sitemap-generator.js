@@ -1,6 +1,6 @@
 require("dotenv").config();
 require("babel-register")({
-  presets: ["es2015", "react"],
+  presets: ["babel-preset-es2015", "babel-preset-react"],
 });
 
 const axios = require("axios");
@@ -55,12 +55,12 @@ async function generateSitemap() {
   console.log("fetching service");
   await fetchServices();
   console.log("fetched all services");
-  const idMap = services.map(service => ({
+  const idMap = services.map((service) => ({
     orgId: service.org_id,
     serviceId: service.service_id,
   }));
 
-  const activeUserTabsMap = ["account", "settings", "transactions"].map(tab => ({ "activeTab?": tab }));
+  const activeUserTabsMap = ["account", "settings", "transactions"].map((tab) => ({ "activeTab?": tab }));
 
   const paramsConfig = {
     "/servicedetails/org/:orgId/service/:serviceId": idMap,
@@ -74,5 +74,5 @@ async function generateSitemap() {
 }
 
 // if (Number(process.env.REACT_APP_ETH_NETWORK) === 1) {
-  generateSitemap();
+generateSitemap();
 // }

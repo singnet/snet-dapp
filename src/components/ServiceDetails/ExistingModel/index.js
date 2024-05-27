@@ -62,7 +62,7 @@ const ExistingModel = ({
       setSdkService(sdk);
       const address = await sdk.account.getAddress();
       const availableUserWallets = await fetchAvailableUserWallets();
-      const addressAlreadyRegistered = availableUserWallets.some(wallet => wallet.address.toLowerCase() === address);
+      const addressAlreadyRegistered = availableUserWallets.some((wallet) => wallet.address.toLowerCase() === address);
       if (!addressAlreadyRegistered) {
         await registerWallet(address, walletTypes.METAMASK);
       }
@@ -75,7 +75,7 @@ const ExistingModel = ({
     }
   };
 
-  const deleteModels = async model => {
+  const deleteModels = async (model) => {
     try {
       dispatch(loaderActions.startAppLoader(LoaderContent.DELETE_MODEL));
       const params = {
@@ -94,7 +94,7 @@ const ExistingModel = ({
 
   const ModelList = useCallback(() => {
     if (existingModels.length) {
-      return existingModels.map(model => {
+      return existingModels.map((model) => {
         return (
           <div key={model.modelId}>
             <ModelDetails model={model} deleteModels={deleteModels} editModel={editModel} />
@@ -132,13 +132,13 @@ const ExistingModel = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   wallet: state.userReducer.wallet,
   serviceDetails: currentServiceDetails(state),
   groupInfo: groupInfo(state),
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   startMMconnectLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.CONNECT_METAMASK)),
   fetchAvailableUserWallets: () => dispatch(userActions.fetchAvailableUserWallets()),
   registerWallet: (address, type) => dispatch(userActions.registerWallet(address, type)),

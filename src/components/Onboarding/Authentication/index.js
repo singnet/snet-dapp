@@ -21,7 +21,7 @@ class Authentication extends Component {
     error: undefined,
   };
 
-  handleVerificationCode = event => {
+  handleVerificationCode = (event) => {
     let verificationCode = event.currentTarget.value;
     if (!isValidNumber(verificationCode) || verificationCode.length > 6) {
       return;
@@ -34,11 +34,11 @@ class Authentication extends Component {
     const { email } = this.props;
     this.setState({ loading: true });
     Auth.confirmSignUp(email, verificationCode)
-      .then(res => {
+      .then((res) => {
         this.setState({ loading: false });
         this.props.history.push(Routes.LOGIN);
       })
-      .catch(err => {
+      .catch((err) => {
         let error = parseError(err);
         this.setState({ error, enableResend: true, loading: false });
       });
@@ -48,11 +48,11 @@ class Authentication extends Component {
     this.setState({ loading: true });
     const { email } = this.props;
     Auth.resendSignUp(email)
-      .then(res => {
+      .then((res) => {
         this.setState({ loading: false });
         this.props.handleNextSection();
       })
-      .catch(err => {
+      .catch((err) => {
         let error = parseError(err);
         this.setState({ error, loading: false });
       });
@@ -98,7 +98,7 @@ class Authentication extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   email: state.userReducer.email,
 });
 

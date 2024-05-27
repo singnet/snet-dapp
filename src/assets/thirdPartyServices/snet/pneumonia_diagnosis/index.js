@@ -38,7 +38,7 @@ export default class PneumoniaDiagnosis extends React.Component {
   }
 
   submitAction() {
-    const { methodName, img_path, model } = this.state;
+    const { methodName, img_path } = this.state;
     const methodDescriptor = Diagnosis[methodName];
     const request = new methodDescriptor.requestType();
 
@@ -62,7 +62,7 @@ export default class PneumoniaDiagnosis extends React.Component {
     return (
       <React.Fragment>
         <div className="row" align="center">
-          <SNETImageUpload imageName={""} imageDataFunc={this.getImageURL} instantUrlFetch={true} allowURL={true} />
+          <SNETImageUpload imageName="" imageDataFunc={this.getImageURL} instantUrlFetch={true} allowURL={true} />
         </div>
         <div className="row">
           <div className="col-md-3 col-lg-3" style={{ padding: "10px", fontSize: "13px", marginLeft: "10px" }}>

@@ -1,4 +1,4 @@
-// package: 
+// package:
 // file: ProtoFiles/image_retrival.proto
 
 var ProtoFiles_image_retrival_pb = require("./image_retrival_pb");
@@ -8,7 +8,7 @@ var SimilarImage = (function () {
   function SimilarImage() {}
   SimilarImage.serviceName = "SimilarImage";
   return SimilarImage;
-}());
+})();
 
 SimilarImage.FindSimilar = {
   methodName: "FindSimilar",
@@ -16,7 +16,7 @@ SimilarImage.FindSimilar = {
   requestStream: false,
   responseStream: false,
   requestType: ProtoFiles_image_retrival_pb.ImageFileIn,
-  responseType: ProtoFiles_image_retrival_pb.ImageFileOut
+  responseType: ProtoFiles_image_retrival_pb.ImageFileOut,
 };
 
 exports.SimilarImage = SimilarImage;
@@ -33,10 +33,10 @@ SimilarImageClient.prototype.findSimilar = function findSimilar(requestMessage, 
   var client = grpc.unary(SimilarImage.FindSimilar, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -47,15 +47,14 @@ SimilarImageClient.prototype.findSimilar = function findSimilar(requestMessage, 
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.SimilarImageClient = SimilarImageClient;
-

@@ -29,7 +29,7 @@ const initialUserInput = {
       label: "Division",
       content: "div",
       value: "3",
-    }
+    },
   ],
   a: "0",
   b: "0",
@@ -75,7 +75,7 @@ export default class ExampleService extends React.Component {
     this.props.serviceClient.unary(methodDescriptor, props);
   }
 
-  handleFocus = event => event.target.select();
+  handleFocus = (event) => event.target.select();
 
   renderForm() {
     return (
@@ -104,7 +104,7 @@ export default class ExampleService extends React.Component {
                 value={this.state.a}
                 rows={1}
                 onChange={this.handleFormUpdate}
-                onKeyPress={e => this.onKeyPressvalidator(e)}
+                onKeyPress={(e) => this.onKeyPressvalidator(e)}
                 onFocus={this.handleFocus}
               />
             </Grid>
@@ -119,7 +119,7 @@ export default class ExampleService extends React.Component {
                 value={this.state.b}
                 rows={1}
                 onChange={this.handleFormUpdate}
-                onKeyPress={e => this.onKeyPressvalidator(e)}
+                onKeyPress={(e) => this.onKeyPressvalidator(e)}
                 onFocus={this.handleFocus}
               />
             </Grid>

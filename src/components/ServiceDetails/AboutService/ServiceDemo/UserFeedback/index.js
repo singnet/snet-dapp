@@ -31,7 +31,7 @@ const UserFeedback = ({ open, handleClose, feedback, submitFeedback, orgId, serv
     setCount(feedback.comment.length);
   }, [feedback.comment, feedback.rating]);
 
-  const handleCommentChange = event => {
+  const handleCommentChange = (event) => {
     setComment(event.target.value);
     setCount(event.target.value.length);
   };
@@ -59,7 +59,7 @@ const UserFeedback = ({ open, handleClose, feedback, submitFeedback, orgId, serv
   };
 
   const shouldSubmitBeEnabled = () => {
-    return (rating > 0);
+    return rating > 0;
   };
 
   const handleSnackbarClose = () => {
@@ -85,7 +85,13 @@ const UserFeedback = ({ open, handleClose, feedback, submitFeedback, orgId, serv
           />
           <CardContent className={classes.cardContent}>
             <div className={classes.ratingConatiner}>
-              <StarRatingComponent name="rate1" starCount={5} value={rating} className={classes.ratingStars} onStarClick={handlestartclick}/>
+              <StarRatingComponent
+                name="rate1"
+                starCount={5}
+                value={rating}
+                className={classes.ratingStars}
+                onStarClick={handlestartclick}
+              />
               <RatingsCount ratingGiven={rating} />
             </div>
             <div className={classes.InputWrapper}>
@@ -116,7 +122,7 @@ const UserFeedback = ({ open, handleClose, feedback, submitFeedback, orgId, serv
   );
 };
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   submitFeedback: (orgId, serviceId, feedback) => dispatch(serviceActions.submitFeedback(orgId, serviceId, feedback)),
 });
 

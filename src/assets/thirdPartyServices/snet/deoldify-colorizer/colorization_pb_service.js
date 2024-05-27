@@ -4,7 +4,7 @@
 var colorization_pb = require("./colorization_pb");
 var grpc = require("@improbable-eng/grpc-web").grpc;
 
-var Colorization = (function() {
+var Colorization = (function () {
   function Colorization() {}
   Colorization.serviceName = "Colorization";
   return Colorization;

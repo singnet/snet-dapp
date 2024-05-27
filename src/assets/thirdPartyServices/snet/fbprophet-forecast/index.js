@@ -22,20 +22,20 @@ const initialUserInput = {
       value: "0",
     },
     {
-        label: "From URL",
-        content: undefined,
-        value: "1",
-      },
+      label: "From URL",
+      content: undefined,
+      value: "1",
+    },
     {
       label: "Daily page views for the Wikipedia page for Peyton Manning",
       content: "https://bh.singularitynet.io:7000/Resources/example_wp_log_peyton_manning.csv",
       value: "2",
     },
     {
-        label: "Albury (AUS) daily minimum temepratures (JAN 2009 - AUG 2014)",
-        content: "https://bh.singularitynet.io:7000/Resources/example_albury_min_temps.csv",
-        value: "3",
-      },
+      label: "Albury (AUS) daily minimum temepratures (JAN 2009 - AUG 2014)",
+      content: "https://bh.singularitynet.io:7000/Resources/example_albury_min_temps.csv",
+      value: "3",
+    },
   ],
   url: "",
   period: 5,
@@ -65,83 +65,82 @@ export default class FBProphetForecastService extends React.Component {
   createChartData(response) {
     const { observed, forecast, forecast_ds, forecast_lower, forecast_upper } = response;
     var columns = [
-        { type: "string", label: "Date" },
-        { type: "number", label: "Data" },
-        { type: "number", label: "Data" },
-        { id: 'i0', type: 'number', role: 'interval' },
-        { id: 'i1', type: 'number', role: 'interval' }
-      ];
+      { type: "string", label: "Date" },
+      { type: "number", label: "Data" },
+      { type: "number", label: "Data" },
+      { id: "i0", type: "number", role: "interval" },
+      { id: "i1", type: "number", role: "interval" },
+    ];
     let chart_data = [];
     for (let i = 0; i < forecast.length; i = i + 1) {
-        if (i < observed.length) chart_data.push([forecast_ds[i], observed[i], undefined, undefined, undefined]);
-        else chart_data.push([forecast_ds[i], undefined, forecast[i], forecast_lower[i], forecast_upper[i]]);
+      if (i < observed.length) chart_data.push([forecast_ds[i], observed[i], undefined, undefined, undefined]);
+      else chart_data.push([forecast_ds[i], undefined, forecast[i], forecast_lower[i], forecast_upper[i]]);
     }
     return [columns, ...chart_data];
   }
 
   createCSV(response) {
-    const {
-        observed,
-        trend,
-        seasonal,
-        forecast,
-        forecast_ds,
-        forecast_lower,
-        forecast_upper
-    } = response;
+    const { observed, trend, seasonal, forecast, forecast_ds, forecast_lower, forecast_upper } = response;
 
     // Date, Series, Trend, Seasonal, Forecast, Lower, Upper
     let csv_rows = [["Date", "Series", "Trend", "Seasonal", "Forecast", "Lower", "Upper"]];
     for (let i = 0; i < forecast.length; i++) {
-        if (i < observed.length) csv_rows.push([forecast_ds[i],
-                                                observed[i],
-                                                trend[i],
-                                                seasonal[i],
-                                                forecast[i],
-                                                forecast_lower[i],
-                                                forecast_upper[i]]);
-        else csv_rows.push([forecast_ds[i],
-                            undefined,
-                            undefined,
-                            undefined,
-                            forecast[i],
-                            forecast_lower[i],
-                            forecast_upper[i]]);
+      if (i < observed.length)
+        csv_rows.push([
+          forecast_ds[i],
+          observed[i],
+          trend[i],
+          seasonal[i],
+          forecast[i],
+          forecast_lower[i],
+          forecast_upper[i],
+        ]);
+      else
+        csv_rows.push([
+          forecast_ds[i],
+          undefined,
+          undefined,
+          undefined,
+          forecast[i],
+          forecast_lower[i],
+          forecast_upper[i],
+        ]);
     }
 
     let csvContent = "";
-    csv_rows.forEach(function(rowArray) {
-        let row = rowArray.join(",");
-        csvContent += row + "\r\n";
+    csv_rows.forEach((rowArray) => {
+      let row = rowArray.join(",");
+      csvContent += row + "\r\n";
     });
-    var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    var blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     return URL.createObjectURL(blob);
   }
 
   handleFileUpload(files) {
     this.setState({ url: "" });
     if (files.length) {
-        const reader = new FileReader();
-        reader.readAsDataURL(files[0]);
-        reader.onload = () => {
-            let content = reader.result.replace(/^data:(.*;base64,)?/, "");
-            if (reader.result) this.setState({ url: content, uploadedFile: files[0] });
-        };
+      const reader = new FileReader();
+      reader.readAsDataURL(files[0]);
+      reader.onload = () => {
+        let content = reader.result.replace(/^data:(.*;base64,)?/, "");
+        if (reader.result) this.setState({ url: content, uploadedFile: files[0] });
+      };
     }
   }
 
-  canBeInvoked() { return this.state.url !== ""; }
+  canBeInvoked() {
+    return this.state.url !== "";
+  }
 
   handleFormUpdate(event) {
     if (event.target.name === "sampleIndex") {
-        let _url = this.state.samples[event.target.value].content;
-        if (parseInt(event.target.value) > 1) {
-            this.setState({ [event.target.name]: event.target.value, url: _url, uploadedFile: undefined });
-        } else {
-            this.setState({ [event.target.name]: event.target.value, url: "", uploadedFile: undefined });
-        }
-    }
-    else this.setState({ [event.target.name]: event.target.value });
+      let _url = this.state.samples[event.target.value].content;
+      if (parseInt(event.target.value) > 1) {
+        this.setState({ [event.target.name]: event.target.value, url: _url, uploadedFile: undefined });
+      } else {
+        this.setState({ [event.target.name]: event.target.value, url: "", uploadedFile: undefined });
+      }
+    } else this.setState({ [event.target.name]: event.target.value });
   }
 
   submitAction() {
@@ -155,7 +154,7 @@ export default class FBProphetForecastService extends React.Component {
 
     const props = {
       request,
-      onEnd: response => {
+      onEnd: (response) => {
         const { message, status, statusMessage } = response;
         if (status !== 0) {
           throw new Error(statusMessage);
@@ -202,98 +201,96 @@ export default class FBProphetForecastService extends React.Component {
           )}
           {!this.props.isComplete && this.state.sampleIndex === "0" && (
             <Grid item xs={12} container justify="center" style={{ textAlign: "center" }}>
-                <FileUploader
-                    name="csv"
-                    type="file"
-                    uploadedFiles={this.state.uploadedFile}
-                    handleFileUpload={this.handleFileUpload}
-                    setValidationStatus={valid => this.setValidationStatus("validCSV", valid)}
-                    fileAccept=".csv"
-                />
+              <FileUploader
+                name="csv"
+                type="file"
+                uploadedFiles={this.state.uploadedFile}
+                handleFileUpload={this.handleFileUpload}
+                setValidationStatus={(valid) => this.setValidationStatus("validCSV", valid)}
+                fileAccept=".csv"
+              />
             </Grid>
           )}
           {!this.props.isComplete && this.state.sampleIndex !== "0" && (
             <Grid item xs={12} container justify="center" style={{ textAlign: "center" }}>
-                <OutlinedTextArea
-                    id="url"
-                    name="url"
-                    label="CSV File URL"
-                    fullWidth={true}
-                    value={this.state.url}
-                    onChange={this.handleFormUpdate}
-                />
+              <OutlinedTextArea
+                id="url"
+                name="url"
+                label="CSV File URL"
+                fullWidth={true}
+                value={this.state.url}
+                onChange={this.handleFormUpdate}
+              />
             </Grid>
           )}
           {!this.props.isComplete && (
             <Grid item xs={12} container justify="center" spacing={2} style={{ textAlign: "center" }}>
-                <Grid item xs={4} container justify="center" style={{ textAlign: "center" }}>
-                    <OutlinedTextArea
-                        id="period"
-                        name="period"
-                        label="Period (STL)"
-                        type="number"
-                        min={1}
-                        max={300}
-                        value={this.state.period}
-                        onChange={this.handleFormUpdate}
-                    />
-                </Grid>
-                <Grid item xs={4} container justify="center" style={{ textAlign: "center" }}>
-                    <OutlinedTextArea
-                        id="points"
-                        name="points"
-                        label="Points to Forecast"
-                        type="number"
-                        min={30}
-                        max={500}
-                        value={this.state.points}
-                        onChange={this.handleFormUpdate}
-                    />
-                </Grid>
+              <Grid item xs={4} container justify="center" style={{ textAlign: "center" }}>
+                <OutlinedTextArea
+                  id="period"
+                  name="period"
+                  label="Period (STL)"
+                  type="number"
+                  min={1}
+                  max={300}
+                  value={this.state.period}
+                  onChange={this.handleFormUpdate}
+                />
+              </Grid>
+              <Grid item xs={4} container justify="center" style={{ textAlign: "center" }}>
+                <OutlinedTextArea
+                  id="points"
+                  name="points"
+                  label="Points to Forecast"
+                  type="number"
+                  min={30}
+                  max={500}
+                  value={this.state.points}
+                  onChange={this.handleFormUpdate}
+                />
+              </Grid>
             </Grid>
           )}
 
           {this.props.isComplete && (
             <Grid item xs={12} style={{ textAlign: "center" }}>
-                <Chart
-                    width={"100%"}
-                    height={"400px"}
-                    chartType="ComboChart"
-                    loader={<div className="spin-wrapper">
-                                <CircularProgress
-                                    color="primary"
-                                    size={24}
-                                    style={{ marginRight: 15 }}
-                                /> Loading Chart ...
-                            </div>}
-                    data={this.createChartData(this.state.response)}
-                    options={{
-                        legend: { position: "none" },
-                        colors: ['#000000'],
-                        pointSize: 1,
-                        explorer: {
-                            actions: ["dragToZoom", "rightClickToReset"],
-                            axis: "horizontal",
-                            keepInBounds: true,
-                            maxZoomIn: 4.0,
-                        },
-                        seriesType: 'scatter',
-                        series: { 1: { type: 'line', color: '#0000FF' } },
-                        intervals: { style: 'line' },
-                        interval: {
-                            i0: { style: 'line', color: '#87CEEB', lineWidth: 1 },
-                            i1: { style: 'line', color: '#87CEEB', lineWidth: 1 }
-                        },
-                    }}
-                    legendToggle
-                />
+              <Chart
+                width="100%"
+                height="400px"
+                chartType="ComboChart"
+                loader={
+                  <div className="spin-wrapper">
+                    <CircularProgress color="primary" size={24} style={{ marginRight: 15 }} /> Loading Chart ...
+                  </div>
+                }
+                data={this.createChartData(this.state.response)}
+                options={{
+                  legend: { position: "none" },
+                  colors: ["#000000"],
+                  pointSize: 1,
+                  explorer: {
+                    actions: ["dragToZoom", "rightClickToReset"],
+                    axis: "horizontal",
+                    keepInBounds: true,
+                    maxZoomIn: 4.0,
+                  },
+                  seriesType: "scatter",
+                  series: { 1: { type: "line", color: "#0000FF" } },
+                  intervals: { style: "line" },
+                  interval: {
+                    i0: { style: "line", color: "#87CEEB", lineWidth: 1 },
+                    i1: { style: "line", color: "#87CEEB", lineWidth: 1 },
+                  },
+                }}
+                legendToggle
+              />
             </Grid>
           )}
           {this.props.isComplete && (
             <Grid item xs={12} style={{ textAlign: "center" }}>
-                <a href={this.createCSV(this.state.response)} download="fbprophet_forecast.csv">
-                    Download CSV
-                </a>
+              <a href={this.createCSV(this.state.response)} download="fbprophet_forecast.csv">
+                Download CSV
+              </a>
             </Grid>
           )}
 

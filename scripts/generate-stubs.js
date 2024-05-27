@@ -66,7 +66,7 @@ const promptForDetails = async () => {
       type: "text",
       name: "packageName",
       message: "Package Name",
-      validate: value =>
+      validate: (value) =>
         value && Boolean(value.trim()) ? true : "Please enter the Package Name. It wil be in the .proto file",
     });
     if (!response.packageName) {
@@ -78,7 +78,7 @@ const promptForDetails = async () => {
         type: "text",
         name: "orgId",
         message: "Organization Id",
-        validate: value => (value && Boolean(value.trim()) ? true : "Please enter the organization Id"),
+        validate: (value) => (value && Boolean(value.trim()) ? true : "Please enter the organization Id"),
         initial: process.env.REACT_APP_SANDBOX_ORG_ID,
       });
       if (!response.orgId) {
@@ -91,7 +91,7 @@ const promptForDetails = async () => {
         type: "text",
         name: "serviceId",
         message: "Service Id",
-        validate: value => (value && Boolean(value.trim()) ? true : "Please enter the service Id"),
+        validate: (value) => (value && Boolean(value.trim()) ? true : "Please enter the service Id"),
         initial: process.env.REACT_APP_SANDBOX_SERVICE_ID,
       });
       if (!response.serviceId) {
@@ -112,7 +112,7 @@ const getProtoFilePathFromArgs = () => {
   return protoFilePath;
 };
 
-const downloadProtoCBinary = async protoBinaryFileURL => {
+const downloadProtoCBinary = async (protoBinaryFileURL) => {
   let data;
   try {
     const response = await axios.get(protoBinaryFileURL, { responseType: "arraybuffer" });
@@ -130,7 +130,7 @@ const downloadProtoCBinary = async protoBinaryFileURL => {
   }
 };
 
-const executeProtoCBinary = async protoFilePath => {
+const executeProtoCBinary = async (protoFilePath) => {
   if (shouldIncludeNamespacePrefix) {
     outputDir = `${outputDir}/${orgId.replace(/-/g, "_")}_${serviceId.replace(/-/g, "_")}`;
   }

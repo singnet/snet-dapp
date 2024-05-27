@@ -1,4 +1,4 @@
-// package: 
+// package:
 // file: ProtoFiles/next_day_trend.proto
 
 var ProtoFiles_next_day_trend_pb = require("./next_day_trend_pb");
@@ -8,7 +8,7 @@ var NextDayTrend = (function () {
   function NextDayTrend() {}
   NextDayTrend.serviceName = "NextDayTrend";
   return NextDayTrend;
-}());
+})();
 
 NextDayTrend.trend = {
   methodName: "trend",
@@ -16,7 +16,7 @@ NextDayTrend.trend = {
   requestStream: false,
   responseStream: false,
   requestType: ProtoFiles_next_day_trend_pb.Input,
-  responseType: ProtoFiles_next_day_trend_pb.Output
+  responseType: ProtoFiles_next_day_trend_pb.Output,
 };
 
 exports.NextDayTrend = NextDayTrend;
@@ -33,10 +33,10 @@ NextDayTrendClient.prototype.trend = function trend(requestMessage, metadata, ca
   var client = grpc.unary(NextDayTrend.trend, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -47,15 +47,14 @@ NextDayTrendClient.prototype.trend = function trend(requestMessage, metadata, ca
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.NextDayTrendClient = NextDayTrendClient;
-

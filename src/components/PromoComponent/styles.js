@@ -1,7 +1,7 @@
 import publisherPromoBG from "../../assets/images/publisherPromoBG.svg";
 import newAIServiceBG from "../../assets/images/newAIServiceBG.svg";
 
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   promoWrapper: {
     maxWidth: 1280,
     padding: "0 60px 64px",

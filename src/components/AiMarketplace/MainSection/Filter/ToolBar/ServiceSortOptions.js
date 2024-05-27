@@ -10,7 +10,7 @@ const ServiceSortOptions = ({ pagination, updatePagination, fetchService }) => {
   const [activeSortItem, setActiveSortItem] = useState("default");
   const classes = useStyles();
 
-  const handleSortChange = async event => {
+  const handleSortChange = async (event) => {
     const value = event.target.value;
     if (value === "default" || value === activeSortItem) {
       return;
@@ -29,13 +29,13 @@ const ServiceSortOptions = ({ pagination, updatePagination, fetchService }) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   pagination: state.serviceReducer.pagination,
 });
 
-const mapDispatchToProps = dispatch => ({
-  fetchService: pagination => dispatch(serviceActions.fetchService(pagination)),
-  updatePagination: pagination => dispatch(serviceActions.updatePagination(pagination)),
+const mapDispatchToProps = (dispatch) => ({
+  fetchService: (pagination) => dispatch(serviceActions.fetchService(pagination)),
+  updatePagination: (pagination) => dispatch(serviceActions.updatePagination(pagination)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ServiceSortOptions);

@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   paymentsContainer: {
     "@media(max-width: 1280px)": { width: 1280 },
   },

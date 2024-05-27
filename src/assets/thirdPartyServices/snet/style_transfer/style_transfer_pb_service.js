@@ -1,4 +1,4 @@
-// package: 
+// package:
 // file: ProtoFiles/style_transfer.proto
 
 var ProtoFiles_style_transfer_pb = require("./style_transfer_pb");
@@ -8,7 +8,7 @@ var StyleTransfer = (function () {
   function StyleTransfer() {}
   StyleTransfer.serviceName = "StyleTransfer";
   return StyleTransfer;
-}());
+})();
 
 StyleTransfer.transfer_image_style = {
   methodName: "transfer_image_style",
@@ -16,7 +16,7 @@ StyleTransfer.transfer_image_style = {
   requestStream: false,
   responseStream: false,
   requestType: ProtoFiles_style_transfer_pb.TransferImageStyleRequest,
-  responseType: ProtoFiles_style_transfer_pb.Image
+  responseType: ProtoFiles_style_transfer_pb.Image,
 };
 
 exports.StyleTransfer = StyleTransfer;
@@ -33,10 +33,10 @@ StyleTransferClient.prototype.transfer_image_style = function transfer_image_sty
   var client = grpc.unary(StyleTransfer.transfer_image_style, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -47,15 +47,14 @@ StyleTransferClient.prototype.transfer_image_style = function transfer_image_sty
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.StyleTransferClient = StyleTransferClient;
-

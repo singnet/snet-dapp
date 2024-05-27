@@ -63,7 +63,7 @@ class ServiceListingHeader extends Component {
                       <h2>{item.title}</h2>
                       <p>{item.description}</p>
                       <div className={classes.headerButtons}>
-                        {item.cta.map(button => (
+                        {item.cta.map((button) => (
                           <StyledButton
                             key={button.id}
                             type={button.type}
@@ -96,11 +96,11 @@ class ServiceListingHeader extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   carousel: state.uiContentReducer.carousel,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchCarousel: () => dispatch(uiContentActions.fetchCarousel()),
 });
 

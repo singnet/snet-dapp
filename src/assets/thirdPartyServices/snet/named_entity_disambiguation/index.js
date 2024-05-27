@@ -175,7 +175,7 @@ export default class NamedEntityDisambiguation extends React.Component {
 
   renderComplete() {
     const response = this.state.response.value;
-    const CustomTableCell = withStyles(theme => ({
+    const CustomTableCell = withStyles((theme) => ({
       head: {
         backgroundColor: theme.palette.common.black,
         color: theme.palette.common.white,

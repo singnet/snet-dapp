@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   trainingModelContainer: {
     paddingTop: 11,
     marginBottom: 25,
@@ -8,7 +8,7 @@ export const useStyles = theme => ({
   },
   leftSideSection: {
     paddingRight: 25,
-    "@media(max-width:960px)": { paddingRight: 0 }
+    "@media(max-width:960px)": { paddingRight: 0 },
   },
   requestModelContainer: {
     boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
@@ -26,22 +26,22 @@ export const useStyles = theme => ({
       fontWeight: 400,
     },
     "& div": {
-			padding: '22px 22px 24px',
-			display: 'flex',
-			"& svg": {
-				padding: '3px 8px 0 0',
-				color: theme.palette.text.primary,
-				fontSize: 16,
-			},
+      padding: "22px 22px 24px",
+      display: "flex",
+      "& svg": {
+        padding: "3px 8px 0 0",
+        color: theme.palette.text.primary,
+        fontSize: 16,
+      },
       "& p": {
         margin: 0,
-				color: theme.palette.text.mediumShadeGray,
+        color: theme.palette.text.mediumShadeGray,
         fontSize: 14,
-				fontWeight: 300,        
+        fontWeight: 300,
         letterSpacing: "0.25px",
         lineHeight: "20px",
       },
     },
-		"& button": { marginLeft: 22 }
-  }
+    "& button": { marginLeft: 22 },
+  },
 });

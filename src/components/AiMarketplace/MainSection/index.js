@@ -18,15 +18,15 @@ class MainSection extends Component {
   componentDidMount = () => {
     const { fetchFilterData } = this.props;
     this.handleFetchService(this.props.pagination);
-    filterAttributes.map(attribute => fetchFilterData(attribute));
+    filterAttributes.map((attribute) => fetchFilterData(attribute));
   };
 
-  handlePaginationChange = async pagination => {
+  handlePaginationChange = async (pagination) => {
     await this.props.updatePagination(pagination);
     this.handleFetchService(this.props.pagination);
   };
 
-  handleFetchService = pagination => {
+  handleFetchService = (pagination) => {
     const { currentFilter, fetchService } = this.props;
     let filterObj = [];
     for (let i in currentFilter) {
@@ -39,7 +39,7 @@ class MainSection extends Component {
   };
 
   toggleView = () => {
-    this.setState(prevState => ({ listView: !prevState.listView }));
+    this.setState((prevState) => ({ listView: !prevState.listView }));
   };
 
   render() {
@@ -79,17 +79,17 @@ class MainSection extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   services: state.serviceReducer.services,
   pagination: state.serviceReducer.pagination,
   isLoggedIn: state.userReducer.login.isLoggedIn,
   currentFilter: state.serviceReducer.activeFilterItem,
 });
 
-const mapDispatchToProps = dispatch => ({
-  updatePagination: pagination => dispatch(serviceActions.updatePagination(pagination)),
+const mapDispatchToProps = (dispatch) => ({
+  updatePagination: (pagination) => dispatch(serviceActions.updatePagination(pagination)),
   fetchService: (pagination, filterObj) => dispatch(serviceActions.fetchService(pagination, filterObj)),
-  fetchFilterData: attribute => dispatch(serviceActions.fetchFilterData(attribute)),
+  fetchFilterData: (attribute) => dispatch(serviceActions.fetchFilterData(attribute)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(MainSection));

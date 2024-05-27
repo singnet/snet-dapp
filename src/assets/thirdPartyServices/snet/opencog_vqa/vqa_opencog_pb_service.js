@@ -1,7 +1,5 @@
-// package: 
+// package:
 // file: vqa_opencog.proto
-
-
 
 var vqa_opencog_pb = require("./vqa_opencog_pb");
 var grpc = require("@improbable-eng/grpc-web").grpc;
@@ -10,7 +8,7 @@ var VqaService = (function () {
   function VqaService() {}
   VqaService.serviceName = "VqaService";
   return VqaService;
-}());
+})();
 
 VqaService.answer = {
   methodName: "answer",
@@ -18,7 +16,7 @@ VqaService.answer = {
   requestStream: false,
   responseStream: false,
   requestType: vqa_opencog_pb.VqaRequest,
-  responseType: vqa_opencog_pb.VqaResponse
+  responseType: vqa_opencog_pb.VqaResponse,
 };
 
 exports.VqaService = VqaService;
@@ -35,10 +33,10 @@ VqaServiceClient.prototype.answer = function answer(requestMessage, metadata, ca
   var client = grpc.unary(VqaService.answer, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -49,15 +47,14 @@ VqaServiceClient.prototype.answer = function answer(requestMessage, metadata, ca
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.VqaServiceClient = VqaServiceClient;
-

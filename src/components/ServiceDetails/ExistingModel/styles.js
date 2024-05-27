@@ -1,10 +1,10 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   existingModelContainer: {
     paddingBottom: 24,
     borderRadius: 4,
-    margin: '25px 0 0',
+    margin: "25px 0 0",
     boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
-    backgroundColor: theme.palette.text.white,		
+    backgroundColor: theme.palette.text.white,
     "& h2": {
       padding: "11px 22px",
       borderBottomWidth: 1,
@@ -21,33 +21,33 @@ export const useStyles = theme => ({
     },
   },
   btnContainer: {
-    textAlign: 'center',
+    textAlign: "center",
   },
   connectMMContainer: {
-    width: '100%',
-    padding: '80px 0',
-    margin: '0 auto',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    textAlign: 'center',
-    '& > span': {
+    width: "100%",
+    padding: "80px 0",
+    margin: "0 auto",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    textAlign: "center",
+    "& > span": {
       marginTop: 24,
       color: theme.palette.text.primary,
       fontSize: 18,
-      lineHeight: '23px'
+      lineHeight: "23px",
     },
-    '& p': {
-      margin: '9px 0',
+    "& p": {
+      margin: "9px 0",
       color: theme.palette.text.mediumShadeGray,
       fontSize: 14,
       fontWeight: 300,
-      lineHeight: '24px'
-    }
+      lineHeight: "24px",
+    },
   },
   noDataFoundTxt: {
     paddingTop: 24,
-    textAlign: 'center',
-    '& p': { fontFamily: theme.typography.primary.main }
-  }
+    textAlign: "center",
+    "& p": { fontFamily: theme.typography.primary.main },
+  },
 });

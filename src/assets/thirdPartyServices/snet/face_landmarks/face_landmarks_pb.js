@@ -154,7 +154,7 @@ snet_face_landmarks.FaceLandmarkHeader.prototype.serializeBinaryToWriter = funct
     );
   }
   f = this.getFaces();
-  if (f != null) {
+  if (f !==null) {
     writer.writeMessage(
       2,
       f,
@@ -214,7 +214,7 @@ snet_face_landmarks.FaceLandmarkHeader.prototype.clearFaces = function() {
  * @return{!boolean}
  */
 snet_face_landmarks.FaceLandmarkHeader.prototype.hasFaces = function() {
-  return jspb.Message.getField(this, 2) != null;
+  return jspb.Message.getField(this, 2) !==null;
 };
 
 
@@ -351,7 +351,7 @@ snet_face_landmarks.FaceLandmarkRequest.prototype.serializeBinary = function() {
 snet_face_landmarks.FaceLandmarkRequest.prototype.serializeBinaryToWriter = function (writer) {
   var f = undefined;
   f = this.getHeader();
-  if (f != null) {
+  if (f !==null) {
     writer.writeMessage(
       1,
       f,
@@ -359,7 +359,7 @@ snet_face_landmarks.FaceLandmarkRequest.prototype.serializeBinaryToWriter = func
     );
   }
   f = this.getImageChunk();
-  if (f != null) {
+  if (f !==null) {
     writer.writeMessage(
       2,
       f,
@@ -404,7 +404,7 @@ snet_face_landmarks.FaceLandmarkRequest.prototype.clearHeader = function() {
  * @return{!boolean}
  */
 snet_face_landmarks.FaceLandmarkRequest.prototype.hasHeader = function() {
-  return jspb.Message.getField(this, 1) != null;
+  return jspb.Message.getField(this, 1) !==null;
 };
 
 
@@ -434,7 +434,7 @@ snet_face_landmarks.FaceLandmarkRequest.prototype.clearImageChunk = function() {
  * @return{!boolean}
  */
 snet_face_landmarks.FaceLandmarkRequest.prototype.hasImageChunk = function() {
-  return jspb.Message.getField(this, 2) != null;
+  return jspb.Message.getField(this, 2) !==null;
 };
 
 

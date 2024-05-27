@@ -8,7 +8,7 @@ var TTS = (function () {
   function TTS() {}
   TTS.serviceName = "tts.TTS";
   return TTS;
-}());
+})();
 
 TTS.t2s = {
   methodName: "t2s",
@@ -16,7 +16,7 @@ TTS.t2s = {
   requestStream: false,
   responseStream: false,
   requestType: ProtoFiles_tts_pb.Text,
-  responseType: ProtoFiles_tts_pb.Audio
+  responseType: ProtoFiles_tts_pb.Audio,
 };
 
 exports.TTS = TTS;
@@ -33,10 +33,10 @@ TTSClient.prototype.t2s = function t2s(requestMessage, metadata, callback) {
   var client = grpc.unary(TTS.t2s, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -47,15 +47,14 @@ TTSClient.prototype.t2s = function t2s(requestMessage, metadata, callback) {
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.TTSClient = TTSClient;
-

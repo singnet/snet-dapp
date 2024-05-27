@@ -1,4 +1,4 @@
-// package: 
+// package:
 // file: language_understanding.proto
 
 var language_understanding_pb = require("./language_understanding_pb");
@@ -8,7 +8,7 @@ var LanguageUnderstanding = (function () {
   function LanguageUnderstanding() {}
   LanguageUnderstanding.serviceName = "LanguageUnderstanding";
   return LanguageUnderstanding;
-}());
+})();
 
 LanguageUnderstanding.slot_tagging = {
   methodName: "slot_tagging",
@@ -16,7 +16,7 @@ LanguageUnderstanding.slot_tagging = {
   requestStream: false,
   responseStream: false,
   requestType: language_understanding_pb.Input,
-  responseType: language_understanding_pb.Output
+  responseType: language_understanding_pb.Output,
 };
 
 LanguageUnderstanding.intent = {
@@ -25,7 +25,7 @@ LanguageUnderstanding.intent = {
   requestStream: false,
   responseStream: false,
   requestType: language_understanding_pb.Input,
-  responseType: language_understanding_pb.Output
+  responseType: language_understanding_pb.Output,
 };
 
 exports.LanguageUnderstanding = LanguageUnderstanding;
@@ -42,10 +42,10 @@ LanguageUnderstandingClient.prototype.slot_tagging = function slot_tagging(reque
   var client = grpc.unary(LanguageUnderstanding.slot_tagging, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -56,13 +56,13 @@ LanguageUnderstandingClient.prototype.slot_tagging = function slot_tagging(reque
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
@@ -73,10 +73,10 @@ LanguageUnderstandingClient.prototype.intent = function intent(requestMessage, m
   var client = grpc.unary(LanguageUnderstanding.intent, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -87,15 +87,14 @@ LanguageUnderstandingClient.prototype.intent = function intent(requestMessage, m
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.LanguageUnderstandingClient = LanguageUnderstandingClient;
-

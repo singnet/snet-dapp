@@ -1,4 +1,4 @@
-// package: 
+// package:
 // file: ProtoFiles/edgedetect.proto
 
 var ProtoFiles_edgedetect_pb = require("./edgedetect_pb");
@@ -8,7 +8,7 @@ var Edgedetect = (function () {
   function Edgedetect() {}
   Edgedetect.serviceName = "Edgedetect";
   return Edgedetect;
-}());
+})();
 
 Edgedetect.DetectEdge = {
   methodName: "DetectEdge",
@@ -16,7 +16,7 @@ Edgedetect.DetectEdge = {
   requestStream: false,
   responseStream: false,
   requestType: ProtoFiles_edgedetect_pb.ImageFile,
-  responseType: ProtoFiles_edgedetect_pb.ImageFile
+  responseType: ProtoFiles_edgedetect_pb.ImageFile,
 };
 
 exports.Edgedetect = Edgedetect;
@@ -33,10 +33,10 @@ EdgedetectClient.prototype.detectEdge = function detectEdge(requestMessage, meta
   var client = grpc.unary(Edgedetect.DetectEdge, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -47,15 +47,14 @@ EdgedetectClient.prototype.detectEdge = function detectEdge(requestMessage, meta
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.EdgedetectClient = EdgedetectClient;
-

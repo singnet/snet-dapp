@@ -1072,7 +1072,7 @@ snet_network_analytics_bipartite.BipartiteGraphRequest.prototype.serializeBinary
 snet_network_analytics_bipartite.BipartiteGraphRequest.prototype.serializeBinaryToWriter = function (writer) {
   var f = undefined;
   f = this.getNodes();
-  if (f != null) {
+  if (f !==null) {
     writer.writeMessage(
       1,
       f,
@@ -1125,7 +1125,7 @@ snet_network_analytics_bipartite.BipartiteGraphRequest.prototype.clearNodes = fu
  * @return{!boolean}
  */
 snet_network_analytics_bipartite.BipartiteGraphRequest.prototype.hasNodes = function() {
-  return jspb.Message.getField(this, 1) != null;
+  return jspb.Message.getField(this, 1) !==null;
 };
 
 
@@ -1303,7 +1303,7 @@ snet_network_analytics_bipartite.BipartiteGraphResponse.prototype.serializeBinar
     );
   }
   f = this.getOutput();
-  if (f != null) {
+  if (f !==null) {
     writer.writeMessage(
       3,
       f,
@@ -1380,7 +1380,7 @@ snet_network_analytics_bipartite.BipartiteGraphResponse.prototype.clearOutput = 
  * @return{!boolean}
  */
 snet_network_analytics_bipartite.BipartiteGraphResponse.prototype.hasOutput = function() {
-  return jspb.Message.getField(this, 3) != null;
+  return jspb.Message.getField(this, 3) !==null;
 };
 
 
@@ -1529,7 +1529,7 @@ snet_network_analytics_bipartite.ProjecetedGraphRequest.prototype.serializeBinar
 snet_network_analytics_bipartite.ProjecetedGraphRequest.prototype.serializeBinaryToWriter = function (writer) {
   var f = undefined;
   f = this.getGraph();
-  if (f != null) {
+  if (f !==null) {
     writer.writeMessage(
       1,
       f,
@@ -1588,7 +1588,7 @@ snet_network_analytics_bipartite.ProjecetedGraphRequest.prototype.clearGraph = f
  * @return{!boolean}
  */
 snet_network_analytics_bipartite.ProjecetedGraphRequest.prototype.hasGraph = function() {
-  return jspb.Message.getField(this, 1) != null;
+  return jspb.Message.getField(this, 1) !==null;
 };
 
 
@@ -1780,7 +1780,7 @@ snet_network_analytics_bipartite.ProjecetedGraphResponse.prototype.serializeBina
     );
   }
   f = this.getOutput();
-  if (f != null) {
+  if (f !==null) {
     writer.writeMessage(
       3,
       f,
@@ -1857,7 +1857,7 @@ snet_network_analytics_bipartite.ProjecetedGraphResponse.prototype.clearOutput =
  * @return{!boolean}
  */
 snet_network_analytics_bipartite.ProjecetedGraphResponse.prototype.hasOutput = function() {
-  return jspb.Message.getField(this, 3) != null;
+  return jspb.Message.getField(this, 3) !==null;
 };
 
 

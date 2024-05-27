@@ -15,7 +15,6 @@ import { LoaderContent } from "../../../../../utility/constants/LoaderContent";
 import { loaderActions } from "../../../../../Redux/actionCreators";
 import { connect } from "react-redux";
 
-
 const Payment = ({
   classes,
   handleNextClick,
@@ -28,18 +27,17 @@ const Payment = ({
   stopLoader,
   startLoader,
   setTrainModelId,
-
 }) => {
   const [autoSave] = useState(true);
   const [purchaseCompleted, setPurchaseCompleted] = useState(false);
   const [alert, setAlert] = useState({});
-  const addEllipsisAtEndOfString = str => `${str.substr(0, 40)}...`;
- 
+  const addEllipsisAtEndOfString = (str) => `${str.substr(0, 40)}...`;
+
   const AddressList = () => {
     if (modelData?.address?.length) {
-      return modelData?.address.map(address => <li key={address}>{addEllipsisAtEndOfString(address)}</li>);
+      return modelData?.address.map((address) => <li key={address}>{addEllipsisAtEndOfString(address)}</li>);
     }
-  return null;
+    return null;
   };
 
   const serviceRequestStartHandler = () => {
@@ -52,7 +50,7 @@ const Payment = ({
     handleNextClick();
   };
 
-  const serviceRequestErrorHandler = error => {
+  const serviceRequestErrorHandler = (error) => {
     const alert = { type: alertTypes.ERROR };
     if (error.response && error.response.data && error.response.data.error) {
       alert.message = error.response.data.error;
@@ -112,7 +110,7 @@ const Payment = ({
             <span>Model name:</span>
           </Grid>
           <Grid item xs={9}>
-          <Typography>{modelData?.name || ""}</Typography>
+            <Typography>{modelData?.name || ""}</Typography>
           </Grid>
         </Grid>
         <Grid container>
@@ -137,7 +135,7 @@ const Payment = ({
           </Grid>
           <Grid item xs={9}>
             <ul>
-            <AddressList />
+              <AddressList />
             </ul>
           </Grid>
         </Grid>
@@ -170,7 +168,7 @@ const Payment = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   wallet: state.userReducer.wallet,
   channelInfo: channelInfo(state),
   groupInfo: groupInfo(state),

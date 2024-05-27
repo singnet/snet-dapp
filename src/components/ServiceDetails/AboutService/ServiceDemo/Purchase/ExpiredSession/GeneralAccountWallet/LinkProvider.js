@@ -22,7 +22,7 @@ class LinkProviderPopup extends Component {
     this.setState({ orderType: orderTypes.CREATE_WALLET, title: paymentTitles.CREATE_WALLET });
   };
 
-  handleSignatureChange = signature => {
+  handleSignatureChange = (signature) => {
     this.setState({ signature });
   };
 

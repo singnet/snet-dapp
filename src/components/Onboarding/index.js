@@ -41,7 +41,7 @@ class Onboarding extends Component {
   };
 
   handleNextSection = () => {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       activeSection: prevState.activeSection + 1,
     }));
   };
@@ -85,7 +85,7 @@ class Onboarding extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isEmailVerified: state.userReducer.isEmailVerified,
   isTermsAccepted: state.userReducer.isTermsAccepted,
   nickname: state.userReducer.nickname,
