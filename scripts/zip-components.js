@@ -25,7 +25,9 @@ if (!process.env.REACT_APP_SANDBOX_SERVICE_ID) {
   process.exit(1);
 }
 
+//eslint-disable-next-line
 const orgIdPath = process.env.REACT_APP_SANDBOX_ORG_ID.replace(/\-/g, "_");
+//eslint-disable-next-line
 const serviceIdPath = process.env.REACT_APP_SANDBOX_SERVICE_ID.replace(/\-/g, "_");
 console.log("./", "src/assets/thirdPartyServices", orgIdPath, serviceIdPath);
 const componentDirectory = path.resolve("./", "src/assets/thirdPartyServices", orgIdPath, serviceIdPath);
