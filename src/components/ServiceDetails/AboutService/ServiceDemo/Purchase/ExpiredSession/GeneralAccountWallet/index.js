@@ -43,6 +43,9 @@ const GeneralAccountWallet = (props) => {
         setShowLinkProvider(true);
         return;
       }
+      default: {
+        return;
+      }
     }
   }, [paypalInProgress.orderType]);
 
