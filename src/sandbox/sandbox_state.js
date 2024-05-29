@@ -17,7 +17,7 @@ export default {
       display_name: "Example Service",
       description: "Simple example service.",
       url: "https://github.com/singnet/example-service",
-      tags: ["example", "tutorial"],
+      tags: [{ tag_name: "example" }, { tag_name: "tutorial" }],
       is_available: 1,
       groups: [
         {

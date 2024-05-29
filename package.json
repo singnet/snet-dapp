@@ -72,11 +72,10 @@
     "eject": "react-app-rewired eject",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "sandbox": "REACT_APP_SANDBOX=true npm start",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "sitemap": "babel-node scripts/sitemap-generator.js",
-    "zip-components": "REACT_APP_SANDBOX=true babel-node scripts/zip-components.js",
+    "zip-components": "babel-node scripts/zip-components.js",
     "generate-stubs": "babel-node scripts/generate-stubs.js"
   },
   "lint-staged": {

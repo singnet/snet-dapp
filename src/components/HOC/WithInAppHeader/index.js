@@ -21,7 +21,9 @@ const withInAppWrapper = (InputComponent) => {
       <Fragment>
         <Header showNotification={showUpdateNotification} onCloseClick={onUpdateCloseClick} />
         <div className={`${classes.scrollableContent} ${showUpdateNotification ? classes.increaseTopSpace : null}`}>
-          <InputComponent {...props} />
+          <div className={classes.componentHolder}>
+            <InputComponent {...props} />
+          </div>
           <Footer />
         </div>
       </Fragment>
