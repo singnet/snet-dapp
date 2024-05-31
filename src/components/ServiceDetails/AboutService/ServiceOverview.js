@@ -18,7 +18,7 @@ const ServiceOverview = ({ classes, description, tags }) => {
       return (
         <>
           <p>After testing your component you can package your component with the below command</p>
-          <strong> npm run zip-component</strong>
+          <strong> npm run zip-components</strong>
         </>
       );
     }

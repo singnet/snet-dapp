@@ -52,9 +52,11 @@ const AboutService = ({
           demoComponentRequired={demoComponentRequired}
         />
         <RenderExistingModel />
-        <div className={classes.showOnNrmalResolution}>
-          <PromoBox />
-        </div>
+        {!process.env.REACT_APP_SANDBOX && (
+          <div className={classes.showOnNrmalResolution}>
+            <PromoBox />
+          </div>
+        )}
       </Grid>
 
       <Grid item xs={12} sm={12} md={4} lg={4} className={classes.rightSideSection}>
@@ -70,9 +72,11 @@ const AboutService = ({
           serviceId={service.service_id}
         />
         <MediaGallery data={service.media} />
-        <div className={classes.showInResponsive}>
-          <PromoBox />
-        </div>
+        {!process.env.REACT_APP_SANDBOX && (
+          <div className={classes.showInResponsive}>
+            <PromoBox />
+          </div>
+        )}
       </Grid>
     </Grid>
   );
