@@ -35,8 +35,11 @@ class MetamaskDetails extends Component {
   retrieveAccountDetails = async () => {
     try {
       const sdk = await initSdk();
-      const escrowBalance = await sdk.account.escrowBalance();
-      const tokenBalance = await sdk.account.balance();
+      if (!sdk) {
+        return;
+      }
+      const escrowBalance = await sdk._account.escrowBalance();
+      const tokenBalance = await sdk._account.balance();
       const networkId = sdk._networkId;
       this.setState({
         escrowBalance: cogsToAgi(escrowBalance),

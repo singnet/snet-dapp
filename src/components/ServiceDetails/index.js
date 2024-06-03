@@ -49,14 +49,14 @@ class ServiceDetails extends Component {
     this.serviceClient = new ServiceClient(sdk, org_id, service_id, sdk?._mpeContract, {}, this.props.groupInfo);
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     if (process.env.REACT_APP_SANDBOX) {
       return;
     }
-    if (isEmpty(this.props.service)) {
-      this.fetchServiceDetails();
+    if (isEmpty(this.props.service) || !this.props.service) {
+      await this.fetchServiceDetails();
     } else {
-      this.initializeService();
+      await this.initializeService();
     }
     this.fetchTrainingModel();
   }
@@ -80,7 +80,7 @@ class ServiceDetails extends Component {
     } = this.props;
     try {
       await fetchServiceDetails(orgId, serviceId);
-      this.initializeService();
+      await this.initializeService();
     } catch (error) {
       this.setState({ error: true });
     }

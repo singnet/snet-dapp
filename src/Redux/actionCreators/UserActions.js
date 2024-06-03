@@ -527,7 +527,12 @@ const registerWalletAPI = (token, address, type) => {
 };
 
 export const registerWallet = (address, type) => async (dispatch) => {
-  const { token } = await dispatch(fetchAuthenticatedUser());
-  await registerWalletAPI(token, address, type);
-  return dispatch(registerWalletSuccess(address));
+  try {
+    const { token } = await dispatch(fetchAuthenticatedUser());
+    await registerWalletAPI(token, address, type);
+    return dispatch(registerWalletSuccess(address));
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log("error registerWallet");
+  }
 };
