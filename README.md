@@ -33,8 +33,10 @@ npm run start
 ```
 ## UI for Services
 
-Currently the UI needed by a service to capture inputs and render the output must be provided by the service developer as a PR. It must be provided in the form of a React component. 
-This approach will change in the future as we support a generic mechanism to declaratively describe a service's API. See [this](https://github.com/singnet/custom-ui-research) for more details
+Currently the UI needed by a service to capture inputs and render the output must be provided by the service developer through [Publisher](https://publisher.singularitynet.io/). To create a Snet-dapp style user interface, a developer can use the [next repository](https://github.com/singnet/snet-dapp-components).
+
+
+This approach will change in the future. Work on it is in progress
 
 ## Sandbox mode for Services
 
