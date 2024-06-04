@@ -16,7 +16,6 @@ import { userActions } from "./Redux/actionCreators";
 import PrivateRoute from "./components/common/PrivateRoute";
 import AppLoader from "./components/common/AppLoader";
 import { CircularProgress } from "@material-ui/core";
-// import NetworkChangeOverlay from "./components/common/NetworkChangeOverlay";
 import initHotjar from "./assets/externalScripts/hotjar";
 import initGDPRNotification from "./assets/externalScripts/gdpr";
 import PaymentCancelled from "./components/ServiceDetails/PaymentCancelled";
@@ -149,7 +148,6 @@ class App extends Component {
           </Router>
         </div>
         <AppLoader />
-        {/* <NetworkChangeOverlay /> */}
       </ThemeProvider>
     );
   }
