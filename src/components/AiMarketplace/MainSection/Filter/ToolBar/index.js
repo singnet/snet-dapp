@@ -8,7 +8,10 @@ import ServiceSortOptions from "./ServiceSortOptions";
 import ViewToggler from "./ViewToggler";
 import StyledDropdown from "../../../../common/StyledDropdown";
 import { serviceActions } from "../../../../../Redux/actionCreators";
-import { defaultPaginationParameters } from "../../../../../utility/constants/Pagination";
+import {
+  defaultPaginationParameters,
+  generateOrganizationsFilterObject,
+} from "../../../../../utility/constants/Pagination";
 
 const ToolBar = ({
   listView,
@@ -46,19 +49,7 @@ const ToolBar = ({
     }
     let filterObj = [];
     if (value !== "default") {
-      filterObj = [
-        {
-          filter: [
-            {
-              filter_condition: {
-                attr: "org_id",
-                operator: "IN",
-                value: [value],
-              },
-            },
-          ],
-        },
-      ];
+      filterObj = generateOrganizationsFilterObject([value]);
     }
     setActiveOrgItem(value);
 
@@ -69,21 +60,24 @@ const ToolBar = ({
   };
 
   const classes = useStyles();
+  const isMainnet = Number(process.env.REACT_APP_ETH_NETWORK) === 1;
 
   return (
     <Grid container spacing={24} className={classes.toolBar}>
       <Grid item xs={6} sm={9} md={9} lg={6} className={classes.sortBySection}>
         <ServiceSortOptions />
-        <div className={classes.organizationDropdownContainer}>
-          <span className={classes.sortbyTxt}>Organization</span>
-          <StyledDropdown
-            list={enhancedFilterData}
-            value={activeOrgItem}
-            labelTxt="All Organization"
-            name="org_id"
-            onChange={handleOrgFilterChange}
-          />
-        </div>
+        {isMainnet && (
+          <div className={classes.organizationDropdownContainer}>
+            <span className={classes.sortbyTxt}>Organization</span>
+            <StyledDropdown
+              list={enhancedFilterData}
+              value={activeOrgItem}
+              labelTxt="All Organization"
+              name="org_id"
+              onChange={handleOrgFilterChange}
+            />
+          </div>
+        )}
       </Grid>
       <Grid item xs={6} sm={3} md={3} lg={6} className={classes.iconsContainer}>
         <span className={classes.servicesCount}>{total_count} services</span>

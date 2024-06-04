@@ -4,6 +4,7 @@ import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { loaderActions, userActions } from "./";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
 import { initializeAPIOptions } from "../../utility/API";
+import { generateOrganizationsFilterObject } from "../../utility/constants/Pagination";
 // import { cacheS3Url } from "../../utility/image";
 
 export const UPDATE_SERVICE_LIST = "SET_SERVICE_LIST";
@@ -39,11 +40,32 @@ export const fetchServiceSuccess = (res) => (dispatch) => {
   dispatch(loaderActions.stopAIServiceListLoader);
 };
 
+export const fetchUserOrganizationsList = () => async (dispatch) => {
+  const apiName = APIEndpoints.REGISTRY.name;
+  const apiPath = APIPaths.GET_USER_ORGS;
+  const { token } = await dispatch(userActions.fetchAuthenticatedUser());
+  const apiOptions = initializeAPIOptions(token);
+  return API.get(apiName, apiPath, apiOptions);
+};
+
+const onlyUserOrgsFilter = () => async (dispatch) => {
+  const userOrganizations = await dispatch(fetchUserOrganizationsList());
+  const userOrganizationsId = userOrganizations.data.map((organization) => organization.org_id);
+  const filterObj = generateOrganizationsFilterObject([
+    ...userOrganizationsId,
+    process.env.REACT_APP_EXAMPLE_SERVICE_ORG_ID,
+  ]);
+  return filterObj;
+};
+
 export const fetchService =
   (pagination, filters = []) =>
-  (dispatch) => {
+  async (dispatch) => {
+    if (Number(process.env.REACT_APP_ETH_NETWORK) !== 1) {
+      filters = await dispatch(onlyUserOrgsFilter());
+    }
     dispatch(loaderActions.startAIServiceListLoader);
-    const url = new URL(`${APIEndpoints.CONTRACT.endpoint}/service`);
+    const url = new URL(APIEndpoints.CONTRACT.endpoint + APIPaths.GET_SERVICE_LIST);
     return fetch(url, {
       method: "POST",
       body: JSON.stringify({ ...pagination, filters }),
