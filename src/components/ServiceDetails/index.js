@@ -58,7 +58,7 @@ class ServiceDetails extends Component {
     } else {
       await this.initializeService();
     }
-    this.fetchTrainingModel();
+    await this.fetchTrainingModel();
   }
 
   fetchTrainingModel = async () => {
