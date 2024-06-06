@@ -112,8 +112,9 @@ class MetamaskFlow extends Component {
       await this.paymentChannelManagement.updateChannelInfo();
       const address = await this.sdk.account.getAddress();
       const availableUserWallets = await fetchAvailableUserWallets();
-      const addressAlreadyRegistered = availableUserWallets.some((wallet) => wallet.address.toLowerCase() === address);
-
+      const addressAlreadyRegistered = availableUserWallets.some(
+        (wallet) => wallet.address.toLowerCase() === address.toLowerCase()
+      );
       if (!addressAlreadyRegistered) {
         await registerWallet(address, walletTypes.METAMASK);
       }
