@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Tooltip from "@material-ui/core/Tooltip";
-import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/styles";
 import { WebServiceClient as ServiceClient } from "snet-sdk-web";
 
@@ -256,11 +255,6 @@ class MetamaskFlow extends Component {
     return (
       <div className={classes.PurchaseFlowContainer}>
         <PurchaseDialog show={showPurchaseDialog} onClose={this.handlePurchaseDialogClose} />
-        <Typography variant="body1" className={classes.PurchaseFlowDescription}>
-          Transfer the style of a “style Image” to a “content image” by choosing them in the boxes below. You can upload
-          a a file from your computer, URL, or select image from the gallery. You can specify additional parameters in
-          the panel below. “Mouse over” for tool tips.
-        </Typography>
         <div className={classes.paymentInfoCard}>
           {this.PaymentInfoCardData.map((item) => (
             <PaymentInfoCard key={item.title} title={item.title} value={item.value} unit={item.unit} />
@@ -271,7 +265,7 @@ class MetamaskFlow extends Component {
             <span className={classes.channelSelectionTitle}>Recommended</span>
             <ChannelSelectionBox
               title="Channel Balance"
-              description={`You have ${this.parseChannelBalFromPaymentCard()} AGIX in you channel. This can be used for running demos across all the services from this vendor.`}
+              description={`You have ${Number(this.parseChannelBalFromPaymentCard())} AGIX in you channel. This can be used for running demos across all the services from this vendor.`}
               checked={selectedPayType === payTypes.CHANNEL_BALANCE}
               value={payTypes.CHANNEL_BALANCE}
               onClick={() => this.handlePayTypeChange(payTypes.CHANNEL_BALANCE)}
@@ -301,10 +295,9 @@ class MetamaskFlow extends Component {
               value={payTypes.SINGLE_CALL}
               onClick={() => this.handlePayTypeChange(payTypes.SINGLE_CALL)}
               inputProps={{
-                noOfServiceCalls: 1,
                 totalPrice: cogsToAgi(this.props.pricing.price_in_cogs),
                 unit: "AGIX",
-                disabled: true,
+                noInput: true,
               }}
               disabled={disabledPayTypes.includes(payTypes.SINGLE_CALL)}
             />

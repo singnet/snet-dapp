@@ -26,6 +26,11 @@ export const useStyles = (theme) => ({
     },
     "@media(max-width:480px)": { textAlign: "left" },
   },
+  TitleContainer: {
+    display: "flex",
+    alignItems: "center",
+    marginBottom: 5,
+  },
   unit: {
     marginLeft: 8,
     display: "inline-block",

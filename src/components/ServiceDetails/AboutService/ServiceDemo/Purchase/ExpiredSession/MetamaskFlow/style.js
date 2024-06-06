@@ -22,6 +22,7 @@ export const useStyles = (theme) => ({
     marginBottom: 25,
     display: "flex",
     justifyContent: "space-between",
+    "@media(max-width:460px)": { flexDirection: "column", gap: 25 },
   },
   paymentChannelDropDownContainer: { display: "flex" },
   infoIconContainer: {
