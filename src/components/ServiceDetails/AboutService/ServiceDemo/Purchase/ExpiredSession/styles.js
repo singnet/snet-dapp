@@ -58,9 +58,9 @@ export const useStyles = (theme) => ({
   },
   paymentChannelDropDownContainer: {
     display: "flex",
-    marginRight: 40,
+    marginBottom: 30,
     "& fieldset": { display: "none" },
-    "@media(max-width:940px)": { marginBottom: 30 },
+    "@media(max-width:940px)": { width: "100%", marginBottom: 30 },
   },
   infoIconContainer: {
     marginRight: 10,
