@@ -30,6 +30,7 @@ const connectMMinfo = {
 Click below to install and learn more about how to use Metamask and your AGIX credits with SinguarlityNet AI Marketplace.`,
 };
 
+const MIN_CALLS_NUMBER = 1;
 class MetamaskFlow extends Component {
   state = {
     MMconnected: false,
@@ -153,8 +154,19 @@ class MetamaskFlow extends Component {
     this.setState({ showPurchaseDialog: false });
   };
 
+  isValidCallsNumber = (numberOfCalls) => {
+    const isMoreOrEqualThanMinimum = numberOfCalls >= MIN_CALLS_NUMBER;
+    const isInteger = numberOfCalls % 1 === 0;
+    const isNumber = Number(numberOfCalls);
+    return isMoreOrEqualThanMinimum && isInteger && isNumber;
+  };
+
   handleNoOfCallsChange = (event) => {
     const noOfServiceCalls = event.target.value;
+    console.log(noOfServiceCalls);
+    if (!this.isValidCallsNumber(noOfServiceCalls)) {
+      return;
+    }
     const totalPrice = String(cogsToAgi(this.paymentChannelManagement.noOfCallsToCogs(noOfServiceCalls)));
     this.setState({ noOfServiceCalls, totalPrice });
   };
@@ -212,8 +224,9 @@ class MetamaskFlow extends Component {
   };
 
   shouldContinueBeEnabled = () => {
-    const { mpeBal, totalPrice, channelBalance } = this.state;
+    const { mpeBal, totalPrice, channelBalance, selectedPayType } = this.state;
     return (
+      selectedPayType &&
       this.props.isServiceAvailable &&
       (Number(mpeBal) >= Number(totalPrice) || Number(channelBalance) >= Number(totalPrice))
     );
