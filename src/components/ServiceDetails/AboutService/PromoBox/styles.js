@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   backToLink: {
     margin: "30px 0 0",
     display: "flex",

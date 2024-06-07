@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   modelInfoContaienr: { padding: "61px 24px 24px" },
   switchToggle: {
     width: 45,

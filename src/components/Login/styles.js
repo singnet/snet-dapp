@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   loginDetails: {
     height: "100vh",
     textAlign: "center",

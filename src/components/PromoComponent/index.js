@@ -18,7 +18,7 @@ const PromoComponent = ({ classes }) => {
               If you have a need for a specific AI service, we would love to know! We will discuss the details with you
               or use the suggestion to incentivize our network.
             </p>
-            <a href={`/${Routes.AI_REQUEST_FORM}`} title="Request AI Form" target="_blank">
+            <a href={`/${Routes.AI_REQUEST_FORM}`} title="Request AI Form" target="_blank" rel="noreferrer">
               request ai form
             </a>
           </div>
@@ -31,7 +31,7 @@ const PromoComponent = ({ classes }) => {
               We've made it fast and easy to publish your own services through AI Publisher. Start earning AGIX tokens
               by publishing services into AI Marketplace.
             </p>
-            <a href="https://publisher.singularitynet.io/" title="Visit AI Publisher" target="_blank">
+            <a href="https://publisher.singularitynet.io/" title="Visit AI Publisher" target="_blank" rel="noreferrer">
               visit ai publisher
             </a>
           </div>

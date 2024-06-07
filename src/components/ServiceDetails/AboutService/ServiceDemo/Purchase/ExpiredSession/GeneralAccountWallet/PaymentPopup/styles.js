@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   Modal: { overflow: "auto" },
   card: {
     width: 628,

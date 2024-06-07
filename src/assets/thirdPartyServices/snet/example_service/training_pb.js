@@ -885,7 +885,7 @@ training.CreateModelRequest.prototype.serializeBinary = function() {
 training.CreateModelRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getAuthorization();
-  if (f != null) {
+  if (f !==null) {
     writer.writeMessage(
       1,
       f,
@@ -893,7 +893,7 @@ training.CreateModelRequest.serializeBinaryToWriter = function(message, writer) 
     );
   }
   f = message.getModelDetails();
-  if (f != null) {
+  if (f !==null) {
     writer.writeMessage(
       2,
       f,
@@ -929,7 +929,7 @@ training.CreateModelRequest.prototype.clearAuthorization = function() {
  * @return {!boolean}
  */
 training.CreateModelRequest.prototype.hasAuthorization = function() {
-  return jspb.Message.getField(this, 1) != null;
+  return jspb.Message.getField(this, 1) !==null;
 };
 
 
@@ -959,7 +959,7 @@ training.CreateModelRequest.prototype.clearModelDetails = function() {
  * @return {!boolean}
  */
 training.CreateModelRequest.prototype.hasModelDetails = function() {
-  return jspb.Message.getField(this, 2) != null;
+  return jspb.Message.getField(this, 2) !==null;
 };
 
 
@@ -1106,7 +1106,7 @@ training.AccessibleModelsRequest.serializeBinaryToWriter = function(message, wri
     );
   }
   f = message.getAuthorization();
-  if (f != null) {
+  if (f !==null) {
     writer.writeMessage(
       3,
       f,
@@ -1172,7 +1172,7 @@ training.AccessibleModelsRequest.prototype.clearAuthorization = function() {
  * @return {!boolean}
  */
 training.AccessibleModelsRequest.prototype.hasAuthorization = function() {
-  return jspb.Message.getField(this, 3) != null;
+  return jspb.Message.getField(this, 3) !==null;
 };
 
 
@@ -1469,7 +1469,7 @@ training.ModelDetailsRequest.prototype.serializeBinary = function() {
 training.ModelDetailsRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getModelDetails();
-  if (f != null) {
+  if (f !==null) {
     writer.writeMessage(
       1,
       f,
@@ -1477,7 +1477,7 @@ training.ModelDetailsRequest.serializeBinaryToWriter = function(message, writer)
     );
   }
   f = message.getAuthorization();
-  if (f != null) {
+  if (f !==null) {
     writer.writeMessage(
       2,
       f,
@@ -1513,7 +1513,7 @@ training.ModelDetailsRequest.prototype.clearModelDetails = function() {
  * @return {!boolean}
  */
 training.ModelDetailsRequest.prototype.hasModelDetails = function() {
-  return jspb.Message.getField(this, 1) != null;
+  return jspb.Message.getField(this, 1) !==null;
 };
 
 
@@ -1543,7 +1543,7 @@ training.ModelDetailsRequest.prototype.clearAuthorization = function() {
  * @return {!boolean}
  */
 training.ModelDetailsRequest.prototype.hasAuthorization = function() {
-  return jspb.Message.getField(this, 2) != null;
+  return jspb.Message.getField(this, 2) !==null;
 };
 
 
@@ -1814,7 +1814,7 @@ training.UpdateModelRequest.prototype.serializeBinary = function() {
 training.UpdateModelRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getUpdateModelDetails();
-  if (f != null) {
+  if (f !==null) {
     writer.writeMessage(
       1,
       f,
@@ -1822,7 +1822,7 @@ training.UpdateModelRequest.serializeBinaryToWriter = function(message, writer) 
     );
   }
   f = message.getAuthorization();
-  if (f != null) {
+  if (f !==null) {
     writer.writeMessage(
       2,
       f,
@@ -1858,7 +1858,7 @@ training.UpdateModelRequest.prototype.clearUpdateModelDetails = function() {
  * @return {!boolean}
  */
 training.UpdateModelRequest.prototype.hasUpdateModelDetails = function() {
-  return jspb.Message.getField(this, 1) != null;
+  return jspb.Message.getField(this, 1) !==null;
 };
 
 
@@ -1888,7 +1888,7 @@ training.UpdateModelRequest.prototype.clearAuthorization = function() {
  * @return {!boolean}
  */
 training.UpdateModelRequest.prototype.hasAuthorization = function() {
-  return jspb.Message.getField(this, 2) != null;
+  return jspb.Message.getField(this, 2) !==null;
 };
 
 
@@ -2023,7 +2023,7 @@ training.ModelDetailsResponse.serializeBinaryToWriter = function(message, writer
     );
   }
   f = message.getModelDetails();
-  if (f != null) {
+  if (f !==null) {
     writer.writeMessage(
       2,
       f,
@@ -2074,7 +2074,7 @@ training.ModelDetailsResponse.prototype.clearModelDetails = function() {
  * @return {!boolean}
  */
 training.ModelDetailsResponse.prototype.hasModelDetails = function() {
-  return jspb.Message.getField(this, 2) != null;
+  return jspb.Message.getField(this, 2) !==null;
 };
 
 

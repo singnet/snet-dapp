@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   PaymentInfoCardContainer: {
     display: "inline-block",
     textAlign: "right",
@@ -25,6 +25,11 @@ export const useStyles = theme => ({
       lineHeight: "28px",
     },
     "@media(max-width:480px)": { textAlign: "left" },
+  },
+  TitleContainer: {
+    display: "flex",
+    alignItems: "center",
+    marginBottom: 5,
   },
   unit: {
     marginLeft: 8,

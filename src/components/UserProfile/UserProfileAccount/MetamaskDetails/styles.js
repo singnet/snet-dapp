@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   accountDetails: {
     marginTop: 32,
     "& div": {

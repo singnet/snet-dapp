@@ -10,7 +10,7 @@ const DialogTitles = ["Deposit into Escrow", "Withdraw from Escrow"];
 const PurchaseDialog = ({ classes, show, onClose }) => {
   const [title, setTitle] = useState(DialogTitles[0]);
 
-  const handleTitleChange = activeTab => {
+  const handleTitleChange = (activeTab) => {
     setTitle(DialogTitles[activeTab]);
   };
 

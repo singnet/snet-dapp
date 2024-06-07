@@ -9,7 +9,7 @@ const MethodNamesDropDown = ({ list, value, onChange, ...restProps }) => {
       onChange={onChange}
       {...restProps}
     >
-      {list.map(item => (
+      {list.map((item) => (
         <option key={item}>{item}</option>
       ))}
     </select>

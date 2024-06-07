@@ -17,10 +17,10 @@ export default class HoverIcon extends React.Component {
     let { children } = this.props;
     return (
       <IconButton
-        onMouseEnter={function() {
+        onMouseEnter={function () {
           this.setState({ hover: true });
         }.bind(this)}
-        onMouseLeave={function() {
+        onMouseLeave={function () {
           this.setState({ hover: false });
         }.bind(this)}
         style={this.state.hover ? { color: this.props.onColor } : { color: this.props.offColor }}

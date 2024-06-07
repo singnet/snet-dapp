@@ -58,13 +58,12 @@ const ModelInfo = ({
       address: !enableAccessModel ? ethAddress : [],
     };
     const param = {
-        grpcMethod: training.training_methods[0],
-        grpcService: serviceName,
-        address,
+      grpcMethod: training.training_methods[0],
+      grpcService: serviceName,
+      address,
     };
     const response = await serviceClient.getExistingModel(param);
-    if(response.length < 20)
-    {
+    if (response.length < 20) {
       return await serviceClient.createModel(address, params);
     }
   };
@@ -78,14 +77,13 @@ const ModelInfo = ({
     updateModel(updateModelParams);
   };
 
-
   const onNext = async () => {
     try {
       startMMconnectLoader();
       const sdk = await initSdk();
       const address = await sdk.account.getAddress();
       const availableUserWallets = await fetchAvailableUserWallets();
-      const addressAlreadyRegistered = availableUserWallets.some(wallet => wallet.address.toLowerCase() === address);
+      const addressAlreadyRegistered = availableUserWallets.some((wallet) => wallet.address.toLowerCase() === address);
       if (!addressAlreadyRegistered) {
         await registerWallet(address, walletTypes.METAMASK);
       }
@@ -117,35 +115,35 @@ const ModelInfo = ({
 
   const trainingModelAccess = training?.training_methods || [];
 
-  const trainingDropDownObject = trainingModelAccess.map(e => ({
+  const trainingDropDownObject = trainingModelAccess.map((e) => ({
     value: e,
     label: e,
   }));
 
-  const trainingMethodDropDownBox = event => {
+  const trainingMethodDropDownBox = (event) => {
     const { value } = event.target;
     if (value !== "default") {
       setTrainingMethod(value);
     }
   };
 
-  const handleModelServiceName = event => {
+  const handleModelServiceName = (event) => {
     setTrainingServiceName(event.target.value);
   };
 
-  const handleModelDescription = event => {
+  const handleModelDescription = (event) => {
     setTrainingModelDescription(event.target.value);
   };
 
-  const addEthAddress = text => setEthAddress([...ethAddress, text]);
+  const addEthAddress = (text) => setEthAddress([...ethAddress, text]);
 
-  const toggleEthAddress = index => {
+  const toggleEthAddress = (index) => {
     const newTEthAddress = [...ethAddress];
     newTEthAddress[index].isCompleted = !newTEthAddress[index]?.isCompleted;
     setEthAddress(newTEthAddress);
   };
 
-  const removeEthAddress = index => {
+  const removeEthAddress = (index) => {
     const newEthAddress = [...ethAddress];
     newEthAddress.splice(index, 1);
     setEthAddress(newEthAddress);
@@ -228,13 +226,13 @@ const ModelInfo = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   wallet: state.userReducer.wallet,
   serviceDetails: currentServiceDetails(state),
   groupInfo: groupInfo(state),
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   startMMconnectLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.CONNECT_METAMASK)),
   fetchAvailableUserWallets: () => dispatch(userActions.fetchAvailableUserWallets()),
   registerWallet: (address, type) => dispatch(userActions.registerWallet(address, type)),

@@ -41,13 +41,8 @@ const LoginOnboardingHeader = ({ classes, headerData, history, signOut }) => {
   );
 };
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   signOut: () => dispatch(userActions.signOut),
 });
 
-export default withRouter(
-  connect(
-    null,
-    mapDispatchToProps
-  )(withStyles(useStyles)(LoginOnboardingHeader))
-);
+export default withRouter(connect(null, mapDispatchToProps)(withStyles(useStyles)(LoginOnboardingHeader)));

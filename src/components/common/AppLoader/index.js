@@ -38,7 +38,7 @@ AppLoader.propTypes = {
   loaderText: PropTypes.string,
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { app } = state.loaderReducer;
   return { ...app };
 };

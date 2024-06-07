@@ -1,5 +1,5 @@
 import { makeStyles, createStyles } from "@material-ui/styles";
-export const useStyles = theme =>
+export const useStyles = (theme) =>
   createStyles({
     filterContainer: {
       maxWidth: 1280,

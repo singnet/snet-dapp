@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   FreeApiCallsData: {
     marginTop: 30,
     textAlign: "center",

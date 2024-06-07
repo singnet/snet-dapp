@@ -13,15 +13,15 @@ const StyledTable = ({ classes, title, columns, rows }) => {
       </Typography>
       <div className={classes.styledTableContent}>
         <div className={classes.styledTableColumn}>
-          {columns.map(column => (
+          {columns.map((column) => (
             <Typography key={column.key} variant="body2">
               {column.label}
             </Typography>
           ))}
         </div>
-        {rows.map(row => (
+        {rows.map((row) => (
           <div key={row.key} className={row.highlight ? classes.styledTableDataHighlighted : classes.styledTableData}>
-            {row.values.map(value => (
+            {row.values.map((value) => (
               <div key={value.label}>
                 {value.icon && <value.icon className={classes.infoIconContainer} />}
                 <Typography variant="body2">{value.label}</Typography>

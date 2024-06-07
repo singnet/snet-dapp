@@ -36,7 +36,7 @@ export default class FakeNewsScoreService extends React.Component {
     });
   }
 
-  handleFocus = event => event.target.select();
+  handleFocus = (event) => event.target.select();
 
   canBeInvoked() {
     return this.state.headline !== "" && this.state.body !== "";
@@ -56,7 +56,7 @@ export default class FakeNewsScoreService extends React.Component {
 
     const props = {
       request,
-      onEnd: response => {
+      onEnd: (response) => {
         const { message, status, statusMessage } = response;
         if (status !== 0) {
           throw new Error(statusMessage);
@@ -125,7 +125,6 @@ export default class FakeNewsScoreService extends React.Component {
     } catch (error) {
       console.log("Error Parsing Json");
     }
-
 
     return (
       <Box>

@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   tabsContainer: {
     width: 630,
     paddingTop: 41,

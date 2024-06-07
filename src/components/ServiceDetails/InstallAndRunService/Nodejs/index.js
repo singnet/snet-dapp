@@ -7,7 +7,7 @@ import StyledButton from "../../../common/StyledButton";
 import DownloadMedia from "../../../../utility/MediaHelper";
 
 const Nodejs = ({ classes, description }) => {
-  const { media } = useSelector(state => state.serviceDetailsReducer.details);
+  const { media } = useSelector((state) => state.serviceDetailsReducer.details);
 
   const downloadIntegrationFiles = () => {
     DownloadMedia(media, "grpc-stub/nodejs", "nodejs.zip");
@@ -19,7 +19,12 @@ const Nodejs = ({ classes, description }) => {
         <p>{description}</p>
         <div className={classes.btnContainer}>
           <StyledButton type="blue" btnText="Download Integration files" onClick={downloadIntegrationFiles} />
-          <StyledButton type="transparent" btnText="view tutorial" href="https://dev.singularitynet.io/docs/ai-consumers/sdk-tutorial/" target="_blank"/>
+          <StyledButton
+            type="transparent"
+            btnText="view tutorial"
+            href="https://dev.singularitynet.io/docs/ai-consumers/sdk-tutorial/"
+            target="_blank"
+          />
         </div>
       </div>
       <div className={classes.setingUpFilesContainer}>

@@ -12,7 +12,8 @@ class OutlinedLabel extends React.Component {
     const { infoTitle, value, htmlValue, variant, htmlTooltip } = this.props;
 
     return (
-      <div style={{
+      <div
+        style={{
           display: "flex",
           alignItems: "flex-start",
           textAlign: "left",
@@ -28,53 +29,48 @@ class OutlinedLabel extends React.Component {
           borderRightWidth: variant === "outlined" ? 1 : 0,
         }}
       >
-
-        <div style={{
-          float: "left",
-          height: "auto",
-          width: "180px",
-          backgroundColor: "none",
-          display: "flex",
-          alignItems: "flex-start",
-          textAlign: "left",
-        }}>
+        <div
+          style={{
+            float: "left",
+            height: "auto",
+            width: "180px",
+            backgroundColor: "none",
+            display: "flex",
+            alignItems: "flex-start",
+            textAlign: "left",
+          }}
+        >
           {htmlTooltip ? (
-              <Tooltip
-                  title={
-                      <React.Fragment>
-                          {htmlTooltip}
-                      </React.Fragment>
-                  }
-                  placement="top"
-              >
-                  <InfoIcon
-                      style={{
-                          color: "#D6D6D6",
-                          "&:hover": {color: "#008BF9",},
-                          verticalAlign: "middle"
-                      }}
-                  />
-              </Tooltip>
+            <Tooltip title={<React.Fragment>{htmlTooltip}</React.Fragment>} placement="top">
+              <InfoIcon
+                style={{
+                  color: "#D6D6D6",
+                  "&:hover": { color: "#008BF9" },
+                  verticalAlign: "middle",
+                }}
+              />
+            </Tooltip>
           ) : null}
           {infoTitle ? (
             <span style={{ color: "#212121", marginLeft: htmlTooltip ? 7 : 3, paddingTop: 2 }}>{infoTitle}</span>
           ) : null}
         </div>
 
-        <div style={{
-          float: htmlTooltip ? "right" : "none",
-          height: "auto",
-          width: htmlTooltip ? `calc(100% - 180px)` : "100%",
-          backgroundColor: "none",
-          display: "flex",
-          alignItems: "flex-start",
-          textAlign: "left",
-          paddingLeft: 10, paddingTop: 2
-        }}
+        <div
+          style={{
+            float: htmlTooltip ? "right" : "none",
+            height: "auto",
+            width: htmlTooltip ? `calc(100% - 180px)` : "100%",
+            backgroundColor: "none",
+            display: "flex",
+            alignItems: "flex-start",
+            textAlign: "left",
+            paddingLeft: 10,
+            paddingTop: 2,
+          }}
         >
-          {htmlValue ? htmlValue : (<span style={{color: "#666"}}>{value}</span>)}
+          {htmlValue ? htmlValue : <span style={{ color: "#666" }}>{value}</span>}
         </div>
-
       </div>
     );
   }

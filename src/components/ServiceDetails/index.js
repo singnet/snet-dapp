@@ -42,23 +42,23 @@ class ServiceDetails extends Component {
       modelDetailsOnEdit: undefined,
     };
   }
-  
+
   initializeService = async () => {
     const { org_id, service_id } = this.props.service;
     const sdk = await initSdk();
     this.serviceClient = new ServiceClient(sdk, org_id, service_id, sdk?._mpeContract, {}, this.props.groupInfo);
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     if (process.env.REACT_APP_SANDBOX) {
       return;
     }
-    if (isEmpty(this.props.service)) {
-      this.fetchServiceDetails();
+    if (isEmpty(this.props.service) || !this.props.service) {
+      await this.fetchServiceDetails();
     } else {
-      this.initializeService();
+      await this.initializeService();
     }
-    this.fetchTrainingModel();
+    await this.fetchTrainingModel();
   }
 
   fetchTrainingModel = async () => {
@@ -80,13 +80,13 @@ class ServiceDetails extends Component {
     } = this.props;
     try {
       await fetchServiceDetails(orgId, serviceId);
-      this.initializeService();
+      await this.initializeService();
     } catch (error) {
       this.setState({ error: true });
     }
   };
 
-  handleTabChange = activeTab => {
+  handleTabChange = (activeTab) => {
     if (window.location.href.indexOf("#demo") > -1) {
       const currentUrl = this.props.location.pathname;
       this.props.history.push(currentUrl);
@@ -117,7 +117,7 @@ class ServiceDetails extends Component {
     this.scrollToView();
   };
 
-  editModel = model => {
+  editModel = (model) => {
     this.setState({
       activeTab: 2,
       createModelCalled: "edit",
@@ -134,7 +134,7 @@ class ServiceDetails extends Component {
     });
   };
 
-  onUpdateModel = async updateModelParams => {
+  onUpdateModel = async (updateModelParams) => {
     const { startUpdateLoader, stopLoader, wallet } = this.props;
     this.setState({ alert: {} });
     try {
@@ -307,7 +307,7 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchServiceDetails: (orgId, serviceId) => dispatch(serviceDetailsActions.fetchServiceDetails(orgId, serviceId)),
   fetchTrainingModel: (orgId, serviceId) => dispatch(fetchTrainingModel(orgId, serviceId)),
   startUpdateLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.UPDATE_MODEL)),

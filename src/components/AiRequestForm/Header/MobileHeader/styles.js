@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   hamburger: {
     padding: 10,
     margin: "0 39px 0 23px",

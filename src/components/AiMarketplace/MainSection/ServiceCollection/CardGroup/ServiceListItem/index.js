@@ -15,7 +15,7 @@ import CardImg from "../../../../../../assets/images/SnetDefaultServiceImage.png
 import SingularityLogo from "../../../../../../assets/images/avatar.png";
 import ServiceAvailabilityToggler from "./ServiceAvailabilityToggler";
 
-const ServiceListItem = props => {
+const ServiceListItem = (props) => {
   const classes = useStyles();
   return (
     <Card className={classes.card}>

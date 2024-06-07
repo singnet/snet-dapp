@@ -22,18 +22,22 @@ const Header = ({ isLoggedIn, showNotification, onCloseClick }) => {
             <MobileHeader data={NavData} isLoggedIn={isLoggedIn} />
             <Title />
           </div>
-          <div className={classes.navigationSection}>
-            <NavBar data={NavData} />
-          </div>
-          <div className={classes.loginBtnsSection}>
-            <HeaderActions isLoggedIn={isLoggedIn} />
-          </div>
+          {!process.env.REACT_APP_SANDBOX && (
+            <>
+              <div className={classes.navigationSection}>
+                <NavBar data={NavData} />
+              </div>
+              <div className={classes.loginBtnsSection}>
+                <HeaderActions isLoggedIn={isLoggedIn} />
+              </div>
+            </>
+          )}
         </div>
       </header>
     </div>
   );
 };
 
-const mapStateToProps = state => ({ isLoggedIn: state.userReducer.login.isLoggedIn });
+const mapStateToProps = (state) => ({ isLoggedIn: state.userReducer.login.isLoggedIn });
 
 export default connect(mapStateToProps)(Header);

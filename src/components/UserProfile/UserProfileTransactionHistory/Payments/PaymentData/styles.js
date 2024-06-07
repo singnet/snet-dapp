@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   paymentsDataRow: {
     padding: "18px 30px",
     borderBottomWidth: 1,

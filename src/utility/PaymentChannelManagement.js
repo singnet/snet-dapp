@@ -78,7 +78,7 @@ export default class PaymentChannelManagement {
     const channelExpiry = (await this._channel?.state?.expiry) ?? 0;
     const blockNumber = await this._sdkContext.web3.eth.getBlockNumber();
     const threshold = this.serviceClient.group.payment_expiration_threshold;
-    const difference = Math.abs(channelExpiry - blockNumber);
+    const difference = Math.abs(Number(channelExpiry - blockNumber));
     return difference <= threshold;
   }
 
@@ -104,7 +104,7 @@ export default class PaymentChannelManagement {
     const channelExpiryBlock = this._channel?.state?.expiry ?? 0;
 
     const defaultExpiration =
-      currentBlockNumber + this.serviceClient.group.payment_expiration_threshold + ONE_YEAR_BLOCKS;
+      Number(currentBlockNumber) + this.serviceClient.group.payment_expiration_threshold + ONE_YEAR_BLOCKS;
 
     return channelExpiryBlock < defaultExpiration ? defaultExpiration : channelExpiryBlock;
   }

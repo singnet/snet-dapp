@@ -3,7 +3,7 @@ import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 
 export const UPDATE_CAROUSEL = "UPDATE_CAROUSEL";
 
-export const fetchCarousel = () => async dispatch => {
+export const fetchCarousel = () => async (dispatch) => {
   const response = await fetchCarouselAPI();
   dispatch({ type: UPDATE_CAROUSEL, payload: response.data });
 };

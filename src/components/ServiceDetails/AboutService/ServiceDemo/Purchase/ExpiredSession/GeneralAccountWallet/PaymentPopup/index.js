@@ -60,7 +60,7 @@ class PaymentPopup extends Component {
     this.handleClose();
   };
 
-  handleUserProvidedPrivateKey = userProvidedPrivateKey => {
+  handleUserProvidedPrivateKey = (userProvidedPrivateKey) => {
     this.setState({ userProvidedPrivateKey });
   };
 
@@ -120,7 +120,7 @@ class PaymentPopup extends Component {
       current_block_number: currentBlockNumber,
     };
 
-    const enhancedItemDetails = pickBy(itemDetails, el => el !== undefined);
+    const enhancedItemDetails = pickBy(itemDetails, (el) => el !== undefined);
 
     const paymentObj = {
       price: { amount: Number(amount), currency },
@@ -177,16 +177,8 @@ class PaymentPopup extends Component {
   };
 
   render() {
-    const {
-      classes,
-      visible,
-      paypalInProgress,
-      orderType,
-      title,
-      channelInfo,
-      handleLostPrivateKey,
-      updateSignature,
-    } = this.props;
+    const { classes, visible, paypalInProgress, orderType, title, channelInfo, handleLostPrivateKey, updateSignature } =
+      this.props;
     const { activeSection, privateKeyGenerated, amount, item, quantity, userProvidedPrivateKey } = this.state;
 
     const progressText = [{ label: "Details" }, { label: "Purchase" }, { label: "Summary" }];
@@ -282,15 +274,15 @@ class PaymentPopup extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   paypalInProgress: state.paymentReducer.paypalInProgress,
   group: groupInfo(state),
   channelInfo: channelInfo(state),
 });
 
-const mapDispatchToProps = dispatch => ({
-  initiatePayment: paymentObj => dispatch(paymentActions.initiatePayment(paymentObj)),
-  executePayment: paymentExecObj => dispatch(paymentActions.executePayment(paymentExecObj)),
+const mapDispatchToProps = (dispatch) => ({
+  initiatePayment: (paymentObj) => dispatch(paymentActions.initiatePayment(paymentObj)),
+  executePayment: (paymentExecObj) => dispatch(paymentActions.executePayment(paymentExecObj)),
   fetchWalletDetails: (orgId, groupId) => dispatch(userActions.fetchWallet(orgId, groupId)),
   paypalCompleted: () => dispatch(paymentActions.updatePaypalCompleted),
 });

@@ -39,7 +39,7 @@ const description = {
   [orderTypes.CREATE_CHANNEL]: `Please enter the payment type in the box below, along with the amount you would like to enter into the payment channel.`,
 };
 
-const Details = props => {
+const Details = (props) => {
   const {
     classes,
     initiatePayment,
@@ -58,14 +58,14 @@ const Details = props => {
   const [alert, setAlert] = useState({});
   const [currency] = useState("USD");
 
-  const handlePayTypeChange = event => {
+  const handlePayTypeChange = (event) => {
     const { value } = event.target;
     if (value !== "default") {
       setPayType(value);
     }
   };
 
-  const handleAmountChange = event => {
+  const handleAmountChange = (event) => {
     const { value } = event.target;
     if (value !== "default") {
       setAmount(value);
@@ -178,7 +178,7 @@ const Details = props => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   groupInfo: groupInfo(state),
   serviceDetails: currentServiceDetails(state),
   USDToAgi: USDToAgi(state),

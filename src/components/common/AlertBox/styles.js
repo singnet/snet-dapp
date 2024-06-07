@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   messageBox: {
     borderWidth: 1,
     borderStyle: "solid",

@@ -1,4 +1,4 @@
-// package: 
+// package:
 // file: ProtoFiles/LanguageDetection.proto
 
 var ProtoFiles_LanguageDetection_pb = require("./LanguageDetection_pb");
@@ -8,7 +8,7 @@ var LanguageDetect = (function () {
   function LanguageDetect() {}
   LanguageDetect.serviceName = "LanguageDetect";
   return LanguageDetect;
-}());
+})();
 
 LanguageDetect.infer = {
   methodName: "infer",
@@ -16,7 +16,7 @@ LanguageDetect.infer = {
   requestStream: false,
   responseStream: false,
   requestType: ProtoFiles_LanguageDetection_pb.Input,
-  responseType: ProtoFiles_LanguageDetection_pb.Output
+  responseType: ProtoFiles_LanguageDetection_pb.Output,
 };
 
 exports.LanguageDetect = LanguageDetect;
@@ -33,10 +33,10 @@ LanguageDetectClient.prototype.infer = function infer(requestMessage, metadata, 
   var client = grpc.unary(LanguageDetect.infer, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -47,15 +47,14 @@ LanguageDetectClient.prototype.infer = function infer(requestMessage, metadata, 
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.LanguageDetectClient = LanguageDetectClient;
-

@@ -13,7 +13,7 @@ import { useStyles } from "./styles";
 const StyledExpansionPanel = ({ classes, expansionItems, handleChange, activeFilterItem }) => {
   return (
     <Fragment>
-      {expansionItems.map(expansionItem => {
+      {expansionItems.map((expansionItem) => {
         if (expansionItem.items.length > 0) {
           return (
             <ExpansionPanel className={classes.filterExpansionPanel} key={expansionItem.title}>
@@ -25,7 +25,7 @@ const StyledExpansionPanel = ({ classes, expansionItems, handleChange, activeFil
                 <Typography className={classes.filtersHeadingTitle}>{expansionItem.title}</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails className={classes.filterDetails}>
-                {expansionItem.items.map(item => (
+                {expansionItem.items.map((item) => (
                   <div className={classes.formCntrlGrup} key={item.key}>
                     <FormControlLabel
                       control={

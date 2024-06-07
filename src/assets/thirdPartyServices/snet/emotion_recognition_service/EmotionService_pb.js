@@ -393,7 +393,7 @@ snet_emotion_recognition_service.Face.prototype.serializeBinaryToWriter = functi
     );
   }
   f = this.getBoundingBox();
-  if (f != null) {
+  if (f !==null) {
     writer.writeMessage(
       2,
       f,
@@ -453,7 +453,7 @@ snet_emotion_recognition_service.Face.prototype.clearBoundingBox = function() {
  * @return{!boolean}
  */
 snet_emotion_recognition_service.Face.prototype.hasBoundingBox = function() {
-  return jspb.Message.getField(this, 2) != null;
+  return jspb.Message.getField(this, 2) !==null;
 };
 
 

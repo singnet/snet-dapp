@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   PurchaseDescription: {
     marginTop: 33,
     color: theme.palette.text.alertBoxColor,

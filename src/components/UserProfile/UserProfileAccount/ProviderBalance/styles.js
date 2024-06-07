@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   providerBalContent: {
     width: "100%",
     margin: 0,

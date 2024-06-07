@@ -42,7 +42,7 @@ export default class EmotionVisualizer extends React.Component {
   download_img() {
     // this is a link to download the rendered boxes form the given image
     let cnvs = this.refs.outsideWrap;
-    html2canvas(cnvs, {}).then(canvas => {
+    html2canvas(cnvs, {}).then((canvas) => {
       const link = document.createElement("a");
       link.setAttribute("type", "hidden");
       link.setAttribute("href", canvas.toDataURL(this.props.inputImageType));
@@ -79,7 +79,7 @@ export default class EmotionVisualizer extends React.Component {
 
     let context = cnvs.getContext("2d");
     //this.props.jobResult["faces"].forEach(item => {
-    this.props.jobResult.facesList.forEach(item => {
+    this.props.jobResult.facesList.forEach((item) => {
       context.beginPath();
       context.rect(
         item.boundingBox["x"] * scale,

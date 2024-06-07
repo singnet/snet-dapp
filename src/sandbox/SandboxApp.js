@@ -33,7 +33,7 @@ class SandboxApp extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   hamburgerMenu: state.stylesReducer.hamburgerMenu,
 });
 

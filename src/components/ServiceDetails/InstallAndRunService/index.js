@@ -10,7 +10,6 @@ import Web3 from "web3";
 
 import StyledTabs from "../StyledTabs";
 import Python from "./Python";
-import Javascript from "./Javascript";
 import Nodejs from "./Nodejs";
 import ProjectDetails from "../ProjectDetails";
 import { useStyles } from "./styles";
@@ -28,11 +27,11 @@ class InstallAndRunService extends Component {
     alert: {},
   };
 
-  handleTabChange = activeTab => {
+  handleTabChange = (activeTab) => {
     this.setState({ activeTab, alert: {}, downloadTokenURL: "" });
   };
 
-  generateToken = async e => {
+  generateToken = async (e) => {
     e.preventDefault();
     try {
       this.setState({ alert: {}, downloadTokenURL: "" });
@@ -53,7 +52,7 @@ class InstallAndRunService extends Component {
     }
   };
 
-  handlePublicKey = event => {
+  handlePublicKey = (event) => {
     this.setState({ publickey: event.currentTarget.value, alert: {}, downloadTokenURL: "" });
   };
 
@@ -156,7 +155,7 @@ class InstallAndRunService extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   downloadAuthToken: (serviceid, groupid, publicKey, orgid) =>
     dispatch(serviceActions.downloadAuthToken(serviceid, groupid, publicKey, orgid)),
 });

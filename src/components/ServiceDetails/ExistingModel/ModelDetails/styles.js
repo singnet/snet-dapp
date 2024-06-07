@@ -2,12 +2,12 @@ const modelStatus = {
   IN_PROGRESS: "IN_PROGRESS",
   PUBLISHED: "PUBLISHED",
 };
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   modelDetailsContainer: {
     padding: "21px 21px 16px 22px",
     border: "1px solid #ECECEC",
     borderRadius: 4,
-    margin: '17px 23px 24px',
+    margin: "17px 23px 24px",
     backgroundColor: theme.palette.text.gray1,
     "& p": {
       padding: "8px 0 16px",

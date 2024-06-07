@@ -35,7 +35,7 @@ export default class BinaryClassification extends React.Component {
     });
   }
 
-  handleFocus = event => event.target.select();
+  handleFocus = (event) => event.target.select();
 
   canBeInvoked() {
     return this.state.headline !== "" && this.state.body !== "";

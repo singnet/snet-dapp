@@ -24,23 +24,23 @@ class SignUp extends Component {
     otp: "",
   };
 
-  handleNickname = event => {
+  handleNickname = (event) => {
     this.setState({ nickname: event.currentTarget.value });
   };
 
-  handleEmail = event => {
+  handleEmail = (event) => {
     this.setState({ email: event.currentTarget.value.toLowerCase() });
   };
 
-  handlePassword = event => {
+  handlePassword = (event) => {
     this.setState({ password: event.currentTarget.value });
   };
 
-  handleOTP = event => {
+  handleOTP = (event) => {
     this.setState({ otp: event.currentTarget.value });
   };
 
-  handleSubmit = event => {
+  handleSubmit = (event) => {
     event.preventDefault();
     this.setState({ alert: {} });
     const isNotValid = snetValidator(this.state, signupFormConstraints);
@@ -60,18 +60,18 @@ class SignUp extends Component {
         nickname,
       },
     })
-      .then(user => {
+      .then((user) => {
         this.props.updateNickname(nickname);
         this.setState({ toBeConfirmed: true });
         stopLoader();
       })
-      .catch(err => {
+      .catch((err) => {
         this.setState({ alert: { type: alertTypes.ERROR, message: err.message } });
         stopLoader();
       });
   };
 
-  handleConfirmSignup = event => {
+  handleConfirmSignup = (event) => {
     this.setState({ alert: {} });
     const isNotValid = snetValidator(this.state, singupOtpContraints);
     if (isNotValid) {
@@ -101,7 +101,7 @@ class SignUp extends Component {
       .then(() => {
         this.setState({ alert: { type: alertTypes.SUCCESS, message: "code resent successfully" } });
       })
-      .catch(err => {
+      .catch((err) => {
         this.setState({ alert: { type: alertTypes.ERROR, message: err.message } });
       });
   };
@@ -139,11 +139,11 @@ class SignUp extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   startSignupLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.SIGNUP)),
   stopLoader: () => dispatch(loaderActions.stopAppLoader),
-  updateNickname: nickname => dispatch(userActions.updateNickname(nickname)),
-  updateEmail: email => dispatch(userActions.updateEmail(email)),
+  updateNickname: (nickname) => dispatch(userActions.updateNickname(nickname)),
+  updateEmail: (email) => dispatch(userActions.updateEmail(email)),
 });
 
 export default connect(null, mapDispatchToProps)(withStyles(useStyles)(SignUp));

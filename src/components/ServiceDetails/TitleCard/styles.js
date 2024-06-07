@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   computerVisionContainer: {
     display: "flex",
     "@media(max-width:490px)": {

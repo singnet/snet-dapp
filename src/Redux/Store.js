@@ -1,8 +1,8 @@
 import { applyMiddleware, compose, createStore } from "redux";
-import thunk from "redux-thunk";
+import { thunk } from "redux-thunk";
 
 import rootReducer from "./reducers";
-import sandboxState from '../sandbox/sandbox_state';
+import sandboxState from "../sandbox/sandbox_state";
 
 let composeEnhancers = compose;
 const middlewares = [thunk];

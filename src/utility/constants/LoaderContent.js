@@ -31,7 +31,7 @@ export const LoaderContent = {
     loaderHeader: "Fetching usage data",
     loaderText: "Please wait,we're checking your usage data",
   },
-  SERVICE_INVOKATION: displayName => ({
+  SERVICE_INVOKATION: (displayName) => ({
     loaderHeader: `Invoking ${displayName}`,
     loaderText: "Please wait, the AI service is computing the result",
   }),

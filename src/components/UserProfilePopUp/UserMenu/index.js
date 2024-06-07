@@ -10,11 +10,11 @@ import UserMenuAction from "./UserMenuAction";
 const UserMenu = ({ classes, handleClick }) => {
   return (
     <ul className={classes.userMenuItemList} onClick={handleClick}>
-      {UserMenuList.map(menu => (
+      {UserMenuList.map((menu) => (
         <UserMenuItem key={menu.menuTitle} icon={menu.menuIcon} title={menu.menuTitle} linkTo={menu.menuLink} />
       ))}
       <Divider />
-      {UserMenuActionList.map(action => (
+      {UserMenuActionList.map((action) => (
         <UserMenuAction key={action.Title} icon={action.menuIcon} title={action.menuTitle} action={action.action} />
       ))}
     </ul>

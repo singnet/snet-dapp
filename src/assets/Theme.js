@@ -1,4 +1,4 @@
-import { createMuiTheme } from "@material-ui/core/styles";
+import { createTheme } from "@material-ui/core/styles";
 
 const customBlue = "#4086ff";
 const customHoverBlue = "#005ACB";
@@ -79,7 +79,7 @@ const infoBg = "#DEEAFF";
 const warningBg = "#FDF3E5";
 const warningBorder = "#F18D5A";
 
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     text: {
       primary: customBlue,

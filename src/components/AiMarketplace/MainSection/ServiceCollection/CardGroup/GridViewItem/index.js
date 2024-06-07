@@ -18,7 +18,7 @@ import { useStyles } from "./styles";
 import ServiceAvailabilityToggler from "../ServiceListItem/ServiceAvailabilityToggler";
 import { GridViewHeaderLength } from "../../../../../../utility/constants/UXProperties";
 
-const StyledCard = props => {
+const StyledCard = (props) => {
   const classes = useStyles();
   return (
     <Card className={classes.card}>

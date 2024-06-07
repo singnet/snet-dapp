@@ -28,12 +28,12 @@ export const callTypes = {
   REGULAR: "REGULAR",
 };
 
-export const parseSignature = hexSignature => {
+export const parseSignature = (hexSignature) => {
   const signatureBuffer = Buffer.from(hexSignature.slice(2), "hex");
   return signatureBuffer.toString("base64");
 };
 
-export const decodeGroupId = encodedGroupId => {
+export const decodeGroupId = (encodedGroupId) => {
   const groupIdBuffer = Buffer.from(encodedGroupId, "base64");
   return `0x${groupIdBuffer.toString("hex")}`;
 };
@@ -71,7 +71,7 @@ const parseChannelStateRequestSigner = ({ data }) => ({
   signatureBytes: parseSignature(data.signature),
 });
 
-const channelStateRequestSigner = async channelId => {
+const channelStateRequestSigner = async (channelId) => {
   const apiName = APIEndpoints.SIGNER_SERVICE.name;
   const stateServicePayload = { channel_id: Number(channelId) };
   const { token } = await store.dispatch(fetchAuthenticatedUser());
@@ -81,7 +81,7 @@ const channelStateRequestSigner = async channelId => {
   );
 };
 
-const paidCallMetadataGenerator = serviceRequestErrorHandler => async (channelId, signingAmount, nonce) => {
+const paidCallMetadataGenerator = (serviceRequestErrorHandler) => async (channelId, signingAmount, nonce) => {
   try {
     const apiName = APIEndpoints.SIGNER_SERVICE.name;
     const enhancedChannelId = parseInt(channelId.toFixed());
@@ -157,7 +157,7 @@ export const initPaypalSdk = (address, channelInfo) => {
   sdk.paymentChannelManagementStrategy = new PaypalPaymentMgmtStrategy(sdk, channelInfo.id);
 };
 
-export const updateChannel = newChannel => {
+export const updateChannel = (newChannel) => {
   channel = newChannel;
 };
 
@@ -184,7 +184,7 @@ const switchNetwork = async () => {
   });
 };
 
-export const initSdk = async address => {
+export const initSdk = async (address) => {
   web3Provider = window.ethereum;
   const updateSDK = async () => {
     const isExpectedNetwork = await isUserAtExpectedEthereumNetwork();
@@ -219,11 +219,11 @@ export const initSdk = async address => {
 
   if (hasEth) {
     await web3Provider.request({ method: ethereumMethods.REQUEST_ACCOUNTS });
-    web3Provider.addListener(ON_ACCOUNT_CHANGE, accounts => {
+    web3Provider.addListener(ON_ACCOUNT_CHANGE, (accounts) => {
       const event = new CustomEvent("snetMMAccountChanged", { detail: { address: accounts[0] } });
       window.dispatchEvent(event);
     });
-    web3Provider.addListener(ON_NETWORK_CHANGE, network => {
+    web3Provider.addListener(ON_NETWORK_CHANGE, (network) => {
       switchNetwork();
       const event = new CustomEvent("snetMMNetworkChanged", { detail: { network } });
       window.dispatchEvent(event);
@@ -233,9 +233,9 @@ export const initSdk = async address => {
   return Promise.resolve(sdk);
 };
 
-const getMethodNames = service => {
+const getMethodNames = (service) => {
   const ownProperties = Object.getOwnPropertyNames(service);
-  return ownProperties.filter(property => {
+  return ownProperties.filter((property) => {
     if (service[property] && typeof service[property] === typeof {}) {
       return !!service[property].methodName;
     }
@@ -273,36 +273,38 @@ export const createServiceClient = (
   );
 
   const finishServiceInteraction = () => {
-    if(serviceRequestCompleteHandler) {
+    if (serviceRequestCompleteHandler) {
       serviceRequestCompleteHandler();
       return;
     }
-  }
-
-  const onEnd = props => (...args) => {
-    try {
-      const { status, statusMessage } = args[0];
-      if (status !== 0) {
-        serviceRequestErrorHandler(statusMessage);
-        return;
-      }
-
-      if(props.onEnd) {
-        props.onEnd(...args);
-      }
-
-      if (props.preventCloseServiceOnEnd) {
-        return;
-      }
-
-      if (serviceRequestCompleteHandler) {
-        serviceRequestCompleteHandler();
-      }
-    } catch (error) {
-      serviceRequestErrorHandler(error);
-    }
   };
- 
+
+  const onEnd =
+    (props) =>
+    (...args) => {
+      try {
+        const { status, statusMessage } = args[0];
+        if (status !== 0) {
+          serviceRequestErrorHandler(statusMessage);
+          return;
+        }
+
+        if (props.onEnd) {
+          props.onEnd(...args);
+        }
+
+        if (props.preventCloseServiceOnEnd) {
+          return;
+        }
+
+        if (serviceRequestCompleteHandler) {
+          serviceRequestCompleteHandler();
+        }
+      } catch (error) {
+        serviceRequestErrorHandler(error);
+      }
+    };
+
   const requestStartHandler = () => {
     if (serviceRequestStartHandler) {
       serviceRequestStartHandler();

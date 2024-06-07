@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { withStyles } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 import AppBar from "@material-ui/core/AppBar";
@@ -10,10 +10,10 @@ import RequestedModel from "./RequestedModel";
 import RejectedRequestModel from "./RejectedRequestModel";
 
 const UserProfileModels = ({ classes }) => {
-  const [ activeTab, setActiveTab ] = React.useState(0);
+  const [activeTab, setActiveTab] = React.useState(0);
 
-  const onTabChange = activeTab => {
-    setActiveTab(activeTab );
+  const onTabChange = (activeTab) => {
+    setActiveTab(activeTab);
   };
 
   const tabs = [
@@ -21,7 +21,7 @@ const UserProfileModels = ({ classes }) => {
     { name: "Rejected Requests", activeIndex: 1, component: <RejectedRequestModel /> },
   ];
 
-  const activeComponent = tabs.filter(el => el.activeIndex === activeTab)[0].component;
+  const activeComponent = tabs.filter((el) => el.activeIndex === activeTab)[0].component;
 
   return (
     <Grid container spacing={24} className={classes.userProfileModelMainContainer}>
@@ -30,7 +30,7 @@ const UserProfileModels = ({ classes }) => {
         <div className={classes.userProfileModelContent}>
           <AppBar position="static" className={classes.tabsHeader}>
             <Tabs value={activeTab}>
-              {tabs.map(value => (
+              {tabs.map((value) => (
                 <Tab key={value.name} label={value.name} onClick={(value) => onTabChange(value.activeIndex)} />
               ))}
             </Tabs>
@@ -40,6 +40,6 @@ const UserProfileModels = ({ classes }) => {
       </Grid>
     </Grid>
   );
-}
+};
 
-export default withStyles(useStyles)(UserProfileModels );
+export default withStyles(useStyles)(UserProfileModels);
