@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 
 import { useStyles } from "./styles";
 
-const DialogTitle = withStyles(useStyles)(props => {
+const DialogTitle = withStyles(useStyles)((props) => {
   const { children, classes, onClose } = props;
   return (
     <MuiDialogTitle disableTypography className={classes.root}>

@@ -8,7 +8,7 @@ var GENGPT2 = (function () {
   function GENGPT2() {}
   GENGPT2.serviceName = "gen_gpt_2.GENGPT2";
   return GENGPT2;
-}());
+})();
 
 GENGPT2.gen_gpt_2 = {
   methodName: "gen_gpt_2",
@@ -16,7 +16,7 @@ GENGPT2.gen_gpt_2 = {
   requestStream: false,
   responseStream: false,
   requestType: ProtoFiles_ntg_pb.Query,
-  responseType: ProtoFiles_ntg_pb.Answer
+  responseType: ProtoFiles_ntg_pb.Answer,
 };
 
 exports.GENGPT2 = GENGPT2;
@@ -33,10 +33,10 @@ GENGPT2Client.prototype.gen_gpt_2 = function gen_gpt_2(requestMessage, metadata,
   var client = grpc.unary(GENGPT2.gen_gpt_2, {
     request: requestMessage,
     host: this.serviceHost,
-    metadata: metadata,
+    metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
+    onEnd(response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
           var err = new Error(response.statusMessage);
@@ -47,15 +47,14 @@ GENGPT2Client.prototype.gen_gpt_2 = function gen_gpt_2(requestMessage, metadata,
           callback(null, response.message);
         }
       }
-    }
+    },
   });
   return {
-    cancel: function () {
+    cancel() {
       callback = null;
       client.close();
-    }
+    },
   };
 };
 
 exports.GENGPT2Client = GENGPT2Client;
-

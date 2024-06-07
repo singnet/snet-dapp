@@ -31,14 +31,14 @@ const MobileHeader = ({ classes, data, isLoggedIn, hamburgerMenu, updateHamburge
         </div>
         <nav className={classes.mobileNavigation}>
           <ul>
-            {data.tabs.map(tab => (
+            {data.tabs.map((tab) => (
               <NavItem key={tab.title} title={tab.title} link={tab.link} active={tab.active} />
             ))}
-            {data.dropdowns.map(dropdown => (
+            {data.dropdowns.map((dropdown) => (
               <div key={dropdown.label} className={classes.subMenues}>
                 <Fragment>
                   <NavItem title={dropdown.label} subHeader />
-                  {dropdown.list.map(item => (
+                  {dropdown.list.map((item) => (
                     <NavItem key={item.label} title={item.label} link={item.link} subListItem />
                   ))}
                 </Fragment>
@@ -54,15 +54,12 @@ const MobileHeader = ({ classes, data, isLoggedIn, hamburgerMenu, updateHamburge
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   hamburgerMenu: state.stylesReducer.hamburgerMenu,
 });
 
-const mapDispatchToProps = dispatch => ({
-  updateHamburgerState: hamburgerState => dispatch(stylesActions.updateHamburgerState(hamburgerState)),
+const mapDispatchToProps = (dispatch) => ({
+  updateHamburgerState: (hamburgerState) => dispatch(stylesActions.updateHamburgerState(hamburgerState)),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(useStyles)(MobileHeader));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(MobileHeader));

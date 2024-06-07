@@ -22,7 +22,7 @@ const StyledDropdown = ({ labelTxt, name, list, value, onChange, formControlProp
       >
         <MenuItem value="default">{labelTxt || "Select a value"}</MenuItem>
         {list &&
-          list.map(item => (
+          list.map((item) => (
             <MenuItem key={item.value} value={item.value}>
               {item.label}
             </MenuItem>

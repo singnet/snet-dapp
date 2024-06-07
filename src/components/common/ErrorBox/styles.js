@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   errorMsgContainer: {
     width: "100%",
     margin: "40px 0 60px",

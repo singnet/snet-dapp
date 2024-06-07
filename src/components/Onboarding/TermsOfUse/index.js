@@ -18,7 +18,7 @@ class TermsOfUse extends Component {
     alertMessage: undefined,
   };
 
-  handleChange = event => {
+  handleChange = (event) => {
     this.setState({ isTermsAccepted: event.target.checked });
   };
 
@@ -67,11 +67,8 @@ class TermsOfUse extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  updateUserProfile: updatedUserData => dispatch(userActions.updateUserProfile(updatedUserData)),
+const mapDispatchToProps = (dispatch) => ({
+  updateUserProfile: (updatedUserData) => dispatch(userActions.updateUserProfile(updatedUserData)),
 });
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(withStyles(useStyles)(withRouter(TermsOfUse)));
+export default connect(null, mapDispatchToProps)(withStyles(useStyles)(withRouter(TermsOfUse)));

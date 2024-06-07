@@ -1,15 +1,15 @@
 import React, { Fragment } from "react";
-import Helmet from "react-helmet";
+import { Helmet } from "react-helmet";
 import PropTypes from "prop-types";
 
 const totalKeywordsAllowed = 5;
 
-const SeoMetadata = props => {
+const SeoMetadata = (props) => {
   const { title, description, image, url, twitterImage, keywords } = props;
   const twitterSeoImage = twitterImage ? twitterImage : image;
   const keywordsCommaDelimitedString = keywords
     ? keywords
-        .map(el => el && el.tag_name)
+        .map((el) => el && el.tag_name)
         .slice(0, totalKeywordsAllowed)
         .join(",")
     : undefined;

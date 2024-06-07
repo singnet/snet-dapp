@@ -27,14 +27,14 @@ class UserProfileSettings extends Component {
     this.setState({ emailAlerts: this.props.emailAlerts });
   };
 
-  handleEmailChange = event => {
+  handleEmailChange = (event) => {
     this.setState({
       email: event.target.value,
     });
   };
 
   handleEmailAlerts = () => {
-    this.setState(prevState => ({ emailAlerts: !prevState.emailAlerts }));
+    this.setState((prevState) => ({ emailAlerts: !prevState.emailAlerts }));
   };
 
   handleDelete = () => {
@@ -160,16 +160,16 @@ class UserProfileSettings extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   userEmail: state.userReducer.email,
   nickname: state.userReducer.nickname,
   emailAlerts: state.userReducer.emailAlerts,
   isTermsAccepted: state.userReducer.isTermsAccepted,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   deleteUserAccount: ({ history, route }) => dispatch(userActions.deleteUserAccount({ history, route })),
-  updateUserProfile: updatedUserData => dispatch(userActions.updateUserProfile(updatedUserData)),
+  updateUserProfile: (updatedUserData) => dispatch(userActions.updateUserProfile(updatedUserData)),
   stopLoader: () => dispatch(loaderActions.stopAppLoader),
 });
 

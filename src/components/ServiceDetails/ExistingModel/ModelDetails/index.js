@@ -44,7 +44,7 @@ const ModelDetails = ({ classes, model, deleteModels, editModel }) => {
               <>
                 <span> {`limited(${model.addressList.length})`}</span>
                 <ul>
-                  {model.addressList.map(address => (
+                  {model.addressList.map((address) => (
                     <li key={address}>{address}</li>
                   ))}
                 </ul>

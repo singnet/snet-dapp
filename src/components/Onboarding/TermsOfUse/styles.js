@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   onboardingContainer: {
     paddingBottom: 40,
     backgroundColor: theme.palette.text.gray8,

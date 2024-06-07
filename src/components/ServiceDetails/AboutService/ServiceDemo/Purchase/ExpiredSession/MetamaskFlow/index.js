@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Tooltip from "@material-ui/core/Tooltip";
-import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/styles";
 import { WebServiceClient as ServiceClient } from "snet-sdk-web";
 
@@ -31,6 +30,7 @@ const connectMMinfo = {
 Click below to install and learn more about how to use Metamask and your AGIX credits with SinguarlityNet AI Marketplace.`,
 };
 
+const MIN_CALLS_NUMBER = 1;
 class MetamaskFlow extends Component {
   state = {
     MMconnected: false,
@@ -43,7 +43,9 @@ class MetamaskFlow extends Component {
     alert: {},
     showTooltip: false,
   };
+
   sdk;
+
   serviceClient;
 
   paymentChannelManagement;
@@ -110,14 +112,15 @@ class MetamaskFlow extends Component {
       await this.paymentChannelManagement.updateChannelInfo();
       const address = await this.sdk.account.getAddress();
       const availableUserWallets = await fetchAvailableUserWallets();
-      const addressAlreadyRegistered = availableUserWallets.some(wallet => wallet.address.toLowerCase() === address);
-
+      const addressAlreadyRegistered = availableUserWallets.some(
+        (wallet) => wallet.address.toLowerCase() === address.toLowerCase()
+      );
       if (!addressAlreadyRegistered) {
         await registerWallet(address, walletTypes.METAMASK);
       }
 
       updateWallet({ type: walletTypes.METAMASK, address });
-      this.PaymentInfoCardData.map(el => {
+      this.PaymentInfoCardData.map((el) => {
         if (el.title === "Escrow Balance") {
           el.value = cogsToAgi(mpeBal);
         }
@@ -136,7 +139,7 @@ class MetamaskFlow extends Component {
     stopLoader();
   };
 
-  handlePayTypeChange = value => {
+  handlePayTypeChange = (value) => {
     const { disabledPayTypes, selectedPayType } = this.state;
     if (disabledPayTypes.includes(value) || selectedPayType === value) {
       return;
@@ -152,8 +155,19 @@ class MetamaskFlow extends Component {
     this.setState({ showPurchaseDialog: false });
   };
 
-  handleNoOfCallsChange = event => {
+  isValidCallsNumber = (numberOfCalls) => {
+    const isMoreOrEqualThanMinimum = numberOfCalls >= MIN_CALLS_NUMBER;
+    const isInteger = numberOfCalls % 1 === 0;
+    const isNumber = Number(numberOfCalls);
+    return isMoreOrEqualThanMinimum && isInteger && isNumber;
+  };
+
+  handleNoOfCallsChange = (event) => {
     const noOfServiceCalls = event.target.value;
+    console.log(noOfServiceCalls);
+    if (!this.isValidCallsNumber(noOfServiceCalls)) {
+      return;
+    }
     const totalPrice = String(cogsToAgi(this.paymentChannelManagement.noOfCallsToCogs(noOfServiceCalls)));
     this.setState({ noOfServiceCalls, totalPrice });
   };
@@ -207,12 +221,16 @@ class MetamaskFlow extends Component {
   };
 
   parseChannelBalFromPaymentCard = () => {
-    return this.PaymentInfoCardData.find(el => el.title === "Channel Balance").value;
+    return this.PaymentInfoCardData.find((el) => el.title === "Channel Balance").value;
   };
 
   shouldContinueBeEnabled = () => {
-    const { mpeBal, totalPrice, channelBalance } = this.state;
-    return this.props.isServiceAvailable && (mpeBal >= totalPrice || channelBalance >= totalPrice);
+    const { mpeBal, totalPrice, channelBalance, selectedPayType } = this.state;
+    return (
+      selectedPayType &&
+      this.props.isServiceAvailable &&
+      (Number(mpeBal) >= Number(totalPrice) || Number(channelBalance) >= Number(totalPrice))
+    );
   };
 
   shouldDepositToEscrowBeHighlighted = () => this.state.mpeBal <= 0;
@@ -251,13 +269,8 @@ class MetamaskFlow extends Component {
     return (
       <div className={classes.PurchaseFlowContainer}>
         <PurchaseDialog show={showPurchaseDialog} onClose={this.handlePurchaseDialogClose} />
-        <Typography variant="body1" className={classes.PurchaseFlowDescription}>
-          Transfer the style of a “style Image” to a “content image” by choosing them in the boxes below. You can upload
-          a a file from your computer, URL, or select image from the gallery. You can specify additional parameters in
-          the panel below. “Mouse over” for tool tips.
-        </Typography>
         <div className={classes.paymentInfoCard}>
-          {this.PaymentInfoCardData.map(item => (
+          {this.PaymentInfoCardData.map((item) => (
             <PaymentInfoCard key={item.title} title={item.title} value={item.value} unit={item.unit} />
           ))}
         </div>
@@ -266,7 +279,7 @@ class MetamaskFlow extends Component {
             <span className={classes.channelSelectionTitle}>Recommended</span>
             <ChannelSelectionBox
               title="Channel Balance"
-              description={`You have ${this.parseChannelBalFromPaymentCard()} AGIX in you channel. This can be used for running demos across all the services from this vendor.`}
+              description={`You have ${Number(this.parseChannelBalFromPaymentCard())} AGIX in you channel. This can be used for running demos across all the services from this vendor.`}
               checked={selectedPayType === payTypes.CHANNEL_BALANCE}
               value={payTypes.CHANNEL_BALANCE}
               onClick={() => this.handlePayTypeChange(payTypes.CHANNEL_BALANCE)}
@@ -296,10 +309,9 @@ class MetamaskFlow extends Component {
               value={payTypes.SINGLE_CALL}
               onClick={() => this.handlePayTypeChange(payTypes.SINGLE_CALL)}
               inputProps={{
-                noOfServiceCalls: 1,
                 totalPrice: cogsToAgi(this.props.pricing.price_in_cogs),
                 unit: "AGIX",
-                disabled: true,
+                noInput: true,
               }}
               disabled={disabledPayTypes.includes(payTypes.SINGLE_CALL)}
             />
@@ -336,14 +348,14 @@ class MetamaskFlow extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   serviceDetails: currentServiceDetails(state),
   pricing: pricing(state),
   wallet: state.userReducer.wallet,
   walletList: state.userReducer.walletList,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   startMMconnectLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.CONNECT_METAMASK)),
   startChannelSetupLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.SETUP_CHANNEL_FOR_SERV_EXEC)),
   updateWallet: ({ type, address }) => dispatch(userActions.updateWallet({ type, address })),

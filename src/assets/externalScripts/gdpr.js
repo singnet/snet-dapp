@@ -29,7 +29,7 @@ export default   function(){
         var msgIsString = typeof event.data === "string";
         var json;
         if(msgIsString) {
-        json = event.data.indexOf("__cmpCall") != -1 ? JSON.parse(event.data) : {};
+        json = event.data.indexOf("__cmpCall") !==-1 ? JSON.parse(event.data) : {};
         } else {
         json = event.data;
         }
@@ -54,7 +54,7 @@ export default   function(){
         else if (b[0] === 'ping') {
         b[2]({"gdprAppliesGlobally": gdprAppliesGlobally,
             "cmpLoaded": false}, true);
-        } else if (c == '__cmp')
+        } else if (c==='__cmp')
         return false;
         else {
         if (typeof __cmp.a === 'undefined') {

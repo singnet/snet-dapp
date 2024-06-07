@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   UserProfilePopUpContainer: {
     width: 400,
     borderRadius: 4,

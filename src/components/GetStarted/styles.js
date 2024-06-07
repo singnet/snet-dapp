@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   GetStartedMainContaienr: {
     padding: "30px 60px 60px",
     backgroundColor: theme.palette.text.offWhiteColor,
@@ -31,7 +31,7 @@ export const useStyles = theme => ({
     },
     "& button": { padding: "13px 16% 11px" },
   },
-  alertBox :{ 
+  alertBox: {
     margin: "0 auto",
-  }
+  },
 });

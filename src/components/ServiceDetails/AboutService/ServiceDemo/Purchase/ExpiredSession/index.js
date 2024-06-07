@@ -23,7 +23,7 @@ const TransactionAlert = {
 };
 
 class ExpiredSession extends Component {
-  handlePayTypeChange = async event => {
+  handlePayTypeChange = async (event) => {
     const { value } = event.target;
     const { updateWallet, stopWalletDetailsPolling } = this.props;
     this.setState({ alert: {} });
@@ -65,15 +65,8 @@ class ExpiredSession extends Component {
   };
 
   render() {
-    const {
-      classes,
-      wallet,
-      handleComplete,
-      groupInfo,
-      handlePurchaseError,
-      isServiceAvailable,
-      channelInfo,
-    } = this.props;
+    const { classes, wallet, handleComplete, groupInfo, handlePurchaseError, isServiceAvailable, channelInfo } =
+      this.props;
     const channelPaymentOptions = [
       { value: walletTypes.GENERAL, label: "General Account Wallet" },
       { value: walletTypes.METAMASK, label: "Metamask" },
@@ -126,15 +119,15 @@ class ExpiredSession extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   wallet: state.userReducer.wallet,
   channelInfo: channelInfo(state),
   anyPendingTxn: anyPendingTxn(state),
   anyFailedTxn: anyFailedTxn(state),
 });
 
-const mapDispatchToProps = dispatch => ({
-  updateWallet: args => dispatch(userActions.updateWallet(args)),
+const mapDispatchToProps = (dispatch) => ({
+  updateWallet: (args) => dispatch(userActions.updateWallet(args)),
   registerWallet: (address, type) => dispatch(userActions.registerWallet(address, type)),
   stopWalletDetailsPolling: () => dispatch(userActions.stopWalletDetailsPolling),
 });

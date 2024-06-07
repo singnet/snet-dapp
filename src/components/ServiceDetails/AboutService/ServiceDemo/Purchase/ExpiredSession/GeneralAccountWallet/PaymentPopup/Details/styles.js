@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   deatilsTabDesc: {
     marginTop: 32,
     color: theme.palette.text.mediumShadeGray,

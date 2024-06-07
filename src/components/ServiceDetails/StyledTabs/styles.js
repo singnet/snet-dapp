@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   tabsHeader: {
     backgroundColor: "transparent",
     color: theme.palette.text.lightShadedGray,

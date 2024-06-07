@@ -26,12 +26,12 @@ const VerifyKey = ({ classes, handleLostPrivateKey, walletList, handleUserProvid
     handleLostPrivateKey();
   };
 
-  const validatePrivateKey = event => {
+  const validatePrivateKey = (event) => {
     event.preventDefault();
     try {
       handleUserProvidedPrivateKey(privateKey);
       const account = web3.eth.accounts.privateKeyToAccount(privateKey);
-      const GenWalletMatchingAcc = walletList.find(wallet => wallet.address === account.address);
+      const GenWalletMatchingAcc = walletList.find((wallet) => wallet.address === account.address);
       if (!GenWalletMatchingAcc) {
         setAlert({
           type: alertTypes.ERROR,
@@ -56,7 +56,7 @@ const VerifyKey = ({ classes, handleLostPrivateKey, walletList, handleUserProvid
           If you have lost your wallet private key, we can create a new wallet for you, though please take note that:
         </Typography>
         <div className={classes.WarningBoxConatiner}>
-          {warningMessage.map(msg => (
+          {warningMessage.map((msg) => (
             <BulletPoint key={msg} type={alertTypes.WARNING} message={msg} />
           ))}
         </div>
@@ -80,7 +80,7 @@ const VerifyKey = ({ classes, handleLostPrivateKey, walletList, handleUserProvid
       <form>
         <div className={`${classes.textField} ${alert.message ? classes.error : ""}`}>
           <span>Private Key</span>
-          <input type="password" value={privateKey} onChange={e => setPrivateKey(e.target.value)} />
+          <input type="password" value={privateKey} onChange={(e) => setPrivateKey(e.target.value)} />
           <AlertText type={alert.type} message={alert.message} />
         </div>
         <AlertBox type={alert.type} message={alert.message} />
@@ -93,7 +93,7 @@ const VerifyKey = ({ classes, handleLostPrivateKey, walletList, handleUserProvid
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   walletList: state.userReducer.walletList,
 });
 

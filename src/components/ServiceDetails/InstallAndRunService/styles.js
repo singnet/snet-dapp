@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   DownloadTokenBtn: {
     padding: "10px 30px",
     display: "block",
@@ -72,7 +72,7 @@ export const useStyles = theme => ({
     borderRadius: 4,
     boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
     backgroundColor: theme.palette.text.white,
-    "@media(max-width:960px)": { marginRight: 0 }
+    "@media(max-width:960px)": { marginRight: 0 },
   },
   integrationContent: {
     minHeight: 500,

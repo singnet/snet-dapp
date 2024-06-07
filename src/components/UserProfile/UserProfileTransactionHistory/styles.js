@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   transactionHistoryMainContainer: {
     margin: "13px 0 30px",
     backgroundColor: theme.palette.text.white,

@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   authenticationContent: {
     width: 630,
     paddingBottom: 40,

@@ -29,7 +29,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const UploadFromLink = ({ classes, trainingDataLink, setTrainingDataLink }) => {
-  const handleTrainingDataLinkBox = event => {
+  const handleTrainingDataLinkBox = (event) => {
     setTrainingDataLink(event.target.value);
   };
 

@@ -2,7 +2,7 @@ import { APIEndpoints } from "./APIEndpoints";
 
 let endpoints = [];
 
-Object.values(APIEndpoints).map(value => endpoints.push(value));
+Object.values(APIEndpoints).map((value) => endpoints.push(value));
 
 export const aws_config = {
   Auth: {

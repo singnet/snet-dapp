@@ -12,7 +12,7 @@ import AnchorLink from "../AnchorLink";
 const StyledMenu = ({ classes, label, list }) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleOpen = event => {
+  const handleOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -26,7 +26,7 @@ const StyledMenu = ({ classes, label, list }) => {
         <CaretIcon />
       </div>
       <Menu anchorEl={anchorEl} id="simple-menu" open={Boolean(anchorEl)} onClose={handleClose}>
-        {list.map(item => (
+        {list.map((item) => (
           <MenuItem key={item.label} className={classes.menuItem}>
             <AnchorLink label={item.label} href={item.link} newTab={item.newTab} />
           </MenuItem>

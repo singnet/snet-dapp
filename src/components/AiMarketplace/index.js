@@ -1,9 +1,7 @@
-import React from "react";
-import { withStyles } from "@material-ui/styles";
+import React, { Fragment } from "react";
 import { connect } from "react-redux";
 
 import MainSection from "./MainSection";
-import { useStyles } from "./styles";
 import SeoMetadata from "../common/SeoMetadata";
 import ServiceListingHeader from "./ServiceListingHeader";
 import PromoComponent from "../PromoComponent";
@@ -17,9 +15,9 @@ const seoData = {
   url: `${process.env.REACT_APP_BASE_URL}`,
 };
 
-const AiMarketplace = ({ classes, isLoggedIn }) => {
+const AiMarketplace = ({ isLoggedIn }) => {
   return (
-    <React.Fragment>
+    <Fragment>
       <ServiceListingHeader />
       <SeoMetadata
         title={seoData.title}
@@ -30,12 +28,12 @@ const AiMarketplace = ({ classes, isLoggedIn }) => {
       />
       <MainSection />
       <PromoComponent />
-    </React.Fragment>
+    </Fragment>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isLoggedIn: state.userReducer.login.isLoggedIn,
 });
 
-export default connect(mapStateToProps)(withStyles(useStyles)(AiMarketplace));
+export default connect(mapStateToProps)(AiMarketplace);

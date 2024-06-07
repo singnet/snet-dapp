@@ -48,7 +48,7 @@ class OutlinedDropDown extends React.Component {
             variant="outlined"
           >
             {list ? (
-              list.map(option => {
+              list.map((option) => {
                 return (
                   <MenuItem key={option.value} value={option.value}>
                     {option.label}

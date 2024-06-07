@@ -18,7 +18,7 @@ const successMessage = {
   [orderTypes.CREATE_CHANNEL]: "Successfully Linked the Wallet for :",
 };
 
-const Summary = props => {
+const Summary = (props) => {
   const { classes, amount, item, quantity, handlePaymentComplete, serviceDetails, orderType } = props;
 
   const columns = [
@@ -47,7 +47,7 @@ const Summary = props => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   serviceDetails: currentServiceDetails(state),
 });
 

@@ -35,7 +35,7 @@ const CardGroup = ({ data: cards, listView, loading }) => {
   if (listView) {
     return (
       <div className={classes.lisViewCardCollection}>
-        {cards.map(card => (
+        {cards.map((card) => (
           <Link
             to={`/${Routes.SERVICE_DETAILS}/org/${card.org_id}/service/${card.service_id}`}
             className={classes.routerLink}
@@ -58,7 +58,7 @@ const CardGroup = ({ data: cards, listView, loading }) => {
   }
   return (
     <div className={classes.gridViewCardCollection}>
-      {cards.map(card => (
+      {cards.map((card) => (
         <Link
           key={card.service_row_id}
           to={`/${Routes.SERVICE_DETAILS}/org/${card.org_id}/service/${card.service_id}`}
@@ -84,7 +84,7 @@ CardGroup.defaultProps = {
   cards: [],
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loading: state.loaderReducer.aiServieList,
 });
 

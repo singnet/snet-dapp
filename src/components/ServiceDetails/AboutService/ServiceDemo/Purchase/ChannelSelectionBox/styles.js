@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   ChannelSelectionBoxContainer: {
     cursor: "pointer",
     borderWidth: 1,
@@ -26,21 +26,25 @@ export const useStyles = theme => ({
     backgroundColor: theme.palette.text.cardBackground,
   },
   LeftSideSection: {
-    padding: "14px 8px 14px 28px",
+    padding: "14px 0",
     display: "flex",
     alignItems: "center",
-    "@media(max-width:1023px)": { padding: "14px 0" },
     "@media(max-width:480px)": { maxWidth: "100%" },
   },
   RadioButtonContainer: {
     "&.Mui-checked": { color: theme.palette.text.primary },
   },
   InputDataContainer: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 7,
+
     "& h2": {
-      marginBottom: 8,
       color: theme.palette.text.darkShadedGray,
       fontSize: 22,
       lineHeight: "30px",
+      padding: 0,
+      margin: 0,
       "@media(max-width:1023px)": {
         fontSize: 16,
         lineHeight: "20px",
@@ -53,13 +57,12 @@ export const useStyles = theme => ({
       borderStyle: "solid",
       borderColor: theme.palette.text.inputBoxBorder,
       borderRadius: 4,
-      marginRight: 30,
+      marginRight: 10,
       backgroundColor: theme.palette.text.whiteColor,
       color: theme.palette.text.mediumShadeGray,
       fontSize: 16,
       textAlign: "center",
       "&:disabled": { backgroundColor: theme.palette.text.cardBackground, borderColor: "#eee" },
-      "@media(max-width:1023px)": { marginRight: 10 },
     },
     "& span": {
       color: theme.palette.text.lightShadedGray,

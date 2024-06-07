@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   signupMainContainer: {
     height: "calc(100vh - 126px)",
     backgroundColor: theme.palette.text.offWhiteColor,

@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   loginOnboardingHeaderContainer: { backgroundColor: theme.palette.text.offWhiteColor },
   loginHeader: {
     display: "flex",

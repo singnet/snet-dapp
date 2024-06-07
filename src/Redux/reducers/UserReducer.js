@@ -126,14 +126,14 @@ const userReducer = (state = InitialUserDetails, action) => {
   }
 };
 
-export const channelInfo = state => {
+export const channelInfo = (state) => {
   const { walletList } = state.userReducer;
   if (isEmpty(walletList)) {
     return {};
   }
 
   const walletWithChannel = walletList.find(
-    wallet => wallet.type === walletTypes.GENERAL && !isEmpty(wallet.channels[0])
+    (wallet) => wallet.type === walletTypes.GENERAL && !isEmpty(wallet.channels[0])
   );
   if (walletWithChannel) {
     const selectedChannel = walletWithChannel.channels[0];
@@ -145,9 +145,9 @@ export const channelInfo = state => {
   return {};
 };
 
-export const anyGeneralWallet = state => {
+export const anyGeneralWallet = (state) => {
   const { walletList } = state.userReducer;
-  return walletList.some(wallet => wallet.type === walletTypes.GENERAL);
+  return walletList.some((wallet) => wallet.type === walletTypes.GENERAL);
 };
 
 export default userReducer;

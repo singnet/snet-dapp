@@ -45,7 +45,7 @@ const ChannelSelectionBox = ({
         lg={8}
         className={`${classes.selectionBoxDescription} ${disabled && classes.disabledSelectionBoxDescription}`}
       >
-        <p>{description}.</p>
+        <p>{description}</p>
       </Grid>
     </Grid>
   );

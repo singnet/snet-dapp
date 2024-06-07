@@ -18,24 +18,24 @@ const ForgotPasswordSubmit = ({ classes, history, error, email, forgotPasswordSu
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleEnterOtp = event => {
+  const handleEnterOtp = (event) => {
     event.preventDefault();
     setShowEmailSentAlert(false);
   };
 
-  const handleCode = event => {
+  const handleCode = (event) => {
     setCode(event.currentTarget.value);
   };
 
-  const handlePassword = event => {
+  const handlePassword = (event) => {
     setPassword(event.currentTarget.value);
   };
 
-  const handleConfirmPassword = event => {
+  const handleConfirmPassword = (event) => {
     setConfirmPassword(event.target.value);
   };
 
-  const handleSubmit = event => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     resetError();
     const isNotValid = snetValidator({ password, confirmPassword, code }, forgotPassworSubmitConstraints);
@@ -105,18 +105,15 @@ const ForgotPasswordSubmit = ({ classes, history, error, email, forgotPasswordSu
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   email: state.userReducer.email,
   error: state.errorReducer.forgotPasswordSubmit,
 });
 
-const mapDispatchToProps = dispatch => ({
-  forgotPasswordSubmit: args => dispatch(userActions.forgotPasswordSubmit(args)),
+const mapDispatchToProps = (dispatch) => ({
+  forgotPasswordSubmit: (args) => dispatch(userActions.forgotPasswordSubmit(args)),
   resetError: () => dispatch(errorActions.resetForgotPasswordSubmitError),
-  updateError: error => dispatch(errorActions.updateForgotPasswordSubmitError(error)),
+  updateError: (error) => dispatch(errorActions.updateForgotPasswordSubmitError(error)),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(useStyles)(ForgotPasswordSubmit));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(ForgotPasswordSubmit));

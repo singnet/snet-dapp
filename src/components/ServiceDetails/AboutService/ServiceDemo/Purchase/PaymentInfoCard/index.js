@@ -15,7 +15,7 @@ const PaymentInfoCard = ({ classes, title, value, unit, show }) => {
         <h5>{title}</h5>
       </div>
       <div>
-        <h3>{value}</h3>
+        <h3>{Number(value)}</h3>
         {unit ? <span className={classes.unit}>AGIX</span> : ""}
       </div>
     </div>

@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   demoExampleContainer: {
     padding: "14px 22px 38px !important",
     textAlign: "left !important",

@@ -25,7 +25,7 @@ const ToolBar = ({
   const [searchKeyword, setSearchKeyword] = useState("");
   const [activeOrgItem, setActiveOrgItem] = useState("default");
 
-  const handleSearch = event => {
+  const handleSearch = (event) => {
     setSearchKeyword(event.currentTarget.value);
     const pagination = {
       offset: 0,
@@ -34,12 +34,12 @@ const ToolBar = ({
     handleSearchChange({ ...currentPagination, ...pagination });
   };
 
-  const enhancedFilterData = filterDataProps.org_id.map(el => ({
+  const enhancedFilterData = filterDataProps.org_id.map((el) => ({
     value: el.key,
     label: el.value,
   }));
 
-  const handleOrgFilterChange = event => {
+  const handleOrgFilterChange = (event) => {
     const { value, name } = event.target;
     if (value === activeOrgItem) {
       return;
@@ -101,13 +101,13 @@ const ToolBar = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   filterDataProps: state.serviceReducer.filterData,
   pagination: state.serviceReducer.pagination,
 });
 
-const mapDispatchToProps = dispatch => ({
-  handleFilterChange: args => dispatch(serviceActions.handleFilterChange(args)),
+const mapDispatchToProps = (dispatch) => ({
+  handleFilterChange: (args) => dispatch(serviceActions.handleFilterChange(args)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ToolBar);

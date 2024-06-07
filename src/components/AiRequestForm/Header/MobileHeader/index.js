@@ -30,7 +30,7 @@ const MobileHeader = ({ classes, data, hamburgerMenu, updateHamburgerState }) =>
           <CloseIcon onClick={toggleMobileMenu} />
         </div>
         <List component="nav" className={classes.mobileNavigation}>
-          {data.map(tab => (
+          {data.map((tab) => (
             // eslint-disable-next-line react/jsx-key
             <ListItem button component="a" href={tab.link} target={tab.newTab ? "_blank" : "_self"} title={tab.title}>
               <ListItemText primary={tab.title} />
@@ -42,12 +42,12 @@ const MobileHeader = ({ classes, data, hamburgerMenu, updateHamburgerState }) =>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   hamburgerMenu: state.stylesReducer.hamburgerMenu,
 });
 
-const mapDispatchToProps = dispatch => ({
-  updateHamburgerState: hamburgerState => dispatch(stylesActions.updateHamburgerState(hamburgerState)),
+const mapDispatchToProps = (dispatch) => ({
+  updateHamburgerState: (hamburgerState) => dispatch(stylesActions.updateHamburgerState(hamburgerState)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(MobileHeader));

@@ -1,4 +1,4 @@
-export const useStyles = theme => ({
+export const useStyles = (theme) => ({
   userProfileModelMainContainer: {
     margin: "29px 0 85px",
     backgroundColor: theme.palette.text.white,
@@ -49,7 +49,7 @@ export const useStyles = theme => ({
       lineHeight: "18px",
       textTransform: "uppercase",
     },
-		'@media(max-width: 960px)': { display: 'none' }
+    "@media(max-width: 960px)": { display: "none" },
   },
   requestedModelsDataContainer: {
     padding: "24px 0",
@@ -58,19 +58,19 @@ export const useStyles = theme => ({
     borderBottomStyle: "solid",
     borderBottomColor: "#e2e2e2",
     display: "flex",
-		'& div': {
-			display: 'flex',
-			alignItems: 'center'
-		},
+    "& div": {
+      display: "flex",
+      alignItems: "center",
+    },
     "& span": {
-			width: '150px',
+      width: "150px",
       display: "none",
       color: theme.palette.text.mediumShadeGray,
       fontFamily: theme.typography.primary.main,
       fontSize: 14,
       lineHeight: "18px",
       textTransform: "uppercase",
-			'@media(max-width: 960px)': { display: 'block' }
+      "@media(max-width: 960px)": { display: "block" },
     },
     "& p": {
       color: theme.palette.text.mediumShadeGray,
