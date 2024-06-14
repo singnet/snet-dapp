@@ -60,13 +60,12 @@ const ToolBar = ({
   };
 
   const classes = useStyles();
-  const isMainnet = Number(process.env.REACT_APP_ETH_NETWORK) === 1;
 
   return (
     <Grid container spacing={24} className={classes.toolBar}>
       <Grid item xs={6} sm={9} md={9} lg={6} className={classes.sortBySection}>
         <ServiceSortOptions />
-        {isMainnet && (
+        {Boolean(process.env.REACT_APP_IS_ALL_SERVICES_AVAILIBLE) && (
           <div className={classes.organizationDropdownContainer}>
             <span className={classes.sortbyTxt}>Organization</span>
             <StyledDropdown
