@@ -61,7 +61,7 @@ const onlyUserOrgsFilter = () => async (dispatch) => {
 export const fetchService =
   (pagination, filters = []) =>
   async (dispatch) => {
-    if (Number(process.env.REACT_APP_ETH_NETWORK) !== 1) {
+    if (!Boolean(process.env.REACT_APP_IS_ALL_SERVICE_AVAILIBLE)) {
       filters = await dispatch(onlyUserOrgsFilter());
     }
     dispatch(loaderActions.startAIServiceListLoader);
