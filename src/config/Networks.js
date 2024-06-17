@@ -9,4 +9,5 @@ export const networkName = {
   1: "mainnet",
   3: "ropsten",
   5: "goerli",
+  11155111: "sepolia",
 };
