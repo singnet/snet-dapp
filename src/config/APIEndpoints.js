@@ -23,6 +23,10 @@ export const APIEndpoints = {
     name: "Orchestrator",
     endpoint: process.env.REACT_APP_ORCHESTRATOR_ENDPOINT,
   },
+  REGISTRY: {
+    name: "Registry",
+    endpoint: process.env.REACT_APP_REGISTRY_ENDPOINT,
+  },
 };
 
 export const APIPaths = {
@@ -53,4 +57,5 @@ export const APIPaths = {
   USD_RATE: "/currency/USD/token",
   FREE_CALL_TOKEN: "/free-call/token",
   GET_CAROUSEL: "/uicontent/marketplacecarousel",
+  GET_USER_ORGS: "/org",
 };
