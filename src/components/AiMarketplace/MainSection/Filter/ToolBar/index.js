@@ -65,7 +65,7 @@ const ToolBar = ({
     <Grid container spacing={24} className={classes.toolBar}>
       <Grid item xs={6} sm={9} md={9} lg={6} className={classes.sortBySection}>
         <ServiceSortOptions />
-        {Boolean(process.env.REACT_APP_IS_ALL_SERVICES_AVAILIBLE) && (
+        {process.env.REACT_APP_IS_ALL_SERVICES_AVAILIBLE === "true" && (
           <div className={classes.organizationDropdownContainer}>
             <span className={classes.sortbyTxt}>Organization</span>
             <StyledDropdown

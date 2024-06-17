@@ -61,7 +61,8 @@ const onlyUserOrgsFilter = () => async (dispatch) => {
 export const fetchService =
   (pagination, filters = []) =>
   async (dispatch) => {
-    if (!Boolean(process.env.REACT_APP_IS_ALL_SERVICES_AVAILIBLE)) {
+    if (process.env.REACT_APP_IS_ALL_SERVICES_AVAILIBLE !== "true") {
+      // env variable is string
       filters = await dispatch(onlyUserOrgsFilter());
     }
     dispatch(loaderActions.startAIServiceListLoader);
