@@ -1,9 +1,8 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
-
 import GetStartedDescription from "./GetStartedDescription";
-
+import { Helmet } from "react-helmet";
 import { GetStartedCategoriesData } from "../../utility/constants/GetStarted";
 import Category from "./Category";
 import { useStyles } from "./styles";
@@ -21,6 +20,13 @@ const seoData = {
 const GetStarted = ({ classes, history }) => {
   return (
     <React.Fragment>
+      <Helmet>
+        <meta
+          name="description"
+          content="Ready to explore AI? Get started with SingularityNET and navigate through our suite of AI services effortlessly."
+        />
+        <meta name="keywords" content="Get Started, AI Services, SingularityNET, Introduction" />
+      </Helmet>
       <SeoMetadata
         title={seoData.title}
         description={seoData.description}

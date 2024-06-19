@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
-
+import { Helmet } from "react-helmet";
 import Authentication from "./Authentication";
 import TermsOfUse from "./TermsOfUse";
 import { useStyles } from "./styles";
@@ -70,6 +70,13 @@ class Onboarding extends Component {
 
     return (
       <div className={classes.onboardingContainer}>
+        <Helmet>
+          <meta
+            name="description"
+            content="Begin your journey into the AI Marketplace with SingularityNET. Access a world of AI services and solutions today."
+          />
+          <meta name="keywords" content="AI Marketplace, Onboarding, SingularityNET, AI Services, Get Started" />
+        </Helmet>
         {OnboardingDetails.map((item, index) => (
           <OnboardingContainer
             key={item.title}

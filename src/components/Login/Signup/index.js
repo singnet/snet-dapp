@@ -13,6 +13,7 @@ import { LoaderContent } from "../../../utility/constants/LoaderContent";
 import { alertTypes } from "../../common/AlertBox";
 import { signupFormConstraints, singupOtpContraints } from "./validationConstraints";
 import snetValidator from "../../../utility/snetValidator";
+import { Helmet } from "react-helmet";
 
 class SignUp extends Component {
   state = {
@@ -112,6 +113,16 @@ class SignUp extends Component {
 
     return (
       <div className={classes.signupMainContainer}>
+        <Helmet>
+          <meta
+            name="description"
+            content="Developers & researchers welcome! Join SingularityNET Marketplace to share & utilize ethical AI models. Automate tasks, gain insights, and solve problems with cutting-edge AI."
+          />
+          <meta
+            name="keywords"
+            content="decentralized AI, AI monetization, pre-trained AI models, AI marketplace, signup"
+          />
+        </Helmet>
         <Grid container spacing={24} className={classes.signupMainContent}>
           {toBeConfirmed ? (
             <RenderOTP
