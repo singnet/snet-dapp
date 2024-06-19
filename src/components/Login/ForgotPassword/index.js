@@ -3,7 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
-
+import { Helmet } from "react-helmet";
 import AlertBox from "../../common/AlertBox";
 import StyledButton from "../../common/StyledButton";
 import Routes from "../../../utility/constants/Routes";
@@ -52,6 +52,16 @@ const ForgotPassword = ({
 
   return (
     <Grid container spacing={24} className={classes.forgotPwdMainContainer}>
+      <Helmet>
+        <meta
+          name="description"
+          content="Accessing your AI marketplace account is just a click away. Use our easy password reset option and get back to exploring SingularityNET's services."
+        />
+        <meta
+          name="keywords"
+          content="SingularityNET password reset, forgot password, account recovery, decentralized AI platform, secure access"
+        />
+      </Helmet>
       <Grid item xs={12} sm={12} md={12} lg={12} className={classes.forgotPwdContent}>
         <h2>{passwordChangeTitle}</h2>
         <p>{passwordChangeDescription}</p>

@@ -4,7 +4,6 @@ import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
 import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
 import isEmpty from "lodash/isEmpty";
-
 import TitleCard from "./TitleCard";
 import PricingDetails from "./PricingDetails";
 import StyledTabs from "./StyledTabs";
@@ -24,6 +23,7 @@ import { WebServiceClient as ServiceClient } from "snet-sdk-web";
 import { initSdk } from "../../utility/sdk";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
 import AlertBox, { alertTypes } from "../common/AlertBox";
+import { Helmet } from "react-helmet";
 export const HERO_IMG = "hero_image";
 
 class ServiceDetails extends Component {
@@ -247,6 +247,11 @@ class ServiceDetails extends Component {
     const seoURL = `${process.env.REACT_APP_BASE_URL}/servicedetails/org/${orgId}/service/${serviceId}`;
     return (
       <div>
+        <Helmet>
+          <title>{service.display_name}</title>
+          <meta name="keywords" content={service.display_name} />
+          <meta name="description" content={service.short_description} />
+        </Helmet>
         <SeoMetadata
           title={service.display_name}
           description={service.short_description}
