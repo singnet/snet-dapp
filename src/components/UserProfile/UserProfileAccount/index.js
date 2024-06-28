@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 import map from "lodash/map";
@@ -11,38 +11,45 @@ import {
   fetchWalletLinkedProviders,
   walletTypes,
 } from "../../../Redux/actionCreators/UserActions";
-import { userActions } from "../../../Redux/actionCreators";
+import { userActions, sdkActions } from "../../../Redux/actionCreators";
 import MetamaskDetails from "./MetamaskDetails";
-import { initSdk } from "../../../utility/sdk";
 import ProviderBalance from "./ProviderBalance";
 import AlertBox, { alertTypes } from "../../common/AlertBox";
 import ProvidersLinkedCount from "./ProvidersLinkedCount";
 import { startAppLoader, stopAppLoader } from "../../../Redux/actionCreators/LoaderActions";
 import { LoaderContent } from "../../../utility/constants/LoaderContent";
 import { initialWallet } from "../../../Redux/reducers/UserReducer";
-import { Helmet } from "react-helmet";
 
-const UserProfileAccount = ({ classes, startAppLoader, stopAppLoader, wallet, updateWallet, fetchUserWallets }) => {
+const UserProfileAccount = ({ classes }) => {
+  const wallet = useSelector((state) => state.userReducer.wallet);
+
   const [alert, setAlert] = useState({});
-  const [wallets, updateWallets] = useState([]);
+  const [wallets, setWallets] = useState([]);
   const [linkedProviders, updateLinkedProviders] = useState([]);
+  const [currentAddress, setCurrentAddress] = useState("");
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const fetchWallets = async () => {
-      const availableWallets = await fetchUserWallets();
+      const availableWallets = await dispatch(fetchAvailableUserWallets());
       const enhancedWallets = map(availableWallets, ({ address, type }) => {
         return { address, type, value: address, label: `${type} (${address})` };
       });
-      updateWallets(enhancedWallets);
+      setWallets(enhancedWallets);
     };
+    const getCurrentMetamaskAddress = async () => {
+      const sdk = await dispatch(sdkActions.getSdk());
+      setCurrentAddress(await sdk.account.getAddress());
+    };
+    getCurrentMetamaskAddress();
     fetchWallets();
-  }, [fetchUserWallets]);
+    // eslint-disabled-next-line
+  }, []);
 
   const isSameMetaMaskAddress = (address) => {
-    const selectedEthAddress = window.ethereum && window.ethereum.selectedAddress;
-    if (selectedEthAddress && address) {
-      return selectedEthAddress.toLowerCase() === address.toLowerCase();
+    if (currentAddress && address) {
+      return currentAddress.toLowerCase() === address.toLowerCase();
     }
-
     return false;
   };
 
@@ -51,21 +58,19 @@ const UserProfileAccount = ({ classes, startAppLoader, stopAppLoader, wallet, up
     const { value: selectedValue } = event.target;
     const selectedWallet = find(wallets, ({ value }) => selectedValue === value);
     if (!selectedWallet) {
-      updateWallet(initialWallet);
+      dispatch(userActions.updateWallet(initialWallet));
       return;
     }
 
-    startAppLoader();
+    dispatch(startAppLoader(LoaderContent.FETCH_LINKED_PROVIDERS));
     const organizations = await fetchWalletLinkedProviders(selectedWallet.address);
-    stopAppLoader();
+    dispatch(stopAppLoader());
     updateLinkedProviders(organizations);
-    updateWallet(selectedWallet);
+    dispatch(userActions.updateWallet(selectedWallet));
 
     if (selectedWallet.type === walletTypes.METAMASK) {
       try {
         if (isSameMetaMaskAddress(selectedWallet.address)) {
-          const selectedEthAddress = window.ethereum && window.ethereum.selectedAddress;
-          await initSdk(selectedEthAddress);
           return;
         }
         if (!isSameMetaMaskAddress(selectedWallet.address)) {
@@ -77,6 +82,7 @@ const UserProfileAccount = ({ classes, startAppLoader, stopAppLoader, wallet, up
           setAlert({ type: alertTypes.ERROR, message: `Unable to fetch Metamask address. Please try again` });
         }
       } catch (error) {
+        console.log(error);
         setAlert({ type: alertTypes.ERROR, message: `Something went wrong. Please try again` });
       }
     }
@@ -86,16 +92,8 @@ const UserProfileAccount = ({ classes, startAppLoader, stopAppLoader, wallet, up
     [walletTypes.METAMASK]: isSameMetaMaskAddress(wallet.address) ? <MetamaskDetails /> : undefined,
   };
 
-  const hasSelectedWallet = wallet.type !== initialWallet.type;
   return (
     <Grid container spacing={24} className={classes.accountMainContainer}>
-      <Helmet>
-        <meta
-          name="description"
-          content="Take control of your AI journey with SingularityNET user account management. Customize, track, and optimize your use of AI services."
-        />
-        <meta name="keywords" content="User Account, AI Services, SingularityNET, Profile Management" />
-      </Helmet>
       <Grid item xs={12} sm={12} md={4} lg={4} className={classes.accountContainer}>
         <h3>Payment / Transfer Method</h3>
         <div className={classes.accountWrapper}>
@@ -110,10 +108,10 @@ const UserProfileAccount = ({ classes, startAppLoader, stopAppLoader, wallet, up
           </div>
           {walletDetails[wallet.type]}
           <AlertBox type={alert.type} message={alert.message} />
-          {hasSelectedWallet && <ProvidersLinkedCount providerCount={linkedProviders.length} />}
+          {wallet.address && <ProvidersLinkedCount providerCount={linkedProviders.length} />}
         </div>
       </Grid>
-      {hasSelectedWallet && (
+      {linkedProviders.length > 0 && (
         <Grid item xs={12} sm={12} md={8} lg={8} className={classes.providerBalMaincontainer}>
           <ProviderBalance linkedProviders={linkedProviders} />
         </Grid>
@@ -122,17 +120,4 @@ const UserProfileAccount = ({ classes, startAppLoader, stopAppLoader, wallet, up
   );
 };
 
-const mapStateToProps = (state) => ({
-  wallet: state.userReducer.wallet,
-});
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    updateWallet: (args) => dispatch(userActions.updateWallet(args)),
-    startAppLoader: () => dispatch(startAppLoader(LoaderContent.FETCH_LINKED_PROVIDERS)),
-    stopAppLoader: () => dispatch(stopAppLoader),
-    fetchUserWallets: () => dispatch(fetchAvailableUserWallets()),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(UserProfileAccount));
+export default withStyles(useStyles)(UserProfileAccount);

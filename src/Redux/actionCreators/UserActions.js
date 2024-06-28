@@ -5,7 +5,7 @@ import moment from "moment";
 
 import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { parseError } from "../../utility/ErrorHandling";
-import { userActions, errorActions, loaderActions } from "./";
+import { sdkActions, errorActions, loaderActions } from "./";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
 import { initializeAPIOptions } from "../../utility/API";
 import Routes from "../../utility/constants/Routes";
@@ -30,7 +30,7 @@ export const UPDATE_TRANSACTION_HISTORY = "UPDATE_TRANSACTION_HISTORY";
 export const UPDATE_FIRST_TIME_FETCH_WALLET = "FIRST_TIME_FETCH_WALLET";
 export const SET_JWT_EXP = "SET_JWT_EXP";
 
-let walletPollingInterval = false;
+// let walletPollingInterval = false;
 
 export const walletTypes = {
   GENERAL: "GENERAL",
@@ -61,7 +61,7 @@ export const fetchAuthenticatedUser = () => async (dispatch, getState) => {
 
 export const appInitializationSuccess = (dispatch) => {
   dispatch({ type: APP_INITIALIZATION_SUCCESS, payload: { isInitialized: true } });
-  dispatch(loaderActions.stopAppLoader);
+  dispatch(loaderActions.stopAppLoader());
 };
 
 export const updateNickname = (nickname) => (dispatch) => {
@@ -110,7 +110,7 @@ export const fetchUserTransactions = async (dispatch) => {
   dispatch(loaderActions.startAppLoader(LoaderContent.TRANSACTION_HISTORY));
   const response = await fetchUserTransactionsAPI(token);
   dispatch(fetchUserTransactionsSuccess(response));
-  dispatch(loaderActions.stopAppLoader);
+  dispatch(loaderActions.stopAppLoader());
 };
 
 const fetchUserTransactionsSuccess = (response) => (dispatch) => {
@@ -157,13 +157,13 @@ const fetchUserDetailsSuccess = (isEmailVerified, email, nickname) => (dispatch)
       nickname,
     },
   });
-  dispatch(loaderActions.stopAppLoader);
+  dispatch(loaderActions.stopAppLoader());
 };
 
 const fetchUserDetailsError = (err) => (dispatch) => {
   if (err === "No current user") {
     dispatch(noAuthenticatedUser);
-    dispatch(loaderActions.stopAppLoader);
+    dispatch(loaderActions.stopAppLoader());
   }
   dispatch(appInitializationSuccess);
 };
@@ -194,12 +194,12 @@ export const updateUserProfileInit = (token, updatedUserData) => {
 
 const updateUserProfileSuccess = (token) => (dispatch) => {
   dispatch(fetchUserProfile(token));
-  dispatch(loaderActions.stopAppLoader);
+  dispatch(loaderActions.stopAppLoader());
 };
 
 const updateUserProfileFailure = (err) => (dispatch) => {
   dispatch(errorActions.updateProfileSettingsError(String(err)));
-  dispatch(loaderActions.stopAppLoader);
+  dispatch(loaderActions.stopAppLoader());
 };
 
 export const updateUserProfile = (updatedUserData) => async (dispatch) => {
@@ -228,7 +228,7 @@ export const loginSuccess =
   ({ res, history, route }) =>
   async (dispatch) => {
     const userDetails = {
-      type: userActions.LOGIN_SUCCESS,
+      type: LOGIN_SUCCESS,
       payload: {
         login: { isLoggedIn: true },
         email: res.attributes.email,
@@ -239,7 +239,7 @@ export const loginSuccess =
     dispatch(userDetails);
     history.push(route);
     await dispatch(fetchUserProfile(res.signInUserSession.idToken.jwtToken));
-    dispatch(loaderActions.stopAppLoader);
+    dispatch(loaderActions.stopAppLoader());
   };
 
 export const login =
@@ -255,26 +255,26 @@ export const login =
         if (err.code === "PasswordResetRequiredException") {
           dispatch(updateEmail(email));
           history.push(`/${Routes.RESET_PASSWORD}`);
-          dispatch(loaderActions.stopAppLoader);
+          dispatch(loaderActions.stopAppLoader());
           return;
         } else if (err.code === "UserNotConfirmedException") {
           dispatch(updateEmail(email));
           userDetails = {
-            type: userActions.LOGIN_SUCCESS,
+            type: LOGIN_SUCCESS,
             payload: { login: { isLoggedIn: true } },
           };
           dispatch(userDetails);
           history.push(`/${Routes.ONBOARDING}`);
-          dispatch(loaderActions.stopAppLoader);
+          dispatch(loaderActions.stopAppLoader());
           return;
         }
         const error = parseError(err);
         userDetails = {
-          type: userActions.LOGIN_ERROR,
+          type: LOGIN_ERROR,
           payload: { login: { error } },
         };
         dispatch(userDetails);
-        dispatch(loaderActions.stopAppLoader);
+        dispatch(loaderActions.stopAppLoader());
         throw err;
       });
   };
@@ -315,7 +315,7 @@ export const signOut = (dispatch) => {
     })
     .finally(() => {
       dispatch(userDetails);
-      dispatch(loaderActions.stopAppLoader);
+      dispatch(loaderActions.stopAppLoader());
     });
 };
 
@@ -352,13 +352,13 @@ const deleteUserFromCognito =
       user.deleteUser((error) => {
         if (error) {
           reject(error);
-          dispatch(loaderActions.stopAppLoader);
+          dispatch(loaderActions.stopAppLoader());
         }
         resolve();
       });
     }).then(() => {
       dispatch(userDeleted({ history, route }));
-      dispatch(loaderActions.stopAppLoader);
+      dispatch(loaderActions.stopAppLoader());
     });
   };
 
@@ -381,12 +381,12 @@ const forgotPasswordSuccessfull =
   (dispatch) => {
     dispatch(updateEmail(email));
     history.push(route);
-    dispatch(loaderActions.stopAppLoader);
+    dispatch(loaderActions.stopAppLoader());
   };
 
 const forgotPasswordFailure = (error) => (dispatch) => {
   dispatch(errorActions.updateForgotPasswordError(error));
-  dispatch(loaderActions.stopAppLoader);
+  dispatch(loaderActions.stopAppLoader());
 };
 
 export const forgotPassword =
@@ -411,13 +411,13 @@ const forgotPasswordSubmitSuccessfull =
   ({ email, history, route }) =>
   (dispatch) => {
     dispatch(updateEmail(email));
-    dispatch(loaderActions.stopAppLoader);
+    dispatch(loaderActions.stopAppLoader());
     history.push(route);
   };
 
 const forgotPasswordSubmitFailure = (error) => (dispatch) => {
   dispatch(errorActions.updateForgotPasswordSubmitError(error));
-  dispatch(loaderActions.stopAppLoader);
+  dispatch(loaderActions.stopAppLoader());
 };
 
 export const forgotPasswordSubmit =
@@ -450,6 +450,24 @@ const fetchWalletSuccess = (response) => (dispatch) => {
     dispatch(updateWalletList(response.data.wallets));
   }
 };
+
+export const updateChannelBalanceAPI =
+  (orgId, serviceId, groupId, authorizedAmount, fullAmount, channelId, nonce) => async (dispatch) => {
+    const { token } = await dispatch(fetchAuthenticatedUser());
+    const apiName = APIEndpoints.CONTRACT.name;
+    const apiPath = APIPaths.UPDATE_CHANNEL_BALANCE(channelId);
+    const payload = {
+      OrganizationID: orgId,
+      ServiceID: serviceId,
+      GroupID: groupId,
+      AuthorizedAmount: authorizedAmount,
+      FullAmount: fullAmount,
+      ChannelId: channelId,
+      Nonce: nonce,
+    };
+    const apiOptions = initializeAPIOptions(token, payload);
+    return API.post(apiName, apiPath, apiOptions);
+  };
 
 const fetchWalletAPI = (token, orgId, groupId) => {
   const apiName = APIEndpoints.ORCHESTRATOR.name;
@@ -488,17 +506,7 @@ export const fetchWalletLinkedProviders = async (address) => {
 };
 
 export const startWalletDetailsPolling = (orgId, groupId) => (dispatch) => {
-  if (!walletPollingInterval) {
-    walletPollingInterval = setInterval(() => dispatch(fetchWallet(orgId, groupId)), 15000);
-    return dispatch(fetchWallet(orgId, groupId));
-  }
-};
-
-export const stopWalletDetailsPolling = () => {
-  if (walletPollingInterval) {
-    clearInterval(walletPollingInterval);
-    walletPollingInterval = false;
-  }
+  return dispatch(fetchWallet(orgId, groupId));
 };
 
 const updateDefaultWalletAPI = (token, address) => {
@@ -535,4 +543,20 @@ export const registerWallet = (address, type) => async (dispatch) => {
     // eslint-disable-next-line no-console
     console.log("error registerWallet");
   }
+};
+
+export const updateMetamaskWallet = () => async (dispatch, getState) => {
+  const sdk = await dispatch(sdkActions.getSdk());
+  const address = await sdk.account.getAddress();
+  if (getState().userReducer.wallet.value === address) {
+    return;
+  }
+  const availableUserWallets = await dispatch(fetchAvailableUserWallets());
+  const addressAlreadyRegistered = availableUserWallets.some(
+    (wallet) => wallet.address.toLowerCase() === address.toLowerCase()
+  );
+  if (!addressAlreadyRegistered) {
+    await dispatch(registerWallet(address, walletTypes.METAMASK));
+  }
+  dispatch(updateWallet({ type: walletTypes.METAMASK, address }));
 };

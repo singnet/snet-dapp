@@ -7,8 +7,7 @@ import Tab from "@material-ui/core/Tab";
 import { connect } from "react-redux";
 
 import { cogsToAgi, txnTypes, agiToCogs } from "../../../../utility/PricingStrategy";
-import { initSdk } from "../../../../utility/sdk";
-import { loaderActions } from "../../../../Redux/actionCreators";
+import { loaderActions, sdkActions } from "../../../../Redux/actionCreators";
 import { LoaderContent } from "../../../../utility/constants/LoaderContent";
 import { useStyles } from "./styles";
 import StyledTextField from "../../../common/StyledTextField";
@@ -26,6 +25,8 @@ class MetamaskDetails extends Component {
     alert: {},
   };
 
+  sdk;
+
   componentDidMount = async () => {
     this.props.startAccBalLoader();
     await this.retrieveAccountDetails();
@@ -34,13 +35,10 @@ class MetamaskDetails extends Component {
 
   retrieveAccountDetails = async () => {
     try {
-      const sdk = await initSdk();
-      if (!sdk) {
-        return;
-      }
-      const escrowBalance = await sdk._account.escrowBalance();
-      const tokenBalance = await sdk._account.balance();
-      const networkId = sdk._networkId;
+      this.sdk = await this.props.getSdk();
+      const escrowBalance = await this.sdk._account.escrowBalance();
+      const tokenBalance = await this.sdk._account.balance();
+      const networkId = this.sdk._networkId;
       this.setState({
         escrowBalance: cogsToAgi(escrowBalance),
         tokenBalance: cogsToAgi(tokenBalance),
@@ -70,14 +68,13 @@ class MetamaskDetails extends Component {
     this.setState({ alert: {} });
     this.props.startDepositLoader();
     try {
-      const sdk = await initSdk();
       const amountInAGI = this.state.amount[txnTypes.DEPOSIT];
       const amountInCogs = agiToCogs(amountInAGI);
-      await sdk.account.depositToEscrowAccount(amountInCogs);
+      await this.sdk.account.depositToEscrowAccount(amountInCogs);
       await this.retrieveAccountDetails();
       this.setState({ alert: { type: alertTypes.SUCCESS, message: "Successfully deposited" } });
     } catch (error) {
-      this.setState({ alert: { type: alertTypes.ERROR, message: `Unable to deposit amount` } });
+      this.setState({ alert: { type: alertTypes.ERROR, message: "Unable to deposit amount" } });
     }
     this.props.stopLoader();
   };
@@ -86,10 +83,10 @@ class MetamaskDetails extends Component {
     this.setState({ alert: {} });
     this.props.startWithdrawLoader();
     try {
-      const sdk = await initSdk();
+      this.sdk = await this.props.getSdk();
       const amountInAGI = this.state.amount[txnTypes.WITHDRAW];
       const amountInCogs = agiToCogs(amountInAGI);
-      await sdk.account.withdrawFromEscrowAccount(amountInCogs);
+      await this.sdk.account.withdrawFromEscrowAccount(amountInCogs);
       await this.retrieveAccountDetails();
       this.setState({ alert: { type: alertTypes.SUCCESS, message: "Successfully withdrawn" } });
     } catch (error) {
@@ -189,7 +186,8 @@ const mapDispatchToProps = (dispatch) => ({
   startAccBalLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.FETCH_MM_ACC_DETAILS)),
   startDepositLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.DEPOSIT)),
   startWithdrawLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.WITHDRAW)),
-  stopLoader: () => dispatch(loaderActions.stopAppLoader),
+  stopLoader: () => dispatch(loaderActions.stopAppLoader()),
+  getSdk: () => dispatch(sdkActions.getSdk()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(MetamaskDetails));

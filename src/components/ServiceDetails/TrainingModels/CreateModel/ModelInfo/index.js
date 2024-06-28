@@ -10,10 +10,9 @@ import StyledButton from "../../../../common/StyledButton";
 import AddMoreEthAddress from "./AddMoreEthAddress";
 import { useStyles } from "./styles";
 import { connect, useDispatch } from "react-redux";
-import { loaderActions, userActions } from "../../../../../Redux/actionCreators";
+import { loaderActions, userActions, sdkActions } from "../../../../../Redux/actionCreators";
 import { LoaderContent } from "../../../../../utility/constants/LoaderContent";
-import { initSdk } from "../../../../../utility/sdk";
-import { walletTypes } from "../../../../../Redux/actionCreators/UserActions";
+// import { walletTypes } from "../../../../../Redux/actionCreators/UserActions";
 import { currentServiceDetails, groupInfo } from "../../../../../Redux/reducers/ServiceDetailsReducer";
 import AlertBox, { alertTypes } from "../../../../common/AlertBox";
 
@@ -78,16 +77,12 @@ const ModelInfo = ({
   };
 
   const onNext = async () => {
+    const { getSdk, updateMetamaskWallet } = this.props;
     try {
       startMMconnectLoader();
-      const sdk = await initSdk();
+      const sdk = await getSdk();
       const address = await sdk.account.getAddress();
-      const availableUserWallets = await fetchAvailableUserWallets();
-      const addressAlreadyRegistered = availableUserWallets.some((wallet) => wallet.address.toLowerCase() === address);
-      if (!addressAlreadyRegistered) {
-        await registerWallet(address, walletTypes.METAMASK);
-      }
-      updateWallet({ type: walletTypes.METAMASK, address });
+      await updateMetamaskWallet();
       dispatch(loaderActions.startAppLoader(LoaderContent.CREATE_TRAINING_MODEL));
       const createdModelData = await createModel(sdk, address);
       const data = {
@@ -234,10 +229,9 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   startMMconnectLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.CONNECT_METAMASK)),
-  fetchAvailableUserWallets: () => dispatch(userActions.fetchAvailableUserWallets()),
-  registerWallet: (address, type) => dispatch(userActions.registerWallet(address, type)),
-  updateWallet: ({ type, address }) => dispatch(userActions.updateWallet({ type, address })),
-  stopLoader: () => dispatch(loaderActions.stopAppLoader),
+  updateMetamaskWallet: () => dispatch(userActions.updateMetamaskWallet()),
+  stopLoader: () => dispatch(loaderActions.stopAppLoader()),
+  getSdk: () => dispatch(sdkActions.getSdk()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(ModelInfo));

@@ -6,8 +6,10 @@ import * as loaderActions from "./LoaderActions";
 import * as stylesActions from "./StylesActions";
 import * as paymentActions from "./PaymentActions";
 import * as uiContentActions from "./UiContentActions";
+import * as sdkActions from "./SDKActions";
 
 export {
+  sdkActions,
   userActions,
   serviceActions,
   serviceDetailsActions,
