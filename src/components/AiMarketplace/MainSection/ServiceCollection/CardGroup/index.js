@@ -11,7 +11,7 @@ import GridViewItem from "./GridViewItem";
 
 const maxDescriptionChars = 180;
 
-const CardGroup = ({ data: cards, listView, loading }) => {
+const CardGroup = ({ data: cards = [], listView, loading }) => {
   const classes = useStyles();
 
   if (loading) {
@@ -78,10 +78,6 @@ const CardGroup = ({ data: cards, listView, loading }) => {
       ))}
     </div>
   );
-};
-
-CardGroup.defaultProps = {
-  cards: [],
 };
 
 const mapStateToProps = (state) => ({

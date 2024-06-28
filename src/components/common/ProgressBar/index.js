@@ -25,10 +25,10 @@ const ProgressBar = ({ classes, activeSection, progressText }) => {
       <ul>
         {progressText.map((text, index) => (
           <ProgressSection
+            key={index}
             progressNumber={index + 1}
             progressText={text.label}
             progressStatus={computeProgressStatus(index + 1, activeSection, text.status)}
-            key={index.toString()}
           />
         ))}
       </ul>
@@ -38,7 +38,7 @@ const ProgressBar = ({ classes, activeSection, progressText }) => {
 
 ProgressBar.propTypes = {
   activeSection: PropTypes.number,
-  progressText: PropTypes.arrayOf(PropTypes.string),
+  progressText: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default withStyles(useStyles)(ProgressBar);

@@ -13,7 +13,7 @@ const StyledDropdown = ({ labelTxt, name, list, value, onChange, formControlProp
     <FormControl variant="outlined" className={classes.formControl} {...formControlProps}>
       {inputLabel ? <InputLabel htmlFor="age-simple">{inputLabel}</InputLabel> : null}
       <Select
-        value={value}
+        value={value || "default"}
         onChange={onChange}
         name={name}
         className={classes.selectEmpty}
@@ -42,11 +42,6 @@ StyledDropdown.propTypes = {
     })
   ),
   onChange: PropTypes.func,
-};
-
-StyledDropdown.defaultProps = {
-  labelTxt: "",
-  value: "default",
 };
 
 export default StyledDropdown;
