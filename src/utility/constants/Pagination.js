@@ -20,6 +20,22 @@ export const filterTitles = {
   org_id: "Organization",
 };
 
+export const generateOrganizationsFilterObject = (value) => {
+  return [
+    {
+      filter: [
+        {
+          filter_condition: {
+            attr: "org_id",
+            operator: "IN",
+            value,
+          },
+        },
+      ],
+    },
+  ];
+};
+
 export const generateFilterObject = (filterData) => {
   const filterObject = [];
   const filter = { filter: [] };
