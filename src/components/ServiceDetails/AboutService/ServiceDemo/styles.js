@@ -1,52 +1,9 @@
 export const useStyles = (theme) => ({
   demoExampleContainer: {
-    padding: "14px 22px 38px !important",
-    textAlign: "left !important",
-    "& h3": {
-      margin: 0,
-      color: theme.palette.text.black1,
-      fontWeight: 400,
-      fontSize: 18,
-      textAlign: "left",
-    },
-    "& > div": {
-      "@media (max-width: 1045px)": { width: "auto" },
-      "@media (max-width: 480px)": { paddingTop: 20 },
-    },
-    "& ul": {
-      justifyContent: "center",
-      "@media(max-width:768px)": { flexDirection: "row" },
-    },
-    "& li": {
-      "& span": {
-        "&:first-of-type": {
-          "@media(max-width:480px)": { padding: "3px 7px" },
-        },
-        "@media(max-width:480px)": {
-          marginRight: 5,
-          fontSize: 12,
-        },
-      },
-      "&::before": {
-        width: 110,
-        marginLeft: 15,
-        "@media (max-width: 938px)": { width: 40 },
-        "@media(max-width:480px)": {
-          width: 20,
-          marginLeft: 5,
-          marginRight: 5,
-        },
-      },
-      "@media(max-width:480px)": { marginBottom: 0 },
-    },
-    "& > p": {
-      padding: "0 22px",
-      margin: " 30px 0 0",
-      color: theme.palette.text.black1,
-      fontSize: 14,
-      lineHeight: "21px",
-      letterSpacing: "0.25px",
-    },
+    padding: 30,
+    display: "flex",
+    flexDirection: "column",
+    gap: 30,
   },
   uploadImageContainer: {
     display: "flex",

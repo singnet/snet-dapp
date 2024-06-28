@@ -1,9 +1,6 @@
 export const useStyles = (theme) => ({
   aboutContainer: {
     padding: "15px 0 64px",
-    borderTopWidth: 1,
-    borderTopStyle: "solid",
-    borderTopColor: theme.palette.text.verticalTabLeftBorder,
     "& h2": {
       padding: 0,
       margin: 0,
@@ -12,12 +9,21 @@ export const useStyles = (theme) => ({
       fontWeight: 400,
     },
   },
-  leftSideSection: {
-    paddingRight: 25,
+  section: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 20,
     "@media(max-width:960px)": {
       maxWidth: "100%",
       paddingRight: 0,
     },
+  },
+  description: {
+    margin: 0,
+    fontSize: 14,
+    color: theme.palette.text.mediumShadeGray,
+    letterSpacing: "0.25px",
+    lineHeight: "20px",
   },
   overViewContainer: {
     boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
@@ -63,20 +69,6 @@ export const useStyles = (theme) => ({
       fontSize: 16,
       "@media(max-width:800px)": { paddingLeft: 0 },
     },
-  },
-  tags: {
-    borderWidth: 1,
-    borderStyle: "solid",
-    borderColor: theme.palette.text.lightGray,
-    borderRadius: 16,
-    padding: "5px 15px",
-    margin: "0 5px 10px 0",
-    display: "inline-block",
-    color: theme.palette.text.lightShadedGray,
-    fontSize: 12,
-    letterSpacing: "0.21px",
-    lineHeight: "20px",
-    "&:last-of-type": { marginRight: 0 },
   },
   demoContainer: {
     marginTop: 25,
@@ -187,25 +179,7 @@ export const useStyles = (theme) => ({
   contributors: {
     "& p": { marginLeft: "30px !important" },
   },
-  demoToggler: {
-    "& a": {
-      textDecoration: "none !important",
-      "& button": {
-        "@media(max-width:545px)": { marginRight: "0 !important" },
-      },
-    },
-    "@media(max-width: 545px)": {
-      display: "flex",
-      flexDirection: "column",
-    },
-  },
-  tagsContainer: {
-    padding: "0 22px",
-    display: "flex",
-    alignItems: "baseline",
-  },
   serviceOfflineContainer: {
-    marginTop: 25,
     boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
     borderRadius: 4,
     backgroundColor: theme.palette.text.white,
@@ -214,6 +188,11 @@ export const useStyles = (theme) => ({
     width: 260,
     margin: "0 auto",
     "& img": { width: "100%" },
+  },
+  offDemoTitle: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 20,
     "& p": {
       color: theme.palette.text.mediumShadeGray,
       fontSize: 24,
@@ -227,15 +206,17 @@ export const useStyles = (theme) => ({
     },
   },
   serviceOffline: {
-    width: 400,
     margin: "0  auto",
+    display: "flex",
+    flexDirection: "column",
+    gap: 20,
     textAlign: "center",
-    "& > div": { width: "100%" },
     "& p": { margin: 0 },
-    "& span": {
-      paddingTop: 30,
-      display: "inline-block",
-    },
+  },
+  btnContainer: {
+    display: "flex",
+    justifyContent: "center",
+    gap: 15,
   },
   promoContainer: {
     width: 631,

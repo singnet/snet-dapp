@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import LaunchIcon from "@material-ui/icons/Launch";
 import { withStyles } from "@material-ui/styles";
@@ -14,12 +14,12 @@ const ProjectURL = ({ URL, classes }) => {
     <Row
       className={classes.projectURLContainer}
       content={
-        <React.Fragment>
+        <Fragment>
           {URL ? <LaunchIcon /> : ""}
           <a href={URL} target="_blank" rel="noopener noreferrer" alt="URL">
             {URL}
           </a>
-        </React.Fragment>
+        </Fragment>
       }
     />
   );
