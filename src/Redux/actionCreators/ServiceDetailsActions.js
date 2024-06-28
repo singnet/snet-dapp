@@ -17,7 +17,7 @@ const resetServiceDetails = (dispatch) => {
 };
 
 const fetchServiceDetailsFailure = (err) => (dispatch) => {
-  dispatch(loaderActions.stopAppLoader);
+  dispatch(loaderActions.stopAppLoader());
 };
 
 const fetchServiceDetailsSuccess = (serviceDetails) => (dispatch) => {
@@ -25,7 +25,7 @@ const fetchServiceDetailsSuccess = (serviceDetails) => (dispatch) => {
   //   ...serviceDetails,
   //   data: { ...serviceDetails.data, media: serviceDetails.data.media.map(el => ({ ...el, url: cacheS3Url(el.url) })) },
   // };
-  dispatch(loaderActions.stopAppLoader);
+  dispatch(loaderActions.stopAppLoader());
   dispatch({ type: UPDATE_SERVICE_DETAILS, payload: serviceDetails.data });
 };
 

@@ -178,7 +178,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   deleteUserAccount: ({ history, route }) => dispatch(userActions.deleteUserAccount({ history, route })),
   updateUserProfile: (updatedUserData) => dispatch(userActions.updateUserProfile(updatedUserData)),
-  stopLoader: () => dispatch(loaderActions.stopAppLoader),
+  stopLoader: () => dispatch(loaderActions.stopAppLoader()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(withRouter(UserProfileSettings)));
