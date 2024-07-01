@@ -76,7 +76,7 @@ class ExpiredSession extends Component {
               <StyledDropdown
                 labelTxt="Select a Wallet"
                 list={channelPaymentOptions}
-                value="default"
+                value={wallet.type || "default"}
                 onChange={this.handlePayTypeChange}
               />
             </div>
