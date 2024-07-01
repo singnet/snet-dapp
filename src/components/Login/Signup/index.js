@@ -123,7 +123,7 @@ class SignUp extends Component {
             content="decentralized AI, AI monetization, pre-trained AI models, AI marketplace, signup"
           />
         </Helmet>
-        <Grid container spacing={24} className={classes.signupMainContent}>
+        <Grid container className={classes.signupMainContent}>
           {toBeConfirmed ? (
             <RenderOTP
               otp={otp}
@@ -152,7 +152,7 @@ class SignUp extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   startSignupLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.SIGNUP)),
-  stopLoader: () => dispatch(loaderActions.stopAppLoader),
+  stopLoader: () => dispatch(loaderActions.stopAppLoader()),
   updateNickname: (nickname) => dispatch(userActions.updateNickname(nickname)),
   updateEmail: (email) => dispatch(userActions.updateEmail(email)),
 });

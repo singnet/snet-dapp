@@ -34,7 +34,7 @@ const GetStarted = ({ classes, history }) => {
         url={seoData.url}
         twitterImage={seoData.twitterImage}
       />
-      <Grid container spacing={24} className={classes.GetStartedMainContaienr}>
+      <Grid container className={classes.GetStartedMainContaienr}>
         <Grid item xs={12} sm={12} md={12} lg={12} className={classes.TopSection}>
           <GetStartedDescription
             title="One AI Marketplace For All"

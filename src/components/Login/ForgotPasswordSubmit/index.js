@@ -59,7 +59,7 @@ const ForgotPasswordSubmit = ({ classes, history, error, email, forgotPasswordSu
   }
 
   return (
-    <Grid container spacing={24}>
+    <Grid container>
       <Grid item xs={12} sm={12} md={12} lg={12} className={classes.forgotPwdContent}>
         <h2>Verification Code</h2>
         <p>Enter the verification code and new password.</p>

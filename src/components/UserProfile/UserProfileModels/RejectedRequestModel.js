@@ -7,7 +7,7 @@ import { useStyles } from "./styles";
 
 const RejectedRequestModel = ({ classes }) => {
   return (
-    <Grid container spacing={24} className={classes.requestedModelsContainer}>
+    <Grid container className={classes.requestedModelsContainer}>
       <Grid item xs={12} sm={12} md={12} lg={12} className={classes.requestedModelsHeaders}>
         <Grid item xs={3} sm={3} md={3} lg={3}>
           <Typography>name</Typography>
@@ -25,7 +25,7 @@ const RejectedRequestModel = ({ classes }) => {
           <Typography>status</Typography>
         </Grid>
       </Grid>
-      <Grid container spacing={24} className={classes.requestedModelsDataContainer}>
+      <Grid container className={classes.requestedModelsDataContainer}>
         <Grid item xs={12} sm={12} md={3} lg={3}>
           <span>name:</span>
           <Typography>Region Recognation</Typography>

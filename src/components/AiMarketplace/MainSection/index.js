@@ -46,7 +46,7 @@ class MainSection extends Component {
     const { classes, services, pagination, currentFilter } = this.props;
     const { listView } = this.state;
     return (
-      <Grid container spacing={24} className={classes.mainSection}>
+      <Grid container className={classes.mainSection}>
         <Grid item xs={12} sm={12} md={12} lg={12} className={classes.filterMainContainer}>
           <Filter
             toolbarProps={{

@@ -194,7 +194,7 @@ class ServiceDetails extends Component {
         return null;
       }
       return (
-        <Grid container spacing={24} className={classes.serviceDetailContainer}>
+        <Grid container className={classes.serviceDetailContainer}>
           <ErrorBox />
         </Grid>
       );
@@ -260,7 +260,7 @@ class ServiceDetails extends Component {
           url={seoURL}
           keywords={service.tags}
         />
-        <Grid container spacing={24} className={classes.serviceDetailContainer}>
+        <Grid container className={classes.serviceDetailContainer}>
           <div className={classes.notificationBar}>
             <NotificationBar
               type={offlineNotication.type}

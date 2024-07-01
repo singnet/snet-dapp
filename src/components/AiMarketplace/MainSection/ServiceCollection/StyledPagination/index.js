@@ -34,7 +34,7 @@ const StyledPagination = ({ limit, offset, total_count, handleChange }) => {
     total_count > parseFloat(limit) + parseFloat(offset) ? parseFloat(limit) + parseFloat(offset) : total_count;
 
   return (
-    <Grid container spacing={24} className={classes.paginationContainer}>
+    <Grid container className={classes.paginationContainer}>
       <Grid item xs={6} sm={6} md={6} lg={6} className={classes.pagination}>
         <Pagination
           limit={limit}

@@ -42,7 +42,7 @@ const TrainingModels = (props) => {
 
   if (createModelCalled === "edit") {
     return (
-      <Grid container spacing={24} className={classes.trainingModelContainer}>
+      <Grid container className={classes.trainingModelContainer}>
         <Grid item xs={12} sm={12} md={8} lg={8} className={classes.leftSideSection}>
           <CreateModel
             service={service}
@@ -66,7 +66,7 @@ const TrainingModels = (props) => {
   }
 
   return (
-    <Grid container spacing={24} className={classes.trainingModelContainer}>
+    <Grid container className={classes.trainingModelContainer}>
       <Grid item xs={12} sm={12} md={8} lg={8} className={classes.leftSideSection}>
         {showCreateModel ? (
           <CreateModel service={service} training={training} />

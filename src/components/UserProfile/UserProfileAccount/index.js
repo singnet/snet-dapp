@@ -93,7 +93,7 @@ const UserProfileAccount = ({ classes }) => {
   };
 
   return (
-    <Grid container spacing={24} className={classes.accountMainContainer}>
+    <Grid container className={classes.accountMainContainer}>
       <Grid item xs={12} sm={12} md={4} lg={4} className={classes.accountContainer}>
         <h3>Payment / Transfer Method</h3>
         <div className={classes.accountWrapper}>

@@ -51,7 +51,7 @@ const ForgotPassword = ({
       : "We'll email you instructions on how to reset it.";
 
   return (
-    <Grid container spacing={24} className={classes.forgotPwdMainContainer}>
+    <Grid container className={classes.forgotPwdMainContainer}>
       <Helmet>
         <meta
           name="description"

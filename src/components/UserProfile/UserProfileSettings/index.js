@@ -85,7 +85,7 @@ class UserProfileSettings extends Component {
     const { classes, userEmail, nickname } = this.props;
     const { alertMessage, alertType, emailAlerts, showConfirmDelete, confirmDeleteError } = this.state;
     return (
-      <Grid container spacing={24} className={classes.settingMainContainer}>
+      <Grid container className={classes.settingMainContainer}>
         <Helmet>
           <meta
             name="description"

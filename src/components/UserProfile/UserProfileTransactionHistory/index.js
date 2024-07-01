@@ -34,7 +34,7 @@ class UserProfileTransactionHistory extends Component {
     const activeComponent = tabs.filter((el) => el.activeIndex === activeTab)[0].component;
 
     return (
-      <Grid container spacing={24} className={classes.transactionHistoryMainContainer}>
+      <Grid container className={classes.transactionHistoryMainContainer}>
         <Helmet>
           <meta
             name="description"
