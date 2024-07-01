@@ -1,7 +1,6 @@
 import SnetSDK, { WebServiceClient as ServiceClient } from "snet-sdk-web";
 import API from "@aws-amplify/api";
 import MPEContract from "singularitynet-platform-contracts/networks/MultiPartyEscrow";
-import Web3 from "web3";
 
 import { APIEndpoints, APIPaths } from "../config/APIEndpoints";
 import { initializeAPIOptions } from "./API";
@@ -161,6 +160,13 @@ export const updateChannel = (newChannel) => {
   channel = newChannel;
 };
 
+const defineWeb3Provider = () => {
+  if (isUndefined(window.ethereum)) {
+    throw new Error("Metamask is not found");
+  }
+  web3Provider = window.ethereum;
+};
+
 const detectEthereumNetwork = async () => {
   const chainIdHex = await web3Provider.request({
     method: "eth_chainId",
@@ -176,9 +182,8 @@ const isUserAtExpectedEthereumNetwork = async () => {
 };
 
 const switchNetwork = async () => {
-  const web3 = new Web3(window.ethereum);
-  const hexifiedChainId = web3.utils.toHex(EXPECTED_ID_ETHEREUM_NETWORK);
-  await window.ethereum.request({
+  const hexifiedChainId = "0x" + EXPECTED_ID_ETHEREUM_NETWORK.toString(16);
+  await web3Provider.request({
     method: "wallet_switchEthereumChain",
     params: [{ chainId: hexifiedChainId }],
   });
@@ -217,14 +222,10 @@ export const initSdk = async () => {
   if (sdk && !(sdk instanceof PaypalSDK)) {
     return Promise.resolve(sdk);
   }
-
-  const hasEth = !isUndefined(window.ethereum);
-  if (hasEth) {
-    web3Provider = window.ethereum;
-    await web3Provider.request({ method: ethereumMethods.REQUEST_ACCOUNTS });
-    addListenersForWeb3();
-    await updateSDK();
-  }
+  defineWeb3Provider();
+  await web3Provider.request({ method: ethereumMethods.REQUEST_ACCOUNTS });
+  addListenersForWeb3();
+  await updateSDK();
   return Promise.resolve(sdk);
 };
 
