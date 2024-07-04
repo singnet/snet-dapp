@@ -17,12 +17,38 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   cardHeader: {
+    display: "flex",
+    gap: 10,
     padding: "0 18px",
     alignItems: "flex-start",
     "& .MuiCardHeader-avatar": { marginRight: 0 },
     "& .MuiCardHeader-content": {
       textAlign: "left",
-      marginLeft: 10,
+    },
+  },
+  cardHeaderContent: {
+    width: "100%",
+    textAlign: "left",
+    position: "relative",
+    "& span": {
+      paddingLeft: 5,
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      display: "-webkit-box",
+      height: "min-content",
+      "-webkit-line-clamp": 1,
+      "-webkit-box-orient": "vertical",
+      transition: "all 0.1s",
+    },
+    "& span:hover": {
+      position: "absolute",
+      overflow: "auto",
+      height: "min-content",
+      background: "rgb(250, 250, 250)",
+      "-webkit-line-clamp": 10,
+      padding: "0 0 5px 5px",
+      borderRadius: 5,
+      transition: "all 0.1s",
     },
   },
   cardTitle: {
@@ -32,6 +58,7 @@ export const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.darkShadedGray,
     letterSpacing: 0.23,
     lineHeight: "23px",
+    height: "1.5rem",
   },
   cardSubheader: {
     margin: 0,
@@ -42,6 +69,7 @@ export const useStyles = makeStyles((theme) => ({
     letterSpacing: 1.67,
     lineHeight: "16px",
     textTransform: "uppercase",
+    height: "1rem",
   },
   CardMedia: {
     height: 175,
