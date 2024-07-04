@@ -34,7 +34,7 @@ const CardGroup = ({ data: cards = [], listView, loading }) => {
   }
   if (listView) {
     return (
-      <div className={classes.lisViewCardCollection}>
+      <div className={classes.listViewCardCollection}>
         {cards.map((card) => (
           <Link
             to={`/${Routes.SERVICE_DETAILS}/org/${card.org_id}/service/${card.service_id}`}

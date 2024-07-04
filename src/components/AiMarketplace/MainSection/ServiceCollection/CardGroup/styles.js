@@ -1,8 +1,10 @@
 import { makeStyles } from "@material-ui/styles";
 
 export const useStyles = makeStyles((theme) => ({
-  lisViewCardCollection: {
-    marginTop: 10,
+  listViewCardCollection: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 30,
     "@media(max-width: 1023px) and (min-width: 768px)": { textAlign: "center" },
     "& a": {
       width: "100%",
