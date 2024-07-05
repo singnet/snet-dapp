@@ -63,10 +63,12 @@ const ToolBar = ({
 
   return (
     <Grid container className={classes.toolBar}>
-      <Grid item xs={6} sm={9} md={9} lg={6} className={classes.sortBySection}>
-        <ServiceSortOptions />
+      <Grid item md={7} lg={6} className={classes.sortBySection}>
+        <div className={classes.sortDropdownsContainer}>
+          <ServiceSortOptions />
+        </div>
         {process.env.REACT_APP_IS_ALL_SERVICES_AVAILIBLE === "true" && (
-          <div className={classes.organizationDropdownContainer}>
+          <div>
             <span className={classes.sortbyTxt}>Organization</span>
             <StyledDropdown
               list={enhancedFilterData}
@@ -78,7 +80,7 @@ const ToolBar = ({
           </div>
         )}
       </Grid>
-      <Grid item xs={6} sm={3} md={3} lg={6} className={classes.iconsContainer}>
+      <Grid item md={3} lg={6} className={classes.iconsContainer}>
         <span className={classes.servicesCount}>{total_count} services</span>
         <button className={classes.searchBar}>
           <SearchInputToggler

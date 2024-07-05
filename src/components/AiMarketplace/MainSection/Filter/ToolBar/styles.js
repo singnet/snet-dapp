@@ -2,22 +2,22 @@ import { makeStyles } from "@material-ui/styles";
 
 export const useStyles = makeStyles((theme) => ({
   toolBar: {
-    padding: "0 0 10px",
+    padding: 20,
+    alignItems: "center",
+    justifyContent: "space-between",
     borderBottom: "1px solid rgba(155,155,155,0.9);",
     "@media(max-width: 768px)": {
       padding: "10px 15px",
-      marginTop: 0,
-      flexDirection: "column",
     },
     "@media(max-width: 480px)": {
-      flexDirection: "column-reverse",
       alignItems: "flex-start",
     },
   },
   serviceCollection: { paddingLeft: 25 },
   sortBySection: {
     display: "flex",
-    alignItems: "baseline",
+    gap: 20,
+    justifyContent: "space-between",
     "& svg": {
       color: theme.palette.text.primary,
       right: "0 !important",
@@ -27,9 +27,10 @@ export const useStyles = makeStyles((theme) => ({
       padding: "0 30px 0 0",
       color: theme.palette.text.primary,
     },
-    "@media(max-width: 548px)": {
+    "@media(max-width: 768px)": {
       flexDirection: "column",
       alignItems: "flex-start",
+      gap: 0,
     },
   },
   sortbyTxt: {
@@ -57,10 +58,6 @@ export const useStyles = makeStyles((theme) => ({
       "&::after": { borderBottomColor: "#9b9b9b !important" },
     },
   },
-  organizationDropdownContainer: {
-    marginLeft: 67,
-    "@media(max-width: 548px)": { margin: "15px 0 0" },
-  },
   iconsContainer: {
     minHeight: 34,
     display: "flex",
@@ -77,10 +74,8 @@ export const useStyles = makeStyles((theme) => ({
         fontSize: 18,
       },
     },
-    "@media(max-width: 768px)": { paddingTop: 15 },
     "@media(max-width: 480px)": {
       width: "100%",
-      marginBottom: 15,
       justifyContent: "space-between",
     },
   },

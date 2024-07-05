@@ -1,11 +1,6 @@
 import { makeStyles, createStyles } from "@material-ui/styles";
 export const useStyles = (theme) =>
   createStyles({
-    filterContainer: {
-      maxWidth: 1280,
-      margin: "0 auto",
-      "@media(max-width: 1280px)": { padding: "0 10px" },
-    },
     filterResetBtnContainer: {
       padding: "12px 22px",
       display: "flex",
