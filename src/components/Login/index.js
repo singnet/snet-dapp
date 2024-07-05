@@ -52,7 +52,7 @@ class Login extends Component {
     const { classes, loginError } = this.props;
     const { email, password } = this.state;
     return (
-      <Grid container spacing={24}>
+      <Grid container>
         <Grid item xs={12} sm={12} md={12} lg={12} className={classes.loginDetails}>
           <h2>Welcome Back</h2>
           <form noValidate autoComplete="off" className={classes.loginForm}>

@@ -8,17 +8,13 @@ const Icon = {
   warning: <WarningIcon />,
 };
 
-const BulletPoint = ({ message, type }) => {
+const BulletPoint = ({ message, type = alertTypes.WARNING }) => {
   return (
     <div>
       <div>{Icon[type]}</div>
       <AlertBox type={type} message={message} />
     </div>
   );
-};
-
-BulletPoint.defaultProps = {
-  type: alertTypes.WARNING,
 };
 
 BulletPoint.propTypes = {

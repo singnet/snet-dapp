@@ -58,4 +58,5 @@ export const APIPaths = {
   FREE_CALL_TOKEN: "/free-call/token",
   GET_CAROUSEL: "/uicontent/marketplacecarousel",
   GET_USER_ORGS: "/org",
+  UPDATE_CHANNEL_BALANCE: (channelId) => `/channel/${channelId}/balance`,
 };

@@ -3,7 +3,7 @@ import { withStyles } from "@material-ui/styles";
 import parseHtml from "html-react-parser";
 
 import { useStyles } from "./styles";
-import Tags from "./Tags";
+import Tags from "../../common/Tags";
 
 const ServiceOverview = ({ classes, description, tags }) => {
   const parseDescription = (description) => {
@@ -26,12 +26,11 @@ const ServiceOverview = ({ classes, description, tags }) => {
   };
 
   return (
-    <div className={classes.overViewContainer}>
-      <h2>Overview</h2>
+    <>
       {renderSandboxInfo()}
-      <p>{parseDescription(description)}</p>
-      <Tags className={classes.tagsContainer} tags={tags} />
-    </div>
+      <p className={classes.description}>{parseDescription(description)}</p>
+      <Tags tags={tags} />
+    </>
   );
 };
 

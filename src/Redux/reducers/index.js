@@ -7,6 +7,7 @@ import loaderReducer from "./LoaderReducer";
 import stylesReducer from "./StylesReducer";
 import paymentReducer from "./PaymentReducer";
 import uiContentReducer from "./UiContentReducer";
+import sdkReducer from "./SDKReducer";
 
 const rootReducer = combineReducers({
   userReducer,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   stylesReducer,
   paymentReducer,
   uiContentReducer,
+  sdkReducer,
 });
 
 export default rootReducer;

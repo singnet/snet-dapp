@@ -149,10 +149,10 @@ export const downloadAuthToken = (serviceId, groupId, publicKey, orgId) => async
     };
     const downloadBlob = new Blob([JSON.stringify(jsonToDownload)], { type: "text/json;charset=utf-8" });
     const downloadURL = window.URL.createObjectURL(downloadBlob);
-    dispatch(loaderActions.stopAppLoader);
+    dispatch(loaderActions.stopAppLoader());
     return downloadURL;
   } catch (e) {
-    dispatch(loaderActions.stopAppLoader);
+    dispatch(loaderActions.stopAppLoader());
     throw e;
   }
 };

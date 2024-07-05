@@ -4,7 +4,6 @@ import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
 import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
 import isEmpty from "lodash/isEmpty";
-
 import TitleCard from "./TitleCard";
 import PricingDetails from "./PricingDetails";
 import StyledTabs from "./StyledTabs";
@@ -12,7 +11,7 @@ import AboutService from "./AboutService";
 import InstallAndRunService from "./InstallAndRunService";
 import { useStyles } from "./styles";
 import NotificationBar, { notificationBarTypes } from "../common/NotificationBar";
-import { loaderActions, serviceDetailsActions } from "../../Redux/actionCreators";
+import { loaderActions, serviceDetailsActions, sdkActions } from "../../Redux/actionCreators";
 import { pricing, serviceDetails, groupInfo } from "../../Redux/reducers/ServiceDetailsReducer";
 import ErrorBox from "../common/ErrorBox";
 import SeoMetadata from "../common/SeoMetadata";
@@ -21,9 +20,9 @@ import CardImg from "../../assets/images/SnetDefaultServiceImage.png";
 import TrainingModels from "./TrainingModels";
 import { fetchTrainingModel } from "../../Redux/actionCreators/ServiceDetailsActions";
 import { WebServiceClient as ServiceClient } from "snet-sdk-web";
-import { initSdk } from "../../utility/sdk";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
 import AlertBox, { alertTypes } from "../common/AlertBox";
+import { Helmet } from "react-helmet";
 export const HERO_IMG = "hero_image";
 
 class ServiceDetails extends Component {
@@ -43,9 +42,12 @@ class ServiceDetails extends Component {
     };
   }
 
-  initializeService = async () => {
+  initializeServiceClient = async () => {
+    if (this.serviceClient) {
+      return;
+    }
     const { org_id, service_id } = this.props.service;
-    const sdk = await initSdk();
+    const sdk = await this.props.getSdk();
     this.serviceClient = new ServiceClient(sdk, org_id, service_id, sdk?._mpeContract, {}, this.props.groupInfo);
   };
 
@@ -55,8 +57,6 @@ class ServiceDetails extends Component {
     }
     if (isEmpty(this.props.service) || !this.props.service) {
       await this.fetchServiceDetails();
-    } else {
-      await this.initializeService();
     }
     await this.fetchTrainingModel();
   }
@@ -80,7 +80,6 @@ class ServiceDetails extends Component {
     } = this.props;
     try {
       await fetchServiceDetails(orgId, serviceId);
-      await this.initializeService();
     } catch (error) {
       this.setState({ error: true });
     }
@@ -152,6 +151,7 @@ class ServiceDetails extends Component {
         status: modelDetailsOnEdit.status,
         updatedDate: modelDetailsOnEdit.updatedDate,
       };
+      await this.initializeServiceClient();
       await this.serviceClient.updateModel(params);
       stopLoader();
       this.onCancelEditModel();
@@ -173,6 +173,7 @@ class ServiceDetails extends Component {
         method: modelDetailsOnEdit.methodName,
         name: modelDetailsOnEdit.serviceName,
       };
+      await this.initializeServiceClient();
       await this.serviceClient.deleteModel(params);
       stopLoader();
       this.onCancelEditModel();
@@ -193,7 +194,7 @@ class ServiceDetails extends Component {
         return null;
       }
       return (
-        <Grid container spacing={24} className={classes.serviceDetailContainer}>
+        <Grid container className={classes.serviceDetailContainer}>
           <ErrorBox />
         </Grid>
       );
@@ -247,6 +248,11 @@ class ServiceDetails extends Component {
     const seoURL = `${process.env.REACT_APP_BASE_URL}/servicedetails/org/${orgId}/service/${serviceId}`;
     return (
       <div>
+        <Helmet>
+          <title>{service.display_name}</title>
+          <meta name="keywords" content={service.display_name} />
+          <meta name="description" content={service.short_description} />
+        </Helmet>
         <SeoMetadata
           title={service.display_name}
           description={service.short_description}
@@ -254,7 +260,7 @@ class ServiceDetails extends Component {
           url={seoURL}
           keywords={service.tags}
         />
-        <Grid container spacing={24} className={classes.serviceDetailContainer}>
+        <Grid container className={classes.serviceDetailContainer}>
           <div className={classes.notificationBar}>
             <NotificationBar
               type={offlineNotication.type}
@@ -312,7 +318,8 @@ const mapDispatchToProps = (dispatch) => ({
   fetchTrainingModel: (orgId, serviceId) => dispatch(fetchTrainingModel(orgId, serviceId)),
   startUpdateLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.UPDATE_MODEL)),
   startDeleteLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.DELETE_MODEL)),
-  stopLoader: () => dispatch(loaderActions.stopAppLoader),
+  stopLoader: () => dispatch(loaderActions.stopAppLoader()),
+  getSdk: () => dispatch(sdkActions.getSdk()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(ServiceDetails));

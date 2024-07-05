@@ -1,24 +1,15 @@
 export const useStyles = (theme) => ({
-  creatorDetailsContainer: {
-    boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
-    borderRadius: 4,
-    backgroundColor: theme.palette.text.white,
-    paddingBottom: 1,
-    marginBottom: 25,
-  },
   content: {
-    paddingLeft: 22,
+    display: "flex",
+    flexDirection: "column",
+    gap: 20,
   },
   companyInfo: {
-    margin: "10px 0 20px",
     display: "flex",
     alignItems: "center",
-    "& img": {
-      "@media(max-width:1023px)": { width: 48 },
-    },
+    gap: 20,
   },
   companyName: {
-    paddingLeft: 20,
     wordBreak: "break-word",
     "& h3": {
       margin: 0,
@@ -33,36 +24,18 @@ export const useStyles = (theme) => ({
       fontSize: 14,
     },
   },
-  iconContainer: {
-    padding: "17px 0",
-    borderTopWidth: 1,
-    borderTopStyle: "solid",
-    borderTopColor: theme.palette.text.lightGray,
-    display: "flex",
-    justifyContent: "space-around",
-    backgroundColor: theme.palette.text.gray2,
-    "& i": {
-      color: theme.palette.text.gray3,
-      verticalAlign: "bottom",
-    },
-    "& span": {
-      marginLeft: 8,
-      color: theme.palette.text.mediumShadeGray,
-      fontSize: 12,
-    },
-  },
   footer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
     backgroundColor: theme.palette.text.cardBackground,
-    borderTop: `1px solid ${theme.palette.text.lightGray}`,
     color: theme.palette.text.mediumShadeGray,
     fontSize: 14,
-    textAlign: "center",
+    cursor: "pointer",
     "& span": {
       display: "inline-block",
       verticalAlign: "middle",
       cursor: "pointer",
-      height: 24,
-      marginTop: 14,
       "& svg": { verticalAlign: "middle" },
     },
     height: 56,

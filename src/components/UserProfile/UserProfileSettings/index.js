@@ -13,6 +13,7 @@ import { userActions, loaderActions } from "../../../Redux/actionCreators";
 import Routes from "../../../utility/constants/Routes";
 import AlertBox, { alertTypes } from "../../common/AlertBox";
 import ConfirmDelete from "./ConfirmDelete";
+import { Helmet } from "react-helmet";
 
 class UserProfileSettings extends Component {
   state = {
@@ -84,7 +85,14 @@ class UserProfileSettings extends Component {
     const { classes, userEmail, nickname } = this.props;
     const { alertMessage, alertType, emailAlerts, showConfirmDelete, confirmDeleteError } = this.state;
     return (
-      <Grid container spacing={24} className={classes.settingMainContainer}>
+      <Grid container className={classes.settingMainContainer}>
+        <Helmet>
+          <meta
+            name="description"
+            content="Adjust your SingularityNET settings for an optimized AI service experience. Personalize notifications, privacy, and more."
+          />
+          <meta name="keywords" content="User Settings, AI Customization, SingularityNET, Platform Preferences" />
+        </Helmet>
         <Grid item xs={12} sm={12} md={7} lg={7} className={classes.settingsContainer}>
           <h3>Settings</h3>
           <div className={classes.settingsContent}>
@@ -170,7 +178,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   deleteUserAccount: ({ history, route }) => dispatch(userActions.deleteUserAccount({ history, route })),
   updateUserProfile: (updatedUserData) => dispatch(userActions.updateUserProfile(updatedUserData)),
-  stopLoader: () => dispatch(loaderActions.stopAppLoader),
+  stopLoader: () => dispatch(loaderActions.stopAppLoader()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(withRouter(UserProfileSettings)));

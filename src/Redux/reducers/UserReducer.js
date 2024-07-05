@@ -4,7 +4,7 @@ import { userActions } from "../actionCreators";
 import { walletTypes, RESET_LOGIN_ERROR } from "../actionCreators/UserActions";
 import { cogsToAgi } from "../../utility/PricingStrategy";
 
-export const initialWallet = { value: walletTypes.DEFAULT, type: walletTypes.DEFAULT };
+export const initialWallet = { value: walletTypes.DEFAULT, type: walletTypes.METAMASK };
 const InitialUserDetails = {
   login: {
     isLoggedIn: false,
@@ -127,11 +127,10 @@ const userReducer = (state = InitialUserDetails, action) => {
 };
 
 export const channelInfo = (state) => {
-  const { walletList } = state.userReducer;
+  const { walletList } = userReducer;
   if (isEmpty(walletList)) {
     return {};
   }
-
   const walletWithChannel = walletList.find(
     (wallet) => wallet.type === walletTypes.GENERAL && !isEmpty(wallet.channels[0])
   );

@@ -87,7 +87,7 @@ class InstallAndRunService extends Component {
       // },
     ];
     return (
-      <Grid container spacing={24} className={classes.installAndRunContainer}>
+      <Grid container className={classes.installAndRunContainer}>
         <Grid item xs={12} sm={12} md={8} lg={8} className={classes.overViewContainer}>
           <div className={classes.integrationSetupContainer}>
             <h2>Integration Setup</h2>

@@ -20,7 +20,7 @@ const backgroundColor = {
   info: alertTypes.INFO,
 };
 
-const AlertBox = ({ classes, message, type, link }) => {
+const AlertBox = ({ classes, message, type = alertTypes.ERROR, link }) => {
   if (message) {
     return (
       <p className={clsx(classes.messageBox, classes[backgroundColor[type]])}>
@@ -34,10 +34,6 @@ const AlertBox = ({ classes, message, type, link }) => {
 AlertBox.propTypes = {
   type: PropTypes.oneOf(["error", "success", "warning", "info"]),
   message: PropTypes.string,
-};
-
-AlertBox.defaultProps = {
-  type: "error",
 };
 
 export default withStyles(useStyles)(AlertBox);

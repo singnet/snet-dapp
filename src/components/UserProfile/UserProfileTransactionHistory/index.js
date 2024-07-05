@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import { userActions } from "../../../Redux/actionCreators";
 import Payments from "./Payments";
 import { useStyles } from "./styles";
+import { Helmet } from "react-helmet";
 
 class UserProfileTransactionHistory extends Component {
   state = { activeTab: 0 };
@@ -33,7 +34,14 @@ class UserProfileTransactionHistory extends Component {
     const activeComponent = tabs.filter((el) => el.activeIndex === activeTab)[0].component;
 
     return (
-      <Grid container spacing={24} className={classes.transactionHistoryMainContainer}>
+      <Grid container className={classes.transactionHistoryMainContainer}>
+        <Helmet>
+          <meta
+            name="description"
+            content="View and manage your SingularityNET transactions to monitor AI service usage and spending efficiently."
+          />
+          <meta name="keywords" content="Transactions, AI Services, SingularityNET, Usage Tracking" />
+        </Helmet>
         <Grid item xs={12} sm={12} md={12} lg={12} className={classes.transactionHistoryContainer}>
           <h3>Transactions History</h3>
           <div className={classes.transactionHistoryContent}>

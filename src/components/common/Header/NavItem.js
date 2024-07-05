@@ -23,15 +23,16 @@ const NavItem = ({ title, link }) => {
 
   return (
     <li className={classes.navLinks}>
-      <NavLink to={link} className={classes.navLinksAnchor} activeClassName={classes.activeTab} isActive={isActive}>
+      <NavLink
+        to={link || "#"}
+        className={classes.navLinksAnchor}
+        activeClassName={classes.activeTab}
+        isActive={isActive}
+      >
         {title}
       </NavLink>
     </li>
   );
-};
-
-NavItem.defaultProps = {
-  link: "#",
 };
 
 export default NavItem;

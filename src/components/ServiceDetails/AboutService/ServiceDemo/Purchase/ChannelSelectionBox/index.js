@@ -21,7 +21,6 @@ const ChannelSelectionBox = ({
   return (
     <Grid
       container
-      spacing={24}
       className={`${classes.ChannelSelectionBoxContainer}
        ${disabled && classes.disabledChannelBox} 
        ${checked && classes.selectedChannelBox}`}

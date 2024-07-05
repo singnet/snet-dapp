@@ -177,7 +177,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   startLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.TRAIN_MODEL)),
-  stopLoader: () => dispatch(loaderActions.stopAppLoader),
+  stopLoader: () => dispatch(loaderActions.stopAppLoader()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(Payment));

@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 import { useStyles } from "./styles";
 
-const StyledTable = ({ classes, title, columns, rows }) => {
+const StyledTable = ({ classes, title, columns = [{}], rows = [{ values: [{}] }] }) => {
   return (
     <div className={classes.styledTable}>
       <Typography variant="h5" className={classes.styledTableHeader}>
@@ -32,11 +32,6 @@ const StyledTable = ({ classes, title, columns, rows }) => {
       </div>
     </div>
   );
-};
-
-StyledTable.defaultProps = {
-  columns: [{}],
-  rows: [{ values: [{}] }],
 };
 
 StyledTable.propTypes = {

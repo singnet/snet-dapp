@@ -7,7 +7,7 @@ export const startAppLoader = (loaderContent) => (dispatch) => {
   return dispatch({ type: START_APP_LOADER, payload: { app: { loading: true, ...loaderContent } } });
 };
 
-export const stopAppLoader = (dispatch) => {
+export const stopAppLoader = () => (dispatch) => {
   return dispatch({ type: STOP_APP_LOADER, payload: { app: { loading: false, loaderHeader: "", loaderText: "" } } });
 };
 

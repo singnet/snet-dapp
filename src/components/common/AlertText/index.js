@@ -12,7 +12,7 @@ const textColor = {
   info: alertTypes.INFO,
 };
 
-const AlertText = ({ type, message, inline }) => {
+const AlertText = ({ type = "error", message }) => {
   const classes = useStyles();
 
   if (message) {
@@ -24,11 +24,6 @@ const AlertText = ({ type, message, inline }) => {
 AlertText.propTypes = {
   message: PropTypes.string,
   type: PropTypes.oneOf(["error", "success", "warning", "info"]),
-  inline: PropTypes.bool,
-};
-
-AlertText.defaultProps = {
-  type: "error",
 };
 
 export default AlertText;

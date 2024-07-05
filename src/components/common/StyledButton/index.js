@@ -23,10 +23,10 @@ const StyledButton = ({ disabled, onClick, type, btnType, iconClass, href, newTa
 
   return (
     <Button
-      className={clsx(classes.styledButton, classes[buttonColor[type]])}
+      className={clsx(classes.styledButton, classes[buttonColor[type || "blue"]])}
       disabled={disabled}
       onClick={onClick}
-      type={btnType}
+      type={btnType || "button"}
       href={href}
       target={href && newTab ? "_blank" : ""}
       rel={href && newTab ? "noopener" : ""}
@@ -57,11 +57,6 @@ StyledButton.propTypes = {
   iconClass: PropTypes.string,
   href: PropTypes.string,
   newTab: PropTypes.bool,
-};
-
-StyledButton.defaultProps = {
-  type: "blue",
-  btnType: "button",
 };
 
 export default StyledButton;

@@ -1,19 +1,21 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { withStyles } from "@material-ui/styles";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import isEmpty from "lodash/isEmpty";
 
 import StyledButton from "../../../../../../common/StyledButton";
 import { useStyles } from "./styles";
 import NextAction from "./NextAction";
-import { channelInfo, anyGeneralWallet } from "../../../../../../../Redux/reducers/UserReducer";
 import TopupWallet from "./TopupWallet";
 import CreateWallet from "./CreateWallet";
-import { paymentActions } from "../../../../../../../Redux/actionCreators";
 import LinkProvider from "./LinkProvider";
 import { userProfileRoutes } from "../../../../../../UserProfile";
-import { anyPendingTxn } from "../../../../../../../Redux/reducers/PaymentReducer";
+import { anyPendingTxn as getAnyPendingTxn } from "../../../../../../../Redux/reducers/PaymentReducer";
+import {
+  channelInfo as getChannelInfo,
+  anyGeneralWallet as getAnyGeneralWallet,
+} from "../../../../../../../Redux/reducers/UserReducer";
 import { orderTypes } from "../../../../../../../utility/constants/PaymentConstants";
 
 export const paymentTitles = {
@@ -22,8 +24,11 @@ export const paymentTitles = {
   CREATE_CHANNEL: "Link Provider to General Account Wallet",
 };
 
-const GeneralAccountWallet = (props) => {
-  const { classes, channelInfo, handleContinue, paypalInProgress, anyGeneralWallet, anyPendingTxn } = props;
+const GeneralAccountWallet = ({ classes, handleContinue }) => {
+  const paypalInProgress = useSelector((state) => state.paymentReducer.paypalInProgress);
+  const anyGeneralWallet = useSelector((state) => getAnyGeneralWallet(state));
+  const anyPendingTxn = useSelector((state) => getAnyPendingTxn(state));
+  const channelInfo = getChannelInfo();
 
   const [showCreateWalletPopup, setShowCreateWalletPopup] = useState(false);
   const [showTopupWallet, setShowTopupWallet] = useState(false);
@@ -50,7 +55,7 @@ const GeneralAccountWallet = (props) => {
   }, [paypalInProgress.orderType]);
 
   return (
-    <Fragment>
+    <div>
       <div className={classes.btnsContainer}>
         <Link to={userProfileRoutes.TRANSACTIONS.path} className={classes.routerLink}>
           <StyledButton type="transparentBlueBorder" disabled={!anyGeneralWallet} btnText="transaction history" />
@@ -73,20 +78,8 @@ const GeneralAccountWallet = (props) => {
       <CreateWallet visible={showCreateWalletPopup} setVisibility={setShowCreateWalletPopup} />
       <TopupWallet visible={showTopupWallet} setVisibility={setShowTopupWallet} />
       <LinkProvider visible={showLinkProvider} setVisibility={setShowLinkProvider} />
-    </Fragment>
+    </div>
   );
 };
 
-const mapStateToProps = (state) => ({
-  channelInfo: channelInfo(state),
-  paypalInProgress: state.paymentReducer.paypalInProgress,
-  wallet: state.userReducer.wallet,
-  anyGeneralWallet: anyGeneralWallet(state),
-  anyPendingTxn: anyPendingTxn(state),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  fetchOrderDetails: (orderId) => dispatch(paymentActions.fetchOrderDetails(orderId)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(GeneralAccountWallet));
+export default withStyles(useStyles)(GeneralAccountWallet);

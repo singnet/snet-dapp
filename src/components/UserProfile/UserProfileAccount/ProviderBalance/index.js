@@ -8,7 +8,7 @@ import ChannelList from "./ChannelList";
 
 const ProviderBalance = ({ classes, linkedProviders }) => {
   return (
-    <Grid container spacing={24} className={classes.providerBalContent}>
+    <Grid container className={classes.providerBalContent}>
       <h3>Provider Balances</h3>
       <Grid item xs={12} sm={12} md={12} lg={12} className={classes.description}>
         <Typography>

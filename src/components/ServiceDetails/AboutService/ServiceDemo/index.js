@@ -12,7 +12,7 @@ import { freeCalls, groupInfo } from "../../../../Redux/reducers/ServiceDetailsR
 import { LoaderContent } from "../../../../utility/constants/LoaderContent";
 import AlertBox, { alertTypes } from "../../../common/AlertBox";
 import Routes from "../../../../utility/constants/Routes";
-import { initSdk, initPaypalSdk } from "../../../../utility/sdk";
+import { initPaypalSdk } from "../../../../utility/sdk";
 import { walletTypes } from "../../../../Redux/actionCreators/UserActions";
 import { channelInfo } from "../../../../Redux/reducers/UserReducer";
 import { anyPendingTxn } from "../../../../Redux/reducers/PaymentReducer";
@@ -61,12 +61,9 @@ class ServiceDemo extends Component {
   };
 
   componentDidUpdate = async (prevProps) => {
-    const { wallet, channelInfo, anyPendingTxn, stopWalletDetailsPolling } = this.props;
+    const { wallet, channelInfo, anyPendingTxn } = this.props;
     if (process.env.REACT_APP_SANDBOX) {
       return;
-    }
-    if (wallet.type === walletTypes.METAMASK) {
-      await initSdk();
     }
     if (wallet.type === walletTypes.GENERAL) {
       if (prevProps.channelInfo.id !== channelInfo.id || prevProps.wallet.type !== wallet.type) {
@@ -77,13 +74,13 @@ class ServiceDemo extends Component {
       }
     }
     if (!anyPendingTxn) {
-      stopWalletDetailsPolling();
+      // stopWalletDetailsPolling();
     }
   };
 
-  componentWillUnmount = () => {
-    this.props.stopWalletDetailsPolling();
-  };
+  // componentWillUnmount = () => {
+  //   this.props.stopWalletDetailsPolling();
+  // };
 
   checkForPaymentsInProgress = async () => {
     const {
@@ -218,7 +215,6 @@ class ServiceDemo extends Component {
 
     return (
       <div className={classes.demoExampleContainer}>
-        <h3>Process</h3>
         <ProgressBar activeSection={this.computeActiveSection()} progressText={progressText} />
         <PurchaseToggler
           groupInfo={groupInfo}
@@ -261,10 +257,10 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch, ownProps) => ({
   startLoader: () =>
     dispatch(loaderActions.startAppLoader(LoaderContent.SERVICE_INVOKATION(ownProps.service.display_name))),
-  stopLoader: () => dispatch(loaderActions.stopAppLoader),
+  stopLoader: () => dispatch(loaderActions.stopAppLoader()),
   fetchMeteringData: (args) => dispatch(serviceDetailsActions.fetchMeteringData(args)),
   startWalletDetailsPolling: (orgId, groupId) => dispatch(userActions.startWalletDetailsPolling(orgId, groupId)),
-  stopWalletDetailsPolling: () => dispatch(userActions.stopWalletDetailsPolling),
+  // stopWalletDetailsPolling: () => dispatch(userActions.stopWalletDetailsPolling),
 
   fetchOrderDetails: (orderId) => dispatch(paymentActions.fetchOrderDetails(orderId)),
   updateWallet: (walletDetails) => dispatch(userActions.updateWallet(walletDetails)),

@@ -7,7 +7,7 @@ import SocialIcon from "../SocialIcon";
 const SecondaryFooter = ({ data }) => {
   const classes = useStyles();
   return (
-    <Grid container spacing={24} className={classes.secondaryFooter}>
+    <Grid container className={classes.secondaryFooter}>
       <Grid item xs={12} sm={12} md={6} lg={6}>
         <p className={classes.copyrightText}>
           Copyright © {new Date().getFullYear()} SingularityNET All rights reserved.

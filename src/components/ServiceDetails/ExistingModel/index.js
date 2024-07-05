@@ -1,40 +1,29 @@
 import React, { useCallback, useState } from "react";
-import { connect, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { withStyles } from "@material-ui/styles";
 import { WebServiceClient as ServiceClient } from "snet-sdk-web";
 import ModelDetails from "./ModelDetails";
 import StyledButton from "../../common/StyledButton";
 import { useStyles } from "./styles";
 import ConnectMetamask from "../ConnectMetamask";
-import { initSdk } from "../../../utility/sdk";
-import { walletTypes } from "../../../Redux/actionCreators/UserActions";
-import { loaderActions, userActions } from "../../../Redux/actionCreators";
+import { loaderActions, userActions, sdkActions } from "../../../Redux/actionCreators";
 import { LoaderContent } from "../../../utility/constants/LoaderContent";
-import { currentServiceDetails, groupInfo } from "../../../Redux/reducers/ServiceDetailsReducer";
+import { currentServiceDetails, groupInfo as getGroupIndo } from "../../../Redux/reducers/ServiceDetailsReducer";
 import Typography from "@material-ui/core/Typography";
 import AlertBox, { alertTypes } from "../../common/AlertBox";
 
-const ExistingModel = ({
-  classes,
-  showReqNewModelBtn,
-  startMMconnectLoader,
-  fetchAvailableUserWallets,
-  stopLoader,
-  registerWallet,
-  updateWallet,
-  training,
-  serviceDetails,
-  groupInfo,
-  haveANewModel,
-  wallet,
-  editModel,
-}) => {
+const ExistingModel = ({ classes, showReqNewModelBtn, haveANewModel, training, editModel }) => {
+  const wallet = useSelector((state) => state.userReducer.wallet);
+  const serviceDetails = useSelector((state) => currentServiceDetails(state));
+  const groupInfo = useSelector((state) => getGroupIndo(state));
+
   const [metamaskConnected, setMetamaskConnected] = useState(false);
   const [existingModels, setExistingModels] = useState([]);
   const [serviceClientState, setServiceClientState] = useState();
   const [sdkService, setSdkService] = useState();
   const [alert, setAlert] = useState({});
   const dispatch = useDispatch();
+
   const getServiceName = () => {
     return training.training_methods[0].split(".")[1].split("/")[0];
   };
@@ -52,26 +41,21 @@ const ExistingModel = ({
     const response = await serviceClient.getExistingModel(params);
     console.log("=====existingModel==", response.flat());
     setExistingModels(response.flat());
-    stopLoader();
+    dispatch(loaderActions.stopAppLoader());
   };
 
   const handleConnectMM = async () => {
     try {
-      startMMconnectLoader();
-      const sdk = await initSdk();
+      dispatch(loaderActions.startAppLoader(LoaderContent.CONNECT_METAMASK));
+      const sdk = await dispatch(sdkActions.getSdk());
       setSdkService(sdk);
       const address = await sdk.account.getAddress();
-      const availableUserWallets = await fetchAvailableUserWallets();
-      const addressAlreadyRegistered = availableUserWallets.some((wallet) => wallet.address.toLowerCase() === address);
-      if (!addressAlreadyRegistered) {
-        await registerWallet(address, walletTypes.METAMASK);
-      }
-      updateWallet({ type: walletTypes.METAMASK, address });
+      await dispatch(userActions.updateMetamaskWallet());
       await getTrainingModels(sdk, address);
       setMetamaskConnected(true);
     } catch (error) {
       setAlert({ type: alertTypes.ERROR, message: "Unable to fetch existing models. Please try again" });
-      stopLoader();
+      dispatch(loaderActions.stopAppLoader());
     }
   };
 
@@ -88,7 +72,7 @@ const ExistingModel = ({
       await getTrainingModels(sdkService, wallet.address);
     } catch (error) {
       setAlert({ type: alertTypes.ERROR, message: "Unable to delete model. Please try again" });
-      stopLoader();
+      dispatch(loaderActions.stopAppLoader());
     }
   };
 
@@ -110,17 +94,18 @@ const ExistingModel = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [existingModels]);
+
   return (
     <div className={classes.existingModelContainer}>
       <h2>Existing Model</h2>
       {metamaskConnected ? (
         <>
           <ModelList />
-          {showReqNewModelBtn && haveANewModel === true ? (
+          {showReqNewModelBtn && haveANewModel && (
             <div className={classes.btnContainer}>
               <StyledButton btnText="request a new model" />
             </div>
-          ) : null}
+          )}
         </>
       ) : (
         <>
@@ -132,18 +117,4 @@ const ExistingModel = ({
   );
 };
 
-const mapStateToProps = (state) => ({
-  wallet: state.userReducer.wallet,
-  serviceDetails: currentServiceDetails(state),
-  groupInfo: groupInfo(state),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  startMMconnectLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.CONNECT_METAMASK)),
-  fetchAvailableUserWallets: () => dispatch(userActions.fetchAvailableUserWallets()),
-  registerWallet: (address, type) => dispatch(userActions.registerWallet(address, type)),
-  updateWallet: ({ type, address }) => dispatch(userActions.updateWallet({ type, address })),
-  stopLoader: () => dispatch(loaderActions.stopAppLoader),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(ExistingModel));
+export default withStyles(useStyles)(ExistingModel);

@@ -24,7 +24,7 @@ const UserProfileModels = ({ classes }) => {
   const activeComponent = tabs.filter((el) => el.activeIndex === activeTab)[0].component;
 
   return (
-    <Grid container spacing={24} className={classes.userProfileModelMainContainer}>
+    <Grid container className={classes.userProfileModelMainContainer}>
       <Grid item xs={12} sm={12} md={12} lg={12} className={classes.userProfileModelContainer}>
         <h3>Model Training</h3>
         <div className={classes.userProfileModelContent}>
