@@ -32,50 +32,42 @@ const CardGroup = ({ data: cards = [], listView, loading }) => {
       </div>
     );
   }
-  if (listView) {
-    return (
-      <div className={classes.lisViewCardCollection}>
-        {cards.map((card) => (
+
+  return (
+    <div className={listView ? classes.listViewCardCollection : classes.gridViewCardCollection}>
+      {cards.map((card) => {
+        return (
           <Link
+            key={card.org_id + card.service_id}
             to={`/${Routes.SERVICE_DETAILS}/org/${card.org_id}/service/${card.service_id}`}
             className={classes.routerLink}
-            key={card.service_id}
           >
-            <ServiceListItem
-              cardMedia={card.media.url}
-              orgImg={card.org_assets_url.hero_image}
-              cardTitle={card.display_name}
-              cardSubheader={card.organization_name}
-              ratingGiven={card.service_rating}
-              totalRating={card.total_users_rated}
-              cardDescription={truncate(card.short_description, { length: maxDescriptionChars })}
-              isAvailable={Boolean(card.is_available)}
-            />
+            {listView ? (
+              <ServiceListItem
+                cardMedia={card.media.url}
+                orgImg={card.org_assets_url.hero_image}
+                cardTitle={card.display_name}
+                cardSubheader={card.organization_name}
+                ratingGiven={card.service_rating}
+                totalRating={card.total_users_rated}
+                cardDescription={truncate(card.short_description, { length: maxDescriptionChars })}
+                isAvailable={Boolean(card.is_available)}
+              />
+            ) : (
+              <GridViewItem
+                cardMedia={card.media.url}
+                orgImg={card.org_assets_url.hero_image}
+                cardTitle={card.display_name}
+                cardSubheader={card.organization_name}
+                ratingGiven={card.service_rating}
+                totalRating={card.total_users_rated}
+                cardDescription={truncate(card.short_description, { length: maxDescriptionChars })}
+                isAvailable={Boolean(card.is_available)}
+              />
+            )}
           </Link>
-        ))}
-      </div>
-    );
-  }
-  return (
-    <div className={classes.gridViewCardCollection}>
-      {cards.map((card) => (
-        <Link
-          key={card.service_row_id}
-          to={`/${Routes.SERVICE_DETAILS}/org/${card.org_id}/service/${card.service_id}`}
-          className={classes.routerLink}
-        >
-          <GridViewItem
-            cardMedia={card.media.url}
-            orgImg={card.org_assets_url.hero_image}
-            cardTitle={card.display_name}
-            cardSubheader={card.organization_name}
-            ratingGiven={card.service_rating}
-            totalRating={card.total_users_rated}
-            cardDescription={truncate(card.short_description, { length: maxDescriptionChars })}
-            isAvailable={Boolean(card.is_available)}
-          />
-        </Link>
-      ))}
+        );
+      })}
     </div>
   );
 };

@@ -18,10 +18,65 @@ class ServiceListingHeader extends Component {
     fetchCarousel();
   };
 
+  isMoreThanOneElement = () => {
+    const { carousel } = this.props;
+    return carousel.length > 1;
+  };
+
+  HeaderSlide = (item, index) => {
+    const { classes, carousel } = this.props;
+    const IMAGE_ALIGNMENT = { RIGHT: "RIGHT", LEFT: "LEFT" };
+
+    return (
+      <Grid
+        key={item.id}
+        container
+        className={`${classes.headerContentDetails} ${
+          item.image_alignment === IMAGE_ALIGNMENT.RIGHT ? classes.reverseDirection : null
+        }`}
+      >
+        <Grid item xs={6} sm={6} md={6} lg={5} className={classes.headerMedia}>
+          <img src={item.image} alt={item.alt_text} />
+        </Grid>
+        <Grid item xs={6} sm={6} md={6} lg={7} className={classes.details}>
+          <div>
+            <div className={classes.featuredServiceContainer}>
+              <span className={classes.featuredServiceTitle}>
+                <StarRateIcon />
+                Featured Service
+              </span>
+              {this.isMoreThanOneElement() && (
+                <span className={classes.slidesCounter}>
+                  {index + 1}/{carousel.length}
+                </span>
+              )}
+            </div>
+            <h2>{item.title}</h2>
+            <p>{item.description}</p>
+            <div className={classes.headerButtons}>
+              {item.cta.map((button) => (
+                <StyledButton
+                  key={button.id}
+                  type={button.type}
+                  btnText={button.text}
+                  href={button.url}
+                  newTab={button.text === "READ MORE"}
+                />
+              ))}
+            </div>
+          </div>
+        </Grid>
+      </Grid>
+    );
+  };
+
+  HeaderSlides = () => {
+    const { carousel } = this.props;
+    return <>{carousel.map((item, index) => this.HeaderSlide(item, index))}</>;
+  };
+
   render() {
     const { classes, carousel } = this.props;
-
-    const IMAGE_ALIGNMENT = { RIGHT: "RIGHT", LEFT: "LEFT" };
 
     const settings = {
       infinite: false,
@@ -38,46 +93,13 @@ class ServiceListingHeader extends Component {
       <Fragment>
         <div className={classes.serviceListingHeaderContainer}>
           <div className={classes.headerWrapper}>
-            <Slider {...settings} className={classes.sliderContainer}>
-              {carousel.map((item, index) => (
-                <Grid
-                  key={item.id}
-                  container
-                  className={`${classes.headerContentDetails} ${
-                    item.image_alignment === IMAGE_ALIGNMENT.RIGHT ? classes.reverseDirection : null
-                  }`}
-                >
-                  <Grid item xs={6} sm={6} md={6} lg={5} className={classes.headerMedia}>
-                    <img src={item.image} alt={item.alt_text} />
-                  </Grid>
-                  <Grid item xs={6} sm={6} md={6} lg={7} className={classes.details}>
-                    <div>
-                      <div className={classes.featuredServiceContainer}>
-                        <span>
-                          <StarRateIcon /> Featured Service
-                        </span>
-                        <span>
-                          {index + 1}/{carousel.length}
-                        </span>
-                      </div>
-                      <h2>{item.title}</h2>
-                      <p>{item.description}</p>
-                      <div className={classes.headerButtons}>
-                        {item.cta.map((button) => (
-                          <StyledButton
-                            key={button.id}
-                            type={button.type}
-                            btnText={button.text}
-                            href={button.url}
-                            newTab={button.text === "READ MORE"}
-                          />
-                        ))}
-                      </div>
-                    </div>
-                  </Grid>
-                </Grid>
-              ))}
-            </Slider>
+            {this.isMoreThanOneElement() ? (
+              <Slider {...settings} className={classes.sliderContainer}>
+                {this.HeaderSlides()}
+              </Slider>
+            ) : (
+              this.HeaderSlides()
+            )}
           </div>
           <Grid container className={classes.titleDescription}>
             <Grid item xs={6} sm={5} md={5} lg={5}>
