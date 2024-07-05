@@ -17,7 +17,6 @@ import ServiceAvailabilityToggler from "../ServiceListItem/ServiceAvailabilityTo
 
 const StyledCard = (props) => {
   const classes = useStyles();
-  console.log(props.cardTitle);
   return (
     <Card className={classes.card}>
       <div className={classes.cardHeader}>

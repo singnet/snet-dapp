@@ -1,10 +1,8 @@
-export const useStyles = (theme) => ({
+export const useStyles = () => ({
   mainSection: {
-    padding: "40px 0 48px",
     "& div": {
       "@media(max-width: 1024px)": { maxWidth: "100%" },
     },
     "@media(max-width: 1280px)": { paddingBottom: 30 },
-    // "@media(max-width: 1024px)": { flexDirection: "column" },
   },
 });

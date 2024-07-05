@@ -5,7 +5,6 @@ export const useStyles = makeStyles((theme) => ({
     minHeight: 440,
     width: 302,
     paddingTop: 10,
-    margin: "0 24px 24px 0",
     display: "inline-block",
     position: "relative",
     fontFamily: theme.typography.primary.main,
