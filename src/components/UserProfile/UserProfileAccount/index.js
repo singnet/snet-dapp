@@ -4,7 +4,6 @@ import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 import map from "lodash/map";
 import find from "lodash/find";
-
 import StyledDropdown from "../../common/StyledDropdown";
 import { useStyles } from "./styles";
 import {
@@ -21,6 +20,7 @@ import ProvidersLinkedCount from "./ProvidersLinkedCount";
 import { startAppLoader, stopAppLoader } from "../../../Redux/actionCreators/LoaderActions";
 import { LoaderContent } from "../../../utility/constants/LoaderContent";
 import { initialWallet } from "../../../Redux/reducers/UserReducer";
+import { Helmet } from "react-helmet";
 
 const UserProfileAccount = ({ classes, startAppLoader, stopAppLoader, wallet, updateWallet, fetchUserWallets }) => {
   const [alert, setAlert] = useState({});
@@ -89,6 +89,13 @@ const UserProfileAccount = ({ classes, startAppLoader, stopAppLoader, wallet, up
   const hasSelectedWallet = wallet.type !== initialWallet.type;
   return (
     <Grid container spacing={24} className={classes.accountMainContainer}>
+      <Helmet>
+        <meta
+          name="description"
+          content="Take control of your AI journey with SingularityNET user account management. Customize, track, and optimize your use of AI services."
+        />
+        <meta name="keywords" content="User Account, AI Services, SingularityNET, Profile Management" />
+      </Helmet>
       <Grid item xs={12} sm={12} md={4} lg={4} className={classes.accountContainer}>
         <h3>Payment / Transfer Method</h3>
         <div className={classes.accountWrapper}>
