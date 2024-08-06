@@ -1,4 +1,4 @@
-import API from "@aws-amplify/api";
+import { post, get } from "aws-amplify/api";
 
 import { userActions, loaderActions } from "./";
 import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
@@ -15,7 +15,7 @@ const initiatePaymentAPI = (token, paymentObj) => {
   const apiName = APIEndpoints.ORCHESTRATOR.name;
   const apiPath = APIPaths.INITIATE_PAYMNET;
   const apiOptions = initializeAPIOptions(token, paymentObj);
-  return API.post(apiName, apiPath, apiOptions);
+  return post(apiName, apiPath, apiOptions);
 };
 
 export const initiatePayment = (paymentObj) => async (dispatch) => {
@@ -37,7 +37,7 @@ const executePaymentAPI = (token, paymentExecObj) => {
   const apiName = APIEndpoints.ORCHESTRATOR.name;
   const apiPath = APIPaths.EXECUTE_PAYMENT;
   const apiOptions = initializeAPIOptions(token, paymentExecObj);
-  return API.post(apiName, apiPath, apiOptions);
+  return post(apiName, apiPath, apiOptions);
 };
 
 export const executePayment = (paymentExecObj) => async (dispatch) => {
@@ -49,7 +49,7 @@ const orderDetailsAPI = (token, orderId) => {
   const apiName = APIEndpoints.ORCHESTRATOR.name;
   const apiPath = `${APIPaths.ORDER_DETAILS}/${orderId}`;
   const apiOptions = initializeAPIOptions(token);
-  return API.get(apiName, apiPath, apiOptions);
+  return get(apiName, apiPath, apiOptions);
 };
 
 export const fetchOrderDetails = (orderId) => async (dispatch) => {
@@ -70,7 +70,7 @@ const cancelOrderAPI = (token, orderId) => () => {
   const apiName = APIEndpoints.ORCHESTRATOR.name;
   const path = APIPaths.CANCEL_ORDER(orderId);
   const apiOptions = initializeAPIOptions(token);
-  return API.get(apiName, path, apiOptions);
+  return get(apiName, path, apiOptions);
 };
 
 export const cancelOrder = (orderId) => async (dispatch) => {

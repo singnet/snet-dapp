@@ -1,5 +1,11 @@
-import API from "@aws-amplify/api";
-import Auth from "@aws-amplify/auth";
+import { post, get } from "aws-amplify/api";
+import {
+  getCurrentUser,
+  signIn,
+  signOut as signOutAws,
+  resetPassword,
+  confirmResetPassword,
+} from "aws-amplify/auth";
 import isEmpty from "lodash/isEmpty";
 import moment from "moment";
 
@@ -9,7 +15,7 @@ import { sdkActions, errorActions, loaderActions } from "./";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
 import { initializeAPIOptions } from "../../utility/API";
 import Routes from "../../utility/constants/Routes";
-import { getCurrentUTCEpoch } from "../../utility/Date";
+// import { getCurrentUTCEpoch } from "../../utility/Date";
 
 export const SET_USER_DETAILS = "SET_USER_DETAILS";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
@@ -41,14 +47,14 @@ export const walletTypes = {
 const setJWTExp = (exp) => ({ type: SET_JWT_EXP, payload: exp });
 
 export const fetchAuthenticatedUser = () => async (dispatch, getState) => {
-  let bypassCache = false;
-  const { exp } = getState().userReducer.jwt;
-  const currentEpochInUTC = getCurrentUTCEpoch();
-  if (!exp || currentEpochInUTC >= Number(exp)) {
-    bypassCache = true;
-  }
+  // let bypassCache = false;
+  // const { exp } = getState().userReducer.jwt;
+  // const currentEpochInUTC = getCurrentUTCEpoch();
+  // if (!exp || currentEpochInUTC >= Number(exp)) {
+  //   bypassCache = true;
+  // }
 
-  const currentUser = await Auth.currentAuthenticatedUser({ bypassCache });
+  const currentUser = await getCurrentUser(); //currentAuthenticatedUser({ bypassCache });
   const newExp = currentUser.signInUserSession.idToken.payload.exp;
   dispatch(setJWTExp(newExp));
   return {
@@ -88,7 +94,7 @@ const fetchUserProfile = (token) => (dispatch) => {
   const apiName = APIEndpoints.USER.name;
   const path = APIPaths.GET_USER_PROFILE;
   const apiOptions = initializeAPIOptions(token);
-  return API.get(apiName, path, apiOptions).then((res) => {
+  return get(apiName, path, apiOptions).then((res) => {
     if (res.data.data.length === 0) {
       dispatch(registerInMarketplace(token));
       return;
@@ -102,7 +108,7 @@ const fetchUserTransactionsAPI = (token) => {
   const apiName = APIEndpoints.ORCHESTRATOR.name;
   const path = APIPaths.ORDERS_LIST;
   const apiOptions = initializeAPIOptions(token);
-  return API.get(apiName, path, apiOptions);
+  return get(apiName, path, apiOptions);
 };
 
 export const fetchUserTransactions = async (dispatch) => {
@@ -189,7 +195,7 @@ export const updateUserProfileInit = (token, updatedUserData) => {
   const apiName = APIEndpoints.USER.name;
   const path = APIPaths.UPDATE_USER_PROFILE;
   const apiOptions = initializeAPIOptions(token, updatedUserData);
-  return API.post(apiName, path, apiOptions);
+  return post(apiName, path, apiOptions);
 };
 
 const updateUserProfileSuccess = (token) => (dispatch) => {
@@ -247,7 +253,7 @@ export const login =
   (dispatch) => {
     dispatch(loaderActions.startAppLoader(LoaderContent.LOGIN));
     let userDetails = {};
-    return Auth.signIn(email, password)
+    return signIn(email, password)
       .then((res) => {
         dispatch(loginSuccess({ res, history, route }));
       })
@@ -283,7 +289,7 @@ const registrationAPI = (token) => {
   const apiName = APIEndpoints.USER.name;
   const apiPath = APIPaths.SIGNUP;
   const apiOptions = initializeAPIOptions(token);
-  return API.get(apiName, apiPath, apiOptions);
+  return get(apiName, apiPath, apiOptions);
 };
 
 const registerInMarketplace = (token) => async (dispatch) => {
@@ -305,7 +311,7 @@ export const signOut = (dispatch) => {
       },
     },
   };
-  Auth.signOut()
+  signOutAws()
     .then(() => {
       userDetails.payload.login = {
         isLoggedIn: false,
@@ -342,7 +348,7 @@ const deleteUserFromMarketPlace = (token) => {
   const apiOptions = {
     headers: { Authorization: token },
   };
-  return API.get(apiName, path, apiOptions);
+  return get(apiName, path, apiOptions);
 };
 
 const deleteUserFromCognito =
@@ -366,7 +372,7 @@ export const deleteUserAccount =
   ({ history, route }) =>
   async (dispatch) => {
     dispatch(loaderActions.startAppLoader(LoaderContent.DELETE_USER));
-    const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
+    const currentUser = await getCurrentUser(); //Auth.currentAuthenticatedUser({ bypassCache: true });
     await deleteUserFromMarketPlace(currentUser.signInUserSession.idToken.jwtToken);
     dispatch(deleteUserFromCognito(currentUser, { history, route }));
   };
@@ -393,7 +399,7 @@ export const forgotPassword =
   ({ email, history, route }) =>
   (dispatch) => {
     dispatch(forgotPasswordInit);
-    Auth.forgotPassword(email)
+    resetPassword(email)
       .then(() => {
         dispatch(forgotPasswordSuccessfull({ email, history, route }));
       })
@@ -424,7 +430,7 @@ export const forgotPasswordSubmit =
   ({ email, code, password, history, route }) =>
   (dispatch) => {
     dispatch(forgotPasswordSubmitInit);
-    Auth.forgotPasswordSubmit(email, code, password)
+    confirmResetPassword(email, password, code)
       .then(() => {
         dispatch(forgotPasswordSubmitSuccessfull({ email, history, route }));
       })
@@ -466,7 +472,7 @@ export const updateChannelBalanceAPI =
       Nonce: nonce,
     };
     const apiOptions = initializeAPIOptions(token, payload);
-    return API.post(apiName, apiPath, apiOptions);
+    return post(apiName, apiPath, apiOptions);
   };
 
 const fetchWalletAPI = (token, orgId, groupId) => {
@@ -477,7 +483,7 @@ const fetchWalletAPI = (token, orgId, groupId) => {
     group_id: groupId,
   };
   const apiOptions = initializeAPIOptions(token, null, queryStringParameters);
-  return API.get(apiName, apiPath, apiOptions);
+  return get(apiName, apiPath, apiOptions);
 };
 
 export const fetchWallet = (orgId, groupId) => async (dispatch) => {
@@ -490,7 +496,7 @@ const fetchAvailableUserWalletsAPI = (token) => {
   const apiName = APIEndpoints.ORCHESTRATOR.name;
   const apiPath = APIPaths.WALLETS;
   const apiOptions = initializeAPIOptions(token);
-  return API.get(apiName, apiPath, apiOptions);
+  return get(apiName, apiPath, apiOptions);
 };
 
 export const fetchAvailableUserWallets = () => async (dispatch) => {
@@ -514,7 +520,7 @@ const updateDefaultWalletAPI = (token, address) => {
   const apiPath = APIPaths.UPDATE_DEFAULT_WALLET;
   const postObj = { address };
   const apiOptions = initializeAPIOptions(token, postObj);
-  return API.post(apiName, apiPath, apiOptions);
+  return post(apiName, apiPath, apiOptions);
 };
 
 const updateDefaultWallet = (address) => async (dispatch) => {
@@ -531,7 +537,7 @@ const registerWalletAPI = (token, address, type) => {
   const apiPath = APIPaths.REGISTER_WALLET;
   const postObj = { address, type };
   const apiOptions = initializeAPIOptions(token, postObj);
-  return API.post(apiName, apiPath, apiOptions);
+  return post(apiName, apiPath, apiOptions);
 };
 
 export const registerWallet = (address, type) => async (dispatch) => {

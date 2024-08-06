@@ -1,4 +1,4 @@
-import API from "@aws-amplify/api";
+import { post, get } from "aws-amplify/api";
 
 import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { loaderActions, userActions } from "./";
@@ -45,7 +45,7 @@ export const fetchUserOrganizationsList = () => async (dispatch) => {
   const apiPath = APIPaths.GET_USER_ORGS;
   const { token } = await dispatch(userActions.fetchAuthenticatedUser());
   const apiOptions = initializeAPIOptions(token);
-  return API.get(apiName, apiPath, apiOptions);
+  return get(apiName, apiPath, apiOptions);
 };
 
 const onlyUserOrgsFilter = () => async (dispatch) => {
@@ -118,7 +118,7 @@ const fetchFeedbackAPI = (email, orgId, serviceId, token) => {
   const apiName = APIEndpoints.USER.name;
   const path = `${APIPaths.FEEDBACK}?org_id=${orgId}&service_id=${serviceId}`;
   const apiOptions = initializeAPIOptions(token);
-  return API.get(apiName, path, apiOptions);
+  return get(apiName, path, apiOptions);
 };
 
 const fetchAuthTokenAPI = (serviceId, groupId, publicKey, orgId, userId, token) => {
@@ -132,7 +132,7 @@ const fetchAuthTokenAPI = (serviceId, groupId, publicKey, orgId, userId, token) 
     user_id: userId,
   };
   const apiOptions = initializeAPIOptions(token, null, queryParams);
-  return API.get(apiName, apiPath, apiOptions);
+  return get(apiName, apiPath, apiOptions);
 };
 
 export const downloadAuthToken = (serviceId, groupId, publicKey, orgId) => async (dispatch) => {
@@ -167,7 +167,7 @@ const submitFeedbackAPI = (feedbackObj, token) => {
   const apiName = APIEndpoints.USER.name;
   const path = `${APIPaths.FEEDBACK}`;
   const apiOptions = initializeAPIOptions(token, feedbackObj);
-  return API.post(apiName, path, apiOptions);
+  return post(apiName, path, apiOptions);
 };
 
 export const submitFeedback = (orgId, serviceId, feedback) => async (dispatch) => {
