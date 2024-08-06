@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { withStyles } from "@material-ui/styles";
+import { withStyles } from "@mui/styles";
 import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
 import Authentication from "./Authentication";

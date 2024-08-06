@@ -1,7 +1,7 @@
 import React from "react";
-import { withStyles } from "@material-ui/styles";
-import IconButton from "@material-ui/core/IconButton";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
+import { withStyles } from "@mui/styles";
+import IconButton from "@mui/material/IconButton";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import { useStyles } from "./styles";
 

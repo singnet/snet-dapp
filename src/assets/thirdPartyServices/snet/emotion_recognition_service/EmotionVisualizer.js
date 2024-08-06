@@ -1,6 +1,6 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
-import { Tabs, Tab } from "@material-ui/core";
+import Button from "@mui/material/Button";
+import { Tabs, Tab } from "@mui/material";
 import ReactJson from "react-json-view";
 import styles from "./emotion_recognition.css.cs";
 import html2canvas from "html2canvas";

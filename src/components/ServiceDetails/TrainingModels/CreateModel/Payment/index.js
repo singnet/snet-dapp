@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { withStyles } from "@material-ui/styles";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import DoneIcon from "@material-ui/icons/Done";
+import { withStyles } from "@mui/styles";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import DoneIcon from "@mui/icons-material/Done";
 import { useStyles } from "./styles";
 import PaymentMode from "./PaymentMode";
 import StyledButton from "../../../../common/StyledButton";

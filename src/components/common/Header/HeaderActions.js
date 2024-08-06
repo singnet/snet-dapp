@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { withRouter } from "react-router-dom";
+// import { withRouter } from "react-router-dom";
 
 import { useStyles } from "./styles";
 import Routes from "../../../utility/constants/Routes";
@@ -39,4 +39,4 @@ const HeaderActions = ({ isLoggedIn, history }) => {
   );
 };
 
-export default withRouter(HeaderActions);
+export default HeaderActions;

@@ -1,7 +1,7 @@
 import React from "react";
-// import Icon from "@material-ui/core/Icon";
+// import Icon from "@mui/material/Icon";
 import { connect } from "react-redux";
-import { withStyles } from "@material-ui/styles";
+import { withStyles } from "@mui/styles";
 
 import { useStyles } from "./styles";
 

@@ -1,7 +1,7 @@
 import React from "react";
-import Grid from "@material-ui/core/Grid";
-import { withStyles } from "@material-ui/styles";
-import Typography from "@material-ui/core/Typography";
+import Grid from "@mui/material/Grid";
+import { withStyles } from "@mui/styles";
+import Typography from "@mui/material/Typography";
 
 import { useStyles } from "./styles";
 import ChannelList from "./ChannelList";

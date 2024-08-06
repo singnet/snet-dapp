@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { withStyles } from "@material-ui/styles";
-import Grid from "@material-ui/core/Grid";
-import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
+import { withStyles } from "@mui/styles";
+import Grid from "@mui/material/Grid";
+import AppBar from "@mui/material/AppBar";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 import { connect } from "react-redux";
 
 import { userActions } from "../../../Redux/actionCreators";

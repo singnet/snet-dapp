@@ -1,9 +1,9 @@
 import Routes from "./Routes";
 import { signOut } from "../../Redux/actionCreators/UserActions";
 
-import SettingIcon from "@material-ui/icons/Settings";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import SettingIcon from "@mui/icons-material/Settings";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 // import TransactionIcon from "../../assets/images/transaction_icon.svg";
 // import ModelsIcon from "../../assets/images/models_icon.svg";
 

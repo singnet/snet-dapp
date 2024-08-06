@@ -1,6 +1,6 @@
 import React from "react";
-import { withStyles } from "@material-ui/styles";
-import Divider from "@material-ui/core/Divider";
+import { withStyles } from "@mui/styles";
+import Divider from "@mui/material/Divider";
 
 import UserMenuItem from "./UserMenuItem";
 import { useStyles } from "./styles";

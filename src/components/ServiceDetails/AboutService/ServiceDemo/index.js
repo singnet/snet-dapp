@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { withStyles } from "@material-ui/styles";
+import { withStyles } from "@mui/styles";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+// import { withRouter } from "react-router-dom";
 import queryString from "query-string";
 
 import ProgressBar from "../../../common/ProgressBar";
@@ -270,4 +270,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   fetchUSDConversionRate: () => dispatch(paymentActions.fetchUSDConversionRate),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(withRouter(ServiceDemo)));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(ServiceDemo));

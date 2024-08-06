@@ -1,6 +1,6 @@
 import React from "react";
-import Grid from "@material-ui/core/Grid";
-import { withStyles } from "@material-ui/styles";
+import Grid from "@mui/material/Grid";
+import { withStyles } from "@mui/styles";
 import GetStartedDescription from "./GetStartedDescription";
 import { Helmet } from "react-helmet";
 import { GetStartedCategoriesData } from "../../utility/constants/GetStarted";

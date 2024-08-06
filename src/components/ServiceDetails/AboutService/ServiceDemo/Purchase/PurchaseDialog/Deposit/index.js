@@ -1,5 +1,5 @@
 import React from "react";
-import { withStyles } from "@material-ui/styles";
+import { withStyles } from "@mui/styles";
 
 import StyledTextField from "../../../../../../common/StyledTextField";
 import { useStyles } from "./styles";

@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import Grid from "@material-ui/core/Grid";
-import { withStyles } from "@material-ui/styles";
+import Grid from "@mui/material/Grid";
+import { withStyles } from "@mui/styles";
 import { connect } from "react-redux";
-import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import isEmpty from "lodash/isEmpty";
 import TitleCard from "./TitleCard";
 import PricingDetails from "./PricingDetails";

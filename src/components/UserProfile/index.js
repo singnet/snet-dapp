@@ -1,10 +1,10 @@
 import React from "react";
-import { withStyles } from "@material-ui/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
+import { withStyles } from "@mui/styles";
+import AppBar from "@mui/material/AppBar";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 import { connect } from "react-redux";
-import { Switch, Route } from "react-router-dom";
+import { Routes as Switch, Route } from "react-router-dom";
 
 import UserProfileSettings from "./UserProfileSettings";
 import UserProfileHeader from "./UserProfileHeader";

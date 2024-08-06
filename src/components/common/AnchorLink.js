@@ -1,5 +1,5 @@
 import React from "react";
-import MUILink from "@material-ui/core/Link";
+import MUILink from "@mui/material/Link";
 import PropTypes from "prop-types";
 
 const AnchorLink = ({ label, href, newTab, ...rest }) => {

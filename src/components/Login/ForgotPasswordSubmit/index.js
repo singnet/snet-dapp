@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import TextField from "@material-ui/core/TextField";
-import { withStyles } from "@material-ui/styles";
-import Grid from "@material-ui/core/Grid";
+import TextField from "@mui/material/TextField";
+import { withStyles } from "@mui/styles";
+import Grid from "@mui/material/Grid";
 
 import Routes from "../../../utility/constants/Routes";
 import { userActions, errorActions } from "../../../Redux/actionCreators";

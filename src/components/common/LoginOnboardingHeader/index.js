@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { withStyles } from "@material-ui/styles";
-import Grid from "@material-ui/core/Grid";
-import { withRouter } from "react-router-dom";
+import { withStyles } from "@mui/styles";
+import Grid from "@mui/material/Grid";
+// import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
 import SnetSvgLogo from "../SnetSvgLogo";
@@ -45,4 +45,4 @@ const mapDispatchToProps = (dispatch) => ({
   signOut: () => dispatch(userActions.signOut),
 });
 
-export default withRouter(connect(null, mapDispatchToProps)(withStyles(useStyles)(LoginOnboardingHeader)));
+export default connect(null, mapDispatchToProps)(withStyles(useStyles)(LoginOnboardingHeader));

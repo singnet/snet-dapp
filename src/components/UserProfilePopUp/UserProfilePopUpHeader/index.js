@@ -1,6 +1,6 @@
 import React from "react";
-import LinearProgress from "@material-ui/core/LinearProgress";
-import { withStyles } from "@material-ui/styles";
+import LinearProgress from "@mui/material/LinearProgress";
+import { withStyles } from "@mui/styles";
 
 import UserProfileCard from "../../common/UserProfileCard";
 import { useStyles } from "./styles";

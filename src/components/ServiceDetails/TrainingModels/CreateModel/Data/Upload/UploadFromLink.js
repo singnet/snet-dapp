@@ -1,7 +1,7 @@
 import React from "react";
-import { withStyles, styled } from "@material-ui/styles";
-import InputBase from "@material-ui/core/InputBase";
-import SubdirectoryArrowLeftIcon from "@material-ui/icons/SubdirectoryArrowLeft";
+import { withStyles, styled } from "@mui/styles";
+import InputBase from "@mui/material/InputBase";
+import SubdirectoryArrowLeftIcon from "@mui/icons-material/SubdirectoryArrowLeft";
 import { useStyles } from "./styles";
 
 const Search = styled("div")(({ theme }) => ({

@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import TextField from "@material-ui/core/TextField";
-import Auth from "@aws-amplify/auth";
-import { withStyles } from "@material-ui/styles";
-import { withRouter } from "react-router-dom";
+import TextField from "@mui/material/TextField";
+import { confirmSignUp, resendSignUpCode } from "aws-amplify/auth";
+import { withStyles } from "@mui/styles";
+// import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
 import StyledButton from "../../common/StyledButton";
@@ -33,7 +33,7 @@ class Authentication extends Component {
     const { verificationCode } = this.state;
     const { email } = this.props;
     this.setState({ loading: true });
-    Auth.confirmSignUp(email, verificationCode)
+    confirmSignUp(email, verificationCode)
       .then((res) => {
         this.setState({ loading: false });
         this.props.history.push(Routes.LOGIN);
@@ -47,7 +47,7 @@ class Authentication extends Component {
   handleResendCode = () => {
     this.setState({ loading: true });
     const { email } = this.props;
-    Auth.resendSignUp(email)
+    resendSignUpCode(email)
       .then((res) => {
         this.setState({ loading: false });
         this.props.handleNextSection();
@@ -102,4 +102,4 @@ const mapStateToProps = (state) => ({
   email: state.userReducer.email,
 });
 
-export default connect(mapStateToProps)(withRouter(withStyles(useStyles)(Authentication)));
+export default connect(mapStateToProps)(withStyles(useStyles)(Authentication));

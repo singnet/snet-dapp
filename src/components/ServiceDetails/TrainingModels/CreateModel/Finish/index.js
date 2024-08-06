@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { withStyles } from "@material-ui/styles";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import { withStyles } from "@mui/styles";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 import { userProfileRoutes } from "../../../../UserProfile";
 import { useStyles } from "./styles";

@@ -1,5 +1,5 @@
 import React from "react";
-import { withStyles } from "@material-ui/styles";
+import { withStyles } from "@mui/styles";
 import PropTypes from "prop-types";
 
 import NoConnectionImg from "../../../assets/images/error.svg";

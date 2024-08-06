@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/styles";
-import Grid from "@material-ui/core/Grid";
+import { withStyles } from "@mui/styles";
+import Grid from "@mui/material/Grid";
 import clsx from "clsx";
 import isEmpty from "lodash/isEmpty";
 

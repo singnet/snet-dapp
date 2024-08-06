@@ -1,12 +1,12 @@
 import React from "react";
-import { withStyles } from "@material-ui/styles";
+import { withStyles } from "@mui/styles";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 
 import { useStyles } from "./styles";
 import ProjectURL from "./ProjectURL";
 import Contributors from "./Contibutors";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 
 const ProjectDetails = ({ classes, projectURL, contributors, orgId, serviceId }) => {
   const data = [

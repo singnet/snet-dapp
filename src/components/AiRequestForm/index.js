@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { withStyles } from "@material-ui/styles";
+import { withStyles } from "@mui/styles";
 
 import Header from "./Header";
 import { useStyles } from "./styles";

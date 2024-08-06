@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { withStyles } from "@material-ui/styles";
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
+import { withStyles } from "@mui/styles";
+import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+// import { withRouter } from "react-router-dom";
 
 import StyledButton from "../../common/StyledButton";
 import { useStyles } from "./styles";
@@ -181,4 +181,4 @@ const mapDispatchToProps = (dispatch) => ({
   stopLoader: () => dispatch(loaderActions.stopAppLoader()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(withRouter(UserProfileSettings)));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(UserProfileSettings));

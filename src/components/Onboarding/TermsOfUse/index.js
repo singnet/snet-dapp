@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { withStyles } from "@material-ui/styles";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
+import { withStyles } from "@mui/styles";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 import { connect } from "react-redux";
-import { withRouter } from "react-router";
+// import { withRouter } from "react-router";
 
 import StyledButton from "../../common/StyledButton";
 import { useStyles } from "./styles";
@@ -71,4 +71,4 @@ const mapDispatchToProps = (dispatch) => ({
   updateUserProfile: (updatedUserData) => dispatch(userActions.updateUserProfile(updatedUserData)),
 });
 
-export default connect(null, mapDispatchToProps)(withStyles(useStyles)(withRouter(TermsOfUse)));
+export default connect(null, mapDispatchToProps)(withStyles(useStyles)(TermsOfUse));

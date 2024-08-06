@@ -1,13 +1,13 @@
 import React from "react";
-import { Route, Redirect } from "react-router-dom";
+import { Route, Navigate } from "react-router-dom";
 
 const PrivateRoute = ({ component: Component, isAllowed, redirectTo, path: sourcePath, ...rest }) => {
+  console.log("rendering PrivateRoute");
+
   return (
     <Route
       {...rest}
-      render={(props) =>
-        isAllowed ? <Component {...props} /> : <Redirect to={{ pathname: redirectTo, state: { sourcePath } }} />
-      }
+      Component={isAllowed ? <Component /> : <Navigate to={{ pathname: redirectTo, state: { sourcePath } }} />}
     />
   );
 };

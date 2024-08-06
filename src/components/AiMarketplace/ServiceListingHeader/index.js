@@ -4,9 +4,9 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import Grid from "@material-ui/core/Grid";
-import { withStyles } from "@material-ui/styles";
-import StarRateIcon from "@material-ui/icons/StarRate";
+import Grid from "@mui/material/Grid";
+import { withStyles } from "@mui/styles";
+import StarRateIcon from "@mui/icons-material/StarRate";
 
 import { useStyles } from "./styles";
 import StyledButton from "../../common/StyledButton";

@@ -1,5 +1,5 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
+// import { withRouter } from "react-router-dom";
 
 import { useStyles } from "./styles";
 import NavItem from "./NavItem";
@@ -24,4 +24,4 @@ const NavBar = ({ data, history }) => {
   );
 };
 
-export default withRouter(NavBar);
+export default NavBar;

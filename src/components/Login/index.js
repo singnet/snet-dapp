@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { withStyles } from "@material-ui/styles";
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
+import { withStyles } from "@mui/styles";
+import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
 import { connect } from "react-redux";
 
 import StyledButton from "../common/StyledButton";

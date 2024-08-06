@@ -1,6 +1,6 @@
 import React, { Component, Suspense } from "react";
 import { connect } from "react-redux";
-import { withStyles } from "@material-ui/styles";
+import { withStyles } from "@mui/styles";
 
 import thirdPartyCustomUIComponents from "../../../../assets/thirdPartyServices";
 import { useStyles } from "./styles";

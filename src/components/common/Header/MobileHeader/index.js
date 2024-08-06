@@ -1,8 +1,8 @@
 import React, { Fragment } from "react";
-import { withStyles } from "@material-ui/styles";
+import { withStyles } from "@mui/styles";
 import { connect } from "react-redux";
 import { stylesActions } from "../../../../Redux/actionCreators";
-import CloseIcon from "@material-ui/icons/Close";
+import CloseIcon from "@mui/icons-material/Close";
 
 import HeaderActions from "../HeaderActions";
 import NavItem from "../NavItem";
