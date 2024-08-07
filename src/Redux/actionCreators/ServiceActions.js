@@ -37,7 +37,7 @@ export const fetchServiceSuccess = (res) => (dispatch) => {
   //   media: { ...service.media, url: service.media.url ? cacheS3Url(service.media.url) : null },
   // }));
   dispatch({ type: UPDATE_SERVICE_LIST, payload: res.data.result });
-  dispatch(loaderActions.stopAIServiceListLoader);
+  dispatch(loaderActions.stopAIServiceListLoader());
 };
 
 export const fetchUserOrganizationsList = () => async (dispatch) => {
@@ -45,7 +45,8 @@ export const fetchUserOrganizationsList = () => async (dispatch) => {
   const apiPath = APIPaths.GET_USER_ORGS;
   const { token } = await dispatch(userActions.fetchAuthenticatedUser());
   const apiOptions = initializeAPIOptions(token);
-  return get(apiName, apiPath, apiOptions);
+  const userOrganizationsListRequest = get({ apiName, path: apiPath, options: apiOptions });
+  return userOrganizationsListRequest.response;
 };
 
 const onlyUserOrgsFilter = () => async (dispatch) => {
@@ -65,7 +66,7 @@ export const fetchService =
       // env variable is string
       filters = await dispatch(onlyUserOrgsFilter());
     }
-    dispatch(loaderActions.startAIServiceListLoader);
+    dispatch(loaderActions.startAIServiceListLoader());
     const url = new URL(APIEndpoints.CONTRACT.endpoint + APIPaths.GET_SERVICE_LIST);
     return fetch(url, {
       method: "POST",
@@ -73,7 +74,7 @@ export const fetchService =
     })
       .then((res) => res.json())
       .then((res) => dispatch(fetchServiceSuccess(res)))
-      .catch(() => dispatch(loaderActions.stopAIServiceListLoader));
+      .catch(() => dispatch(loaderActions.stopAIServiceListLoader()));
   };
 
 export const updatePagination = (pagination) => (dispatch) => {
@@ -95,30 +96,31 @@ export const fetchFilterData = (attribute) => (dispatch) => {
 export const handleFilterChange =
   ({ pagination, filterObj, currentActiveFilterData }) =>
   (dispatch) => {
-    dispatch(loaderActions.startAIServiceListLoader);
+    dispatch(loaderActions.startAIServiceListLoader());
     Promise.all([
       dispatch(updatePagination(pagination)),
       dispatch(fetchService(pagination, filterObj)),
       dispatch(updateActiveFilterItem(currentActiveFilterData)),
     ])
-      .then(() => dispatch(loaderActions.stopAIServiceListLoader))
-      .catch(() => dispatch(loaderActions.stopAIServiceListLoader));
+      .then(() => dispatch(loaderActions.stopAIServiceListLoader()))
+      .catch(() => dispatch(loaderActions.stopAIServiceListLoader()));
   };
 
 export const resetFilter =
   ({ pagination }) =>
   (dispatch) => {
-    dispatch(loaderActions.startAIServiceListLoader);
+    dispatch(loaderActions.startAIServiceListLoader());
     Promise.all([dispatch(updatePagination(pagination)), dispatch(fetchService(pagination)), dispatch(resetFilterItem)])
-      .then(() => dispatch(loaderActions.stopAIServiceListLoader))
-      .catch(() => dispatch(loaderActions.stopAIServiceListLoader));
+      .then(() => dispatch(loaderActions.stopAIServiceListLoader()))
+      .catch(() => dispatch(loaderActions.stopAIServiceListLoader()));
   };
 
 const fetchFeedbackAPI = (email, orgId, serviceId, token) => {
   const apiName = APIEndpoints.USER.name;
   const path = `${APIPaths.FEEDBACK}?org_id=${orgId}&service_id=${serviceId}`;
   const apiOptions = initializeAPIOptions(token);
-  return get(apiName, path, apiOptions);
+  const feedbackRequest = get({ apiName, path, options: apiOptions });
+  return feedbackRequest.response;
 };
 
 const fetchAuthTokenAPI = (serviceId, groupId, publicKey, orgId, userId, token) => {
@@ -132,7 +134,8 @@ const fetchAuthTokenAPI = (serviceId, groupId, publicKey, orgId, userId, token) 
     user_id: userId,
   };
   const apiOptions = initializeAPIOptions(token, null, queryParams);
-  return get(apiName, apiPath, apiOptions);
+  const authTokenRequest = get({ apiName, path: apiPath, options: apiOptions });
+  return authTokenRequest.response;
 };
 
 export const downloadAuthToken = (serviceId, groupId, publicKey, orgId) => async (dispatch) => {
@@ -167,7 +170,8 @@ const submitFeedbackAPI = (feedbackObj, token) => {
   const apiName = APIEndpoints.USER.name;
   const path = `${APIPaths.FEEDBACK}`;
   const apiOptions = initializeAPIOptions(token, feedbackObj);
-  return post(apiName, path, apiOptions);
+  const submitFeedbackRequest = post({ apiName, path, options: apiOptions });
+  return submitFeedbackRequest.response;
 };
 
 export const submitFeedback = (orgId, serviceId, feedback) => async (dispatch) => {

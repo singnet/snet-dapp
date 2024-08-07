@@ -15,7 +15,8 @@ const initiatePaymentAPI = (token, paymentObj) => {
   const apiName = APIEndpoints.ORCHESTRATOR.name;
   const apiPath = APIPaths.INITIATE_PAYMNET;
   const apiOptions = initializeAPIOptions(token, paymentObj);
-  return post(apiName, apiPath, apiOptions);
+  const initiatePayment = post({ apiName, path: apiPath, options: apiOptions });
+  return initiatePayment.response;
 };
 
 export const initiatePayment = (paymentObj) => async (dispatch) => {
@@ -37,7 +38,8 @@ const executePaymentAPI = (token, paymentExecObj) => {
   const apiName = APIEndpoints.ORCHESTRATOR.name;
   const apiPath = APIPaths.EXECUTE_PAYMENT;
   const apiOptions = initializeAPIOptions(token, paymentExecObj);
-  return post(apiName, apiPath, apiOptions);
+  const executePaymentRequest = post({ apiName, path: apiPath, options: apiOptions });
+  return executePaymentRequest.response;
 };
 
 export const executePayment = (paymentExecObj) => async (dispatch) => {
@@ -49,7 +51,8 @@ const orderDetailsAPI = (token, orderId) => {
   const apiName = APIEndpoints.ORCHESTRATOR.name;
   const apiPath = `${APIPaths.ORDER_DETAILS}/${orderId}`;
   const apiOptions = initializeAPIOptions(token);
-  return get(apiName, apiPath, apiOptions);
+  const orderDetailsRequest = get({ apiName, path: apiPath, options: apiOptions });
+  return orderDetailsRequest.response;
 };
 
 export const fetchOrderDetails = (orderId) => async (dispatch) => {
@@ -70,7 +73,8 @@ const cancelOrderAPI = (token, orderId) => () => {
   const apiName = APIEndpoints.ORCHESTRATOR.name;
   const path = APIPaths.CANCEL_ORDER(orderId);
   const apiOptions = initializeAPIOptions(token);
-  return get(apiName, path, apiOptions);
+  const cancelOrderRequest = get({ apiName, path, options: apiOptions });
+  return cancelOrderRequest.response;
 };
 
 export const cancelOrder = (orderId) => async (dispatch) => {

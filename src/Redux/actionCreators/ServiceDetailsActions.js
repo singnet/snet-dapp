@@ -79,7 +79,8 @@ const meteringAPI = (token, orgId, serviceId, groupId, userId) => {
   const apiPath = APIPaths.FREE_CALL_USAGE;
   const queryParams = { organization_id: orgId, service_id: serviceId, group_id: groupId, username: userId };
   const apiOptions = initializeAPIOptions(token, null, queryParams);
-  return get(apiName, apiPath, apiOptions);
+  const meteringRequest = get({ apiName, path: apiPath, options: apiOptions });
+  return meteringRequest.response;
 };
 
 export const fetchMeteringData =
