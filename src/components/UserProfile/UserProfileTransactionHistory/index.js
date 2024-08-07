@@ -61,7 +61,7 @@ class UserProfileTransactionHistory extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchUserTransactions: () => dispatch(userActions.fetchUserTransactions),
+  fetchUserTransactions: () => dispatch(userActions.fetchUserTransactions()),
 });
 
 const mapStateToProps = (state) => ({
