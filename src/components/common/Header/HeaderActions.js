@@ -4,13 +4,18 @@ import React, { Fragment } from "react";
 import { useStyles } from "./styles";
 import Routes from "../../../utility/constants/Routes";
 import UserProfileToggler from "../../UserProfilePopUp/UserProfileToggler";
+import { useLocation, useNavigate } from "react-router-dom";
 
-const HeaderActions = ({ isLoggedIn, history }) => {
+const HeaderActions = ({ isLoggedIn }) => {
   const classes = useStyles();
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const handleRedirection = (redirectTo) => {
-    const sourcePath = history.location.pathname;
-    history.push({ pathname: redirectTo, state: { sourcePath } });
+    const sourcePath = location.pathname;
+    navigate({ pathname: redirectTo, state: { sourcePath } });
   };
+
   return (
     <ul className={classes.loginBtnsUl}>
       {isLoggedIn ? (

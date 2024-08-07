@@ -59,7 +59,7 @@ const metadataGenerator = (serviceRequestErrorHandler, groupId) => async (servic
     const payload = { org_id, service_id, service_name: serviceName, method, username: email, group_id: groupId };
     const apiName = APIEndpoints.SIGNER_SERVICE.name;
     const apiOptions = initializeAPIOptions(token, payload);
-    return await post(apiName, APIPaths.SIGNER_FREE_CALL, apiOptions).then(parseFreeCallMetadata);
+    return await post({ apiName, paths: APIPaths.SIGNER_FREE_CALL, options: apiOptions }).then(parseFreeCallMetadata); //TODO
   } catch (err) {
     serviceRequestErrorHandler(err);
   }
@@ -75,9 +75,9 @@ const channelStateRequestSigner = async (channelId) => {
   const stateServicePayload = { channel_id: Number(channelId) };
   const { token } = await store.dispatch(fetchAuthenticatedUser());
   const stateServiceOptions = initializeAPIOptions(token, stateServicePayload);
-  return await post(apiName, APIPaths.SIGNER_STATE_SERVICE, stateServiceOptions).then(
+  return await post({ apiName, paths: APIPaths.SIGNER_STATE_SERVICE, options: stateServiceOptions }).then(
     parseChannelStateRequestSigner
-  );
+  ); //TODO
 };
 
 const paidCallMetadataGenerator = (serviceRequestErrorHandler) => async (channelId, signingAmount, nonce) => {
@@ -91,8 +91,8 @@ const paidCallMetadataGenerator = (serviceRequestErrorHandler) => async (channel
     };
     const { token } = await store.dispatch(fetchAuthenticatedUser());
     const RegCallOptions = initializeAPIOptions(token, RegCallPayload);
-    const response = await post(apiName, APIPaths.SIGNER_REGULAR_CALL, RegCallOptions);
-    const paidCallMetadata = parseRegularCallMetadata(response);
+    const { response } = post({ apiName, paths: APIPaths.SIGNER_REGULAR_CALL, options: RegCallOptions });
+    const paidCallMetadata = parseRegularCallMetadata(await response);
     return Promise.resolve(paidCallMetadata);
   } catch (error) {
     serviceRequestErrorHandler(error);

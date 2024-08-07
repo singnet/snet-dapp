@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { withStyles } from "@mui/styles";
 import Grid from "@mui/material/Grid";
 // import { withRouter } from "react-router-dom";
@@ -11,14 +11,15 @@ import { headerData as masterHeaderData } from "../../../utility/constants/Heade
 import { useStyles } from "./styles";
 import { userActions } from "../../../Redux/actionCreators";
 
-const LoginOnboardingHeader = ({ classes, headerData, history, signOut }) => {
+const LoginOnboardingHeader = ({ classes, headerData, signOut }) => {
+  const navigate = useNavigate();
   const { headerTitle, linkPath, headerText } = headerData;
 
   const handleHeaderTextClick = (headerText, linkPath) => {
     if (headerText === masterHeaderData.ONBOARDING.headerText) {
       signOut();
     }
-    history.push(`${linkPath}`);
+    return navigate(`/${linkPath}`, { replace: true });
   };
 
   return (
