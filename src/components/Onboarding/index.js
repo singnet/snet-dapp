@@ -1,101 +1,88 @@
-import React, { Component } from "react";
-import { withStyles } from "@mui/styles";
-import { connect } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { Helmet } from "react-helmet";
+import { withStyles } from "@mui/styles";
 import Authentication from "./Authentication";
 import TermsOfUse from "./TermsOfUse";
 import { useStyles } from "./styles";
 import OnboardingContainer from "./OnboardingContainer";
 import Routes from "../../utility/constants/Routes";
 
-class Onboarding extends Component {
-  state = {
-    verificationCode: "",
-    activeSection: 1,
-    progressText: [{ label: "Authentication" }, { label: "Terms of service" }],
-  };
+const Onboarding = ({ classes }) => {
+  const navigate = useNavigate();
 
-  componentDidMount = () => {
-    this.initialChecks();
-  };
+  const isEmailVerified = useSelector((state) => state.userReducer.isEmailVerified);
+  const isTermsAccepted = useSelector((state) => state.userReducer.isTermsAccepted);
+  const nickname = useSelector((state) => state.userReducer.nickname);
 
-  componentDidUpdate = () => {
-    this.initialChecks();
-  };
+  const [activeSection, setActiveSection] = useState(1);
+  const progressText = [{ label: "Authentication" }, { label: "Terms of service" }];
 
-  initialChecks = () => {
-    const { isEmailVerified, isTermsAccepted, history } = this.props;
+  const initialChecks = () => {
     if (!isEmailVerified) {
       return;
     }
-    if (this.state.activeSection === 1) {
-      this.setState({ activeSection: 2 });
+    if (activeSection === 1) {
+      setActiveSection(2);
     }
     if (isTermsAccepted) {
-      if (history.location.state && history.location.state.sourcePath) {
-        history.push(history.location.state.sourcePath);
-        return;
-      }
-      history.push(`/${Routes.AI_MARKETPLACE}`);
+      // TODO
+      // if (history.location) {
+      //   navigate(location.state.sourcePath);
+      //   return;
+      // }
+      navigate(`/${Routes.AI_MARKETPLACE}`);
     }
   };
 
-  handleNextSection = () => {
-    this.setState((prevState) => ({
-      activeSection: prevState.activeSection + 1,
-    }));
+  useEffect(() => {
+    initialChecks();
+  }, []);
+
+  const handleNextSection = () => {
+    setActiveSection(activeSection + 1);
   };
 
-  render() {
-    const { classes, nickname } = this.props;
-    const { activeSection, progressText } = this.state;
+  const OnboardingDetails = [
+    {
+      title: `Welcome ${nickname}`,
+      description: (
+        <p>
+          You have successfully logged into your singularitynet account. <br />
+          You are just steps away from completing your activation.
+        </p>
+      ),
+      component: <Authentication handleNextSection={handleNextSection} />,
+    },
+    {
+      title: `Step 2. Privacy and Terms of Service`,
+      description: <p>Just one more step and you’ll be all set!</p>,
+      component: <TermsOfUse />,
+    },
+  ];
 
-    const OnboardingDetails = [
-      {
-        title: `Welcome ${nickname}`,
-        description: (
-          <p>
-            You have successfully logged into your singularitynet account. <br />
-            You are just steps away from completing your activation.
-          </p>
-        ),
-        component: <Authentication handleNextSection={this.handleNextSection} />,
-      },
-      {
-        title: `Step 2. Privacy and Terms of Service`,
-        description: <p>Just one more step and you’ll be all set!</p>,
-        component: <TermsOfUse />,
-      },
-    ];
+  return (
+    <div className={classes.onboardingContainer}>
+      <Helmet>
+        <meta
+          name="description"
+          content="Begin your journey into the AI Marketplace with SingularityNET. Access a world of AI services and solutions today."
+        />
+        <meta name="keywords" content="AI Marketplace, Onboarding, SingularityNET, AI Services, Get Started" />
+      </Helmet>
+      {OnboardingDetails.map((item, index) => (
+        <OnboardingContainer
+          key={item.title}
+          classes={classes}
+          item={item}
+          active={activeSection === index + 1}
+          activeSection={activeSection}
+          progressText={progressText}
+        />
+      ))}
+    </div>
+  );
+};
 
-    return (
-      <div className={classes.onboardingContainer}>
-        <Helmet>
-          <meta
-            name="description"
-            content="Begin your journey into the AI Marketplace with SingularityNET. Access a world of AI services and solutions today."
-          />
-          <meta name="keywords" content="AI Marketplace, Onboarding, SingularityNET, AI Services, Get Started" />
-        </Helmet>
-        {OnboardingDetails.map((item, index) => (
-          <OnboardingContainer
-            key={item.title}
-            classes={classes}
-            item={item}
-            active={activeSection === index + 1}
-            activeSection={activeSection}
-            progressText={progressText}
-          />
-        ))}
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = (state) => ({
-  isEmailVerified: state.userReducer.isEmailVerified,
-  isTermsAccepted: state.userReducer.isTermsAccepted,
-  nickname: state.userReducer.nickname,
-});
-
-export default connect(mapStateToProps)(withStyles(useStyles)(Onboarding));
+export default withStyles(useStyles)(Onboarding);

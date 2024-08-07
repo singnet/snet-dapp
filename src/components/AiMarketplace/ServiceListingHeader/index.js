@@ -1,5 +1,5 @@
-import React, { Component, Fragment } from "react";
-import { connect } from "react-redux";
+import React, { Fragment, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -12,19 +12,22 @@ import { useStyles } from "./styles";
 import StyledButton from "../../common/StyledButton";
 import { uiContentActions } from "../../../Redux/actionCreators";
 
-class ServiceListingHeader extends Component {
-  componentDidMount = () => {
-    const { fetchCarousel } = this.props;
-    fetchCarousel();
-  };
+const ServiceListingHeader = ({ classes }) => {
+  const dispatch = useDispatch();
+  const carousel = useSelector((state) => state.uiContentReducer.carousel);
 
-  isMoreThanOneElement = () => {
-    const { carousel } = this.props;
+  useEffect(() => {
+    const fetchingCarousel = async () => {
+      dispatch(uiContentActions.fetchCarousel(carousel));
+    };
+    fetchingCarousel();
+  }, [carousel]);
+
+  const isMoreThanOneElement = () => {
     return carousel.length > 1;
   };
 
-  HeaderSlide = (item, index) => {
-    const { classes, carousel } = this.props;
+  const HeaderSlide = (item, index) => {
     const IMAGE_ALIGNMENT = { RIGHT: "RIGHT", LEFT: "LEFT" };
 
     return (
@@ -45,7 +48,7 @@ class ServiceListingHeader extends Component {
                 <StarRateIcon />
                 Featured Service
               </span>
-              {this.isMoreThanOneElement() && (
+              {isMoreThanOneElement() && (
                 <span className={classes.slidesCounter}>
                   {index + 1}/{carousel.length}
                 </span>
@@ -70,60 +73,47 @@ class ServiceListingHeader extends Component {
     );
   };
 
-  HeaderSlides = () => {
-    const { carousel } = this.props;
-    return <>{carousel.map((item, index) => this.HeaderSlide(item, index))}</>;
+  const HeaderSlides = () => {
+    return <>{carousel.map((item, index) => HeaderSlide(item, index))}</>;
   };
 
-  render() {
-    const { classes, carousel } = this.props;
+  const settings = {
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
 
-    const settings = {
-      infinite: false,
-      speed: 500,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-    };
-
-    if (!carousel.length > 0) {
-      return null;
-    }
-
-    return (
-      <Fragment>
-        <div className={classes.serviceListingHeaderContainer}>
-          <div className={classes.headerWrapper}>
-            {this.isMoreThanOneElement() ? (
-              <Slider {...settings} className={classes.sliderContainer}>
-                {this.HeaderSlides()}
-              </Slider>
-            ) : (
-              this.HeaderSlides()
-            )}
-          </div>
-          <Grid container className={classes.titleDescription}>
-            <Grid item xs={6} sm={5} md={5} lg={5}>
-              <h2>AI Marketplace</h2>
-            </Grid>
-            <Grid item xs={6} sm={7} md={7} lg={7}>
-              <p>
-                <span>Built for you, powered by open collaboration. </span>
-                <span>Explore the largest open AI services in the world.</span>
-              </p>
-            </Grid>
-          </Grid>
-        </div>
-      </Fragment>
-    );
+  if (!carousel?.length > 0) {
+    return null;
   }
-}
 
-const mapStateToProps = (state) => ({
-  carousel: state.uiContentReducer.carousel,
-});
+  return (
+    <Fragment>
+      <div className={classes.serviceListingHeaderContainer}>
+        <div className={classes.headerWrapper}>
+          {isMoreThanOneElement() ? (
+            <Slider {...settings} className={classes.sliderContainer}>
+              {HeaderSlides()}
+            </Slider>
+          ) : (
+            HeaderSlides()
+          )}
+        </div>
+        <Grid container className={classes.titleDescription}>
+          <Grid item xs={6} sm={5} md={5} lg={5}>
+            <h2>AI Marketplace</h2>
+          </Grid>
+          <Grid item xs={6} sm={7} md={7} lg={7}>
+            <p>
+              <span>Built for you, powered by open collaboration. </span>
+              <span>Explore the largest open AI services in the world.</span>
+            </p>
+          </Grid>
+        </Grid>
+      </div>
+    </Fragment>
+  );
+};
 
-const mapDispatchToProps = (dispatch) => ({
-  fetchCarousel: () => dispatch(uiContentActions.fetchCarousel()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(ServiceListingHeader));
+export default withStyles(useStyles)(ServiceListingHeader);
