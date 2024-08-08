@@ -15,7 +15,7 @@ const UserMenu = ({ classes, handleClick }) => {
       ))}
       <Divider />
       {UserMenuActionList.map((action) => (
-        <UserMenuAction key={action.Title} icon={action.menuIcon} title={action.menuTitle} action={action.action} />
+        <UserMenuAction key={action.menuTitle} icon={action.menuIcon} title={action.menuTitle} action={action.action} />
       ))}
     </ul>
   );

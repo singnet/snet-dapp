@@ -5,7 +5,6 @@ import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { connect } from "react-redux";
-// import { withRouter } from "react-router-dom";
 
 import StyledButton from "../../common/StyledButton";
 import { useStyles } from "./styles";
@@ -43,7 +42,8 @@ class UserProfileSettings extends Component {
   };
 
   handleChangePassword = () => {
-    this.props.history.push(`/${Routes.FORGOT_PASSWORD}`);
+    redirect(`/${Routes.FORGOT_PASSWORD}`, { replace: true }); //TODO
+    // this.props.history.push(`/${Routes.FORGOT_PASSWORD}`);
   };
 
   handleSubmit = async () => {
@@ -67,10 +67,10 @@ class UserProfileSettings extends Component {
   };
 
   handleConfirmDeleteSubmit = async () => {
-    const { history, stopLoader } = this.props;
+    const { stopLoader } = this.props;
     const route = `/${Routes.AI_MARKETPLACE}`;
     try {
-      await this.props.deleteUserAccount({ history, route });
+      await this.props.deleteUserAccount({ route });
     } catch (err) {
       let confirmDeleteError = String(err.message);
       if (err.response && err.response.status === 404) {
@@ -176,7 +176,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  deleteUserAccount: ({ history, route }) => dispatch(userActions.deleteUserAccount({ history, route })),
+  deleteUserAccount: ({ route }) => dispatch(userActions.deleteUserAccount({ route })),
   updateUserProfile: (updatedUserData) => dispatch(userActions.updateUserProfile(updatedUserData)),
   stopLoader: () => dispatch(loaderActions.stopAppLoader()),
 });

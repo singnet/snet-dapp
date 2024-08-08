@@ -318,7 +318,7 @@ const registerInMarketplace = (token) => async (dispatch) => {
   }
 };
 
-export const signOut = (dispatch) => {
+export const signOut = () => (dispatch) => {
   dispatch(loaderActions.startAppLoader(LoaderContent.SIGN_OUT));
   let userDetails = {
     type: SIGN_OUT,

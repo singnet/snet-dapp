@@ -43,7 +43,7 @@ const LoginOnboardingHeader = ({ classes, headerData, signOut }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  signOut: () => dispatch(userActions.signOut),
+  signOut: () => dispatch(userActions.signOut()),
 });
 
 export default connect(null, mapDispatchToProps)(withStyles(useStyles)(LoginOnboardingHeader));

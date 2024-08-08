@@ -18,7 +18,7 @@ const Payment = ({ classes, trainModelId }) => {
         Model Request Reference ID: <span>{trainModelId}</span>
       </p>
       <div className={classes.btnContainer}>
-        <Link to={userProfileRoutes.TRANSACTIONS.path} className={classes.routerLink}>
+        <Link to={userProfileRoutes.TRANSACTIONS} className={classes.routerLink}>
           <StyledButton type="transparentBlueBorder" btnText="transaction history" />
         </Link>
         <StyledButton btnText="View Models" />
