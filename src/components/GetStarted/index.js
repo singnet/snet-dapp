@@ -17,7 +17,7 @@ const seoData = {
   url: `${process.env.REACT_APP_BASE_URL}/getstarted`,
 };
 
-const GetStarted = ({ classes, history }) => {
+const GetStarted = ({ classes }) => {
   return (
     <React.Fragment>
       <Helmet>
@@ -58,7 +58,6 @@ const GetStarted = ({ classes, history }) => {
             button
             btnType="blue"
             btnText="Sign up free"
-            history={history}
           />
         </Grid>
         {/*

@@ -5,7 +5,7 @@ import { useStyles } from "./styles";
 import NavItem from "./NavItem";
 import StyledMenu from "../StyledMenu";
 
-const NavBar = ({ data, history }) => {
+const NavBar = ({ data }) => {
   const classes = useStyles();
 
   return (

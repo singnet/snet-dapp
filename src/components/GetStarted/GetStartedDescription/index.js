@@ -4,9 +4,9 @@ import { withStyles } from "@mui/styles";
 import Routes from "../../../utility/constants/Routes";
 import StyledButton from "../../common/StyledButton";
 import { useStyles } from "./styles";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const GetStartedDescription = ({ classes, title, description, button, btnText, btnType, history }) => {
+const GetStartedDescription = ({ classes, title, description, button, btnText, btnType }) => {
   const navigate = useNavigate();
   const handleClick = () => {
     navigate(`/${Routes.SIGNUP}`, { replace: true });

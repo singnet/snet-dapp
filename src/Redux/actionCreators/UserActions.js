@@ -180,7 +180,6 @@ export const fetchUserDetails = () => async (dispatch) => {
   dispatch(loaderActions.startAppLoader(LoaderContent.APP_INIT));
   try {
     const { nickname, token, email, email_verified } = await dispatch(fetchAuthenticatedUser());
-    console.log(nickname, token, email, email_verified);
 
     await dispatch(fetchUserProfile(token));
     if (email === null || email === undefined) {
