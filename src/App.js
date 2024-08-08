@@ -154,7 +154,7 @@ const App = () => {
               }
             />
             <Route
-              path={`/${Routes.AI_MARKETPLACE}`}
+              path={`/${Routes.USER_PROFILE}/:activeTab?/*`}
               element={
                 <PrivateRoute
                   isAllowed={isLoggedIn && isTermsAccepted}
