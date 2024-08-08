@@ -121,7 +121,7 @@ const App = () => {
               }
             />
             <Route
-              path={`/${Routes.AI_MARKETPLACE}`}
+              path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId`}
               element={
                 <PrivateRoute
                   isAllowed={isTermsAccepted}
@@ -132,7 +132,7 @@ const App = () => {
               }
             />
             <Route
-              path={`/${Routes.AI_MARKETPLACE}`}
+              path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId/order/:orderId/payment/:paymentId/execute`}
               element={
                 <PrivateRoute
                   isAllowed={isTermsAccepted}
@@ -143,7 +143,7 @@ const App = () => {
               }
             />
             <Route
-              path={`/${Routes.AI_MARKETPLACE}`}
+              path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId/order/:orderId/payment/:paymentId/cancel`}
               element={
                 <PrivateRoute
                   isAllowed={isTermsAccepted}
@@ -165,7 +165,7 @@ const App = () => {
               }
             />
             <Route
-              path="/" //{`/${Routes.AI_MARKETPLACE}`}
+              path="/"
               element={
                 <PrivateRoute
                   isAllowed={isTermsAccepted}
@@ -177,7 +177,7 @@ const App = () => {
             />
             <Route path={`/${Routes.AI_REQUEST_FORM}`} Component={AiRequestForm} />
             <Route path={`/${Routes.GET_STARTED}`} Component={withInAppWrapper(GetStarted)} />
-            <Route Component={PageNotFound} />
+            <Route path="*" Component={PageNotFound} />
           </Switch>
         </Suspense>
       </Router>
