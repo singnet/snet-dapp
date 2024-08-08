@@ -51,7 +51,7 @@ class ServiceDemo extends Component {
       this.props.stopLoader();
 
       if (window.location.href.indexOf("#demo") > -1) {
-        this.props.scrollToView();
+        // this.props.scrollToView();
         const currentUrl = this.props.location.pathname;
         this.props.history.push(currentUrl);
       }

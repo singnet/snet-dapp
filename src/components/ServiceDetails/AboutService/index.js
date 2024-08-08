@@ -16,10 +16,8 @@ const AboutService = ({
   classes,
   isLoggedIn,
   service,
-  history,
   serviceAvailable,
-  demoExampleRef,
-  scrollToView,
+  // scrollToView,
   demoComponentRequired,
   training,
   editModel,
@@ -52,10 +50,8 @@ const AboutService = ({
               showDemo={isLoggedIn}
               classes={classes}
               service={service}
-              history={history}
               serviceAvailable={serviceAvailable}
-              demoExampleRef={demoExampleRef}
-              scrollToView={scrollToView}
+              // scrollToView={scrollToView}
               demoComponentRequired={demoComponentRequired}
             />
           }
