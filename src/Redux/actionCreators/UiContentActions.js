@@ -1,6 +1,6 @@
-import { get } from "aws-amplify/api";
 import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { isEmpty } from "lodash";
+import { getAPI } from "../../utility/API";
 
 export const UPDATE_CAROUSEL = "UPDATE_CAROUSEL";
 
@@ -11,11 +11,9 @@ export const fetchCarousel = (carousel) => async (dispatch) => {
     if (!isEmpty(carousel)) {
       return;
     }
-    const fetchCarouselRequest = get({ apiName, path });
-    const { body } = await fetchCarouselRequest.response;
-    const response = await body.json();
-
-    dispatch({ type: UPDATE_CAROUSEL, payload: response.data });
+    const fetchCarouselResponse = await getAPI(apiName, path);
+    
+    dispatch({ type: UPDATE_CAROUSEL, payload: fetchCarouselResponse.data });
   } catch (error) {
     return;
   }

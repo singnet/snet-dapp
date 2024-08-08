@@ -1,4 +1,3 @@
-import { post, get } from "aws-amplify/api";
 import { fetchAuthSession, signIn, signOut as signOutAws, resetPassword, confirmResetPassword } from "aws-amplify/auth";
 import isEmpty from "lodash/isEmpty";
 import moment from "moment";
@@ -7,9 +6,8 @@ import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { parseError } from "../../utility/ErrorHandling";
 import { sdkActions, errorActions, loaderActions } from "./";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
-import { initializeAPIOptions } from "../../utility/API";
+import { getAPI, initializeAPIOptions, postAPI } from "../../utility/API";
 import Routes from "../../utility/constants/Routes";
-// import { getCurrentUTCEpoch } from "../../utility/Date";
 
 export const SET_USER_DETAILS = "SET_USER_DETAILS";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
@@ -91,8 +89,7 @@ const fetchUserProfile = (token) => async (dispatch) => {
   const path = APIPaths.GET_USER_PROFILE;
   const apiOptions = initializeAPIOptions(token);
   try {
-    const userProfileRequest = get({ apiName, path, options: apiOptions });
-    const userProfile = await userProfileRequest.response;
+    const userProfile = await getAPI(apiName, path, apiOptions);
 
     if (userProfile.data.data.length === 0) {
       dispatch(registerInMarketplace(token));
@@ -109,8 +106,7 @@ const fetchUserTransactionsAPI = (token) => {
   const apiName = APIEndpoints.ORCHESTRATOR.name;
   const path = APIPaths.ORDERS_LIST;
   const apiOptions = initializeAPIOptions(token);
-  const fetchUserTransactionsRequest = get({ apiName, path, options: apiOptions });
-  return fetchUserTransactionsRequest.response;
+  return getAPI(apiName, path, apiOptions);
 };
 
 export const fetchUserTransactions = () => async (dispatch) => {
@@ -198,8 +194,7 @@ export const updateUserProfileInit = (token, updatedUserData) => {
   const apiName = APIEndpoints.USER.name;
   const path = APIPaths.UPDATE_USER_PROFILE;
   const apiOptions = initializeAPIOptions(token, updatedUserData);
-  const updateUserProfileInitRequest = post({ apiName, path, options: apiOptions });
-  return updateUserProfileInitRequest.response;
+  return postAPI(apiName, path, apiOptions);
 };
 
 const updateUserProfileSuccess = (token) => (dispatch) => {
@@ -307,8 +302,7 @@ const registrationAPI = (token) => {
   const apiName = APIEndpoints.USER.name;
   const apiPath = APIPaths.SIGNUP;
   const apiOptions = initializeAPIOptions(token);
-  const registrationRequest = get({ apiName, path: apiPath, options: apiOptions });
-  return registrationRequest.response;
+  return getAPI(apiName, apiPath, apiOptions);
 };
 
 const registerInMarketplace = (token) => async (dispatch) => {
@@ -367,8 +361,7 @@ const deleteUserFromMarketPlace = (token) => {
   const apiOptions = {
     headers: { Authorization: token },
   };
-  const deleteUserFromMarketPlace = get({ apiName, path, options: apiOptions });
-  return deleteUserFromMarketPlace.response;
+  return getAPI(apiName, path, apiOptions);
 };
 
 const deleteUserFromCognito =
@@ -492,8 +485,7 @@ export const updateChannelBalanceAPI =
       Nonce: nonce,
     };
     const apiOptions = initializeAPIOptions(token, payload);
-    const updateChannelBalance = post({ apiName, path: apiPath, options: apiOptions });
-    return updateChannelBalance.response;
+    return postAPI(apiName, apiPath, apiOptions);
   };
 
 const fetchWalletAPI = (token, orgId, groupId) => {
@@ -504,8 +496,7 @@ const fetchWalletAPI = (token, orgId, groupId) => {
     group_id: groupId,
   };
   const apiOptions = initializeAPIOptions(token, null, queryStringParameters);
-  const fetchWalletRequest = get({ apiName, path: apiPath, options: apiOptions });
-  return fetchWalletRequest.response;
+  return getAPI(apiName, apiPath, apiOptions);
 };
 
 export const fetchWallet = (orgId, groupId) => async (dispatch) => {
@@ -518,8 +509,7 @@ const fetchAvailableUserWalletsAPI = (token) => {
   const apiName = APIEndpoints.ORCHESTRATOR.name;
   const apiPath = APIPaths.WALLETS;
   const apiOptions = initializeAPIOptions(token);
-  const fetchAvailableUserWallets = get({ apiName, path: apiPath, options: apiOptions });
-  return fetchAvailableUserWallets.response;
+  return getAPI(apiName, apiPath, apiOptions);
 };
 
 export const fetchAvailableUserWallets = () => async (dispatch) => {
@@ -543,8 +533,7 @@ const updateDefaultWalletAPI = (token, address) => {
   const apiPath = APIPaths.UPDATE_DEFAULT_WALLET;
   const postObj = { address };
   const apiOptions = initializeAPIOptions(token, postObj);
-  const updateDefaultWallet = post({ apiName, path: apiPath, options: apiOptions });
-  return updateDefaultWallet.response;
+  return postAPI(apiName, apiPath, apiOptions);
 };
 
 const updateDefaultWallet = (address) => async (dispatch) => {
@@ -561,8 +550,7 @@ const registerWalletAPI = (token, address, type) => {
   const apiPath = APIPaths.REGISTER_WALLET;
   const postObj = { address, type };
   const apiOptions = initializeAPIOptions(token, postObj);
-  const registerWallet = post({ apiName, path: apiPath, options: apiOptions });
-  return registerWallet.response;
+  return postAPI(apiName, apiPath, apiOptions);
 };
 
 export const registerWallet = (address, type) => async (dispatch) => {

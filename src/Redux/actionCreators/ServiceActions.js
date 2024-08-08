@@ -1,9 +1,7 @@
-import { post, get } from "aws-amplify/api";
-
 import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { loaderActions, userActions } from "./";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
-import { initializeAPIOptions } from "../../utility/API";
+import { getAPI, postAPI, initializeAPIOptions } from "../../utility/API";
 import { generateOrganizationsFilterObject } from "../../utility/constants/Pagination";
 // import { cacheS3Url } from "../../utility/image";
 
@@ -45,8 +43,7 @@ export const fetchUserOrganizationsList = () => async (dispatch) => {
   const apiPath = APIPaths.GET_USER_ORGS;
   const { token } = await dispatch(userActions.fetchAuthenticatedUser());
   const apiOptions = initializeAPIOptions(token);
-  const userOrganizationsListRequest = get({ apiName, path: apiPath, options: apiOptions });
-  return userOrganizationsListRequest.response;
+  return getAPI({ apiName, apiPath, apiOptions });
 };
 
 const onlyUserOrgsFilter = () => async (dispatch) => {
@@ -119,8 +116,7 @@ const fetchFeedbackAPI = (email, orgId, serviceId, token) => {
   const apiName = APIEndpoints.USER.name;
   const path = `${APIPaths.FEEDBACK}?org_id=${orgId}&service_id=${serviceId}`;
   const apiOptions = initializeAPIOptions(token);
-  const feedbackRequest = get({ apiName, path, options: apiOptions });
-  return feedbackRequest.response;
+  return getAPI(apiName, path, apiOptions);
 };
 
 const fetchAuthTokenAPI = (serviceId, groupId, publicKey, orgId, userId, token) => {
@@ -134,7 +130,7 @@ const fetchAuthTokenAPI = (serviceId, groupId, publicKey, orgId, userId, token) 
     user_id: userId,
   };
   const apiOptions = initializeAPIOptions(token, null, queryParams);
-  const authTokenRequest = get({ apiName, path: apiPath, options: apiOptions });
+  const authTokenRequest = getAPI(apiName, apiPath, apiOptions);
   return authTokenRequest.response;
 };
 
@@ -170,8 +166,7 @@ const submitFeedbackAPI = (feedbackObj, token) => {
   const apiName = APIEndpoints.USER.name;
   const path = `${APIPaths.FEEDBACK}`;
   const apiOptions = initializeAPIOptions(token, feedbackObj);
-  const submitFeedbackRequest = post({ apiName, path, options: apiOptions });
-  return submitFeedbackRequest.response;
+  return postAPI({ apiName, path, apiOptions });
 };
 
 export const submitFeedback = (orgId, serviceId, feedback) => async (dispatch) => {
