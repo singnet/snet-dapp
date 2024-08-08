@@ -1,12 +1,5 @@
 import { post, get } from "aws-amplify/api";
-import {
-  getCurrentUser,
-  fetchAuthSession,
-  signIn,
-  signOut as signOutAws,
-  resetPassword,
-  confirmResetPassword,
-} from "aws-amplify/auth";
+import { fetchAuthSession, signIn, signOut as signOutAws, resetPassword, confirmResetPassword } from "aws-amplify/auth";
 import isEmpty from "lodash/isEmpty";
 import moment from "moment";
 
@@ -47,7 +40,7 @@ export const walletTypes = {
 
 const setJWTExp = (exp) => ({ type: SET_JWT_EXP, payload: exp });
 
-export const fetchAuthenticatedUser = () => async (dispatch, getState) => {
+export const fetchAuthenticatedUser = () => async (dispatch) => {
   // let bypassCache = false;
   // const { exp } = getState().userReducer.jwt;
   // const currentEpochInUTC = getCurrentUTCEpoch();
@@ -55,14 +48,16 @@ export const fetchAuthenticatedUser = () => async (dispatch, getState) => {
   //   bypassCache = true;
   // }
 
-  const currentUser = await getCurrentUser(); //currentAuthenticatedUser({ bypassCache });
-  const newExp = currentUser.signInUserSession.idToken.payload.exp;
+  // const currentUser = await getCurrentUser(); //currentAuthenticatedUser({ bypassCache });
+  const { userAttributes, idToken } = await getCurrentUser();
+  const newExp = idToken.payload.exp;
   dispatch(setJWTExp(newExp));
+
   return {
-    nickname: currentUser.attributes.nickname,
-    email: currentUser.attributes.email,
-    email_verified: currentUser.attributes.email_verified,
-    token: currentUser.signInUserSession.idToken.jwtToken,
+    nickname: userAttributes.email,
+    email: userAttributes.nickname,
+    email_verified: userAttributes.email_verified,
+    token: idToken.toString(),
   };
 };
 
@@ -185,6 +180,8 @@ export const fetchUserDetails = () => async (dispatch) => {
   dispatch(loaderActions.startAppLoader(LoaderContent.APP_INIT));
   try {
     const { nickname, token, email, email_verified } = await dispatch(fetchAuthenticatedUser());
+    console.log(nickname, token, email, email_verified);
+
     await dispatch(fetchUserProfile(token));
     if (email === null || email === undefined) {
       dispatch(noAuthenticatedUser());
@@ -238,13 +235,22 @@ export const updateLoginError = (error) => (dispatch) => {
   dispatch({ type: UPDATE_LOGIN_ERROR, payload: error });
 };
 
+const getCurrentUser = async () => {
+  const { tokens } = await fetchAuthSession();
+  const idToken = tokens?.idToken;
+  const userAttributes = idToken.payload;
+
+  return {
+    userAttributes,
+    idToken,
+  };
+};
+
 export const loginSuccess =
   ({ route }) =>
   async (dispatch) => {
-    const { tokens } = await fetchAuthSession();
-    const idToken = tokens?.idToken;
+    const { userAttributes, idToken } = await getCurrentUser();
 
-    const userAttributes = idToken.payload;
     const userDetails = {
       type: LOGIN_SUCCESS,
       payload: {

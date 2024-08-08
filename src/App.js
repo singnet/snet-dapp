@@ -56,7 +56,10 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(userActions.fetchUserDetails());
+    const fetchUserDetails = async () => {
+      await dispatch(userActions.fetchUserDetails());
+    };
+    fetchUserDetails();
   }, []);
 
   if (!isInitialized) {
@@ -81,25 +84,21 @@ const App = () => {
               Component={withRegistrationHeader(ForgotPassword, headerData.FORGOT_PASSWORD)}
             />
             <Route
-              replace
               path={`/${Routes.FORGOT_PASSWORD_SUBMIT}`}
               // {...this.props}
               Component={withRegistrationHeader(ForgotPasswordSubmit, headerData.FORGOT_PASSWORD_SUBMIT)}
             />
             <Route
-              replace
               path={`/${Routes.RESET_PASSWORD}`}
               // {...this.props}
               Component={withRegistrationHeader(ForgotPassword, headerData.FORGOT_PASSWORD)}
             />
             <Route
-              replace
               path={`/${Routes.RESET_PASSWORD_SUBMIT}`}
               // {...this.props}
               Component={withRegistrationHeader(ForgotPasswordSubmit, headerData.FORGOT_PASSWORD_SUBMIT)}
             />
             <Route
-              replace
               path={`/${Routes.ONBOARDING}`}
               element={
                 <PrivateRoute
@@ -111,7 +110,6 @@ const App = () => {
               }
             />
             <Route
-              replace
               path={`/${Routes.AI_MARKETPLACE}`}
               element={
                 <PrivateRoute
@@ -123,7 +121,6 @@ const App = () => {
               }
             />
             <Route
-              replace
               path={`/${Routes.AI_MARKETPLACE}`}
               element={
                 <PrivateRoute
@@ -135,7 +132,6 @@ const App = () => {
               }
             />
             <Route
-              replace
               path={`/${Routes.AI_MARKETPLACE}`}
               element={
                 <PrivateRoute
@@ -147,7 +143,6 @@ const App = () => {
               }
             />
             <Route
-              replace
               path={`/${Routes.AI_MARKETPLACE}`}
               element={
                 <PrivateRoute
@@ -159,7 +154,6 @@ const App = () => {
               }
             />
             <Route
-              replace
               path={`/${Routes.AI_MARKETPLACE}`}
               element={
                 <PrivateRoute
@@ -171,8 +165,7 @@ const App = () => {
               }
             />
             <Route
-              replace
-              path={`/${Routes.AI_MARKETPLACE}`}
+              path="/" //{`/${Routes.AI_MARKETPLACE}`}
               element={
                 <PrivateRoute
                   isAllowed={isTermsAccepted}
@@ -182,9 +175,9 @@ const App = () => {
                 />
               }
             />
-            <Route replace path={`/${Routes.AI_REQUEST_FORM}`} Component={AiRequestForm} />
-            <Route replace path={`/${Routes.GET_STARTED}`} Component={withInAppWrapper(GetStarted)} />
-            <Route replace Component={PageNotFound} />
+            <Route path={`/${Routes.AI_REQUEST_FORM}`} Component={AiRequestForm} />
+            <Route path={`/${Routes.GET_STARTED}`} Component={withInAppWrapper(GetStarted)} />
+            <Route Component={PageNotFound} />
           </Switch>
         </Suspense>
       </Router>
