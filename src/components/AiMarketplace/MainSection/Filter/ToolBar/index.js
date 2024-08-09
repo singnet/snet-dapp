@@ -68,7 +68,7 @@ const ToolBar = ({
           <ServiceSortOptions />
         </div>
         {process.env.REACT_APP_IS_ALL_SERVICES_AVAILIBLE === "true" && (
-          <div>
+          <div className={classes.sortDropdownsContainer}>
             <span className={classes.sortbyTxt}>Organization</span>
             <StyledDropdown
               list={enhancedFilterData}
