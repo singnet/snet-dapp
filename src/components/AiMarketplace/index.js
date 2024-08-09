@@ -1,5 +1,4 @@
 import React, { Fragment } from "react";
-import { connect } from "react-redux";
 import MainSection from "./MainSection";
 import SeoMetadata from "../common/SeoMetadata";
 import ServiceListingHeader from "./ServiceListingHeader";
