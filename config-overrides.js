@@ -1,6 +1,14 @@
 const webpack = require("webpack");
+const { aliasWebpack, configPaths } = require("react-app-alias");
+
+const aliasMap = configPaths('./jsconfig.json')
+
+const options = {
+  alias: aliasMap,
+}
 
 module.exports = function override(config) {
+  const modifiedConfig = aliasWebpack(options)(config);
   const fallback = config.resolve.fallback || {};
   Object.assign(fallback, {
     os: require.resolve("os-browserify"),
@@ -23,5 +31,5 @@ module.exports = function override(config) {
       fullySpecified: false,
     },
   });
-  return config;
+  return modifiedConfig;
 };
