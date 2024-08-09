@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package code_completion;
+
+message input_code {
+    string code = 1;
+}
+
+message output_code {
+    string  out_code = 1;
+}
+
+service ServiceDefinition {
+    rpc generate_code(input_code) returns (output_code) {}
+}
