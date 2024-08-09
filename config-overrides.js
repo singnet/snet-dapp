@@ -1,4 +1,5 @@
 const webpack = require("webpack");
+const path = require("path");
 
 module.exports = function override(config) {
   const fallback = config.resolve.fallback || {};
@@ -21,6 +22,11 @@ module.exports = function override(config) {
     loader: require.resolve("source-map-loader"),
     resolve: {
       fullySpecified: false,
+      alias: {
+        "@material-ui/icons": path.resolve(__dirname, "./node_modules/@mui/icons-material"),
+        "@material-ui/core": path.resolve(__dirname, "./node_modules/@mui/material"),
+        "@material-ui/styles": path.resolve(__dirname, "./node_modules/@mui/styles"),
+      },
     },
   });
   return config;
