@@ -49,7 +49,7 @@ const StyledPagination = ({ limit, offset, total_count, handleChange }) => {
         <FormControl variant="outlined" className={classes.pageListformControl}>
           <Select
             value={itemsPerPage}
-            input={<OutlinedInput labelWidth={75} name="age" id="outlined-age-simple" onChange={handleItemsPerPage} />}
+            input={<OutlinedInput onChange={handleItemsPerPage} />}
             className={classes.selectBox}
           >
             <MenuItem value={36}>36</MenuItem>

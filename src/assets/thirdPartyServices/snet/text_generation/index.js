@@ -249,7 +249,7 @@ class TextGenerationService extends React.Component {
                   value={run_name}
                   onChange={this.handleFormUpdate}
                   name="run_name"
-                  input={<OutlinedInput labelWidth={320} name="age" id="outlined-age-simple" />}
+                  input={<OutlinedInput />}
                 >
                   {runNames.map((item) => (
                     <MenuItem className={classes.menuItem} key={item.key} value={item.key}>

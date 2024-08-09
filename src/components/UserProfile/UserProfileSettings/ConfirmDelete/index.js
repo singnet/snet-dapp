@@ -80,7 +80,7 @@ const ConfirmDelete = ({ open, handleClose, handleSubmit, error }) => {
                 <Select
                   value={reasonForLeaving}
                   onChange={handleChange}
-                  input={<OutlinedInput labelWidth={320} name="age" id="outlined-age-simple" />}
+                  input={<OutlinedInput />}
                 >
                   {resonForLeaving.map((item) => (
                     <MenuItem className={classes.menuItem} key={item.label} value={item.label}>
