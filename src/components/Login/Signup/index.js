@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { signUp,confirmSignUp, resendSignUpCode } from "aws-amplify/auth";
+import { signUp, confirmSignUp, resendSignUpCode } from "aws-amplify/auth";
 import Grid from "@mui/material/Grid";
 import { withStyles } from "@mui/styles";
 import { connect } from "react-redux";
@@ -56,12 +56,14 @@ class SignUp extends Component {
     signUp({
       username: email,
       password,
-      attributes: {
-        email,
-        nickname,
+      options: {
+        userAttributes: {
+          email,
+          nickname,
+        },
       },
     })
-      .then((user) => {
+      .then(() => {
         this.props.updateNickname(nickname);
         this.setState({ toBeConfirmed: true });
         stopLoader();
