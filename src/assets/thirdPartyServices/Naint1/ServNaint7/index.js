@@ -8,7 +8,6 @@ import { PCR } from "./punctuation_capitalisation_restoration_pb_service";
 import { MODEL, BLOCKS, LABELS } from "./metadata";
 import { useStyles } from "./styles";
 import { withStyles } from "@material-ui/styles";
-import { CopyAllOutlined } from "@material-ui/icons/CopyAllOutlined";
 
 const { rangeRestrictions, valueRestrictions } = MODEL.restrictions;
 const onlyLatinsRegex = new RegExp(valueRestrictions.ONLY_LATINS_REGEX.value);
@@ -212,8 +211,6 @@ class PunctuationCapitalisationRestoration extends React.Component {
       <Grid item xs={12} className={classes.invokeButton}>
         <Button variant="contained" color="primary" onClick={this.submitAction} disabled={!this.canBeInvoked()}>
           {labels.INVOKE_BUTTON}
-          <CopyAllOutlined />
-          <CopyAll />
         </Button>
       </Grid>
     );
