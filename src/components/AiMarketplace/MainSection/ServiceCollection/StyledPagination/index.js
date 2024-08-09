@@ -40,7 +40,6 @@ const StyledPagination = ({ limit, offset, total_count, handleChange }) => {
           limit={limit}
           offset={offset}
           total={total_count}
-          reduced={true}
           onClick={(e, offset) => handlePageChange(offset)}
           className={classes.styledPagination}
         />
