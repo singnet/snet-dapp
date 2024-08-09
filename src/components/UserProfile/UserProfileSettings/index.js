@@ -1,10 +1,10 @@
-import React, { Component } from "react";
+import React, {  useState } from "react";
 import { withStyles } from "@mui/styles";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import { connect } from "react-redux";
+import {  useDispatch, useSelector } from "react-redux";
 
 import StyledButton from "../../common/StyledButton";
 import { useStyles } from "./styles";
@@ -13,77 +13,73 @@ import Routes from "../../../utility/constants/Routes";
 import AlertBox, { alertTypes } from "../../common/AlertBox";
 import ConfirmDelete from "./ConfirmDelete";
 import { Helmet } from "react-helmet";
+import { useNavigate } from "react-router-dom";
 
-class UserProfileSettings extends Component {
-  state = {
-    alertMessage: undefined,
-    alertType: alertTypes.ERROR,
-    emailAlerts: false,
-    showConfirmDelete: false,
-    confirmDeleteError: undefined,
+const UserProfileSettings = ({classes}) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+const  userEmail = useSelector(state => state.userReducer.email);
+const  nickname = useSelector(state => state.userReducer.nickname);
+const  emailAlerts = useSelector(state => state.userReducer.emailAlerts);
+const  isTermsAccepted = useSelector(state => state.userReducer.isTermsAccepted);
+
+// const [email, setEmail] = useState();
+const [isEmailAlerts, setIsEmailAlerts] = useState();
+const [alert, setAlert] = useState({message: "", type: alertTypes.ERROR})
+const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+const [confirmDeleteError, setConfirmDeleteError] = useState();
+
+  // const handleEmailChange = (event) => {
+  //     setEmail(event.target.value);
+  // };
+
+  const handleEmailAlerts = () => {
+    setIsEmailAlerts(!isEmailAlerts);
   };
 
-  componentDidMount = () => {
-    this.setState({ emailAlerts: this.props.emailAlerts });
+  const handleDelete = () => {
+    setShowConfirmDelete(true);
   };
 
-  handleEmailChange = (event) => {
-    this.setState({
-      email: event.target.value,
-    });
+  const handleChangePassword = () => {
+    navigate(`/${Routes.FORGOT_PASSWORD}`);
   };
 
-  handleEmailAlerts = () => {
-    this.setState((prevState) => ({ emailAlerts: !prevState.emailAlerts }));
-  };
-
-  handleDelete = () => {
-    this.setState({ showConfirmDelete: true });
-  };
-
-  handleChangePassword = () => {
-    redirect(`/${Routes.FORGOT_PASSWORD}`, { replace: true }); //TODO
-    // this.props.history.push(`/${Routes.FORGOT_PASSWORD}`);
-  };
-
-  handleSubmit = async () => {
-    this.setState({ alertMessage: undefined });
-    const { updateUserProfile, isTermsAccepted } = this.props;
-    const updatedUserData = { email_alerts: this.state.emailAlerts, is_terms_accepted: isTermsAccepted };
+  const handleSubmit = async () => {
+    setAlert({});
+    const updatedUserData = { email_alerts: emailAlerts, is_terms_accepted: isTermsAccepted };
     try {
-      await updateUserProfile(updatedUserData);
-      this.setState({ alertType: alertTypes.SUCCESS, alertMessage: "Changes saved successfully" });
+      await dispatch(userActions.updateUserProfile(updatedUserData));
+      setAlert({ type: alertTypes.SUCCESS, message: "Changes saved successfully" });
     } catch (error) {
-      this.setState({ alertType: alertTypes.ERROR, alertMessage: String(error) });
+      setAlert({ type: alertTypes.ERROR, message: String(error) });
     }
   };
 
-  shouldSubmitBeEnabled = () => {
-    return this.state.emailAlerts !== this.props.emailAlerts;
+  const shouldSubmitBeEnabled = () => {
+    return isEmailAlerts !== emailAlerts;
   };
 
-  handleConfirmDeleteClose = () => {
-    this.setState({ showConfirmDelete: false, confirmDeleteError: undefined });
+  const handleConfirmDeleteClose = () => {
+    setShowConfirmDelete(false);
+    setConfirmDeleteError(undefined);
   };
 
-  handleConfirmDeleteSubmit = async () => {
-    const { stopLoader } = this.props;
+  const handleConfirmDeleteSubmit = async () => {
     const route = `/${Routes.AI_MARKETPLACE}`;
     try {
-      await this.props.deleteUserAccount({ route });
+      await dispatch(userActions.deleteUserAccount( route ));
     } catch (err) {
       let confirmDeleteError = String(err.message);
       if (err.response && err.response.status === 404) {
         confirmDeleteError = "The profile has already been deleted";
       }
-      this.setState({ confirmDeleteError });
-      stopLoader();
+      setConfirmDeleteError(confirmDeleteError);
+      dispatch(loaderActions.stopAppLoader());
     }
   };
 
-  render() {
-    const { classes, userEmail, nickname } = this.props;
-    const { alertMessage, alertType, emailAlerts, showConfirmDelete, confirmDeleteError } = this.state;
     return (
       <Grid container className={classes.settingMainContainer}>
         <Helmet>
@@ -124,7 +120,7 @@ class UserProfileSettings extends Component {
               <StyledButton
                 type="transparentBlueBorder"
                 btnText="Change Password"
-                onClick={this.handleChangePassword}
+                onClick={handleChangePassword}
               />
             </div>
             <div className={classes.notification}>
@@ -136,7 +132,7 @@ class UserProfileSettings extends Component {
                     value=""
                     color="primary"
                     checked={emailAlerts}
-                    onChange={this.handleEmailAlerts}
+                    onChange={handleEmailAlerts}
                   />
                 }
                 label="Receive notifications via email"
@@ -146,39 +142,25 @@ class UserProfileSettings extends Component {
                 sent to your email.
               </p>
             </div>
-            <AlertBox message={alertMessage} type={alertType} />
+            <AlertBox {...alert} />
             <div className={classes.btnContainer}>
               <StyledButton
                 btnText="save changes"
-                disabled={!this.shouldSubmitBeEnabled()}
-                onClick={this.handleSubmit}
+                disabled={!shouldSubmitBeEnabled()}
+                onClick={handleSubmit}
               />
-              <StyledButton btnText="delete account" type="red" onClick={this.handleDelete} />
+              <StyledButton btnText="delete account" type="red" onClick={handleDelete} />
             </div>
           </div>
         </Grid>
         <ConfirmDelete
           open={showConfirmDelete}
-          handleClose={this.handleConfirmDeleteClose}
-          handleSubmit={this.handleConfirmDeleteSubmit}
+          handleClose={handleConfirmDeleteClose}
+          handleSubmit={handleConfirmDeleteSubmit}
           error={confirmDeleteError}
         />
       </Grid>
     );
-  }
 }
 
-const mapStateToProps = (state) => ({
-  userEmail: state.userReducer.email,
-  nickname: state.userReducer.nickname,
-  emailAlerts: state.userReducer.emailAlerts,
-  isTermsAccepted: state.userReducer.isTermsAccepted,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  deleteUserAccount: ({ route }) => dispatch(userActions.deleteUserAccount({ route })),
-  updateUserProfile: (updatedUserData) => dispatch(userActions.updateUserProfile(updatedUserData)),
-  stopLoader: () => dispatch(loaderActions.stopAppLoader()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(UserProfileSettings));
+export default withStyles(useStyles)(UserProfileSettings);

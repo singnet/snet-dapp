@@ -1,8 +1,6 @@
 import { get, post } from "aws-amplify/api";
 
 export const initializeAPIOptions = (token, body, queryStringParameters) => {
-  console.log("token: ", token);
-
   const options = { headers: { Authorization: token } };
   if (body) {
     options.body = body;

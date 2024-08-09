@@ -52,8 +52,8 @@ export const fetchAuthenticatedUser = () => async (dispatch) => {
   dispatch(setJWTExp(newExp));
 
   return {
-    nickname: userAttributes.email,
-    email: userAttributes.nickname,
+    nickname: userAttributes.nickname,
+    email: userAttributes.email,
     email_verified: userAttributes.email_verified,
     token: idToken.toString(),
   };
@@ -244,6 +244,7 @@ export const loginSuccess =
   ({ route }) =>
   async (dispatch) => {
     const { userAttributes, idToken } = await getCurrentUser();
+console.log(userAttributes.email);
 
     const userDetails = {
       type: LOGIN_SUCCESS,
@@ -412,7 +413,7 @@ export const forgotPassword =
   ({ email, route }) =>
   (dispatch) => {
     dispatch(forgotPasswordInit);
-    resetPassword(email)
+    resetPassword({username: email})
       .then(() => {
         dispatch(forgotPasswordSuccessfull({ email, route }));
       })
@@ -421,13 +422,13 @@ export const forgotPassword =
       });
   };
 
-const forgotPasswordSubmitInit = (dispatch) => {
+const forgotPasswordSubmitInit = () => (dispatch) => {
   dispatch(loaderActions.startAppLoader(LoaderContent.FORGOT_PASSWORD_SUBMIT));
   dispatch(errorActions.resetForgotPasswordSubmitError);
 };
 
 const forgotPasswordSubmitSuccessfull =
-  ({ email, route }) =>
+  (email, route ) =>
   (dispatch) => {
     dispatch(updateEmail(email));
     dispatch(loaderActions.stopAppLoader());
@@ -440,12 +441,13 @@ const forgotPasswordSubmitFailure = (error) => (dispatch) => {
 };
 
 export const forgotPasswordSubmit =
-  ({ email, code, password, route }) =>
+  ( email, code, password, route ) =>
   (dispatch) => {
-    dispatch(forgotPasswordSubmitInit);
-    confirmResetPassword(email, password, code)
+    dispatch(forgotPasswordSubmitInit());
+
+    confirmResetPassword({username: email, newPassword : password, confirmationCode: code})
       .then(() => {
-        dispatch(forgotPasswordSubmitSuccessfull({ email, route }));
+        dispatch(forgotPasswordSubmitSuccessfull(email, route ));
       })
       .catch((err) => {
         dispatch(forgotPasswordSubmitFailure(err.message));
