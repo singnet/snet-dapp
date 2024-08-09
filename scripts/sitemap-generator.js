@@ -1,8 +1,4 @@
 require("dotenv").config();
-require("babel-register")({
-  presets: ["babel-preset-es2015", "babel-preset-react"],
-});
-
 const axios = require("axios");
 
 const defaultPagination = {
