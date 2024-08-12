@@ -1,22 +1,23 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import { withStyles } from "@mui/styles";
-import { connect } from "react-redux";
-// import { withRouter } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import queryString from "query-string";
+
+import { freeCalls as getFreeCalls, groupInfo as getGroupInfo } from "../../../../Redux/reducers/ServiceDetailsReducer";
+import { channelInfo as getChannelInfo } from "../../../../Redux/reducers/UserReducer";
+import { anyPendingTxn as getAnyPendingTxn } from "../../../../Redux/reducers/PaymentReducer";
+import { serviceDetailsActions, loaderActions, userActions, paymentActions } from "../../../../Redux/actionCreators";
+import { walletTypes } from "../../../../Redux/actionCreators/UserActions";
 
 import ProgressBar from "../../../common/ProgressBar";
 import { useStyles } from "./styles";
-import { serviceDetailsActions, loaderActions, userActions, paymentActions } from "../../../../Redux/actionCreators";
 import PurchaseToggler from "./PurchaseToggler";
-import { freeCalls, groupInfo } from "../../../../Redux/reducers/ServiceDetailsReducer";
 import { LoaderContent } from "../../../../utility/constants/LoaderContent";
 import AlertBox, { alertTypes } from "../../../common/AlertBox";
 import Routes from "../../../../utility/constants/Routes";
 import { initPaypalSdk } from "../../../../utility/sdk";
-import { walletTypes } from "../../../../Redux/actionCreators/UserActions";
-import { channelInfo } from "../../../../Redux/reducers/UserReducer";
-import { anyPendingTxn } from "../../../../Redux/reducers/PaymentReducer";
 import { progressTabStatus } from "../../../common/ProgressBar";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 const demoProgressStatus = {
   purchasing: 1,
@@ -24,104 +25,93 @@ const demoProgressStatus = {
   displayingResponse: 3,
 };
 
-class ServiceDemo extends Component {
-  state = {
-    progressText: [{ label: "Purchase" }, { label: "Configure" }, { label: "Results", status: undefined }],
-    purchaseCompleted: false,
-    isServiceExecutionComplete: false,
-    alert: {},
-  };
+const ServiceDemo = ({ classes, service }) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const { orderId, paymentId } = useParams();
 
-  componentDidMount = async () => {
+  const freeCalls = useSelector((state) => getFreeCalls(state));
+  const groupInfo = useSelector((state) => getGroupInfo(state));
+  const email = useSelector((state) => state.userReducer.email);
+  const wallet = useSelector((state) => state.userReducer.wallet);
+  const channelInfo = useSelector((state) => getChannelInfo(state));
+  const anyPendingTxn = useSelector((state) => getAnyPendingTxn(state));
+
+  const [progressText, setProgressText] = useState([
+    { label: "Purchase" },
+    { label: "Configure" },
+    { label: "Results", status: undefined },
+  ]);
+  const [purchaseCompleted, setPurchaseCompleted] = useState(false);
+  const [isServiceExecutionComplete, setIsServiceExecutionComplete] = useState(false);
+  const [alert, setAlert] = useState({});
+
+  useEffect(() => {
     if (process.env.REACT_APP_SANDBOX) {
       return;
     }
+
     try {
-      this.props.startInitServiceDemoLoader();
-      const asyncCalls = [
-        this.checkForPaymentsInProgress(),
-        this.pollWalletDetails(),
-        this.props.fetchUSDConversionRate(),
-      ];
-      if (this.props.freeCalls.allowed > 0) {
-        asyncCalls.push(this.fetchFreeCallsUsage());
+      dispatch(loaderActions.startAppLoader(LoaderContent.INIT_SERVICE_DEMO));
+      const asyncCalls = [checkForPaymentsInProgress(), dispatch(paymentActions.fetchUSDConversionRate())];
+      if (freeCalls.allowed > 0) {
+        asyncCalls.push(fetchFreeCallsUsage());
       }
-      await Promise.all(asyncCalls);
-      this.scrollToHash();
-      this.props.stopLoader();
+      // await Promise.all(asyncCalls);
+      checkForPaymentsInProgress();
+      dispatch(paymentActions.fetchUSDConversionRate());
+      scrollToHash();
+      dispatch(loaderActions.stopAppLoader());
 
       if (window.location.href.indexOf("#demo") > -1) {
-        // this.props.scrollToView();
-        const currentUrl = this.props.location.pathname;
-        this.props.history.push(currentUrl);
+        navigate(location.pathname);
       }
     } catch (error) {
-      this.props.stopLoader();
+      dispatch(loaderActions.stopAppLoader());
     }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, navigate]);
 
-  componentDidUpdate = (prevProps) => {
-    const { wallet, channelInfo, anyPendingTxn } = this.props;
-    if (process.env.REACT_APP_SANDBOX) {
+  useEffect(() => {
+    if (process.env.REACT_APP_SANDBOX || wallet.type !== walletTypes.GENERAL) {
       return;
     }
-    if (wallet.type === walletTypes.GENERAL) {
-      if (prevProps.channelInfo.id !== channelInfo.id || prevProps.wallet.type !== wallet.type) {
-        initPaypalSdk(wallet.address, channelInfo);
-      }
-      if (anyPendingTxn) {
-        this.pollWalletDetails();
-      }
-    }
-    if (!anyPendingTxn) {
-      // stopWalletDetailsPolling();
+    initPaypalSdk(wallet.address, channelInfo);
+  }, [channelInfo, wallet, anyPendingTxn]);
+
+  const checkForPaymentsInProgress = async () => {
+    const { paymentId: paypalPaymentId, PayerID } = queryString.parse(location);
+    if (orderId && paymentId && paypalPaymentId && PayerID) {
+      const { data } = await dispatch(paymentActions.fetchOrderDetails(orderId));
+      const orderType = data.item_details.order_type;
+      dispatch(paymentActions.updatePaypalInProgress(orderId, orderType, paymentId, paypalPaymentId, PayerID));
+      return dispatch(userActions.updateWallet({ type: walletTypes.GENERAL }));
     }
   };
 
-  // componentWillUnmount = () => {
-  //   this.props.stopWalletDetailsPolling();
+  const fetchFreeCallsUsage = () => {
+    return dispatch(
+      serviceDetailsActions.fetchMeteringData({
+        orgId: service.org_id,
+        serviceId: service.service_id,
+        groupId: groupInfo.group_id,
+        username: email,
+      })
+    );
+  };
+
+  // const pollWalletDetails = async () => {
+  //   const {
+  //     service: { org_id: orgId },
+  //     groupInfo: { group_id: groupId },
+  //   } = this.props;
+
+  //   return await dispatch(userActions.startWalletDetailsPolling(orgId, groupId));
   // };
 
-  checkForPaymentsInProgress = async () => {
-    const {
-      location: { search },
-      match: {
-        params: { orderId, paymentId },
-      },
-      updatePaypalInProgress,
-      fetchOrderDetails,
-      updateWallet,
-    } = this.props;
-    const { paymentId: paypalPaymentId, PayerID } = queryString.parse(search);
-    if (orderId && paymentId && paypalPaymentId && PayerID) {
-      const { data } = await fetchOrderDetails(orderId);
-      const orderType = data.item_details.order_type;
-      updatePaypalInProgress(orderId, orderType, paymentId, paypalPaymentId, PayerID);
-      return updateWallet({ type: walletTypes.GENERAL });
-    }
-  };
-
-  fetchFreeCallsUsage = () => {
-    const { service, fetchMeteringData, email, groupInfo } = this.props;
-    return fetchMeteringData({
-      orgId: service.org_id,
-      serviceId: service.service_id,
-      groupId: groupInfo.group_id,
-      username: email,
-    });
-  };
-
-  pollWalletDetails = async () => {
-    const {
-      service: { org_id: orgId },
-      groupInfo: { group_id: groupId },
-      startWalletDetailsPolling,
-    } = this.props;
-    return await startWalletDetailsPolling(orgId, groupId);
-  };
-
-  scrollToHash = () => {
-    if (this.props.history.location.hash === Routes.hash.SERVICE_DEMO) {
+  const scrollToHash = () => {
+    if (location.hash === Routes.hash.SERVICE_DEMO) {
       window.scroll({
         top: 520,
         behavior: "smooth",
@@ -129,145 +119,88 @@ class ServiceDemo extends Component {
     }
   };
 
-  computeActiveSection = () => {
-    const { purchaseCompleted, isServiceExecutionComplete } = this.state;
+  const computeActiveSection = () => {
     const { purchasing, executingAIservice, displayingResponse } = demoProgressStatus;
 
     return purchaseCompleted ? (isServiceExecutionComplete ? displayingResponse : executingAIservice) : purchasing;
   };
 
-  serviceRequestStartHandler = () => {
-    this.setState({ alert: {} });
-    this.props.startLoader();
+  const serviceRequestStartHandler = () => {
+    setAlert({});
+    dispatch(loaderActions.startAppLoader(LoaderContent.SERVICE_INVOKATION(service.display_name)));
   };
 
-  serviceRequestCompleteHandler = () => {
-    this.setState((prevState) => {
-      return {
-        isServiceExecutionComplete: true,
-        progressText: prevState.progressText.map((item) => {
-          if (item.label === "Results") {
-            item.status = progressTabStatus.SUCCESS;
-          }
-          return item;
-        }),
-      };
-    });
-    this.props.stopLoader();
+  const serviceRequestCompleteHandler = () => {
+    setIsServiceExecutionComplete(true);
+    setProgressText(
+      progressText.map((item) => {
+        if (item.label === "Results") {
+          item.status = progressTabStatus.SUCCESS;
+        }
+        return item;
+      })
+    );
+    dispatch(loaderActions.stopAppLoader());
   };
 
-  handleResetAndRun = () => {
-    this.setState((prevState) => {
-      return {
-        purchaseCompleted: false,
-        isServiceExecutionComplete: false,
-        alert: {},
-        progressText: prevState.progressText.map((item) => ({ label: item.label })),
-      };
-    });
-    this.fetchFreeCallsUsage();
+  const handleResetAndRun = () => {
+    setPurchaseCompleted(false);
+    setIsServiceExecutionComplete(false);
+    setAlert({});
+    // setProgressText(progressText.map((item) => ({ label: item.label })));
+    fetchFreeCallsUsage();
   };
 
-  serviceRequestErrorHandler = (error) => {
+  const serviceRequestErrorHandler = (error) => {
     const alert = { type: alertTypes.ERROR };
     if (error.response && error.response.data && error.response.data.error) {
       alert.message = error.response.data.error;
     } else {
       alert.message = error.message || error;
     }
-    this.setState({
-      isServiceExecutionComplete: false,
-      alert,
-    });
-    this.props.stopLoader();
+    setIsServiceExecutionComplete(false);
+    setAlert(alert);
+    dispatch(loaderActions.stopAppLoader());
   };
 
-  handlePurchaseComplete = () => {
-    this.setState({ purchaseCompleted: true });
+  const handlePurchaseComplete = () => {
+    setPurchaseCompleted(true);
   };
 
-  handlePurchaseError = (error) => {
-    this.setState({
-      purchaseCompleted: false,
-      alert: { type: alertTypes.ERROR, message: "Purchase could not be completed. Please try again" },
-    });
-    this.props.stopLoader();
+  const handlePurchaseError = (error) => {
+    setPurchaseCompleted(false);
+    setAlert({ type: alertTypes.ERROR, message: "Purchase could not be completed. Please try again" });
+    dispatch(loaderActions.stopAppLoader());
   };
 
-  render() {
-    const {
-      classes,
-      service,
-      freeCalls: { remaining: freeCallsRemaining, allowed: freeCallsAllowed },
-      groupInfo,
-      wallet,
-    } = this.props;
+  return (
+    <div className={classes.demoExampleContainer}>
+      <ProgressBar activeSection={computeActiveSection()} progressText={progressText} />
+      <PurchaseToggler
+        groupInfo={groupInfo}
+        purchaseCompleted={purchaseCompleted}
+        purchaseProps={{
+          handleComplete: handlePurchaseComplete,
+          freeCallsRemaining: freeCalls.remaining,
+          freeCallsAllowed: freeCalls.allowed,
+          wallet,
+          handlePurchaseError,
+          isServiceAvailable: Boolean(service.is_available),
+        }}
+        thirdPartyProps={{
+          service_id: service.service_id,
+          org_id: service.org_id,
+          freeCallsRemaining: freeCalls.remaining,
+          isServiceExecutionComplete,
+          handleResetAndRun,
+          serviceRequestStartHandler,
+          serviceRequestCompleteHandler,
+          serviceRequestErrorHandler,
+        }}
+      />
+      <AlertBox type={alert.type} message={alert.message} />
+    </div>
+  );
+};
 
-    const { progressText, purchaseCompleted, isServiceExecutionComplete, alert } = this.state;
-
-    const {
-      handleResetAndRun,
-      serviceRequestStartHandler,
-      serviceRequestCompleteHandler,
-      serviceRequestErrorHandler,
-      handlePurchaseError,
-    } = this;
-
-    return (
-      <div className={classes.demoExampleContainer}>
-        <ProgressBar activeSection={this.computeActiveSection()} progressText={progressText} />
-        <PurchaseToggler
-          groupInfo={groupInfo}
-          purchaseCompleted={purchaseCompleted}
-          purchaseProps={{
-            handleComplete: this.handlePurchaseComplete,
-            freeCallsRemaining,
-            freeCallsAllowed,
-            wallet,
-            handlePurchaseError,
-            isServiceAvailable: Boolean(service.is_available),
-          }}
-          thirdPartyProps={{
-            service_id: service.service_id,
-            org_id: service.org_id,
-            freeCallsRemaining,
-            isServiceExecutionComplete,
-            handleResetAndRun,
-            serviceRequestStartHandler,
-            serviceRequestCompleteHandler,
-            serviceRequestErrorHandler,
-          }}
-        />
-        <AlertBox type={alert.type} message={alert.message} />
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = (state) => ({
-  freeCalls: freeCalls(state),
-  groupInfo: groupInfo(state),
-  email: state.userReducer.email,
-  wallet: state.userReducer.wallet,
-  firstTimeFetchWallet: state.userReducer.firstTimeFetchWallet,
-  channelInfo: channelInfo(state),
-  anyPendingTxn: anyPendingTxn(state),
-});
-
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  startLoader: () =>
-    dispatch(loaderActions.startAppLoader(LoaderContent.SERVICE_INVOKATION(ownProps.service.display_name))),
-  stopLoader: () => dispatch(loaderActions.stopAppLoader()),
-  fetchMeteringData: (args) => dispatch(serviceDetailsActions.fetchMeteringData(args)),
-  startWalletDetailsPolling: (orgId, groupId) => dispatch(userActions.startWalletDetailsPolling(orgId, groupId)),
-  // stopWalletDetailsPolling: () => dispatch(userActions.stopWalletDetailsPolling),
-
-  fetchOrderDetails: (orderId) => dispatch(paymentActions.fetchOrderDetails(orderId)),
-  updateWallet: (walletDetails) => dispatch(userActions.updateWallet(walletDetails)),
-  updatePaypalInProgress: (orderId, orderType, paymentId, paypalPaymentId, PayerID) =>
-    dispatch(paymentActions.updatePaypalInProgress(orderId, orderType, paymentId, paypalPaymentId, PayerID)),
-  startInitServiceDemoLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.INIT_SERVICE_DEMO)),
-  fetchUSDConversionRate: () => dispatch(paymentActions.fetchUSDConversionRate),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(ServiceDemo));
+export default withStyles(useStyles)(ServiceDemo);

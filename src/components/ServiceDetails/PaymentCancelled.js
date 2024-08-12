@@ -1,30 +1,23 @@
-import React from "react";
-import { connect } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 import Routes from "../../utility/constants/Routes";
 import { paymentActions } from "../../Redux/actionCreators";
 import { CircularProgress } from "@mui/material";
+import { useNavigate, useParams } from "react-router-dom";
 
-class PaymentCancelled extends React.Component {
-  componentDidMount = () => {
-    const {
-      match: {
-        params: { orgId, serviceId, orderId },
-      },
-      cancelOrder,
-      history,
-    } = this.props;
-    cancelOrder(orderId);
-    history.push(`/${Routes.SERVICE_DETAILS}/org/${orgId}/service/${serviceId}`);
-  };
+const PaymentCancelled = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { orgId, serviceId, orderId } = useParams();
 
-  render() {
-    return <CircularProgress />;
-  }
-}
+  useEffect(() => {
+    dispatch(paymentActions.cancelOrder(orderId));
+    navigate(`/${Routes.SERVICE_DETAILS}/org/${orgId}/service/${serviceId}`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, navigate]);
 
-const mapDispatchToProps = (dispatch) => ({
-  cancelOrder: (orderId) => dispatch(paymentActions.cancelOrder(orderId)),
-});
+  return <CircularProgress />;
+};
 
-export default connect(null, mapDispatchToProps)(PaymentCancelled);
+export default PaymentCancelled;
