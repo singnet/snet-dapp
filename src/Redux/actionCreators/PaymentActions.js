@@ -60,7 +60,7 @@ export const updatePaypalInProgress = (orderId, orderType, paymentId, paypalPaym
   dispatch(userActions.updateWallet({ type: walletTypes.GENERAL }));
 };
 
-export const updatePaypalCompleted = (dispatch) => {
+export const updatePaypalCompleted = () => (dispatch) => {
   dispatch({ type: UPDATE_PAYPAL_COMPLETED });
 };
 
@@ -87,7 +87,7 @@ const USDConversionRateAPI = async (amount) => {
   return response.json();
 };
 
-export const fetchUSDConversionRate = async (dispatch) => {
+export const fetchUSDConversionRate = () => async (dispatch) => {
   const { data } = await USDConversionRateAPI(1);
   return dispatch(fetchUSDConversionRateSuccess(data));
 };
