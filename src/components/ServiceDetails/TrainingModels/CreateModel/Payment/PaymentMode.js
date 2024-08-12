@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import isEmpty from "lodash/isEmpty";
 import { connect } from "react-redux";
-import { withStyles } from "@material-ui/styles";
-import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet";
-import Typography from "@material-ui/core/Typography";
+import { withStyles } from "@mui/styles";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import Typography from "@mui/material/Typography";
 import { walletTypes } from "../../../../../Redux/actionCreators/UserActions";
 import StyledDropdown from "../../../../common/StyledDropdown";
 import AlertBox, { alertTypes } from "../../../../common/AlertBox";

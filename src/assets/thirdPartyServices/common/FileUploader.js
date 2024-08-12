@@ -2,7 +2,7 @@ import React from "react";
 import { relative } from "path";
 import Dropzone from "react-dropzone";
 import classNames from "classnames";
-import { CloudUpload, Check } from "@material-ui/icons";
+import { CloudUpload, Check } from "@mui/icons-material";
 import fileSize from "filesize";
 
 export default class FileUploader extends React.Component {

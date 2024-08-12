@@ -25,8 +25,7 @@ const NavItem = ({ title, link }) => {
     <li className={classes.navLinks}>
       <NavLink
         to={link || "#"}
-        className={classes.navLinksAnchor}
-        activeClassName={classes.activeTab}
+        // className={(isActive) => classes.navLinksAnchor + (isActive ? " activated" : classes.activeTab)} TODO
         isActive={isActive}
       >
         {title}

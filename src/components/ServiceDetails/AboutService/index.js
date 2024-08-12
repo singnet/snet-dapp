@@ -1,6 +1,6 @@
 import React from "react";
-import Grid from "@material-ui/core/Grid";
-import { withStyles } from "@material-ui/styles";
+import Grid from "@mui/material/Grid";
+import { withStyles } from "@mui/styles";
 import { connect } from "react-redux";
 import { useStyles } from "./styles";
 import DemoToggler from "./DemoToggler";
@@ -16,10 +16,8 @@ const AboutService = ({
   classes,
   isLoggedIn,
   service,
-  history,
   serviceAvailable,
-  demoExampleRef,
-  scrollToView,
+  // scrollToView,
   demoComponentRequired,
   training,
   editModel,
@@ -52,10 +50,8 @@ const AboutService = ({
               showDemo={isLoggedIn}
               classes={classes}
               service={service}
-              history={history}
               serviceAvailable={serviceAvailable}
-              demoExampleRef={demoExampleRef}
-              scrollToView={scrollToView}
+              // scrollToView={scrollToView}
               demoComponentRequired={demoComponentRequired}
             />
           }

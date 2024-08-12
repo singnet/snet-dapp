@@ -1,8 +1,10 @@
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@mui/styles";
 
 export const useStyles = makeStyles((theme) => ({
   toolBar: {
     padding: 20,
+    maxWidth: "80vw",
+    margin: "0 auto",
     alignItems: "center",
     justifyContent: "space-between",
     borderBottom: "1px solid rgba(155,155,155,0.9);",
@@ -10,8 +12,13 @@ export const useStyles = makeStyles((theme) => ({
       padding: "10px 15px",
     },
     "@media(max-width: 480px)": {
+      maxWidth: "auto",
       alignItems: "flex-start",
     },
+  },
+  sortDropdownsContainer: {
+    display: "flex",
+    alignItems: "center",
   },
   serviceCollection: { paddingLeft: 25 },
   sortBySection: {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { withStyles } from "@material-ui/styles";
-import Typography from "@material-ui/core/Typography";
+import { withStyles } from "@mui/styles";
+import Typography from "@mui/material/Typography";
 import Web3 from "web3";
 import { connect } from "react-redux";
 

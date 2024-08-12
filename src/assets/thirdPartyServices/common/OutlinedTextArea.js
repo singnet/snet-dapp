@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import TextField from "@material-ui/core/TextField";
-import InfoIcon from "@material-ui/icons/Info";
-import Tooltip from "@material-ui/core/Tooltip";
+import TextField from "@mui/material/TextField";
+import InfoIcon from "@mui/icons-material/Info";
+import Tooltip from "@mui/material/Tooltip";
 
 class OutlinedTextArea extends React.Component {
   constructor(props, context) {

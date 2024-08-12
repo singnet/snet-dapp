@@ -1,5 +1,5 @@
 import React from "react";
-import { withStyles } from "@material-ui/styles";
+import { withStyles } from "@mui/styles";
 import StyledButton from "../../common/StyledButton";
 import MetamaskImg from "../../../assets/images/Metamask.png";
 import { useStyles } from "./styles";

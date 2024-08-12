@@ -17,7 +17,7 @@ export const updateForgotPasswordSubmitError = (error) => (dispatch) => {
   dispatch({ type: UPDATE_FORGOT_PASSWORD_SUBMIT_ERROR, payload: { forgotPasswordSubmit: error } });
 };
 
-export const resetForgotPasswordSubmitError = (dispatch) => {
+export const resetForgotPasswordSubmitError = () => (dispatch) => {
   dispatch({ type: RESET_FORGOT_PASSWORD_SUBMIT_ERROR, payload: { forgotPasswordSubmit: undefined } });
 };
 

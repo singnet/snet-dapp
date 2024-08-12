@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { withStyles } from "@material-ui/styles";
-import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet";
-import Typography from "@material-ui/core/Typography";
+import { withStyles } from "@mui/styles";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import Typography from "@mui/material/Typography";
 import { connect } from "react-redux";
 
 import AlertBox, { alertTypes } from "../../../../../common/AlertBox";

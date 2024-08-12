@@ -1,5 +1,5 @@
 import React from "react";
-import Grid from "@material-ui/core/Grid";
+import Grid from "@mui/material/Grid";
 
 import { useStyles } from "./styles";
 import SocialIcon from "../SocialIcon";

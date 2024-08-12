@@ -1,15 +1,15 @@
 import React from "react";
-import { withStyles } from "@material-ui/styles";
-import Slider from "@material-ui/core/Slider";
-import Grid from "@material-ui/core/Grid";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import TextField from "@material-ui/core/TextField";
-import InfoIcon from "@material-ui/icons/Info";
-import Avatar from "@material-ui/core/Avatar";
+import { withStyles } from "@mui/styles";
+import Slider from "@mui/material/Slider";
+import Grid from "@mui/material/Grid";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import TextField from "@mui/material/TextField";
+import InfoIcon from "@mui/icons-material/Info";
+import Avatar from "@mui/material/Avatar";
 
 import StyledButton from "../../../../components/common/StyledButton";
 import { GENGPT2 } from "./ntg_pb_service";
@@ -218,7 +218,7 @@ class TextGenerationService extends React.Component {
     const { classes } = this.props;
     return (
       <React.Fragment>
-        <Grid container spacing={24} className={classes.textGenConfigDetails}>
+        <Grid container className={classes.textGenConfigDetails}>
           <Grid item xs={12} sm={12} md={12} lg={12} className={classes.description}>
             <p>
               For this demo you will be asked to input a text content and the persona you would like the tweet to come
@@ -249,7 +249,7 @@ class TextGenerationService extends React.Component {
                   value={run_name}
                   onChange={this.handleFormUpdate}
                   name="run_name"
-                  input={<OutlinedInput labelWidth={320} name="age" id="outlined-age-simple" />}
+                  input={<OutlinedInput />}
                 >
                   {runNames.map((item) => (
                     <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
@@ -363,7 +363,7 @@ class TextGenerationService extends React.Component {
     const { response } = this.state;
     const { classes } = this.props;
     return (
-      <Grid container spacing={24} className={classes.textGenRunDetails}>
+      <Grid container className={classes.textGenRunDetails}>
         <Grid item xs={12} sm={12} md={12} lg={12} className={classes.runTabDescription}>
           <p>Your request has been completed. You can now vote for the agent below.</p>
         </Grid>

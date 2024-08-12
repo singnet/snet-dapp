@@ -1,12 +1,12 @@
 import React, { useCallback, useState } from "react";
-import Grid from "@material-ui/core/Grid";
-import { withStyles } from "@material-ui/styles";
+import Grid from "@mui/material/Grid";
+import { withStyles } from "@mui/styles";
 import StyledButton from "../../common/StyledButton";
 
 import { useStyles } from "./styles";
 import ExistingModel from "../ExistingModel";
 import ProjectDetails from "../ProjectDetails";
-import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import CreateModel from "./CreateModel";
 
 const TrainingModels = (props) => {

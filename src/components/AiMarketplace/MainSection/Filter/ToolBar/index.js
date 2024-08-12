@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import Grid from "@material-ui/core/Grid";
+import Grid from "@mui/material/Grid";
 
 import { useStyles } from "./styles";
 import SearchInputToggler from "./SearchInputToggler";
@@ -68,7 +68,7 @@ const ToolBar = ({
           <ServiceSortOptions />
         </div>
         {process.env.REACT_APP_IS_ALL_SERVICES_AVAILIBLE === "true" && (
-          <div>
+          <div className={classes.sortDropdownsContainer}>
             <span className={classes.sortbyTxt}>Organization</span>
             <StyledDropdown
               list={enhancedFilterData}

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import isEmpty from "lodash/isEmpty";
-import { withStyles } from "@material-ui/styles";
+import { withStyles } from "@mui/styles";
 import { useStyles } from "./styles";
 import CreateModelContainer from "./CreateModelContainer";
 import ModelInfo from "./ModelInfo";

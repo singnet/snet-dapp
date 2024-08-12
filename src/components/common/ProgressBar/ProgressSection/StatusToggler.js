@@ -1,5 +1,5 @@
 import React from "react";
-import { Icon } from "@material-ui/core";
+import { Icon } from "@mui/material";
 
 import { useStyles } from "./styles";
 import { ProgressStatusList } from "./";

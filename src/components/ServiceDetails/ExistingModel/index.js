@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { withStyles } from "@material-ui/styles";
+import { withStyles } from "@mui/styles";
 import { WebServiceClient as ServiceClient } from "snet-sdk-web";
 import ModelDetails from "./ModelDetails";
 import StyledButton from "../../common/StyledButton";
@@ -9,7 +9,7 @@ import ConnectMetamask from "../ConnectMetamask";
 import { loaderActions, userActions, sdkActions } from "../../../Redux/actionCreators";
 import { LoaderContent } from "../../../utility/constants/LoaderContent";
 import { currentServiceDetails, groupInfo as getGroupIndo } from "../../../Redux/reducers/ServiceDetailsReducer";
-import Typography from "@material-ui/core/Typography";
+import Typography from "@mui/material/Typography";
 import AlertBox, { alertTypes } from "../../common/AlertBox";
 
 const ExistingModel = ({ classes, showReqNewModelBtn, haveANewModel, training, editModel }) => {

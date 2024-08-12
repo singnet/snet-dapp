@@ -1,5 +1,4 @@
 import React, { Fragment } from "react";
-import { connect } from "react-redux";
 import MainSection from "./MainSection";
 import SeoMetadata from "../common/SeoMetadata";
 import ServiceListingHeader from "./ServiceListingHeader";
@@ -15,7 +14,7 @@ const seoData = {
   url: `${process.env.REACT_APP_BASE_URL}`,
 };
 
-const AiMarketplace = ({ isLoggedIn }) => {
+const AiMarketplace = () => {
   return (
     <Fragment>
       <Helmet>
@@ -39,8 +38,4 @@ const AiMarketplace = ({ isLoggedIn }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  isLoggedIn: state.userReducer.login.isLoggedIn,
-});
-
-export default connect(mapStateToProps)(AiMarketplace);
+export default AiMarketplace;

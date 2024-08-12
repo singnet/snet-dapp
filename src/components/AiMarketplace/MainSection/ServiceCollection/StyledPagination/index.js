@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import Pagination from "material-ui-flat-pagination";
-import Grid from "@material-ui/core/Grid";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
-import MenuItem from "@material-ui/core/MenuItem";
+import Pagination from "@mui/material/Pagination";
+import Grid from "@mui/material/Grid";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import MenuItem from "@mui/material/MenuItem";
 
 import { useStyles } from "./styles";
 
@@ -40,7 +40,6 @@ const StyledPagination = ({ limit, offset, total_count, handleChange }) => {
           limit={limit}
           offset={offset}
           total={total_count}
-          reduced={true}
           onClick={(e, offset) => handlePageChange(offset)}
           className={classes.styledPagination}
         />
@@ -50,7 +49,7 @@ const StyledPagination = ({ limit, offset, total_count, handleChange }) => {
         <FormControl variant="outlined" className={classes.pageListformControl}>
           <Select
             value={itemsPerPage}
-            input={<OutlinedInput labelWidth={75} name="age" id="outlined-age-simple" onChange={handleItemsPerPage} />}
+            input={<OutlinedInput onChange={handleItemsPerPage} />}
             className={classes.selectBox}
           >
             <MenuItem value={36}>36</MenuItem>

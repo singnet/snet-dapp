@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
-import { withStyles } from "@material-ui/styles";
+import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
+import { withStyles } from "@mui/styles";
 import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
 import AlertBox from "../../common/AlertBox";
@@ -11,21 +11,15 @@ import { useStyles } from "./styles";
 import { userActions, errorActions } from "../../../Redux/actionCreators";
 import { forgotPasswordConstraints } from "./validationConstraints";
 import snetValidator from "../../../utility/snetValidator";
+import { useMatch } from "react-router-dom";
 
-const ForgotPassword = ({
-  classes,
-  email,
-  error,
-  handleForgotPassword,
-  history,
-  location,
-  updateError,
-  resetError,
-}) => {
+const ForgotPassword = ({ classes, email, error, handleForgotPassword, history, updateError, resetError }) => {
   const [localEmail, setEmail] = useState(email);
+
   useEffect(() => {
     setEmail(email);
   }, [email]);
+
   const handleEmail = (event) => {
     setEmail(event.target.value.toLowerCase());
   };
@@ -43,12 +37,12 @@ const ForgotPassword = ({
     handleForgotPassword({ email: localEmail, history, route });
   };
 
-  const passwordChangeTitle =
-    location.pathname === `/${Routes.RESET_PASSWORD}` ? "Reset your password to login" : "Forgot your pasword?";
-  const passwordChangeDescription =
-    location.pathname === `/${Routes.RESET_PASSWORD}`
-      ? "To ensure your account's safety we need you to reset your password. We will email instructions to your registered email."
-      : "We'll email you instructions on how to reset it.";
+  const isResetPasswordRoute = useMatch(`/${Routes.RESET_PASSWORD}`);
+
+  const passwordChangeTitle = isResetPasswordRoute ? "Reset your password to login" : "Forgot your pasword?";
+  const passwordChangeDescription = isResetPasswordRoute
+    ? "To ensure your account's safety we need you to reset your password. We will email instructions to your registered email."
+    : "We'll email you instructions on how to reset it.";
 
   return (
     <Grid container className={classes.forgotPwdMainContainer}>

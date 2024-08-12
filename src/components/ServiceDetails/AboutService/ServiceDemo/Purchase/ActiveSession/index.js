@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { withStyles } from "@material-ui/styles";
-import Tooltip from "@material-ui/core/Tooltip";
+import { withStyles } from "@mui/styles";
+import Tooltip from "@mui/material/Tooltip";
 
 import AlertBox from "../../../../../common/AlertBox";
 import StyledButton from "../../../../../common/StyledButton";

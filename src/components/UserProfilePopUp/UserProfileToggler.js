@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Icon from "@material-ui/core/Icon";
-import { withStyles } from "@material-ui/styles";
+import Icon from "@mui/material/Icon";
+import { withStyles } from "@mui/styles";
 import clsx from "clsx";
 
 import { useStyles } from "./styles";

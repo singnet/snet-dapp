@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Switch from "@material-ui/core/Switch";
-import { withStyles } from "@material-ui/styles";
-import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Switch from "@mui/material/Switch";
+import { withStyles } from "@mui/styles";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { WebServiceClient as ServiceClient } from "snet-sdk-web";
 import StyledDropdown from "../../../../common/StyledDropdown";
 import StyledTextField from "../../../../common/StyledTextField";

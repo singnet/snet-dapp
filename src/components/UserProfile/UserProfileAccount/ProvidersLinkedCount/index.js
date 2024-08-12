@@ -1,7 +1,7 @@
 import React from "react";
-import { withStyles } from "@material-ui/styles";
-import InfoIcon from "@material-ui/icons/Info";
-import Typography from "@material-ui/core/Typography";
+import { withStyles } from "@mui/styles";
+import InfoIcon from "@mui/icons-material/Info";
+import Typography from "@mui/material/Typography";
 
 import { useStyles } from "./styles";
 

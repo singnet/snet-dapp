@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { withStyles } from "@material-ui/styles";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import { withStyles } from "@mui/styles";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 import { userProfileRoutes } from "../../../../UserProfile";
 import { useStyles } from "./styles";
@@ -18,7 +18,7 @@ const Payment = ({ classes, trainModelId }) => {
         Model Request Reference ID: <span>{trainModelId}</span>
       </p>
       <div className={classes.btnContainer}>
-        <Link to={userProfileRoutes.TRANSACTIONS.path} className={classes.routerLink}>
+        <Link to={userProfileRoutes.TRANSACTIONS} className={classes.routerLink}>
           <StyledButton type="transparentBlueBorder" btnText="transaction history" />
         </Link>
         <StyledButton btnText="View Models" />

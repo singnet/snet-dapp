@@ -1,5 +1,5 @@
 import React from "react";
-import WarningIcon from "@material-ui/icons/Warning";
+import WarningIcon from "@mui/icons-material/Warning";
 import PropTypes from "prop-types";
 
 import AlertBox, { alertTypes } from "../AlertBox";

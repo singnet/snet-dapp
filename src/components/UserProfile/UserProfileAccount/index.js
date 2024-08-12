@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Grid from "@material-ui/core/Grid";
-import { withStyles } from "@material-ui/styles";
+import Grid from "@mui/material/Grid";
+import { withStyles } from "@mui/styles";
 import map from "lodash/map";
 import find from "lodash/find";
 import StyledDropdown from "../../common/StyledDropdown";
@@ -30,21 +30,14 @@ const UserProfileAccount = ({ classes }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchWallets = async () => {
-      const availableWallets = await dispatch(fetchAvailableUserWallets());
-      const enhancedWallets = map(availableWallets, ({ address, type }) => {
-        return { address, type, value: address, label: `${type} (${address})` };
-      });
-      setWallets(enhancedWallets);
-    };
-    const getCurrentMetamaskAddress = async () => {
-      const sdk = await dispatch(sdkActions.getSdk());
-      setCurrentAddress(await sdk.account.getAddress());
-    };
-    getCurrentMetamaskAddress();
-    fetchWallets();
-    // eslint-disabled-next-line
-  }, []);
+    const availableWallets = dispatch(fetchAvailableUserWallets());
+    const enhancedWallets = map(availableWallets, ({ address, type }) => {
+      return { address, type, value: address, label: `${type} (${address})` };
+    });
+    setWallets(enhancedWallets);
+    const sdk = dispatch(sdkActions.getSdk());
+    setCurrentAddress(sdk.account.getAddress());
+  }, [dispatch]);
 
   const isSameMetaMaskAddress = (address) => {
     if (currentAddress && address) {

@@ -1,7 +1,7 @@
 import React from "react";
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
-import { withStyles } from "@material-ui/styles";
+import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
+import { withStyles } from "@mui/styles";
 
 import StyledButton from "../../common/StyledButton";
 import AlertBox from "../../common/AlertBox";

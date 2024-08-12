@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { withStyles } from "@material-ui/styles";
+import { withStyles } from "@mui/styles";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+// import { withRouter } from "react-router-dom";
 import queryString from "query-string";
 
 import ProgressBar from "../../../common/ProgressBar";
@@ -51,7 +51,7 @@ class ServiceDemo extends Component {
       this.props.stopLoader();
 
       if (window.location.href.indexOf("#demo") > -1) {
-        this.props.scrollToView();
+        // this.props.scrollToView();
         const currentUrl = this.props.location.pathname;
         this.props.history.push(currentUrl);
       }
@@ -60,7 +60,7 @@ class ServiceDemo extends Component {
     }
   };
 
-  componentDidUpdate = async (prevProps) => {
+  componentDidUpdate = (prevProps) => {
     const { wallet, channelInfo, anyPendingTxn } = this.props;
     if (process.env.REACT_APP_SANDBOX) {
       return;
@@ -270,4 +270,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   fetchUSDConversionRate: () => dispatch(paymentActions.fetchUSDConversionRate),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(withRouter(ServiceDemo)));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(ServiceDemo));

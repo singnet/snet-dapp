@@ -1,4 +1,4 @@
-import { createTheme } from "@material-ui/core/styles";
+import { createTheme } from "@mui/material/styles";
 
 const customBlue = "#4086ff";
 const customHoverBlue = "#005ACB";
