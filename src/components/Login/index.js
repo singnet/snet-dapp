@@ -23,7 +23,7 @@ const Login = ({ classes }) => {
 
   useEffect(() => {
     dispatch(userActions.resetLoginError());
-  }, []);
+  }, [dispatch]);
 
   const handleEmail = (event) => {
     setEmail(event.currentTarget.value.toLowerCase());

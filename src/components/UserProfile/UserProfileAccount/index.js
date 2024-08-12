@@ -37,7 +37,7 @@ const UserProfileAccount = ({ classes }) => {
     setWallets(enhancedWallets);
     const sdk = dispatch(sdkActions.getSdk());
     setCurrentAddress(sdk.account.getAddress());
-  }, []);
+  }, [dispatch]);
 
   const isSameMetaMaskAddress = (address) => {
     if (currentAddress && address) {
