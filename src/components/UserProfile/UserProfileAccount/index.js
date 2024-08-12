@@ -43,7 +43,6 @@ const UserProfileAccount = ({ classes }) => {
     };
     getCurrentMetamaskAddress();
     fetchWallets();
-    // eslint-disabled-next-line
   }, []);
 
   const isSameMetaMaskAddress = (address) => {

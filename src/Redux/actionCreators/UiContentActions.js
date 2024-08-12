@@ -12,7 +12,7 @@ export const fetchCarousel = (carousel) => async (dispatch) => {
       return;
     }
     const fetchCarouselResponse = await getAPI(apiName, path);
-    
+
     dispatch({ type: UPDATE_CAROUSEL, payload: fetchCarouselResponse.data });
   } catch (error) {
     return;

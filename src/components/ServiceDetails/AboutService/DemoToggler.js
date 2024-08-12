@@ -69,7 +69,7 @@ const DemoToggler = ({
     return <NoDemoComponent />;
   }
 
-  return <ServiceDemo service={service}/>;
+  return <ServiceDemo service={service} />;
 };
 
 export default withStyles(useStyles)(DemoToggler);

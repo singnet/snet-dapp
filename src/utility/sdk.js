@@ -235,6 +235,7 @@ const getMethodNames = (service) => {
     if (service[property] && typeof service[property] === typeof {}) {
       return !!service[property].methodName;
     }
+    return null;
   });
 };
 

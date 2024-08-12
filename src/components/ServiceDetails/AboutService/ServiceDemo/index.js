@@ -60,7 +60,7 @@ class ServiceDemo extends Component {
     }
   };
 
-  componentDidUpdate = async (prevProps) => {
+  componentDidUpdate = (prevProps) => {
     const { wallet, channelInfo, anyPendingTxn } = this.props;
     if (process.env.REACT_APP_SANDBOX) {
       return;

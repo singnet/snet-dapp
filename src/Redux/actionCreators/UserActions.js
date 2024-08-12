@@ -244,7 +244,6 @@ export const loginSuccess =
   ({ route }) =>
   async (dispatch) => {
     const { userAttributes, idToken } = await getCurrentUser();
-console.log(userAttributes.email);
 
     const userDetails = {
       type: LOGIN_SUCCESS,
@@ -413,7 +412,7 @@ export const forgotPassword =
   ({ email, route }) =>
   (dispatch) => {
     dispatch(forgotPasswordInit);
-    resetPassword({username: email})
+    resetPassword({ username: email })
       .then(() => {
         dispatch(forgotPasswordSuccessfull({ email, route }));
       })
@@ -427,32 +426,28 @@ const forgotPasswordSubmitInit = () => (dispatch) => {
   dispatch(errorActions.resetForgotPasswordSubmitError);
 };
 
-const forgotPasswordSubmitSuccessfull =
-  (email, route ) =>
-  (dispatch) => {
-    dispatch(updateEmail(email));
-    dispatch(loaderActions.stopAppLoader());
-    History.navigate(route);
-  };
+const forgotPasswordSubmitSuccessfull = (email, route) => (dispatch) => {
+  dispatch(updateEmail(email));
+  dispatch(loaderActions.stopAppLoader());
+  History.navigate(route);
+};
 
 const forgotPasswordSubmitFailure = (error) => (dispatch) => {
   dispatch(errorActions.updateForgotPasswordSubmitError(error));
   dispatch(loaderActions.stopAppLoader());
 };
 
-export const forgotPasswordSubmit =
-  ( email, code, password, route ) =>
-  (dispatch) => {
-    dispatch(forgotPasswordSubmitInit());
+export const forgotPasswordSubmit = (email, code, password, route) => (dispatch) => {
+  dispatch(forgotPasswordSubmitInit());
 
-    confirmResetPassword({username: email, newPassword : password, confirmationCode: code})
-      .then(() => {
-        dispatch(forgotPasswordSubmitSuccessfull(email, route ));
-      })
-      .catch((err) => {
-        dispatch(forgotPasswordSubmitFailure(err.message));
-      });
-  };
+  confirmResetPassword({ username: email, newPassword: password, confirmationCode: code })
+    .then(() => {
+      dispatch(forgotPasswordSubmitSuccessfull(email, route));
+    })
+    .catch((err) => {
+      dispatch(forgotPasswordSubmitFailure(err.message));
+    });
+};
 
 export const updateWallet = (walletDetails) => (dispatch) => {
   dispatch({ type: UPDATE_WALLET, payload: { ...walletDetails } });

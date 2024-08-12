@@ -18,7 +18,7 @@ const ServiceListingHeader = ({ classes }) => {
 
   useEffect(() => {
     const fetchingCarousel = async () => {
-      dispatch(uiContentActions.fetchCarousel(carousel));
+      await dispatch(uiContentActions.fetchCarousel(carousel));
     };
     fetchingCarousel();
   }, [carousel]);

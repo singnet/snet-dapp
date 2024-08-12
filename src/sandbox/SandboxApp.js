@@ -22,11 +22,7 @@ class SandboxApp extends Component {
                   path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId`}
                   Component={withInAppWrapper(ServiceDetails)}
                 />
-                 <Route
-                  path="/"
-                  element={
-                  <Navigate exact from="/" to={serviceDetailsPath} />}
-                />
+                <Route path="/" element={<Navigate exact from="/" to={serviceDetailsPath} />} />
               </Switch>
             </Suspense>
           </Router>

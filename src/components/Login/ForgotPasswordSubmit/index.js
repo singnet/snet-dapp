@@ -14,8 +14,8 @@ import { forgotPassworSubmitConstraints } from "./validationConstraints";
 
 const ForgotPasswordSubmit = ({ classes }) => {
   const dispatch = useDispatch();
-  const email = useSelector( state => state.userReducer.email);
-  const error = useSelector( state => state.errorReducer.forgotPasswordSubmit);
+  const email = useSelector((state) => state.userReducer.email);
+  const error = useSelector((state) => state.errorReducer.forgotPasswordSubmit);
 
   const [showEmailSentAlert, setShowEmailSentAlert] = useState(true);
   const [code, setCode] = useState("");
@@ -48,8 +48,8 @@ const ForgotPasswordSubmit = ({ classes }) => {
       return;
     }
     const route = `/${Routes.AI_MARKETPLACE}`;
-    
-     dispatch(userActions.forgotPasswordSubmit( email, code, password, route));
+
+    dispatch(userActions.forgotPasswordSubmit(email, code, password, route));
   };
 
   if (showEmailSentAlert) {
@@ -57,7 +57,11 @@ const ForgotPasswordSubmit = ({ classes }) => {
       <section className={classes.resetPasswordContainer}>
         <span>Reset Password Email Sent.</span>
         <p>
-          Click <a onClick={handleEnterOtp}>here</a> to enter the verification code.
+          Click{" "}
+          <a href="/" onClick={handleEnterOtp}>
+            here
+          </a>{" "}
+          to enter the verification code.
         </p>
       </section>
     );

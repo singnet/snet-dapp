@@ -21,7 +21,7 @@ const ImageUpload = ({ classes, imageType }) => {
         <i className="fas fa-cloud-upload-alt" />
         <span>
           Drag and drop image here or
-          <a href="#" title="Click">
+          <a href="/#" title="Click">
             click
           </a>
         </span>

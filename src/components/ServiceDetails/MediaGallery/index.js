@@ -176,7 +176,7 @@ class MediaGallery extends Component {
   }
 
   _toggleShowVideo(url) {
-    this.state.showVideo[url] = !Boolean(this.state.showVideo[url]);
+    this.setState({ showVideo: { [url]: !Boolean(this.state.showVideo[url]) } });
     this.setState({
       showVideo: this.state.showVideo,
     });

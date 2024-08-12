@@ -171,7 +171,7 @@ const App = () => {
                   isAllowed={isTermsAccepted}
                   component={withInAppWrapper(AiMarketplace)}
                   redirectTo={`/${Routes.ONBOARDING}`}
-                  path={`/`}
+                  path="/"
                 />
               }
             />

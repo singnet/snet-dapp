@@ -11,11 +11,11 @@ export const initializeAPIOptions = (token, body, queryStringParameters) => {
   return options;
 };
 
-export const getAPI = async (apiName, path, options) => {
+export const getAPI = (apiName, path, options) => {
   return request(get({ apiName, path, options }));
 };
 
-export const postAPI = async (apiName, path, options) => {
+export const postAPI = (apiName, path, options) => {
   return request(post({ apiName, path, options }));
 };
 

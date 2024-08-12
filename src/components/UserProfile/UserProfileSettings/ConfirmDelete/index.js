@@ -77,11 +77,7 @@ const ConfirmDelete = ({ open, handleClose, handleSubmit, error }) => {
             <div className={classes.inputFieldContainer}>
               <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel htmlFor="outlined-age-simple">Help us improve, tell us why you are leaving</InputLabel>
-                <Select
-                  value={reasonForLeaving}
-                  onChange={handleChange}
-                  input={<OutlinedInput />}
-                >
+                <Select value={reasonForLeaving} onChange={handleChange} input={<OutlinedInput />}>
                   {resonForLeaving.map((item) => (
                     <MenuItem className={classes.menuItem} key={item.label} value={item.label}>
                       {item.label}
