@@ -90,14 +90,10 @@ const ServiceDetails = ({ classes }) => {
     if (process.env.REACT_APP_SANDBOX) {
       return;
     }
-    const fetchData = async () => {
-      if (isEmpty(service) || !service) {
-        await dispatch(fetchServiceDetails(orgId, serviceId));
-      }
-      await dispatch(fetchTrainingModel(orgId, serviceId));
-    };
-
-    fetchData();
+    if (isEmpty(service) || !service) {
+      dispatch(fetchServiceDetails(orgId, serviceId));
+    }
+    dispatch(fetchTrainingModel(orgId, serviceId));
   }, []);
 
   const handleTabChange = (activeTab) => {

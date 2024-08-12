@@ -30,19 +30,13 @@ const UserProfileAccount = ({ classes }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchWallets = async () => {
-      const availableWallets = await dispatch(fetchAvailableUserWallets());
-      const enhancedWallets = map(availableWallets, ({ address, type }) => {
-        return { address, type, value: address, label: `${type} (${address})` };
-      });
-      setWallets(enhancedWallets);
-    };
-    const getCurrentMetamaskAddress = async () => {
-      const sdk = await dispatch(sdkActions.getSdk());
-      setCurrentAddress(await sdk.account.getAddress());
-    };
-    getCurrentMetamaskAddress();
-    fetchWallets();
+    const availableWallets = dispatch(fetchAvailableUserWallets());
+    const enhancedWallets = map(availableWallets, ({ address, type }) => {
+      return { address, type, value: address, label: `${type} (${address})` };
+    });
+    setWallets(enhancedWallets);
+    const sdk = dispatch(sdkActions.getSdk());
+    setCurrentAddress(sdk.account.getAddress());
   }, []);
 
   const isSameMetaMaskAddress = (address) => {
