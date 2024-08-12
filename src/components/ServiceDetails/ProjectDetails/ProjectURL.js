@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
-import LaunchIcon from "@material-ui/icons/Launch";
-import { withStyles } from "@material-ui/styles";
+import LaunchIcon from "@mui/icons-material/Launch";
+import { withStyles } from "@mui/styles";
 
 import { useStyles } from "./styles";
 import Row from "./Row";

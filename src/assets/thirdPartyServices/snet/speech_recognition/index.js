@@ -1,8 +1,8 @@
 import React from "react";
-import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
-import SvgIcon from "@material-ui/core/SvgIcon";
-import InfoIcon from "@material-ui/icons/Info";
+import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
+import SvgIcon from "@mui/material/SvgIcon";
+import InfoIcon from "@mui/icons-material/Info";
 
 import HoverIcon from "../../standardComponents/HoverIcon";
 import FileUploader from "../../common/FileUploader";

@@ -1,9 +1,9 @@
 import React, { Fragment, useState } from "react";
-import Button from "@material-ui/core/Button";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import { withStyles } from "@material-ui/styles";
-import CaretIcon from "@material-ui/icons/ArrowDropDown";
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import { withStyles } from "@mui/styles";
+import CaretIcon from "@mui/icons-material/ArrowDropDown";
 import PropTypes from "prop-types";
 
 import { useStyles } from "./styles";

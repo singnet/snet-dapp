@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { withStyles } from "@material-ui/styles";
-import Typography from "@material-ui/core/Typography";
-import InfoIcon from "@material-ui/icons/Info";
-import Avatar from "@material-ui/core/Avatar";
+import { withStyles } from "@mui/styles";
+import Typography from "@mui/material/Typography";
+import InfoIcon from "@mui/icons-material/Info";
+import Avatar from "@mui/material/Avatar";
 import { connect } from "react-redux";
 import Web3 from "web3";
 import isEmpty from "lodash/isEmpty";

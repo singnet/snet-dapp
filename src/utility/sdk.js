@@ -1,9 +1,8 @@
 import SnetSDK, { WebServiceClient as ServiceClient } from "snet-sdk-web";
-import API from "@aws-amplify/api";
 import MPEContract from "singularitynet-platform-contracts/networks/MultiPartyEscrow";
 
 import { APIEndpoints, APIPaths } from "../config/APIEndpoints";
-import { initializeAPIOptions } from "./API";
+import { initializeAPIOptions, postAPI } from "./API";
 import { fetchAuthenticatedUser, walletTypes } from "../Redux/actionCreators/UserActions";
 import PaypalPaymentMgmtStrategy from "./PaypalPaymentMgmtStrategy";
 import { ethereumMethods } from "./constants/EthereumUtils";
@@ -59,7 +58,8 @@ const metadataGenerator = (serviceRequestErrorHandler, groupId) => async (servic
     const payload = { org_id, service_id, service_name: serviceName, method, username: email, group_id: groupId };
     const apiName = APIEndpoints.SIGNER_SERVICE.name;
     const apiOptions = initializeAPIOptions(token, payload);
-    return await API.post(apiName, APIPaths.SIGNER_FREE_CALL, apiOptions).then(parseFreeCallMetadata);
+    const meta = await postAPI(apiName, APIPaths.SIGNER_FREE_CALL, apiOptions);
+    return parseFreeCallMetadata(meta); //TODO
   } catch (err) {
     serviceRequestErrorHandler(err);
   }
@@ -75,9 +75,9 @@ const channelStateRequestSigner = async (channelId) => {
   const stateServicePayload = { channel_id: Number(channelId) };
   const { token } = await store.dispatch(fetchAuthenticatedUser());
   const stateServiceOptions = initializeAPIOptions(token, stateServicePayload);
-  return await API.post(apiName, APIPaths.SIGNER_STATE_SERVICE, stateServiceOptions).then(
+  return await postAPI(apiName, APIPaths.SIGNER_STATE_SERVICE, stateServiceOptions).then(
     parseChannelStateRequestSigner
-  );
+  ); //TODO
 };
 
 const paidCallMetadataGenerator = (serviceRequestErrorHandler) => async (channelId, signingAmount, nonce) => {
@@ -91,8 +91,8 @@ const paidCallMetadataGenerator = (serviceRequestErrorHandler) => async (channel
     };
     const { token } = await store.dispatch(fetchAuthenticatedUser());
     const RegCallOptions = initializeAPIOptions(token, RegCallPayload);
-    const response = await API.post(apiName, APIPaths.SIGNER_REGULAR_CALL, RegCallOptions);
-    const paidCallMetadata = parseRegularCallMetadata(response);
+    const regularCallMetadata = await postAPI(apiName, APIPaths.SIGNER_REGULAR_CALL, RegCallOptions);
+    const paidCallMetadata = parseRegularCallMetadata(regularCallMetadata);
     return Promise.resolve(paidCallMetadata);
   } catch (error) {
     serviceRequestErrorHandler(error);
@@ -235,6 +235,7 @@ const getMethodNames = (service) => {
     if (service[property] && typeof service[property] === typeof {}) {
       return !!service[property].methodName;
     }
+    return null;
   });
 };
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { withStyles } from "@material-ui/styles";
+import { withStyles } from "@mui/styles";
 import Upload from "./Upload";
 import StyledButton from "../../../../common/StyledButton";
 import fileDownload from "../../../../../assets/images/fileDownload.svg";

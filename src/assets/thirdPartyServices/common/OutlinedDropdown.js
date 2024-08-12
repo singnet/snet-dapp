@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import MenuItem from "@material-ui/core/MenuItem";
-import TextField from "@material-ui/core/TextField";
-import InfoIcon from "@material-ui/icons/Info";
-import Tooltip from "@material-ui/core/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+import TextField from "@mui/material/TextField";
+import InfoIcon from "@mui/icons-material/Info";
+import Tooltip from "@mui/material/Tooltip";
 
 class OutlinedDropDown extends React.Component {
   constructor(props, context) {

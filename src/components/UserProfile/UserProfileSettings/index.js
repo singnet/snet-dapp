@@ -1,11 +1,10 @@
-import React, { Component } from "react";
-import { withStyles } from "@material-ui/styles";
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import React, { useState } from "react";
+import { withStyles } from "@mui/styles";
+import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import { useDispatch, useSelector } from "react-redux";
 
 import StyledButton from "../../common/StyledButton";
 import { useStyles } from "./styles";
@@ -14,171 +13,146 @@ import Routes from "../../../utility/constants/Routes";
 import AlertBox, { alertTypes } from "../../common/AlertBox";
 import ConfirmDelete from "./ConfirmDelete";
 import { Helmet } from "react-helmet";
+import { useNavigate } from "react-router-dom";
 
-class UserProfileSettings extends Component {
-  state = {
-    alertMessage: undefined,
-    alertType: alertTypes.ERROR,
-    emailAlerts: false,
-    showConfirmDelete: false,
-    confirmDeleteError: undefined,
+const UserProfileSettings = ({ classes }) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const userEmail = useSelector((state) => state.userReducer.email);
+  const nickname = useSelector((state) => state.userReducer.nickname);
+  const emailAlerts = useSelector((state) => state.userReducer.emailAlerts);
+  const isTermsAccepted = useSelector((state) => state.userReducer.isTermsAccepted);
+
+  // const [email, setEmail] = useState();
+  const [isEmailAlerts, setIsEmailAlerts] = useState();
+  const [alert, setAlert] = useState({ message: "", type: alertTypes.ERROR });
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+  const [confirmDeleteError, setConfirmDeleteError] = useState();
+
+  // const handleEmailChange = (event) => {
+  //     setEmail(event.target.value);
+  // };
+
+  const handleEmailAlerts = () => {
+    setIsEmailAlerts(!isEmailAlerts);
   };
 
-  componentDidMount = () => {
-    this.setState({ emailAlerts: this.props.emailAlerts });
+  const handleDelete = () => {
+    setShowConfirmDelete(true);
   };
 
-  handleEmailChange = (event) => {
-    this.setState({
-      email: event.target.value,
-    });
+  const handleChangePassword = () => {
+    navigate(`/${Routes.FORGOT_PASSWORD}`);
   };
 
-  handleEmailAlerts = () => {
-    this.setState((prevState) => ({ emailAlerts: !prevState.emailAlerts }));
-  };
-
-  handleDelete = () => {
-    this.setState({ showConfirmDelete: true });
-  };
-
-  handleChangePassword = () => {
-    this.props.history.push(`/${Routes.FORGOT_PASSWORD}`);
-  };
-
-  handleSubmit = async () => {
-    this.setState({ alertMessage: undefined });
-    const { updateUserProfile, isTermsAccepted } = this.props;
-    const updatedUserData = { email_alerts: this.state.emailAlerts, is_terms_accepted: isTermsAccepted };
+  const handleSubmit = async () => {
+    setAlert({});
+    const updatedUserData = { email_alerts: emailAlerts, is_terms_accepted: isTermsAccepted };
     try {
-      await updateUserProfile(updatedUserData);
-      this.setState({ alertType: alertTypes.SUCCESS, alertMessage: "Changes saved successfully" });
+      await dispatch(userActions.updateUserProfile(updatedUserData));
+      setAlert({ type: alertTypes.SUCCESS, message: "Changes saved successfully" });
     } catch (error) {
-      this.setState({ alertType: alertTypes.ERROR, alertMessage: String(error) });
+      setAlert({ type: alertTypes.ERROR, message: String(error) });
     }
   };
 
-  shouldSubmitBeEnabled = () => {
-    return this.state.emailAlerts !== this.props.emailAlerts;
+  const shouldSubmitBeEnabled = () => {
+    return isEmailAlerts !== emailAlerts;
   };
 
-  handleConfirmDeleteClose = () => {
-    this.setState({ showConfirmDelete: false, confirmDeleteError: undefined });
+  const handleConfirmDeleteClose = () => {
+    setShowConfirmDelete(false);
+    setConfirmDeleteError(undefined);
   };
 
-  handleConfirmDeleteSubmit = async () => {
-    const { history, stopLoader } = this.props;
+  const handleConfirmDeleteSubmit = async () => {
     const route = `/${Routes.AI_MARKETPLACE}`;
     try {
-      await this.props.deleteUserAccount({ history, route });
+      await dispatch(userActions.deleteUserAccount(route));
     } catch (err) {
       let confirmDeleteError = String(err.message);
       if (err.response && err.response.status === 404) {
         confirmDeleteError = "The profile has already been deleted";
       }
-      this.setState({ confirmDeleteError });
-      stopLoader();
+      setConfirmDeleteError(confirmDeleteError);
+      dispatch(loaderActions.stopAppLoader());
     }
   };
 
-  render() {
-    const { classes, userEmail, nickname } = this.props;
-    const { alertMessage, alertType, emailAlerts, showConfirmDelete, confirmDeleteError } = this.state;
-    return (
-      <Grid container className={classes.settingMainContainer}>
-        <Helmet>
-          <meta
-            name="description"
-            content="Adjust your SingularityNET settings for an optimized AI service experience. Personalize notifications, privacy, and more."
-          />
-          <meta name="keywords" content="User Settings, AI Customization, SingularityNET, Platform Preferences" />
-        </Helmet>
-        <Grid item xs={12} sm={12} md={7} lg={7} className={classes.settingsContainer}>
-          <h3>Settings</h3>
-          <div className={classes.settingsContent}>
-            <div>
-              <TextField
-                id="outlined-name"
-                label="Nick Name (20 char max)"
-                className={classes.styledTextField}
-                value={nickname}
-                margin="normal"
-                variant="outlined"
-                disabled
-              />
-              <p>Your nickname will be visible to other users when you post comments.</p>
-            </div>
-            <div>
-              <TextField
-                id="outlined-name"
-                label="Email"
-                className={classes.styledTextField}
-                value={userEmail}
-                margin="normal"
-                variant="outlined"
-                disabled
-              />
-            </div>
-            <div>
-              <h4>Password</h4>
-              <StyledButton
-                type="transparentBlueBorder"
-                btnText="Change Password"
-                onClick={this.handleChangePassword}
-              />
-            </div>
-            <div className={classes.notification}>
-              <h4>Notifications</h4>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    className={classes.checkkBox}
-                    value=""
-                    color="primary"
-                    checked={emailAlerts}
-                    onChange={this.handleEmailAlerts}
-                  />
-                }
-                label="Receive notifications via email"
-              />
-              <p>
-                This includes notifications about algorithms, comments, etc. Account related information will still be
-                sent to your email.
-              </p>
-            </div>
-            <AlertBox message={alertMessage} type={alertType} />
-            <div className={classes.btnContainer}>
-              <StyledButton
-                btnText="save changes"
-                disabled={!this.shouldSubmitBeEnabled()}
-                onClick={this.handleSubmit}
-              />
-              <StyledButton btnText="delete account" type="red" onClick={this.handleDelete} />
-            </div>
-          </div>
-        </Grid>
-        <ConfirmDelete
-          open={showConfirmDelete}
-          handleClose={this.handleConfirmDeleteClose}
-          handleSubmit={this.handleConfirmDeleteSubmit}
-          error={confirmDeleteError}
+  return (
+    <Grid container className={classes.settingMainContainer}>
+      <Helmet>
+        <meta
+          name="description"
+          content="Adjust your SingularityNET settings for an optimized AI service experience. Personalize notifications, privacy, and more."
         />
+        <meta name="keywords" content="User Settings, AI Customization, SingularityNET, Platform Preferences" />
+      </Helmet>
+      <Grid item xs={12} sm={12} md={7} lg={7} className={classes.settingsContainer}>
+        <h3>Settings</h3>
+        <div className={classes.settingsContent}>
+          <div>
+            <TextField
+              id="outlined-name"
+              label="Nick Name (20 char max)"
+              className={classes.styledTextField}
+              value={nickname}
+              margin="normal"
+              variant="outlined"
+              disabled
+            />
+            <p>Your nickname will be visible to other users when you post comments.</p>
+          </div>
+          <div>
+            <TextField
+              id="outlined-name"
+              label="Email"
+              className={classes.styledTextField}
+              value={userEmail}
+              margin="normal"
+              variant="outlined"
+              disabled
+            />
+          </div>
+          <div>
+            <h4>Password</h4>
+            <StyledButton type="transparentBlueBorder" btnText="Change Password" onClick={handleChangePassword} />
+          </div>
+          <div className={classes.notification}>
+            <h4>Notifications</h4>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  className={classes.checkkBox}
+                  value=""
+                  color="primary"
+                  checked={emailAlerts}
+                  onChange={handleEmailAlerts}
+                />
+              }
+              label="Receive notifications via email"
+            />
+            <p>
+              This includes notifications about algorithms, comments, etc. Account related information will still be
+              sent to your email.
+            </p>
+          </div>
+          <AlertBox {...alert} />
+          <div className={classes.btnContainer}>
+            <StyledButton btnText="save changes" disabled={!shouldSubmitBeEnabled()} onClick={handleSubmit} />
+            <StyledButton btnText="delete account" type="red" onClick={handleDelete} />
+          </div>
+        </div>
       </Grid>
-    );
-  }
-}
+      <ConfirmDelete
+        open={showConfirmDelete}
+        handleClose={handleConfirmDeleteClose}
+        handleSubmit={handleConfirmDeleteSubmit}
+        error={confirmDeleteError}
+      />
+    </Grid>
+  );
+};
 
-const mapStateToProps = (state) => ({
-  userEmail: state.userReducer.email,
-  nickname: state.userReducer.nickname,
-  emailAlerts: state.userReducer.emailAlerts,
-  isTermsAccepted: state.userReducer.isTermsAccepted,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  deleteUserAccount: ({ history, route }) => dispatch(userActions.deleteUserAccount({ history, route })),
-  updateUserProfile: (updatedUserData) => dispatch(userActions.updateUserProfile(updatedUserData)),
-  stopLoader: () => dispatch(loaderActions.stopAppLoader()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(withRouter(UserProfileSettings)));
+export default withStyles(useStyles)(UserProfileSettings);

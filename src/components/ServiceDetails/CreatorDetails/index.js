@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { withStyles } from "@material-ui/styles";
+import { withStyles } from "@mui/styles";
 import PropTypes from "prop-types";
-import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
-import Avatar from "@material-ui/core/Avatar";
+import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
+import Avatar from "@mui/material/Avatar";
 
 import SingularityLogo from "../../../assets/images/avatar.png";
 import { useStyles } from "./styles";

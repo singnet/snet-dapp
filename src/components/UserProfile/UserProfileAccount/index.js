@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Grid from "@material-ui/core/Grid";
-import { withStyles } from "@material-ui/styles";
+import Grid from "@mui/material/Grid";
+import { withStyles } from "@mui/styles";
 import map from "lodash/map";
 import find from "lodash/find";
 import StyledDropdown from "../../common/StyledDropdown";
@@ -43,7 +43,6 @@ const UserProfileAccount = ({ classes }) => {
     };
     getCurrentMetamaskAddress();
     fetchWallets();
-    // eslint-disabled-next-line
   }, []);
 
   const isSameMetaMaskAddress = (address) => {

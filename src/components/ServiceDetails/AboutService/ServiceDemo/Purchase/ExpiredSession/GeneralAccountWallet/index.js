@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { withStyles } from "@material-ui/styles";
+import { withStyles } from "@mui/styles";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import isEmpty from "lodash/isEmpty";
@@ -57,7 +57,7 @@ const GeneralAccountWallet = ({ classes, handleContinue }) => {
   return (
     <div>
       <div className={classes.btnsContainer}>
-        <Link to={userProfileRoutes.TRANSACTIONS.path} className={classes.routerLink}>
+        <Link to={userProfileRoutes.TRANSACTIONS} className={classes.routerLink}>
           <StyledButton type="transparentBlueBorder" disabled={!anyGeneralWallet} btnText="transaction history" />
         </Link>
         <StyledButton

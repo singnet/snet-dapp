@@ -1,15 +1,15 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
-import Modal from "@material-ui/core/Modal";
-import Card from "@material-ui/core/Card";
-import { withStyles } from "@material-ui/styles";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardContent from "@material-ui/core/CardContent";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import CloseIcon from "@material-ui/icons/Close";
+import Modal from "@mui/material/Modal";
+import Card from "@mui/material/Card";
+import { withStyles } from "@mui/styles";
+import CardHeader from "@mui/material/CardHeader";
+import CardContent from "@mui/material/CardContent";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import CloseIcon from "@mui/icons-material/Close";
 
 import { useStyles } from "./styles";
 import AlertBox from "../../../common/AlertBox";

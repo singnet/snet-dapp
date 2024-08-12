@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import Grid from "@material-ui/core/Grid";
-import { withStyles } from "@material-ui/styles";
+import Grid from "@mui/material/Grid";
+import { withStyles } from "@mui/styles";
 import StarRatingComponent from "react-star-rating-component";
-import Avatar from "@material-ui/core/Avatar";
-import Modal from "@material-ui/core/Modal";
-import CloseIcon from "@material-ui/icons/Close";
+import Avatar from "@mui/material/Avatar";
+import Modal from "@mui/material/Modal";
+import CloseIcon from "@mui/icons-material/Close";
 
 import CardImg from "../../../assets/images/SnetDefaultServiceImage.png";
 import { useStyles } from "./styles";
 import RatingsCount from "../../common/RatingsCount";
 import SingularityLogo from "../../../assets/images/avatar.png";
-import Typography from "@material-ui/core/Typography";
+import Typography from "@mui/material/Typography";
 import { HERO_IMG } from "../";
 
 const TitleCard = ({

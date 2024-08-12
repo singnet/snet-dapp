@@ -1,7 +1,7 @@
 import React from "react";
-import Grid from "@material-ui/core/Grid";
-import Radio from "@material-ui/core/Radio";
-import { withStyles } from "@material-ui/styles";
+import Grid from "@mui/material/Grid";
+import Radio from "@mui/material/Radio";
+import { withStyles } from "@mui/styles";
 
 import { useStyles } from "./styles";
 import CallPriceInput from "./CallPriceInput";

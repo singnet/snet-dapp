@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Button from "@material-ui/core/Button";
+import Button from "@mui/material/Button";
 import clsx from "clsx";
-import Icon from "@material-ui/core/Icon";
+import Icon from "@mui/material/Icon";
 
 import { useStyles } from "./styles";
 

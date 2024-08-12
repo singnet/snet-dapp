@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import Grid from "@material-ui/core/Grid";
-import { withStyles } from "@material-ui/styles";
-import Button from "@material-ui/core/Button";
-import InfoIcon from "@material-ui/icons/Info";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
+import Grid from "@mui/material/Grid";
+import { withStyles } from "@mui/styles";
+import Button from "@mui/material/Button";
+import InfoIcon from "@mui/icons-material/Info";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 import { connect } from "react-redux";
 import Web3 from "web3";
 

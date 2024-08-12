@@ -7,7 +7,7 @@ export default class ProxyPaymentChannelManagementStrategy {
     return this._channel;
   }
 
-  async generateSignature(serviceClient, channelId, nonce, amount) {
+  generateSignature(serviceClient, channelId, nonce, amount) {
     return serviceClient.signData(
       {
         t: "string",

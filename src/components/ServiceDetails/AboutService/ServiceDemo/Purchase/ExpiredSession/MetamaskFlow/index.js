@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import Tooltip from "@material-ui/core/Tooltip";
-import { withStyles } from "@material-ui/styles";
+import Tooltip from "@mui/material/Tooltip";
+import { withStyles } from "@mui/styles";
 import { WebServiceClient as ServiceClient } from "snet-sdk-web";
 import StyledButton from "../../../../../../common/StyledButton";
 import PaymentInfoCard from "../../PaymentInfoCard";

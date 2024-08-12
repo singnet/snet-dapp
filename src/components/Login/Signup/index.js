@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { Auth } from "aws-amplify";
-import Grid from "@material-ui/core/Grid";
-import { withStyles } from "@material-ui/styles";
+import { signUp, confirmSignUp, resendSignUpCode } from "aws-amplify/auth";
+import Grid from "@mui/material/Grid";
+import { withStyles } from "@mui/styles";
 import { connect } from "react-redux";
 
 import Routes from "../../../utility/constants/Routes";
@@ -53,15 +53,17 @@ class SignUp extends Component {
     const { startSignupLoader, stopLoader } = this.props;
 
     startSignupLoader();
-    Auth.signUp({
+    signUp({
       username: email,
       password,
-      attributes: {
-        email,
-        nickname,
+      options: {
+        userAttributes: {
+          email,
+          nickname,
+        },
       },
     })
-      .then((user) => {
+      .then(() => {
         this.props.updateNickname(nickname);
         this.setState({ toBeConfirmed: true });
         stopLoader();
@@ -85,7 +87,7 @@ class SignUp extends Component {
     event.stopPropagation();
     let route = `/${Routes.LOGIN}`;
 
-    Auth.confirmSignUp(email, otp)
+    confirmSignUp(email, otp)
       .then(() => {
         updateEmail(email);
         history.push(route);
@@ -98,7 +100,7 @@ class SignUp extends Component {
   handleResendOTP = () => {
     this.setState({ alert: {} });
     const { email } = this.state;
-    Auth.resendSignUp(email)
+    resendSignUpCode(email)
       .then(() => {
         this.setState({ alert: { type: alertTypes.SUCCESS, message: "code resent successfully" } });
       })

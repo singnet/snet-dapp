@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { withStyles } from "@material-ui/styles";
+import { withStyles } from "@mui/styles";
 
 import StyledButton from "../../common/StyledButton";
 import ServiceDemo from "./ServiceDemo";
@@ -16,9 +16,8 @@ const DemoToggler = ({
   showDemo,
   onClick,
   service,
-  history,
   serviceAvailable,
-  scrollToView,
+  // scrollToView,
   demoComponentRequired,
 }) => {
   if (!showDemo) {
@@ -70,7 +69,7 @@ const DemoToggler = ({
     return <NoDemoComponent />;
   }
 
-  return <ServiceDemo service={service} history={history} scrollToView={scrollToView} />;
+  return <ServiceDemo service={service} />;
 };
 
 export default withStyles(useStyles)(DemoToggler);

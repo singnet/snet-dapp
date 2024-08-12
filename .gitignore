@@ -82,9 +82,6 @@ src/assets/images/GetStarted/*
 #ThirdPartyServices Images
 src/assets/images/ThirdPartyServices/*
 
-#storybook
-storybook-static/
-
 # macbook files
 .DS_Store
 

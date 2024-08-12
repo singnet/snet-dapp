@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Grid from "@material-ui/core/Grid";
-import { withStyles } from "@material-ui/styles";
+import Grid from "@mui/material/Grid";
+import { withStyles } from "@mui/styles";
 
 import FeatureMedia from "./FeatureMedia";
 import VerticalTabs from "./VerticalTabs";

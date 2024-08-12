@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 import { useStyles } from "./styles";
@@ -30,6 +29,4 @@ const Header = ({ data, fixHeader }) => {
   );
 };
 
-const mapStateToProps = (state) => ({ isLoggedIn: state.userReducer.login.isLoggedIn });
-
-export default connect(mapStateToProps)(Header);
+export default Header;

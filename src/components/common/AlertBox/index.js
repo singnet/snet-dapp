@@ -1,7 +1,7 @@
 import React from "react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/styles";
+import { withStyles } from "@mui/styles";
 
 import { useStyles } from "./styles";
 import AlertLink from "./AlertLink";

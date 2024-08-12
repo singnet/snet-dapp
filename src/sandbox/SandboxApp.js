@@ -1,6 +1,6 @@
 import React, { Component, lazy, Suspense } from "react";
-import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
-import { ThemeProvider } from "@material-ui/styles";
+import { BrowserRouter as Router, Navigate, Route, Routes as Switch } from "react-router-dom";
+import { ThemeProvider } from "@mui/styles";
 import { connect } from "react-redux";
 
 import Routes from "../utility/constants/Routes";
@@ -20,10 +20,9 @@ class SandboxApp extends Component {
               <Switch>
                 <Route
                   path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId`}
-                  {...this.props}
-                  component={withInAppWrapper(ServiceDetails)}
+                  Component={withInAppWrapper(ServiceDetails)}
                 />
-                <Redirect exact from="/" to={serviceDetailsPath} />
+                <Route path="/" element={<Navigate exact from="/" to={serviceDetailsPath} />} />
               </Switch>
             </Suspense>
           </Router>

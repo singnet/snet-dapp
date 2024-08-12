@@ -1,13 +1,13 @@
 import React from "react";
-import { withStyles } from "@material-ui/styles";
+import { withStyles } from "@mui/styles";
 import { useStyles } from "./styles";
-import Button from "@material-ui/core/Button";
-import EditIcon from "@material-ui/icons/Edit";
-import DeleteIcon from "@material-ui/icons/Delete";
-import NearMeOutlinedIcon from "@material-ui/icons/NearMeOutlined";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
-import Modal from "@material-ui/core/Modal";
+import Button from "@mui/material/Button";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import NearMeOutlinedIcon from "@mui/icons-material/NearMeOutlined";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Modal from "@mui/material/Modal";
 import StyledButton from "../../../common/StyledButton";
 
 const ModelDetails = ({ classes, model, deleteModels, editModel }) => {

@@ -1,12 +1,12 @@
 import React, { Fragment } from "react";
-import ExpansionPanel from "@material-ui/core/ExpansionPanel";
-import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
-import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import Typography from "@material-ui/core/Typography";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import { withStyles } from "@material-ui/styles";
+import ExpansionPanel from "@mui/material/ExpansionPanel";
+import ExpansionPanelSummary from "@mui/material/ExpansionPanelSummary";
+import ExpansionPanelDetails from "@mui/material/ExpansionPanelDetails";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Typography from "@mui/material/Typography";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import { withStyles } from "@mui/styles";
 
 import { useStyles } from "./styles";
 

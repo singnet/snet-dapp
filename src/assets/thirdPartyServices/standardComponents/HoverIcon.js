@@ -1,8 +1,8 @@
 import React from "react";
-import Typography from "@material-ui/core/Typography";
-import { Tooltip, IconButton } from "@material-ui/core";
+import Typography from "@mui/material/Typography";
+import { Tooltip, IconButton } from "@mui/material";
 import PropTypes from "prop-types";
-import { blue, grey } from "@material-ui/core/colors";
+import { blue, grey } from "@mui/material/colors";
 
 export default class HoverIcon extends React.Component {
   constructor(props) {

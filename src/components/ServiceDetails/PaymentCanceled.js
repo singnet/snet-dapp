@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 import Routes from "../../utility/constants/Routes";
 import { paymentActions } from "../../Redux/actionCreators";
-import { CircularProgress } from "@material-ui/core";
+import { CircularProgress } from "@mui/material";
 
 class PaymentCanceled extends React.Component {
   componentDidMount = () => {

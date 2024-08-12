@@ -1,14 +1,14 @@
 import React, { Component } from "react";
-import { withStyles } from "@material-ui/styles";
-import Modal from "@material-ui/core/Modal";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CloseIcon from "@material-ui/icons/Close";
-import IconButton from "@material-ui/core/IconButton";
-import CardContent from "@material-ui/core/CardContent";
+import { withStyles } from "@mui/styles";
+import Modal from "@mui/material/Modal";
+import Card from "@mui/material/Card";
+import CardHeader from "@mui/material/CardHeader";
+import CloseIcon from "@mui/icons-material/Close";
+import IconButton from "@mui/material/IconButton";
+import CardContent from "@mui/material/CardContent";
 import { connect } from "react-redux";
 import isEmpty from "lodash/isEmpty";
-import { withRouter } from "react-router-dom";
+// import { withRouter } from "react-router-dom";
 import pickBy from "lodash/pickBy";
 
 import Details from "./Details";
@@ -287,4 +287,4 @@ const mapDispatchToProps = (dispatch) => ({
   paypalCompleted: () => dispatch(paymentActions.updatePaypalCompleted),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(PaymentPopup)));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(PaymentPopup));
