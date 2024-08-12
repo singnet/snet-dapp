@@ -56,10 +56,7 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchUserDetails = async () => {
-      await dispatch(userActions.fetchUserDetails());
-    };
-    fetchUserDetails();
+    dispatch(userActions.fetchUserDetails());
   }, []);
 
   if (!isInitialized) {
