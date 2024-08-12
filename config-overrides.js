@@ -1,11 +1,11 @@
 const webpack = require("webpack");
 const { aliasWebpack, configPaths } = require("react-app-alias");
 
-const aliasMap = configPaths('./jsconfig.json')
+const aliasMap = configPaths("./jsconfig.json");
 
 const options = {
   alias: aliasMap,
-}
+};
 
 module.exports = function override(config) {
   const modifiedConfig = aliasWebpack(options)(config);
