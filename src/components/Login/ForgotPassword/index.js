@@ -15,9 +15,11 @@ import { useMatch } from "react-router-dom";
 
 const ForgotPassword = ({ classes, email, error, handleForgotPassword, history, updateError, resetError }) => {
   const [localEmail, setEmail] = useState(email);
+
   useEffect(() => {
     setEmail(email);
   }, [email]);
+
   const handleEmail = (event) => {
     setEmail(event.target.value.toLowerCase());
   };

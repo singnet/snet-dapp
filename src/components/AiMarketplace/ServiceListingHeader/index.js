@@ -17,10 +17,7 @@ const ServiceListingHeader = ({ classes }) => {
   const carousel = useSelector((state) => state.uiContentReducer.carousel);
 
   useEffect(() => {
-    const fetchingCarousel = async () => {
-      await dispatch(uiContentActions.fetchCarousel(carousel));
-    };
-    fetchingCarousel();
+    dispatch(uiContentActions.fetchCarousel(carousel));
   }, [carousel]);
 
   const isMoreThanOneElement = () => {
