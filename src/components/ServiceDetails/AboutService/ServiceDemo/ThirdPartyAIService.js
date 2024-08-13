@@ -20,7 +20,7 @@ class ThirdPartyAIService extends Component {
   };
 
   componentDidMount = async () => {
-    const { org_id, service_id, freeCallsRemaining, groupInfo, wallet, channelInfo } = this.props;
+    const { org_id, service_id, freeCallsRemaining, groupInfo, wallet } = this.props;
     const callType = freeCallsRemaining > 0 ? callTypes.FREE : callTypes.REGULAR;
     this.serviceClient = await createServiceClient(
       org_id,
@@ -30,10 +30,9 @@ class ThirdPartyAIService extends Component {
       this.props.serviceRequestCompleteHandler,
       this.props.serviceRequestErrorHandler,
       callType,
-      wallet,
-      channelInfo
+      wallet
     );
-    await this.setupComponent();
+    this.setupComponent();
     this.setState({ loading: false });
   };
 

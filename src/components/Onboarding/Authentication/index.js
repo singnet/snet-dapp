@@ -33,7 +33,7 @@ const Authentication = ({ classes, handleNextSection }) => {
 
   const handleContinue = () => {
     setLoading(true);
-    confirmSignUp(email, verificationCode)
+    confirmSignUp({ username: email, confirmationCode: verificationCode })
       .then((res) => {
         setLoading(false);
         navigate(Routes.LOGIN);
@@ -48,7 +48,7 @@ const Authentication = ({ classes, handleNextSection }) => {
 
   const handleResendCode = () => {
     setLoading(true);
-    resendSignUpCode(email)
+    resendSignUpCode({ username: email })
       .then((res) => {
         setLoading(false);
         handleNextSection();

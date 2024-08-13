@@ -1,4 +1,11 @@
-import { fetchAuthSession, signIn, signOut as signOutAws, resetPassword, confirmResetPassword } from "aws-amplify/auth";
+import {
+  fetchAuthSession,
+  signIn,
+  signOut as signOutAws,
+  resetPassword,
+  confirmResetPassword,
+  deleteUser,
+} from "aws-amplify/auth";
 import isEmpty from "lodash/isEmpty";
 import moment from "moment";
 
@@ -230,13 +237,15 @@ export const updateLoginError = (error) => (dispatch) => {
 };
 
 const getCurrentUser = async () => {
-  const { tokens } = await fetchAuthSession();
+  const response = await fetchAuthSession();
+  const { tokens } = response;
   const idToken = tokens?.idToken;
   const userAttributes = idToken.payload;
 
   return {
     userAttributes,
     idToken,
+    accessToken: tokens?.accessToken,
   };
 };
 
@@ -338,57 +347,48 @@ export const signOut = () => (dispatch) => {
     });
 };
 
-const userDeleted =
-  ({ route }) =>
-  (dispatch) => {
-    dispatch({
-      type: SET_USER_DETAILS,
-      payload: {
-        login: {
-          isLoggedIn: false,
-        },
-        isEmailVerified: false,
-        walletAddress: undefined,
-        email: "",
+const userDeleted = (route) => (dispatch) => {
+  dispatch({
+    type: SET_USER_DETAILS,
+    payload: {
+      login: {
+        isLoggedIn: false,
       },
-    });
-    History.navigate(route);
-  };
+      isEmailVerified: false,
+      walletAddress: undefined,
+      email: "",
+    },
+  });
+  History.navigate(route);
+};
 
 const deleteUserFromMarketPlace = (token) => {
   const apiName = APIEndpoints.USER.name;
   const path = APIPaths.DELETE_USER;
-  const apiOptions = {
-    headers: { Authorization: token },
-  };
+  const apiOptions = initializeAPIOptions(token);
   return getAPI(apiName, path, apiOptions);
 };
 
-const deleteUserFromCognito =
-  (user, { route }) =>
-  (dispatch) => {
-    new Promise((resolve, reject) => {
-      user.deleteUser((error) => {
-        if (error) {
-          reject(error);
-          dispatch(loaderActions.stopAppLoader());
-        }
-        resolve();
-      });
-    }).then(() => {
-      dispatch(userDeleted({ route }));
-      dispatch(loaderActions.stopAppLoader());
-    });
-  };
+const deleteUserFromCognito = (route) => (dispatch) => {
+  try {
+    deleteUser();
+    dispatch(userDeleted(route));
+  } catch (error) {
+    dispatch(loaderActions.stopAppLoader());
+  }
+};
 
-export const deleteUserAccount =
-  ({ route }) =>
-  async (dispatch) => {
+export const deleteUserAccount = (route) => async (dispatch) => {
+  try {
     dispatch(loaderActions.startAppLoader(LoaderContent.DELETE_USER));
-    const currentUser = await getCurrentUser(); //Auth.currentAuthenticatedUser({ bypassCache: true });
-    await deleteUserFromMarketPlace(currentUser.signInUserSession.idToken.jwtToken);
-    dispatch(deleteUserFromCognito(currentUser, { route }));
-  };
+    const currentUser = await getCurrentUser();
+    await deleteUserFromMarketPlace(currentUser.idToken.toString());
+    dispatch(deleteUserFromCognito(route));
+    dispatch(loaderActions.stopAppLoader());
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const forgotPasswordInit = (dispatch) => {
   dispatch(loaderActions.startAppLoader(LoaderContent.FORGOT_PASSWORD));
