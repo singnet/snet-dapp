@@ -91,14 +91,13 @@ const SignUp = ({ classes }) => {
       })
       .catch((e) => {
         console.log("e: ", e);
-
         setAlert({ type: alertTypes.ERROR, message: "email confirmation failed. Please try again" });
       });
   };
 
   const handleResendVerificationCode = () => {
     setAlert({});
-    resendSignUpCode(email)
+    resendSignUpCode({ username: email })
       .then(() => {
         setAlert({ type: alertTypes.SUCCESS, message: "code resent successfully" });
       })
