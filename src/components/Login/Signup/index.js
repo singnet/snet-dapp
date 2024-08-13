@@ -76,7 +76,7 @@ const SignUp = ({ classes }) => {
 
   const handleConfirmSignup = (event) => {
     setAlert({});
-    const isNotValid = snetValidator(verificationCode, singupOtpContraints);
+    const isNotValid = snetValidator({ otp: verificationCode }, singupOtpContraints);
     if (isNotValid) {
       setAlert({ type: alertTypes.ERROR, message: isNotValid[0] });
       return;
