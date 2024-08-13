@@ -59,7 +59,7 @@ const metadataGenerator = (serviceRequestErrorHandler, groupId) => async (servic
     const apiName = APIEndpoints.SIGNER_SERVICE.name;
     const apiOptions = initializeAPIOptions(token, payload);
     const meta = await postAPI(apiName, APIPaths.SIGNER_FREE_CALL, apiOptions);
-    return parseFreeCallMetadata(meta); //TODO
+    return parseFreeCallMetadata(meta);
   } catch (err) {
     serviceRequestErrorHandler(err);
   }
@@ -99,7 +99,7 @@ const paidCallMetadataGenerator = (serviceRequestErrorHandler) => async (channel
   }
 };
 
-const generateOptions = (callType, wallet, serviceRequestErrorHandler, groupInfo, org_id, service_id) => {
+const generateOptions = (callType, wallet, serviceRequestErrorHandler, groupInfo) => {
   const defaultOptions = { concurrency: false };
   if (process.env.REACT_APP_SANDBOX) {
     return {
@@ -249,7 +249,7 @@ export const createServiceClient = (
   callType,
   wallet
 ) => {
-  const options = generateOptions(callType, wallet, serviceRequestErrorHandler, groupInfo, org_id, service_id);
+  const options = generateOptions(callType, wallet, serviceRequestErrorHandler, groupInfo);
   let paymentChannelManagementStrategy = sdk && sdk._paymentChannelManagementStrategy;
   if (!(paymentChannelManagementStrategy instanceof PaypalPaymentMgmtStrategy)) {
     paymentChannelManagementStrategy = new ProxyPaymentChannelManagementStrategy(channel);
