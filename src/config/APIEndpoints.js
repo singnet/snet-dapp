@@ -35,7 +35,7 @@ export const APIPaths = {
   SIGNUP: "/signup",
   GET_USER_PROFILE: "/profile",
   UPDATE_USER_PROFILE: "/profile",
-  DELETE_USER: "/delete-user",
+  DELETE_USER: "/user/delete",
   FREE_CALL_USAGE: "/usage/freecalls",
   FEEDBACK: "/feedback",
   GET_SERVICE_LIST: "/service",
