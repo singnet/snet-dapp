@@ -36,19 +36,4 @@ export const useStyles = makeStyles((theme) => ({
     },
     "@media(max-width: 768px)": { marginBottom: 15 },
   },
-  styledPagination: {
-    "& button": { color: theme.palette.text.grayTitleText },
-    "& .MuiFlatPagination-rootCurrent": {
-      padding: "0 8px",
-      backgroundColor: theme.palette.text.primary,
-      color: `${theme.palette.text.white} !important`,
-    },
-    "& .MuiFlatPageButton-rootEnd": {
-      color: theme.palette.text.grayTitleText,
-      fontWeight: 600,
-    },
-    "& .MuiFlatPageButton-rootEnd.Mui-disabled": {
-      color: "rgba(155,155,155,0.5) !important",
-    },
-  },
 }));
