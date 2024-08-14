@@ -42,7 +42,6 @@
     "react-swipeable-views": "^0.14.0",
     "redux": "^5.0.1",
     "redux-thunk": "^3.1.0",
-    "scrypt": "github:barrysteyn/node-scrypt#fb60a8d3c158fe115a624b5ffa7480f3a24b03fb",
     "singularitynet-platform-contracts": "^1.0.4",
     "slick-carousel": "^1.8.1",
     "snet-sdk-web": "^4.0.0",
