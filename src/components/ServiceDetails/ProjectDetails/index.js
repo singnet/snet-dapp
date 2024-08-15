@@ -27,8 +27,8 @@ const ProjectDetails = ({ classes, projectURL, contributors, orgId, serviceId })
           <Grid item sm={5} xs={12}>
             <h5>{dataRow.label}</h5>
           </Grid>
-          <Grid item sm={7} xs={12}>
-            {dataRow.value}
+          <Grid item sm={7} xs={12} className={classes.projectDetailsValue}>
+            <span>{dataRow.value}</span>
           </Grid>
         </Grid>
       ))}
