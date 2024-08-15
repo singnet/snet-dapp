@@ -9,24 +9,27 @@ import { useStyles } from "./styles";
 
 const StyledDropdown = ({ labelTxt, name, list, value, onChange, formControlProps, inputLabel, disabled }) => {
   const classes = useStyles();
+  if (!list) {
+    return;
+  }
+
   return (
     <FormControl variant="outlined" className={classes.formControl} {...formControlProps}>
       {inputLabel ? <InputLabel htmlFor="age-simple">{inputLabel}</InputLabel> : null}
       <Select
-        value={value || "default"}
+        value={value || ""}
         onChange={onChange}
         name={name}
-        className={classes.selectEmpty}
         variant="outlined"
         disabled={disabled}
+        className={classes.selectEmpty}
       >
-        <MenuItem value="default">{labelTxt || "Select a value"}</MenuItem>
-        {list &&
-          list.map((item) => (
-            <MenuItem key={item.value} value={item.value}>
-              {item.label}
-            </MenuItem>
-          ))}
+        {labelTxt && <MenuItem value="default">{labelTxt}</MenuItem>}
+        {list.map((item) => (
+          <MenuItem key={item.value} value={item.value}>
+            {item.label}
+          </MenuItem>
+        ))}
       </Select>
     </FormControl>
   );

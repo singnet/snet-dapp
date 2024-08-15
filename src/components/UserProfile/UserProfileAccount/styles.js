@@ -90,6 +90,12 @@ export const useStyles = (theme) => ({
     fontSize: "14px !important",
     wordBreak: "break-all",
   },
+  loaderContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    minHeight: "400px",
+  },
   bgBox: {
     alignItems: "center",
     "& > span": {
