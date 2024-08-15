@@ -15,7 +15,7 @@ export const AppLoader = ({ loading, loaderHeader, loaderText }) => {
   const classes = useStyles();
 
   return (
-    <Modal disableBackdropClick open={loading}>
+    <Modal open={loading}>
       <Card className={classes.card}>
         <CardHeader title={<h2>{loaderHeader}</h2>} />
         <Divider />
