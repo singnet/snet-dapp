@@ -57,7 +57,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(userActions.fetchUserDetails());
-  }, []);
+  }, [dispatch]);
 
   if (!isInitialized) {
     return (

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Grid from "@mui/material/Grid";
 import { withStyles } from "@mui/styles";
@@ -36,18 +36,21 @@ const UserProfileAccount = ({ classes }) => {
     return { value: address, label: `${type} (${address})`, address, type };
   };
 
-  const getWallets = async (currentAddress) => {
-    const availableWallets = await dispatch(fetchAvailableUserWallets());
-    let currentWallet = availableWallets.find(({ address }) => address === currentAddress);
-    const enhancedWallets = availableWallets.map(({ address, type }) => parseWallet(address, type));
-    if (!currentWallet) {
-      currentWallet = parseWallet(currentAddress, walletTypes.METAMASK);
-      enhancedWallets.push(currentWallet);
-    }
-    setSelectedWallet(parseWallet(currentWallet.address, currentWallet.type));
-    dispatch(userActions.updateWallet(currentWallet));
-    return enhancedWallets;
-  };
+  const getWallets = useCallback(
+    async (currentAddress) => {
+      const availableWallets = await dispatch(fetchAvailableUserWallets());
+      let currentWallet = availableWallets.find(({ address }) => address === currentAddress);
+      const enhancedWallets = availableWallets.map(({ address, type }) => parseWallet(address, type));
+      if (!currentWallet) {
+        currentWallet = parseWallet(currentAddress, walletTypes.METAMASK);
+        enhancedWallets.push(currentWallet);
+      }
+      setSelectedWallet(parseWallet(currentWallet.address, currentWallet.type));
+      dispatch(userActions.updateWallet(currentWallet));
+      return enhancedWallets;
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
     const fetchWallets = async () => {
@@ -66,7 +69,8 @@ const UserProfileAccount = ({ classes }) => {
       }
     };
     fetchWallets();
-  }, [dispatch]);
+    // eslint
+  }, [dispatch, getWallets]);
 
   useEffect(() => {
     const getProviders = async () => {
@@ -81,7 +85,7 @@ const UserProfileAccount = ({ classes }) => {
     };
 
     getProviders();
-  }, [selectedWallet]);
+  }, [selectedWallet, dispatch]);
 
   const isSameMetaMaskAddress = (address) => {
     if (currentAddress && address) {
@@ -90,9 +94,8 @@ const UserProfileAccount = ({ classes }) => {
     return false;
   };
 
-  const handleWalletTypeChange = async (event) => {
+  const handleWalletTypeChange = (event) => {
     setAlert({});
-
     const { value: selectedValue } = event.target;
     const selectedWallet = wallets.find(({ value }) => selectedValue === value);
     setSelectedWallet(selectedWallet);
