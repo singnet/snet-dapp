@@ -20,6 +20,7 @@ const StyledDropdown = ({ labelTxt, name, list, value, onChange, formControlProp
         value={value || ""}
         onChange={onChange}
         name={name}
+        MenuProps={{ disableScrollLock: true }}
         variant="outlined"
         disabled={disabled}
         className={classes.selectEmpty}

@@ -15,7 +15,7 @@ const DEFAULT_GAS_LIMIT = 210000;
 const ON_ACCOUNT_CHANGE = "accountsChanged";
 const ON_NETWORK_CHANGE = "chainChanged";
 
-const EXPECTED_ID_ETHEREUM_NETWORK = process.env.REACT_APP_ETH_NETWORK;
+const EXPECTED_ID_ETHEREUM_NETWORK = Number(process.env.REACT_APP_ETH_NETWORK);
 
 let sdk;
 let channel;

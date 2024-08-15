@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { withStyles } from "@mui/styles";
 import AppBar from "@mui/material/AppBar";
 import Tabs from "@mui/material/Tabs";
@@ -21,46 +21,55 @@ export const userProfileRoutes = {
   // MODELS: { path: `/${Routes.USER_PROFILE}/models`, component: () => <UserProfileModels /> },
 };
 
-const tabs = {
-  account: {
-    name: "Account",
-    index: 0,
-    path: userProfileRoutes.ACCOUNT,
-    component: <UserProfileAccount />,
-  },
-  settings: {
-    name: "Settings",
-    index: 1,
-    path: userProfileRoutes.SETTINGS,
-    component: <UserProfileSettings />,
-  },
-  transactions: {
-    name: "Transactions",
-    index: 2,
-    path: userProfileRoutes.TRANSACTIONS,
-    component: <UserProfileTransactionHistory />,
-  },
-};
-
-const tabByPath = {
-  [`${tabs.account.path}`]: "account",
-  [`${tabs.settings.path}`]: "settings",
-  [`${tabs.transactions.path}`]: "transactions",
-};
-
 const UserProfile = ({ classes, nickname, email }) => {
+  const tabs = useMemo(
+    () => ({
+      account: {
+        name: "Account",
+        index: 0,
+        path: userProfileRoutes.ACCOUNT,
+        component: <UserProfileAccount />,
+      },
+      settings: {
+        name: "Settings",
+        index: 1,
+        path: userProfileRoutes.SETTINGS,
+        component: <UserProfileSettings />,
+      },
+      transactions: {
+        name: "Transactions",
+        index: 2,
+        path: userProfileRoutes.TRANSACTIONS,
+        component: <UserProfileTransactionHistory />,
+      },
+    }),
+    []
+  );
+
+  const tabByPath = useMemo(
+    () => ({
+      [`${tabs.account.path}`]: "account",
+      [`${tabs.settings.path}`]: "settings",
+      [`${tabs.transactions.path}`]: "transactions",
+    }),
+    [tabs]
+  );
+
   const navigate = useNavigate();
   const location = useLocation();
   const [activeTab, setActiveTab] = useState(tabs.account);
 
-  const selectTab = (tab) => {
-    setActiveTab(tab);
-    navigate(tab.path);
-  };
+  const selectTab = useCallback(
+    (tab) => {
+      setActiveTab(tab);
+      navigate(tab.path);
+    },
+    [navigate]
+  );
 
   useEffect(() => {
     selectTab(tabs[tabByPath[`${location.pathname.toLowerCase()}`]]);
-  }, [location]);
+  }, [location.pathname, tabs, tabByPath, selectTab]);
 
   return (
     <div className={classes.UserProfileContainer}>
