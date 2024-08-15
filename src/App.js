@@ -60,8 +60,13 @@ const App = () => {
   }, []);
 
   if (!isInitialized) {
-    return <CircularProgress />;
+    return (
+      <div className="loader-container">
+        <CircularProgress />
+      </div>
+    );
   }
+
   return (
     <ThemeProvider theme={theme}>
       <Router location={history}>

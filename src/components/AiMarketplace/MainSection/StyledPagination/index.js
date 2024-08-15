@@ -8,8 +8,10 @@ import MenuItem from "@mui/material/MenuItem";
 
 import { useStyles } from "./styles";
 
+const paginationLimits = [12, 24, 36];
+
 const StyledPagination = ({ limit, offset, total_count, handleChange }) => {
-  const [itemsPerPage, setItemsPerPage] = useState(36);
+  const [itemsPerPage, setItemsPerPage] = useState(limit);
   const classes = useStyles();
 
   const handleItemsPerPage = (event) => {
@@ -22,27 +24,21 @@ const StyledPagination = ({ limit, offset, total_count, handleChange }) => {
   };
 
   const handlePageChange = (selectedOffset) => {
-    if (selectedOffset === parseFloat(offset)) {
+    if (selectedOffset-- === parseFloat(offset)) {
       return;
     }
     const pagination = { offset: selectedOffset };
     handleChange(pagination);
   };
 
-  const currentFirstItem = offset;
-  const currentLastItem =
-    total_count > parseFloat(limit) + parseFloat(offset) ? parseFloat(limit) + parseFloat(offset) : total_count;
+  const currentFirstItem = offset * limit;
+  const viewedCountService = limit + currentFirstItem;
+  const currentLastItem = total_count > viewedCountService ? viewedCountService : total_count;
 
   return (
     <Grid container className={classes.paginationContainer}>
-      <Grid item xs={6} sm={6} md={6} lg={6} className={classes.pagination}>
-        <Pagination
-          limit={limit}
-          offset={offset}
-          total={total_count}
-          onClick={(e, offset) => handlePageChange(offset)}
-          className={classes.styledPagination}
-        />
+      <Grid item xs={6} sm={6} md={6} lg={6}>
+        <Pagination count={Math.ceil(total_count / limit)} onChange={(e, offset) => handlePageChange(offset)} />
       </Grid>
       <Grid item xs={6} sm={6} md={6} lg={6} className={classes.pageCountSection}>
         <span className={classes.itemPerPageTxt}>Items per page</span>
@@ -52,9 +48,11 @@ const StyledPagination = ({ limit, offset, total_count, handleChange }) => {
             input={<OutlinedInput onChange={handleItemsPerPage} />}
             className={classes.selectBox}
           >
-            <MenuItem value={36}>36</MenuItem>
-            <MenuItem value={24}>24</MenuItem>
-            <MenuItem value={12}>12</MenuItem>
+            {paginationLimits.map((paginationLimit) => (
+              <MenuItem key={paginationLimit} value={paginationLimit}>
+                {paginationLimit}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
         <span>
