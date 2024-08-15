@@ -25,7 +25,13 @@ const StyledMenu = ({ classes, label, list }) => {
         <Button className={classes.button}>{label}</Button>
         <CaretIcon />
       </div>
-      <Menu anchorEl={anchorEl} id="simple-menu" open={Boolean(anchorEl)} onClose={handleClose}>
+      <Menu
+        anchorEl={anchorEl}
+        id="simple-menu"
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+        disableScrollLock={true}
+      >
         {list.map((item) => (
           <MenuItem key={item.label} className={classes.menuItem}>
             <AnchorLink label={item.label} href={item.link} newTab={item.newTab} />
