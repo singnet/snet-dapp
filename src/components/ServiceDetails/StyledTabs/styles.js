@@ -1,8 +1,8 @@
 export const useStyles = (theme) => ({
   tabsHeader: {
-    backgroundColor: "transparent",
+    backgroundColor: "transparent !important",
     color: theme.palette.text.lightShadedGray,
-    boxShadow: "none",
+    boxShadow: "none !important",
     "@media(max-width:768px)": { padding: "0 30px" },
     "& button": {
       minWidth: "auto",
