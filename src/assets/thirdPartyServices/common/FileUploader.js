@@ -1,7 +1,7 @@
 import React from "react";
 import { relative } from "path";
 import Dropzone from "react-dropzone";
-import classNames from "classnames";
+import clsx from "clsx";
 import { CloudUpload, Check } from "@mui/icons-material";
 import fileSize from "filesize";
 
@@ -56,9 +56,7 @@ export default class FileUploader extends React.Component {
             return (
               <div
                 {...getRootProps()}
-                className={classNames("dropzone", {
-                  "dropzone--isActive": isDragActive,
-                })}
+                className={clsx("dropzone", isDragActive && "dropzone--isActive")}
                 style={{
                   textAlign: "center",
                   padding: "30px",
