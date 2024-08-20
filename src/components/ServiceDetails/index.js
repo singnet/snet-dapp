@@ -61,22 +61,6 @@ const ServiceDetails = ({ classes }) => {
   const [createModelCalled, setCreateModelCalled] = useState("new");
   const [modelDetailsOnEdit, setModelDetailsOnEdit] = useState();
 
-  // constructor(props) {
-  //   super(props);
-  //   this.demoExampleRef = React.createRef();
-  //   this.lastActiveTab = 0;
-  //   this.state = {
-  //     activeTab: 0,
-  //     alert: {},
-  //     offlineNotication: {
-  //       type: notificationBarTypes.WARNING,
-  //       message: "Service temporarily offline by the provider. Please check back later.",
-  //     },
-  //     createModelCalled: "new",
-  //     modelDetailsOnEdit: undefined,
-  //   };
-  // }
-
   const initializeServiceClient = async () => {
     if (serviceClient) {
       return;
@@ -94,7 +78,7 @@ const ServiceDetails = ({ classes }) => {
       dispatch(fetchServiceDetails(orgId, serviceId));
     }
     dispatch(fetchTrainingModel(orgId, serviceId));
-  }, [dispatch]);
+  }, [dispatch, orgId, serviceId, service]);
 
   const handleTabChange = (activeTab) => {
     if (window.location.href.indexOf("#demo") > -1) {

@@ -148,6 +148,9 @@ const ServiceDemo = ({ classes, service }) => {
     setIsServiceExecutionComplete(false);
     setAlert({});
     // setProgressText(progressText.map((item) => ({ label: item.label })));
+    if (process.env.REACT_APP_SANDBOX) {
+      return;
+    }
     fetchFreeCallsUsage();
   };
 
