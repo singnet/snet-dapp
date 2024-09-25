@@ -38,7 +38,7 @@ const iconColor = "#AAAEB3";
 const cardSeparator = "#e5e5e5";
 
 const whiteColor = "#fff";
-const offWhiteColor = "#fAFAFA";
+const offWhiteColor = "#FAFAFA";
 const offWhite = "rgba(255,255,255,.60)";
 
 const errorBgColor = "rgba(208,2,27,0.2)";
@@ -129,7 +129,38 @@ const theme = createTheme({
       dialogTitle,
       outlinedBtnHoverBg,
       informationBarBg,
+      hover: {
+        blue: "#005ACB",
+        red: "#D0021B",
+        black: "#333",
+        dark: "#211D24",
+      },
     },
+    background: {
+      alertBox: "#FDE5E8",
+      disabled: { gray: "#D6D6D6", lightGray: "#F8F8F8" },
+      footer: "#211D24",
+      hover: {
+        blue: "#ecf3fe",
+      },
+    },
+    border: {
+      primary: "#f5f7f8",
+      secondary: "#ccc",
+      mainContent: "#fafafa",
+      alertBox: "#E67381",
+      warningBox: "#F18D5A",
+      grey: "#D6D6D6",
+      inputBorder: "rgba(25,25,25,.32)",
+    },
+    purple: {
+      main: "#220D3A",
+      light: "#412f55",
+    },
+    success: { main: "#00C48C" },
+    error: { main: "#B00020" },
+    infoBoxLink: "#067AD7",
+    warning: { main: "#F18D5A" },
   },
   backgroundColor: {
     blue: customBlue,
@@ -137,7 +168,7 @@ const theme = createTheme({
     white: whiteColor,
     githubBlack,
     offlineRedBg,
-    footerBgColor,
+    footer: footerBgColor,
     succesBoxBg,
   },
   font: {
