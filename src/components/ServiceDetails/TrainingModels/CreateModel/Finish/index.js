@@ -6,7 +6,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 import { userProfileRoutes } from "../../../../UserProfile";
 import { useStyles } from "./styles";
-import StyledButton from "../../../../common/StyledButton";
+import StyledButton from "snet-dapp-components/components/StyledButton";
 
 const Payment = ({ classes, trainModelId }) => {
   return (

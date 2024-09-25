@@ -9,7 +9,7 @@ import { withStyles } from "@mui/styles";
 import StarRateIcon from "@mui/icons-material/StarRate";
 
 import { useStyles } from "./styles";
-import StyledButton from "../../common/StyledButton";
+import StyledButton from "snet-dapp-components/components/StyledButton";
 import { uiContentActions } from "../../../Redux/actionCreators";
 
 const ServiceListingHeader = ({ classes }) => {

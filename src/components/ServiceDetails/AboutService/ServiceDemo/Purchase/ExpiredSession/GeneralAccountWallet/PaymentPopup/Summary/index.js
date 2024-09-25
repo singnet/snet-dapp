@@ -3,10 +3,9 @@ import { withStyles } from "@mui/styles";
 import Typography from "@mui/material/Typography";
 // import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-
-import StyledButton from "../../../../../../../../common/StyledButton";
+import StyledTable from "snet-dapp-components/components/StyledTable";
+import StyledButton from "snet-dapp-components/components/StyledButton";
 import { useStyles } from "./styles";
-import StyledTable from "../../../../../../../../common/StyledTable";
 import InfoIcon from "@mui/icons-material/Info";
 import { agiInDecimal } from "../../../../../../../../../utility/PricingStrategy";
 import { currentServiceDetails } from "../../../../../../../../../Redux/reducers/ServiceDetailsReducer";

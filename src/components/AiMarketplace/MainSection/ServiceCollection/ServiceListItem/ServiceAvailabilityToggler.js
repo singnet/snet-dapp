@@ -1,6 +1,6 @@
 import React from "react";
-import OfflineIndicator from "../../../../common/OfflineIndicator";
-import StyledButton from "../../../../common/StyledButton";
+import OfflineIndicator from "snet-dapp-components/components/OfflineIndicator";
+import StyledButton from "snet-dapp-components/components/StyledButton";
 
 const ServiceAvailabilityToggler = ({ isAvailable }) => {
   if (!isAvailable) {

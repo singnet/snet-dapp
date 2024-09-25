@@ -5,12 +5,11 @@ import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { useDispatch, useSelector } from "react-redux";
-
-import StyledButton from "../../common/StyledButton";
+import AlertBox, { alertTypes } from "snet-dapp-components/components/AlertBox";
+import StyledButton from "snet-dapp-components/components/StyledButton";
 import { useStyles } from "./styles";
 import { userActions, loaderActions } from "../../../Redux/actionCreators";
 import Routes from "../../../utility/constants/Routes";
-import AlertBox, { alertTypes } from "../../common/AlertBox";
 import ConfirmDelete from "./ConfirmDelete";
 import { Helmet } from "react-helmet";
 import { useNavigate } from "react-router-dom";

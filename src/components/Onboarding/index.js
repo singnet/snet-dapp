@@ -17,7 +17,7 @@ const Onboarding = ({ classes }) => {
   const nickname = useSelector((state) => state.userReducer.nickname);
 
   const [activeSection, setActiveSection] = useState(1);
-  const progressText = [{ label: "Authentication" }, { label: "Terms of service" }];
+  const progressText = ["Authentication", "Terms of service" ];
 
   const initialChecks = () => {
     if (!isEmailVerified) {

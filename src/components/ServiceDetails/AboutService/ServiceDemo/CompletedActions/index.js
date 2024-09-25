@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import StyledButton from "../../../../common/StyledButton";
+import StyledButton from "snet-dapp-components/components/StyledButton";
 import { useStyles } from "./styles";
 import UserFeedback from "../UserFeedback";
 

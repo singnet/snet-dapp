@@ -15,7 +15,6 @@ import { headerData } from "./utility/constants/Header";
 import withInAppWrapper from "./components/HOC/WithInAppHeader";
 import { userActions } from "./Redux/actionCreators";
 import PrivateRoute from "./components/common/PrivateRoute";
-import AppLoader from "./components/common/AppLoader";
 import { CircularProgress } from "@mui/material";
 import initHotjar from "./assets/externalScripts/hotjar";
 import initGDPRNotification from "./assets/externalScripts/gdpr";
@@ -183,7 +182,6 @@ const App = () => {
           </Switch>
         </Suspense>
       </Router>
-      <AppLoader />
     </ThemeProvider>
   );
 };

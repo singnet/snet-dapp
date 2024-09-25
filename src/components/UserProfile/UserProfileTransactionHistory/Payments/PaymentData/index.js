@@ -3,7 +3,7 @@ import { withStyles } from "@mui/styles";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 
-import AlertText from "../../../../common/AlertText";
+import AlertText from "snet-dapp-components/components/AlertText";
 import { useStyles } from "./styles";
 
 const PaymentData = ({

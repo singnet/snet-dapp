@@ -4,11 +4,10 @@ import TextField from "@mui/material/TextField";
 import { withStyles } from "@mui/styles";
 import { Icon } from "@mui/material";
 import isEmpty from "lodash/isEmpty";
-
-import StyledButton from "../../common/StyledButton";
-import AlertBox, { alertTypes } from "../../common/AlertBox";
+import AlertText from "snet-dapp-components/components/AlertText";
+import StyledButton from "snet-dapp-components/components/StyledButton";
+import AlertBox, { alertTypes } from "snet-dapp-components/components/AlertBox";
 import { useStyles } from "./styles";
-import AlertText from "../../common/AlertText";
 import { PasswordCriteria } from "../../../utility/constants/ValidtionMessages";
 import { signupFormConstraints, passwordInlineConstraints } from "./validationConstraints";
 import snetValidator from "../../../utility/snetValidator";

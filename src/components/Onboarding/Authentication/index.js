@@ -3,13 +3,12 @@ import TextField from "@mui/material/TextField";
 import { confirmSignUp, resendSignUpCode } from "aws-amplify/auth";
 import { withStyles } from "@mui/styles";
 import { useSelector } from "react-redux";
-
-import StyledButton from "../../common/StyledButton";
+import AlertText from "snet-dapp-components/components/AlertText";
+import InlineLoader from "snet-dapp-components/components/InlineLoader";
+import StyledButton from "snet-dapp-components/components/StyledButton";
 import { isValidNumber } from "../../../utility/Validation";
 import { parseError } from "../../../utility/ErrorHandling";
 import { useStyles } from "./styles";
-import AlertText from "../../common/AlertText";
-import InlineLoader from "../../common/InlineLoader";
 import Routes from "../../../utility/constants/Routes";
 import { useNavigate } from "react-router-dom";
 

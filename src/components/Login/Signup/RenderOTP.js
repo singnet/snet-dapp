@@ -3,8 +3,8 @@ import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import { withStyles } from "@mui/styles";
 
-import StyledButton from "../../common/StyledButton";
-import AlertBox from "../../common/AlertBox";
+import StyledButton from "snet-dapp-components/components/StyledButton";
+import AlertBox from "snet-dapp-components/components/AlertBox";
 import { useStyles } from "./styles";
 
 const RenderOTP = ({ classes, otp, handleOTP, handleResendOTP, handleConfirmSignup, alert }) => {

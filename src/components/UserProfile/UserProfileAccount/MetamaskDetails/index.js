@@ -10,9 +10,9 @@ import { cogsToAgi, txnTypes, agiToCogs } from "../../../../utility/PricingStrat
 import { loaderActions, sdkActions } from "../../../../Redux/actionCreators";
 import { LoaderContent } from "../../../../utility/constants/LoaderContent";
 import { useStyles } from "./styles";
-import StyledTextField from "../../../common/StyledTextField";
-import StyledButton from "../../../common/StyledButton";
-import AlertBox, { alertTypes } from "../../../common/AlertBox";
+import StyledTextField from "snet-dapp-components/components/StyledTextField";
+import StyledButton from "snet-dapp-components/components/StyledButton";
+import AlertBox, { alertTypes } from "snet-dapp-components/components/AlertBox";
 import { Networks } from "../../../../config/Networks";
 
 class MetamaskDetails extends Component {

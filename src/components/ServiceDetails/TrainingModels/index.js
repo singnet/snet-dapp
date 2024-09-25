@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 import Grid from "@mui/material/Grid";
 import { withStyles } from "@mui/styles";
-import StyledButton from "../../common/StyledButton";
+import StyledButton from "snet-dapp-components/components/StyledButton";
 
 import { useStyles } from "./styles";
 import ExistingModel from "../ExistingModel";

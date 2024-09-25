@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 
-import ProgressBar from "../../../common/ProgressBar";
+import ProgressBar from "snet-dapp-components/components/ProgressBar";
 
 const CreateModelContainer = ({ item, active, activeSection, progressText, key }) => {
   if (!active) {

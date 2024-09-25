@@ -1,9 +1,8 @@
 import React from "react";
 import { withStyles } from "@mui/styles";
-
-import UserProfileCard from "../../common/UserProfileCard";
+import StyledButton from "snet-dapp-components/components/StyledButton";
+import UserProfileCard from "snet-dapp-components/components/UserProfileCard";
 import { useStyles } from "./styles";
-import StyledButton from "../../common/StyledButton";
 
 const UserProfileHeader = ({ classes, nickname, email }) => {
   return (

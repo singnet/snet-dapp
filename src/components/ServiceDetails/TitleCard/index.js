@@ -8,7 +8,7 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import CardImg from "../../../assets/images/SnetDefaultServiceImage.png";
 import { useStyles } from "./styles";
-import RatingsCount from "../../common/RatingsCount";
+import RatingsCount from "snet-dapp-components/components/RatingsCount";
 import SingularityLogo from "../../../assets/images/avatar.png";
 import Typography from "@mui/material/Typography";
 import { HERO_IMG } from "../";

@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 
-import ProgressBar from "../common/ProgressBar";
+import ProgressBar from "snet-dapp-components/components/ProgressBar";
 
 const OnboardingContainer = ({ item, classes, active, activeSection, progressText }) => {
   if (!active) {

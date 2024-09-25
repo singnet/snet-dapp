@@ -1,8 +1,8 @@
 import React from "react";
 import { withStyles } from "@mui/styles";
 
-import AlertBox from "../../../../../../../../common/AlertBox";
-import StyledButton from "../../../../../../../../common/StyledButton";
+import AlertBox from "snet-dapp-components/components/AlertBox";
+import StyledButton from "snet-dapp-components/components/StyledButton";
 import { useStyles } from "./styles";
 
 const generateSupportMail = (orderId, errorMsg) => {

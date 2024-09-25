@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import AlertBox, { alertTypes } from "../../../common/AlertBox";
+import AlertBox, { alertTypes } from "snet-dapp-components/components/AlertBox";
 class ThirdPartyServiceErrorBoundary extends Component {
   state = {
     error: undefined,

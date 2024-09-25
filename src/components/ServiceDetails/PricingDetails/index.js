@@ -3,7 +3,7 @@ import Grid from "@mui/material/Grid";
 import { withStyles } from "@mui/styles";
 import InfoIcon from "@mui/icons-material/Info";
 
-import StyledButton from "../../common/StyledButton";
+import StyledButton from "snet-dapp-components/components/StyledButton";
 import { useStyles } from "./styles";
 import Price from "./Price";
 import { PricingStrategy } from "../../../utility/PricingStrategy";

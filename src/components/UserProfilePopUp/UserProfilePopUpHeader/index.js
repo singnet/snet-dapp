@@ -2,7 +2,7 @@ import React from "react";
 import LinearProgress from "@mui/material/LinearProgress";
 import { withStyles } from "@mui/styles";
 
-import UserProfileCard from "../../common/UserProfileCard";
+import UserProfileCard from "snet-dapp-components/components/UserProfileCard";
 import { useStyles } from "./styles";
 
 const UserProfilePopUpHeader = ({ classes, nickName, remainingCredits, usedCredits, onClose, email }) => {

@@ -1,6 +1,6 @@
 import React from "react";
 
-import AlertBox from "../../../../../common/AlertBox";
+import AlertBox from "snet-dapp-components/components/AlertBox";
 
 const FreeApiCalls = ({ classes, freeCallsRemaining }) => {
   return (

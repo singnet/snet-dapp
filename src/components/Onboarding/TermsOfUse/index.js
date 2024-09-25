@@ -3,13 +3,12 @@ import { withStyles } from "@mui/styles";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { useDispatch } from "react-redux";
-
-import StyledButton from "../../common/StyledButton";
+import AlertBox, { alertTypes } from "snet-dapp-components/components/AlertBox";
+import StyledButton from "snet-dapp-components/components/StyledButton";
 import { useStyles } from "./styles";
 import PrivacyTerms from "./PrivacyTerms";
 import { userActions } from "../../../Redux/actionCreators";
 import Routes from "../../../utility/constants/Routes";
-import AlertBox, { alertTypes } from "../../common/AlertBox";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const TermsOfUse = ({ classes }) => {

@@ -7,15 +7,14 @@ import { connect } from "react-redux";
 import Web3 from "web3";
 import isEmpty from "lodash/isEmpty";
 import MPEContract from "singularitynet-platform-contracts/networks/MultiPartyEscrow";
-
 import PaymentInfoCard from "../../../../PaymentInfoCard";
-import StyledDropdown from "../../../../../../../../common/StyledDropdown";
-import StyledButton from "../../../../../../../../common/StyledButton";
+import AlertBox, { alertTypes } from "snet-dapp-components/components/AlertBox";
+import StyledDropdown from "snet-dapp-components/components/StyledDropdown";
+import StyledButton from "snet-dapp-components/components/StyledButton";
 import SingularityLogo from "../../../../../../../../../assets/images/avatar.png";
 import { useStyles } from "./styles";
 import snetValidator from "../../../../../../../../../utility/snetValidator";
 import { paymentGatewayConstraints } from "./validationConstraints";
-import AlertBox, { alertTypes } from "../../../../../../../../common/AlertBox";
 import { tenYearBlockOffset } from "../../../../../../../../../utility/PricingStrategy";
 import { groupInfo, currentServiceDetails } from "../../../../../../../../../Redux/reducers/ServiceDetailsReducer";
 import { decodeGroupId } from "../../../../../../../../../utility/sdk";

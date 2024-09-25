@@ -10,9 +10,8 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import CloseIcon from "@mui/icons-material/Close";
-
+import AlertBox from "snet-dapp-components/components/AlertBox";
 import { useStyles } from "./styles";
-import AlertBox from "../../../common/AlertBox";
 
 const ContactTypes = {
   SUPPORT: "support",

@@ -1,6 +1,6 @@
 import React from "react";
 import { withStyles } from "@mui/styles";
-import StyledButton from "../../common/StyledButton";
+import StyledButton from "snet-dapp-components/components/StyledButton";
 import MetamaskImg from "../../../assets/images/Metamask.png";
 import { useStyles } from "./styles";
 

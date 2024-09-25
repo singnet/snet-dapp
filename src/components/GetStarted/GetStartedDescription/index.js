@@ -2,7 +2,7 @@ import React from "react";
 import { withStyles } from "@mui/styles";
 
 import Routes from "../../../utility/constants/Routes";
-import StyledButton from "../../common/StyledButton";
+import StyledButton from "snet-dapp-components/components/StyledButton";
 import { useStyles } from "./styles";
 import { useNavigate } from "react-router-dom";
 

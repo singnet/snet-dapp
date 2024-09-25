@@ -14,7 +14,7 @@ import Nodejs from "./Nodejs";
 import ProjectDetails from "../ProjectDetails";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../../Redux/actionCreators";
-import AlertBox, { alertTypes } from "../../common/AlertBox";
+import AlertBox, { alertTypes } from "snet-dapp-components/components/AlertBox";
 
 const web3 = new Web3(process.env.REACT_APP_WEB3_PROVIDER, null, {});
 const downloadTokenFileName = "authToken.txt";

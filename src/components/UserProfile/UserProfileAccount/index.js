@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Grid from "@mui/material/Grid";
 import { withStyles } from "@mui/styles";
-import StyledDropdown from "../../common/StyledDropdown";
+import StyledDropdown from "snet-dapp-components/components/StyledDropdown";
 import { useStyles } from "./styles";
 import {
   fetchAvailableUserWallets,
@@ -12,7 +12,7 @@ import {
 import { userActions, sdkActions } from "../../../Redux/actionCreators";
 import MetamaskDetails from "./MetamaskDetails";
 import ProviderBalance from "./ProviderBalance";
-import AlertBox, { alertTypes } from "../../common/AlertBox";
+import AlertBox, { alertTypes } from "snet-dapp-components/components/AlertBox";
 import ProvidersLinkedCount from "./ProvidersLinkedCount";
 import { startAppLoader, stopAppLoader } from "../../../Redux/actionCreators/LoaderActions";
 import { LoaderContent } from "../../../utility/constants/LoaderContent";

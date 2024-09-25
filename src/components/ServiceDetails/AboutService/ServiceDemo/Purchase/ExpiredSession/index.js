@@ -3,11 +3,10 @@ import { withStyles } from "@mui/styles";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import Typography from "@mui/material/Typography";
 import { connect } from "react-redux";
-
-import AlertBox, { alertTypes } from "../../../../../common/AlertBox";
+import AlertBox, { alertTypes } from "snet-dapp-components/components/AlertBox";
+import StyledDropdown from "snet-dapp-components/components/StyledDropdown";
 import { useStyles } from "./styles";
 import { walletTypes } from "../../../../../../Redux/actionCreators/UserActions";
-import StyledDropdown from "../../../../../common/StyledDropdown";
 import PaymentInfoCard from "../PaymentInfoCard";
 import isEmpty from "lodash/isEmpty";
 import { userActions, sdkActions, loaderActions } from "../../../../../../Redux/actionCreators";

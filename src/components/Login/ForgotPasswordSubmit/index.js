@@ -6,9 +6,9 @@ import Grid from "@mui/material/Grid";
 
 import Routes from "../../../utility/constants/Routes";
 import { userActions, errorActions } from "../../../Redux/actionCreators";
-import AlertBox from "../../common/AlertBox";
+import AlertBox from "snet-dapp-components/components/AlertBox";
 import { useStyles } from "./styles";
-import StyledButton from "../../common/StyledButton";
+import StyledButton from "snet-dapp-components/components/StyledButton";
 import snetValidator from "../../../utility/snetValidator";
 import { forgotPassworSubmitConstraints } from "./validationConstraints";
 

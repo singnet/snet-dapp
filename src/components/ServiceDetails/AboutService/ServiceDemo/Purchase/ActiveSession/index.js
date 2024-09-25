@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { withStyles } from "@mui/styles";
 import Tooltip from "@mui/material/Tooltip";
 
-import AlertBox from "../../../../../common/AlertBox";
-import StyledButton from "../../../../../common/StyledButton";
-import StyledLinearProgress from "../../../../../common/StyledLinearProgress";
+import AlertBox from "snet-dapp-components/components/AlertBox";
+import StyledButton from "snet-dapp-components/components/StyledButton";
+import StyledLinearProgress from "snet-dapp-components/components/StyledLinearProgress";
 import { useStyles } from "./styles";
 
 const ActiveSession = ({ classes, freeCallsRemaining, handleComplete, freeCallsAllowed, isServiceAvailable }) => {

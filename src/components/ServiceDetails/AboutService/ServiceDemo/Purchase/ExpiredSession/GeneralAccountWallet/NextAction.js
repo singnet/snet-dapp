@@ -1,7 +1,7 @@
 import React from "react";
 import isEmpty from "lodash/isEmpty";
 
-import StyledButton from "../../../../../../common/StyledButton";
+import StyledButton from "snet-dapp-components/components/StyledButton";
 
 const NextAction = (props) => {
   const { channel, setShowCreateWalletPopup, setShowLinkProvider, handleContinue, anyPendingTxn, anyGeneralWallet } =

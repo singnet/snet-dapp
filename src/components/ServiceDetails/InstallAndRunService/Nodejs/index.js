@@ -2,8 +2,8 @@ import React from "react";
 import { withStyles } from "@mui/styles";
 import { useSelector } from "react-redux";
 import { useStyles } from "../styles";
-import CodeSnippet from "../../../common/CodeSnippet";
-import StyledButton from "../../../common/StyledButton";
+import CodeSnippet from "snet-dapp-components/components/CodeSnippet";
+import StyledButton from "snet-dapp-components/components/StyledButton";
 import DownloadMedia from "../../../../utility/MediaHelper";
 
 const Nodejs = ({ classes, description }) => {

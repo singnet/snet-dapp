@@ -3,9 +3,9 @@ import { withStyles } from "@mui/styles";
 import Typography from "@mui/material/Typography";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
-import AlertText from "../../../../../../../../common/AlertText";
-import AlertBox, { alertTypes } from "../../../../../../../../common/AlertBox";
-import StyledButton from "../../../../../../../../common/StyledButton";
+import AlertText from "snet-dapp-components/components/AlertText";
+import AlertBox, { alertTypes } from "snet-dapp-components/components/AlertBox";
+import StyledButton from "snet-dapp-components/components/StyledButton";
 import { useStyles } from "./styles";
 
 const PrivateKey = ({ classes, privateKey, handleNextSection }) => {

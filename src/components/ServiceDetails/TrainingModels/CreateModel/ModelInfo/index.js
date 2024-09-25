@@ -4,9 +4,10 @@ import Switch from "@mui/material/Switch";
 import { withStyles } from "@mui/styles";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { WebServiceClient as ServiceClient } from "snet-sdk-web";
-import StyledDropdown from "../../../../common/StyledDropdown";
-import StyledTextField from "../../../../common/StyledTextField";
-import StyledButton from "../../../../common/StyledButton";
+import AlertBox, { alertTypes } from "snet-dapp-components/components/AlertBox";
+import StyledDropdown from "snet-dapp-components/components/StyledDropdown";
+import StyledTextField from "snet-dapp-components/components/StyledTextField";
+import StyledButton from "snet-dapp-components/components/StyledButton";
 import AddMoreEthAddress from "./AddMoreEthAddress";
 import { useStyles } from "./styles";
 import { connect, useDispatch } from "react-redux";
@@ -14,7 +15,6 @@ import { loaderActions, userActions, sdkActions } from "../../../../../Redux/act
 import { LoaderContent } from "../../../../../utility/constants/LoaderContent";
 // import { walletTypes } from "../../../../../Redux/actionCreators/UserActions";
 import { currentServiceDetails, groupInfo } from "../../../../../Redux/reducers/ServiceDetailsReducer";
-import AlertBox, { alertTypes } from "../../../../common/AlertBox";
 
 const ModelInfo = ({
   classes,

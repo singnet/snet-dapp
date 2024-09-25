@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { withStyles } from "@mui/styles";
 import Upload from "./Upload";
-import StyledButton from "../../../../common/StyledButton";
+import StyledButton from "snet-dapp-components/components/StyledButton";
 import fileDownload from "../../../../../assets/images/fileDownload.svg";
 import { useStyles } from "./styles";
 

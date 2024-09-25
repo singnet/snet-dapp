@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 
-import ProgressBar from "../../../../../../common/ProgressBar";
+import ProgressBar from "snet-dapp-components/components/ProgressBar";
 
 const PopupDetails = ({ item, active, activeSection, progressText }) => {
   if (!active) {

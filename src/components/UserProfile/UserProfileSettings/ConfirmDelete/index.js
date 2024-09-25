@@ -14,9 +14,9 @@ import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
 
 import { useStyles } from "./styles";
-import StyledButton from "../../../common/StyledButton";
-import BulletPoint from "../../../common/BulletPoint";
-import AlertBox, { alertTypes } from "../../../common/AlertBox";
+import StyledButton from "snet-dapp-components/components/StyledButton";
+import BulletPoint from "snet-dapp-components/components/BulletPoint";
+import AlertBox, { alertTypes } from "snet-dapp-components/components/AlertBox";
 
 const warningMessage = [
   "Your wallet or any wallets you have used will remain in your possession. We do not have any access to your wallet and cannot help you recover wallet keys.",

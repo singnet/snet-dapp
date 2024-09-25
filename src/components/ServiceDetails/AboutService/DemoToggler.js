@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { withStyles } from "@mui/styles";
 
-import StyledButton from "../../common/StyledButton";
+import StyledButton from "snet-dapp-components/components/StyledButton";
 import ServiceDemo from "./ServiceDemo";
 import Routes from "../../../utility/constants/Routes";
 import serviceOfflineImg from "../../../assets/images/Artboard.png";

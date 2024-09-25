@@ -3,14 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { withStyles } from "@mui/styles";
 import { WebServiceClient as ServiceClient } from "snet-sdk-web";
 import ModelDetails from "./ModelDetails";
-import StyledButton from "../../common/StyledButton";
+import AlertBox, { alertTypes } from "snet-dapp-components/components/AlertBox";
+import StyledButton from "snet-dapp-components/components/StyledButton";
 import { useStyles } from "./styles";
 import ConnectMetamask from "../ConnectMetamask";
 import { loaderActions, userActions, sdkActions } from "../../../Redux/actionCreators";
 import { LoaderContent } from "../../../utility/constants/LoaderContent";
 import { currentServiceDetails, groupInfo as getGroupIndo } from "../../../Redux/reducers/ServiceDetailsReducer";
 import Typography from "@mui/material/Typography";
-import AlertBox, { alertTypes } from "../../common/AlertBox";
 
 const ExistingModel = ({ classes, showReqNewModelBtn, haveANewModel, training, editModel }) => {
   const wallet = useSelector((state) => state.userReducer.wallet);

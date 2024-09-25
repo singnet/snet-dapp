@@ -9,13 +9,12 @@ import CardActions from "@mui/material/CardActions";
 import Snackbar from "@mui/material/Snackbar";
 import StarRatingComponent from "react-star-rating-component";
 import { connect } from "react-redux";
-
-import StyledTextField from "../../../../common/StyledTextField";
-import RatingsCount from "../../../../common/RatingsCount";
+import AlertBox from "snet-dapp-components/components/AlertBox";
+import StyledTextField from "snet-dapp-components/components/StyledTextField";
+import RatingsCount from "snet-dapp-components/components/RatingsCount";
+import StyledButton from "snet-dapp-components/components/StyledButton";
 import { useStyles } from "./styles";
-import StyledButton from "../../../../common/StyledButton";
 import { serviceActions } from "../../../../../Redux/actionCreators";
-import AlertBox from "../../../../common/AlertBox";
 
 const UserFeedback = ({ open, handleClose, feedback, submitFeedback, orgId, serviceId, refetchFeedback }) => {
   const [comment, setComment] = useState(feedback.comment);

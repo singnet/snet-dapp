@@ -6,7 +6,7 @@ import { useStyles } from "./styles";
 import SearchInputToggler from "./SearchInputToggler";
 import ServiceSortOptions from "./ServiceSortOptions";
 import ViewToggler from "./ViewToggler";
-import StyledDropdown from "../../../common/StyledDropdown";
+import StyledDropdown from "snet-dapp-components/components/StyledDropdown";
 import { serviceActions } from "../../../../Redux/actionCreators";
 import {
   defaultPaginationParameters,

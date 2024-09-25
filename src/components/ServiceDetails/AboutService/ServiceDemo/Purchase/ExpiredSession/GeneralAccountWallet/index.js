@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import isEmpty from "lodash/isEmpty";
 
-import StyledButton from "../../../../../../common/StyledButton";
+import StyledButton from "snet-dapp-components/components/StyledButton";
 import { useStyles } from "./styles";
 import NextAction from "./NextAction";
 import TopupWallet from "./TopupWallet";

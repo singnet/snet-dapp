@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from "react";
 import { connect } from "react-redux";
 
-import StyledDropdown from "../../../common/StyledDropdown";
+import StyledDropdown from "snet-dapp-components/components/StyledDropdown";
 import { useStyles } from "./styles";
 import { sortByCategories, defaultPaginationParameters } from "../../../../utility/constants/Pagination";
 import { serviceActions } from "../../../../Redux/actionCreators";

@@ -1,7 +1,7 @@
 import React from "react";
 import { withStyles } from "@mui/styles";
 
-import StyledTextField from "../../../../../../common/StyledTextField";
+import StyledTextField from "snet-dapp-components/components/StyledTextField";
 import { useStyles } from "./styles";
 
 const Deposit = ({ classes }) => {

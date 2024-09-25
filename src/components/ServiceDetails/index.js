@@ -14,7 +14,7 @@ import PricingDetails from "./PricingDetails";
 import StyledTabs from "./StyledTabs";
 import AboutService from "./AboutService";
 import InstallAndRunService from "./InstallAndRunService";
-import NotificationBar, { notificationBarTypes } from "../common/NotificationBar";
+import NotificationBar, { notificationBarTypes } from "snet-dapp-components/components/NotificationBar";
 
 import { sdkActions } from "../../Redux/actionCreators";
 import { fetchTrainingModel, fetchServiceDetails } from "../../Redux/actionCreators/ServiceDetailsActions";
@@ -24,15 +24,14 @@ import {
   serviceDetails as getServiceDetails,
   groupInfo as getGroupInfo,
 } from "../../Redux/reducers/ServiceDetailsReducer";
-
-import ErrorBox from "../common/ErrorBox";
+import AlertBox, { alertTypes } from "snet-dapp-components/components/AlertBox";
+import ErrorBox from "snet-dapp-components/components/ErrorBox";
 import SeoMetadata from "../common/SeoMetadata";
 import Routes from "../../utility/constants/Routes";
 import CardImg from "../../assets/images/SnetDefaultServiceImage.png";
 import TrainingModels from "./TrainingModels";
 import { WebServiceClient as ServiceClient } from "snet-sdk-web";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
-import AlertBox, { alertTypes } from "../common/AlertBox";
 
 export const HERO_IMG = "hero_image";
 

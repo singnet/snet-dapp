@@ -3,7 +3,7 @@ import React from "react";
 import { withStyles } from "@mui/styles";
 
 import { useStyles } from "../styles";
-import CodeSnippet from "../../../common/CodeSnippet";
+import CodeSnippet from "snet-dapp-components/components/CodeSnippet";
 
 const Javascript = ({ classes, description }) => {
   return (

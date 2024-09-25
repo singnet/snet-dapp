@@ -8,7 +8,7 @@ import NearMeOutlinedIcon from "@mui/icons-material/NearMeOutlined";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import StyledButton from "../../../common/StyledButton";
+import StyledButton from "snet-dapp-components/components/StyledButton";
 
 const ModelDetails = ({ classes, model, deleteModels, editModel }) => {
   const [open, setOpen] = React.useState(false);

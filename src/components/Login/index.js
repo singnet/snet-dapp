@@ -4,9 +4,8 @@ import { withStyles } from "@mui/styles";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import { useDispatch, useSelector } from "react-redux";
-
-import StyledButton from "../common/StyledButton";
-import AlertBox from "../common/AlertBox";
+import StyledButton from "snet-dapp-components/components/StyledButton";
+import AlertBox from "snet-dapp-components/components/AlertBox";
 import Routes from "../../utility/constants/Routes";
 import { useStyles } from "./styles";
 import { userActions } from "../../Redux/actionCreators";

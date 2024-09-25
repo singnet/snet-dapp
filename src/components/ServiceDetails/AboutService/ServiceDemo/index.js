@@ -8,15 +8,13 @@ import { channelInfo as getChannelInfo } from "../../../../Redux/reducers/UserRe
 import { anyPendingTxn as getAnyPendingTxn } from "../../../../Redux/reducers/PaymentReducer";
 import { serviceDetailsActions, loaderActions, userActions, paymentActions } from "../../../../Redux/actionCreators";
 import { walletTypes } from "../../../../Redux/actionCreators/UserActions";
-
-import ProgressBar from "../../../common/ProgressBar";
+import AlertBox, { alertTypes } from "snet-dapp-components/components/AlertBox";
+import ProgressBar, { ProgressStatusList } from "snet-dapp-components/components/ProgressBar";
 import { useStyles } from "./styles";
 import PurchaseToggler from "./PurchaseToggler";
 import { LoaderContent } from "../../../../utility/constants/LoaderContent";
-import AlertBox, { alertTypes } from "../../../common/AlertBox";
 import Routes from "../../../../utility/constants/Routes";
 import { initPaypalSdk } from "../../../../utility/sdk";
-import { progressTabStatus } from "../../../common/ProgressBar";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 const demoProgressStatus = {
@@ -38,11 +36,7 @@ const ServiceDemo = ({ classes, service }) => {
   const channelInfo = useSelector((state) => getChannelInfo(state));
   const anyPendingTxn = useSelector((state) => getAnyPendingTxn(state));
 
-  const [progressText, setProgressText] = useState([
-    { label: "Purchase" },
-    { label: "Configure" },
-    { label: "Results", status: undefined },
-  ]);
+  const [progressText, setProgressText] = useState(["Purchase", "Configure", "Results"]);
   const [purchaseCompleted, setPurchaseCompleted] = useState(false);
   const [isServiceExecutionComplete, setIsServiceExecutionComplete] = useState(false);
   const [alert, setAlert] = useState({});
@@ -135,7 +129,7 @@ const ServiceDemo = ({ classes, service }) => {
     setProgressText(
       progressText.map((item) => {
         if (item.label === "Results") {
-          item.status = progressTabStatus.SUCCESS;
+          item.status = ProgressStatusList.SUCCESS;
         }
         return item;
       })

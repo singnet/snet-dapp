@@ -10,7 +10,7 @@ import RenderForm from "./RenderForm";
 import RenderOTP from "./RenderOTP";
 import { userActions, loaderActions } from "../../../Redux/actionCreators";
 import { LoaderContent } from "../../../utility/constants/LoaderContent";
-import { alertTypes } from "../../common/AlertBox";
+import { alertTypes } from "snet-dapp-components/components/AlertBox";
 import { signupFormConstraints, singupOtpContraints } from "./validationConstraints";
 import snetValidator from "../../../utility/snetValidator";
 import { Helmet } from "react-helmet";

@@ -6,7 +6,7 @@ import isEmpty from "lodash/isEmpty";
 
 import { useStyles } from "./styles";
 import PurchaseAlert from "./PurchaseAlert";
-import { alertTypes } from "../../../../../../../../common/AlertBox";
+import { alertTypes } from "snet-dapp-components/components/AlertBox";
 
 class Purchase extends Component {
   state = { alert: {} };
