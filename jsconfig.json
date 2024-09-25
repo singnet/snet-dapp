@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+      "jsx": "react",
       "baseUrl": "node_modules",
       "paths": {
         "@material-ui/core/*": ["@mui/material/*"],
