@@ -14,20 +14,19 @@ This Dapp allows you to browse the list of AI services from the SingularityNET R
 
 ## Development instructions
 
-Install [Node.js and npm](https://nodejs.org/) and [yarn](https://classic.yarnpkg.com/lang/en/docs/install)
+Install [Node.js and npm](https://nodejs.org/)
 
-- node version >=18
-- yarn  version >=1.22.21
+- node version 20 || >= 22
 
 For getting dependencies:
+```
+npm install --force
+```
+or
 ```
 yarn install
 ```
 To serve the application locally and watch source files for modifications:
-```
-yarn start
-```
-or 
 ```
 npm run start
 ```
@@ -35,6 +34,7 @@ npm run start
 
 Currently the UI needed by a service to capture inputs and render the output must be provided by the service developer through [Publisher](https://publisher.singularitynet.io/). To create a Snet-dapp style user interface, a developer can use the [next repository](https://github.com/singnet/snet-dapp-components).
 
+Also you can importing components and styles from [Material UI components](https://mui.com/material-ui/all-components/) 
 
 This approach will change in the future. Work on it is in progress
 
@@ -50,7 +50,7 @@ cd snet-dapp
 ```
 Get dependencies:
 ```
-yarn install
+npm install --force
 ```
 Create the env file:
 ```

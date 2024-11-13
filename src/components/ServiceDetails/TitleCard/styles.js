@@ -89,9 +89,6 @@ export const useStyles = (theme) => ({
       margin: "0 auto",
     },
   },
-  serviceLightBox: {
-    position: "relative",
-  },
   serviceImgContainer: {
     boxSizing: "border-box",
     width: 1045,

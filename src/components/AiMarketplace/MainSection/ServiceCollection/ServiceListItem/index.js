@@ -10,9 +10,9 @@ import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 
 import { useStyles } from "./styles";
-import RatingsCount from "../../../../../common/RatingsCount";
-import CardImg from "../../../../../../assets/images/SnetDefaultServiceImage.png";
-import SingularityLogo from "../../../../../../assets/images/avatar.png";
+import RatingsCount from "../../../../common/RatingsCount";
+import CardImg from "../../../../../assets/images/SnetDefaultServiceImage.png";
+import SingularityLogo from "../../../../../assets/images/avatar.png";
 import ServiceAvailabilityToggler from "./ServiceAvailabilityToggler";
 
 const ServiceListItem = (props) => {

@@ -19,3 +19,11 @@ h2 {
   display: none !important;
 }
 /* GDPR QuantCast Notification - ends */
+
+.loader-container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

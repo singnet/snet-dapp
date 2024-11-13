@@ -94,7 +94,7 @@ const ServiceDetails = ({ classes }) => {
       dispatch(fetchServiceDetails(orgId, serviceId));
     }
     dispatch(fetchTrainingModel(orgId, serviceId));
-  }, []);
+  }, [dispatch]);
 
   const handleTabChange = (activeTab) => {
     if (window.location.href.indexOf("#demo") > -1) {

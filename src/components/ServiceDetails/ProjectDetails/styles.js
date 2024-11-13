@@ -11,6 +11,31 @@ export const useStyles = (theme) => ({
       lineHeight: "22px",
     },
   },
+  projectDetailsValue: {
+    width: "100%",
+    textAlign: "left",
+    position: "relative",
+    height: "1rem",
+    "& span": {
+      width: "100%",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      display: "-webkit-box",
+      height: "min-content",
+      "-webkit-line-clamp": 1,
+      "-webkit-box-orient": "vertical",
+      transition: "all 0.1s",
+      overflowWrap: "break-word",
+    },
+    "& span:hover": {
+      height: "min-content",
+      background: "white",
+      paddingBottom: 5,
+      "-webkit-line-clamp": 10,
+      borderRadius: 5,
+      transition: "all 0.1s",
+    },
+  },
   projectURLContainer: {
     "& > div": {
       display: "flex",

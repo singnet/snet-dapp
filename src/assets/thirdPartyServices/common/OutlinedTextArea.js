@@ -34,6 +34,7 @@ class OutlinedTextArea extends React.Component {
       onChange,
       onFocus,
       ref,
+      autoFocus = false,
     } = this.props;
 
     return (
@@ -59,6 +60,7 @@ class OutlinedTextArea extends React.Component {
           }}
         >
           <TextField
+            autoFocus={autoFocus}
             id={id}
             name={name}
             type={type}

@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useCallback, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import Grid from "@mui/material/Grid";
 import { withStyles } from "@mui/styles";
-import map from "lodash/map";
-import find from "lodash/find";
 import StyledDropdown from "../../common/StyledDropdown";
 import { useStyles } from "./styles";
 import {
@@ -18,26 +16,76 @@ import AlertBox, { alertTypes } from "../../common/AlertBox";
 import ProvidersLinkedCount from "./ProvidersLinkedCount";
 import { startAppLoader, stopAppLoader } from "../../../Redux/actionCreators/LoaderActions";
 import { LoaderContent } from "../../../utility/constants/LoaderContent";
-import { initialWallet } from "../../../Redux/reducers/UserReducer";
+import { isEmpty } from "lodash";
+import { CircularProgress } from "@mui/material";
+
+const alertSelectCurrentWallet = {
+  type: alertTypes.ERROR,
+  message: `The selected wallet address does not match the address in the current metamask account. Please select the correct account in metamask and try again.`,
+};
 
 const UserProfileAccount = ({ classes }) => {
-  const wallet = useSelector((state) => state.userReducer.wallet);
-
   const [alert, setAlert] = useState({});
   const [wallets, setWallets] = useState([]);
-  const [linkedProviders, updateLinkedProviders] = useState([]);
+  const [selectedWallet, setSelectedWallet] = useState({});
+  const [linkedProviders, setLinkedProviders] = useState([]);
   const [currentAddress, setCurrentAddress] = useState("");
   const dispatch = useDispatch();
 
+  const parseWallet = (address, type) => {
+    return { value: address, label: `${type} (${address})`, address, type };
+  };
+
+  const getWallets = useCallback(
+    async (currentAddress) => {
+      const availableWallets = await dispatch(fetchAvailableUserWallets());
+      let currentWallet = availableWallets.find(({ address }) => address === currentAddress);
+      const enhancedWallets = availableWallets.map(({ address, type }) => parseWallet(address, type));
+      if (!currentWallet) {
+        currentWallet = parseWallet(currentAddress, walletTypes.METAMASK);
+        enhancedWallets.push(currentWallet);
+      }
+      setSelectedWallet(parseWallet(currentWallet.address, currentWallet.type));
+      dispatch(userActions.updateWallet(currentWallet));
+      return enhancedWallets;
+    },
+    [dispatch]
+  );
+
   useEffect(() => {
-    const availableWallets = dispatch(fetchAvailableUserWallets());
-    const enhancedWallets = map(availableWallets, ({ address, type }) => {
-      return { address, type, value: address, label: `${type} (${address})` };
-    });
-    setWallets(enhancedWallets);
-    const sdk = dispatch(sdkActions.getSdk());
-    setCurrentAddress(sdk.account.getAddress());
-  }, []);
+    const fetchWallets = async () => {
+      if (!window?.ethereum) {
+        setAlert({ type: alertTypes.ERROR, message: `Can't find Metamask` });
+      }
+      try {
+        const sdk = await dispatch(sdkActions.getSdk());
+        const currentAddress = await sdk.account.getAddress();
+        const wallets = await getWallets(currentAddress);
+        setCurrentAddress(currentAddress);
+        setWallets(wallets);
+      } catch (error) {
+        setCurrentAddress("");
+        setWallets([]);
+      }
+    };
+    fetchWallets();
+    // eslint
+  }, [dispatch, getWallets]);
+
+  useEffect(() => {
+    const getProviders = async () => {
+      if (!selectedWallet?.address) {
+        return;
+      }
+
+      dispatch(startAppLoader(LoaderContent.FETCH_LINKED_PROVIDERS));
+      const organizations = await fetchWalletLinkedProviders(selectedWallet.address);
+      setLinkedProviders(organizations);
+      dispatch(stopAppLoader());
+    };
+
+    getProviders();
+  }, [selectedWallet, dispatch]);
 
   const isSameMetaMaskAddress = (address) => {
     if (currentAddress && address) {
@@ -46,44 +94,28 @@ const UserProfileAccount = ({ classes }) => {
     return false;
   };
 
-  const handleWalletTypeChange = async (event) => {
+  const handleWalletTypeChange = (event) => {
     setAlert({});
     const { value: selectedValue } = event.target;
-    const selectedWallet = find(wallets, ({ value }) => selectedValue === value);
-    if (!selectedWallet) {
-      dispatch(userActions.updateWallet(initialWallet));
-      return;
-    }
-
-    dispatch(startAppLoader(LoaderContent.FETCH_LINKED_PROVIDERS));
-    const organizations = await fetchWalletLinkedProviders(selectedWallet.address);
-    dispatch(stopAppLoader());
-    updateLinkedProviders(organizations);
-    dispatch(userActions.updateWallet(selectedWallet));
-
-    if (selectedWallet.type === walletTypes.METAMASK) {
-      try {
-        if (isSameMetaMaskAddress(selectedWallet.address)) {
-          return;
-        }
-        if (!isSameMetaMaskAddress(selectedWallet.address)) {
-          setAlert({
-            type: alertTypes.ERROR,
-            message: `The selected wallet address does not match the address in the current metamask account. Please select the correct account in metamask and try again.`,
-          });
-        } else {
-          setAlert({ type: alertTypes.ERROR, message: `Unable to fetch Metamask address. Please try again` });
-        }
-      } catch (error) {
-        console.log(error);
-        setAlert({ type: alertTypes.ERROR, message: `Something went wrong. Please try again` });
-      }
-    }
+    const selectedWallet = wallets.find(({ value }) => selectedValue === value);
+    setSelectedWallet(selectedWallet);
   };
 
   const walletDetails = {
-    [walletTypes.METAMASK]: isSameMetaMaskAddress(wallet.address) ? <MetamaskDetails /> : undefined,
+    [walletTypes.METAMASK]: isSameMetaMaskAddress(selectedWallet.address) ? (
+      <MetamaskDetails />
+    ) : (
+      <AlertBox {...alertSelectCurrentWallet} />
+    ),
   };
+
+  if (isEmpty(selectedWallet)) {
+    return (
+      <div className={classes.loaderContainer}>
+        <CircularProgress />
+      </div>
+    );
+  }
 
   return (
     <Grid container className={classes.accountMainContainer}>
@@ -92,16 +124,11 @@ const UserProfileAccount = ({ classes }) => {
         <div className={classes.accountWrapper}>
           <div className={classes.dropDown}>
             <span className={classes.dropDownTitle}>Wallet</span>
-            <StyledDropdown
-              labelTxt="Select a Wallet"
-              list={wallets}
-              value={wallet.value}
-              onChange={handleWalletTypeChange}
-            />
+            <StyledDropdown list={wallets} value={selectedWallet.value} onChange={handleWalletTypeChange} />
           </div>
-          {walletDetails[wallet.type]}
+          {walletDetails[selectedWallet.type]}
           <AlertBox type={alert.type} message={alert.message} />
-          {wallet.address && <ProvidersLinkedCount providerCount={linkedProviders.length} />}
+          {selectedWallet.address && <ProvidersLinkedCount providerCount={linkedProviders.length} />}
         </div>
       </Grid>
       {linkedProviders.length > 0 && (

@@ -1,10 +1,10 @@
 import React, { Fragment, useState } from "react";
 import { connect } from "react-redux";
 
-import StyledDropdown from "../../../../common/StyledDropdown";
+import StyledDropdown from "../../../common/StyledDropdown";
 import { useStyles } from "./styles";
-import { sortByCategories, defaultPaginationParameters } from "../../../../../utility/constants/Pagination";
-import { serviceActions } from "../../../../../Redux/actionCreators";
+import { sortByCategories, defaultPaginationParameters } from "../../../../utility/constants/Pagination";
+import { serviceActions } from "../../../../Redux/actionCreators";
 
 const ServiceSortOptions = ({ pagination, updatePagination, fetchService }) => {
   const [activeSortItem, setActiveSortItem] = useState("default");

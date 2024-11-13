@@ -4,6 +4,7 @@ import { withStyles } from "@mui/styles";
 import { connect } from "react-redux";
 
 import Filter from "./Filter";
+import StyledPagination from "./StyledPagination";
 import ServiceCollection from "./ServiceCollection";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../../Redux/actionCreators";
@@ -49,29 +50,22 @@ class MainSection extends Component {
       <Grid container className={classes.mainSection}>
         <Grid item xs={12} sm={12} md={12} lg={12} className={classes.filterMainContainer}>
           <Filter
-            toolbarProps={{
-              listView,
-              total_count: pagination.total_count,
-              handleSearchChange: this.handlePaginationChange,
-              toggleView: this.toggleView,
-              currentPagination: pagination,
-              currentFilter,
-              showToggler: isDesktop,
-            }}
+            listView={listView}
+            total_count={pagination.total_count}
+            handleSearchChange={this.handlePaginationChange}
+            toggleView={this.toggleView}
+            currentPagination={pagination}
+            currentFilter={currentFilter}
+            showToggler={isDesktop}
           />
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={12} className={classes.servieMainContainer}>
-          <ServiceCollection
-            cardGroupProps={{
-              data: services,
-              listView,
-            }}
-            paginationProps={{
-              limit: pagination.limit,
-              offset: pagination.offset,
-              total_count: pagination.total_count,
-              handleChange: this.handlePaginationChange,
-            }}
+          <ServiceCollection data={services} listView={listView} />
+          <StyledPagination
+            limit={pagination.limit}
+            offset={pagination.offset}
+            total_count={pagination.total_count}
+            handleChange={this.handlePaginationChange}
           />
         </Grid>
       </Grid>

@@ -11,7 +11,7 @@ export const useStyles = (theme) => ({
   },
   section: {
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "column !important",
     gap: 20,
     "@media(max-width:960px)": {
       maxWidth: "100%",

@@ -18,7 +18,7 @@ const ServiceListingHeader = ({ classes }) => {
 
   useEffect(() => {
     dispatch(uiContentActions.fetchCarousel(carousel));
-  }, [carousel]);
+  }, [carousel, dispatch]);
 
   const isMoreThanOneElement = () => {
     return carousel.length > 1;
