@@ -1,40 +1,39 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { WebServiceClient as ServiceClient } from "snet-sdk-web";
+
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import { withStyles } from "@mui/styles";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import { WebServiceClient as ServiceClient } from "snet-sdk-web";
 import StyledDropdown from "../../../../common/StyledDropdown";
 import StyledTextField from "../../../../common/StyledTextField";
 import StyledButton from "../../../../common/StyledButton";
 import AddMoreEthAddress from "./AddMoreEthAddress";
-import { useStyles } from "./styles";
-import { connect, useDispatch } from "react-redux";
-import { loaderActions, userActions, sdkActions } from "../../../../../Redux/actionCreators";
+import { loaderActions, sdkActions } from "../../../../../Redux/actionCreators"; //userActions
 import { LoaderContent } from "../../../../../utility/constants/LoaderContent";
 // import { walletTypes } from "../../../../../Redux/actionCreators/UserActions";
 import { currentServiceDetails, groupInfo } from "../../../../../Redux/reducers/ServiceDetailsReducer";
 import AlertBox, { alertTypes } from "../../../../common/AlertBox";
 
+import { withStyles } from "@mui/styles";
+import { useStyles } from "./styles";
+
+let sdk;
+
 const ModelInfo = ({
   classes,
   handleNextClick,
   training,
-  groupInfo,
-  serviceDetails,
-  startMMconnectLoader,
-  fetchAvailableUserWallets,
-  stopLoader,
-  registerWallet,
-  updateWallet,
   setModelData,
   modelDetailsOnEdit,
   cancelEditModel,
   updateModel,
   deleteModel,
 }) => {
-  const [enableAccessModel, setEnableAccessModel] = useState(
-    modelDetailsOnEdit && modelDetailsOnEdit.publicAccess === true ? true : false
+  const serviceDetails = useSelector((state) => currentServiceDetails(state));
+
+  const [enableRestrictAccessModel, setEnableRestrictAccessModel] = useState(
+    modelDetailsOnEdit && modelDetailsOnEdit.publicAccess ? true : false
   );
   const [ethAddress, setEthAddress] = useState(modelDetailsOnEdit ? modelDetailsOnEdit.addressList : []);
   const [trainingMethod, setTrainingMethod] = useState(modelDetailsOnEdit ? modelDetailsOnEdit.methodName : undefined);
@@ -43,7 +42,9 @@ const ModelInfo = ({
     modelDetailsOnEdit ? modelDetailsOnEdit.description : ""
   );
   const [alert, setAlert] = useState({});
+
   const dispatch = useDispatch();
+
   const createModel = async (sdk, address) => {
     const { org_id, service_id } = serviceDetails;
     const serviceClient = new ServiceClient(sdk, org_id, service_id, sdk._mpeContract, {}, groupInfo);
@@ -53,8 +54,8 @@ const ModelInfo = ({
       method: trainingMethod,
       serviceName,
       description: trainingModelDescription,
-      publicAccess: enableAccessModel,
-      address: !enableAccessModel ? ethAddress : [],
+      publicAccess: !enableRestrictAccessModel,
+      address: !enableRestrictAccessModel ? ethAddress : [],
     };
     const param = {
       grpcMethod: training.training_methods[0],
@@ -66,23 +67,23 @@ const ModelInfo = ({
       return await serviceClient.createModel(address, params);
     }
   };
+
   const onUpdate = () => {
     const updateModelParams = {
       trainingModelName,
       trainingModelDescription,
       ethAddress,
-      enableAccessModel,
+      enableRestrictAccessModel,
     };
     updateModel(updateModelParams);
   };
 
   const onNext = async () => {
-    const { getSdk, updateMetamaskWallet } = this.props;
     try {
-      startMMconnectLoader();
-      const sdk = await getSdk();
+      dispatch(loaderActions.startAppLoader(LoaderContent.CONNECT_METAMASK));
+      sdk = await dispatch(sdkActions.getSdk());
       const address = await sdk.account.getAddress();
-      await updateMetamaskWallet();
+      // await dispatch(userActions.updateMetamaskWallet());
       dispatch(loaderActions.startAppLoader(LoaderContent.CREATE_TRAINING_MODEL));
       const createdModelData = await createModel(sdk, address);
       const data = {
@@ -97,15 +98,16 @@ const ModelInfo = ({
         status: createdModelData?.status || "",
       };
       setModelData(data);
-      stopLoader();
+      dispatch(loaderActions.stopAppLoader());
       handleNextClick();
     } catch (error) {
       setAlert({ type: alertTypes.ERROR, message: "Unable to create model. Please try again" });
-      stopLoader();
+      dispatch(loaderActions.stopAppLoader());
     }
   };
+
   const onAccessModelSwitchChange = () => {
-    setEnableAccessModel(!enableAccessModel);
+    setEnableRestrictAccessModel(!enableRestrictAccessModel);
   };
 
   const trainingModelAccess = training?.training_methods || [];
@@ -177,17 +179,17 @@ const ModelInfo = ({
       </div>
       <div className={classes.accessModelContainer}>
         <FormControlLabel
-          label="Enable access for this model"
+          label="Enable access restriction for this model"
           control={
             <Switch
-              checked={enableAccessModel}
+              checked={enableRestrictAccessModel}
               onChange={onAccessModelSwitchChange}
               color="primary"
               className={classes.switchToggle}
             />
           }
         />
-        {!enableAccessModel ? (
+        {enableRestrictAccessModel ? (
           <div className={classes.accessModelContainer}>
             <span>Add a list of address that can access this model.</span>
             <div className={classes.ethAddressContainer}>
@@ -205,10 +207,12 @@ const ModelInfo = ({
       </div>
       {modelDetailsOnEdit ? (
         <div className={classes.editVersionBtnContainer}>
-          <StyledButton btnText="Delete" type="redBg" onClick={deleteModel} />
-          <div>
-            <StyledButton btnText="Cancel" onClick={cancelEditModel} />
+          <div className={classes.btnContainer}>
+            <StyledButton btnText="Delete" type="redBg" onClick={deleteModel} />
             <StyledButton btnText="Update" type="blue" onClick={onUpdate} />
+          </div>
+          <div>
+            <StyledButton btnText="Cancel" type="transparent" onClick={cancelEditModel} />
           </div>
         </div>
       ) : (
@@ -221,17 +225,4 @@ const ModelInfo = ({
   );
 };
 
-const mapStateToProps = (state) => ({
-  wallet: state.userReducer.wallet,
-  serviceDetails: currentServiceDetails(state),
-  groupInfo: groupInfo(state),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  startMMconnectLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.CONNECT_METAMASK)),
-  updateMetamaskWallet: () => dispatch(userActions.updateMetamaskWallet()),
-  stopLoader: () => dispatch(loaderActions.stopAppLoader()),
-  getSdk: () => dispatch(sdkActions.getSdk()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(ModelInfo));
+export default withStyles(useStyles)(ModelInfo);

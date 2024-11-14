@@ -49,27 +49,6 @@ export const useStyles = (theme) => ({
     top: theme.spacing(1),
     color: theme.palette.grey[500],
   },
-  tabsHeader: {
-    backgroundColor: "transparent",
-    color: theme.palette.text.lightShadedGray,
-    boxShadow: "none",
-    "& button": {
-      minWidth: "auto",
-      padding: 0,
-      marginRight: 40,
-      fontSize: 18,
-      textTransform: "none",
-      color: theme.palette.text.lightShadedGray,
-      fontFamily: "sans-serif",
-    },
-    "& .Mui-selected": {
-      color: theme.palette.text.primary,
-      fontWeight: 600,
-    },
-    "& .MuiTabs-indicator": {
-      backgroundColor: theme.palette.text.primary,
-    },
-  },
   header: {
     padding: "13px 25px",
     backgroundColor: theme.palette.text.offWhiteColor,

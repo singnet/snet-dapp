@@ -147,23 +147,13 @@ export const useStyles = (theme) => ({
   btnContainer: {
     marginTop: 24,
     textAlign: "center",
+    display: "flex",
+    justifyContent: "space-between",
   },
   editVersionBtnContainer: {
     marginTop: 32,
     display: "flex",
-    justifyContent: "space-between",
-    "& button": { textTransform: "capitalize" },
-    "& > button": {
-      "&:first-of-type": { backgroundColor: "#DC1616" },
-    },
-    "& div": {
-      "& button": {
-        "&:first-of-type": {
-          marginRight: 16,
-          backgroundColor: "#F8F8F8",
-          color: theme.palette.text.darkShadedGray,
-        },
-      },
-    },
+    flexDirection: "column",
+    gap: 20,
   },
 });

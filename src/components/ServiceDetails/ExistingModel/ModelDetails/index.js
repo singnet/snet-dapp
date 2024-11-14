@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { withStyles } from "@mui/styles";
 import { useStyles } from "./styles";
 import Button from "@mui/material/Button";
@@ -11,7 +11,7 @@ import Modal from "@mui/material/Modal";
 import StyledButton from "../../../common/StyledButton";
 
 const ModelDetails = ({ classes, model, deleteModels, editModel }) => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpenModal = () => setOpen(true);
   const handleCloseModal = () => setOpen(false);
 
@@ -27,6 +27,10 @@ const ModelDetails = ({ classes, model, deleteModels, editModel }) => {
   return (
     <>
       <div className={classes.modelDetailsContainer}>
+        <Button className={classes.testBtn}>
+          <NearMeOutlinedIcon />
+          <span>Inference</span>
+        </Button>
         <div className={classes.titleIdContainer}>
           <h3>{model.modelName}</h3>
           <p>
@@ -39,7 +43,7 @@ const ModelDetails = ({ classes, model, deleteModels, editModel }) => {
             <p>
               Status: <span data-status-type="Inprogress">{model.status}</span>
             </p>
-            <p className={classes.accessValue}>
+            <div className={classes.accessValue}>
               Access:
               <>
                 <span> {`limited(${model.addressList.length})`}</span>
@@ -49,7 +53,7 @@ const ModelDetails = ({ classes, model, deleteModels, editModel }) => {
                   ))}
                 </ul>
               </>
-            </p>
+            </div>
           </div>
           <p>Last update: {model.updatedDate}</p>
         </div>
@@ -58,10 +62,6 @@ const ModelDetails = ({ classes, model, deleteModels, editModel }) => {
             <Button className={classes.updateBtn} onClick={handleEditModel}>
               <EditIcon />
               <span>Edit</span>
-            </Button>
-            <Button className={classes.testBtn}>
-              <NearMeOutlinedIcon />
-              <span>Test</span>
             </Button>
           </div>
           <Button className={classes.deleteBtn} onClick={handleOpenModal}>

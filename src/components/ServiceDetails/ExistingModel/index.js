@@ -1,9 +1,9 @@
-import React, { useCallback, useState } from "react";
+import React, { Fragment, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { withStyles } from "@mui/styles";
 import { WebServiceClient as ServiceClient } from "snet-sdk-web";
 import ModelDetails from "./ModelDetails";
-import StyledButton from "../../common/StyledButton";
+// import StyledButton from "../../common/StyledButton";
 import { useStyles } from "./styles";
 import ConnectMetamask from "../ConnectMetamask";
 import { loaderActions, userActions, sdkActions } from "../../../Redux/actionCreators";
@@ -11,6 +11,7 @@ import { LoaderContent } from "../../../utility/constants/LoaderContent";
 import { currentServiceDetails, groupInfo as getGroupIndo } from "../../../Redux/reducers/ServiceDetailsReducer";
 import Typography from "@mui/material/Typography";
 import AlertBox, { alertTypes } from "../../common/AlertBox";
+import Card from "../../common/Card";
 
 const ExistingModel = ({ classes, showReqNewModelBtn, haveANewModel, training, editModel }) => {
   const wallet = useSelector((state) => state.userReducer.wallet);
@@ -76,44 +77,47 @@ const ExistingModel = ({ classes, showReqNewModelBtn, haveANewModel, training, e
     }
   };
 
-  const ModelList = useCallback(() => {
-    if (existingModels.length) {
-      return existingModels.map((model) => {
-        return (
-          <div key={model.modelId}>
-            <ModelDetails model={model} deleteModels={deleteModels} editModel={editModel} />
-          </div>
-        );
-      });
-    } else {
+  const ModelList = () => {
+    if (!existingModels.length) {
       return (
         <div className={classes.noDataFoundTxt}>
           <Typography>No data found</Typography>
         </div>
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [existingModels]);
+
+    return existingModels.map((model) => {
+      console.log("existingModel render");
+
+      return (
+        <div key={model.modelId}>
+          <ModelDetails model={model} deleteModels={deleteModels} editModel={editModel} />
+        </div>
+      );
+    });
+  };
 
   return (
-    <div className={classes.existingModelContainer}>
-      <h2>Existing Model</h2>
-      {metamaskConnected ? (
-        <>
+    <Card
+      header="Existing Model"
+      children={
+        metamaskConnected ? (
+          // <Fragment>
           <ModelList />
-          {showReqNewModelBtn && haveANewModel && (
-            <div className={classes.btnContainer}>
-              <StyledButton btnText="request a new model" />
-            </div>
-          )}
-        </>
-      ) : (
-        <>
-          <ConnectMetamask handleConnectMM={handleConnectMM} />
-          <AlertBox type={alert.type} message={alert.message} />
-        </>
-      )}
-    </div>
+        ) : (
+          //   {showReqNewModelBtn && haveANewModel && (
+          //     <div className={classes.btnContainer}>
+          //       <StyledButton btnText="request a new model" />
+          //     </div>
+          //   )}
+          // </Fragment>
+          <Fragment>
+            <ConnectMetamask handleConnectMM={handleConnectMM} />
+            <AlertBox type={alert.type} message={alert.message} />
+          </Fragment>
+        )
+      }
+    />
   );
 };
 

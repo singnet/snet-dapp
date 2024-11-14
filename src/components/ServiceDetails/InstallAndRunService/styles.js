@@ -12,26 +12,6 @@ export const useStyles = (theme) => ({
     paddingLeft: 20,
     paddingRight: 20,
   },
-  installAndRunContainer: {
-    paddingTop: 11,
-    marginBottom: 25,
-    borderTopWidth: 1,
-    borderTopStyle: "solid",
-    borderTopColor: theme.palette.text.verticalTabLeftBorder,
-    "& h2": {
-      padding: "12px 22px",
-      borderBottomWidth: 1,
-      borderBottomStyle: "solid",
-      borderBottomColor: theme.palette.text.gray1,
-      margin: 0,
-      color: theme.palette.text.darkShadedGray,
-      fontSize: 20,
-      fontWeight: 400,
-    },
-    "& .ProjectDetails-projectDetailsContainer-415": {
-      "& h2": { marginBottom: 20 },
-    },
-  },
   infoIcon: {
     paddingRight: 12,
     color: theme.palette.text.lightGray,
@@ -39,6 +19,9 @@ export const useStyles = (theme) => ({
     verticalAlign: "sub",
   },
   overViewContainer: {
+    display: "flex",
+    gap: 25,
+    flexDirection: "column",
     "& ul": {
       margin: "20px 0 0",
       padding: "0 22px",
@@ -61,9 +44,6 @@ export const useStyles = (theme) => ({
       color: theme.palette.text.lightShadedGray,
       fontSize: 16,
       "@media(max-width:800px)": { paddingLeft: 0 },
-    },
-    "& > div": {
-      "&:not(:first-of-type)": { marginTop: 25 },
     },
   },
   integrationSetupContainer: {
@@ -152,5 +132,9 @@ export const useStyles = (theme) => ({
       letterSpacing: 0.25,
       lineHeight: "20px",
     },
+  },
+  btnContainer: {
+    display: "flex",
+    gap: 20,
   },
 });

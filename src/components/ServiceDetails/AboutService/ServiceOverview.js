@@ -4,6 +4,7 @@ import parseHtml from "html-react-parser";
 
 import { useStyles } from "./styles";
 import Tags from "../../common/Tags";
+import Card from "../../common/Card";
 
 const ServiceOverview = ({ classes, description, tags }) => {
   const parseDescription = (description) => {
@@ -26,11 +27,16 @@ const ServiceOverview = ({ classes, description, tags }) => {
   };
 
   return (
-    <>
-      {renderSandboxInfo()}
-      <p className={classes.description}>{parseDescription(description)}</p>
-      <Tags tags={tags} />
-    </>
+    <Card
+      header="Overview"
+      children={
+        <>
+          {renderSandboxInfo()}
+          <p className={classes.description}>{parseDescription(description)}</p>
+          <Tags tags={tags} />
+        </>
+      }
+    />
   );
 };
 

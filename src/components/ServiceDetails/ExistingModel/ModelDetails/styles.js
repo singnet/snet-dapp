@@ -115,7 +115,9 @@ export const useStyles = (theme) => ({
     "@media(max-width: 600px)": { width: "100%" },
   },
   deleteModalActions: {
-    textAlign: "right",
+    display: "flex",
+    justifyContent: "end",
+    gap: 15,
     "& button": {
       textTransform: "initial",
       letterSpacing: 1.3,

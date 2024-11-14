@@ -1,14 +1,4 @@
 export const useStyles = (theme) => ({
-  aboutContainer: {
-    padding: "15px 0 64px",
-    "& h2": {
-      padding: 0,
-      margin: 0,
-      color: theme.palette.text.darkShadedGray,
-      fontSize: 20,
-      fontWeight: 400,
-    },
-  },
   section: {
     display: "flex",
     flexDirection: "column !important",
@@ -25,56 +15,7 @@ export const useStyles = (theme) => ({
     letterSpacing: "0.25px",
     lineHeight: "20px",
   },
-  overViewContainer: {
-    boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
-    backgroundColor: theme.palette.text.white,
-    borderRadius: 4,
-    paddingBottom: 20,
-    "& p": {
-      padding: "15px 22px 0",
-      margin: 0,
-      fontSize: 14,
-      color: theme.palette.text.mediumShadeGray,
-      letterSpacing: "0.25px",
-      lineHeight: "20px",
-    },
-    "& strong": {
-      padding: "15px 22px 0",
-    },
-    "& h4": {
-      margin: "30px 0 0",
-      color: theme.palette.text.mediumShadeGray,
-      fontSize: 18,
-    },
-    "& ul": {
-      margin: "20px 0 0",
-      padding: "0 22px",
-      display: "flex",
-      "& div": {
-        "&:last-of-type": { marginLeft: "26%" },
-      },
-      "& li": {
-        display: "flex",
-        color: theme.palette.text.mediumShadeGray,
-        fontSize: 14,
-        lineHeight: "24px",
-        letterSpacing: "0.25px",
-        listStyle: "none",
-      },
-    },
-    "& h5": {
-      margin: "40px 45px 0 0",
-      display: "inline-block",
-      color: theme.palette.text.lightShadedGray,
-      fontSize: 16,
-      "@media(max-width:800px)": { paddingLeft: 0 },
-    },
-  },
   demoContainer: {
-    marginTop: 25,
-    boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
-    borderRadius: 4,
-    backgroundColor: theme.palette.text.white,
     "& > div": {
       padding: "43px 0",
       textAlign: "center",
@@ -95,11 +36,6 @@ export const useStyles = (theme) => ({
       fontSize: 16,
       "&:hover": { textDecoration: "underline" },
     },
-  },
-  creatorDetailsContainer: {
-    boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
-    borderRadius: 4,
-    backgroundColor: theme.palette.text.white,
   },
   companyInfo: {
     paddingLeft: 22,
@@ -178,11 +114,6 @@ export const useStyles = (theme) => ({
   },
   contributors: {
     "& p": { marginLeft: "30px !important" },
-  },
-  serviceOfflineContainer: {
-    boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
-    borderRadius: 4,
-    backgroundColor: theme.palette.text.white,
   },
   imgContainer: {
     width: 260,

@@ -7,6 +7,13 @@ export const useStyles = (theme) => ({
   cardHeaderContainer: {
     padding: 15,
     borderBottom: `solid 1px #E2E2E2`,
+    "& h2": {
+      padding: 0,
+      margin: 0,
+      color: theme.palette.text.darkShadedGray,
+      fontSize: 20,
+      fontWeight: 400,
+    },
   },
   cardContentContainer: {
     padding: "20px 15px",
