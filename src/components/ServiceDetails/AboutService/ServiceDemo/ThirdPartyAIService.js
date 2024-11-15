@@ -9,6 +9,7 @@ import CompletedActions from "./CompletedActions";
 import { createServiceClient, callTypes } from "../../../../utility/sdk";
 import ThirdPartyServiceErrorBoundary from "./ThirdPartyServiceErrorBoundary";
 import { channelInfo } from "../../../../Redux/reducers/UserReducer";
+import { isEmpty } from "lodash";
 
 class ThirdPartyAIService extends Component {
   state = {
@@ -53,16 +54,32 @@ class ThirdPartyAIService extends Component {
     this.setState({ feedback: { comment: feedback.data[0].comment[0], rating: feedback.data[0].rating } });
   };
 
+  getModelsIds() {
+    const modelsList = this.props.modelsList;
+
+    if (isEmpty(modelsList)) {
+      return [];
+    }
+    return modelsList.map((model) => {
+      return {
+        value: model.modelId,
+        label: model.modelName,
+      };
+    });
+  }
+
   render() {
     const { loading } = this.state;
     if (loading) {
       return null;
     }
 
-    const { org_id, service_id, classes, stopLoader, isServiceExecutionComplete, handleResetAndRun } = this.props;
+    const { selectedModelId, org_id, service_id, classes, stopLoader, isServiceExecutionComplete, handleResetAndRun } =
+      this.props;
     const { feedback } = this.state;
     const { serviceClient } = this;
-    const AIServiceCustomComponent = thirdPartyCustomUIComponents.componentFor("snet", "example_service"); //org_id, service_id);
+    const AIServiceCustomComponent = thirdPartyCustomUIComponents.componentFor(org_id, service_id);
+    const modelsIds = this.getModelsIds();
 
     return (
       <div className={classes.serviceDetailsTab}>
@@ -72,7 +89,8 @@ class ThirdPartyAIService extends Component {
               serviceClient={serviceClient}
               isComplete={isServiceExecutionComplete}
               sliderWidth="550px"
-              trainigModelId={"model 1"}
+              modelsIds={modelsIds}
+              selectedModelId={selectedModelId}
             />
           </ThirdPartyServiceErrorBoundary>
         </Suspense>
@@ -90,6 +108,8 @@ class ThirdPartyAIService extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  selectedModelId: state.serviceTrainingReducer.currentModel.modelId,
+  modelsList: state.serviceTrainingReducer.modelsList,
   isComplete: state.serviceReducer.serviceMethodExecution.isComplete,
   email: state.userReducer.email,
   wallet: state.userReducer.wallet,

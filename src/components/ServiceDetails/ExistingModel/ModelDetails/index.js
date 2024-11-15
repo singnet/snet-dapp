@@ -33,50 +33,53 @@ const ModelDetails = ({ classes, openEditModel, model, address }) => {
     openEditModel();
   };
 
+  const handleSetModel = () => {
+    dispatch(setCurrentModelDetails(model));
+  };
+
   return (
     <>
       <div className={classes.modelDetailsContainer}>
-        <Button className={classes.testBtn}>
-          <NearMeOutlinedIcon />
-          <span>Inference</span>
-        </Button>
-        <div className={classes.titleIdContainer}>
-          <h3>{model.modelName}</h3>
-          <p>
-            Model id: <span>{model.modelId}</span>
-          </p>
-        </div>
-        <p>{model.description}</p>
-        <div className={classes.statusAccessLastUpdateContainer}>
-          <div>
-            <p>
-              Status: <span data-status-type="Inprogress">{model.status}</span>
-            </p>
-            <div className={classes.accessValue}>
-              Access:
-              <>
-                <span> {`limited(${model.addressList.length})`}</span>
-                <ul>
+        <div className={classes.modelDetails}>
+          <div className={classes.titleIdContainer}>
+            <h2>{model.modelName}</h2>
+            <h3>
+              Model id: <span>{model.modelId}</span>
+            </h3>
+          </div>
+          <div className={classes.descriptionContainer}>{model.description}</div>
+          <div className={classes.statusAccessLastUpdateContainer}>
+            <div className={classes.additionalInfoContainer}>
+              <div className={classes.statusValueContainer}>
+                Status: <span data-status-type={model.status}>{model.status}</span>
+              </div>
+              <div className={classes.accessValueContainer}>
+                <span>Access: limited({model.addressList.length})</span>
+                <ul className={classes.accessValue}>
                   {model.addressList.map((address) => (
                     <li key={address}>{address}</li>
                   ))}
                 </ul>
-              </>
+              </div>
             </div>
+            <p>Last update: {model.updatedDate}</p>
           </div>
-          <p>Last update: {model.updatedDate}</p>
         </div>
         <div className={classes.actionButtons}>
+          <Button className={classes.testBtn} onClick={handleSetModel}>
+            <NearMeOutlinedIcon />
+            <span>Inference</span>
+          </Button>
           <div>
             <Button className={classes.updateBtn} onClick={handleEditModel}>
               <EditIcon />
               <span>Edit</span>
             </Button>
+            <Button className={classes.deleteBtn} onClick={handleOpenModal}>
+              <DeleteIcon />
+              <span>Delete</span>
+            </Button>
           </div>
-          <Button className={classes.deleteBtn} onClick={handleOpenModal}>
-            <DeleteIcon />
-            <span>Delete</span>
-          </Button>
         </div>
       </div>
       <Modal
