@@ -59,7 +59,7 @@ const fetchTrainingModelSuccess = (serviceTrainingData) => (dispatch) => {
 const fetchServiceTrainingDataAPI = async (orgId, serviceId) => {
   try {
     const dataForUrl = await fetchServiceDetailsAPI(orgId, serviceId);
-    const url = `${dataForUrl.data.groups[0].endpoints[0].endpoint}/servicemethoddetails`;
+    const url = `${dataForUrl.data.groups[0].endpoints[0].endpoint}/heartbeat`;
     const response = await fetch(url);
     return response.json();
   } catch (error) {
