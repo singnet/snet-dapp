@@ -37,7 +37,7 @@ const ServiceOverview = ({ classes, description, tags, isTrainingAvailable }) =>
           {renderSandboxInfo()}
           <p className={classes.description}>{parseDescription(description)}</p>
           <Tags tags={tags} />
-          {isTrainingAvailable && (
+          {Boolean(isTrainingAvailable) && (
             <div className={classes.trainingLink}>
               <p>For this service you can create your own training model!</p>
               {/* //TODO */}
