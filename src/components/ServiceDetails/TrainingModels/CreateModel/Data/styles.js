@@ -9,9 +9,11 @@ export const useStyles = (theme) => ({
     "& p": {
       margin: "8px 0 40px",
       color: theme.palette.text.mediumShadeGray,
-      fontSize: 14,
+      fontSize: 16,
       fontWeight: 300,
-      lineHeight: "24px",
+      "& span": {
+        fontWeight: 600,
+      },
     },
     "& div": {
       width: 180,

@@ -1,36 +1,21 @@
 import React from "react";
 import { withStyles } from "@mui/styles";
 import Upload from "./Upload";
-import StyledButton from "../../../../common/StyledButton";
-import fileDownload from "../../../../../assets/images/fileDownload.svg";
 import { useStyles } from "./styles";
 
 const Dataset = ({ classes, trainingDataLink, setTrainingDataLink }) => {
-  const onDownloadSample = () => {
-    const url =
-      "https://marketplace-service-assets.s3.amazonaws.com/assets/snet/example-service/Calculator/add/TrainingSample.zip";
-    const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute("download", "training_sample_add.txt");
-    document.body.appendChild(link);
-    link.click();
-  };
-
   return (
     <div className={classes.modelDataContaienr}>
       <div className={classes.createDatasetContainer}>
-        <h2>Creating your dataset</h2>
+        <h3>Creating your dataset</h3>
         <p>
-          This AI requires a certain type of data set for Model trainng. Download sample data from following and submit.
+          Your dataset in <span>.ZIP</span> format, weighing less than <span>1.5MB</span> contain two text files:{" "}
+          <span>train.txt</span> (2-10k lines) and <span>val.txt</span> (100-500 lines). Each line equals to one
+          paragraph of text.
         </p>
-        <div>
-          <img src={fileDownload} alt="File Download" />
-          <span>filename.zip</span>
-          <StyledButton type="blue" btnText="Download Sample" onClick={onDownloadSample} />
-        </div>
       </div>
       <div className={classes.uploadDatasetContainer}>
-        <span>Upload your dataset</span>
+        <p>Upload your dataset</p>
         <Upload trainingDataLink={trainingDataLink} setTrainingDataLink={setTrainingDataLink} />
       </div>
     </div>

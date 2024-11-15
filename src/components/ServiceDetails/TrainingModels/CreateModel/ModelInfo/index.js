@@ -114,7 +114,7 @@ const ModelInfo = ({ classes, cancelEditModel }) => {
   };
 
   const CreateModelButtonGroup = () => {
-    return <StyledButton btnText="Next" onClick={onNext} />;
+    return <StyledButton btnText="Create" onClick={onNext} />;
   };
 
   const UpdateModelButtonGroup = () => {

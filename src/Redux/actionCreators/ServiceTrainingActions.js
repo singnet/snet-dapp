@@ -1,3 +1,4 @@
+import axios from "axios";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
 import { startAppLoader, stopAppLoader } from "./LoaderActions";
 import { getServiceClient } from "./SDKActions";
@@ -109,9 +110,31 @@ const getServiceNameFromTrainingMethod = (trainingMethod) => {
   return trainingMethod.split(".")[1].split("/")[0];
 };
 
-export const getTrainingModels = (organizationId, serviceId, address) => async (dispatch, getState) => {
-  console.log("getTrainingModels: ", organizationId, serviceId, address);
+export const getTrainingModelStatus =
+  ({ organizationId, serviceId, modelId, name, method, address }) =>
+  async (dispatch) => {
+    console.log("getTrainingModels: ", organizationId, serviceId, modelId, method, name, address);
 
+    try {
+      dispatch(startAppLoader(LoaderContent.FETCH_TRAINING_EXISTING_MODEL));
+      const serviceClient = await dispatch(getServiceClient(organizationId, serviceId));
+      const params = {
+        modelId,
+        method,
+        name,
+        address,
+      };
+      const existingModelStatus = await serviceClient.getModelStatus(params);
+      console.log("existingModelStatus: ", existingModelStatus);
+      return existingModelStatus;
+    } catch (err) {
+      // TODO
+    } finally {
+      dispatch(stopAppLoader());
+    }
+  };
+
+export const getTrainingModels = (organizationId, serviceId, address) => async (dispatch, getState) => {
   try {
     dispatch(startAppLoader(LoaderContent.FETCH_TRAINING_EXISTING_MODEL));
     const training = getState().serviceDetailsReducer.detailsTraining;
@@ -124,11 +147,55 @@ export const getTrainingModels = (organizationId, serviceId, address) => async (
     };
 
     const response = await serviceClient.getExistingModel(params);
-    dispatch(setModelsList(response));
+
+    let modelsList = await Promise.all(
+      response.map(async (model) => {
+        const getModelStatusParams = {
+          organizationId,
+          serviceId,
+          modelId: model.modelId,
+          name: model.serviceName,
+          method: model.methodName,
+          address,
+        };
+
+        const numberModelStatus = await dispatch(getTrainingModelStatus(getModelStatusParams));
+        return { ...model, status: modelStatus[numberModelStatus] };
+      })
+    );
+
+    dispatch(setModelsList(modelsList));
     return response.flat();
   } catch (err) {
     // TODO
   } finally {
     dispatch(stopAppLoader());
+  }
+};
+
+const modelStatus = {
+  0: "CREATED",
+  1: "IN_PROGRESS",
+  2: "ERRORED",
+  3: "COMPLETED",
+  4: "DELETED",
+};
+
+export const publishDatasetToS3 = async (fileBlob, name) => {
+  try {
+    const fileKey = Date.now() + "_" + name;
+    const url = `https://xim5yugo7g.execute-api.us-east-1.amazonaws.com/default/upload?key=${fileKey}`;
+
+    let instance = axios.create({
+      headers: {
+        Authorization: "S1kDjcub9k78JFAyrLPsfS0yQoQ4mgmmpeWKlIoVvYsk6JVq5v4HHKvKQgZ0VdI7",
+      },
+    });
+
+    const response = await instance.get(url);
+    await axios.put(response.data.uploadURL, fileBlob);
+    return `https://xim5yugo7g.execute-api.us-east-1.amazonaws.com/default/download?key=${fileKey}`;
+  } catch (err) {
+    throw new Error(err);
   }
 };

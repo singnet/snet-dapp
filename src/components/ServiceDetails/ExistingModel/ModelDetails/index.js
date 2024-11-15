@@ -5,7 +5,7 @@ import { withStyles } from "@mui/styles";
 import { useStyles } from "./styles";
 
 import Button from "@mui/material/Button";
-import EditIcon from "@mui/icons-material/Edit";
+// import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import NearMeOutlinedIcon from "@mui/icons-material/NearMeOutlined";
 import Box from "@mui/material/Box";
@@ -14,6 +14,14 @@ import Modal from "@mui/material/Modal";
 import StyledButton from "../../../common/StyledButton";
 import { setCurrentModelDetails, deleteModel } from "../../../../Redux/actionCreators/ServiceTrainingActions";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+
+export const modelStatus = {
+  IN_PROGRESS: "IN_PROGRESS",
+  COMPLETED: "COMPLETED",
+  CREATED: "CREATED",
+  ERRORED: "ERRORED",
+  DELETED: "DELETED",
+};
 
 const ModelDetails = ({ classes, openEditModel, model, address }) => {
   const dispatch = useDispatch();
@@ -26,15 +34,17 @@ const ModelDetails = ({ classes, openEditModel, model, address }) => {
   const handleOpenModal = () => setOpen(true);
   const handleCloseModal = () => setOpen(false);
 
+  const isInferenceAvailable = model.status === modelStatus.COMPLETED;
+
   const handleDeleteModel = async () => {
     await dispatch(deleteModel(orgId, serviceId, model.modelId, model.methodName, model.serviceName, address));
     setOpen(false);
   };
 
-  const handleEditModel = () => {
-    dispatch(setCurrentModelDetails(model));
-    openEditModel();
-  };
+  // const handleEditModel = () => {
+  //   dispatch(setCurrentModelDetails(model));
+  //   openEditModel();
+  // };
 
   const handleSetModel = () => {
     dispatch(setCurrentModelDetails(model));
@@ -70,15 +80,15 @@ const ModelDetails = ({ classes, openEditModel, model, address }) => {
           </div>
         </div>
         <div className={classes.actionButtons}>
-          <Button className={classes.testBtn} onClick={handleSetModel}>
+          <Button className={classes.testBtn} onClick={handleSetModel} disabled={isInferenceAvailable}>
             <NearMeOutlinedIcon />
             <span>Inference</span>
           </Button>
           <div>
-            <Button className={classes.updateBtn} onClick={handleEditModel}>
+            {/* <Button className={classes.updateBtn} onClick={handleEditModel}>
               <EditIcon />
               <span>Edit</span>
-            </Button>
+            </Button> */}
             <Button className={classes.deleteBtn} onClick={handleOpenModal}>
               <DeleteIcon />
               <span>Delete</span>
