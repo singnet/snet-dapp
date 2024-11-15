@@ -1,3 +1,4 @@
+import axios from "axios";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
 import { startAppLoader, stopAppLoader } from "./LoaderActions";
 import { getServiceClient } from "./SDKActions";
@@ -130,5 +131,24 @@ export const getTrainingModels = (organizationId, serviceId, address) => async (
     // TODO
   } finally {
     dispatch(stopAppLoader());
+  }
+};
+
+export const publishDatasetToS3 = async (fileBlob, name) => {
+  try {
+    const fileKey = Date.now() + "_" + name;
+    const url = `https://xim5yugo7g.execute-api.us-east-1.amazonaws.com/default/upload?key=${fileKey}`;
+
+    let instance = axios.create({
+      headers: {
+        Authorization: "S1kDjcub9k78JFAyrLPsfS0yQoQ4mgmmpeWKlIoVvYsk6JVq5v4HHKvKQgZ0VdI7",
+      },
+    });
+
+    const response = await instance.get(url);
+    await axios.put(response.data.uploadURL, fileBlob);
+    return `https://xim5yugo7g.execute-api.us-east-1.amazonaws.com/default/download?key=${fileKey}`;
+  } catch (err) {
+    throw new Error(err);
   }
 };
