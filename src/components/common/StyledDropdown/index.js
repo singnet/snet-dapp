@@ -10,12 +10,12 @@ import { useStyles } from "./styles";
 const StyledDropdown = ({ labelTxt, name, list, value, onChange, formControlProps, inputLabel, disabled }) => {
   const classes = useStyles();
   if (!list) {
-    return;
+    return null;
   }
 
   return (
     <FormControl variant="outlined" className={classes.formControl} {...formControlProps}>
-      {inputLabel ? <InputLabel htmlFor="age-simple">{inputLabel}</InputLabel> : null}
+      {inputLabel && <InputLabel htmlFor="age-simple">{inputLabel}</InputLabel>}
       <Select
         value={value || ""}
         onChange={onChange}

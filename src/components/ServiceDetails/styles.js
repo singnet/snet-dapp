@@ -1,17 +1,10 @@
 export const useStyles = (theme) => ({
   serviceDetailContainer: {
     width: "auto",
-    "& > div": {
-      paddingLeft: 60,
-      paddingRight: 60,
-      "@media(max-width:1280px)": {
-        paddingLeft: 10,
-        paddingRight: 10,
-      },
-      "&:last-of-type": {
-        "@media(max-width:768px)": { paddingRight: 0, paddingLeft: 0 },
-      },
-    },
+    display: "flex",
+    flexDirection: "column",
+    gap: 50,
+    padding: "70px 50px",
   },
   notificationBar: {
     width: "100%",
@@ -23,7 +16,6 @@ export const useStyles = (theme) => ({
   },
   TopSection: {
     width: "100%",
-    marginTop: 75,
     display: "flex",
     "@media(max-width:768px)": { flexDirection: "column" },
     "@media(max-width:480px)": { marginTop: 16 },

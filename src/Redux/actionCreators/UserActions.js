@@ -575,4 +575,5 @@ export const updateMetamaskWallet = () => async (dispatch, getState) => {
     await dispatch(registerWallet(address, walletTypes.METAMASK));
   }
   dispatch(updateWallet({ type: walletTypes.METAMASK, address }));
+  return address;
 };

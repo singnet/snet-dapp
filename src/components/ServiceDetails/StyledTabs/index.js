@@ -19,7 +19,7 @@ const StyledTabs = ({ classes, tabs, onTabChange, activeTab }) => {
           ))}
         </Tabs>
       </AppBar>
-      {activeComponent}
+      <div className={classes.activeComponentHolder}>{activeComponent}</div>
     </Grid>
   );
 };

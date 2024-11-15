@@ -7,6 +7,7 @@ import { useStyles } from "./styles";
 import ProjectURL from "./ProjectURL";
 import Contributors from "./Contibutors";
 import { Grid } from "@mui/material";
+import Card from "../../common/Card";
 
 const ProjectDetails = ({ classes, projectURL, contributors, orgId, serviceId }) => {
   const data = [
@@ -21,18 +22,23 @@ const ProjectDetails = ({ classes, projectURL, contributors, orgId, serviceId })
   }
 
   return (
-    <div className={classes.projectDetailsContainer}>
-      {data.map((dataRow) => (
-        <Grid container alignItems="center" key={dataRow.label}>
-          <Grid item sm={5} xs={12}>
-            <h5>{dataRow.label}</h5>
-          </Grid>
-          <Grid item sm={7} xs={12} className={classes.projectDetailsValue}>
-            <span>{dataRow.value}</span>
-          </Grid>
-        </Grid>
-      ))}
-    </div>
+    <Card
+      header="Project Details"
+      children={
+        <div className={classes.projectDetailsContainer}>
+          {data.map((dataRow) => (
+            <Grid container alignItems="center" key={dataRow.label}>
+              <Grid item sm={5} xs={12}>
+                <h5>{dataRow.label}</h5>
+              </Grid>
+              <Grid item sm={7} xs={12} className={classes.projectDetailsValue}>
+                <span>{dataRow.value}</span>
+              </Grid>
+            </Grid>
+          ))}
+        </div>
+      }
+    />
   );
 };
 

@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
 import userReducer from "./UserReducer";
 import serviceReducer from "./ServiceReducer";
+import serviceTrainingReducer from "./ServiceTrainingReducer";
 import serviceDetailsReducer from "./ServiceDetailsReducer";
 import errorReducer from "./ErrorReducer";
 import loaderReducer from "./LoaderReducer";
@@ -12,6 +13,7 @@ import sdkReducer from "./SDKReducer";
 const rootReducer = combineReducers({
   userReducer,
   serviceReducer,
+  serviceTrainingReducer,
   serviceDetailsReducer,
   errorReducer,
   loaderReducer,

@@ -16,9 +16,7 @@ import AboutService from "./AboutService";
 import InstallAndRunService from "./InstallAndRunService";
 import NotificationBar, { notificationBarTypes } from "../common/NotificationBar";
 
-import { sdkActions } from "../../Redux/actionCreators";
 import { fetchTrainingModel, fetchServiceDetails } from "../../Redux/actionCreators/ServiceDetailsActions";
-import { startAppLoader, stopAppLoader } from "../../Redux/actionCreators/LoaderActions";
 import {
   pricing as getPricing,
   serviceDetails as getServiceDetails,
@@ -30,9 +28,6 @@ import SeoMetadata from "../common/SeoMetadata";
 import Routes from "../../utility/constants/Routes";
 import CardImg from "../../assets/images/SnetDefaultServiceImage.png";
 import TrainingModels from "./TrainingModels";
-import { WebServiceClient as ServiceClient } from "snet-sdk-web";
-import { LoaderContent } from "../../utility/constants/LoaderContent";
-import AlertBox, { alertTypes } from "../common/AlertBox";
 
 export const HERO_IMG = "hero_image";
 
@@ -40,51 +35,25 @@ const offlineNotication = {
   type: notificationBarTypes.WARNING,
   message: "Service temporarily offline by the provider. Please check back later.",
 };
-let serviceClient;
 
 const ServiceDetails = ({ classes }) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
-  const { orgId, serviceId } = useParams();
+  const { orgId, serviceId, tabId } = useParams();
 
+  const isLoggedIn = useSelector((state) => state.userReducer.login.isLoggedIn);
+  const training = useSelector((state) => state.serviceDetailsReducer.detailsTraining);
   const service = useSelector((state) => getServiceDetails(state, orgId, serviceId));
   const groupInfo = useSelector((state) => getGroupInfo(state));
   const pricing = useSelector((state) => getPricing(state));
   const loading = useSelector((state) => state.loaderReducer.app.loading);
-  const training = useSelector((state) => state.serviceDetailsReducer.detailsTraining);
-  const isLoggedIn = useSelector((state) => state.userReducer.login.isLoggedIn);
-  const wallet = useSelector((state) => state.userReducer.wallet);
 
-  const [activeTab, setActiveTab] = useState(0);
-  const [alert, setAlert] = useState({});
-  const [createModelCalled, setCreateModelCalled] = useState("new");
-  const [modelDetailsOnEdit, setModelDetailsOnEdit] = useState();
+  const [activeTab, setActiveTab] = useState(tabId ? tabId : 0);
 
-  // constructor(props) {
-  //   super(props);
-  //   this.demoExampleRef = React.createRef();
-  //   this.lastActiveTab = 0;
-  //   this.state = {
-  //     activeTab: 0,
-  //     alert: {},
-  //     offlineNotication: {
-  //       type: notificationBarTypes.WARNING,
-  //       message: "Service temporarily offline by the provider. Please check back later.",
-  //     },
-  //     createModelCalled: "new",
-  //     modelDetailsOnEdit: undefined,
-  //   };
-  // }
-
-  const initializeServiceClient = async () => {
-    if (serviceClient) {
-      return;
-    }
-    const { org_id, service_id } = service;
-    const sdk = await dispatch(sdkActions.getSdk());
-    serviceClient = new ServiceClient(sdk, org_id, service_id, sdk?._mpeContract, {}, groupInfo);
-  };
+  useEffect(() => {
+    setActiveTab(tabId);
+  }, [tabId]);
 
   useEffect(() => {
     if (process.env.REACT_APP_SANDBOX) {
@@ -98,95 +67,18 @@ const ServiceDetails = ({ classes }) => {
 
   const handleTabChange = (activeTab) => {
     if (window.location.href.indexOf("#demo") > -1) {
-      const currentUrl = location.pathname;
-      navigate(currentUrl);
+      navigate(location.pathname);
     }
+    navigate(location.pathname.split("tab/")[0] + "tab/" + activeTab); //TODO
     setActiveTab(activeTab);
-    // this.lastActiveTab = activeTab;
-    // this.setState({ activeTab, createModelCalled: "new", modelDetailsOnEdit: undefined, alert: {} });
   };
-
-  // const scrollToView = () => {
-  //   if (demoExampleRef.current) {
-  //     demoExampleRef.current.scrollIntoView({
-  //       behavior: "smooth",
-  //       block: "center",
-  //     });
-  //   }
-  // };
 
   const handleDemoClick = () => {
     navigate({ ...location, hash: Routes.hash.SERVICE_DEMO });
-    if (activeTab !== 0) {
-      setActiveTab(0);
-      // scrollToView();
-      return;
-    }
-    // scrollToView();
   };
 
-  const editModel = (model) => {
-    setActiveTab(2);
-    setCreateModelCalled("edit");
-    setModelDetailsOnEdit(model);
-  };
-
-  // const onCancelEditModel = () => {
-  //   this.setState({
-  //     activeTab: lastActiveTab,
-  //     createModelCalled: "new",
-  //     modelDetailsOnEdit: undefined,
-  //     alert: {},
-  //   });
-  // };
-
-  const onUpdateModel = async (updateModelParams) => {
-    setAlert({});
-    try {
-      dispatch(startAppLoader(LoaderContent.UPDATE_MODEL));
-      const params = {
-        modelId: modelDetailsOnEdit.modelId,
-        address: wallet.address,
-        method: modelDetailsOnEdit.methodName,
-        name: modelDetailsOnEdit.serviceName,
-        modelName: updateModelParams.trainingModelName,
-        description: updateModelParams.trainingModelDescription,
-        publicAccess: updateModelParams.enableAccessModel,
-        addressList: !updateModelParams.enableAccessModel ? updateModelParams.ethAddress : [],
-        status: modelDetailsOnEdit.status,
-        updatedDate: modelDetailsOnEdit.updatedDate,
-      };
-      await initializeServiceClient();
-      await serviceClient.updateModel(params);
-      dispatch(stopAppLoader());
-      // onCancelEditModel();
-    } catch (error) {
-      setAlert({ type: alertTypes.ERROR, message: "Unable to update model. Please try again" });
-      dispatch(stopAppLoader());
-    }
-  };
-
-  const deleteModel = async () => {
-    setAlert({});
-    try {
-      dispatch(startAppLoader(LoaderContent.DELETE_MODEL));
-      const params = {
-        modelId: modelDetailsOnEdit.modelId,
-        address: wallet.address,
-        method: modelDetailsOnEdit.methodName,
-        name: modelDetailsOnEdit.serviceName,
-      };
-      await initializeServiceClient();
-      await serviceClient.deleteModel(params);
-      dispatch(stopAppLoader());
-      // onCancelEditModel();
-    } catch (error) {
-      setAlert({ type: alertTypes.ERROR, message: "Unable to Delete model. Please try again" });
-      dispatch(stopAppLoader());
-    }
-  };
-
-  if (isEmpty(service) || !isEmpty(alert)) {
+  if (isEmpty(service)) {
+    // || !isEmpty(alert)) {
     if (loading) {
       return null;
     }
@@ -197,44 +89,38 @@ const ServiceDetails = ({ classes }) => {
     );
   }
 
+  const isTrainingAvailable =
+    process.env.REACT_APP_TRAINING_ENABLE === "true" && Object.keys(training).length && isLoggedIn;
+
   const tabs = [
     {
       name: "About",
       activeIndex: 0,
+      tabId: "serviceDemo",
       component: (
         <AboutService
           service={service}
           serviceAvailable={service.is_available}
           // scrollToView={scrollToView}
           demoComponentRequired={!!service.demo_component_required}
-          training={training}
-          editModel={editModel}
+          isTrainingAvailable={isTrainingAvailable}
         />
       ),
     },
     {
       name: "Install and Run",
+      tabId: "serviceGuides",
       activeIndex: 1,
       component: <InstallAndRunService service={service} groupId={groupInfo.group_id} />,
     },
   ];
 
-  if (process.env.REACT_APP_TRAINING_ENABLE === "true" && Object.keys(training).length && isLoggedIn) {
+  if (isTrainingAvailable) {
     tabs.push({
       name: "Models",
+      tabId: "serviceTraining",
       activeIndex: 2,
-      component: (
-        <TrainingModels
-          service={service}
-          groupId={groupInfo.group_id}
-          training={training}
-          createModelCalled={createModelCalled}
-          modelDetailsOnEdit={modelDetailsOnEdit}
-          updateModel={onUpdateModel}
-          editModel={editModel}
-          deleteModel={deleteModel}
-        />
-      ),
+      component: <TrainingModels service={service} groupId={groupInfo.group_id} />,
     });
   }
 
@@ -274,10 +160,7 @@ const ServiceDetails = ({ classes }) => {
           />
           <PricingDetails serviceAvailable={service.is_available} pricing={pricing} handleDemoClick={handleDemoClick} />
         </div>
-        <StyledTabs tabs={tabs} activeTab={activeTab} onTabChange={handleTabChange} />
-        <div className={classes.alertBox}>
-          <AlertBox type={alert.type} message={alert.message} />
-        </div>
+        <StyledTabs tabs={tabs} activeTab={Number(activeTab)} onTabChange={handleTabChange} />
       </Grid>
     </div>
   );

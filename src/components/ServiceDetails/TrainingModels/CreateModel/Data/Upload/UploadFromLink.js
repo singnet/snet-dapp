@@ -39,7 +39,7 @@ const UploadFromLink = ({ classes, trainingDataLink, setTrainingDataLink }) => {
         <StyledInputBase
           placeholder="URL: http://www.url.com/file"
           inputProps={{ "aria-label": "search" }}
-          trainingDataLink={trainingDataLink}
+          value={trainingDataLink}
           onChange={handleTrainingDataLinkBox}
         />
         <SearchIconWrapper>

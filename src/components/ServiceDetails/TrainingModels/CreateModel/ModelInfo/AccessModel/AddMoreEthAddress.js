@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { withStyles } from "@mui/styles";
 import AddIcon from "@mui/icons-material/Add";
 
-import StyledTextField from "../../../../common/StyledTextField";
+import StyledTextField from "../../../../../common/StyledTextField";
 import { useStyles } from "./styles";
 
 const AddMoreEthAddress = ({ classes, addEthAddress }) => {
