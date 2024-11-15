@@ -5,6 +5,7 @@ import AlertBox from "../../components/common/AlertBox";
 //const SERVICE_COMPONENT = lazy(() => import("./path/to/service/folder));
 
 const ExampleService = lazy(() => import("./snet/example_service"));
+const GLMT = lazy(() => import("./snet/GLMT"));
 const LanguageDetection = lazy(() => import("./snet/language_detection"));
 const TextGeneratoin = lazy(() => import("./snet/text_generation"));
 
@@ -46,6 +47,7 @@ const thirdPartyCustomUIComponents = new ThirdPartyCustomUIComponents();
 // );
 
 thirdPartyCustomUIComponents.addCustomUIComponent("snet", "example_service", ExampleService);
+thirdPartyCustomUIComponents.addCustomUIComponent("snet", "GLMT", GLMT);
 
 thirdPartyCustomUIComponents.addCustomUIComponent("snet", "language_detection", LanguageDetection);
 
