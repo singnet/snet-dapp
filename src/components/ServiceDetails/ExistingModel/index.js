@@ -19,8 +19,6 @@ const ExistingModel = ({ classes, openEditModel }) => {
   const { address } = useSelector((state) => state.userReducer.wallet);
 
   const [existingModels, setExistingModels] = useState(modelsList);
-  console.log("ExistingModel address: ", address);
-
   const [metamaskConnected, setMetamaskConnected] = useState(!isEmpty(address));
   const [alert, setAlert] = useState({});
   const dispatch = useDispatch();
@@ -50,7 +48,6 @@ const ExistingModel = ({ classes, openEditModel }) => {
         </div>
       );
     }
-    console.log("existingModels: ", existingModels);
 
     return existingModels.map((model) => {
       return (

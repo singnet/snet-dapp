@@ -7,8 +7,6 @@ export const SET_MODELS_LIST = "SET_MODELS_LIST";
 export const CLEAN_MODEL_DETAILS = "CLEAN_MODEL_DETAILS";
 
 export const setCurrentModelDetails = (currentModelDetails) => (dispatch) => {
-  console.log("currentModelDetails: ", currentModelDetails);
-
   dispatch({ type: SET_MODEL_DETAILS, payload: currentModelDetails });
 };
 
@@ -124,10 +122,8 @@ export const getTrainingModels = (organizationId, serviceId, address) => async (
       grpcService: getServiceNameFromTrainingMethod(trainingMethod),
       address,
     };
-    console.log("params: ", params);
 
     const response = await serviceClient.getExistingModel(params);
-    console.log("=====existingModel==", response.flat());
     dispatch(setModelsList(response));
     return response.flat();
   } catch (err) {
