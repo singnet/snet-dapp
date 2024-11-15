@@ -1,8 +1,4 @@
-const modelStatus = {
-  IN_PROGRESS: "IN_PROGRESS",
-  PUBLISHED: "PUBLISHED",
-  CREATED: "CREATED",
-};
+import { modelStatus } from "./index";
 
 export const useStyles = (theme) => ({
   modelDetailsContainer: {
@@ -54,7 +50,9 @@ export const useStyles = (theme) => ({
         "& span": { color: theme.palette.text.mediumShadeGray },
         [`& span[data-status-type="${modelStatus.CREATED}"]`]: { color: "#4086ff" },
         [`& span[data-status-type="${modelStatus.IN_PROGRESS}"]`]: { color: "#2CB7CF" },
-        [`& span[data-status-type="${modelStatus.PUBLISHED}"]`]: { color: "#0B8E1C" },
+        [`& span[data-status-type="${modelStatus.COMPLETED}"]`]: { color: "#0B8E1C" },
+        [`& span[data-status-type="${modelStatus.ERRORED}"]`]: { color: theme.palette.text.errorRed },
+        [`& span[data-status-type="${modelStatus.DELETED}"]`]: { color: theme.palette.text.errorRed },
       },
     },
     "& > p": {
