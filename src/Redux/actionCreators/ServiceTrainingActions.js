@@ -49,7 +49,7 @@ export const createModel = (organizationId, serviceId, address, newModelParams) 
 };
 
 export const updateModel = (organizationId, serviceId, address, updateModelParams) => async (dispatch, getState) => {
-  const currentModelDetails = getState().serviceTrainingReducer;
+  const currentModelDetails = getState().serviceTrainingReducer.currentModel;
   try {
     dispatch(startAppLoader(LoaderContent.UPDATE_MODEL));
     const params = {

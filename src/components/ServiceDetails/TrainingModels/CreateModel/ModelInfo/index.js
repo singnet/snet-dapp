@@ -45,7 +45,6 @@ const ModelInfo = ({ classes, cancelEditModel }) => {
       isRestrictAccessModel,
       dataLink: trainingDataLink,
     };
-    console.log("updateModelParams: ", updateModelParams);
 
     try {
       const address = await dispatch(userActions.updateMetamaskWallet());
