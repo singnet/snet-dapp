@@ -9,8 +9,9 @@ const Dataset = ({ classes, trainingDataLink, setTrainingDataLink }) => {
       <div className={classes.createDatasetContainer}>
         <h3>Creating your dataset</h3>
         <p>
-          Your dataset should in <span>.ZIP</span> format, weighing less than <span>50MB</span> contain two text files:{" "}
-          <span>train.txt</span> and <span>val.txt</span>
+          Your dataset in <span>.ZIP</span> format, weighing less than <span>1.5MB</span> contain two text files:{" "}
+          <span>train.txt</span> (2-10k lines) and <span>val.txt</span> (100-500 lines). Each line equals to one
+          paragraph of text.
         </p>
       </div>
       <div className={classes.uploadDatasetContainer}>
