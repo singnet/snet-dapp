@@ -24,6 +24,18 @@ export const useStyles = (theme) => ({
       },
     },
   },
+  trainingLink: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  tryTrainingBtn: {
+    background: theme.palette.text.primary,
+    color: theme.palette.text.white,
+    padding: 10,
+    borderRadius: 5,
+    textDecoration: "none",
+  },
   backToLink: {
     margin: "30px 0 0",
     display: "flex",

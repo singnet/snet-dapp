@@ -10,7 +10,6 @@ import ProjectDetails from "../ProjectDetails";
 import MediaGallery from "../MediaGallery";
 import PromoBox from "./PromoBox";
 import Card from "../../common/Card";
-import StyledButton from "../../common/StyledButton";
 
 const AboutService = ({
   classes,
@@ -25,13 +24,12 @@ const AboutService = ({
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} sm={12} md={8} lg={8} className={classes.section}>
-        <ServiceOverview description={service.description} service_url={service.url} tags={service.tags} />
-        {isTrainingAvailable && (
-          <div>
-            <p>For this service you can create your own training model!</p>
-            <StyledButton type="blue" btnText="Try now!" onClick={() => console.log()} />
-          </div>
-        )}
+        <ServiceOverview
+          description={service.description}
+          service_url={service.url}
+          tags={service.tags}
+          isTrainingAvailable={isTrainingAvailable}
+        />
         <Card
           header="Service Demo"
           children={

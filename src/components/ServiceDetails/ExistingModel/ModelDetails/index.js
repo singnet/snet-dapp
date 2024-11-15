@@ -13,10 +13,13 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import StyledButton from "../../../common/StyledButton";
 import { setCurrentModelDetails, deleteModel } from "../../../../Redux/actionCreators/ServiceTrainingActions";
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 const ModelDetails = ({ classes, openEditModel, model, address }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const { orgId, serviceId } = useParams();
 
   const [open, setOpen] = useState(false);
@@ -35,6 +38,7 @@ const ModelDetails = ({ classes, openEditModel, model, address }) => {
 
   const handleSetModel = () => {
     dispatch(setCurrentModelDetails(model));
+    navigate(location.pathname.split("tab/")[0] + "tab/" + 0); //TODO
   };
 
   return (

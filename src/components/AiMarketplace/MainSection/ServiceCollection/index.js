@@ -39,7 +39,7 @@ const CardGroup = ({ data: cards = [], listView, loading }) => {
         return (
           <Link
             key={card.org_id + card.service_id}
-            to={`/${Routes.SERVICE_DETAILS}/org/${card.org_id}/service/${card.service_id}`}
+            to={`/${Routes.SERVICE_DETAILS}/org/${card.org_id}/service/${card.service_id}/tab/0`} //TODO
             className={classes.routerLink}
           >
             {listView ? (

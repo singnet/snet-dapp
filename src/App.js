@@ -123,13 +123,13 @@ const App = () => {
               }
             />
             <Route
-              path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId`}
+              path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId/tab/:tabId`}
               element={
                 <PrivateRoute
                   isAllowed={isTermsAccepted}
                   component={withInAppWrapper(ServiceDetails)}
                   redirectTo={`/${Routes.ONBOARDING}`}
-                  path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId`}
+                  path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId/tab/:tabId`}
                 />
               }
             />

@@ -40,7 +40,7 @@ const ServiceDetails = ({ classes }) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
-  const { orgId, serviceId } = useParams();
+  const { orgId, serviceId, tabId } = useParams();
 
   const isLoggedIn = useSelector((state) => state.userReducer.login.isLoggedIn);
   const training = useSelector((state) => state.serviceDetailsReducer.detailsTraining);
@@ -49,23 +49,11 @@ const ServiceDetails = ({ classes }) => {
   const pricing = useSelector((state) => getPricing(state));
   const loading = useSelector((state) => state.loaderReducer.app.loading);
 
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeTab, setActiveTab] = useState(tabId ? tabId : 0);
 
-  // constructor(props) {
-  //   super(props);
-  //   this.demoExampleRef = React.createRef();
-  //   this.lastActiveTab = 0;
-  //   this.state = {
-  //     activeTab: 0,
-  //     alert: {},
-  //     offlineNotication: {
-  //       type: notificationBarTypes.WARNING,
-  //       message: "Service temporarily offline by the provider. Please check back later.",
-  //     },
-  //     createModelCalled: "new",
-  //     modelDetailsOnEdit: undefined,
-  //   };
-  // }
+  useEffect(() => {
+    setActiveTab(tabId);
+  }, [tabId]);
 
   useEffect(() => {
     if (process.env.REACT_APP_SANDBOX) {
@@ -81,29 +69,12 @@ const ServiceDetails = ({ classes }) => {
     if (window.location.href.indexOf("#demo") > -1) {
       navigate(location.pathname);
     }
-    // navigate(location.pathname + "/" + activeTab);
+    navigate(location.pathname.split("tab/")[0] + "tab/" + activeTab); //TODO
     setActiveTab(activeTab);
-    // this.lastActiveTab = activeTab;
-    // this.setState({ activeTab, createModelCalled: "new", modelDetailsOnEdit: undefined, alert: {} });
   };
-
-  // const scrollToView = () => {
-  //   if (demoExampleRef.current) {
-  //     demoExampleRef.current.scrollIntoView({
-  //       behavior: "smooth",
-  //       block: "center",
-  //     });
-  //   }
-  // };
 
   const handleDemoClick = () => {
     navigate({ ...location, hash: Routes.hash.SERVICE_DEMO });
-    if (activeTab !== 0) {
-      setActiveTab(0);
-      // scrollToView();
-      return;
-    }
-    // scrollToView();
   };
 
   if (isEmpty(service)) {
@@ -125,6 +96,7 @@ const ServiceDetails = ({ classes }) => {
     {
       name: "About",
       activeIndex: 0,
+      tabId: "serviceDemo",
       component: (
         <AboutService
           service={service}
@@ -137,6 +109,7 @@ const ServiceDetails = ({ classes }) => {
     },
     {
       name: "Install and Run",
+      tabId: "serviceGuides",
       activeIndex: 1,
       component: <InstallAndRunService service={service} groupId={groupInfo.group_id} />,
     },
@@ -145,6 +118,7 @@ const ServiceDetails = ({ classes }) => {
   if (isTrainingAvailable) {
     tabs.push({
       name: "Models",
+      tabId: "serviceTraining",
       activeIndex: 2,
       component: <TrainingModels service={service} groupId={groupInfo.group_id} />,
     });
@@ -186,7 +160,7 @@ const ServiceDetails = ({ classes }) => {
           />
           <PricingDetails serviceAvailable={service.is_available} pricing={pricing} handleDemoClick={handleDemoClick} />
         </div>
-        <StyledTabs tabs={tabs} activeTab={activeTab} onTabChange={handleTabChange} />
+        <StyledTabs tabs={tabs} activeTab={Number(activeTab)} onTabChange={handleTabChange} />
       </Grid>
     </div>
   );
