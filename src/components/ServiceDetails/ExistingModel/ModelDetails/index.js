@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+
 import { withStyles } from "@mui/styles";
 import { useStyles } from "./styles";
+
 import Button from "@mui/material/Button";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -9,19 +12,25 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import StyledButton from "../../../common/StyledButton";
+import { setCurrentModelDetails, deleteModel } from "../../../../Redux/actionCreators/ServiceTrainingActions";
+import { useParams } from "react-router-dom";
 
-const ModelDetails = ({ classes, model, deleteModels, editModel }) => {
+const ModelDetails = ({ classes, openEditModel, model, address }) => {
+  const dispatch = useDispatch();
+  const { orgId, serviceId } = useParams();
+
   const [open, setOpen] = useState(false);
   const handleOpenModal = () => setOpen(true);
   const handleCloseModal = () => setOpen(false);
 
-  const handleDeleteModel = () => {
-    deleteModels(model);
+  const handleDeleteModel = async () => {
+    await dispatch(deleteModel(orgId, serviceId, model.modelId, model.methodName, model.serviceName, address));
     setOpen(false);
   };
 
   const handleEditModel = () => {
-    editModel(model);
+    dispatch(setCurrentModelDetails(model));
+    openEditModel();
   };
 
   return (

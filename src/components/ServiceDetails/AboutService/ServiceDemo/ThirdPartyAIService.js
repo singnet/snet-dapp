@@ -62,7 +62,7 @@ class ThirdPartyAIService extends Component {
     const { org_id, service_id, classes, stopLoader, isServiceExecutionComplete, handleResetAndRun } = this.props;
     const { feedback } = this.state;
     const { serviceClient } = this;
-    const AIServiceCustomComponent = thirdPartyCustomUIComponents.componentFor(org_id, service_id);
+    const AIServiceCustomComponent = thirdPartyCustomUIComponents.componentFor("snet", "example_service"); //org_id, service_id);
 
     return (
       <div className={classes.serviceDetailsTab}>
@@ -72,6 +72,7 @@ class ThirdPartyAIService extends Component {
               serviceClient={serviceClient}
               isComplete={isServiceExecutionComplete}
               sliderWidth="550px"
+              trainigModelId={"model 1"}
             />
           </ThirdPartyServiceErrorBoundary>
         </Suspense>

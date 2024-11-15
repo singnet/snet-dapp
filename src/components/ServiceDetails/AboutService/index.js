@@ -1,7 +1,7 @@
 import React from "react";
 import Grid from "@mui/material/Grid";
 import { withStyles } from "@mui/styles";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import { useStyles } from "./styles";
 import DemoToggler from "./DemoToggler";
 import ServiceOverview from "./ServiceOverview";
@@ -9,35 +9,18 @@ import CreatorDetails from "../CreatorDetails";
 import ProjectDetails from "../ProjectDetails";
 import MediaGallery from "../MediaGallery";
 import PromoBox from "./PromoBox";
-// import ExistingModel from "../ExistingModel";
 import Card from "../../common/Card";
 import StyledButton from "../../common/StyledButton";
 
 const AboutService = ({
   classes,
-  isLoggedIn,
   service,
   serviceAvailable,
   // scrollToView,
   demoComponentRequired,
   isTrainingAvailable,
-  // editModel,
 }) => {
-  // const isTrainingAvailable =
-  //   process.env.REACT_APP_TRAINING_ENABLE === "true" && isTrainingAvailable && isLoggedIn;
-  // const RenderExistingModel = () => {
-  //   if (process.env.REACT_APP_TRAINING_ENABLE === "true" && Object.keys(training).length && isLoggedIn) {
-  //     return (
-  //       <ExistingModel
-  //         showReqNewModelBtn
-  //         haveANewModel={training?.trainingMethods?.length || false}
-  //         training={training}
-  //         editModel={editModel}
-  //       />
-  //     );
-  //   }
-  //   return null;
-  // };
+  const isLoggedIn = useSelector((state) => state.userReducer.login.isLoggedIn);
 
   return (
     <Grid container spacing={3}>
@@ -97,8 +80,4 @@ const AboutService = ({
   );
 };
 
-const mapStateToProps = (state) => ({
-  isLoggedIn: state.userReducer.login.isLoggedIn,
-});
-
-export default connect(mapStateToProps)(withStyles(useStyles)(AboutService));
+export default withStyles(useStyles)(AboutService);

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Tooltip from "@mui/material/Tooltip";
 import { withStyles } from "@mui/styles";
-import { WebServiceClient as ServiceClient } from "snet-sdk-web";
 import StyledButton from "../../../../../../common/StyledButton";
 import PaymentInfoCard from "../../PaymentInfoCard";
 import PurchaseDialog from "../../PurchaseDialog";
@@ -94,13 +93,13 @@ class MetamaskFlow extends Component {
       stopLoader,
       getSdk,
       serviceDetails: { org_id, service_id },
-      groupInfo,
     } = this.props;
     this.setState({ alert: {} });
     try {
       startChannelSetupLoader();
       const sdk = await getSdk();
-      const serviceClient = new ServiceClient(sdk, org_id, service_id, sdk._mpeContract, {}, groupInfo);
+      const serviceClient = await sdk.createServiceClient(org_id, service_id);
+      // const serviceClient = new ServiceClient(sdk, org_id, service_id, sdk._mpeContract, {}, groupInfo);
       this.paymentChannelManagement = new PaymentChannelManagement(sdk, serviceClient);
       this.setState({ isStartServiceDisable: false });
     } catch (error) {

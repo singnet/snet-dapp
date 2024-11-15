@@ -54,11 +54,6 @@ const ServiceDemo = ({ classes, service }) => {
 
     try {
       dispatch(loaderActions.startAppLoader(LoaderContent.INIT_SERVICE_DEMO));
-      const asyncCalls = [checkForPaymentsInProgress(), dispatch(paymentActions.fetchUSDConversionRate())];
-      if (freeCalls.allowed > 0) {
-        asyncCalls.push(fetchFreeCallsUsage());
-      }
-      // await Promise.all(asyncCalls);
       checkForPaymentsInProgress();
       dispatch(paymentActions.fetchUSDConversionRate());
       scrollToHash();
