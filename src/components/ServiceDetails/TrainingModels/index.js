@@ -11,9 +11,12 @@ import { useStyles } from "./styles";
 
 import ExistingModel from "../ExistingModel";
 import ProjectDetails from "../ProjectDetails";
+import { useDispatch } from "react-redux";
+import { cleanCurrentModelDetails } from "../../../Redux/actionCreators/ServiceTrainingActions";
 
 const TrainingModels = ({ classes, service }) => {
   const [showCreateModel, setShowCreateModel] = useState(false);
+  const dispatch = useDispatch();
 
   const openEditModelSection = () => {
     setShowCreateModel(true);
@@ -25,6 +28,11 @@ const TrainingModels = ({ classes, service }) => {
 
   const cancelEditModel = () => {
     closeEditModelSection();
+  };
+
+  const createNewModel = () => {
+    dispatch(cleanCurrentModelDetails());
+    openEditModelSection();
   };
 
   const RequestNewModelCard = () => {
@@ -41,7 +49,7 @@ const TrainingModels = ({ classes, service }) => {
               </p>
             </div>
             <span>
-              <StyledButton btnText="request a new model" onClick={openEditModelSection} />
+              <StyledButton btnText="request a new model" onClick={createNewModel} />
             </span>
           </div>
         }
