@@ -1,14 +1,14 @@
 export const useStyles = (theme) => ({
   tabsContainer: {
     width: 630,
-    paddingTop: 41,
     margin: "0 auto",
     "& ul": {
       margin: 0,
       padding: 0,
       display: "flex",
-      justifyContent: "space-between",
-      "@media (max-width:470px)": {
+      gap: 15,
+      justifyContent: "center",
+      "@media (max-width:420px)": {
         flexDirection: "column",
         alignItems: "center",
       },
@@ -29,6 +29,8 @@ export const useStyles = (theme) => ({
         backgroundColor: theme.palette.text.lightGray,
         verticalAlign: "middle",
         "@media (max-width:1150px)": { width: 50 },
+        "@media (max-width:470px)": { width: 10 },
+        "@media (max-width:420px)": { display: "none" },
       },
       "& i": {
         marginRight: 5,

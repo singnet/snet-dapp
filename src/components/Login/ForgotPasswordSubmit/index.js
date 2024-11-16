@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
-import TextField from "@material-ui/core/TextField";
-import { withStyles } from "@material-ui/styles";
-import Grid from "@material-ui/core/Grid";
+import { useDispatch, useSelector } from "react-redux";
+import TextField from "@mui/material/TextField";
+import { withStyles } from "@mui/styles";
+import Grid from "@mui/material/Grid";
 
 import Routes from "../../../utility/constants/Routes";
 import { userActions, errorActions } from "../../../Redux/actionCreators";
@@ -12,7 +12,11 @@ import StyledButton from "../../common/StyledButton";
 import snetValidator from "../../../utility/snetValidator";
 import { forgotPassworSubmitConstraints } from "./validationConstraints";
 
-const ForgotPasswordSubmit = ({ classes, history, error, email, forgotPasswordSubmit, updateError, resetError }) => {
+const ForgotPasswordSubmit = ({ classes }) => {
+  const dispatch = useDispatch();
+  const email = useSelector((state) => state.userReducer.email);
+  const error = useSelector((state) => state.errorReducer.forgotPasswordSubmit);
+
   const [showEmailSentAlert, setShowEmailSentAlert] = useState(true);
   const [code, setCode] = useState("");
   const [password, setPassword] = useState("");
@@ -37,14 +41,15 @@ const ForgotPasswordSubmit = ({ classes, history, error, email, forgotPasswordSu
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    resetError();
+    dispatch(errorActions.resetForgotPasswordSubmitError());
     const isNotValid = snetValidator({ password, confirmPassword, code }, forgotPassworSubmitConstraints);
     if (isNotValid) {
-      updateError(isNotValid[0]);
+      dispatch(errorActions.updateForgotPasswordSubmitError(isNotValid[0]));
       return;
     }
     const route = `/${Routes.AI_MARKETPLACE}`;
-    forgotPasswordSubmit({ email, code, password, history, error, route });
+
+    dispatch(userActions.forgotPasswordSubmit(email, code, password, route));
   };
 
   if (showEmailSentAlert) {
@@ -52,14 +57,18 @@ const ForgotPasswordSubmit = ({ classes, history, error, email, forgotPasswordSu
       <section className={classes.resetPasswordContainer}>
         <span>Reset Password Email Sent.</span>
         <p>
-          Click <a onClick={handleEnterOtp}>here</a> to enter the verification code.
+          Click{" "}
+          <a href="/" onClick={handleEnterOtp}>
+            here
+          </a>{" "}
+          to enter the verification code.
         </p>
       </section>
     );
   }
 
   return (
-    <Grid container spacing={24}>
+    <Grid container>
       <Grid item xs={12} sm={12} md={12} lg={12} className={classes.forgotPwdContent}>
         <h2>Verification Code</h2>
         <p>Enter the verification code and new password.</p>
@@ -105,15 +114,4 @@ const ForgotPasswordSubmit = ({ classes, history, error, email, forgotPasswordSu
   );
 };
 
-const mapStateToProps = (state) => ({
-  email: state.userReducer.email,
-  error: state.errorReducer.forgotPasswordSubmit,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  forgotPasswordSubmit: (args) => dispatch(userActions.forgotPasswordSubmit(args)),
-  resetError: () => dispatch(errorActions.resetForgotPasswordSubmitError),
-  updateError: (error) => dispatch(errorActions.updateForgotPasswordSubmitError(error)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(ForgotPasswordSubmit));
+export default withStyles(useStyles)(ForgotPasswordSubmit);

@@ -1,9 +1,9 @@
 import React from "react";
-import Grid from "@material-ui/core/Grid";
-import { withStyles } from "@material-ui/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
+import Grid from "@mui/material/Grid";
+import { withStyles } from "@mui/styles";
+import AppBar from "@mui/material/AppBar";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 
 import { useStyles } from "./styles";
 
@@ -19,7 +19,7 @@ const StyledTabs = ({ classes, tabs, onTabChange, activeTab }) => {
           ))}
         </Tabs>
       </AppBar>
-      {activeComponent}
+      <div className={classes.activeComponentHolder}>{activeComponent}</div>
     </Grid>
   );
 };

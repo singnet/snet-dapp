@@ -1,10 +1,10 @@
 import React from "react";
-import { withStyles } from "@material-ui/styles";
-import InfoIcon from "@material-ui/icons/Info";
+import { withStyles } from "@mui/styles";
+import InfoIcon from "@mui/icons-material/Info";
 
 import { useStyles } from "./styles";
 
-const PaymentInfoCard = ({ classes, title, value, unit, show }) => {
+const PaymentInfoCard = ({ classes, title, value, unit, show = true }) => {
   if (!show) {
     return null;
   }
@@ -14,16 +14,12 @@ const PaymentInfoCard = ({ classes, title, value, unit, show }) => {
         <InfoIcon />
         <h5>{title}</h5>
       </div>
-      <div>
+      <div className={classes.content}>
         <h3>{Number(value)}</h3>
         {unit ? <span className={classes.unit}>AGIX</span> : ""}
       </div>
     </div>
   );
-};
-
-PaymentInfoCard.defaultProps = {
-  show: true,
 };
 
 export default withStyles(useStyles)(PaymentInfoCard);

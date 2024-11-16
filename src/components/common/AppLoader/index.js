@@ -1,13 +1,13 @@
 import React from "react";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import CircularProgress from "@mui/material/CircularProgress";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import CardHeader from "@material-ui/core/CardHeader";
-import Card from "@material-ui/core/Card";
-import Modal from "@material-ui/core/Modal";
-import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
+import CardHeader from "@mui/material/CardHeader";
+import Card from "@mui/material/Card";
+import Modal from "@mui/material/Modal";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
 
 import { useStyles } from "./styles";
 
@@ -15,7 +15,7 @@ export const AppLoader = ({ loading, loaderHeader, loaderText }) => {
   const classes = useStyles();
 
   return (
-    <Modal disableBackdropClick open={loading}>
+    <Modal open={loading}>
       <Card className={classes.card}>
         <CardHeader title={<h2>{loaderHeader}</h2>} />
         <Divider />

@@ -1,16 +1,22 @@
 import React, { Fragment } from "react";
-import { withRouter } from "react-router-dom";
-
+import { useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useStyles } from "./styles";
 import Routes from "../../../utility/constants/Routes";
 import UserProfileToggler from "../../UserProfilePopUp/UserProfileToggler";
 
-const HeaderActions = ({ isLoggedIn, history }) => {
+const HeaderActions = () => {
   const classes = useStyles();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const isLoggedIn = useSelector((state) => state.userReducer.login.isLoggedIn);
+
   const handleRedirection = (redirectTo) => {
-    const sourcePath = history.location.pathname;
-    history.push({ pathname: redirectTo, state: { sourcePath } });
+    const sourcePath = location.pathname;
+    navigate({ pathname: redirectTo, state: { sourcePath } });
   };
+
   return (
     <ul className={classes.loginBtnsUl}>
       {isLoggedIn ? (
@@ -39,4 +45,4 @@ const HeaderActions = ({ isLoggedIn, history }) => {
   );
 };
 
-export default withRouter(HeaderActions);
+export default HeaderActions;

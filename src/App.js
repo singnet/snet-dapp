@@ -1,12 +1,13 @@
-import React, { Component, lazy, Suspense } from "react";
-import Amplify from "aws-amplify";
-import { Router, Switch, Route } from "react-router-dom";
-import { ThemeProvider } from "@material-ui/styles";
-import { connect } from "react-redux";
+import React, { lazy, Suspense, useEffect } from "react";
+import { Amplify } from "aws-amplify";
+import { BrowserRouter as Router, Routes as Switch, Route } from "react-router-dom";
+import { ThemeProvider } from "@mui/styles";
+import { useDispatch, useSelector } from "react-redux";
 import ReactGA from "react-ga";
 import { createBrowserHistory } from "history";
 
 import Routes from "./utility/constants/Routes";
+import NavigateSetter from "./utility/HistoryHelper";
 import { aws_config } from "./config/aws_config";
 import theme from "./assets/Theme";
 import withRegistrationHeader from "./components/HOC/WithRegistrationHeader";
@@ -15,7 +16,7 @@ import withInAppWrapper from "./components/HOC/WithInAppHeader";
 import { userActions } from "./Redux/actionCreators";
 import PrivateRoute from "./components/common/PrivateRoute";
 import AppLoader from "./components/common/AppLoader";
-import { CircularProgress } from "@material-ui/core";
+import { CircularProgress } from "@mui/material";
 import initHotjar from "./assets/externalScripts/hotjar";
 import initGDPRNotification from "./assets/externalScripts/gdpr";
 import PaymentCancelled from "./components/ServiceDetails/PaymentCancelled";
@@ -47,121 +48,144 @@ if (process.env.REACT_APP_HOTJAR_ID && process.env.REACT_APP_HOTJAR_SV) {
 }
 initGDPRNotification();
 
-class App extends Component {
-  componentDidMount = () => {
-    this.props.fetchUserDetails();
-  };
+const App = () => {
+  const isLoggedIn = useSelector((state) => state.userReducer.login.isLoggedIn);
+  const isTermsAccepted = useSelector((state) => state.userReducer.isTermsAccepted);
+  const isInitialized = useSelector((state) => state.userReducer.isInitialized);
 
-  render() {
-    const { isInitialized, isLoggedIn, isTermsAccepted } = this.props;
-    if (!isInitialized) {
-      return <CircularProgress />;
-    }
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(userActions.fetchUserDetails());
+  }, [dispatch]);
+
+  if (!isInitialized) {
     return (
-      <ThemeProvider theme={theme}>
-        <div>
-          <Router history={history}>
-            <Suspense fallback={<CircularProgress />}>
-              <Switch>
-                <Route path={`/${Routes.SIGNUP}`} component={withRegistrationHeader(SignUp, headerData.SIGNUP)} />
-                <Route
-                  path={`/${Routes.LOGIN}`}
-                  {...this.props}
-                  component={withRegistrationHeader(Login, headerData.LOGIN)}
-                />
-                <Route
-                  path={`/${Routes.FORGOT_PASSWORD}`}
-                  {...this.props}
-                  component={withRegistrationHeader(ForgotPassword, headerData.FORGOT_PASSWORD)}
-                />
-                <Route
-                  path={`/${Routes.FORGOT_PASSWORD_SUBMIT}`}
-                  {...this.props}
-                  component={withRegistrationHeader(ForgotPasswordSubmit, headerData.FORGOT_PASSWORD_SUBMIT)}
-                />
-                <Route
-                  path={`/${Routes.RESET_PASSWORD}`}
-                  {...this.props}
-                  component={withRegistrationHeader(ForgotPassword, headerData.FORGOT_PASSWORD)}
-                />
-                <Route
-                  path={`/${Routes.RESET_PASSWORD_SUBMIT}`}
-                  {...this.props}
-                  component={withRegistrationHeader(ForgotPasswordSubmit, headerData.FORGOT_PASSWORD_SUBMIT)}
-                />
-                <PrivateRoute
-                  isAllowed={isLoggedIn}
-                  redirectTo={`/${Routes.LOGIN}`}
-                  path={`/${Routes.ONBOARDING}`}
-                  {...this.props}
-                  component={withRegistrationHeader(Onboarding, headerData.ONBOARDING)}
-                />
-                <PrivateRoute
-                  isAllowed={isTermsAccepted}
-                  redirectTo={`/${Routes.ONBOARDING}`}
-                  path={`/${Routes.AI_MARKETPLACE}`}
-                  {...this.props}
-                  component={withInAppWrapper(AiMarketplace)}
-                />
-                <PrivateRoute
-                  isAllowed={isTermsAccepted}
-                  redirectTo={`/${Routes.ONBOARDING}`}
-                  exact
-                  path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId`}
-                  {...this.props}
-                  component={withInAppWrapper(ServiceDetails)}
-                />
-                <PrivateRoute
-                  isAllowed={isTermsAccepted}
-                  redirectTo={`/${Routes.ONBOARDING}`}
-                  path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId/order/:orderId/payment/:paymentId/execute`}
-                  {...this.props}
-                  component={withInAppWrapper(ServiceDetails)}
-                />
-                <PrivateRoute
-                  isAllowed={isTermsAccepted}
-                  redirectTo={`/${Routes.ONBOARDING}`}
-                  path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId/order/:orderId/payment/:paymentId/cancel`}
-                  {...this.props}
-                  component={PaymentCancelled}
-                />
-                <PrivateRoute
-                  isAllowed={isLoggedIn && isTermsAccepted}
-                  redirectTo={isLoggedIn ? `/${Routes.ONBOARDING}` : `/${Routes.LOGIN}`}
-                  path={`/${Routes.USER_PROFILE}/:activeTab?`}
-                  {...this.props}
-                  component={withInAppWrapper(UserProfile)}
-                />
-                <PrivateRoute
-                  isAllowed={isTermsAccepted}
-                  redirectTo={`/${Routes.ONBOARDING}`}
-                  path="/"
-                  exact
-                  {...this.props}
-                  component={withInAppWrapper(AiMarketplace)}
-                />
-                <Route path={`/${Routes.AI_REQUEST_FORM}`} component={AiRequestForm} />
-                <Route path={`/${Routes.GET_STARTED}`} component={withInAppWrapper(GetStarted)} />
-                <Route component={PageNotFound} />
-              </Switch>
-            </Suspense>
-          </Router>
-        </div>
-        <AppLoader />
-      </ThemeProvider>
+      <div className="loader-container">
+        <CircularProgress />
+      </div>
     );
   }
-}
 
-const mapStateToProps = (state) => ({
-  isLoggedIn: state.userReducer.login.isLoggedIn,
-  isTermsAccepted: state.userReducer.isTermsAccepted,
-  isInitialized: state.userReducer.isInitialized,
-  hamburgerMenu: state.stylesReducer.hamburgerMenu,
-});
+  return (
+    <ThemeProvider theme={theme}>
+      <Router location={history}>
+        <NavigateSetter />
+        <Suspense fallback={<CircularProgress />}>
+          <Switch>
+            <Route path={`/${Routes.SIGNUP}`} Component={withRegistrationHeader(SignUp, headerData.SIGNUP)} />
+            <Route
+              replace
+              path={`/${Routes.LOGIN}`}
+              // {...this.props}
+              Component={withRegistrationHeader(Login, headerData.LOGIN)}
+            />
+            <Route
+              path={`/${Routes.FORGOT_PASSWORD}`}
+              // {...this.props}
+              Component={withRegistrationHeader(ForgotPassword, headerData.FORGOT_PASSWORD)}
+            />
+            <Route
+              path={`/${Routes.FORGOT_PASSWORD_SUBMIT}`}
+              // {...this.props}
+              Component={withRegistrationHeader(ForgotPasswordSubmit, headerData.FORGOT_PASSWORD_SUBMIT)}
+            />
+            <Route
+              path={`/${Routes.RESET_PASSWORD}`}
+              // {...this.props}
+              Component={withRegistrationHeader(ForgotPassword, headerData.FORGOT_PASSWORD)}
+            />
+            <Route
+              path={`/${Routes.RESET_PASSWORD_SUBMIT}`}
+              // {...this.props}
+              Component={withRegistrationHeader(ForgotPasswordSubmit, headerData.FORGOT_PASSWORD_SUBMIT)}
+            />
+            <Route
+              path={`/${Routes.ONBOARDING}`}
+              element={
+                <PrivateRoute
+                  isAllowed={isLoggedIn}
+                  component={withRegistrationHeader(Onboarding, headerData.ONBOARDING)}
+                  redirectTo={`/${Routes.LOGIN}`}
+                  path={`/${Routes.ONBOARDING}`}
+                />
+              }
+            />
+            <Route
+              path={`/${Routes.AI_MARKETPLACE}`}
+              element={
+                <PrivateRoute
+                  isAllowed={isTermsAccepted}
+                  component={withInAppWrapper(AiMarketplace)}
+                  redirectTo={`/${Routes.ONBOARDING}`}
+                  path={`/${Routes.AI_MARKETPLACE}`}
+                />
+              }
+            />
+            <Route
+              path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId/tab/:tabId`}
+              element={
+                <PrivateRoute
+                  isAllowed={isTermsAccepted}
+                  component={withInAppWrapper(ServiceDetails)}
+                  redirectTo={`/${Routes.ONBOARDING}`}
+                  path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId/tab/:tabId`}
+                />
+              }
+            />
+            <Route
+              path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId/order/:orderId/payment/:paymentId/execute`}
+              element={
+                <PrivateRoute
+                  isAllowed={isTermsAccepted}
+                  component={withInAppWrapper(ServiceDetails)}
+                  redirectTo={`/${Routes.ONBOARDING}`}
+                  path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId/order/:orderId/payment/:paymentId/execute`}
+                />
+              }
+            />
+            <Route
+              path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId/order/:orderId/payment/:paymentId/cancel`}
+              element={
+                <PrivateRoute
+                  isAllowed={isTermsAccepted}
+                  component={PaymentCancelled}
+                  redirectTo={`/${Routes.ONBOARDING}`}
+                  path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId/order/:orderId/payment/:paymentId/cancel`}
+                />
+              }
+            />
+            <Route
+              path={`/${Routes.USER_PROFILE}/:activeTab?/*`}
+              element={
+                <PrivateRoute
+                  isAllowed={isLoggedIn && isTermsAccepted}
+                  component={withInAppWrapper(UserProfile)}
+                  redirectTo={isLoggedIn ? `/${Routes.ONBOARDING}` : `/${Routes.LOGIN}`}
+                  path={`/${Routes.USER_PROFILE}/:activeTab?`}
+                />
+              }
+            />
+            <Route
+              path="/"
+              element={
+                <PrivateRoute
+                  isAllowed={isTermsAccepted}
+                  component={withInAppWrapper(AiMarketplace)}
+                  redirectTo={`/${Routes.ONBOARDING}`}
+                  path="/"
+                />
+              }
+            />
+            <Route path={`/${Routes.AI_REQUEST_FORM}`} Component={AiRequestForm} />
+            <Route path={`/${Routes.GET_STARTED}`} Component={withInAppWrapper(GetStarted)} />
+            <Route path="*" Component={PageNotFound} />
+          </Switch>
+        </Suspense>
+      </Router>
+      <AppLoader />
+    </ThemeProvider>
+  );
+};
 
-const mapDispatchToProps = (dispatch) => ({
-  fetchUserDetails: () => dispatch(userActions.fetchUserDetails),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

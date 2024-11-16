@@ -13,6 +13,9 @@ export const useStyles = (theme) => ({
     letterSpacing: 0.54,
     textTransform: "capitalize",
   },
+  uploader: {
+    padding: "20px 0",
+  },
   uploadFromLinkContainer: {
     padding: "60px 64px",
     border: "1px dashed #D6D6D6",

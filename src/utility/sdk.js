@@ -1,10 +1,8 @@
 import SnetSDK, { WebServiceClient as ServiceClient } from "snet-sdk-web";
-import API from "@aws-amplify/api";
 import MPEContract from "singularitynet-platform-contracts/networks/MultiPartyEscrow";
-import Web3 from "web3";
 
 import { APIEndpoints, APIPaths } from "../config/APIEndpoints";
-import { initializeAPIOptions } from "./API";
+import { initializeAPIOptions, postAPI } from "./API";
 import { fetchAuthenticatedUser, walletTypes } from "../Redux/actionCreators/UserActions";
 import PaypalPaymentMgmtStrategy from "./PaypalPaymentMgmtStrategy";
 import { ethereumMethods } from "./constants/EthereumUtils";
@@ -17,7 +15,7 @@ const DEFAULT_GAS_LIMIT = 210000;
 const ON_ACCOUNT_CHANGE = "accountsChanged";
 const ON_NETWORK_CHANGE = "chainChanged";
 
-const EXPECTED_ID_ETHEREUM_NETWORK = process.env.REACT_APP_ETH_NETWORK;
+const EXPECTED_ID_ETHEREUM_NETWORK = Number(process.env.REACT_APP_ETH_NETWORK);
 
 let sdk;
 let channel;
@@ -60,7 +58,8 @@ const metadataGenerator = (serviceRequestErrorHandler, groupId) => async (servic
     const payload = { org_id, service_id, service_name: serviceName, method, username: email, group_id: groupId };
     const apiName = APIEndpoints.SIGNER_SERVICE.name;
     const apiOptions = initializeAPIOptions(token, payload);
-    return await API.post(apiName, APIPaths.SIGNER_FREE_CALL, apiOptions).then(parseFreeCallMetadata);
+    const meta = await postAPI(apiName, APIPaths.SIGNER_FREE_CALL, apiOptions);
+    return parseFreeCallMetadata(meta);
   } catch (err) {
     serviceRequestErrorHandler(err);
   }
@@ -76,9 +75,9 @@ const channelStateRequestSigner = async (channelId) => {
   const stateServicePayload = { channel_id: Number(channelId) };
   const { token } = await store.dispatch(fetchAuthenticatedUser());
   const stateServiceOptions = initializeAPIOptions(token, stateServicePayload);
-  return await API.post(apiName, APIPaths.SIGNER_STATE_SERVICE, stateServiceOptions).then(
+  return await postAPI(apiName, APIPaths.SIGNER_STATE_SERVICE, stateServiceOptions).then(
     parseChannelStateRequestSigner
-  );
+  ); //TODO
 };
 
 const paidCallMetadataGenerator = (serviceRequestErrorHandler) => async (channelId, signingAmount, nonce) => {
@@ -92,15 +91,15 @@ const paidCallMetadataGenerator = (serviceRequestErrorHandler) => async (channel
     };
     const { token } = await store.dispatch(fetchAuthenticatedUser());
     const RegCallOptions = initializeAPIOptions(token, RegCallPayload);
-    const response = await API.post(apiName, APIPaths.SIGNER_REGULAR_CALL, RegCallOptions);
-    const paidCallMetadata = parseRegularCallMetadata(response);
+    const regularCallMetadata = await postAPI(apiName, APIPaths.SIGNER_REGULAR_CALL, RegCallOptions);
+    const paidCallMetadata = parseRegularCallMetadata(regularCallMetadata);
     return Promise.resolve(paidCallMetadata);
   } catch (error) {
     serviceRequestErrorHandler(error);
   }
 };
 
-const generateOptions = (callType, wallet, serviceRequestErrorHandler, groupInfo, org_id, service_id) => {
+const generateOptions = (callType, wallet, serviceRequestErrorHandler, groupInfo) => {
   const defaultOptions = { concurrency: false };
   if (process.env.REACT_APP_SANDBOX) {
     return {
@@ -161,6 +160,13 @@ export const updateChannel = (newChannel) => {
   channel = newChannel;
 };
 
+const defineWeb3Provider = () => {
+  if (isUndefined(window.ethereum)) {
+    throw new Error("Metamask is not found");
+  }
+  web3Provider = window.ethereum;
+};
+
 const detectEthereumNetwork = async () => {
   const chainIdHex = await web3Provider.request({
     method: "eth_chainId",
@@ -176,60 +182,50 @@ const isUserAtExpectedEthereumNetwork = async () => {
 };
 
 const switchNetwork = async () => {
-  const web3 = new Web3(window.ethereum);
-  const hexifiedChainId = web3.utils.toHex(EXPECTED_ID_ETHEREUM_NETWORK);
-  await window.ethereum.request({
+  const hexifiedChainId = "0x" + EXPECTED_ID_ETHEREUM_NETWORK.toString(16);
+  await web3Provider.request({
     method: "wallet_switchEthereumChain",
     params: [{ chainId: hexifiedChainId }],
   });
 };
 
-export const initSdk = async (address) => {
-  web3Provider = window.ethereum;
-  const updateSDK = async () => {
-    const isExpectedNetwork = await isUserAtExpectedEthereumNetwork();
-    if (!isExpectedNetwork) {
-      await switchNetwork();
-    }
-
-    const config = {
-      networkId: await detectEthereumNetwork(),
-      web3Provider,
-      defaultGasPrice: DEFAULT_GAS_PRICE,
-      defaultGasLimit: DEFAULT_GAS_LIMIT,
-    };
-
-    sdk = new SnetSDK(config);
-    await sdk.setupAccount();
-  };
-
-  if (sdk && address) {
-    const currentAddress = await sdk.account.getAddress();
-    if (currentAddress.toLowerCase() !== address.toLowerCase()) {
-      await updateSDK();
-    }
-    return Promise.resolve(sdk);
+const updateSDK = async () => {
+  const isExpectedNetwork = await isUserAtExpectedEthereumNetwork();
+  if (!isExpectedNetwork) {
+    await switchNetwork();
   }
 
+  const config = {
+    networkId: await detectEthereumNetwork(),
+    web3Provider,
+    defaultGasPrice: DEFAULT_GAS_PRICE,
+    defaultGasLimit: DEFAULT_GAS_LIMIT,
+  };
+
+  sdk = await new SnetSDK(config);
+  await sdk.setupAccount();
+};
+
+const addListenersForWeb3 = () => {
+  web3Provider.addListener(ON_ACCOUNT_CHANGE, (accounts) => {
+    const event = new CustomEvent("snetMMAccountChanged", { detail: { address: accounts[0] } });
+    window.dispatchEvent(event);
+  });
+  web3Provider.addListener(ON_NETWORK_CHANGE, (network) => {
+    switchNetwork();
+    const event = new CustomEvent("snetMMNetworkChanged", { detail: { network } });
+    window.dispatchEvent(event);
+  });
+};
+
+export const initSdk = async () => {
   if (sdk && !(sdk instanceof PaypalSDK)) {
     return Promise.resolve(sdk);
   }
-
-  const hasEth = !isUndefined(window.ethereum);
-
-  if (hasEth) {
-    await web3Provider.request({ method: ethereumMethods.REQUEST_ACCOUNTS });
-    web3Provider.addListener(ON_ACCOUNT_CHANGE, (accounts) => {
-      const event = new CustomEvent("snetMMAccountChanged", { detail: { address: accounts[0] } });
-      window.dispatchEvent(event);
-    });
-    web3Provider.addListener(ON_NETWORK_CHANGE, (network) => {
-      switchNetwork();
-      const event = new CustomEvent("snetMMNetworkChanged", { detail: { network } });
-      window.dispatchEvent(event);
-    });
-    updateSDK();
-  }
+  defineWeb3Provider();
+  await web3Provider.request({ method: ethereumMethods.REQUEST_ACCOUNTS });
+  addListenersForWeb3();
+  await updateSDK();
   return Promise.resolve(sdk);
 };
 
@@ -239,6 +235,7 @@ const getMethodNames = (service) => {
     if (service[property] && typeof service[property] === typeof {}) {
       return !!service[property].methodName;
     }
+    return null;
   });
 };
 
@@ -250,13 +247,9 @@ export const createServiceClient = (
   serviceRequestCompleteHandler,
   serviceRequestErrorHandler,
   callType,
-  wallet,
-  channelInfo
+  wallet
 ) => {
-  if (sdk && channel) {
-    // sdk.paymentChannelManagementStrategy = new ProxyPaymentChannelManagementStrategy(channel);
-  }
-  const options = generateOptions(callType, wallet, serviceRequestErrorHandler, groupInfo, org_id, service_id);
+  const options = generateOptions(callType, wallet, serviceRequestErrorHandler, groupInfo);
   let paymentChannelManagementStrategy = sdk && sdk._paymentChannelManagementStrategy;
   if (!(paymentChannelManagementStrategy instanceof PaypalPaymentMgmtStrategy)) {
     paymentChannelManagementStrategy = new ProxyPaymentChannelManagementStrategy(channel);
@@ -310,6 +303,7 @@ export const createServiceClient = (
       serviceRequestStartHandler();
     }
   };
+
   try {
     return {
       invoke(methodDescriptor, props) {

@@ -2,13 +2,17 @@ export const useStyles = (theme) => ({
   ExpiredSessionContainer: {
     textAlign: "center",
     "& button": {
-      marginTop: 36,
-      marginRight: "0 !important",
+      margin: "0 auto",
       paddingBottomg: 15,
     },
   },
+  runServiceContainer: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    gap: 20,
+  },
   PurchaseFlowContainer: {
-    padding: "0 50px 50px",
     "@media(max-width:1280px)": { padding: 0 },
   },
   PurchaseFlowDescription: {

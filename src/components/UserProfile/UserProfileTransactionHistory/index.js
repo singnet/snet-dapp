@@ -1,14 +1,15 @@
 import React, { Component } from "react";
-import { withStyles } from "@material-ui/styles";
-import Grid from "@material-ui/core/Grid";
-import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
+import { withStyles } from "@mui/styles";
+import Grid from "@mui/material/Grid";
+import AppBar from "@mui/material/AppBar";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 import { connect } from "react-redux";
 
 import { userActions } from "../../../Redux/actionCreators";
 import Payments from "./Payments";
 import { useStyles } from "./styles";
+import { Helmet } from "react-helmet";
 
 class UserProfileTransactionHistory extends Component {
   state = { activeTab: 0 };
@@ -33,7 +34,14 @@ class UserProfileTransactionHistory extends Component {
     const activeComponent = tabs.filter((el) => el.activeIndex === activeTab)[0].component;
 
     return (
-      <Grid container spacing={24} className={classes.transactionHistoryMainContainer}>
+      <Grid container className={classes.transactionHistoryMainContainer}>
+        <Helmet>
+          <meta
+            name="description"
+            content="View and manage your SingularityNET transactions to monitor AI service usage and spending efficiently."
+          />
+          <meta name="keywords" content="Transactions, AI Services, SingularityNET, Usage Tracking" />
+        </Helmet>
         <Grid item xs={12} sm={12} md={12} lg={12} className={classes.transactionHistoryContainer}>
           <h3>Transactions History</h3>
           <div className={classes.transactionHistoryContent}>
@@ -53,7 +61,7 @@ class UserProfileTransactionHistory extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchUserTransactions: () => dispatch(userActions.fetchUserTransactions),
+  fetchUserTransactions: () => dispatch(userActions.fetchUserTransactions()),
 });
 
 const mapStateToProps = (state) => ({

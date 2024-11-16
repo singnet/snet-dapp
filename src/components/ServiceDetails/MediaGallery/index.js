@@ -1,11 +1,11 @@
 import React, { Component, Fragment } from "react";
-import { withStyles } from "@material-ui/styles";
-import PlayIcon from "@material-ui/icons/PlayArrow";
+import { withStyles } from "@mui/styles";
+import PlayIcon from "@mui/icons-material/PlayArrow";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
-import Modal from "@material-ui/core/Modal";
-import CloseIcon from "@material-ui/icons/Close";
-import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
+import Modal from "@mui/material/Modal";
+import CloseIcon from "@mui/icons-material/Close";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 import getVideoId from "get-video-id";
 import DefaultIconForVideo from "../../../assets/images/Play_1.png";
@@ -176,7 +176,7 @@ class MediaGallery extends Component {
   }
 
   _toggleShowVideo(url) {
-    this.state.showVideo[url] = !Boolean(this.state.showVideo[url]);
+    this.setState({ showVideo: { [url]: !Boolean(this.state.showVideo[url]) } });
     this.setState({
       showVideo: this.state.showVideo,
     });

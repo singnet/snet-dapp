@@ -1,7 +1,5 @@
-import API from "@aws-amplify/api";
-
 import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
-import { initializeAPIOptions } from "../../utility/API";
+import { getAPI, initializeAPIOptions } from "../../utility/API";
 import { fetchAuthenticatedUser } from "./UserActions";
 import { loaderActions } from "./";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
@@ -17,7 +15,7 @@ const resetServiceDetails = (dispatch) => {
 };
 
 const fetchServiceDetailsFailure = (err) => (dispatch) => {
-  dispatch(loaderActions.stopAppLoader);
+  dispatch(loaderActions.stopAppLoader());
 };
 
 const fetchServiceDetailsSuccess = (serviceDetails) => (dispatch) => {
@@ -25,7 +23,7 @@ const fetchServiceDetailsSuccess = (serviceDetails) => (dispatch) => {
   //   ...serviceDetails,
   //   data: { ...serviceDetails.data, media: serviceDetails.data.media.map(el => ({ ...el, url: cacheS3Url(el.url) })) },
   // };
-  dispatch(loaderActions.stopAppLoader);
+  dispatch(loaderActions.stopAppLoader());
   dispatch({ type: UPDATE_SERVICE_DETAILS, payload: serviceDetails.data });
 };
 
@@ -61,7 +59,7 @@ const fetchTrainingModelSuccess = (serviceTrainingData) => (dispatch) => {
 const fetchServiceTrainingDataAPI = async (orgId, serviceId) => {
   try {
     const dataForUrl = await fetchServiceDetailsAPI(orgId, serviceId);
-    const url = `${dataForUrl.data.groups[0].endpoints[0].endpoint}/servicemethoddetails`;
+    const url = `${dataForUrl.data.groups[0].endpoints[0].endpoint}/heartbeat`;
     const response = await fetch(url);
     return response.json();
   } catch (error) {
@@ -79,7 +77,7 @@ const meteringAPI = (token, orgId, serviceId, groupId, userId) => {
   const apiPath = APIPaths.FREE_CALL_USAGE;
   const queryParams = { organization_id: orgId, service_id: serviceId, group_id: groupId, username: userId };
   const apiOptions = initializeAPIOptions(token, null, queryParams);
-  return API.get(apiName, apiPath, apiOptions);
+  return getAPI(apiName, apiPath, apiOptions);
 };
 
 export const fetchMeteringData =

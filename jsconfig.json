@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+      "baseUrl": "node_modules",
+      "paths": {
+        "@material-ui/core/*": ["@mui/material/*"],
+        "@material-ui/icons/*": ["@mui/icons-material/*"],
+        "@material-ui/styles/*": ["@mui/styles/*"]
+      }
+    }
+}

@@ -13,7 +13,6 @@ const SeoMetadata = (props) => {
         .slice(0, totalKeywordsAllowed)
         .join(",")
     : undefined;
-  console.log("keywordsCommaDelimitedString", keywordsCommaDelimitedString);
   return (
     <Fragment>
       <Helmet>

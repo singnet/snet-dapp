@@ -1,9 +1,7 @@
-import API from "@aws-amplify/api";
-
 import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { loaderActions, userActions } from "./";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
-import { initializeAPIOptions } from "../../utility/API";
+import { getAPI, postAPI, initializeAPIOptions } from "../../utility/API";
 import { generateOrganizationsFilterObject } from "../../utility/constants/Pagination";
 // import { cacheS3Url } from "../../utility/image";
 
@@ -37,7 +35,7 @@ export const fetchServiceSuccess = (res) => (dispatch) => {
   //   media: { ...service.media, url: service.media.url ? cacheS3Url(service.media.url) : null },
   // }));
   dispatch({ type: UPDATE_SERVICE_LIST, payload: res.data.result });
-  dispatch(loaderActions.stopAIServiceListLoader);
+  dispatch(loaderActions.stopAIServiceListLoader());
 };
 
 export const fetchUserOrganizationsList = () => async (dispatch) => {
@@ -45,7 +43,7 @@ export const fetchUserOrganizationsList = () => async (dispatch) => {
   const apiPath = APIPaths.GET_USER_ORGS;
   const { token } = await dispatch(userActions.fetchAuthenticatedUser());
   const apiOptions = initializeAPIOptions(token);
-  return API.get(apiName, apiPath, apiOptions);
+  return getAPI({ apiName, apiPath, apiOptions });
 };
 
 const onlyUserOrgsFilter = () => async (dispatch) => {
@@ -65,7 +63,7 @@ export const fetchService =
       // env variable is string
       filters = await dispatch(onlyUserOrgsFilter());
     }
-    dispatch(loaderActions.startAIServiceListLoader);
+    dispatch(loaderActions.startAIServiceListLoader());
     const url = new URL(APIEndpoints.CONTRACT.endpoint + APIPaths.GET_SERVICE_LIST);
     return fetch(url, {
       method: "POST",
@@ -73,7 +71,7 @@ export const fetchService =
     })
       .then((res) => res.json())
       .then((res) => dispatch(fetchServiceSuccess(res)))
-      .catch(() => dispatch(loaderActions.stopAIServiceListLoader));
+      .catch(() => dispatch(loaderActions.stopAIServiceListLoader()));
   };
 
 export const updatePagination = (pagination) => (dispatch) => {
@@ -95,30 +93,30 @@ export const fetchFilterData = (attribute) => (dispatch) => {
 export const handleFilterChange =
   ({ pagination, filterObj, currentActiveFilterData }) =>
   (dispatch) => {
-    dispatch(loaderActions.startAIServiceListLoader);
+    dispatch(loaderActions.startAIServiceListLoader());
     Promise.all([
       dispatch(updatePagination(pagination)),
       dispatch(fetchService(pagination, filterObj)),
       dispatch(updateActiveFilterItem(currentActiveFilterData)),
     ])
-      .then(() => dispatch(loaderActions.stopAIServiceListLoader))
-      .catch(() => dispatch(loaderActions.stopAIServiceListLoader));
+      .then(() => dispatch(loaderActions.stopAIServiceListLoader()))
+      .catch(() => dispatch(loaderActions.stopAIServiceListLoader()));
   };
 
 export const resetFilter =
   ({ pagination }) =>
   (dispatch) => {
-    dispatch(loaderActions.startAIServiceListLoader);
+    dispatch(loaderActions.startAIServiceListLoader());
     Promise.all([dispatch(updatePagination(pagination)), dispatch(fetchService(pagination)), dispatch(resetFilterItem)])
-      .then(() => dispatch(loaderActions.stopAIServiceListLoader))
-      .catch(() => dispatch(loaderActions.stopAIServiceListLoader));
+      .then(() => dispatch(loaderActions.stopAIServiceListLoader()))
+      .catch(() => dispatch(loaderActions.stopAIServiceListLoader()));
   };
 
 const fetchFeedbackAPI = (email, orgId, serviceId, token) => {
   const apiName = APIEndpoints.USER.name;
   const path = `${APIPaths.FEEDBACK}?org_id=${orgId}&service_id=${serviceId}`;
   const apiOptions = initializeAPIOptions(token);
-  return API.get(apiName, path, apiOptions);
+  return getAPI(apiName, path, apiOptions);
 };
 
 const fetchAuthTokenAPI = (serviceId, groupId, publicKey, orgId, userId, token) => {
@@ -132,7 +130,8 @@ const fetchAuthTokenAPI = (serviceId, groupId, publicKey, orgId, userId, token) 
     user_id: userId,
   };
   const apiOptions = initializeAPIOptions(token, null, queryParams);
-  return API.get(apiName, apiPath, apiOptions);
+  const authTokenRequest = getAPI(apiName, apiPath, apiOptions);
+  return authTokenRequest.response;
 };
 
 export const downloadAuthToken = (serviceId, groupId, publicKey, orgId) => async (dispatch) => {
@@ -149,10 +148,10 @@ export const downloadAuthToken = (serviceId, groupId, publicKey, orgId) => async
     };
     const downloadBlob = new Blob([JSON.stringify(jsonToDownload)], { type: "text/json;charset=utf-8" });
     const downloadURL = window.URL.createObjectURL(downloadBlob);
-    dispatch(loaderActions.stopAppLoader);
+    dispatch(loaderActions.stopAppLoader());
     return downloadURL;
   } catch (e) {
-    dispatch(loaderActions.stopAppLoader);
+    dispatch(loaderActions.stopAppLoader());
     throw e;
   }
 };
@@ -167,7 +166,7 @@ const submitFeedbackAPI = (feedbackObj, token) => {
   const apiName = APIEndpoints.USER.name;
   const path = `${APIPaths.FEEDBACK}`;
   const apiOptions = initializeAPIOptions(token, feedbackObj);
-  return API.post(apiName, path, apiOptions);
+  return postAPI({ apiName, path, apiOptions });
 };
 
 export const submitFeedback = (orgId, serviceId, feedback) => async (dispatch) => {

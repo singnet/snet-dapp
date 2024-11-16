@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Button from "@material-ui/core/Button";
+import Button from "@mui/material/Button";
 import clsx from "clsx";
-import Icon from "@material-ui/core/Icon";
+import Icon from "@mui/material/Icon";
 
 import { useStyles } from "./styles";
 
@@ -23,10 +23,10 @@ const StyledButton = ({ disabled, onClick, type, btnType, iconClass, href, newTa
 
   return (
     <Button
-      className={clsx(classes.styledButton, classes[buttonColor[type]])}
+      className={clsx(classes.styledButton, classes[buttonColor[type || "blue"]])}
       disabled={disabled}
       onClick={onClick}
-      type={btnType}
+      type={btnType || "button"}
       href={href}
       target={href && newTab ? "_blank" : ""}
       rel={href && newTab ? "noopener" : ""}
@@ -57,11 +57,6 @@ StyledButton.propTypes = {
   iconClass: PropTypes.string,
   href: PropTypes.string,
   newTab: PropTypes.bool,
-};
-
-StyledButton.defaultProps = {
-  type: "blue",
-  btnType: "button",
 };
 
 export default StyledButton;

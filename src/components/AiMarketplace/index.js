@@ -1,10 +1,9 @@
 import React, { Fragment } from "react";
-import { connect } from "react-redux";
-
 import MainSection from "./MainSection";
 import SeoMetadata from "../common/SeoMetadata";
 import ServiceListingHeader from "./ServiceListingHeader";
 import PromoComponent from "../PromoComponent";
+import { Helmet } from "react-helmet";
 
 const seoData = {
   title: "SingularityNET Beta Dapp",
@@ -15,9 +14,16 @@ const seoData = {
   url: `${process.env.REACT_APP_BASE_URL}`,
 };
 
-const AiMarketplace = ({ isLoggedIn }) => {
+const AiMarketplace = () => {
   return (
     <Fragment>
+      <Helmet>
+        <meta
+          name="description"
+          content="Dive into the AI Marketplace of SingularityNET and discover cutting-edge AI services and solutions."
+        />
+        <meta name="keywords" content="AI Marketplace, AI Services, Discover, Explore, SingularityNET" />
+      </Helmet>
       <ServiceListingHeader />
       <SeoMetadata
         title={seoData.title}
@@ -32,8 +38,4 @@ const AiMarketplace = ({ isLoggedIn }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  isLoggedIn: state.userReducer.login.isLoggedIn,
-});
-
-export default connect(mapStateToProps)(AiMarketplace);
+export default AiMarketplace;

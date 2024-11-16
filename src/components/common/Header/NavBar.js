@@ -1,11 +1,11 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
+// import { withRouter } from "react-router-dom";
 
 import { useStyles } from "./styles";
 import NavItem from "./NavItem";
 import StyledMenu from "../StyledMenu";
 
-const NavBar = ({ data, history }) => {
+const NavBar = ({ data }) => {
   const classes = useStyles();
 
   return (
@@ -24,4 +24,4 @@ const NavBar = ({ data, history }) => {
   );
 };
 
-export default withRouter(NavBar);
+export default NavBar;

@@ -1,8 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { withStyles } from "@material-ui/styles";
-import Grid from "@material-ui/core/Grid";
-import { withRouter } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { withStyles } from "@mui/styles";
+import Grid from "@mui/material/Grid";
+// import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
 import SnetSvgLogo from "../SnetSvgLogo";
@@ -11,19 +11,20 @@ import { headerData as masterHeaderData } from "../../../utility/constants/Heade
 import { useStyles } from "./styles";
 import { userActions } from "../../../Redux/actionCreators";
 
-const LoginOnboardingHeader = ({ classes, headerData, history, signOut }) => {
+const LoginOnboardingHeader = ({ classes, headerData, signOut }) => {
+  const navigate = useNavigate();
   const { headerTitle, linkPath, headerText } = headerData;
 
   const handleHeaderTextClick = (headerText, linkPath) => {
     if (headerText === masterHeaderData.ONBOARDING.headerText) {
       signOut();
     }
-    history.push(`${linkPath}`);
+    return navigate(`/${linkPath}`, { replace: true });
   };
 
   return (
-    <Grid container spacing={24} className={classes.loginOnboardingHeaderContainer}>
-      <Grid container spacing={24} className={classes.loginHeader}>
+    <Grid container className={classes.loginOnboardingHeaderContainer}>
+      <Grid container className={classes.loginHeader}>
         <Grid item xs={12} sm={6} md={6} lg={6}>
           <h1>
             <Link to={Routes.AI_MARKETPLACE}>
@@ -42,7 +43,7 @@ const LoginOnboardingHeader = ({ classes, headerData, history, signOut }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  signOut: () => dispatch(userActions.signOut),
+  signOut: () => dispatch(userActions.signOut()),
 });
 
-export default withRouter(connect(null, mapDispatchToProps)(withStyles(useStyles)(LoginOnboardingHeader)));
+export default connect(null, mapDispatchToProps)(withStyles(useStyles)(LoginOnboardingHeader));

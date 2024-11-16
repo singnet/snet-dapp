@@ -1,16 +1,15 @@
 import React, { Component } from "react";
 import isEmpty from "lodash/isEmpty";
 import { connect } from "react-redux";
-import { withStyles } from "@material-ui/styles";
-import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet";
-import Typography from "@material-ui/core/Typography";
+import { withStyles } from "@mui/styles";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import Typography from "@mui/material/Typography";
 import { walletTypes } from "../../../../../Redux/actionCreators/UserActions";
 import StyledDropdown from "../../../../common/StyledDropdown";
 import AlertBox, { alertTypes } from "../../../../common/AlertBox";
 import { channelInfo } from "../../../../../Redux/reducers/UserReducer";
 import PaymentInfoCard from "../../../AboutService/ServiceDemo/Purchase/PaymentInfoCard";
-import { initSdk } from "../../../../../utility/sdk";
-import { loaderActions, userActions } from "../../../../../Redux/actionCreators";
+import { loaderActions, userActions, sdkActions } from "../../../../../Redux/actionCreators";
 import { anyPendingTxn, anyFailedTxn } from "../../../../../Redux/reducers/PaymentReducer";
 import WalletDetailsToggler from "../../../AboutService/ServiceDemo/Purchase/ExpiredSession/WalletDetailsToggler";
 import { useStyles } from "./styles";
@@ -39,16 +38,15 @@ class PaymentMode extends Component {
 
   handlePayTypeChange = async (event) => {
     const { value } = event.target;
-    const { updateWallet, stopWalletDetailsPolling } = this.props;
+    const { updateWallet } = this.props;
     this.setState({ alert: {} });
     if (value === walletTypes.METAMASK) {
       try {
-        const selectedEthAddress = window.ethereum && window.ethereum.selectedAddress;
-        const sdk = await initSdk(selectedEthAddress);
+        const sdk = await this.props.getSdk();
         const address = await sdk.account.getAddress();
 
         if (!isEmpty(address)) {
-          stopWalletDetailsPolling();
+          // stopWalletDetailsPolling();
           updateWallet({ type: value, address });
           return;
         }
@@ -60,7 +58,7 @@ class PaymentMode extends Component {
       }
     }
     if (value === walletTypes.GENERAL) {
-      stopWalletDetailsPolling();
+      // stopWalletDetailsPolling();
       updateWallet({ type: value });
       return;
     }
@@ -136,9 +134,10 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  stopLoader: () => dispatch(loaderActions.stopAppLoader),
+  stopLoader: () => dispatch(loaderActions.stopAppLoader()),
   updateWallet: (args) => dispatch(userActions.updateWallet(args)),
-  stopWalletDetailsPolling: () => dispatch(userActions.stopWalletDetailsPolling),
+  // stopWalletDetailsPolling: () => dispatch(userActions.stopWalletDetailsPolling),
+  getSdk: () => dispatch(sdkActions.getSdk()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(PaymentMode));

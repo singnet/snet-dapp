@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 
-import { withStyles } from "@material-ui/styles";
+import { withStyles } from "@mui/styles";
 
 import Header from "./Header";
 import { useStyles } from "./styles";
 import Routes from "../../utility/constants/Routes";
+import { Helmet } from "react-helmet";
 
 const AiRequestForm = ({ classes }) => {
   const [fixHeader, setfixHeader] = useState(false);
@@ -37,6 +38,12 @@ const AiRequestForm = ({ classes }) => {
 
   return (
     <div className={classes.googleFormMainContainer}>
+      <Helmet>
+        <meta
+          name="description"
+          content="Have an AI project in mind? Submit your request through SingularityNET and collaborate with leading AI experts."
+        />
+      </Helmet>
       <Header data={headerTabs} fixHeader={fixHeader} />
       <div className={classes.aiRequestFormMainContainer}>
         <div className={classes.aiRequestFormWrapper}>

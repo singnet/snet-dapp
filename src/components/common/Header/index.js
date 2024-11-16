@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 
 import { useStyles } from "./styles";
 import NavBar from "./NavBar";
@@ -9,7 +8,7 @@ import MobileHeader from "./MobileHeader";
 import UpdateNotificationBar from "../../common/UpdateNotificationBar";
 import { NavData } from "../../../utility/constants/Header";
 
-const Header = ({ isLoggedIn, showNotification, onCloseClick }) => {
+const Header = ({ showNotification, onCloseClick }) => {
   const classes = useStyles();
   return (
     <div>
@@ -19,7 +18,7 @@ const Header = ({ isLoggedIn, showNotification, onCloseClick }) => {
         </div>
         <div className={classes.mainHeader}>
           <div className={classes.logoSection}>
-            <MobileHeader data={NavData} isLoggedIn={isLoggedIn} />
+            <MobileHeader data={NavData} />
             <Title />
           </div>
           {!process.env.REACT_APP_SANDBOX && (
@@ -28,7 +27,7 @@ const Header = ({ isLoggedIn, showNotification, onCloseClick }) => {
                 <NavBar data={NavData} />
               </div>
               <div className={classes.loginBtnsSection}>
-                <HeaderActions isLoggedIn={isLoggedIn} />
+                <HeaderActions />
               </div>
             </>
           )}
@@ -38,6 +37,4 @@ const Header = ({ isLoggedIn, showNotification, onCloseClick }) => {
   );
 };
 
-const mapStateToProps = (state) => ({ isLoggedIn: state.userReducer.login.isLoggedIn });
-
-export default connect(mapStateToProps)(Header);
+export default Header;

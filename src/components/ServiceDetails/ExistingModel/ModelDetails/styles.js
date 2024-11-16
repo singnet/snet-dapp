@@ -1,7 +1,5 @@
-const modelStatus = {
-  IN_PROGRESS: "IN_PROGRESS",
-  PUBLISHED: "PUBLISHED",
-};
+import { modelStatus } from "./index";
+
 export const useStyles = (theme) => ({
   modelDetailsContainer: {
     padding: "21px 21px 16px 22px",
@@ -10,13 +8,18 @@ export const useStyles = (theme) => ({
     margin: "17px 23px 24px",
     backgroundColor: theme.palette.text.gray1,
     "& p": {
-      padding: "8px 0 16px",
       margin: 0,
       color: theme.palette.text.mediumShadeGray,
       fontSize: 14,
       fontWeight: 300,
       lineHeight: "18px",
     },
+  },
+  modelDetails: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 10,
+    paddingBottom: 16,
   },
   titleIdContainer: {
     display: "flex",
@@ -28,33 +31,28 @@ export const useStyles = (theme) => ({
       fontSize: 18,
       lineHeight: "23px",
     },
-    "& p": {
-      color: theme.palette.text.darkShadedGray,
-      fontSize: 14,
-      fontWeight: 400,
-      lineHeight: "18px",
-      "& span": {
-        color: theme.palette.text.mediumShadeGray,
-      },
-    },
+  },
+  descriptionContainer: {
+    fontSize: 18,
   },
   statusAccessLastUpdateContainer: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
     "& > div": {
-      width: "60%",
+      // width: "60%",
       display: "flex",
       alignItems: "center",
-      "& p": {
+      "& div": {
         color: theme.palette.text.darkShadedGray,
-        fontSize: 12,
+        fontSize: 14,
         fontWeight: "bold",
-        lineHeight: "15px",
         "& span": { color: theme.palette.text.mediumShadeGray },
+        [`& span[data-status-type="${modelStatus.CREATED}"]`]: { color: "#4086ff" },
         [`& span[data-status-type="${modelStatus.IN_PROGRESS}"]`]: { color: "#2CB7CF" },
-        [`& span[data-status-type="${modelStatus.PUBLISHED}"]`]: { color: "#0B8E1C" },
-        "&:first-of-type": { paddingRight: "5%" },
+        [`& span[data-status-type="${modelStatus.COMPLETED}"]`]: { color: "#0B8E1C" },
+        [`& span[data-status-type="${modelStatus.ERRORED}"]`]: { color: theme.palette.text.errorRed },
+        [`& span[data-status-type="${modelStatus.DELETED}"]`]: { color: theme.palette.text.errorRed },
       },
     },
     "& > p": {
@@ -66,6 +64,10 @@ export const useStyles = (theme) => ({
       flexDirection: "column",
       alignItems: "flex-start",
     },
+  },
+  additionalInfoContainer: {
+    display: "flex",
+    gap: 30,
   },
   actionButtons: {
     paddingTop: 16,
@@ -85,7 +87,13 @@ export const useStyles = (theme) => ({
     },
   },
   updateBtn: { color: theme.palette.text.darkShadedGray },
-  testBtn: { color: theme.palette.text.primary },
+  testBtn: {
+    background: theme.palette.text.primary,
+    color: theme.palette.text.white,
+    "&:hover": {
+      background: theme.palette.text.customHoverBlue,
+    },
+  },
   deleteBtn: { color: theme.palette.text.redBtnText },
   deleteModalContent: {
     width: 580,
@@ -115,7 +123,9 @@ export const useStyles = (theme) => ({
     "@media(max-width: 600px)": { width: "100%" },
   },
   deleteModalActions: {
-    textAlign: "right",
+    display: "flex",
+    justifyContent: "end",
+    gap: 15,
     "& button": {
       textTransform: "initial",
       letterSpacing: 1.3,
@@ -126,39 +136,29 @@ export const useStyles = (theme) => ({
       },
     },
   },
-  accessValue: {
+  accessValueContainer: {
     position: "relative",
     "& span": {
+      cursor: "pointer",
       "&:hover": {
         "& + ul": { display: "block" },
       },
     },
     "& ul": {
       margin: "7px 0 0",
-      padding: "5px 12px 10px 11px",
+      borderRadius: 8,
+      padding: "10px 15px",
       display: "none",
       position: "absolute",
-      left: "50%",
       transform: "translateX(-10%)",
       zIndex: 1,
-      background: "#333",
+      background: "#333333bf",
       color: theme.palette.text.white,
       fontWeight: 400,
       listStyle: "none",
       "& li": {
         paddingBottom: 5,
         "&:last-of-type": { paddingBottom: 0 },
-      },
-      "&::after": {
-        content: '" "',
-        position: "absolute",
-        left: "50%",
-        top: -7,
-        transform: "translateX(-50%)",
-        borderTop: "none",
-        borderRight: "7px solid transparent",
-        borderLeft: "7px solid transparent",
-        borderBottom: "7px solid #333",
       },
     },
   },

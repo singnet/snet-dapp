@@ -1,9 +1,8 @@
-import SeacrhIcon from "@material-ui/icons/Search";
-import DescriptionIcon from "@material-ui/icons/Description";
-import PlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
-// import ThumbsUpDownIcon from "@material-ui/icons/ThumbsUpDown";
-import SettingsIcon from "@material-ui/icons/Settings";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import SeacrhIcon from "@mui/icons-material/Search";
+import DescriptionIcon from "@mui/icons-material/Description";
+import PlayCircleFilledIcon from "@mui/icons-material/PlayCircleFilled";
+import SettingsIcon from "@mui/icons-material/Settings";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 const imgPath = (directory, file, extension = "png") =>
   `${process.env.REACT_APP_SNET_CDN}/dapp/assets/images/GetStarted/${directory}/${file}.${extension}`;

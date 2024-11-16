@@ -1,7 +1,7 @@
 import React from "react";
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
-import { withStyles } from "@material-ui/styles";
+import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
+import { withStyles } from "@mui/styles";
 
 import StyledButton from "../../common/StyledButton";
 import AlertBox from "../../common/AlertBox";
@@ -33,10 +33,10 @@ const RenderOTP = ({ classes, otp, handleOTP, handleResendOTP, handleConfirmSign
           onChange={handleOTP}
           autoFocus
         />
-        <AlertBox type={alert.type} message={alert.message} />
+        {alert && <AlertBox type={alert.type} message={alert.message} />}
         <div className={classes.buttonsContainer}>
           <StyledButton type="transparent" btnText="Resend" onClick={handleResendOTP} />
-          <StyledButton type="blue" btnText="Continue" onClick={handleConfirmSignup} />
+          <StyledButton type="blue" btnType="submit" btnText="Continue" onClick={handleConfirmSignup} />
         </div>
       </form>
     </Grid>

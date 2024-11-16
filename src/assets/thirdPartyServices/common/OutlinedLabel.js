@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import InfoIcon from "@material-ui/icons/Info";
-import Tooltip from "@material-ui/core/Tooltip";
+import InfoIcon from "@mui/icons-material/Info";
+import Tooltip from "@mui/material/Tooltip";
 
 class OutlinedLabel extends React.Component {
   constructor(props, context) {

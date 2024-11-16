@@ -1,7 +1,7 @@
 import React from "react";
-import { withStyles } from "@material-ui/styles";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
+import { withStyles } from "@mui/styles";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
 import truncate from "lodash/truncate";
 
 import PaymentData from "./PaymentData";
@@ -10,7 +10,7 @@ import { agiInDecimal } from "../../../../utility/PricingStrategy";
 
 const Payments = ({ classes, transactionHistory }) => {
   return (
-    <Grid container spacing={24} className={classes.paymentsContainer}>
+    <Grid container className={classes.paymentsContainer}>
       <Grid item xs={12} sm={12} md={12} lg={12} className={classes.paymentsHeaders}>
         <Grid item xs={2} sm={2} md={2} lg={2}>
           <Typography>date</Typography>
@@ -34,7 +34,7 @@ const Payments = ({ classes, transactionHistory }) => {
           <Typography>item received</Typography>
         </Grid>
       </Grid>
-      <Grid container spacing={24} className={classes.paymentsDataContainer}>
+      <Grid container className={classes.paymentsDataContainer}>
         {transactionHistory.map((transaction, index) => (
           <PaymentData
             key={transaction.orderId}
