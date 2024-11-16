@@ -43,7 +43,7 @@ export const fetchUserOrganizationsList = () => async (dispatch) => {
   const apiPath = APIPaths.GET_USER_ORGS;
   const { token } = await dispatch(userActions.fetchAuthenticatedUser());
   const apiOptions = initializeAPIOptions(token);
-  return getAPI({ apiName, apiPath, apiOptions });
+  return getAPI(apiName, apiPath, apiOptions);
 };
 
 const onlyUserOrgsFilter = () => async (dispatch) => {
