@@ -1,10 +1,8 @@
 export const useStyles = (theme) => ({
   accessModelContainer: {
-    marginTop: 24,
     display: "flex",
     flexDirection: "column",
     "& > span": {
-      marginLeft: 53,
       color: theme.palette.text.mediumShadeGray,
       fontSize: 14,
       fontWeight: 300,
@@ -12,7 +10,6 @@ export const useStyles = (theme) => ({
     },
   },
   ethAddressContainer: {
-    margin: "30px 0 0 53px",
     display: "flex",
     flexDirection: "column",
     "& > span": {
@@ -24,8 +21,12 @@ export const useStyles = (theme) => ({
     },
   },
   addMoreEthAdd: {
+    display: "flex",
+    // justifyContent: "space-between",
+    alignItems: "center",
+    gap: 30,
     "& > div:first-of-type": {
-      width: 370,
+      width: 500,
       margin: 0,
       "& input": {
         padding: "19.7px 14px",
@@ -43,30 +44,32 @@ export const useStyles = (theme) => ({
     marginBottom: 8,
     display: "flex",
     alignItems: "center",
-    "& span": {
-      boxSizing: "border-box",
-      width: 370,
-      padding: "17px 15px",
-      border: "1px solid #828282",
-      borderRadius: 4,
-      marginRight: 24,
-      display: "inline-block",
-      overflow: "hidden",
-      textOverflow: "ellipsis",
-    },
-    "& svg": { color: "#D6201F" },
+    gap: 30,
+  },
+  removeAddressButton: {
+    cursor: "pointer",
+    "& svg": { color: theme.palette.text.redBtnBg },
   },
   addTextBox: {
-    marginTop: 16,
     display: "flex",
     alignItems: "center",
-    color: theme.palette.text.primary,
+    justifyContent: "center",
+    background: theme.palette.text.primary,
+    color: theme.palette.text.white,
+    borderRadius: 20,
+    width: 30,
+    height: 30,
     cursor: "pointer",
     "& svg": {
-      marginRight: 10,
       fontSize: 20,
       cursor: "pointer",
     },
     "& span": { fontSize: 14 },
+    "&:hover": {
+      background: theme.palette.text.customHoverBlue,
+    },
+  },
+  addressField: {
+    width: 500,
   },
 });

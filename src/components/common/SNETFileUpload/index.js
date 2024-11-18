@@ -40,7 +40,7 @@ const SNETFileUpload = (props) => {
   });
 
   return (
-    <Grid container>
+    <Grid container spacing={3}>
       <input {...getInputProps()} />
       <Grid item xs={12} sm={12} md={6} lg={6} spacing={2} className={classes.grayBox} {...getRootProps()}>
         <CloudUpload />

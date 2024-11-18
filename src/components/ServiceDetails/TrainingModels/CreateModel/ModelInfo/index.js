@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Switch from "@mui/material/Switch";
+// import FormControlLabel from "@mui/material/FormControlLabel";
+// import Switch from "@mui/material/Switch";
 import StyledDropdown from "../../../../common/StyledDropdown";
 import StyledTextField from "../../../../common/StyledTextField";
 import StyledButton from "../../../../common/StyledButton";
@@ -25,8 +25,10 @@ const ModelInfo = ({ classes, cancelEditModel }) => {
   const { currentModel } = useSelector((state) => state.serviceTrainingReducer);
   const { org_id, service_id } = useSelector((state) => currentServiceDetails(state));
 
+  //eslint-disable-next-line
   const [isRestrictAccessModel, setIsRestrictAccessModel] = useState(
-    currentModel && currentModel.publicAccess ? true : false
+    true
+    // currentModel && currentModel.publicAccess ? true : false
   );
   const [accessAddresses, setAccessAddresses] = useState(currentModel ? currentModel.addressList : []);
   const [trainingMethod, setTrainingMethod] = useState(currentModel ? currentModel.methodName : undefined);
@@ -87,9 +89,9 @@ const ModelInfo = ({ classes, cancelEditModel }) => {
     }
   };
 
-  const onAccessModelSwitchChange = () => {
-    setIsRestrictAccessModel(!isRestrictAccessModel);
-  };
+  // const onAccessModelSwitchChange = () => {
+  //   setIsRestrictAccessModel(!isRestrictAccessModel);
+  // };
 
   const trainingModelAccess = detailsTraining?.trainingMethods || [];
 
@@ -158,7 +160,7 @@ const ModelInfo = ({ classes, cancelEditModel }) => {
       </div>
       <Data trainingDataLink={trainingDataLink} setTrainingDataLink={setTrainingDataLink} />
       <div className={classes.accessModelContainer}>
-        <FormControlLabel
+        {/* <FormControlLabel
           label="Enable access restriction for this model"
           control={
             <Switch
@@ -168,7 +170,7 @@ const ModelInfo = ({ classes, cancelEditModel }) => {
               className={classes.switchToggle}
             />
           }
-        />
+        /> */}
         {isRestrictAccessModel && (
           <AccessModel accessAddresses={accessAddresses} setAccessAddresses={setAccessAddresses} />
         )}

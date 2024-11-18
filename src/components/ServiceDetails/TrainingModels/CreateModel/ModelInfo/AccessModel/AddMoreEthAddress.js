@@ -16,10 +16,9 @@ const AddMoreEthAddress = ({ classes, addEthAddress }) => {
 
   return (
     <div className={classes.addMoreEthAdd}>
-      <StyledTextField value={value} placeholder="Enter ID" onChange={(e) => setValue(e.target.value)} />
+      <StyledTextField value={value} placeholder="Enter ethereum address" onChange={(e) => setValue(e.target.value)} />
       <div onClick={addInput} className={classes.addTextBox}>
         <AddIcon />
-        <span>Add another address</span>
       </div>
     </div>
   );
