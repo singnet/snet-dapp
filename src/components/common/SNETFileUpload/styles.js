@@ -2,7 +2,7 @@ import { makeStyles } from "@mui/styles";
 
 export const useStyles = makeStyles((MUITheme) => ({
   grayBox: {
-    padding: "50px 45px",
+    padding: "50px 45px !important",
     borderWidth: 1,
     borderStyle: "dashed",
     borderColor: MUITheme.palette.text.darkGray,
@@ -75,14 +75,13 @@ export const useStyles = makeStyles((MUITheme) => ({
     display: "flex",
     "& > div": {
       "&:first-of-type": {
-        width: 377,
+        // width: 377,
         [MUITheme.breakpoints.down("sm")]: { width: "100%" },
       },
     },
     [MUITheme.breakpoints.down("sm")]: { flexDirection: "column" },
   },
   uploadDetails: {
-    marginLeft: 27,
     "& > div": { marginBottom: 8 },
     [MUITheme.breakpoints.down("sm")]: { paddingTop: 25 },
   },

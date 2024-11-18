@@ -14,32 +14,30 @@ const FileStats = (props) => {
   }
 
   return (
-    <div className={classes.imgUploaderContainer}>
-      <div className={classes.uploadDetails}>
-        <div className={uploadSuccess ? classes.successfullUpload : classes.uploadStatusContainer}>
-          <div className={error ? classes.errorField : classes.uploadStatusContainer}>
-            <FolderIcon />
-            <Typography className={uploadSuccess ? classes.uploaded : classes.uploadStatus}>
-              {uploadSuccess ? "Files Uploaded Successfully" : "No/Wrong Files Uploaded"}
-            </Typography>
-          </div>
+    <div className={classes.uploadDetails}>
+      <div className={uploadSuccess ? classes.successfullUpload : classes.uploadStatusContainer}>
+        <div className={error ? classes.errorField : classes.uploadStatusContainer}>
+          <FolderIcon />
+          <Typography className={uploadSuccess ? classes.uploaded : classes.uploadStatus}>
+            {uploadSuccess ? "Files Uploaded Successfully" : "No/Wrong Files Uploaded"}
+          </Typography>
         </div>
-        <div>
-          <Typography className={classes.title}>File Name:</Typography>
-          <Typography className={classes.value}>{fileName}</Typography>
-        </div>
-        <div>
-          <Typography className={classes.title}>Items:</Typography>
-          <Typography className={classes.value} />
-        </div>
-        <div>
-          <Typography className={classes.title}>Uploaded:</Typography>
-          <Typography className={classes.value} />
-        </div>
-        <div>
-          <Typography className={classes.title}>Size:</Typography>
-          <Typography className={classes.value}>{fileSize}</Typography>
-        </div>
+      </div>
+      <div>
+        <Typography className={classes.title}>File Name:</Typography>
+        <Typography className={classes.value}>{fileName}</Typography>
+      </div>
+      <div>
+        <Typography className={classes.title}>Items:</Typography>
+        <Typography className={classes.value} />
+      </div>
+      <div>
+        <Typography className={classes.title}>Uploaded:</Typography>
+        <Typography className={classes.value} />
+      </div>
+      <div>
+        <Typography className={classes.title}>Size:</Typography>
+        <Typography className={classes.value}>{fileSize}</Typography>
       </div>
     </div>
   );
