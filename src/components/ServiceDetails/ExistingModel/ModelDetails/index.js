@@ -80,7 +80,7 @@ const ModelDetails = ({ classes, openEditModel, model, address }) => {
           </div>
         </div>
         <div className={classes.actionButtons}>
-          <Button className={classes.testBtn} onClick={handleSetModel} disabled={!isInferenceAvailable}>
+          <Button className={classes.inferenceBtn} onClick={handleSetModel} disabled={!isInferenceAvailable}>
             <NearMeOutlinedIcon />
             <span>Inference</span>
           </Button>
