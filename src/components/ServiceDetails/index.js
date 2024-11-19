@@ -16,7 +16,11 @@ import AboutService from "./AboutService";
 import InstallAndRunService from "./InstallAndRunService";
 import NotificationBar, { notificationBarTypes } from "../common/NotificationBar";
 
-import { fetchTrainingModel, fetchServiceDetails } from "../../Redux/actionCreators/ServiceDetailsActions";
+import {
+  fetchTrainingModel,
+  fetchServiceDetails,
+  getIsTrainingAvailable,
+} from "../../Redux/actionCreators/ServiceDetailsActions";
 import {
   pricing as getPricing,
   serviceDetails as getServiceDetails,
@@ -43,7 +47,7 @@ const ServiceDetails = ({ classes }) => {
   const { orgId, serviceId, tabId } = useParams();
 
   const isLoggedIn = useSelector((state) => state.userReducer.login.isLoggedIn);
-  const training = useSelector((state) => state.serviceDetailsReducer.detailsTraining);
+  const detailsTraining = useSelector((state) => state.serviceDetailsReducer.detailsTraining);
   const service = useSelector((state) => getServiceDetails(state, orgId, serviceId));
   const groupInfo = useSelector((state) => getGroupInfo(state));
   const pricing = useSelector((state) => getPricing(state));
@@ -89,8 +93,7 @@ const ServiceDetails = ({ classes }) => {
     );
   }
 
-  const isTrainingAvailable =
-    process.env.REACT_APP_TRAINING_ENABLE === "true" && Object.keys(training).length && isLoggedIn;
+  const isTrainingAvailable = getIsTrainingAvailable(detailsTraining, isLoggedIn);
 
   const tabs = [
     {

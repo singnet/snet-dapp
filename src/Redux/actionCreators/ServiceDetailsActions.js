@@ -3,7 +3,7 @@ import { getAPI, initializeAPIOptions } from "../../utility/API";
 import { fetchAuthenticatedUser } from "./UserActions";
 import { loaderActions } from "./";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
-// import { cacheS3Url } from "../../utility/image";
+import { isEmpty } from "lodash";
 
 export const UPDATE_SERVICE_DETAILS = "UPDATE_SERVICE_DETAILS";
 export const RESET_SERVICE_DETAILS = "RESET_SERVICE_DETAILS";
@@ -87,3 +87,19 @@ export const fetchMeteringData =
     const usageData = await meteringAPI(token, orgId, serviceId, groupId, email);
     return dispatch(fetchMeteringDataSuccess(usageData));
   };
+
+export const getIsTrainingAvailable = (detailsTraining, isLoggedIn) => {
+  if (isEmpty(detailsTraining)) {
+    return false;
+  }
+
+  if (!Object.prototype.hasOwnProperty.call(detailsTraining, "trainingMethods")) {
+    return false;
+  }
+
+  return (
+    process.env.REACT_APP_TRAINING_ENABLE === "true" &&
+    Object.keys(detailsTraining.trainingMethods).length &&
+    isLoggedIn
+  );
+};
