@@ -87,11 +87,15 @@ export const useStyles = (theme) => ({
     },
   },
   updateBtn: { color: theme.palette.text.darkShadedGray },
-  testBtn: {
+  inferenceBtn: {
     background: theme.palette.text.primary,
     color: theme.palette.text.white,
     "&:hover": {
       background: theme.palette.text.customHoverBlue,
+    },
+    "&:disabled": {
+      backgroundColor: theme.palette.text.lightGray,
+      color: theme.palette.text.white,
     },
   },
   deleteBtn: { color: theme.palette.text.redBtnText },
