@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { withStyles } from "@mui/styles";
 import { useStyles } from "./styles";
@@ -7,27 +7,25 @@ import { useStyles } from "./styles";
 import Button from "@mui/material/Button";
 // import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import NearMeOutlinedIcon from "@mui/icons-material/NearMeOutlined";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import StyledButton from "../../../common/StyledButton";
-import { setCurrentModelDetails, deleteModel } from "../../../../Redux/actionCreators/ServiceTrainingActions";
+import {
+  setCurrentModelDetails,
+  deleteModel,
+  getTrainingModelStatus,
+  setModelsList,
+} from "../../../../Redux/actionCreators/ServiceTrainingActions";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-
-export const modelStatus = {
-  IN_PROGRESS: "IN_PROGRESS",
-  COMPLETED: "COMPLETED",
-  CREATED: "CREATED",
-  ERRORED: "ERRORED",
-  DELETED: "DELETED",
-};
+import { modelStatus } from "../../../../Redux/reducers/ServiceTrainingReducer";
 
 const ModelDetails = ({ classes, openEditModel, model, address }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
+  const { modelsList } = useSelector((state) => state.serviceTrainingReducer);
   const { orgId, serviceId } = useParams();
 
   const [open, setOpen] = useState(false);
@@ -49,6 +47,27 @@ const ModelDetails = ({ classes, openEditModel, model, address }) => {
   const handleSetModel = () => {
     dispatch(setCurrentModelDetails(model));
     navigate(location.pathname.split("tab/")[0] + "tab/" + 0); //TODO
+  };
+
+  const handleGetModelStatus = async () => {
+    const getModelStatusParams = {
+      organizationId: orgId,
+      serviceId,
+      modelId: model.modelId,
+      name: model.serviceName,
+      method: model.methodName,
+      address,
+    };
+
+    const newModelStatus = await dispatch(getTrainingModelStatus(getModelStatusParams));
+    const updatedModelList = modelsList.map((modelBeforeUpdating) => {
+      let modelForUpdating = modelBeforeUpdating;
+      if (modelForUpdating.modelId === model.modelId) {
+        modelForUpdating.status = newModelStatus;
+      }
+      return modelForUpdating;
+    });
+    await dispatch(setModelsList(updatedModelList));
   };
 
   return (
@@ -80,11 +99,11 @@ const ModelDetails = ({ classes, openEditModel, model, address }) => {
           </div>
         </div>
         <div className={classes.actionButtons}>
-          <Button className={classes.inferenceBtn} onClick={handleSetModel} disabled={!isInferenceAvailable}>
-            <NearMeOutlinedIcon />
-            <span>Inference</span>
-          </Button>
-          <div>
+          <div className={classes.actionButtonsGroup}>
+            <StyledButton btnText="Inference" disabled={!isInferenceAvailable} onClick={handleSetModel} />
+            <StyledButton type="transparentBlueBorder" btnText="Get status" onClick={handleGetModelStatus} />
+          </div>
+          <div className={classes.actionButtonsGroup}>
             {/* <Button className={classes.updateBtn} onClick={handleEditModel}>
               <EditIcon />
               <span>Edit</span>

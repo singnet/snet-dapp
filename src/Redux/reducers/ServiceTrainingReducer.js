@@ -1,5 +1,13 @@
 import { serviceTrainingActions } from "../actionCreators";
 
+export const modelStatus = {
+  IN_PROGRESS: "IN_PROGRESS",
+  COMPLETED: "COMPLETED",
+  CREATED: "CREATED",
+  ERRORED: "ERRORED",
+  DELETED: "DELETED",
+};
+
 const currentModellInitialState = {
   modelId: "",
   methodName: "",
@@ -15,7 +23,7 @@ const currentModellInitialState = {
 
 const trainingModelInitialState = {
   currentModel: currentModellInitialState,
-  modelsList: [],
+  modelsList: undefined,
 };
 
 const serviceTrainingReducer = (state = trainingModelInitialState, action) => {
@@ -23,11 +31,14 @@ const serviceTrainingReducer = (state = trainingModelInitialState, action) => {
     case serviceTrainingActions.SET_MODEL_DETAILS: {
       return { ...state, currentModel: action.payload };
     }
-    case serviceTrainingActions.CLEAN_MODEL_DETAILS: {
+    case serviceTrainingActions.RESET_MODEL_DETAILS: {
       return { ...state, currentModel: currentModellInitialState };
     }
     case serviceTrainingActions.SET_MODELS_LIST: {
       return { ...state, modelsList: action.payload };
+    }
+    case serviceTrainingActions.RESET_MODEL_LIST: {
+      return { ...state, modelsList: trainingModelInitialState.modelsList };
     }
     default: {
       return state;
