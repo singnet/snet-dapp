@@ -29,4 +29,9 @@ export const useStyles = (theme) => ({
   tooltip: {
     fontSize: 14,
   },
+  activeSectionButtons: {
+    display: "flex",
+    gap: 20,
+    justifyContent: "center",
+  },
 });
