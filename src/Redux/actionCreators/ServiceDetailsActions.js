@@ -4,6 +4,7 @@ import { fetchAuthenticatedUser } from "./UserActions";
 import { loaderActions } from "./";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
 import { isEmpty } from "lodash";
+import { resetCurrentModelDetails, resetModelList } from "./ServiceTrainingActions";
 
 export const UPDATE_SERVICE_DETAILS = "UPDATE_SERVICE_DETAILS";
 export const RESET_SERVICE_DETAILS = "RESET_SERVICE_DETAILS";
@@ -37,6 +38,8 @@ export const fetchServiceDetails = (orgId, serviceId) => async (dispatch) => {
   try {
     dispatch(loaderActions.startAppLoader(LoaderContent.FETCH_SERVICE_DETAILS));
     dispatch(resetServiceDetails);
+    dispatch(resetCurrentModelDetails());
+    dispatch(resetModelList());
     const serviceDetails = await fetchServiceDetailsAPI(orgId, serviceId);
     dispatch(fetchServiceDetailsSuccess(serviceDetails));
   } catch (error) {

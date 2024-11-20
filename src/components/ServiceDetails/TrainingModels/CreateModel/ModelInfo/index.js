@@ -8,9 +8,8 @@ import StyledTextField from "../../../../common/StyledTextField";
 import StyledButton from "../../../../common/StyledButton";
 
 import { loaderActions, userActions } from "../../../../../Redux/actionCreators";
-import { createModel, deleteModel, updateModel } from "../../../../../Redux/actionCreators/ServiceTrainingActions";
+import { createModel, deleteModel } from "../../../../../Redux/actionCreators/ServiceTrainingActions";
 import { LoaderContent } from "../../../../../utility/constants/LoaderContent";
-// import { walletTypes } from "../../../../../Redux/actionCreators/UserActions";
 import { currentServiceDetails } from "../../../../../Redux/reducers/ServiceDetailsReducer";
 import AlertBox, { alertTypes } from "../../../../common/AlertBox";
 
@@ -39,25 +38,25 @@ const ModelInfo = ({ classes, cancelEditModel }) => {
   const [trainingDataLink, setTrainingDataLink] = useState(currentModel ? currentModel.dataLink : "");
   const [alert, setAlert] = useState({});
 
-  const onUpdate = async () => {
-    const updateModelParams = {
-      trainingModelName,
-      trainingModelDescription,
-      accessAddresses,
-      isRestrictAccessModel,
-      dataLink: trainingDataLink,
-    };
+  // const onUpdate = async () => {
+  //   const updateModelParams = {
+  //     trainingModelName,
+  //     trainingModelDescription,
+  //     accessAddresses,
+  //     isRestrictAccessModel,
+  //     dataLink: trainingDataLink,
+  //   };
 
-    try {
-      const address = await dispatch(userActions.updateMetamaskWallet());
-      await dispatch(updateModel(org_id, service_id, address, updateModelParams));
-      cancelEditModel();
-    } catch (error) {
-      setAlert({ type: alertTypes.ERROR, message: "Unable to update model. Please try again" });
-    } finally {
-      dispatch(loaderActions.stopAppLoader());
-    }
-  };
+  //   try {
+  //     const address = await dispatch(userActions.updateMetamaskWallet());
+  //     await dispatch(updateModel(org_id, service_id, address, updateModelParams));
+  //     cancelEditModel();
+  //   } catch (error) {
+  //     setAlert({ type: alertTypes.ERROR, message: "Unable to update model. Please try again" });
+  //   } finally {
+  //     dispatch(loaderActions.stopAppLoader());
+  //   }
+  // };
 
   const onDelete = async () => {
     const address = await dispatch(userActions.updateMetamaskWallet());
@@ -77,6 +76,7 @@ const ModelInfo = ({ classes, cancelEditModel }) => {
         trainingModelDescription,
         accessAddresses,
         isRestrictAccessModel,
+        dataLink: trainingDataLink,
       };
       await dispatch(createModel(org_id, service_id, address, newModelParams));
       dispatch(loaderActions.stopAppLoader());
@@ -115,15 +115,16 @@ const ModelInfo = ({ classes, cancelEditModel }) => {
     setTrainingModelDescription(event.target.value);
   };
 
+  const isCreatingAvailable = trainingMethod && trainingModelName && trainingModelDescription && trainingDataLink;
   const CreateModelButtonGroup = () => {
-    return <StyledButton btnText="Create" onClick={onNext} />;
+    return <StyledButton btnText="Create" onClick={onNext} disabled={!isCreatingAvailable} />;
   };
 
   const UpdateModelButtonGroup = () => {
     return (
       <div className={classes.btnContainer}>
         <StyledButton btnText="Delete" type="redBg" onClick={onDelete} />
-        <StyledButton btnText="Update" type="blue" onClick={onUpdate} />
+        {/* <StyledButton btnText="Update" type="blue" onClick={onUpdate} /> */}
       </div>
     );
   };

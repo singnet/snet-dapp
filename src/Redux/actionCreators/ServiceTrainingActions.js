@@ -5,7 +5,8 @@ import { getServiceClient } from "./SDKActions";
 
 export const SET_MODEL_DETAILS = "SET_MODEL_DETAILS";
 export const SET_MODELS_LIST = "SET_MODELS_LIST";
-export const CLEAN_MODEL_DETAILS = "CLEAN_MODEL_DETAILS";
+export const RESET_MODEL_DETAILS = "RESET_MODEL_DETAILS";
+export const RESET_MODEL_LIST = "RESET_MODEL_LIST";
 
 export const setCurrentModelDetails = (currentModelDetails) => (dispatch) => {
   dispatch({ type: SET_MODEL_DETAILS, payload: currentModelDetails });
@@ -15,13 +16,15 @@ export const setModelsList = (modelsList) => (dispatch) => {
   dispatch({ type: SET_MODELS_LIST, payload: modelsList });
 };
 
-export const cleanCurrentModelDetails = () => (dispatch) => {
-  dispatch({ type: CLEAN_MODEL_DETAILS });
+export const resetCurrentModelDetails = () => (dispatch) => {
+  dispatch({ type: RESET_MODEL_DETAILS });
+};
+
+export const resetModelList = () => (dispatch) => {
+  dispatch({ type: RESET_MODEL_LIST });
 };
 
 export const createModel = (organizationId, serviceId, address, newModelParams) => async (dispatch) => {
-  console.log("createModel", organizationId, serviceId, address, newModelParams);
-
   try {
     dispatch(startAppLoader(LoaderContent.CREATE_TRAINING_MODEL));
     const serviceName = getServiceNameFromTrainingMethod(newModelParams?.trainingMethod);
@@ -31,6 +34,7 @@ export const createModel = (organizationId, serviceId, address, newModelParams) 
       serviceName,
       description: newModelParams?.trainingModelDescription,
       publicAccess: !newModelParams?.isRestrictAccessModel,
+      dataLink: newModelParams.dataLink,
       address: newModelParams?.isRestrictAccessModel ? newModelParams?.accessAddresses : [],
     };
 
@@ -89,7 +93,7 @@ export const deleteModel =
       const serviceClient = await dispatch(getServiceClient(organizationId, serviceId));
       await serviceClient.deleteModel(params);
       await dispatch(getTrainingModels(organizationId, serviceId, address));
-      dispatch(cleanCurrentModelDetails());
+      dispatch(resetCurrentModelDetails());
     } catch (error) {
       // TODO
     } finally {
@@ -113,8 +117,6 @@ const getServiceNameFromTrainingMethod = (trainingMethod) => {
 export const getTrainingModelStatus =
   ({ organizationId, serviceId, modelId, name, method, address }) =>
   async (dispatch) => {
-    console.log("getTrainingModels: ", organizationId, serviceId, modelId, method, name, address);
-
     try {
       dispatch(startAppLoader(LoaderContent.FETCH_TRAINING_EXISTING_MODEL));
       const serviceClient = await dispatch(getServiceClient(organizationId, serviceId));
@@ -124,9 +126,8 @@ export const getTrainingModelStatus =
         name,
         address,
       };
-      const existingModelStatus = await serviceClient.getModelStatus(params);
-      console.log("existingModelStatus: ", existingModelStatus);
-      return existingModelStatus;
+      const numberModelStatus = await serviceClient.getModelStatus(params);
+      return modelStatus[numberModelStatus];
     } catch (err) {
       // TODO
     } finally {
@@ -159,8 +160,8 @@ export const getTrainingModels = (organizationId, serviceId, address) => async (
           address,
         };
 
-        const numberModelStatus = await dispatch(getTrainingModelStatus(getModelStatusParams));
-        return { ...model, status: modelStatus[numberModelStatus] };
+        const modelStatus = await dispatch(getTrainingModelStatus(getModelStatusParams));
+        return { ...model, status: modelStatus };
       })
     );
 

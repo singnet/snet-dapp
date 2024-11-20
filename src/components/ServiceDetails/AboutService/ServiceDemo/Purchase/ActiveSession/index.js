@@ -6,8 +6,20 @@ import AlertBox from "../../../../../common/AlertBox";
 import StyledButton from "../../../../../common/StyledButton";
 import StyledLinearProgress from "../../../../../common/StyledLinearProgress";
 import { useStyles } from "./styles";
+import { getIsTrainingAvailable } from "../../../../../../Redux/actionCreators/ServiceDetailsActions";
+import { useDispatch, useSelector } from "react-redux";
+import { getTrainingModels } from "../../../../../../Redux/actionCreators/ServiceTrainingActions";
+import { currentServiceDetails } from "../../../../../../Redux/reducers/ServiceDetailsReducer";
+import { isUndefined } from "lodash";
+import { updateMetamaskWallet } from "../../../../../../Redux/actionCreators/UserActions";
 
 const ActiveSession = ({ classes, freeCallsRemaining, handleComplete, freeCallsAllowed, isServiceAvailable }) => {
+  const dispatch = useDispatch();
+  const { detailsTraining } = useSelector((state) => state.serviceDetailsReducer);
+  const { org_id, service_id } = useSelector((state) => currentServiceDetails(state));
+  const { modelsList } = useSelector((state) => state.serviceTrainingReducer);
+  const isLoggedIn = useSelector((state) => state.userReducer.login.isLoggedIn);
+
   const [showTooltip, setShowTooltip] = useState(false);
 
   const progressValue = () => (freeCallsRemaining / freeCallsAllowed) * 100;
@@ -20,6 +32,13 @@ const ActiveSession = ({ classes, freeCallsRemaining, handleComplete, freeCallsA
 
   const handleTooltipClose = () => {
     setShowTooltip(false);
+  };
+
+  const isTrainingAvailable = getIsTrainingAvailable(detailsTraining, isLoggedIn);
+
+  const handleRequestModels = async () => {
+    const address = await dispatch(updateMetamaskWallet());
+    await dispatch(getTrainingModels(org_id, service_id, address));
   };
 
   return (
@@ -42,8 +61,16 @@ const ActiveSession = ({ classes, freeCallsRemaining, handleComplete, freeCallsA
         onClose={handleTooltipClose}
         classes={{ tooltip: classes.tooltip }}
       >
-        <div>
+        <div className={classes.activeSectionButtons}>
           <StyledButton type="blue" btnText="run for free" onClick={handleComplete} disabled={!isServiceAvailable} />
+          {isTrainingAvailable && isUndefined(modelsList) && (
+            <StyledButton
+              type="transparent"
+              btnText="request my models"
+              onClick={handleRequestModels}
+              disabled={!isServiceAvailable}
+            />
+          )}
         </div>
       </Tooltip>
     </div>
