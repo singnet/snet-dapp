@@ -12,7 +12,7 @@ import { useStyles } from "./styles";
 import ExistingModel from "../ExistingModel";
 import ProjectDetails from "../ProjectDetails";
 import { useDispatch } from "react-redux";
-import { cleanCurrentModelDetails } from "../../../Redux/actionCreators/ServiceTrainingActions";
+import { resetCurrentModelDetails } from "../../../Redux/actionCreators/ServiceTrainingActions";
 
 const TrainingModels = ({ classes, service }) => {
   const [showCreateModel, setShowCreateModel] = useState(false);
@@ -31,7 +31,7 @@ const TrainingModels = ({ classes, service }) => {
   };
 
   const createNewModel = () => {
-    dispatch(cleanCurrentModelDetails());
+    dispatch(resetCurrentModelDetails());
     openEditModelSection();
   };
 

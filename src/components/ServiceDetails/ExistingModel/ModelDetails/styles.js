@@ -1,4 +1,4 @@
-import { modelStatus } from "./index";
+import { modelStatus } from "../../../../Redux/reducers/ServiceTrainingReducer";
 
 export const useStyles = (theme) => ({
   modelDetailsContainer: {
@@ -85,6 +85,10 @@ export const useStyles = (theme) => ({
       lineHeight: "18px",
       textTransform: "capitalize",
     },
+  },
+  actionButtonsGroup: {
+    display: "flex",
+    gap: 20,
   },
   updateBtn: { color: theme.palette.text.darkShadedGray },
   inferenceBtn: {

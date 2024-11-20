@@ -10,6 +10,7 @@ import { createServiceClient, callTypes } from "../../../../utility/sdk";
 import ThirdPartyServiceErrorBoundary from "./ThirdPartyServiceErrorBoundary";
 import { channelInfo } from "../../../../Redux/reducers/UserReducer";
 import { isEmpty } from "lodash";
+import { modelStatus } from "../../../../Redux/reducers/ServiceTrainingReducer";
 
 class ThirdPartyAIService extends Component {
   state = {
@@ -60,12 +61,14 @@ class ThirdPartyAIService extends Component {
     if (isEmpty(modelsList)) {
       return [];
     }
-    return modelsList.map((model) => {
-      return {
-        value: model.modelId,
-        label: model.modelName,
-      };
-    });
+    return modelsList
+      .filter((model) => model.status === modelStatus.COMPLETED)
+      .map((model) => {
+        return {
+          value: model.modelId,
+          label: model.modelName,
+        };
+      });
   }
 
   render() {
