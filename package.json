@@ -8,7 +8,7 @@
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^3.0.0-alpha.30",
     "@material-ui/styles": "^4.11.2",
-    "@sentry/browser": "^5.29.0",
+    "@sentry/react": "^8.30.0",
     "aws-amplify": "^4.3.46",
     "clsx": "^1.1.1",
     "color": "^3.1.3",
