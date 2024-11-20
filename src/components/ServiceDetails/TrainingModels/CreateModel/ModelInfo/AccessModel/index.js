@@ -22,7 +22,7 @@ const AccessModel = ({ classes, accessAddresses, setAccessAddresses }) => {
 
   return (
     <div className={classes.accessModelContainer}>
-      <h3>Add a list of address that can access this model</h3>
+      <h3>Add a list of address that can access this model (Optional)</h3>
       <div className={classes.ethAddressContainer}>
         {accessAddresses.map((address, index) => (
           <div key={index.toString()} className={classes.addedEthAdd}>
@@ -32,6 +32,10 @@ const AccessModel = ({ classes, accessAddresses, setAccessAddresses }) => {
             </div>
           </div>
         ))}
+        <p>
+          Please add a new address that will have access to use, update and delete your model! You do not need to enter
+          your address
+        </p>
         <AddMoreEthAddress addEthAddress={addEthAddress} />
       </div>
     </div>
