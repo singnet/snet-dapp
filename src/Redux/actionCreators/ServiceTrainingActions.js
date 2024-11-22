@@ -3,7 +3,7 @@ import { LoaderContent } from "../../utility/constants/LoaderContent";
 import { startAppLoader, stopAppLoader } from "./LoaderActions";
 import { getServiceClient } from "./SDKActions";
 import { updateMetamaskWallet } from "./UserActions";
-
+import { modelStatus } from "../reducers/ServiceTrainingReducer";
 export const SET_MODEL_DETAILS = "SET_MODEL_DETAILS";
 export const SET_MODELS_LIST = "SET_MODELS_LIST";
 export const RESET_MODEL_DETAILS = "RESET_MODEL_DETAILS";
@@ -129,7 +129,7 @@ export const getTrainingModelStatus =
         address,
       };
       const numberModelStatus = await serviceClient.getModelStatus(params);
-      return modelStatus[numberModelStatus];
+      return modelStatusByNumber[numberModelStatus];
     } catch (err) {
       // TODO
     } finally {
@@ -181,7 +181,7 @@ export const getTrainingModels = (organizationId, serviceId, address) => async (
   }
 };
 
-const modelStatus = {
+const modelStatusByNumber = {
   0: "CREATED",
   1: "IN_PROGRESS",
   2: "ERRORED",
