@@ -10,15 +10,6 @@ var VITSTrainingService = (function () {
   return VITSTrainingService;
 })();
 
-VITSTrainingService.start_training = {
-  methodName: "start_training",
-  service: VITSTrainingService,
-  requestStream: false,
-  responseStream: false,
-  requestType: t_glm_pb.TrainingRequest,
-  responseType: t_glm_pb.TrainingResponse,
-};
-
 VITSTrainingService.inference = {
   methodName: "inference",
   service: VITSTrainingService,
@@ -34,37 +25,6 @@ function VITSTrainingServiceClient(serviceHost, options) {
   this.serviceHost = serviceHost;
   this.options = options || {};
 }
-
-VITSTrainingServiceClient.prototype.start_training = function start_training(requestMessage, metadata, callback) {
-  if (arguments.length === 2) {
-    callback = arguments[1];
-  }
-  var client = grpc.unary(VITSTrainingService.start_training, {
-    request: requestMessage,
-    host: this.serviceHost,
-    metadata: metadata,
-    transport: this.options.transport,
-    debug: this.options.debug,
-    onEnd: function (response) {
-      if (callback) {
-        if (response.status !== grpc.Code.OK) {
-          var err = new Error(response.statusMessage);
-          err.code = response.status;
-          err.metadata = response.trailers;
-          callback(err, null);
-        } else {
-          callback(null, response.message);
-        }
-      }
-    },
-  });
-  return {
-    cancel: function () {
-      callback = null;
-      client.close();
-    },
-  };
-};
 
 VITSTrainingServiceClient.prototype.inference = function inference(requestMessage, metadata, callback) {
   if (arguments.length === 2) {

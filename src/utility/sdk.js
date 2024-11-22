@@ -8,7 +8,7 @@ import PaypalPaymentMgmtStrategy from "./PaypalPaymentMgmtStrategy";
 import { ethereumMethods } from "./constants/EthereumUtils";
 import { store } from "../";
 import ProxyPaymentChannelManagementStrategy from "./ProxyPaymentChannelManagementStrategy";
-import { isUndefined } from "lodash";
+import { isEmpty, isUndefined } from "lodash";
 
 const DEFAULT_GAS_PRICE = 4700000;
 const DEFAULT_GAS_LIMIT = 210000;
@@ -189,7 +189,36 @@ const switchNetwork = async () => {
   });
 };
 
-const updateSDK = async () => {
+const clearSdk = () => {
+  sdk = undefined;
+};
+
+const addListenersForWeb3 = () => {
+  web3Provider.addListener(ON_ACCOUNT_CHANGE, (accounts) => {
+    clearSdk();
+    const event = new CustomEvent("snetMMAccountChanged", { detail: { address: accounts[0] } });
+    window.dispatchEvent(event);
+  });
+  web3Provider.addListener(ON_NETWORK_CHANGE, (network) => {
+    switchNetwork();
+    const event = new CustomEvent("snetMMNetworkChanged", { detail: { network } });
+    window.dispatchEvent(event);
+  });
+};
+
+export const getWeb3Address = async () => {
+  defineWeb3Provider();
+  const accounts = await web3Provider.request({ method: ethereumMethods.REQUEST_ACCOUNTS }); // TODO
+  return !isEmpty(accounts) ? accounts[0] : undefined;
+};
+
+export const initSdk = async () => {
+  if (sdk && !(sdk instanceof PaypalSDK)) {
+    return Promise.resolve(sdk);
+  }
+  defineWeb3Provider();
+  await getWeb3Address(); // TODO
+  addListenersForWeb3();
   const isExpectedNetwork = await isUserAtExpectedEthereumNetwork();
   if (!isExpectedNetwork) {
     await switchNetwork();
@@ -203,30 +232,19 @@ const updateSDK = async () => {
   };
 
   sdk = await new SnetSDK(config);
-  await sdk.setupAccount();
-};
-
-const addListenersForWeb3 = () => {
-  web3Provider.addListener(ON_ACCOUNT_CHANGE, (accounts) => {
-    const event = new CustomEvent("snetMMAccountChanged", { detail: { address: accounts[0] } });
-    window.dispatchEvent(event);
-  });
-  web3Provider.addListener(ON_NETWORK_CHANGE, (network) => {
-    switchNetwork();
-    const event = new CustomEvent("snetMMNetworkChanged", { detail: { network } });
-    window.dispatchEvent(event);
-  });
-};
-
-export const initSdk = async () => {
-  if (sdk && !(sdk instanceof PaypalSDK)) {
-    return Promise.resolve(sdk);
-  }
-  defineWeb3Provider();
-  await web3Provider.request({ method: ethereumMethods.REQUEST_ACCOUNTS });
-  addListenersForWeb3();
-  await updateSDK();
   return Promise.resolve(sdk);
+};
+
+export const getSdkConfig = async () => {
+  defineWeb3Provider();
+  const config = {
+    networkId: await detectEthereumNetwork(),
+    web3Provider,
+    defaultGasPrice: DEFAULT_GAS_PRICE,
+    defaultGasLimit: DEFAULT_GAS_LIMIT,
+  };
+
+  return config;
 };
 
 const getMethodNames = (service) => {

@@ -2,7 +2,8 @@ import axios from "axios";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
 import { startAppLoader, stopAppLoader } from "./LoaderActions";
 import { getServiceClient } from "./SDKActions";
-
+import { updateMetamaskWallet } from "./UserActions";
+import { modelStatus } from "../reducers/ServiceTrainingReducer";
 export const SET_MODEL_DETAILS = "SET_MODEL_DETAILS";
 export const SET_MODELS_LIST = "SET_MODELS_LIST";
 export const RESET_MODEL_DETAILS = "RESET_MODEL_DETAILS";
@@ -24,9 +25,10 @@ export const resetModelList = () => (dispatch) => {
   dispatch({ type: RESET_MODEL_LIST });
 };
 
-export const createModel = (organizationId, serviceId, address, newModelParams) => async (dispatch) => {
+export const createModel = (organizationId, serviceId, newModelParams) => async (dispatch) => {
   try {
     dispatch(startAppLoader(LoaderContent.CREATE_TRAINING_MODEL));
+    const address = await dispatch(updateMetamaskWallet());
     const serviceName = getServiceNameFromTrainingMethod(newModelParams?.trainingMethod);
     const params = {
       modelName: newModelParams?.trainingModelName,
@@ -40,7 +42,6 @@ export const createModel = (organizationId, serviceId, address, newModelParams) 
 
     const serviceClient = await dispatch(getServiceClient(organizationId, serviceId));
     const createdModelData = await serviceClient.createModel(address, params);
-    console.log("createdModelData: ", createdModelData);
 
     dispatch(setCurrentModelDetails(createdModelData));
     await dispatch(getTrainingModels(organizationId, serviceId, address));
@@ -51,10 +52,11 @@ export const createModel = (organizationId, serviceId, address, newModelParams) 
   }
 };
 
-export const updateModel = (organizationId, serviceId, address, updateModelParams) => async (dispatch, getState) => {
+export const updateModel = (organizationId, serviceId, updateModelParams) => async (dispatch, getState) => {
   const currentModelDetails = getState().serviceTrainingReducer.currentModel;
   try {
     dispatch(startAppLoader(LoaderContent.UPDATE_MODEL));
+    const address = await dispatch(updateMetamaskWallet());
     const params = {
       modelId: currentModelDetails.modelId,
       address,
@@ -80,26 +82,26 @@ export const updateModel = (organizationId, serviceId, address, updateModelParam
   }
 };
 
-export const deleteModel =
-  (organizationId, serviceId, modelId, methodName, serviceName, address) => async (dispatch) => {
-    try {
-      dispatch(startAppLoader(LoaderContent.DELETE_MODEL));
-      const params = {
-        modelId,
-        method: methodName,
-        address,
-        name: serviceName,
-      };
-      const serviceClient = await dispatch(getServiceClient(organizationId, serviceId));
-      await serviceClient.deleteModel(params);
-      await dispatch(getTrainingModels(organizationId, serviceId, address));
-      dispatch(resetCurrentModelDetails());
-    } catch (error) {
-      // TODO
-    } finally {
-      dispatch(stopAppLoader());
-    }
-  };
+export const deleteModel = (organizationId, serviceId, modelId, methodName, serviceName) => async (dispatch) => {
+  try {
+    dispatch(startAppLoader(LoaderContent.DELETE_MODEL));
+    const address = await dispatch(updateMetamaskWallet());
+    const params = {
+      modelId,
+      method: methodName,
+      address,
+      name: serviceName,
+    };
+    const serviceClient = await dispatch(getServiceClient(organizationId, serviceId));
+    await serviceClient.deleteModel(params);
+    await dispatch(getTrainingModels(organizationId, serviceId, address));
+    dispatch(resetCurrentModelDetails());
+  } catch (error) {
+    // TODO
+  } finally {
+    dispatch(stopAppLoader());
+  }
+};
 
 // export const getServiceName = () => (getState) => {
 //   // const { serviceDetailsReducer, serviceTrainingReducer } = getState();
@@ -127,7 +129,7 @@ export const getTrainingModelStatus =
         address,
       };
       const numberModelStatus = await serviceClient.getModelStatus(params);
-      return modelStatus[numberModelStatus];
+      return modelStatusByNumber[numberModelStatus];
     } catch (err) {
       // TODO
     } finally {
@@ -148,9 +150,14 @@ export const getTrainingModels = (organizationId, serviceId, address) => async (
     };
 
     const response = await serviceClient.getExistingModel(params);
+    console.log("get models response: ", response);
 
     let modelsList = await Promise.all(
       response.map(async (model) => {
+        if (model.status !== modelStatus.IN_PROGRESS && model.status !== modelStatus.CREATED) {
+          return model;
+        }
+
         const getModelStatusParams = {
           organizationId,
           serviceId,
@@ -160,8 +167,8 @@ export const getTrainingModels = (organizationId, serviceId, address) => async (
           address,
         };
 
-        const modelStatus = await dispatch(getTrainingModelStatus(getModelStatusParams));
-        return { ...model, status: modelStatus };
+        const newModelStatus = await dispatch(getTrainingModelStatus(getModelStatusParams));
+        return { ...model, status: newModelStatus };
       })
     );
 
@@ -174,7 +181,7 @@ export const getTrainingModels = (organizationId, serviceId, address) => async (
   }
 };
 
-const modelStatus = {
+const modelStatusByNumber = {
   0: "CREATED",
   1: "IN_PROGRESS",
   2: "ERRORED",

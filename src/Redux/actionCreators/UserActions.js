@@ -564,13 +564,16 @@ export const registerWallet = (address, type) => async (dispatch) => {
 export const updateMetamaskWallet = () => async (dispatch, getState) => {
   const sdk = await dispatch(sdkActions.getSdk());
   const address = await sdk.account.getAddress();
-  if (getState().userReducer.wallet.value === address) {
-    return;
+
+  if (getState().userReducer.wallet?.address === address) {
+    return address;
   }
+
   const availableUserWallets = await dispatch(fetchAvailableUserWallets());
   const addressAlreadyRegistered = availableUserWallets.some(
     (wallet) => wallet.address.toLowerCase() === address.toLowerCase()
   );
+
   if (!addressAlreadyRegistered) {
     await dispatch(registerWallet(address, walletTypes.METAMASK));
   }
