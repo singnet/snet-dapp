@@ -12,16 +12,22 @@ import { useStyles } from "./styles";
 import { withStyles } from "@mui/styles";
 import meta from "./meta.json";
 
-const SELECT_MODELS_FROM_LIST_MESSAGE = "You can try training!"; // TODO fill message
+const SELECT_MODELS_FROM_LIST_MESSAGE = "You can try training! Use the corresponding tab above."; // TODO fill message
 
 class T_GLM extends React.Component {
   constructor(props) {
     super(props);
 
+    const defaultModel = { value: "null", label: "Default" }; // Backend is expecting "null" (String) as value in defaullt case
+
     const { config } = meta;
     const { selectedModelId, modelsIds } = props;
 
     const modelsList = modelsIds?.length ? modelsIds : [];
+
+    if (modelsList?.length) {
+      modelsList.push(defaultModel);
+    }
 
     this.submitAction = this.submitAction.bind(this);
     this.changeSlider = this.changeSlider.bind(this);
@@ -31,6 +37,7 @@ class T_GLM extends React.Component {
 
     this.state = {
       config: config,
+      model_id: !selectedModelId ? defaultModel.value : selectedModelId,
       modelsList: modelsList,
       users_guide: "https://github.com/iktina/Generative-Language-Models", // TODO replace link
       code_repo: "https://github.com/iktina/Generative-Language-Models", // TODO replace link
@@ -48,7 +55,7 @@ class T_GLM extends React.Component {
       isSettingsOpen: false,
     };
 
-    console.clear();
+    // console.clear();
   }
 
   canBeInvoked() {
@@ -113,13 +120,8 @@ class T_GLM extends React.Component {
     const methodDescriptor = VITSTrainingService["inference"];
     const request = new methodDescriptor.requestType();
 
-    request.setData(this.constructRequest()); // TODO
-
-    if (!model_id) {
-      request.setModelId("null");
-    } else {
-      request.setModelId(model_id);
-    }
+    request.setData(this.constructRequest());
+    request.setModelId(model_id);
 
     const props = {
       request,
@@ -127,7 +129,7 @@ class T_GLM extends React.Component {
         this.setState({
           response: {
             status: "success",
-            output: JSON.parse(message.getResult()), // TODO
+            output: JSON.parse(message.getResult()),
           },
         });
       },
@@ -144,7 +146,7 @@ class T_GLM extends React.Component {
 
     return (
       <Grid container direction="column" justify="center">
-        {!this.state.model_id ? (
+        {!this.props.selectedModelId && !this.props.modelsIds?.length ? (
           <h3>{SELECT_MODELS_FROM_LIST_MESSAGE}</h3>
         ) : (
           <Grid item xs={8} container spacing={2}>
@@ -402,21 +404,53 @@ class T_GLM extends React.Component {
       throw new Error("Cannot read data from response");
     }
 
+    const currentModel = this.state.modelsList.find((model) => model?.value === this.state.model_id);
+    const modelLabel = !currentModel?.label ? "Default" : currentModel.label;
+
     return (
-      <React.Fragment>
-        <Grid container direction="column" justify="center">
-          <Grid item xs={12} style={{ textAlign: "left" }}>
-            <OutlinedTextArea
-              id="service_output"
-              name="service_output"
-              label="Result"
-              fullWidth={true}
-              value={output}
-              rows={8}
-            />
-          </Grid>
+      <div>
+        <p
+          style={{
+            padding: "0 10px",
+            fontSize: "18px",
+            fontWeight: "600",
+            margin: "0",
+          }}
+        >
+          {`Input (model: ${modelLabel}):`}
+        </p>
+
+        <Grid item xs={12} container justify="center" style={{ textAlign: "center" }}>
+          <OutlinedTextArea
+            id="serviceInput"
+            name="serviceInput"
+            fullWidth={true}
+            value={this.state.request}
+            rows={5}
+          />
         </Grid>
-      </React.Fragment>
+
+        <p
+          style={{
+            padding: "0 10px",
+            fontSize: "18px",
+            fontWeight: "600",
+            margin: "0",
+          }}
+        >
+          Output:
+        </p>
+        <Grid item xs={12} container justify="center" style={{ textAlign: "center" }}>
+          <OutlinedTextArea
+            id="service_output"
+            name="service_output"
+            label="Result"
+            fullWidth={true}
+            value={output}
+            rows={5}
+          />
+        </Grid>
+      </div>
     );
   }
 

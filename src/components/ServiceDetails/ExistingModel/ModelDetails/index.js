@@ -19,8 +19,9 @@ import {
 } from "../../../../Redux/actionCreators/ServiceTrainingActions";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { modelStatus } from "../../../../Redux/reducers/ServiceTrainingReducer";
+import { updateMetamaskWallet } from "../../../../Redux/actionCreators/UserActions";
 
-const ModelDetails = ({ classes, openEditModel, model, address }) => {
+const ModelDetails = ({ classes, openEditModel, model }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -35,7 +36,7 @@ const ModelDetails = ({ classes, openEditModel, model, address }) => {
   const isInferenceAvailable = model.status === modelStatus.COMPLETED;
 
   const handleDeleteModel = async () => {
-    await dispatch(deleteModel(orgId, serviceId, model.modelId, model.methodName, model.serviceName, address));
+    await dispatch(deleteModel(orgId, serviceId, model.modelId, model.methodName, model.serviceName));
     setOpen(false);
   };
 
@@ -50,6 +51,7 @@ const ModelDetails = ({ classes, openEditModel, model, address }) => {
   };
 
   const handleGetModelStatus = async () => {
+    const address = await dispatch(updateMetamaskWallet());
     const getModelStatusParams = {
       organizationId: orgId,
       serviceId,
