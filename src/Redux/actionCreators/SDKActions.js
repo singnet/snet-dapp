@@ -1,5 +1,5 @@
 import { isEmpty } from "lodash";
-import { initSdk } from "../../utility/sdk";
+import { getWeb3Address, initSdk } from "../../utility/sdk";
 
 export const SET_SDK = "SET_SDK";
 export const SET_SERVICE_CLIENT = "SET_SERVICE_CLIENT";
@@ -24,10 +24,13 @@ export const initializingSdk = (ethereumWalletAddress) => async (dispatch) => {
 
 const initializeServiceClient = (organizationId, serviceId) => async (dispatch) => {
   const sdk = await dispatch(getSdk());
-  return await sdk.createServiceClient(organizationId, serviceId);
+  const serviceClient = await sdk.createServiceClient(organizationId, serviceId);
+  // dispatch(updateServiceClient(serviceClient))
+  return serviceClient;
 };
 
 export const getSdk = () => async (dispatch, getState) => {
+  await getWeb3Address();
   let sdk = getState().sdkReducer.sdk;
   if (!isEmpty(sdk)) {
     return sdk;

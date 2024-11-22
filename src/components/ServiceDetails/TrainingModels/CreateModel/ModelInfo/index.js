@@ -7,7 +7,7 @@ import StyledDropdown from "../../../../common/StyledDropdown";
 import StyledTextField from "../../../../common/StyledTextField";
 import StyledButton from "../../../../common/StyledButton";
 
-import { loaderActions, userActions } from "../../../../../Redux/actionCreators";
+import { loaderActions } from "../../../../../Redux/actionCreators";
 import { createModel, deleteModel } from "../../../../../Redux/actionCreators/ServiceTrainingActions";
 import { LoaderContent } from "../../../../../utility/constants/LoaderContent";
 import { currentServiceDetails } from "../../../../../Redux/reducers/ServiceDetailsReducer";
@@ -49,7 +49,7 @@ const ModelInfo = ({ classes, cancelEditModel }) => {
 
   //   try {
   //     const address = await dispatch(userActions.updateMetamaskWallet());
-  //     await dispatch(updateModel(org_id, service_id, address, updateModelParams));
+  //     await dispatch(updateModel(org_id, service_id, updateModelParams));
   //     cancelEditModel();
   //   } catch (error) {
   //     setAlert({ type: alertTypes.ERROR, message: "Unable to update model. Please try again" });
@@ -59,9 +59,8 @@ const ModelInfo = ({ classes, cancelEditModel }) => {
   // };
 
   const onDelete = async () => {
-    const address = await dispatch(userActions.updateMetamaskWallet());
     await dispatch(
-      deleteModel(org_id, service_id, currentModel.modelId, currentModel.methodName, currentModel.serviceName, address)
+      deleteModel(org_id, service_id, currentModel.modelId, currentModel.methodName, currentModel.serviceName)
     );
     cancelEditModel();
   };
@@ -69,7 +68,6 @@ const ModelInfo = ({ classes, cancelEditModel }) => {
   const onNext = async () => {
     try {
       dispatch(loaderActions.startAppLoader(LoaderContent.CONNECT_METAMASK));
-      const address = await dispatch(userActions.updateMetamaskWallet());
       const newModelParams = {
         trainingModelName,
         trainingMethod,
@@ -78,7 +76,7 @@ const ModelInfo = ({ classes, cancelEditModel }) => {
         isRestrictAccessModel,
         dataLink: trainingDataLink,
       };
-      await dispatch(createModel(org_id, service_id, address, newModelParams));
+      await dispatch(createModel(org_id, service_id, newModelParams));
       dispatch(loaderActions.stopAppLoader());
       // handleNextClick();
       cancelEditModel();
