@@ -85,4 +85,7 @@ export const useStyles = makeStyles((theme) => ({
       backgroundColor: "rgba(241,241,241,0.15)",
     },
   },
+  gradientBg: {
+    background: "linear-gradient(90deg, #8279FE 0%, #449CEE 100%)",
+  },
 }));

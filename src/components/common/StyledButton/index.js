@@ -51,7 +51,7 @@ StyledButton.propTypes = {
     "whiteBorder",
   ]),
   btnType: PropTypes.oneOf(["submit", "reset", "button"]),
-  btnText: PropTypes.string,
+  btnText: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
   iconClass: PropTypes.string,
