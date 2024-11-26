@@ -1,6 +1,10 @@
 import { makeStyles } from "@mui/styles";
 
 export const useStyles = makeStyles((MUITheme) => ({
+  fileUploaderContainer: {
+    display: "flex",
+    gap: 20,
+  },
   grayBox: {
     padding: "50px 45px !important",
     borderWidth: 1,

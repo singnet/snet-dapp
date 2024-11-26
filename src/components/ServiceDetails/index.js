@@ -32,6 +32,7 @@ import SeoMetadata from "../common/SeoMetadata";
 import Routes from "../../utility/constants/Routes";
 import CardImg from "../../assets/images/SnetDefaultServiceImage.png";
 import TrainingModels from "./TrainingModels";
+import DataPreset from "./DataPreset";
 
 export const HERO_IMG = "hero_image";
 
@@ -119,12 +120,20 @@ const ServiceDetails = ({ classes }) => {
   ];
 
   if (isTrainingAvailable) {
-    tabs.push({
-      name: "Models",
-      tabId: "serviceTraining",
-      activeIndex: 2,
-      component: <TrainingModels service={service} groupId={groupInfo.group_id} />,
-    });
+    tabs.push(
+      {
+        name: "Data preset",
+        tabId: "dataPreset",
+        activeIndex: 2,
+        component: <DataPreset />,
+      },
+      {
+        name: "Models",
+        tabId: "serviceTraining",
+        activeIndex: 3,
+        component: <TrainingModels service={service} groupId={groupInfo.group_id} />,
+      }
+    );
   }
 
   const seoURL = `${process.env.REACT_APP_BASE_URL}/servicedetails/org/${orgId}/service/${serviceId}`;

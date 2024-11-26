@@ -189,20 +189,40 @@ const modelStatusByNumber = {
   4: "DELETED",
 };
 
-export const publishDatasetToS3 = async (fileBlob, name) => {
+export const publishDatasetForTraining = async (fileBlob, name) => {
+  const linkToDataset = await publishDatasetToS3(
+    fileBlob,
+    name,
+    "https://xim5yugo7g.execute-api.us-east-1.amazonaws.com/default",
+    "S1kDjcub9k78JFAyrLPsfS0yQoQ4mgmmpeWKlIoVvYsk6JVq5v4HHKvKQgZ0VdI7"
+  );
+  return linkToDataset;
+};
+
+export const publishDatasetForImproving = async (fileBlob, name) => {
+  const linkToDataset = await publishDatasetToS3(
+    fileBlob,
+    name,
+    "https://ozx0e68owf.execute-api.us-east-1.amazonaws.com",
+    "IYE2sz0hUSGhWcyLQTwXS0AbiXKq4h1eW85MZSo6uDhtYfXI8dXisTzRyXaBCImH"
+  );
+  return linkToDataset;
+};
+
+export const publishDatasetToS3 = async (fileBlob, name, baseUrl, authToken) => {
   try {
     const fileKey = Date.now() + "_" + name;
-    const url = `https://xim5yugo7g.execute-api.us-east-1.amazonaws.com/default/upload?key=${fileKey}`;
+    const url = `${baseUrl}/upload?key=${fileKey}`;
 
     let instance = axios.create({
       headers: {
-        Authorization: "S1kDjcub9k78JFAyrLPsfS0yQoQ4mgmmpeWKlIoVvYsk6JVq5v4HHKvKQgZ0VdI7",
+        Authorization: authToken,
       },
     });
 
     const response = await instance.get(url);
     await axios.put(response.data.uploadURL, fileBlob);
-    return `https://xim5yugo7g.execute-api.us-east-1.amazonaws.com/default/download?key=${fileKey}`;
+    return `${baseUrl}/download?key=${fileKey}`;
   } catch (err) {
     throw new Error(err);
   }

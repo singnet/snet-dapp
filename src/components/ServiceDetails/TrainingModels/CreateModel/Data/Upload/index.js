@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { publishDatasetToS3 } from "../../../../../../Redux/actionCreators/ServiceTrainingActions";
+import { publishDatasetForTraining } from "../../../../../../Redux/actionCreators/ServiceTrainingActions";
 import AlertBox, { alertTypes } from "../../../../../common/AlertBox";
 import { isEmpty } from "lodash";
 import SNETFileUpload from "../../../../../common/SNETFileUpload";
@@ -29,7 +29,7 @@ const Data = ({ classes, trainingDataLink, setTrainingDataLink }) => {
 
         setTrainingDataFileName(name);
         setTrainingDataFileSize(size);
-        const url = await publishDatasetToS3(fileBlob, name);
+        const url = await publishDatasetForTraining(fileBlob, name);
 
         setTrainingDataLink(url);
       } catch (error) {
