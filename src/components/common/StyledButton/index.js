@@ -9,6 +9,7 @@ import { useStyles } from "./styles";
 const buttonColor = {
   blue: "blueBg",
   gradient: "gradientBg",
+  gradientAccent: "gradientAccentBg",
   black: "blackBg",
   transparent: "transparentBg",
   transparentBlueBorder: "transparentBlueBorder",
@@ -42,6 +43,7 @@ StyledButton.propTypes = {
   type: PropTypes.oneOf([
     "blue",
     "gradient",
+    "gradientAccent",
     "black",
     "transparent",
     "red",
