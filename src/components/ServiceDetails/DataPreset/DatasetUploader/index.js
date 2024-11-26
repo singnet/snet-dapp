@@ -4,50 +4,33 @@ import { useStyles } from "./styles";
 import { publishDatasetForImproving } from "../../../../Redux/actionCreators/ServiceTrainingActions";
 import SNETFileUpload from "../../../common/SNETFileUpload";
 import { isEmpty } from "lodash";
+import { Typography } from "@mui/material";
+import ExampleDatasets from "../ExampleDatasets";
+import DatasetInfo from "../DatasetInfo";
+import StyledButton from "../../../common/StyledButton";
+import DashboardModal from "../DashboardModal";
 
-const examplesDatasets = [
-  { id: 1, tag: "Text", name: "Dataset 1", link: "link/to/s3/1" },
-  { id: 2, tag: "Text", name: "Dataset 2", link: "link/to/s3/2" },
-  { id: 3, tag: "Text", name: "Dataset 3", link: "link/to/s3/3" },
-  { id: 4, tag: "Text", name: "Dataset 4", link: "link/to/s3/4" },
-];
+// import TaskIcon from "@mui/icons-material/Task";
 
 const acceptedFileTypes = ["application/zip", "application/x-zip-compressed"];
-
-const DatasetUploader = ({ classes, setDatasetLink }) => {
-  //   const [uploadedDataset, setUploadedDataset] = useState()
-  const [trainingDataFileName, setTrainingDataFileName] = useState("");
-  const [trainingDataFileSize, setTrainingDataFileSize] = useState("");
-
-  //   const setDataset = async (datasetBlob) => {
-  //     const linkToDataset = await publishDatasetForImproving(datasetBlob); //sentToS3(datasetBlob);
-  //     setUploadedDataset(datasetBlob);
-  //     setDatasetLink(linkToDataset);
-  //   };
-
-  const ExampleDataset = ({ name, link, tag }) => {
-    return (
-      <div onClick={() => setDatasetLink(link)} className={classes.exampleDataset}>
-        <div>{name}</div>
-        <div>{tag}</div>
-      </div>
-    );
-  };
-
-  const ExampleFiles = () => {
-    return (
-      <div className={classes.examplesContainer}>
-        {examplesDatasets.map((exampleDataset) => (
-          <ExampleDataset
-            key={exampleDataset.id}
-            name={exampleDataset.name}
-            link={exampleDataset.link}
-            tag={exampleDataset.tag}
-          />
-        ))}
-      </div>
-    );
-  };
+const datasetParameters = [
+  { title: "Size", value: "11.2Mb" },
+  { title: "Format", value: "TXT" },
+  {
+    title: "Rate",
+    value: "5.5/10",
+    additionalInfo: [
+      { value: "11", title: "Outlier filtering1" },
+      { value: "11", title: "Outlier filtering2" },
+      { value: "11", title: "Outlier filtering3" },
+      { value: "11", title: "Outlier filtering4" },
+    ],
+  },
+];
+const DatasetUploader = ({ classes, setDatasetInfo, datasetInfo }) => {
+  const [trainingDataFileName, setTrainingDataFileName] = useState(datasetInfo?.name);
+  const [trainingDataFileSize, setTrainingDataFileSize] = useState(datasetInfo?.size);
+  const [isDashbordOpen, setIsDashbordOpen] = useState(false);
 
   const handleDrop = async (acceptedFiles, rejectedFiles) => {
     if (!isEmpty(rejectedFiles)) {
@@ -62,13 +45,34 @@ const DatasetUploader = ({ classes, setDatasetLink }) => {
         setTrainingDataFileName(name);
         setTrainingDataFileSize(size);
         const url = await publishDatasetForImproving(fileBlob, name);
-        setDatasetLink(url);
+        setDatasetInfo({ link: url, name });
       } catch (error) {
         console.log("error: ", error);
 
         // setAlert({ type: alertTypes.ERROR, message: error.message });
       }
     }
+  };
+
+  const Helpertext = () => {
+    return (
+      isEmpty(datasetInfo) && (
+        <>
+          <Typography>Package must be under 50mb</Typography>
+          <Typography>Make sure the extension is .zip</Typography>
+        </>
+      )
+    );
+  };
+
+  const openDashbordModal = () => {
+    console.log("openDashbordModal");
+
+    setIsDashbordOpen(true);
+  };
+
+  const closeDashbordModal = () => {
+    setIsDashbordOpen(false);
   };
 
   return (
@@ -80,22 +84,22 @@ const DatasetUploader = ({ classes, setDatasetLink }) => {
           accept={acceptedFileTypes}
           multiple={false}
           showFileDetails
-          helperText={
-            <>
-              <p>* Package must be under 50mb</p>
-              <p>* Make sure the extension is .zip</p>
-            </>
-          }
+          helperText={<Helpertext />}
           fileName={trainingDataFileName}
           fileSize={trainingDataFileSize}
-          uploadSuccess={Boolean(trainingDataFileName)}
+          uploadSuccess={Boolean(trainingDataFileName || datasetInfo)}
           isFileStatsDisplay={false}
         />
       </div>
-      <div className={classes.examplesContainer}>
-        <span>Select exemple dataset</span>
-        <ExampleFiles />
-      </div>
+      {isEmpty(datasetInfo) ? (
+        <ExampleDatasets setDatasetInfo={setDatasetInfo} />
+      ) : (
+        <>
+          <DatasetInfo datasetParameters={datasetParameters} />
+          <StyledButton type="gradient" btnText="Improvment options" onClick={openDashbordModal} />
+        </>
+      )}
+      {isDashbordOpen && <DashboardModal onClose={closeDashbordModal} isShow={isDashbordOpen} />}
     </div>
   );
 };

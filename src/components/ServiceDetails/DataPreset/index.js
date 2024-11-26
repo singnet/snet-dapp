@@ -1,28 +1,52 @@
 import React, { useState } from "react";
 import Card from "../../common/Card";
-import { Grid } from "@mui/material";
 import DatasetUploader from "./DatasetUploader";
+import MergeIcon from "@mui/icons-material/CallMerge";
 
 import { withStyles } from "@mui/styles";
 import { useStyles } from "./styles";
+import AddIcon from "@mui/icons-material/Add";
+import StyledButton from "../../common/StyledButton";
+import clsx from "clsx";
 
 const DataPreset = ({ classes }) => {
-  const [datasetLink, setDatasetLink] = useState();
-
-  console.log("datasetLink: ", datasetLink);
+  const [datasetInfo, setDatasetInfo] = useState();
+  const [datasetForMergeInfo, setDatasetForMergeInfo] = useState();
 
   const DataPresetContainer = () => {
     return (
-      <div className={classes.datasetUploaderContainer}>
+      <div className={classes.dataPresetContainer}>
         <h2>Upload Your Dataset</h2>
-        <Grid container spacing={3}>
-          <Grid item md={6} xs={12}>
-            <DatasetUploader setDatasetLink={setDatasetLink} />
-          </Grid>
-          <Grid item md={6} xs={12}>
-            <DatasetUploader />
-          </Grid>
-        </Grid>
+        <div className={clsx(classes.datasetUploaderContainer, datasetForMergeInfo && classes.verticalCentered)}>
+          <div className={classes.fileZone}>
+            <DatasetUploader datasetInfo={datasetInfo} setDatasetInfo={setDatasetInfo} />
+          </div>
+          {datasetForMergeInfo && (
+            <div className={classes.mergeButtonContainer}>
+              <StyledButton
+                btnText={
+                  <div className={classes.mergeButton}>
+                    Merge
+                    <MergeIcon />
+                  </div>
+                }
+              />
+            </div>
+          )}
+          <div className={classes.fileZone}>
+            {datasetInfo ? (
+              <DatasetUploader datasetInfo={datasetForMergeInfo} setDatasetInfo={setDatasetForMergeInfo} />
+            ) : (
+              <div className={classes.emptyFirstDataset}>
+                <AddIcon />
+                <p>Add one more file for merge this</p>
+              </div>
+            )}
+          </div>
+        </div>
+        <div className={classes.fineTuneBatton}>
+          <StyledButton btnText="Fine-Tune" />
+        </div>
       </div>
     );
   };
