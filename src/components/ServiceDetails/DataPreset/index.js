@@ -8,6 +8,7 @@ import { useStyles } from "./styles";
 import AddIcon from "@mui/icons-material/Add";
 import StyledButton from "../../common/StyledButton";
 import clsx from "clsx";
+import { isEmpty } from "lodash";
 
 const DataPreset = ({ classes }) => {
   const [datasetInfo, setDatasetInfo] = useState();
@@ -45,7 +46,7 @@ const DataPreset = ({ classes }) => {
           </div>
         </div>
         <div className={classes.fineTuneBatton}>
-          <StyledButton btnText="Fine-Tune" />
+          <StyledButton disabled={isEmpty(datasetInfo)} btnText="Fine-Tune" />
         </div>
       </div>
     );
