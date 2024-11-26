@@ -6,6 +6,7 @@ export const useStyles = makeStyles((MUITheme) => ({
     gap: 20,
   },
   grayBox: {
+    width: "100%",
     padding: "50px 45px !important",
     borderWidth: 1,
     borderStyle: "dashed",
@@ -15,7 +16,6 @@ export const useStyles = makeStyles((MUITheme) => ({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#F8F8F8",
     cursor: "pointer",
     textAlign: "center",
     "& svg": {
@@ -61,6 +61,7 @@ export const useStyles = makeStyles((MUITheme) => ({
       color: "rgba(0,0,0,0.25)",
       fontSize: 18,
       lineHeight: "23px",
+      whiteSpace: "nowrap",
     },
   },
   successfullUpload: {

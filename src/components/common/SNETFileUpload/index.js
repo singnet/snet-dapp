@@ -3,6 +3,7 @@ import { useDropzone } from "react-dropzone";
 import CloudUpload from "@mui/icons-material/Backup";
 import PropTypes from "prop-types";
 import Typography from "@mui/material/Typography";
+import TaskIcon from "@mui/icons-material/Task";
 
 import { useStyles } from "./styles";
 import FileStats from "./FileStats";
@@ -44,10 +45,19 @@ const SNETFileUpload = (props) => {
     <Box className={classes.fileUploaderContainer}>
       <input {...getInputProps()} />
       <Box className={classes.grayBox} {...getRootProps()}>
-        <CloudUpload />
-        <Typography>
-          Drag and drop image here or<span> click</span>
-        </Typography>
+        {uploadSuccess ? (
+          <>
+            <TaskIcon />
+            <Typography>{fileName}</Typography>
+          </>
+        ) : (
+          <>
+            <CloudUpload />
+            <Typography>
+              Drag and drop image here or<span> click</span>
+            </Typography>
+          </>
+        )}
         {helperText === null ? (
           <Typography>(Package must be under {maxSize}mb. Make sure the extension is .zip or .tar)</Typography>
         ) : (
