@@ -131,7 +131,7 @@ const ServiceDetails = ({ classes }) => {
         name: "Models",
         tabId: "serviceTraining",
         activeIndex: 3,
-        component: <TrainingModels service={service} groupId={groupInfo.group_id} />,
+        component: <TrainingModels service={service} />,
       }
     );
   }
