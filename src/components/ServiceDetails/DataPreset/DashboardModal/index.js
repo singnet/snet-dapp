@@ -1,10 +1,8 @@
 import SNETDialog from "../../../common/SNETDialog";
-import ImprovementParameter from "./ImprovementParameter";
-
 import { withStyles } from "@mui/styles";
 import { useStyles } from "./styles";
-import StyledButton from "../../../common/StyledButton";
 import Graphs from "./Graphs";
+import ImprovementParameters from "./ImprovementParameters";
 
 const analizeAnswer = {
   overall_score: 8,
@@ -99,14 +97,7 @@ const DashboardModal = ({ classes, onClose, isShow }) => {
     <SNETDialog isDialogOpen={isShow} onDialogClose={onClose} showCloseButton={false}>
       <div className={classes.dasbordModalContainer}>
         <h2>Quality check of the dataset</h2>
-        <div className={classes.parameters}>
-          {analizeAnswer.feature_groups.map((parameter) => (
-            <ImprovementParameter key={parameter.key_name} parameter={parameter} />
-          ))}
-        </div>
-        <div className={classes.improveButtonContainer}>
-          <StyledButton type="gradientAccent" btnText="IMPROVE" />
-        </div>
+        <ImprovementParameters parameters={analizeAnswer.feature_groups} />
       </div>
       <h2>Quality of the dataset</h2>
       <div className={classes.graphs}>
