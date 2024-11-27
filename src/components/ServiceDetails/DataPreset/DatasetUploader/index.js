@@ -5,12 +5,10 @@ import { publishDatasetForImproving } from "../../../../Redux/actionCreators/Ser
 import SNETFileUpload from "../../../common/SNETFileUpload";
 import { isEmpty } from "lodash";
 import { Typography } from "@mui/material";
-import ExampleDatasets from "../ExampleDatasets";
 import DatasetInfo from "../DatasetInfo";
 import StyledButton from "../../../common/StyledButton";
 import DashboardModal from "../DashboardModal";
-
-// import TaskIcon from "@mui/icons-material/Task";
+import DatasetTabs from "../DatasetTabs";
 
 const acceptedFileTypes = ["application/zip", "application/x-zip-compressed"];
 const datasetParameters = [
@@ -27,6 +25,7 @@ const datasetParameters = [
     ],
   },
 ];
+
 const DatasetUploader = ({ classes, setDatasetInfo, datasetInfo, cleanDatasetInfo }) => {
   const [trainingDataFileName, setTrainingDataFileName] = useState(datasetInfo?.name);
   const [trainingDataFileSize, setTrainingDataFileSize] = useState(datasetInfo?.size);
@@ -96,7 +95,7 @@ const DatasetUploader = ({ classes, setDatasetInfo, datasetInfo, cleanDatasetInf
         />
       </div>
       {isEmpty(datasetInfo) ? (
-        <ExampleDatasets setDatasetInfo={setDatasetInfo} />
+        <DatasetTabs setDatasetInfo={setDatasetInfo} />
       ) : (
         <>
           <DatasetInfo datasetParameters={datasetParameters} />
