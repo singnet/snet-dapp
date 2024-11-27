@@ -9,6 +9,7 @@ import DatasetInfo from "../DatasetInfo";
 import StyledButton from "../../../common/StyledButton";
 import DashboardModal from "../DashboardModal";
 import DatasetTabs from "../DatasetTabs";
+import { useDispatch } from "react-redux";
 
 const acceptedFileTypes = ["application/zip", "application/x-zip-compressed"];
 const datasetParameters = [
@@ -27,6 +28,8 @@ const datasetParameters = [
 ];
 
 const DatasetUploader = ({ classes, setDatasetInfo, datasetInfo, cleanDatasetInfo }) => {
+  const dispatch = useDispatch();
+
   const [trainingDataFileName, setTrainingDataFileName] = useState(datasetInfo?.name);
   const [trainingDataFileSize, setTrainingDataFileSize] = useState(datasetInfo?.size);
   const [isDashbordOpen, setIsDashbordOpen] = useState(false);
@@ -42,7 +45,7 @@ const DatasetUploader = ({ classes, setDatasetInfo, datasetInfo, cleanDatasetInf
 
         setTrainingDataFileName(name);
         setTrainingDataFileSize(size);
-        const url = await publishDatasetForImproving(fileBlob, name);
+        const url = await dispatch(publishDatasetForImproving(fileBlob, name));
         setDatasetInfo({ link: url, name, size });
       } catch (error) {
         console.log("error: ", error);

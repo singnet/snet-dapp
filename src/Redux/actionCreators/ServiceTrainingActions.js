@@ -2,8 +2,9 @@ import axios from "axios";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
 import { startAppLoader, stopAppLoader } from "./LoaderActions";
 import { getServiceClient } from "./SDKActions";
-import { updateMetamaskWallet } from "./UserActions";
+import { fetchAuthenticatedUser, updateMetamaskWallet } from "./UserActions";
 import { modelStatus } from "../reducers/ServiceTrainingReducer";
+// import { userActions } from ".";
 export const SET_MODEL_DETAILS = "SET_MODEL_DETAILS";
 export const SET_MODELS_LIST = "SET_MODELS_LIST";
 export const RESET_MODEL_DETAILS = "RESET_MODEL_DETAILS";
@@ -189,29 +190,35 @@ const modelStatusByNumber = {
   4: "DELETED",
 };
 
-export const publishDatasetForTraining = async (fileBlob, name) => {
-  const linkToDataset = await publishDatasetToS3(
-    fileBlob,
-    name,
-    "https://xim5yugo7g.execute-api.us-east-1.amazonaws.com/default",
-    "S1kDjcub9k78JFAyrLPsfS0yQoQ4mgmmpeWKlIoVvYsk6JVq5v4HHKvKQgZ0VdI7"
+export const publishDatasetForTraining = (fileBlob, name) => async (dispatch) => {
+  const linkToDataset = await dispatch(
+    publishDatasetToS3(
+      fileBlob,
+      name,
+      "https://xim5yugo7g.execute-api.us-east-1.amazonaws.com/default",
+      "S1kDjcub9k78JFAyrLPsfS0yQoQ4mgmmpeWKlIoVvYsk6JVq5v4HHKvKQgZ0VdI7"
+    )
   );
   return linkToDataset;
 };
 
-export const publishDatasetForImproving = async (fileBlob, name) => {
-  const linkToDataset = await publishDatasetToS3(
-    fileBlob,
-    name,
-    "https://ozx0e68owf.execute-api.us-east-1.amazonaws.com",
-    "IYE2sz0hUSGhWcyLQTwXS0AbiXKq4h1eW85MZSo6uDhtYfXI8dXisTzRyXaBCImH"
+export const publishDatasetForImproving = (fileBlob, name) => async (dispatch) => {
+  const linkToDataset = await dispatch(
+    publishDatasetToS3(
+      fileBlob,
+      name,
+      "https://ozx0e68owf.execute-api.us-east-1.amazonaws.com",
+      "IYE2sz0hUSGhWcyLQTwXS0AbiXKq4h1eW85MZSo6uDhtYfXI8dXisTzRyXaBCImH"
+    )
   );
   return linkToDataset;
 };
 
-export const publishDatasetToS3 = async (fileBlob, name, baseUrl, authToken) => {
+export const publishDatasetToS3 = (fileBlob, name, baseUrl, authToken) => async (dispatch) => {
+  const { email } = await dispatch(fetchAuthenticatedUser());
+
   try {
-    const fileKey = Date.now() + "_" + name;
+    const fileKey = name + "_" + email + "_" + Date.now();
     const url = `${baseUrl}/upload?key=${fileKey}`;
 
     let instance = axios.create({

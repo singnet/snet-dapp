@@ -6,10 +6,13 @@ import SNETFileUpload from "../../../../../common/SNETFileUpload";
 
 import { withStyles } from "@mui/styles";
 import { useStyles } from "./styles";
+import { useDispatch } from "react-redux";
 
 const acceptedFileTypes = ["application/zip", "application/x-zip-compressed"];
 
 const Data = ({ classes, trainingDataset, setTrainingDataset }) => {
+  const dispatch = useDispatch();
+
   const [alert, setAlert] = useState({});
   const [trainingDataFileName, setTrainingDataFileName] = useState(trainingDataset ? trainingDataset?.name : "");
   const [trainingDataFileSize, setTrainingDataFileSize] = useState(trainingDataset ? trainingDataset?.size : "");
@@ -29,7 +32,7 @@ const Data = ({ classes, trainingDataset, setTrainingDataset }) => {
 
         setTrainingDataFileName(name);
         setTrainingDataFileSize(size);
-        const url = await publishDatasetForTraining(fileBlob, name);
+        const url = await dispatch(publishDatasetForTraining(fileBlob, name));
 
         setTrainingDataset({ link: url, name, size });
       } catch (error) {
