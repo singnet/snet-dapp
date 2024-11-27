@@ -9,6 +9,11 @@ export const useStyles = (theme) => ({
     flexWrap: "wrap",
     gap: 25,
   },
+  graphs: {
+    display: "flex",
+    flexWrap: "wrap",
+    gap: 25,
+  },
   improveButtonContainer: {
     textAlign: "right",
   },
@@ -30,6 +35,7 @@ export const useStyles = (theme) => ({
       fontSize: 17,
       fontWeight: 700,
       color: "black",
+      whiteSpace: "nowrap",
     },
   },
   improvementRaw: {
@@ -55,4 +61,6 @@ export const useStyles = (theme) => ({
     fontSize: 14,
     fontWeight: 700,
   },
+
+  // GRAPHS
 });
