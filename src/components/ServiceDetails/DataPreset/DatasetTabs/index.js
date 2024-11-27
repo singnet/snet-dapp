@@ -3,17 +3,41 @@ import StyledTabs from "../../StyledTabs";
 import DatasetsList from "../DatasetsList";
 
 const datasetsExamples = [
-  { id: 1, tag: "Text", name: "DataSet 1: Training data for text translation", link: "link/to/s3/1" },
-  { id: 2, tag: "Text", name: "DataSet 2: Training data for text translation", link: "link/to/s3/2" },
-  { id: 3, tag: "Text", name: "DataSet 3: Training data for text translation", link: "link/to/s3/3" },
-  { id: 4, tag: "Text", name: "DataSet 4: Training data for text translation", link: "link/to/s3/4" },
+  { id: 1, tag: "Text", size: 51234, name: "DataSet 1: Training data for text translation", link: "link/to/s3/1" },
+  { id: 2, tag: "Text", size: 51234, name: "DataSet 2: Training data for text translation", link: "link/to/s3/2" },
+  { id: 3, tag: "Text", size: 51234, name: "DataSet 3: Training data for text translation", link: "link/to/s3/3" },
+  { id: 4, tag: "Text", size: 51234, name: "DataSet 4: Training data for text translation", link: "link/to/s3/4" },
 ];
 
 const datasetsRecent = [
-  { id: 1, tag: "Text", name: "DataSet Recent 1: Training data for text translation", link: "link/to/s3/1" },
-  { id: 2, tag: "Text", name: "DataSet Recent 2: Training data for text translation", link: "link/to/s3/2" },
-  { id: 3, tag: "Text", name: "DataSet Recent 3: Training data for text translation", link: "link/to/s3/3" },
-  { id: 4, tag: "Text", name: "DataSet Recent 4: Training data for text translation", link: "link/to/s3/4" },
+  {
+    id: 1,
+    tag: "Text",
+    size: 51234,
+    name: "DataSet Recent 1: Training data for text translation",
+    link: "link/to/s3/1",
+  },
+  {
+    id: 2,
+    tag: "Text",
+    size: 51234,
+    name: "DataSet Recent 2: Training data for text translation",
+    link: "link/to/s3/2",
+  },
+  {
+    id: 3,
+    tag: "Text",
+    size: 51234,
+    name: "DataSet Recent 3: Training data for text translation",
+    link: "link/to/s3/3",
+  },
+  {
+    id: 4,
+    tag: "Text",
+    size: 51234,
+    name: "DataSet Recent 4: Training data for text translation",
+    link: "link/to/s3/4",
+  },
 ];
 
 const DatasetTabs = ({ setDatasetInfo }) => {

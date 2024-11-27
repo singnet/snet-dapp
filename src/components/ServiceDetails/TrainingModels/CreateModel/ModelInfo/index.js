@@ -34,8 +34,9 @@ const ModelInfo = ({ classes, cancelEditModel }) => {
   const [trainingModelDescription, setTrainingModelDescription] = useState(
     currentModel ? currentModel.description : ""
   );
-  const [trainingDataLink, setTrainingDataLink] = useState(currentModel ? currentModel.dataLink : "");
+  const [trainingDataset, setTrainingDataset] = useState(currentModel ? currentModel.dataset : "");
   const [alert, setAlert] = useState({});
+
   const trainingMethod = detailsTraining?.trainingMethods[0];
   // const onUpdate = async () => {
   //   const updateModelParams = {
@@ -73,7 +74,7 @@ const ModelInfo = ({ classes, cancelEditModel }) => {
         trainingModelDescription,
         accessAddresses,
         isRestrictAccessModel,
-        dataLink: trainingDataLink,
+        dataLink: trainingDataset.link,
       };
       await dispatch(createModel(org_id, service_id, newModelParams));
       dispatch(loaderActions.stopAppLoader());
@@ -112,7 +113,7 @@ const ModelInfo = ({ classes, cancelEditModel }) => {
     setTrainingModelDescription(event.target.value);
   };
 
-  const isCreatingAvailable = trainingMethod && trainingModelName && trainingModelDescription && trainingDataLink;
+  const isCreatingAvailable = trainingMethod && trainingModelName && trainingModelDescription && trainingDataset?.link;
   const CreateModelButtonGroup = () => {
     return <StyledButton btnText="Create" onClick={onNext} disabled={!isCreatingAvailable} />;
   };
@@ -156,7 +157,7 @@ const ModelInfo = ({ classes, cancelEditModel }) => {
           />
         </div>
       </div>
-      <Data trainingDataLink={trainingDataLink} setTrainingDataLink={setTrainingDataLink} />
+      <Data trainingDataset={trainingDataset} setTrainingDataset={setTrainingDataset} />
       <div className={classes.accessModelContainer}>
         {/* <FormControlLabel
           label="Enable access restriction for this model"

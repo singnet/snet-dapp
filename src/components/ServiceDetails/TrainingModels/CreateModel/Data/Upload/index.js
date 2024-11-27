@@ -9,10 +9,10 @@ import { useStyles } from "./styles";
 
 const acceptedFileTypes = ["application/zip", "application/x-zip-compressed"];
 
-const Data = ({ classes, trainingDataLink, setTrainingDataLink }) => {
+const Data = ({ classes, trainingDataset, setTrainingDataset }) => {
   const [alert, setAlert] = useState({});
-  const [trainingDataFileName, setTrainingDataFileName] = useState("");
-  const [trainingDataFileSize, setTrainingDataFileSize] = useState("");
+  const [trainingDataFileName, setTrainingDataFileName] = useState(trainingDataset ? trainingDataset?.name : "");
+  const [trainingDataFileSize, setTrainingDataFileSize] = useState(trainingDataset ? trainingDataset?.size : "");
 
   const handleDrop = async (acceptedFiles, rejectedFiles) => {
     setAlert({});
@@ -31,7 +31,7 @@ const Data = ({ classes, trainingDataLink, setTrainingDataLink }) => {
         setTrainingDataFileSize(size);
         const url = await publishDatasetForTraining(fileBlob, name);
 
-        setTrainingDataLink(url);
+        setTrainingDataset({ link: url, name, size });
       } catch (error) {
         setAlert({ type: alertTypes.ERROR, message: error.message });
       }
@@ -53,7 +53,7 @@ const Data = ({ classes, trainingDataLink, setTrainingDataLink }) => {
         }
         fileName={trainingDataFileName}
         fileSize={trainingDataFileSize}
-        uploadSuccess={Boolean(trainingDataLink)}
+        uploadSuccess={Boolean(trainingDataset?.link)}
       />
       <AlertBox type={alert?.type} message={alert.message} />
     </div>

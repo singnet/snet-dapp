@@ -24,14 +24,15 @@ const AccessModel = ({ classes, accessAddresses, setAccessAddresses }) => {
     <div className={classes.accessModelContainer}>
       <h3>Add a list of address that can access this model (Optional)</h3>
       <div className={classes.ethAddressContainer}>
-        {accessAddresses.map((address, index) => (
-          <div key={index.toString()} className={classes.addedEthAdd}>
-            <StyledTextField value={address} className={classes.addressField} />
-            <div className={classes.removeAddressButton}>
-              <DeleteOutlineIcon onClick={() => removeEthAddress(index)} />
+        {accessAddresses &&
+          accessAddresses.map((address, index) => (
+            <div key={index.toString()} className={classes.addedEthAdd}>
+              <StyledTextField value={address} className={classes.addressField} />
+              <div className={classes.removeAddressButton}>
+                <DeleteOutlineIcon onClick={() => removeEthAddress(index)} />
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
         <p>
           Please add a new address that will have access to use, update and delete your model! You do not need to enter
           your address

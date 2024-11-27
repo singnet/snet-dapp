@@ -43,7 +43,7 @@ const DatasetUploader = ({ classes, setDatasetInfo, datasetInfo, cleanDatasetInf
         setTrainingDataFileName(name);
         setTrainingDataFileSize(size);
         const url = await publishDatasetForImproving(fileBlob, name);
-        setDatasetInfo({ link: url, name });
+        setDatasetInfo({ link: url, name, size });
       } catch (error) {
         console.log("error: ", error);
 
