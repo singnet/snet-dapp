@@ -41,7 +41,7 @@ const ServiceOverview = ({ classes, description, tags, isTrainingAvailable }) =>
             <div className={classes.trainingLink}>
               <p>For this service you can create your own training model!</p>
               {/* //TODO */}
-              <Link className={classes.tryTrainingBtn} to={location.pathname.split("tab/")[0] + "tab/" + 2}>
+              <Link className={classes.tryTrainingBtn} to={location.pathname.split("tab/")[0] + "tab/" + 3}>
                 Try now!
               </Link>
             </div>
