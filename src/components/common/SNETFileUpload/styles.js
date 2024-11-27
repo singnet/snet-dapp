@@ -123,4 +123,9 @@ export const useStyles = makeStyles((MUITheme) => ({
       color: MUITheme.palette.error.main,
     },
   },
+  statRow: {
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+  },
 }));
