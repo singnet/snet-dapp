@@ -6,14 +6,12 @@ const ImprovementParameter = ({ classes, parameter }) => {
   return (
     <div className={classes.parameterContainer}>
       <div className={classes.parameterInfo}>
-        <FormControlLabel className={classes.checkbox} control={<Checkbox />} label={parameter.title} />
+        <FormControlLabel className={classes.checkbox} control={<Checkbox />} label={parameter.displayed_name} />
         <div className={classes.listOfImprovementsContainer}>
-          {parameter.listOfImprovements.map((improvement) => (
-            <div key={improvement.label} className={classes.improvementRaw}>
-              <span className={classes.improvementValue}>{improvement.value}</span>
-              {improvement.label}
-            </div>
-          ))}
+          <div key={parameter.cases_count} className={classes.improvementRaw}>
+            <span className={classes.improvementValue}>{parameter.cases_count}</span>
+            Issues detected
+          </div>
         </div>
       </div>
       <div className={classes.status}>{parameter.status}</div>
