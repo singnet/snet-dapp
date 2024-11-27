@@ -42,7 +42,7 @@ const EditModel = ({ classes, cancelEditModel }) => {
 
   const CreateModelHeader = () => {
     if (isEmpty(modelId)) {
-      return <h2>New Model Request</h2>;
+      return "New Model Request";
     }
 
     return (
