@@ -8,7 +8,7 @@ import { withStyles } from "@mui/styles";
 import { useStyles } from "./styles";
 import { useDispatch } from "react-redux";
 
-const acceptedFileTypes = ["application/zip", "application/x-zip-compressed"];
+const acceptedFileTypes = { "application/zip": ".zip", "application/x-zip-compressed": ".zip" };
 
 const Data = ({ classes, trainingDataset, setTrainingDataset }) => {
   const dispatch = useDispatch();
