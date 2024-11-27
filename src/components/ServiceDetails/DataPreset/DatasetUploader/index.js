@@ -27,14 +27,13 @@ const datasetParameters = [
     ],
   },
 ];
-const DatasetUploader = ({ classes, setDatasetInfo, datasetInfo }) => {
+const DatasetUploader = ({ classes, setDatasetInfo, datasetInfo, cleanDatasetInfo }) => {
   const [trainingDataFileName, setTrainingDataFileName] = useState(datasetInfo?.name);
   const [trainingDataFileSize, setTrainingDataFileSize] = useState(datasetInfo?.size);
   const [isDashbordOpen, setIsDashbordOpen] = useState(false);
 
   const handleDrop = async (acceptedFiles, rejectedFiles) => {
     if (!isEmpty(rejectedFiles)) {
-      console.log("rejectedFiles: ", rejectedFiles);
       return;
     }
     if (!isEmpty(acceptedFiles)) {
@@ -66,13 +65,17 @@ const DatasetUploader = ({ classes, setDatasetInfo, datasetInfo }) => {
   };
 
   const openDashbordModal = () => {
-    console.log("openDashbordModal");
-
     setIsDashbordOpen(true);
   };
 
   const closeDashbordModal = () => {
     setIsDashbordOpen(false);
+  };
+
+  const cleanCurrentDataset = () => {
+    cleanDatasetInfo();
+    setTrainingDataFileName();
+    setTrainingDataFileSize();
   };
 
   return (
@@ -88,6 +91,7 @@ const DatasetUploader = ({ classes, setDatasetInfo, datasetInfo }) => {
           fileName={trainingDataFileName}
           fileSize={trainingDataFileSize}
           uploadSuccess={Boolean(trainingDataFileName || datasetInfo)}
+          cleanCurrentFile={cleanCurrentDataset}
           isFileStatsDisplay={false}
         />
       </div>

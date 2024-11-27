@@ -6,6 +6,7 @@ export const useStyles = makeStyles((MUITheme) => ({
     gap: 20,
   },
   grayBox: {
+    position: "relative",
     width: "100%",
     padding: "50px 45px !important",
     borderWidth: 1,
@@ -32,6 +33,16 @@ export const useStyles = makeStyles((MUITheme) => ({
         color: "#4a4a4a",
         fontSize: 12,
       },
+    },
+  },
+  cleanButton: {
+    position: "absolute",
+    right: 0,
+    top: 0,
+    "& svg": {
+      width: 25,
+      height: 25,
+      fill: MUITheme.palette.text.mediumShadeGray,
     },
   },
   title: {

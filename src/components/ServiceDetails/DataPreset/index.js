@@ -14,13 +14,22 @@ const DataPreset = ({ classes }) => {
   const [datasetInfo, setDatasetInfo] = useState();
   const [datasetForMergeInfo, setDatasetForMergeInfo] = useState();
 
+  const cleanMainDataset = () => {
+    setDatasetInfo(datasetForMergeInfo);
+    setDatasetForMergeInfo();
+  };
+
   const DataPresetContainer = () => {
     return (
       <div className={classes.dataPresetContainer}>
         <h2>Upload Your Dataset</h2>
         <div className={clsx(classes.datasetUploaderContainer, datasetForMergeInfo && classes.verticalCentered)}>
           <div className={classes.fileZone}>
-            <DatasetUploader datasetInfo={datasetInfo} setDatasetInfo={setDatasetInfo} />
+            <DatasetUploader
+              datasetInfo={datasetInfo}
+              setDatasetInfo={setDatasetInfo}
+              cleanDatasetInfo={cleanMainDataset}
+            />
           </div>
           {datasetForMergeInfo && (
             <div className={classes.mergeButtonContainer}>
@@ -36,7 +45,11 @@ const DataPreset = ({ classes }) => {
           )}
           <div className={classes.fileZone}>
             {datasetInfo ? (
-              <DatasetUploader datasetInfo={datasetForMergeInfo} setDatasetInfo={setDatasetForMergeInfo} />
+              <DatasetUploader
+                datasetInfo={datasetForMergeInfo}
+                setDatasetInfo={setDatasetForMergeInfo}
+                cleanDatasetInfo={() => setDatasetForMergeInfo()}
+              />
             ) : (
               <div className={classes.emptyFirstDataset}>
                 <AddIcon />

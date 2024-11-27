@@ -7,7 +7,8 @@ import TaskIcon from "@mui/icons-material/Task";
 
 import { useStyles } from "./styles";
 import FileStats from "./FileStats";
-import { Box } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
+import { Close } from "@mui/icons-material";
 
 const SNETFileUpload = (props) => {
   const {
@@ -25,6 +26,7 @@ const SNETFileUpload = (props) => {
     uploadSuccess,
     error,
     helperText,
+    cleanCurrentFile,
     isFileStatsDisplay = true,
   } = props;
   const classes = useStyles();
@@ -41,12 +43,22 @@ const SNETFileUpload = (props) => {
     onDropRejected,
   });
 
+  const handleFileClean = (e) => {
+    e.stopPropagation();
+    cleanCurrentFile();
+  };
+
   return (
     <Box className={classes.fileUploaderContainer}>
       <input {...getInputProps()} />
       <Box className={classes.grayBox} {...getRootProps()}>
         {uploadSuccess ? (
           <>
+            {cleanCurrentFile && (
+              <IconButton className={classes.cleanButton} onClick={(event) => handleFileClean(event)}>
+                <Close />
+              </IconButton>
+            )}
             <TaskIcon />
             <Typography>{fileName}</Typography>
           </>
