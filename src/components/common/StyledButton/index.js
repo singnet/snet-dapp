@@ -19,7 +19,18 @@ const buttonColor = {
   whiteBorder: "whiteBorder",
 };
 
-const StyledButton = ({ disabled, onClick, type, btnType, iconClass, href, newTab, btnText, ...rest }) => {
+const StyledButton = ({
+  disabled,
+  onClick,
+  type,
+  btnType,
+  IconComponent,
+  iconClass,
+  href,
+  newTab,
+  btnText,
+  ...rest
+}) => {
   const classes = useStyles();
 
   return (
@@ -33,7 +44,8 @@ const StyledButton = ({ disabled, onClick, type, btnType, iconClass, href, newTa
       rel={href && newTab ? "noopener" : ""}
       {...rest}
     >
-      {iconClass ? <Icon className={iconClass} /> : null}
+      {Boolean(IconComponent) && <IconComponent />}
+      {iconClass && <Icon className={iconClass} />}
       {btnText}
     </Button>
   );
