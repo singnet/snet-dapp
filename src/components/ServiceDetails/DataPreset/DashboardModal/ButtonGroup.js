@@ -5,8 +5,6 @@ import StyledButton from "../../../common/StyledButton";
 const ButtonsGroup = ({ classes, selectedParameters, isTableView, toggleTableView }) => {
   const tableButtonText = isTableView ? "close tablet" : "view tablet";
 
-  console.log("selectedParameters: ", selectedParameters);
-
   const isImproveButtonDisable = !selectedParameters?.size;
   console.log("isImproveButtonDisable: ", isImproveButtonDisable);
 

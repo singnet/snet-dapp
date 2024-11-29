@@ -7,20 +7,18 @@ import clsx from "clsx";
 const ImprovementParameters = ({ classes, parameters, setSelectedParameters }) => {
   const [paramsForImprove, setParamsForImprove] = useState(new Map());
 
-  console.log("paramsForImprove: ", paramsForImprove);
-
   const selectForImprove = (parameterName) => {
-    let params = paramsForImprove;
+    let params = new Map(paramsForImprove);
+
     if (paramsForImprove.has(parameterName)) {
       params.delete(parameterName);
     } else {
-      params = paramsForImprove.set(parameterName, true);
+      params.set(parameterName, true);
     }
-    console.log("new params: ", params);
-
     setParamsForImprove(params);
     setSelectedParameters(params);
   };
+
   const ImprovementParameter = ({ parameter }) => {
     return (
       <div className={clsx(classes.parameterContainer, classes[parameter.group_score_label])}>
