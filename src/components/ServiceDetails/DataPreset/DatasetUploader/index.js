@@ -11,7 +11,7 @@ import DashboardModal from "../DashboardModal";
 import DatasetTabs from "../DatasetTabs";
 import { useDispatch } from "react-redux";
 
-const acceptedFileTypes = ["application/zip", "application/x-zip-compressed"];
+const acceptedFileTypes = { "application/zip": ".zip", "application/x-zip-compressed": ".zip" };
 const datasetParameters = [
   { title: "Size", value: "11.2Mb" },
   { title: "Format", value: "TXT" },

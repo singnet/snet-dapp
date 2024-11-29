@@ -2,31 +2,34 @@ import { useState } from "react";
 import { Checkbox, FormControlLabel } from "@mui/material";
 import { withStyles } from "@mui/styles";
 import { useStyles } from "./styles";
-import StyledButton from "../../../common/StyledButton";
+import clsx from "clsx";
 
-const ImprovementParameters = ({ classes, parameters }) => {
-  const [paramsForImprove, setParamsForImprove] = useState({});
+const ImprovementParameters = ({ classes, parameters, setSelectedParameters }) => {
+  const [paramsForImprove, setParamsForImprove] = useState(new Map());
 
-  const isSelected = (parameterName) => {
-    return Object.keys(paramsForImprove).includes(parameterName);
-  };
+  console.log("paramsForImprove: ", paramsForImprove);
+
   const selectForImprove = (parameterName) => {
-    if (isSelected(parameterName)) {
-      setParamsForImprove({ ...paramsForImprove, [parameterName]: false });
-      return;
+    let params = paramsForImprove;
+    if (paramsForImprove.has(parameterName)) {
+      params.delete(parameterName);
+    } else {
+      params = paramsForImprove.set(parameterName, true);
     }
-    setParamsForImprove({ ...paramsForImprove, [parameterName]: true });
-  };
+    console.log("new params: ", params);
 
+    setParamsForImprove(params);
+    setSelectedParameters(params);
+  };
   const ImprovementParameter = ({ parameter }) => {
     return (
-      <div className={classes.parameterContainer}>
+      <div className={clsx(classes.parameterContainer, classes[parameter.group_score_label])}>
         <div className={classes.parameterInfo}>
           <FormControlLabel
             className={classes.checkbox}
             control={
               <Checkbox
-                checked={isSelected(parameter.key_name)}
+                checked={paramsForImprove.has(parameter.key_name)}
                 onChange={() => selectForImprove(parameter.key_name)}
               />
             }
@@ -35,24 +38,22 @@ const ImprovementParameters = ({ classes, parameters }) => {
           <div className={classes.listOfImprovementsContainer}>
             <div key={parameter.cases_count} className={classes.improvementRaw}>
               <span className={classes.improvementValue}>{parameter.cases_count}</span>
-              Issues detected
+              <div className={classes.issuesText}>Issues detected</div>
             </div>
           </div>
         </div>
-        <div className={classes.status}>{parameter.status}</div>
+        <div className={classes.status}>{parameter.group_score_label}</div>
       </div>
     );
   };
 
   return (
-    <div className={classes.dasbordModalContainer}>
+    <div className={classes.parametersContainer}>
+      <h2>Quality check of the dataset</h2>
       <div className={classes.parameters}>
         {parameters.map((parameter) => (
           <ImprovementParameter key={parameter.key_name} parameter={parameter} />
         ))}
-      </div>
-      <div className={classes.improveButtonContainer}>
-        <StyledButton type="gradientAccent" btnText="IMPROVE" />
       </div>
     </div>
   );

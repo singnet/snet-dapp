@@ -14,7 +14,7 @@ export const useStyles = makeStyles((theme) => ({
     letterSpacing: "1.25px",
     lineHeight: "16px",
     "&:disabled": {
-      backgroundColor: theme.palette.text.lightGray,
+      backgroundColor: `${theme.palette.text.lightGray} !important`,
       color: theme.palette.text.white,
     },
   },
@@ -86,10 +86,14 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   gradientBg: {
+    border: "none",
     background: "linear-gradient(90deg, #8279FE 0%, #449CEE 100%)",
   },
   gradientAccentBg: {
     border: "none",
     background: "linear-gradient(90deg, #D479FE 0%, #449CEE 45.5%, #4DE 100%)",
+    "&:disabled": {
+      background: theme.palette.text.disabledBtnBg,
+    },
   },
 }));
