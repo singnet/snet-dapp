@@ -1,9 +1,10 @@
 import { withStyles } from "@mui/styles";
 import { useStyles } from "./styles";
 
-const headData = ["column1", "column2", "column3"];
-
 const TableSamples = ({ classes, tableData }) => {
+  const headData = tableData[0];
+  const bodyData = tableData.slice(0);
+
   return (
     <table className="sample-table">
       <thead className={classes.tableHead}>
@@ -16,7 +17,7 @@ const TableSamples = ({ classes, tableData }) => {
         </tr>
       </thead>
       <tbody className={classes.tableBody}>
-        {tableData.map((row, index) => (
+        {bodyData.map((row, index) => (
           <tr key={index}>
             {row.map((cellData, index) => (
               <td key={index} className={classes.tableCeil}>
