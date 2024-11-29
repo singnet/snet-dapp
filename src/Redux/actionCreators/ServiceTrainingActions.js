@@ -191,7 +191,7 @@ const modelStatusByNumber = {
 };
 
 export const publishDatasetForTraining = (fileBlob, name) => async (dispatch) => {
-  const linkToDataset = await dispatch(
+  const linkAndKeyDataset = await dispatch(
     publishDatasetToS3(
       fileBlob,
       name,
@@ -199,11 +199,11 @@ export const publishDatasetForTraining = (fileBlob, name) => async (dispatch) =>
       "S1kDjcub9k78JFAyrLPsfS0yQoQ4mgmmpeWKlIoVvYsk6JVq5v4HHKvKQgZ0VdI7"
     )
   );
-  return linkToDataset;
+  return linkAndKeyDataset;
 };
 
 export const publishDatasetForImproving = (fileBlob, name) => async (dispatch) => {
-  const linkToDataset = await dispatch(
+  const linkAndKeyDataset = await dispatch(
     publishDatasetToS3(
       fileBlob,
       name,
@@ -211,7 +211,7 @@ export const publishDatasetForImproving = (fileBlob, name) => async (dispatch) =
       "IYE2sz0hUSGhWcyLQTwXS0AbiXKq4h1eW85MZSo6uDhtYfXI8dXisTzRyXaBCImH"
     )
   );
-  return linkToDataset;
+  return linkAndKeyDataset;
 };
 
 export const publishDatasetToS3 = (fileBlob, name, baseUrl, authToken) => async (dispatch) => {
@@ -229,7 +229,10 @@ export const publishDatasetToS3 = (fileBlob, name, baseUrl, authToken) => async 
 
     const response = await instance.get(url);
     await axios.put(response.data.uploadURL, fileBlob);
-    return `${baseUrl}/download?key=${fileKey}`;
+    return {
+      url: `${baseUrl}/download?key=${fileKey}`,
+      datasetKey: fileKey
+    };
   } catch (err) {
     throw new Error(err);
   }

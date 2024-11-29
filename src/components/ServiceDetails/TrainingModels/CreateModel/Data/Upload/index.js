@@ -32,7 +32,7 @@ const Data = ({ classes, trainingDataset, setTrainingDataset }) => {
 
         setTrainingDataFileName(name);
         setTrainingDataFileSize(size);
-        const url = await dispatch(publishDatasetForTraining(fileBlob, name));
+        const  { url } = await dispatch(publishDatasetForTraining(fileBlob, name));
 
         setTrainingDataset({ link: url, name, size });
       } catch (error) {
