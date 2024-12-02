@@ -8,7 +8,7 @@ import { withStyles } from "@mui/styles";
 import { useStyles } from "./styles";
 import { useDispatch } from "react-redux";
 
-const acceptedFileTypes = { "application/zip": ".zip", "application/x-zip-compressed": ".zip" };
+const acceptedFileTypes = { "application/zip": [".zip"], "application/x-zip-compressed": [".zip"] };
 
 const Data = ({ classes, trainingDataset, setTrainingDataset }) => {
   const dispatch = useDispatch();
@@ -32,7 +32,7 @@ const Data = ({ classes, trainingDataset, setTrainingDataset }) => {
 
         setTrainingDataFileName(name);
         setTrainingDataFileSize(size);
-        const  { url } = await dispatch(publishDatasetForTraining(fileBlob, name));
+        const { url } = await dispatch(publishDatasetForTraining(fileBlob, name));
 
         setTrainingDataset({ link: url, name, size });
       } catch (error) {

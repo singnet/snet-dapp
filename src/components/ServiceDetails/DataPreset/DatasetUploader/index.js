@@ -12,7 +12,7 @@ import DatasetTabs from "../DatasetTabs";
 import { useDispatch } from "react-redux";
 import { fileSizeConverter } from "../../../../utility/JSHelper";
 
-const acceptedFileTypes = { "application/zip": ".zip", "application/x-zip-compressed": ".zip" };
+const acceptedFileTypes = { "application/zip": [".zip"], "application/x-zip-compressed": [".zip"] };
 // const datasetParameters = [
 //   { title: "Size", value: "11.2Mb" },
 //   { title: "Format", value: "TXT" },
