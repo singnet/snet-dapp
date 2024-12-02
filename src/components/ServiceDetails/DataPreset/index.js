@@ -92,7 +92,7 @@ const DataPreset = ({ classes }) => {
       const mergedDatasets = await dispatch(validateMergeDatasets(mainDataset?.datasetKey, mergeDataset?.datasetKey));
       setMainDatasetFunction({
         additionalInfo: mergedDatasets,
-        name: mergedDatasets.dataset_key_merged,
+        name: "merged_" + mainDataset?.name + mergeDataset?.name,
         datasetKey: mergedDatasets.dataset_key_merged,
         size: mainDataset?.size + mergeDataset?.size,
       });
