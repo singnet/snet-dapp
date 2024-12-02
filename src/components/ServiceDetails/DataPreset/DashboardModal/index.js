@@ -213,7 +213,16 @@ const DashboardModal = ({ classes, onClose, isShow, dataset }) => {
           isTableView={isTableView}
           toggleTableView={toggleTableView}
         />
-        {isTableView && <TableSamples tableData={dataset?.additionalInfo?.datasaet_sample} />}
+        {isTableView && (
+          <TableSamples
+            tableData={
+              // TODO replace to correct word
+              dataset?.additionalInfo?.dataset_sample
+                ? dataset?.additionalInfo?.dataset_sample
+                : dataset?.additionalInfo?.datasaet_sample
+            }
+          />
+        )}
         <Graphs graphs={dataset?.additionalInfo?.analysis?.graphs} />
       </div>
     </SNETDialog>

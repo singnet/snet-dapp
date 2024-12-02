@@ -16,7 +16,7 @@ export const useStyles = (theme) => ({
     alignItems: "center",
   },
   fileZone: {
-    width: "100%",
+    width: "50%",
   },
   mergeButtonContainer: {
     "& button": {

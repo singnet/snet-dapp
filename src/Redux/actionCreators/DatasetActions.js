@@ -69,7 +69,7 @@ export const improveDataset = async (datasetKey, improveOptionsList) => async (d
     });
 };
 
-export const mergeDatasets = async (mainDataset, mergeDataset) => async (dispatch) => {
+export const mergeDatasets = (mainDataset, mergeDataset) => async (dispatch) => {
   const params = {
     dataset_key_base: mainDataset,
     dataset_key_additional: mergeDataset,
@@ -77,13 +77,14 @@ export const mergeDatasets = async (mainDataset, mergeDataset) => async (dispatc
   return DatasetClient.post(DatasetEndpoints.VALIDATE_MERGE, params)
     .then((response) => {
       console.log("mergeDatasets response.data", response.data);
+      return response.data;
     })
     .catch((error) => {
       console.error("mergeDatasets Error:", error);
     });
 };
 
-export const validateMergeDatasets = async (mainDataset, mergeDataset) => async (dispatch) => {
+export const validateMergeDatasets = (mainDataset, mergeDataset) => async (dispatch) => {
   const params = {
     dataset_key_base: mainDataset,
     dataset_key_additional: mergeDataset,
@@ -91,6 +92,7 @@ export const validateMergeDatasets = async (mainDataset, mergeDataset) => async 
   return DatasetClient.post(DatasetEndpoints.MERGE, params)
     .then((response) => {
       console.log("validateMergeDatasets response.data", response.data);
+      return response.data;
     })
     .catch((error) => {
       console.error("validateMergeDatasets Error:", error);
