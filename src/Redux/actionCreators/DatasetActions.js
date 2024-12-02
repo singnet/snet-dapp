@@ -49,7 +49,6 @@ export const clearRecentDatasets = () => (dispatch) => {
 
 export const getDatasetStatistic = (datasetKey) => async (dispatch) => {
   const params = new URLSearchParams([["dataset_key", datasetKey]]);
-  console.log("params", params);
   return DatasetClient.get(DatasetEndpoints.VALIDATE_AND_ANALIZE, { params });
 };
 

@@ -1,6 +1,9 @@
 import { withStyles } from "@mui/styles";
 import { useStyles } from "./styles";
 import HelpOutline from "@mui/icons-material/HelpOutline";
+// import InlineLoader from "../../../common/InlineLoader";
+import React from "react";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const DatasetInfo = ({ classes, datasetParameters }) => {
   const DatasetRateInfo = ({ additionalInfo }) => {
@@ -15,6 +18,7 @@ const DatasetInfo = ({ classes, datasetParameters }) => {
       </span>
     );
   };
+  console.log("datasetParameters", datasetParameters);
   return (
     <div className={classes.datasetInfoContainer}>
       <p>Dataset info</p>
@@ -30,7 +34,13 @@ const DatasetInfo = ({ classes, datasetParameters }) => {
                 </>
               )}
             </div>
-            <p className={classes.parameterValue}>{datasetParameter.value}</p>
+            {!datasetParameter?.value ?
+              (
+                <CircularProgress />
+              ) :
+              (
+                <p className={classes.parameterValue}>{datasetParameter.value}</p>
+              )}
           </div>
         ))}
       </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Card from "../../common/Card";
 import DatasetUploader from "./DatasetUploader";
 import MergeIcon from "@mui/icons-material/CallMerge";
@@ -12,8 +12,7 @@ import { isEmpty } from "lodash";
 import { useLocation, useNavigate } from "react-router-dom";
 import { setCurrentModelDetails } from "../../../Redux/actionCreators/ServiceTrainingActions";
 import { useDispatch, useSelector } from "react-redux";
-import { setMainDataset, setMergeDataset } from "../../../Redux/actionCreators/DatasetActions";
-// import axios from "axios";
+import { getDatasetStatistic, setMainDataset, setMergeDataset } from "../../../Redux/actionCreators/DatasetActions";
 
 const DataPreset = ({ classes }) => {
   const navigate = useNavigate();
@@ -21,6 +20,8 @@ const DataPreset = ({ classes }) => {
   const dispatch = useDispatch();
   const mainDataset = useSelector((state) => state.datasetReducer.mainDataset);
   const mergeDataset = useSelector((state) => state.datasetReducer.forgotPasswordSubmit);
+  console.log("DataPreset mainDataset", mainDataset);
+  console.log("DataPreset mergeDataset", mergeDataset);
 
   //TODO remove
   // const downloadDatasetFromS3 = async (url) => {
@@ -39,22 +40,21 @@ const DataPreset = ({ classes }) => {
   //   }
   // };
 
-  // useEffect(() => {
-  //   downloadDatasetFromS3(mainDataset?.link);
-  //   // mainDataset && !mainDataset?.additionalInfo && getStatistic(mainDataset?.datasetKey);
-  // }, [mainDataset]);
+  useEffect(() => {
+    console.log("mainDataset UPDATED", mainDataset);
+    mainDataset && !mainDataset?.additionalInfo && getStatistic(mainDataset?.datasetKey);
+  }, [mainDataset]);
+  const getStatistic = async (datasetKey) =>  {
+    try{
+      const { data } = await dispatch(getDatasetStatistic(datasetKey));
+      console.log('data', data);
+      await dispatch(setMainDataset({ ...mainDataset, additionalInfo: data }));
+    } catch (error) {
+      console.error("getStatistic error", error);
+    }
+  }
 
-  // const getStatistic = async (datasetKey) =>  {
-  //   try{
-  //     console.log("datasetKey", datasetKey);
-  //     const answer = await dispatch(getDatasetStatistic(datasetKey));
-  //     console.error("getStatistic answer", answer);
-  //   } catch (error) {
-  //     console.error("getStatistic errror", error);
-  //   }
-  // }
-
-  const cleanMainDataset = () => {
+  const cleanMainDataset = async () => {
     dispatch(setMainDataset(mergeDataset));
     dispatch(setMergeDataset(null));
   };
