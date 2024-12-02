@@ -51,7 +51,7 @@ const SNETFileUpload = (props) => {
   return (
     <Box className={classes.fileUploaderContainer}>
       <input {...getInputProps()} />
-      <Box className={classes.grayBox} {...getRootProps()}>
+      <Box className={classes.fileUploaderText} {...getRootProps()}>
         {uploadSuccess ? (
           <>
             {cleanCurrentFile && (

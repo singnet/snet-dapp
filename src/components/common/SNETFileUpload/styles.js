@@ -5,7 +5,8 @@ export const useStyles = makeStyles((MUITheme) => ({
     display: "flex",
     gap: 20,
   },
-  grayBox: {
+  fileUploaderText: {
+    boxSizing: "border-box",
     position: "relative",
     width: "100%",
     padding: "50px 45px !important",
@@ -24,6 +25,10 @@ export const useStyles = makeStyles((MUITheme) => ({
       fontSize: 40,
     },
     "& p": {
+      whiteSpace: "wrap",
+      textOverflow: "ellipsis",
+      width: "100%",
+      overflow: "hidden",
       "&:first-of-type": {
         color: MUITheme.palette.text.lightGrey,
         fontSize: 14,
