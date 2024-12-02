@@ -18,7 +18,6 @@ const DatasetInfo = ({ classes, datasetParameters }) => {
       </span>
     );
   };
-  console.log("datasetParameters", datasetParameters);
   return (
     <div className={classes.datasetInfoContainer}>
       <p>Dataset info</p>

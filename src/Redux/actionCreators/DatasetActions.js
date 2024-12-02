@@ -5,6 +5,7 @@ export const SET_MERGE_DATASET = "SET_MERGE_DATASET";
 export const SET_EXAMPLE_DATASETS = "SET_EXAMPLE_DATASETS";
 export const CLEAR_EXAMPLE_DATASETS = "CLEAR_EXAMPLE_DATASETS";
 export const ADD_RECENT_DATASET = "ADD_RECENT_DATASET";
+export const UPDATE_RECENT_DATASET = "UPDATE_RECENT_DATASET";
 export const CLEAR_RECENT_DATASETS = "CLEAR_RECENT_DATASETS";
 
 export const setMainDataset = (dataset) => (dispatch) => {
@@ -41,6 +42,13 @@ export const addRecentDataset = (dataset) => (dispatch) => {
   });
 };
 
+export const updateRecentDataset = (datasetKey, additionalInfo) => (dispatch) => {
+  dispatch({
+    type: UPDATE_RECENT_DATASET,
+    payload: { datasetKey, additionalInfo },
+  });
+};
+
 export const clearRecentDatasets = () => (dispatch) => {
   dispatch({
     type: CLEAR_RECENT_DATASETS,
@@ -52,7 +60,7 @@ export const getDatasetStatistic = (datasetKey) => async (dispatch) => {
   return DatasetClient.get(DatasetEndpoints.VALIDATE_AND_ANALIZE, { params });
 };
 
-export const improveDataset = async (datasetKey, improveOptionsList) => async (dispatch) => {
+export const improveDataset = (datasetKey, improveOptionsList) => async (dispatch) => {
   const params = {
     dataset_key: datasetKey,
     improve_options: improveOptionsList.reduce((acc, field) => {
@@ -60,13 +68,7 @@ export const improveDataset = async (datasetKey, improveOptionsList) => async (d
       return acc;
     }, {}),
   };
-  return DatasetClient.post(DatasetEndpoints.IMPROVE, params)
-    .then((response) => {
-      console.log("improveDataset response.data", response.data);
-    })
-    .catch((error) => {
-      console.error("improveDataset Error:", error);
-    });
+  return DatasetClient.post(DatasetEndpoints.IMPROVE, params);
 };
 
 export const mergeDatasets = (mainDataset, mergeDataset) => async (dispatch) => {
@@ -76,7 +78,6 @@ export const mergeDatasets = (mainDataset, mergeDataset) => async (dispatch) => 
   };
   return DatasetClient.post(DatasetEndpoints.VALIDATE_MERGE, params)
     .then((response) => {
-      console.log("mergeDatasets response.data", response.data);
       return response.data;
     })
     .catch((error) => {
@@ -91,13 +92,9 @@ export const validateMergeDatasets = (mainDataset, mergeDataset) => async (dispa
   };
   return DatasetClient.post(DatasetEndpoints.MERGE, params)
     .then((response) => {
-      console.log("validateMergeDatasets response.data", response.data);
       return response.data;
     })
     .catch((error) => {
       console.error("validateMergeDatasets Error:", error);
     });
 };
-
-// const res = await getDatasetStatistic("123");
-// console.log('getDatasetStatistic', res)

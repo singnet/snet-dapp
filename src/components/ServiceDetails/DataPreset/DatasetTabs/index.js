@@ -1,47 +1,11 @@
 import { useState } from "react";
 import StyledTabs from "../../StyledTabs";
 import DatasetsList from "../DatasetsList";
-
-const datasetsExamples = [
-  { id: 1, tag: "Text", size: 51234, name: "DataSet 1: Training data for text translation", link: "https://ozx0e68owf.execute-api.us-east-1.amazonaws.com/download?key=data_instruct_llm_1000.zip_training@singularitynet.io_1732864358004" },
-  { id: 2, tag: "Text", size: 51234, name: "DataSet 2: Training data for text translation", link: "link/to/s3/2" },
-  { id: 3, tag: "Text", size: 51234, name: "DataSet 3: Training data for text translation", link: "link/to/s3/3" },
-  { id: 4, tag: "Text", size: 51234, name: "DataSet 4: Training data for text translation", link: "link/to/s3/4" },
-];
-
-const datasetsRecent = [
-  {
-    id: 1,
-    tag: "Text",
-    size: 51234,
-    name: "DataSet Recent 1: Training data for text translation",
-    link: "https://ozx0e68owf.execute-api.us-east-1.amazonaws.com/download?key=data_instruct_llm_1000.zip_training@singularitynet.io_1732864358004",
-    datasetKey: "data_instruct_llm_1000.zip_training@singularitynet.io_1732864358004",
-  },
-  {
-    id: 2,
-    tag: "Text",
-    size: 51234,
-    name: "DataSet Recent 2: Training data for text translation",
-    link: "link/to/s3/2",
-  },
-  {
-    id: 3,
-    tag: "Text",
-    size: 51234,
-    name: "DataSet Recent 3: Training data for text translation",
-    link: "link/to/s3/3",
-  },
-  {
-    id: 4,
-    tag: "Text",
-    size: 51234,
-    name: "DataSet Recent 4: Training data for text translation",
-    link: "link/to/s3/4",
-  },
-];
+import { useSelector } from "react-redux";
 
 const DatasetTabs = ({ setDatasetInfo }) => {
+  const exampleDatasets = useSelector((state) => state.datasetReducer.exampleDatasets);
+  const recentDatasets = useSelector((state) => state.datasetReducer.recentDatasets);
   const [activeTab, setActiveTab] = useState(0);
 
   const handleTabChange = (activeTab) => {
@@ -52,12 +16,12 @@ const DatasetTabs = ({ setDatasetInfo }) => {
     {
       name: "Recent",
       activeIndex: 0,
-      component: <DatasetsList setDatasetInfo={setDatasetInfo} datasets={datasetsRecent} />,
+      component: <DatasetsList setDatasetInfo={setDatasetInfo} datasets={recentDatasets} />,
     },
     {
       name: "Examples",
       activeIndex: 1,
-      component: <DatasetsList setDatasetInfo={setDatasetInfo} datasets={datasetsExamples} />,
+      component: <DatasetsList setDatasetInfo={setDatasetInfo} datasets={exampleDatasets} />,
     },
   ];
 

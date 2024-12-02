@@ -30,8 +30,7 @@ const acceptedFileTypes = { "application/zip": [".zip"], "application/x-zip-comp
 //   },
 // ];
 
-const DatasetUploader = ({ classes, setDatasetInfo, datasetInfo, cleanDatasetInfo }) => {
-  console.log("DatasetUploader datasetInfo", datasetInfo);
+const DatasetUploader = ({ classes, setDatasetInfo, datasetInfo, cleanDatasetInfo, index }) => {
   const dispatch = useDispatch();
 
   const [trainingDataFileName, setTrainingDataFileName] = useState(datasetInfo?.name);
@@ -135,7 +134,7 @@ const DatasetUploader = ({ classes, setDatasetInfo, datasetInfo, cleanDatasetInf
           />
         </>
       )}
-      {isDashbordOpen && <DashboardModal onClose={closeDashbordModal} isShow={isDashbordOpen} dataset={datasetInfo} />}
+      {isDashbordOpen && <DashboardModal onClose={closeDashbordModal} isShow={isDashbordOpen} dataset={datasetInfo} index={index} />}
     </div>
   );
 };

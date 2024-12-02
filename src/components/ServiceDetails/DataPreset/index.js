@@ -13,9 +13,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { setCurrentModelDetails } from "../../../Redux/actionCreators/ServiceTrainingActions";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  addRecentDataset,
   getDatasetStatistic,
   setMainDataset,
   setMergeDataset,
+  updateRecentDataset,
   validateMergeDatasets,
 } from "../../../Redux/actionCreators/DatasetActions";
 import { loaderActions } from "../../../Redux/actionCreators";
@@ -28,39 +30,28 @@ const DataPreset = ({ classes }) => {
   const dispatch = useDispatch();
   const mainDataset = useSelector((state) => state.datasetReducer.mainDataset);
   const mergeDataset = useSelector((state) => state.datasetReducer.mergeDataset);
-  console.log("DataPreset mainDataset", mainDataset);
-  console.log("DataPreset mergeDataset", mergeDataset);
-
-  //TODO remove
-  // const downloadDatasetFromS3 = async (url) => {
-  //   console.log("downloadDatasetFromS3");
-  //   try {
-  //     let instance = axios.create({
-  //       headers: {
-  //         Authorization: "S1kDjcub9k78JFAyrLPsfS0yQoQ4mgmmpeWKlIoVvYsk6JVq5v4HHKvKQgZ0VdI7",
-  //       },
-  //     });
-  //     console.log("downloadDatasetFromS3 instance", instance);
-  //     const response = await instance.get(url);
-  //     console.log("downloadDatasetFromS3 response", response);
-  //   } catch (err) {
-  //     throw new Error(err);
-  //   }
-  // };
+  const recentDatasets = useSelector((state) => state.datasetReducer.recentDatasets);
 
   useEffect(() => {
-    mainDataset && !mainDataset?.additionalInfo && getStatistic(mainDataset, setMainDataset);
+    !!mainDataset && !mainDataset?.additionalInfo && getStatistic(mainDataset?.datasetKey, setMainDataset);
   }, [mainDataset]);
 
   useEffect(() => {
-    mergeDataset && !mergeDataset?.additionalInfo && getStatistic(mergeDataset, setMergeDataset);
+    !!mergeDataset && !mergeDataset?.additionalInfo && getStatistic(mergeDataset?.datasetKey, setMergeDataset);
   }, [mergeDataset]);
 
-  const getStatistic = async (dataset, setDataset) => {
+  const getStatistic = async (datasetKey, setDataset) => {
     try {
       dispatch(loaderActions.startAppLoader(LoaderContent.GET_DATASET_STATISTIC));
-      const { data } = await dispatch(getDatasetStatistic(dataset?.datasetKey));
-      dispatch(setDataset({ ...dataset, additionalInfo: data }));
+      const { data } = await dispatch(getDatasetStatistic(datasetKey));
+      const enrichedDataset = { ...mainDataset, additionalInfo: data };
+      const actualDatasetIndexInRecent = recentDatasets.find(el => el.datasetKey === datasetKey);
+      if (!actualDatasetIndexInRecent) {
+        await dispatch(addRecentDataset(enrichedDataset));
+      } else {
+        await dispatch(updateRecentDataset(datasetKey, data));
+      }
+      await dispatch(setDataset(enrichedDataset));
     } catch (error) {
       console.error("getStatistic error", error);
       dispatch(setDataset(null));
@@ -90,13 +81,16 @@ const DataPreset = ({ classes }) => {
     try {
       dispatch(startAppLoader(LoaderContent.MERGE_DATASETS));
       const mergedDatasets = await dispatch(validateMergeDatasets(mainDataset?.datasetKey, mergeDataset?.datasetKey));
-      setMainDatasetFunction({
+      const mergedDataset = {
         additionalInfo: mergedDatasets,
-        name: "merged_" + mainDataset?.name + mergeDataset?.name,
         datasetKey: mergedDatasets.dataset_key_merged,
+        name: "merged_" + mainDataset?.name + "_" + mergeDataset?.name,
         size: mainDataset?.size + mergeDataset?.size,
-      });
-      cleanMergeDataset();
+        tag:  mainDataset?.tag,
+      }
+      await dispatch(addRecentDataset(mergedDataset));
+      await dispatch(setMainDataset(mergedDataset));
+      await dispatch(setMergeDataset(null));
     } catch (error) {
       console.log("error onMergeDatasets:", error);
     } finally {
@@ -114,6 +108,7 @@ const DataPreset = ({ classes }) => {
               datasetInfo={mainDataset}
               setDatasetInfo={setMainDatasetFunction}
               cleanDatasetInfo={cleanMainDataset}
+              index={0}
             />
           </div>
           {mergeDataset && (
@@ -135,6 +130,7 @@ const DataPreset = ({ classes }) => {
                 datasetInfo={mergeDataset}
                 setDatasetInfo={setMergeDatasetFunction}
                 cleanDatasetInfo={cleanMergeDataset}
+                index={0}
               />
             ) : (
               <div className={classes.emptyFirstDataset}>

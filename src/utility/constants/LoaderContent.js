@@ -124,6 +124,10 @@ export const LoaderContent = {
     loaderHeader: "Fetching dataset statistic",
     loaderText: "Please wait while we fetch the dataset statistic",
   },
+  IMPROVE_DATASET: {
+    loaderHeader: "Improving dataset",
+    loaderText: "Please wait while we improving the dataset",
+  },
   MERGE_DATASETS: {
     loaderHeader: "Merging datasets",
     loaderText: "Please wait while we merge the datasets",
