@@ -10,6 +10,7 @@ import StyledButton from "../../../common/StyledButton";
 import DashboardModal from "../DashboardModal";
 import DatasetTabs from "../DatasetTabs";
 import { useDispatch } from "react-redux";
+import { fileSizeConverter } from "../../../../utility/JSHelper";
 
 const acceptedFileTypes = { "application/zip": ".zip", "application/x-zip-compressed": ".zip" };
 // const datasetParameters = [
@@ -28,11 +29,11 @@ const acceptedFileTypes = { "application/zip": ".zip", "application/x-zip-compre
 // ];
 
 const DatasetUploader = ({ classes, setDatasetInfo, datasetInfo, cleanDatasetInfo }) => {
-  console.log('DatasetUploader classes', classes)
-  console.log('DatasetUploader setDatasetInfo', setDatasetInfo)
-  console.log('DatasetUploader datasetInfo', datasetInfo)
-  console.log('DatasetUploader cleanDatasetInfo', cleanDatasetInfo)
-;  const dispatch = useDispatch();
+  console.log("DatasetUploader classes", classes);
+  console.log("DatasetUploader setDatasetInfo", setDatasetInfo);
+  console.log("DatasetUploader datasetInfo", datasetInfo);
+  console.log("DatasetUploader cleanDatasetInfo", cleanDatasetInfo);
+  const dispatch = useDispatch();
 
   const [trainingDataFileName, setTrainingDataFileName] = useState(datasetInfo?.name);
   const [trainingDataFileSize, setTrainingDataFileSize] = useState(datasetInfo?.size);
@@ -84,16 +85,23 @@ const DatasetUploader = ({ classes, setDatasetInfo, datasetInfo, cleanDatasetInf
     setTrainingDataFileSize(null);
   };
 
-
-  const datasetParameters = !datasetInfo ? null : [
-    { title: "Size", value: datasetInfo?.size },
-    { title: "Format", value: "CSV" },
-    {
-      title: "Rate",
-      value: !datasetInfo?.additionalInfo ? null : datasetInfo?.additionalInfo?.analysis?.overall_score + "/" + datasetInfo?.additionalInfo?.analysis?.overall_score_range[1],
-      additionalInfo: datasetInfo?.additionalInfo?.analysis?.feature_groups.map((element) => { return {value: element.cases_count, title: element.displayed_name}  }),
-    },
-  ];
+  const datasetParameters = !datasetInfo
+    ? null
+    : [
+        { title: "Size", value: fileSizeConverter(datasetInfo?.size) },
+        { title: "Format", value: "CSV" },
+        {
+          title: "Rate",
+          value: !datasetInfo?.additionalInfo
+            ? null
+            : datasetInfo?.additionalInfo?.analysis?.overall_score +
+              "/" +
+              datasetInfo?.additionalInfo?.analysis?.overall_score_range[1],
+          additionalInfo: datasetInfo?.additionalInfo?.analysis?.feature_groups.map((element) => {
+            return { value: element.cases_count, title: element.displayed_name };
+          }),
+        },
+      ];
 
   return (
     <div className={classes.datasetUploader}>
@@ -117,7 +125,12 @@ const DatasetUploader = ({ classes, setDatasetInfo, datasetInfo, cleanDatasetInf
       ) : (
         <>
           <DatasetInfo datasetParameters={datasetParameters} />
-          <StyledButton type="gradient" btnText="Improvment options" onClick={openDashbordModal} />
+          <StyledButton
+            type="gradient"
+            btnText="Improvment options"
+            disabled={!datasetInfo?.additionalInfo}
+            onClick={openDashbordModal}
+          />
         </>
       )}
       {isDashbordOpen && <DashboardModal onClose={closeDashbordModal} isShow={isDashbordOpen} dataset={datasetInfo} />}

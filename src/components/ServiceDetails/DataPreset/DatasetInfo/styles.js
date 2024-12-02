@@ -29,6 +29,7 @@ export const useStyles = (theme) => ({
   additionalFieldRaw: {
     display: "flex",
     gap: 6,
+    textWrap: "nowrap",
   },
   additionalFieldValue: {
     fontWeight: 700,
