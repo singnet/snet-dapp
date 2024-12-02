@@ -1,10 +1,10 @@
 import SNETDialog from "../../../common/SNETDialog";
 import { withStyles } from "@mui/styles";
 import { useStyles } from "./styles";
-// import Graphs from "./Graphs";
+import Graphs from "./Graphs";
 import ImprovementParameters from "./Parameters";
 import TableSamples from "./Table";
-import { createContext, useState } from "react";
+import { useState } from "react";
 import ButtonGroup from "./ButtonGroup";
 
 // const analizeAnswer = {
@@ -192,8 +192,6 @@ import ButtonGroup from "./ButtonGroup";
 //   ],
 // };
 
-export const DashboardActionsContext = createContext({});
-
 const DashboardModal = ({ classes, onClose, isShow, dataset }) => {
   const [selectedParameters, setSelectedParameters] = useState();
   const [isTableView, setIsTableView] = useState(true);
@@ -201,8 +199,6 @@ const DashboardModal = ({ classes, onClose, isShow, dataset }) => {
   const toggleTableView = () => {
     setIsTableView(!isTableView);
   };
-
-  console.log("dataset", dataset);
 
   return (
     <SNETDialog isDialogOpen={isShow} onDialogClose={onClose} showCloseButton={false}>
@@ -218,7 +214,7 @@ const DashboardModal = ({ classes, onClose, isShow, dataset }) => {
           toggleTableView={toggleTableView}
         />
         {isTableView && <TableSamples tableData={dataset?.additionalInfo?.datasaet_sample} />}
-        {/*<Graphs graphs={dataset?.additionalInfo?.analysis.graphs} />*/}
+        <Graphs graphs={dataset?.additionalInfo?.analysis?.graphs} />
       </div>
     </SNETDialog>
   );

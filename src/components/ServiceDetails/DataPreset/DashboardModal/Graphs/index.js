@@ -23,7 +23,7 @@ const Graphs = ({ classes, graphs }) => {
         {graphs.map((graph) => (
           <div key={graph.displayed_name} className={classes.graphContainer}>
             <p>{graph.displayed_name}</p>
-            {graphByType(graph.data, graph.type)}
+            {graphByType(graph?.data?.children, graph.type)}
           </div>
         ))}
       </div>

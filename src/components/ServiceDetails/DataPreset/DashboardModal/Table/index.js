@@ -3,7 +3,7 @@ import { useStyles } from "./styles";
 
 const TableSamples = ({ classes, tableData }) => {
   const headData = tableData[0];
-  const bodyData = tableData.slice(0);
+  const bodyData = tableData.slice(1);
 
   return (
     <table className="sample-table">

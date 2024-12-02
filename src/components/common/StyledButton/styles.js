@@ -88,6 +88,9 @@ export const useStyles = makeStyles((theme) => ({
   gradientBg: {
     border: "none",
     background: "linear-gradient(90deg, #8279FE 0%, #449CEE 100%)",
+    "&:disabled": {
+      background: theme.palette.text.disabledBtnBg,
+    },
   },
   gradientAccentBg: {
     border: "none",
