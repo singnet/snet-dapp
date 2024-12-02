@@ -13,13 +13,15 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { setCurrentModelDetails } from "../../../Redux/actionCreators/ServiceTrainingActions";
 import { useDispatch, useSelector } from "react-redux";
 import { getDatasetStatistic, setMainDataset, setMergeDataset } from "../../../Redux/actionCreators/DatasetActions";
+import { loaderActions } from "../../../Redux/actionCreators";
+import { LoaderContent } from "../../../utility/constants/LoaderContent";
 
 const DataPreset = ({ classes }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
   const mainDataset = useSelector((state) => state.datasetReducer.mainDataset);
-  const mergeDataset = useSelector((state) => state.datasetReducer.forgotPasswordSubmit);
+  const mergeDataset = useSelector((state) => state.datasetReducer.mergeDataset);
   console.log("DataPreset mainDataset", mainDataset);
   console.log("DataPreset mergeDataset", mergeDataset);
 
@@ -42,17 +44,26 @@ const DataPreset = ({ classes }) => {
 
   useEffect(() => {
     console.log("mainDataset UPDATED", mainDataset);
-    mainDataset && !mainDataset?.additionalInfo && getStatistic(mainDataset?.datasetKey);
+    mainDataset && !mainDataset?.additionalInfo && getStatistic(mainDataset?.datasetKey, setMainDataset);
   }, [mainDataset]);
-  const getStatistic = async (datasetKey) =>  {
-    try{
+
+  useEffect(() => {
+    console.log("mergeDataset UPDATED", mergeDataset);
+    mergeDataset && !mergeDataset?.additionalInfo && getStatistic(mergeDataset?.datasetKey, setMergeDataset);
+  }, [mergeDataset]);
+
+  const getStatistic = async (datasetKey, setDataset) => {
+    try {
+      dispatch(loaderActions.startAppLoader(LoaderContent.GET_DATASET_STATISTIC));
       const { data } = await dispatch(getDatasetStatistic(datasetKey));
-      console.log('data', data);
-      await dispatch(setMainDataset({ ...mainDataset, additionalInfo: data }));
+      dispatch(setDataset({ ...mainDataset, additionalInfo: data }));
     } catch (error) {
       console.error("getStatistic error", error);
+      dispatch(setDataset(null));
+    } finally {
+      dispatch(loaderActions.stopAppLoader());
     }
-  }
+  };
 
   const cleanMainDataset = async () => {
     dispatch(setMainDataset(mergeDataset));
