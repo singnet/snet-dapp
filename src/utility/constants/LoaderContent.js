@@ -116,4 +116,12 @@ export const LoaderContent = {
     loaderHeader: "Updating model",
     loaderText: "Please wait. we're updating model",
   },
+  SET_DATASET: {
+    loaderHeader: "Handling dataset",
+    loaderText: "Please wait while we handle the dataset",
+  },
+  GET_DATASET_STATISTIC: {
+    loaderHeader: "Fetching dataset statistic",
+    loaderText: "Please wait while we fetch the dataset statistic",
+  },
 };

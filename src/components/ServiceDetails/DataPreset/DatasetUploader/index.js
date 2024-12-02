@@ -11,6 +11,8 @@ import DashboardModal from "../DashboardModal";
 import DatasetTabs from "../DatasetTabs";
 import { useDispatch } from "react-redux";
 import { fileSizeConverter } from "../../../../utility/JSHelper";
+import { LoaderContent } from "../../../../utility/constants/LoaderContent";
+import { loaderActions } from "../../../../Redux/actionCreators";
 
 const acceptedFileTypes = { "application/zip": [".zip"], "application/x-zip-compressed": [".zip"] };
 // const datasetParameters = [
@@ -29,10 +31,7 @@ const acceptedFileTypes = { "application/zip": [".zip"], "application/x-zip-comp
 // ];
 
 const DatasetUploader = ({ classes, setDatasetInfo, datasetInfo, cleanDatasetInfo }) => {
-  console.log("DatasetUploader classes", classes);
-  console.log("DatasetUploader setDatasetInfo", setDatasetInfo);
   console.log("DatasetUploader datasetInfo", datasetInfo);
-  console.log("DatasetUploader cleanDatasetInfo", cleanDatasetInfo);
   const dispatch = useDispatch();
 
   const [trainingDataFileName, setTrainingDataFileName] = useState(datasetInfo?.name);
@@ -45,6 +44,7 @@ const DatasetUploader = ({ classes, setDatasetInfo, datasetInfo, cleanDatasetInf
     }
     if (!isEmpty(acceptedFiles)) {
       try {
+        dispatch(loaderActions.startAppLoader(LoaderContent.SET_DATASET));
         const fileBlob = acceptedFiles[0];
         const { name, size } = fileBlob;
 
@@ -56,6 +56,8 @@ const DatasetUploader = ({ classes, setDatasetInfo, datasetInfo, cleanDatasetInf
         console.log("error: ", error);
 
         // setAlert({ type: alertTypes.ERROR, message: error.message });
+      } finally {
+        dispatch(loaderActions.stopAppLoader());
       }
     }
   };
