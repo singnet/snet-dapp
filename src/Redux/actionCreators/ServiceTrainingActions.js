@@ -2,8 +2,9 @@ import axios from "axios";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
 import { startAppLoader, stopAppLoader } from "./LoaderActions";
 import { getServiceClient } from "./SDKActions";
-import { updateMetamaskWallet } from "./UserActions";
+import { fetchAuthenticatedUser, updateMetamaskWallet } from "./UserActions";
 import { modelStatus } from "../reducers/ServiceTrainingReducer";
+// import { userActions } from ".";
 export const SET_MODEL_DETAILS = "SET_MODEL_DETAILS";
 export const SET_MODELS_LIST = "SET_MODELS_LIST";
 export const RESET_MODEL_DETAILS = "RESET_MODEL_DETAILS";
@@ -189,20 +190,49 @@ const modelStatusByNumber = {
   4: "DELETED",
 };
 
-export const publishDatasetToS3 = async (fileBlob, name) => {
+export const publishDatasetForTraining = (fileBlob, name) => async (dispatch) => {
+  const linkAndKeyDataset = await dispatch(
+    publishDatasetToS3(
+      fileBlob,
+      name,
+      "https://xim5yugo7g.execute-api.us-east-1.amazonaws.com/default",
+      "S1kDjcub9k78JFAyrLPsfS0yQoQ4mgmmpeWKlIoVvYsk6JVq5v4HHKvKQgZ0VdI7"
+    )
+  );
+  return linkAndKeyDataset;
+};
+
+export const publishDatasetForImproving = (fileBlob, name) => async (dispatch) => {
+  const linkAndKeyDataset = await dispatch(
+    publishDatasetToS3(
+      fileBlob,
+      name,
+      "https://ozx0e68owf.execute-api.us-east-1.amazonaws.com",
+      "IYE2sz0hUSGhWcyLQTwXS0AbiXKq4h1eW85MZSo6uDhtYfXI8dXisTzRyXaBCImH"
+    )
+  );
+  return linkAndKeyDataset;
+};
+
+export const publishDatasetToS3 = (fileBlob, name, baseUrl, authToken) => async (dispatch) => {
+  const { email } = await dispatch(fetchAuthenticatedUser());
+
   try {
-    const fileKey = Date.now() + "_" + name;
-    const url = `https://xim5yugo7g.execute-api.us-east-1.amazonaws.com/default/upload?key=${fileKey}`;
+    const fileKey = name + "_" + email + "_" + Date.now();
+    const url = `${baseUrl}/upload?key=${fileKey}`;
 
     let instance = axios.create({
       headers: {
-        Authorization: "S1kDjcub9k78JFAyrLPsfS0yQoQ4mgmmpeWKlIoVvYsk6JVq5v4HHKvKQgZ0VdI7",
+        Authorization: authToken,
       },
     });
 
     const response = await instance.get(url);
     await axios.put(response.data.uploadURL, fileBlob);
-    return `https://xim5yugo7g.execute-api.us-east-1.amazonaws.com/default/download?key=${fileKey}`;
+    return {
+      url: `${baseUrl}/download?key=${fileKey}`,
+      datasetKey: fileKey
+    };
   } catch (err) {
     throw new Error(err);
   }

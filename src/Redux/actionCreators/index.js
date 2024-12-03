@@ -8,6 +8,7 @@ import * as stylesActions from "./StylesActions";
 import * as paymentActions from "./PaymentActions";
 import * as uiContentActions from "./UiContentActions";
 import * as sdkActions from "./SDKActions";
+import * as datasetActions from "./DatasetActions";
 
 export {
   sdkActions,
@@ -20,4 +21,5 @@ export {
   stylesActions,
   paymentActions,
   uiContentActions,
+  datasetActions,
 };

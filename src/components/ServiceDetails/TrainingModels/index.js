@@ -13,9 +13,14 @@ import ExistingModel from "../ExistingModel";
 import ProjectDetails from "../ProjectDetails";
 import { useDispatch } from "react-redux";
 import { resetCurrentModelDetails } from "../../../Redux/actionCreators/ServiceTrainingActions";
+import { useLocation } from "react-router-dom";
 
 const TrainingModels = ({ classes, service }) => {
-  const [showCreateModel, setShowCreateModel] = useState(false);
+  const { state } = useLocation();
+
+  const [showCreateModel, setShowCreateModel] = useState(
+    state?.isOpenCreatingModel ? state?.isOpenCreatingModel : false
+  );
   const dispatch = useDispatch();
 
   const openEditModelSection = () => {

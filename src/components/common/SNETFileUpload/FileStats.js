@@ -4,6 +4,7 @@ import FolderIcon from "@mui/icons-material/Folder";
 import PropTypes from "prop-types";
 
 import { useStyles } from "./styles";
+import { fileSizeConverter } from "../../../utility/JSHelper";
 
 const FileStats = (props) => {
   const { uploadSuccess, show, fileName, fileSize, error } = props;
@@ -23,21 +24,13 @@ const FileStats = (props) => {
           </Typography>
         </div>
       </div>
-      <div>
+      <div className={classes.statRow}>
         <Typography className={classes.title}>File Name:</Typography>
         <Typography className={classes.value}>{fileName}</Typography>
       </div>
-      <div>
-        <Typography className={classes.title}>Items:</Typography>
-        <Typography className={classes.value} />
-      </div>
-      <div>
-        <Typography className={classes.title}>Uploaded:</Typography>
-        <Typography className={classes.value} />
-      </div>
-      <div>
+      <div className={classes.statRow}>
         <Typography className={classes.title}>Size:</Typography>
-        <Typography className={classes.value}>{fileSize}</Typography>
+        <Typography className={classes.value}>{fileSizeConverter(fileSize)}</Typography>
       </div>
     </div>
   );

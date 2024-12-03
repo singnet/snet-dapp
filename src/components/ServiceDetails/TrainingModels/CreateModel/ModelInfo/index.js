@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 // import FormControlLabel from "@mui/material/FormControlLabel";
 // import Switch from "@mui/material/Switch";
-import StyledDropdown from "../../../../common/StyledDropdown";
 import StyledTextField from "../../../../common/StyledTextField";
 import StyledButton from "../../../../common/StyledButton";
 
@@ -24,20 +23,21 @@ const ModelInfo = ({ classes, cancelEditModel }) => {
   const { currentModel } = useSelector((state) => state.serviceTrainingReducer);
   const { org_id, service_id } = useSelector((state) => currentServiceDetails(state));
 
+  // const [trainingMethod, setTrainingMethod] = useState(currentModel ? currentModel.methodName : undefined);
   //eslint-disable-next-line
   const [isRestrictAccessModel, setIsRestrictAccessModel] = useState(
     true
     // currentModel && currentModel.publicAccess ? true : false
   );
   const [accessAddresses, setAccessAddresses] = useState(currentModel ? currentModel.addressList : []);
-  const [trainingMethod, setTrainingMethod] = useState(currentModel ? currentModel.methodName : undefined);
   const [trainingModelName, setTrainingServiceName] = useState(currentModel ? currentModel.modelName : "");
   const [trainingModelDescription, setTrainingModelDescription] = useState(
     currentModel ? currentModel.description : ""
   );
-  const [trainingDataLink, setTrainingDataLink] = useState(currentModel ? currentModel.dataLink : "");
+  const [trainingDataset, setTrainingDataset] = useState(currentModel ? currentModel.dataset : "");
   const [alert, setAlert] = useState({});
 
+  const trainingMethod = detailsTraining?.trainingMethods[0];
   // const onUpdate = async () => {
   //   const updateModelParams = {
   //     trainingModelName,
@@ -74,7 +74,7 @@ const ModelInfo = ({ classes, cancelEditModel }) => {
         trainingModelDescription,
         accessAddresses,
         isRestrictAccessModel,
-        dataLink: trainingDataLink,
+        dataLink: trainingDataset.link,
       };
       await dispatch(createModel(org_id, service_id, newModelParams));
       dispatch(loaderActions.stopAppLoader());
@@ -91,19 +91,19 @@ const ModelInfo = ({ classes, cancelEditModel }) => {
   //   setIsRestrictAccessModel(!isRestrictAccessModel);
   // };
 
-  const trainingModelAccess = detailsTraining?.trainingMethods || [];
+  // const trainingModelAccess = detailsTraining?.trainingMethods || [];
 
-  const trainingDropDownObject = trainingModelAccess.map((e) => ({
-    value: e,
-    label: e,
-  }));
+  // const trainingDropDownObject = trainingModelAccess.map((e) => ({
+  //   value: e,
+  //   label: e,d
+  // }));
 
-  const trainingMethodDropDownBox = (event) => {
-    const { value } = event.target;
-    if (value !== "default") {
-      setTrainingMethod(value);
-    }
-  };
+  // const trainingMethodDropDownBox = (event) => {
+  //   const { value } = event.target;
+  //   if (value !== "default") {
+  //     setTrainingMethod(value);
+  //   }
+  // };
 
   const handleModelServiceName = (event) => {
     setTrainingServiceName(event.target.value);
@@ -113,7 +113,7 @@ const ModelInfo = ({ classes, cancelEditModel }) => {
     setTrainingModelDescription(event.target.value);
   };
 
-  const isCreatingAvailable = trainingMethod && trainingModelName && trainingModelDescription && trainingDataLink;
+  const isCreatingAvailable = trainingMethod && trainingModelName && trainingModelDescription && trainingDataset?.link;
   const CreateModelButtonGroup = () => {
     return <StyledButton btnText="Create" onClick={onNext} disabled={!isCreatingAvailable} />;
   };
@@ -131,13 +131,13 @@ const ModelInfo = ({ classes, cancelEditModel }) => {
     <div className={classes.modelInfoContaienr}>
       <div className={classes.trainingBasicDetails}>
         <div className={classes.methodDropBox}>
-          <StyledDropdown
+          {/*<StyledDropdown
             inputLabel="Training Method"
             list={trainingDropDownObject}
             value={trainingMethod}
             onChange={trainingMethodDropDownBox}
           />
-          <span>Please select a method to train as a first step.</span>
+          {/* <span>Please select a method to train as a first step.</span> */}
         </div>
         <div className={classes.modelNameContainer}>
           <StyledTextField label="Model name" value={trainingModelName} onChange={handleModelServiceName} />
@@ -157,7 +157,7 @@ const ModelInfo = ({ classes, cancelEditModel }) => {
           />
         </div>
       </div>
-      <Data trainingDataLink={trainingDataLink} setTrainingDataLink={setTrainingDataLink} />
+      <Data trainingDataset={trainingDataset} setTrainingDataset={setTrainingDataset} />
       <div className={classes.accessModelContainer}>
         {/* <FormControlLabel
           label="Enable access restriction for this model"

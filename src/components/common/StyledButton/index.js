@@ -9,6 +9,7 @@ import { useStyles } from "./styles";
 const buttonColor = {
   blue: "blueBg",
   gradient: "gradientBg",
+  gradientAccent: "gradientAccentBg",
   black: "blackBg",
   transparent: "transparentBg",
   transparentBlueBorder: "transparentBlueBorder",
@@ -18,7 +19,18 @@ const buttonColor = {
   whiteBorder: "whiteBorder",
 };
 
-const StyledButton = ({ disabled, onClick, type, btnType, iconClass, href, newTab, btnText, ...rest }) => {
+const StyledButton = ({
+  disabled,
+  onClick,
+  type,
+  btnType,
+  IconComponent,
+  iconClass,
+  href,
+  newTab,
+  btnText,
+  ...rest
+}) => {
   const classes = useStyles();
 
   return (
@@ -32,7 +44,8 @@ const StyledButton = ({ disabled, onClick, type, btnType, iconClass, href, newTa
       rel={href && newTab ? "noopener" : ""}
       {...rest}
     >
-      {iconClass ? <Icon className={iconClass} /> : null}
+      {Boolean(IconComponent) && <IconComponent />}
+      {iconClass && <Icon className={iconClass} />}
       {btnText}
     </Button>
   );
@@ -42,6 +55,7 @@ StyledButton.propTypes = {
   type: PropTypes.oneOf([
     "blue",
     "gradient",
+    "gradientAccent",
     "black",
     "transparent",
     "red",
@@ -51,7 +65,7 @@ StyledButton.propTypes = {
     "whiteBorder",
   ]),
   btnType: PropTypes.oneOf(["submit", "reset", "button"]),
-  btnText: PropTypes.string,
+  btnText: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
   iconClass: PropTypes.string,

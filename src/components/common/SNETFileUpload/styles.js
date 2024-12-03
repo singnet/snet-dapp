@@ -1,7 +1,14 @@
 import { makeStyles } from "@mui/styles";
 
 export const useStyles = makeStyles((MUITheme) => ({
-  grayBox: {
+  fileUploaderContainer: {
+    display: "flex",
+    gap: 20,
+  },
+  fileUploaderText: {
+    boxSizing: "border-box",
+    position: "relative",
+    width: "100%",
     padding: "50px 45px !important",
     borderWidth: 1,
     borderStyle: "dashed",
@@ -11,7 +18,6 @@ export const useStyles = makeStyles((MUITheme) => ({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#F8F8F8",
     cursor: "pointer",
     textAlign: "center",
     "& svg": {
@@ -19,6 +25,10 @@ export const useStyles = makeStyles((MUITheme) => ({
       fontSize: 40,
     },
     "& p": {
+      whiteSpace: "wrap",
+      textOverflow: "ellipsis",
+      width: "100%",
+      overflow: "hidden",
       "&:first-of-type": {
         color: MUITheme.palette.text.lightGrey,
         fontSize: 14,
@@ -28,6 +38,16 @@ export const useStyles = makeStyles((MUITheme) => ({
         color: "#4a4a4a",
         fontSize: 12,
       },
+    },
+  },
+  cleanButton: {
+    position: "absolute",
+    right: 0,
+    top: 0,
+    "& svg": {
+      width: 25,
+      height: 25,
+      fill: MUITheme.palette.text.mediumShadeGray,
     },
   },
   title: {
@@ -57,6 +77,7 @@ export const useStyles = makeStyles((MUITheme) => ({
       color: "rgba(0,0,0,0.25)",
       fontSize: 18,
       lineHeight: "23px",
+      whiteSpace: "nowrap",
     },
   },
   successfullUpload: {
@@ -106,5 +127,10 @@ export const useStyles = makeStyles((MUITheme) => ({
       marginLeft: 10,
       color: MUITheme.palette.error.main,
     },
+  },
+  statRow: {
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
   },
 }));

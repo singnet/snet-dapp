@@ -40,6 +40,7 @@
     "react-slick": "^0.30.2",
     "react-star-rating-component": "^1.4.1",
     "react-swipeable-views": "^0.14.0",
+    "recharts": "^2.13.3",
     "redux": "^5.0.1",
     "redux-thunk": "^3.1.0",
     "singularitynet-platform-contracts": "^1.0.4",
