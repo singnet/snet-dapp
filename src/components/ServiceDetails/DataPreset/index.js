@@ -10,7 +10,7 @@ import StyledButton from "../../common/StyledButton";
 import clsx from "clsx";
 import { isEmpty } from "lodash";
 import { useLocation, useNavigate } from "react-router-dom";
-import { setCurrentModelDetails } from "../../../Redux/actionCreators/ServiceTrainingActions";
+import { getDatasetSizeFromS3, setCurrentModelDetails } from "../../../Redux/actionCreators/ServiceTrainingActions";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addRecentDataset,
@@ -23,6 +23,7 @@ import {
 import { loaderActions } from "../../../Redux/actionCreators";
 import { LoaderContent } from "../../../utility/constants/LoaderContent";
 import { startAppLoader, stopAppLoader } from "../../../Redux/actionCreators/LoaderActions";
+import { DatafactoryInstanceS3 } from "../../../config/DatasetS3Client";
 
 const DataPreset = ({ classes }) => {
   const navigate = useNavigate();
@@ -33,19 +34,20 @@ const DataPreset = ({ classes }) => {
   const recentDatasets = useSelector((state) => state.datasetReducer.recentDatasets);
 
   useEffect(() => {
-    !!mainDataset && !mainDataset?.additionalInfo && getStatistic(mainDataset?.datasetKey, setMainDataset);
+    !!mainDataset && !mainDataset?.additionalInfo && getStatistic(mainDataset, setMainDataset);
   }, [mainDataset]);
 
   useEffect(() => {
-    !!mergeDataset && !mergeDataset?.additionalInfo && getStatistic(mergeDataset?.datasetKey, setMergeDataset);
+    !!mergeDataset && !mergeDataset?.additionalInfo && getStatistic(mergeDataset, setMergeDataset);
   }, [mergeDataset]);
 
-  const getStatistic = async (datasetKey, setDataset) => {
+  const getStatistic = async (dataset, setDataset) => {
     try {
       dispatch(loaderActions.startAppLoader(LoaderContent.GET_DATASET_STATISTIC));
+      const datasetKey = dataset?.datasetKey;
       const { data } = await dispatch(getDatasetStatistic(datasetKey));
-      const enrichedDataset = { ...mainDataset, additionalInfo: data };
-      const actualDatasetIndexInRecent = recentDatasets.find(el => el.datasetKey === datasetKey);
+      const enrichedDataset = { ...dataset, additionalInfo: data };
+      const actualDatasetIndexInRecent = recentDatasets.find((el) => el.datasetKey === datasetKey);
       if (!actualDatasetIndexInRecent) {
         await dispatch(addRecentDataset(enrichedDataset));
       } else {
@@ -81,18 +83,19 @@ const DataPreset = ({ classes }) => {
     try {
       dispatch(startAppLoader(LoaderContent.MERGE_DATASETS));
       const mergedDatasets = await dispatch(validateMergeDatasets(mainDataset?.datasetKey, mergeDataset?.datasetKey));
+      const size = await getDatasetSizeFromS3(mergedDatasets.dataset_key_merged, DatafactoryInstanceS3);
       const mergedDataset = {
         additionalInfo: mergedDatasets,
         datasetKey: mergedDatasets.dataset_key_merged,
         name: "merged_" + mainDataset?.name + "_" + mergeDataset?.name,
-        size: mainDataset?.size + mergeDataset?.size,
-        tag:  mainDataset?.tag,
-      }
+        size,
+        tag: mainDataset?.tag,
+      };
       await dispatch(addRecentDataset(mergedDataset));
       await dispatch(setMainDataset(mergedDataset));
       await dispatch(setMergeDataset(null));
     } catch (error) {
-      console.log("error onMergeDatasets:", error);
+      console.log("error on merge datasets:", error);
     } finally {
       dispatch(stopAppLoader());
     }
