@@ -15,20 +15,6 @@ import { LoaderContent } from "../../../../utility/constants/LoaderContent";
 import { loaderActions } from "../../../../Redux/actionCreators";
 
 const acceptedFileTypes = { "application/zip": [".zip"], "application/x-zip-compressed": [".zip"] };
-// const datasetParameters = [
-//   { title: "Size", value: "11.2Mb" },
-//   { title: "Format", value: "TXT" },
-//   {
-//     title: "Rate",
-//     value: "5.5/10",
-//     additionalInfo: [
-//       { value: "11", title: "Outlier filtering1" },
-//       { value: "11", title: "Outlier filtering2" },
-//       { value: "11", title: "Outlier filtering3" },
-//       { value: "11", title: "Outlier filtering4" },
-//     ],
-//   },
-// ];
 
 const DatasetUploader = ({ classes, setDatasetInfo, datasetInfo, cleanDatasetInfo, index }) => {
   const dispatch = useDispatch();
@@ -50,7 +36,7 @@ const DatasetUploader = ({ classes, setDatasetInfo, datasetInfo, cleanDatasetInf
         setTrainingDataFileName(name);
         setTrainingDataFileSize(size);
         const { url, datasetKey } = await dispatch(publishDatasetForImproving(fileBlob, name));
-        dispatch(setDatasetInfo({ link: url, name, size, datasetKey }));
+        setDatasetInfo({ link: url, name, size, datasetKey });
       } catch (error) {
         console.log("error: ", error);
 
@@ -134,7 +120,9 @@ const DatasetUploader = ({ classes, setDatasetInfo, datasetInfo, cleanDatasetInf
           />
         </>
       )}
-      {isDashbordOpen && <DashboardModal onClose={closeDashbordModal} isShow={isDashbordOpen} dataset={datasetInfo} index={index} />}
+      {isDashbordOpen && (
+        <DashboardModal onClose={closeDashbordModal} isShow={isDashbordOpen} dataset={datasetInfo} index={index} />
+      )}
     </div>
   );
 };
