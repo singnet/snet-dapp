@@ -4,6 +4,7 @@ import { startAppLoader, stopAppLoader } from "./LoaderActions";
 import { getServiceClient } from "./SDKActions";
 import { fetchAuthenticatedUser, updateMetamaskWallet } from "./UserActions";
 import { modelStatus } from "../reducers/ServiceTrainingReducer";
+import { DatafactoryInstanceS3, DatasetS3Endpoints, TrainingInstanceS3 } from "../../config/DatasetS3Client";
 // import { userActions } from ".";
 export const SET_MODEL_DETAILS = "SET_MODEL_DETAILS";
 export const SET_MODELS_LIST = "SET_MODELS_LIST";
@@ -191,49 +192,46 @@ const modelStatusByNumber = {
 };
 
 export const publishDatasetForTraining = (fileBlob, name) => async (dispatch) => {
-  const linkAndKeyDataset = await dispatch(
-    publishDatasetToS3(
-      fileBlob,
-      name,
-      "https://xim5yugo7g.execute-api.us-east-1.amazonaws.com/default",
-      "S1kDjcub9k78JFAyrLPsfS0yQoQ4mgmmpeWKlIoVvYsk6JVq5v4HHKvKQgZ0VdI7"
-    )
-  );
-  return linkAndKeyDataset;
+  try {
+    const linkAndKeyDataset = await dispatch(publishDatasetToS3(fileBlob, name, TrainingInstanceS3));
+    return linkAndKeyDataset;
+  } catch (error) {
+    console.log("publishing Dataset For Training error: ", error);
+  }
 };
 
 export const publishDatasetForImproving = (fileBlob, name) => async (dispatch) => {
-  const linkAndKeyDataset = await dispatch(
-    publishDatasetToS3(
-      fileBlob,
-      name,
-      "https://ozx0e68owf.execute-api.us-east-1.amazonaws.com",
-      "IYE2sz0hUSGhWcyLQTwXS0AbiXKq4h1eW85MZSo6uDhtYfXI8dXisTzRyXaBCImH"
-    )
-  );
-  return linkAndKeyDataset;
+  try {
+    const linkAndKeyDataset = await dispatch(publishDatasetToS3(fileBlob, name, DatafactoryInstanceS3));
+    return linkAndKeyDataset;
+  } catch (error) {
+    console.log("publishing Dataset For Improving error: ", error);
+  }
 };
 
-export const publishDatasetToS3 = (fileBlob, name, baseUrl, authToken) => async (dispatch) => {
+export const publishDatasetToS3 = (fileBlob, name, S3Instance) => async (dispatch) => {
   const { email } = await dispatch(fetchAuthenticatedUser());
 
   try {
+    const baseUrl = S3Instance.getUri();
     const fileKey = name + "_" + email + "_" + Date.now();
-    const url = `${baseUrl}/upload?key=${fileKey}`;
-
-    let instance = axios.create({
-      headers: {
-        Authorization: authToken,
-      },
-    });
-
-    const response = await instance.get(url);
+    const response = await S3Instance.get(DatasetS3Endpoints.UPLOAD, { params: { key: fileKey } });
     await axios.put(response.data.uploadURL, fileBlob);
     return {
       url: `${baseUrl}/download?key=${fileKey}`,
-      datasetKey: fileKey
+      datasetKey: fileKey,
     };
   } catch (err) {
     throw new Error(err);
   }
+};
+
+export const getDatasetSizeFromS3 = async (fileKey, S3instance) => {
+  return S3instance.get(DatasetS3Endpoints.DOWNLOAD, { params: { key: fileKey, action: "getsize" } })
+    .then((response) => {
+      return response.data.fileSize;
+    })
+    .catch((error) => {
+      console.error("mergeDatasets Error:", error);
+    });
 };
