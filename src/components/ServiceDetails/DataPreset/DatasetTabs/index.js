@@ -12,18 +12,25 @@ const DatasetTabs = ({ setDatasetInfo }) => {
     setActiveTab(activeTab);
   };
 
-  const tabs = [
-    {
-      name: "Recent",
-      activeIndex: 0,
-      component: <DatasetsList setDatasetInfo={setDatasetInfo} datasets={recentDatasets} />,
-    },
-    {
-      name: "Examples",
-      activeIndex: 1,
-      component: <DatasetsList setDatasetInfo={setDatasetInfo} datasets={exampleDatasets} />,
-    },
-  ];
+  const exampleTab = {
+    name: "Examples",
+    activeIndex: 0,
+    component: <DatasetsList setDatasetInfo={setDatasetInfo} datasets={exampleDatasets} />,
+  };
+  const recentTab = {
+    name: "Recent",
+    activeIndex: 1,
+    component: <DatasetsList setDatasetInfo={setDatasetInfo} datasets={recentDatasets} />,
+  };
+
+  const tabs = [];
+  if (recentDatasets.length === 0) {
+    tabs.push({ ...exampleTab, activeIndex: 0 });
+    tabs.push({ ...recentTab, activeIndex: 1 });
+  } else {
+    tabs.push({ ...recentTab, activeIndex: 0 });
+    tabs.push({ ...exampleTab, activeIndex: 1 });
+  }
 
   return (
     <div>
