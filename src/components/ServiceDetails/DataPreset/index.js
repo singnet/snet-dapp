@@ -72,7 +72,17 @@ const DataPreset = ({ classes }) => {
   };
 
   const goToCreateModel = () => {
-    dispatch(setCurrentModelDetails({ dataset: mainDataset }));
+    const baseUrl = DatafactoryInstanceS3.getUri();
+    const link =`${baseUrl}/download?key=${mainDataset.datasetKey}`
+    const model = {
+      dataset: {
+      ...mainDataset,
+        link,
+      },
+      modelName: mainDataset.name,
+      description: mainDataset.name,
+    }
+    dispatch(setCurrentModelDetails(model));
     navigate(location.pathname.split("tab/")[0] + "tab/" + 3, { state: { isOpenCreatingModel: true } });
   };
 
