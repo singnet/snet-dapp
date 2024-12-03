@@ -6,10 +6,13 @@ import { useDispatch } from "react-redux";
 import {
   addRecentDataset,
   improveDataset,
-  setMainDataset, setMergeDataset,
+  setMainDataset,
+  setMergeDataset,
 } from "../../../../Redux/actionCreators/DatasetActions";
 import { startAppLoader, stopAppLoader } from "../../../../Redux/actionCreators/LoaderActions";
 import { LoaderContent } from "../../../../utility/constants/LoaderContent";
+import { DatafactoryInstanceS3 } from "../../../../config/DatasetS3Client";
+import { getDatasetSizeFromS3 } from "../../../../Redux/actionCreators/ServiceTrainingActions";
 
 const ButtonsGroup = ({ classes, selectedParameters, isTableView, toggleTableView, dataset, index }) => {
   const dispatch = useDispatch();
@@ -19,17 +22,18 @@ const ButtonsGroup = ({ classes, selectedParameters, isTableView, toggleTableVie
   const isImproveButtonDisable = !selectedParameters?.size;
 
   const getImprovedDataset = async () => {
-    try{
+    try {
       dispatch(startAppLoader(LoaderContent.IMPROVE_DATASET));
       const { data } = await dispatch(improveDataset(dataset.datasetKey, Array.from(selectedParameters.keys())));
+      const size = await getDatasetSizeFromS3(data.dataset_key_new, DatafactoryInstanceS3);
       const improvedDataset = {
         additionalInfo: {
           analysis: data.analysis,
-          datasaet_sample: data.dataset_sample
+          datasaet_sample: data.dataset_sample,
         },
         datasetKey: data.dataset_key_new,
         name: dataset.name + "_improved_rate_" + data.analysis.overall_score,
-        size: dataset.size,
+        size,
         tag: dataset.tag,
       };
       await dispatch(addRecentDataset(improvedDataset));

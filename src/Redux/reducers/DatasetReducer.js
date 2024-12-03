@@ -22,43 +22,8 @@ const initialState = {
       size: 51234,
       tag: "Text",
     },
-    {
-      datasetKey: "data_instruct_llm_1000.zip_matrejukna@gufum.com_1733211676614",
-      name: "DataSet 4: Training data for text translation",
-      size: 51234,
-      tag: "Text",
-    },
   ],
-  recentDatasets: [
-    {
-      datasetKey: "data_instruct_llm_1000.zip_training@singularitynet.io_1732864358004",
-      // link: "https://ozx0e68owf.execute-api.us-east-1.amazonaws.com/download?key=data_instruct_llm_1000.zip_training@singularitynet.io_1732864358004",
-      name: "DataSet Recent 1: Training data for text translation",
-      size: 51234,
-      tag: "Text",
-    },
-    {
-      datasetKey: "data_instruct_llm_1000.zip_training@singularitynet.io_1732864358004",
-      // link: "https://ozx0e68owf.execute-api.us-east-1.amazonaws.com/download?key=data_instruct_llm_1000.zip_training@singularitynet.io_1732864358004",
-      name: "DataSet Recent 2: Training data for text translation",
-      size: 51234,
-      tag: "Text",
-    },
-    {
-      datasetKey: "data_instruct_llm_1000.zip_training@singularitynet.io_1732864358004",
-      // link: "https://ozx0e68owf.execute-api.us-east-1.amazonaws.com/download?key=data_instruct_llm_1000.zip_training@singularitynet.io_1732864358004",
-      name: "DataSet Recent 3: Training data for text translation",
-      size: 51234,
-      tag: "Text",
-    },
-    {
-      datasetKey: "data_instruct_llm_1000.zip_training@singularitynet.io_1732864358004",
-      // link: "https://ozx0e68owf.execute-api.us-east-1.amazonaws.com/download?key=data_instruct_llm_1000.zip_training@singularitynet.io_1732864358004",
-      name: "DataSet Recent 4: Training data for text translation",
-      size: 51234,
-      tag: "Text",
-    },
-  ],
+  recentDatasets: [],
 };
 
 const datasetReducer = (state = initialState, action) => {
