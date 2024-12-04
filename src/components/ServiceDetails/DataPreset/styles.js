@@ -8,6 +8,9 @@ export const useStyles = (theme) => ({
     display: "flex",
     justifyContent: "space-between",
     gap: 30,
+    "@media(max-width: 1024px)": {
+      flexDirection: "column",
+    },
   },
   fineTuneBatton: {
     textAlign: "right",
@@ -16,7 +19,16 @@ export const useStyles = (theme) => ({
     alignItems: "center",
   },
   fileZone: {
+    width: "40%",
+    "@media(max-width: 1024px)": {
+      width: "100% !important",
+    },
+  },
+  fileZoneExtended: {
     width: "50%",
+    "@media(max-width: 1024px)": {
+      width: "100% !important",
+    },
   },
   mergeButtonContainer: {
     "& button": {
