@@ -2,6 +2,10 @@ import { withStyles } from "@mui/styles";
 import { useStyles } from "./styles";
 
 const TableSamples = ({ classes, tableData }) => {
+  if (tableData.length === 0) {
+    return null;
+  }
+
   const headData = tableData[0];
   const bodyData = tableData.length >= 2 ? tableData.slice(1) : [];
 
