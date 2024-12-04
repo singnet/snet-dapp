@@ -29,7 +29,7 @@ const ButtonsGroup = ({ classes, selectedParameters, isTableView, toggleTableVie
       const improvedDataset = {
         additionalInfo: {
           analysis: data.analysis,
-          datasaet_sample: data.dataset_sample,
+          dataset_sample: data.dataset_sample,
         },
         datasetKey: data.dataset_key_new,
         name: dataset.name + "_improved_rate_" + data.analysis.overall_score,

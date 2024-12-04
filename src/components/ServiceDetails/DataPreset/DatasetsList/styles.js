@@ -5,6 +5,7 @@ export const useStyles = (theme) => ({
     gap: 16,
   },
   datasetLine: {
+    boxSizing: "border-box",
     display: "flex",
     padding: "8px 12px",
     justifyContent: "space-between",
@@ -14,6 +15,12 @@ export const useStyles = (theme) => ({
     borderRadius: 8,
     background: theme.palette.text.gray,
     cursor: "pointer",
+  },
+  datasetName: {
+    whiteSpace: "wrap",
+    textOverflow: "ellipsis",
+    width: "100%",
+    overflow: "hidden",
   },
   datasetTag: {
     padding: 5,

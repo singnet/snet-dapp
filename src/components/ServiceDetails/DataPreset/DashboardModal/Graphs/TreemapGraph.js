@@ -2,8 +2,6 @@ import { Treemap } from "recharts";
 import { roundToDesimals } from "../../../../../utility/JSHelper";
 
 const TreemapGraph = ({ data }) => {
-  console.log("data: ", data);
-
   // const dataKeys = Object.keys(data[0]);
 
   const labelKey = "name"; //dataKeys[0];

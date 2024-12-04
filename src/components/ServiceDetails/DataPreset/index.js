@@ -73,15 +73,15 @@ const DataPreset = ({ classes }) => {
 
   const goToCreateModel = () => {
     const baseUrl = DatafactoryInstanceS3.getUri();
-    const link =`${baseUrl}/download?key=${mainDataset.datasetKey}`
+    const link = `${baseUrl}/download?key=${mainDataset.datasetKey}`;
     const model = {
       dataset: {
-      ...mainDataset,
+        ...mainDataset,
         link,
       },
       modelName: mainDataset.name,
       description: mainDataset.name,
-    }
+    };
     dispatch(setCurrentModelDetails(model));
     navigate(location.pathname.split("tab/")[0] + "tab/" + 3, { state: { isOpenCreatingModel: true } });
   };
@@ -116,7 +116,7 @@ const DataPreset = ({ classes }) => {
       <div className={classes.dataPresetContainer}>
         <h2>Upload Your Dataset</h2>
         <div className={clsx(classes.datasetUploaderContainer, mergeDataset && classes.verticalCentered)}>
-          <div className={classes.fileZone}>
+          <div className={mergeDataset ? classes.fileZone : classes.fileZoneExtended}>
             <DatasetUploader
               datasetInfo={mainDataset}
               setDatasetInfo={setMainDatasetFunction}

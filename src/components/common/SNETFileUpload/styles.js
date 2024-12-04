@@ -9,7 +9,7 @@ export const useStyles = makeStyles((MUITheme) => ({
     boxSizing: "border-box",
     position: "relative",
     width: "100%",
-    padding: "50px 45px !important",
+    padding: "50px 25px !important",
     borderWidth: 1,
     borderStyle: "dashed",
     borderColor: MUITheme.palette.text.darkGray,

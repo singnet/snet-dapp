@@ -1,6 +1,6 @@
 export const useStyles = (theme) => ({
   datasetParameter: {
-    minWidth: "100px",
+    flex: 1,
     display: "flex",
     padding: "14px 10px",
     flexDirection: "column",
@@ -60,11 +60,11 @@ export const useStyles = (theme) => ({
   parameterTitle: {
     margin: 0,
     fontSize: 17,
-    fontWeight: 700,
+    fontWeight: 600,
   },
   parameterValue: {
     margin: 0,
-    fontSize: 28,
-    fontWeight: 700,
+    fontSize: 24,
+    fontWeight: 600,
   },
 });
