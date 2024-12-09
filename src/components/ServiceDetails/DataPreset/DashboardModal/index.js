@@ -7,7 +7,7 @@ import TableSamples from "./Table";
 import { useState } from "react";
 import ButtonGroup from "./ButtonGroup";
 
-const DashboardModal = ({ classes, onClose, isShow, dataset, index }) => {
+const DashboardModal = ({ classes, onClose, isShow, dataset, setDatasetInfo }) => {
   const [selectedParameters, setSelectedParameters] = useState();
   const [isTableView, setIsTableView] = useState(true);
 
@@ -27,7 +27,7 @@ const DashboardModal = ({ classes, onClose, isShow, dataset, index }) => {
           selectedParameters={selectedParameters}
           isTableView={isTableView}
           toggleTableView={toggleTableView}
-          index={index}
+          setDataset={setDatasetInfo}
         />
         {isTableView && dataset?.additionalInfo?.dataset_sample && (
           <TableSamples tableData={dataset?.additionalInfo?.dataset_sample} />

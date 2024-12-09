@@ -16,7 +16,7 @@ import { loaderActions } from "../../../../Redux/actionCreators";
 
 const acceptedFileTypes = { "application/zip": [".zip"], "application/x-zip-compressed": [".zip"] };
 
-const DatasetUploader = ({ classes, setDatasetInfo, datasetInfo, cleanDatasetInfo, index }) => {
+const DatasetUploader = ({ classes, setDatasetInfo, datasetInfo, cleanDatasetInfo, isMainDataset }) => {
   const dispatch = useDispatch();
 
   const [trainingDataFileName, setTrainingDataFileName] = useState(datasetInfo?.name);
@@ -121,7 +121,12 @@ const DatasetUploader = ({ classes, setDatasetInfo, datasetInfo, cleanDatasetInf
         </>
       )}
       {isDashbordOpen && (
-        <DashboardModal onClose={closeDashbordModal} isShow={isDashbordOpen} dataset={datasetInfo} index={index} />
+        <DashboardModal
+          onClose={closeDashbordModal}
+          isShow={isDashbordOpen}
+          dataset={datasetInfo}
+          setDatasetInfo={setDatasetInfo}
+        />
       )}
     </div>
   );
