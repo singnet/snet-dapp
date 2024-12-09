@@ -121,7 +121,6 @@ const DataPreset = ({ classes }) => {
               datasetInfo={mainDataset}
               setDatasetInfo={setMainDatasetFunction}
               cleanDatasetInfo={cleanMainDataset}
-              index={0}
             />
           </div>
           {mergeDataset && (
@@ -143,7 +142,6 @@ const DataPreset = ({ classes }) => {
                 datasetInfo={mergeDataset}
                 setDatasetInfo={setMergeDatasetFunction}
                 cleanDatasetInfo={cleanMergeDataset}
-                index={0}
               />
             ) : (
               <div className={classes.emptyFirstDataset}>
