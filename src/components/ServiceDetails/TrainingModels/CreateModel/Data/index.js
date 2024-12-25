@@ -3,7 +3,7 @@ import { withStyles } from "@mui/styles";
 import Upload from "./Upload";
 import { useStyles } from "./styles";
 
-const Dataset = ({ classes, trainingDataLink, setTrainingDataLink }) => {
+const Dataset = ({ classes, trainingDataset, setTrainingDataset }) => {
   return (
     <div className={classes.modelDataContaienr}>
       <div className={classes.createDatasetContainer}>
@@ -16,7 +16,7 @@ const Dataset = ({ classes, trainingDataLink, setTrainingDataLink }) => {
       </div>
       <div className={classes.uploadDatasetContainer}>
         <p>Upload your dataset</p>
-        <Upload trainingDataLink={trainingDataLink} setTrainingDataLink={setTrainingDataLink} />
+        <Upload trainingDataset={trainingDataset} setTrainingDataset={setTrainingDataset} />
       </div>
     </div>
   );

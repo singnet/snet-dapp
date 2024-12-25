@@ -1,18 +1,21 @@
 import React, { useState } from "react";
-import { publishDatasetToS3 } from "../../../../../../Redux/actionCreators/ServiceTrainingActions";
+import { publishDatasetForTraining } from "../../../../../../Redux/actionCreators/ServiceTrainingActions";
 import AlertBox, { alertTypes } from "../../../../../common/AlertBox";
 import { isEmpty } from "lodash";
 import SNETFileUpload from "../../../../../common/SNETFileUpload";
 
 import { withStyles } from "@mui/styles";
 import { useStyles } from "./styles";
+import { useDispatch } from "react-redux";
 
-const acceptedFileTypes = ["application/zip", "application/x-zip-compressed"];
+const acceptedFileTypes = { "application/zip": [".zip"], "application/x-zip-compressed": [".zip"] };
 
-const Data = ({ classes, trainingDataLink, setTrainingDataLink }) => {
+const Data = ({ classes, trainingDataset, setTrainingDataset }) => {
+  const dispatch = useDispatch();
+
   const [alert, setAlert] = useState({});
-  const [trainingDataFileName, setTrainingDataFileName] = useState("");
-  const [trainingDataFileSize, setTrainingDataFileSize] = useState("");
+  const [trainingDataFileName, setTrainingDataFileName] = useState(trainingDataset ? trainingDataset?.name : "");
+  const [trainingDataFileSize, setTrainingDataFileSize] = useState(trainingDataset ? trainingDataset?.size : "");
 
   const handleDrop = async (acceptedFiles, rejectedFiles) => {
     setAlert({});
@@ -29,9 +32,9 @@ const Data = ({ classes, trainingDataLink, setTrainingDataLink }) => {
 
         setTrainingDataFileName(name);
         setTrainingDataFileSize(size);
-        const url = await publishDatasetToS3(fileBlob, name);
+        const { url } = await dispatch(publishDatasetForTraining(fileBlob, name));
 
-        setTrainingDataLink(url);
+        setTrainingDataset({ link: url, name, size });
       } catch (error) {
         setAlert({ type: alertTypes.ERROR, message: error.message });
       }
@@ -53,7 +56,7 @@ const Data = ({ classes, trainingDataLink, setTrainingDataLink }) => {
         }
         fileName={trainingDataFileName}
         fileSize={trainingDataFileSize}
-        uploadSuccess={Boolean(trainingDataLink)}
+        uploadSuccess={Boolean(trainingDataset?.link)}
       />
       <AlertBox type={alert?.type} message={alert.message} />
     </div>

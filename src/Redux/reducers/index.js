@@ -9,6 +9,7 @@ import stylesReducer from "./StylesReducer";
 import paymentReducer from "./PaymentReducer";
 import uiContentReducer from "./UiContentReducer";
 import sdkReducer from "./SDKReducer";
+import datasetReducer from "./DatasetReducer";
 
 const rootReducer = combineReducers({
   userReducer,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   paymentReducer,
   uiContentReducer,
   sdkReducer,
+  datasetReducer,
 });
 
 export default rootReducer;

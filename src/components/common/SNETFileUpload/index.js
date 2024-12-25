@@ -2,11 +2,13 @@ import React from "react";
 import { useDropzone } from "react-dropzone";
 import CloudUpload from "@mui/icons-material/Backup";
 import PropTypes from "prop-types";
-import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
+import TaskIcon from "@mui/icons-material/Task";
 
 import { useStyles } from "./styles";
 import FileStats from "./FileStats";
+import { Box, IconButton } from "@mui/material";
+import { Close } from "@mui/icons-material";
 
 const SNETFileUpload = (props) => {
   const {
@@ -23,7 +25,9 @@ const SNETFileUpload = (props) => {
     fileSize,
     uploadSuccess,
     error,
-    helperText,
+    cleanCurrentFile,
+    helperText = null,
+    isFileStatsDisplay = true,
   } = props;
   const classes = useStyles();
 
@@ -39,21 +43,40 @@ const SNETFileUpload = (props) => {
     onDropRejected,
   });
 
+  const handleFileClean = (e) => {
+    e.stopPropagation();
+    cleanCurrentFile();
+  };
+
   return (
-    <Grid container spacing={3}>
+    <Box className={classes.fileUploaderContainer}>
       <input {...getInputProps()} />
-      <Grid item xs={12} sm={12} md={6} lg={6} spacing={2} className={classes.grayBox} {...getRootProps()}>
-        <CloudUpload />
-        <Typography>
-          Drag and drop image here or<span> click</span>
-        </Typography>
+      <Box className={classes.fileUploaderText} {...getRootProps()}>
+        {uploadSuccess ? (
+          <>
+            {cleanCurrentFile && (
+              <IconButton className={classes.cleanButton} onClick={(event) => handleFileClean(event)}>
+                <Close />
+              </IconButton>
+            )}
+            <TaskIcon />
+            <Typography>{fileName}</Typography>
+          </>
+        ) : (
+          <>
+            <CloudUpload />
+            <Typography>
+              Drag and drop image here or<span> click</span>
+            </Typography>
+          </>
+        )}
         {helperText === null ? (
           <Typography>(Package must be under {maxSize}mb. Make sure the extension is .zip or .tar)</Typography>
         ) : (
           helperText
         )}
-      </Grid>
-      <Grid item xs={12} sm={12} md={6} lg={6}>
+      </Box>
+      {isFileStatsDisplay && (
         <FileStats
           show={showFileDetails}
           fileName={fileName}
@@ -61,13 +84,14 @@ const SNETFileUpload = (props) => {
           uploadSuccess={uploadSuccess}
           error={error}
         />
-      </Grid>
-    </Grid>
+      )}
+    </Box>
   );
 };
 
 SNETFileUpload.prototypes = {
   disabled: PropTypes.disabled,
+  isFileStatsDisplay: PropTypes.bool,
   onFileSelect: PropTypes.func,
   minSize: PropTypes.number,
   maxSize: PropTypes.number,
@@ -82,10 +106,6 @@ SNETFileUpload.prototypes = {
   fileDownloadURL: PropTypes.string,
   uploadSuccess: PropTypes.bool,
   helperText: PropTypes.any,
-};
-
-SNETFileUpload.defaultProps = {
-  helperText: null,
 };
 
 export default SNETFileUpload;

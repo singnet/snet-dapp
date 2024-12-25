@@ -96,7 +96,7 @@ export const getIsTrainingAvailable = (detailsTraining, isLoggedIn) => {
     return false;
   }
 
-  if (!Object.prototype.hasOwnProperty.call(detailsTraining, "trainingMethods")) {
+  if (!Object.prototype.hasOwnProperty.call(detailsTraining, "trainingMethods") || !detailsTraining?.trainingMethods) {
     return false;
   }
 
