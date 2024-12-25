@@ -33,13 +33,11 @@ const DatasetInfo = ({ classes, datasetParameters }) => {
                 </>
               )}
             </div>
-            {!datasetParameter?.value ?
-              (
-                <CircularProgress />
-              ) :
-              (
-                <p className={classes.parameterValue}>{datasetParameter.value}</p>
-              )}
+            {!datasetParameter?.value ? (
+              <CircularProgress />
+            ) : (
+              <p className={classes.parameterValue}>{datasetParameter.value}</p>
+            )}
           </div>
         ))}
       </div>
