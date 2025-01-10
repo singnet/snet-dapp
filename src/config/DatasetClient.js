@@ -3,7 +3,7 @@ import axios from "axios";
 export const datafactoryAvailabilityList = [
   {
     organizationId: "TrainingTest",
-    servicesId: ["finetune-tts", "finetune-llm"],
+    servicesId: ["finetune-llm"],
   },
 ];
 
