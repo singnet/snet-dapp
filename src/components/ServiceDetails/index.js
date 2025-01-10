@@ -33,6 +33,7 @@ import Routes from "../../utility/constants/Routes";
 import CardImg from "../../assets/images/SnetDefaultServiceImage.png";
 import TrainingModels from "./TrainingModels";
 import DataPreset from "./DataPreset";
+import { datafactoryAvailabilityList } from "../../config/DatasetClient";
 
 export const HERO_IMG = "hero_image";
 
@@ -95,6 +96,11 @@ const ServiceDetails = ({ classes }) => {
   }
 
   const isTrainingAvailable = getIsTrainingAvailable(detailsTraining, isLoggedIn);
+  const isDatafactoryAvailable = datafactoryAvailabilityList.reduce(
+    (accumulator, availableServices) =>
+      accumulator && orgId === availableServices.organizationId && availableServices.servicesId.includes(serviceId),
+    true
+  );
 
   const tabs = [
     {
@@ -119,21 +125,22 @@ const ServiceDetails = ({ classes }) => {
     },
   ];
 
+  if (isTrainingAvailable && isDatafactoryAvailable) {
+    tabs.push({
+      name: "Data preset",
+      tabId: "dataPreset",
+      activeIndex: 2,
+      component: <DataPreset />,
+    });
+  }
+
   if (isTrainingAvailable) {
-    tabs.push(
-      {
-        name: "Data preset",
-        tabId: "dataPreset",
-        activeIndex: 2,
-        component: <DataPreset />,
-      },
-      {
-        name: "Models",
-        tabId: "serviceTraining",
-        activeIndex: 3,
-        component: <TrainingModels service={service} />,
-      }
-    );
+    tabs.push({
+      name: "Models",
+      tabId: "serviceTraining",
+      activeIndex: 3,
+      component: <TrainingModels service={service} />,
+    });
   }
 
   const seoURL = `${process.env.REACT_APP_BASE_URL}/servicedetails/org/${orgId}/service/${serviceId}`;
