@@ -1,5 +1,12 @@
 import axios from "axios";
 
+export const datafactoryAvailabilityList = [
+  {
+    organizationId: "TrainingTest",
+    servicesId: ["finetune-tts", "finetune-llm"],
+  },
+];
+
 export const DatasetClient = axios.create({
   baseURL: "https://datafactory.singularitynet.io",
   headers: {
