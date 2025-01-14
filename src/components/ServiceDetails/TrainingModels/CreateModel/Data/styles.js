@@ -40,7 +40,6 @@ export const useStyles = (theme) => ({
     },
   },
   uploadDatasetContainer: {
-    marginTop: 40,
     "& > span": {
       color: theme.palette.text.darkShadedGray,
       fontSize: 14,
