@@ -8,14 +8,14 @@ const Dataset = ({ classes, trainingDataset, setTrainingDataset }) => {
     <div className={classes.modelDataContaienr}>
       <div className={classes.createDatasetContainer}>
         <h3>Creating your dataset</h3>
-        <p>
+        {/* <p>
           Your dataset in <span>.ZIP</span> format, weighing less than <span>1.5MB</span> contain two text files:{" "}
           <span>train.txt</span> (2-10k lines) and <span>val.txt</span> (100-500 lines). Each line equals to one
           paragraph of text.
-        </p>
+        </p> */}
       </div>
       <div className={classes.uploadDatasetContainer}>
-        <p>Upload your dataset</p>
+        {/* <p>Upload your dataset</p> */}
         <Upload trainingDataset={trainingDataset} setTrainingDataset={setTrainingDataset} />
       </div>
     </div>
