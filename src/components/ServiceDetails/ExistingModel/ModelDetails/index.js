@@ -77,7 +77,9 @@ const ModelDetails = ({ classes, openEditModel, model }) => {
       <div className={classes.modelDetailsContainer}>
         <div className={classes.modelDetails}>
           <div className={classes.titleIdContainer}>
-            <h2>{model.modelName}</h2>
+            <div className={classes.modelNameContainer}>
+              <h2>{model.modelName}</h2>
+            </div>
             <h3>
               Model id: <span>{model.modelId}</span>
             </h3>
