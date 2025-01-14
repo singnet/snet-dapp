@@ -1,7 +1,6 @@
 export const useStyles = (theme) => ({
   hamburger: {
     padding: 10,
-    margin: "0 39px 0 23px",
     display: "none",
     cursor: "pointer",
     "& span": {
@@ -12,12 +11,13 @@ export const useStyles = (theme) => ({
       marginBottom: 3,
     },
     "@media (max-width:1024px)": { display: "block" },
-    "@media (max-width:768px)": { margin: "0 25px 0 0" },
   },
   mobileNavContainer: {
     display: "flex",
     alignItems: "center",
+    flexDirection: "column",
     position: "fixed",
+    overflow: "auto",
     top: 0,
     right: 0,
     bottom: 0,
@@ -36,9 +36,7 @@ export const useStyles = (theme) => ({
   mobileNavigation: {
     boxSizing: "border-box",
     width: "100%",
-    height: "100%",
-    padding: "90px 0 50px",
-    overflow: "auto",
+    padding: "70px 0 20px",
     textAlign: "left",
     "& ul": {
       padding: 0,
@@ -65,38 +63,45 @@ export const useStyles = (theme) => ({
     borderTopWidth: 1,
     borderTopStyle: "solid",
     borderTopColor: theme.palette.text.white,
-    paddingTop: 30,
+    padding: "30px 15px",
+    display: "flex",
+    flexDirection: "column",
+    gap: 20,
     "& ul": {
-      marginLeft: "29%",
-      justifyContent: "flex-start",
-      "& > div": {
-        "@media (max-width:550px)": { display: "none" },
-      },
-      "@media(max-width: 480px)": { margin: 0 },
+      // marginLeft: "30%",
+      // justifyContent: "flex-start",
+      // "& > div": {
+      //   "@media (max-width:550px)": { display: "none" },
+      // },
+      // "@media(max-width: 480px)": { margin: 0 },
       "& li": {
-        margin: 0,
-        padding: 0,
-        border: "none",
-        "&:first-of-type": { marginRight: 15 },
-        "&:last-of-type span": {
-          padding: "10px 28px",
-          borderWidth: 1,
-          borderStyle: "solid",
-          borderColor: theme.palette.text.white,
-          borderRadius: 4,
-        },
-        "@media (max-width:550px)": { display: "block" },
+        // margin: 0,
+        // padding: 0,
+        // border: "none",
+        // "&:first-of-type": { marginRight: 15 },
+        // "&:last-of-type span": {
+        //   padding: "10px 28px",
+        //   borderWidth: 1,
+        //   borderStyle: "solid",
+        //   borderColor: theme.palette.text.white,
+        //   borderRadius: 4,
+        // },
+        // "@media (max-width:550px)": { display: "block" },
       },
-      "& span": {
-        fontSize: 24,
-        textTransform: "capitalize",
-      },
-      "& a": { paddingBottom: 0 },
+      // "& span": {
+      //   fontSize: 24,
+      //   textTransform: "capitalize",
+      // },
+      // "& a": { paddingBottom: 0 },
     },
-    "@media(max-width: 480px)": {
-      display: "flex",
-      justifyContent: "center",
-    },
+    // "@media(max-width: 480px)": {
+    //   display: "flex",
+    //   justifyContent: "center",
+    // },
+  },
+  mainPortalButton: {
+    textAlign: "center",
+    padding: 20,
   },
   subMenues: {
     "& li": {
