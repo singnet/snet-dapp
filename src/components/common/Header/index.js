@@ -7,6 +7,7 @@ import Title from "./Title";
 import MobileHeader from "./MobileHeader";
 import UpdateNotificationBar from "../../common/UpdateNotificationBar";
 import { NavData } from "../../../utility/constants/Header";
+import NavigateToMainPortalButton from "./NavigateToMainPortalButton";
 
 const Header = ({ showNotification, onCloseClick }) => {
   const classes = useStyles();
@@ -20,6 +21,9 @@ const Header = ({ showNotification, onCloseClick }) => {
           <div className={classes.logoSection}>
             <MobileHeader data={NavData} />
             <Title />
+            <div className={classes.mainPortalButton}>
+              <NavigateToMainPortalButton />
+            </div>
           </div>
           {!process.env.REACT_APP_SANDBOX && (
             <>

@@ -11,3 +11,7 @@ export const networkName = {
   5: "goerli",
   11155111: "sepolia",
 };
+
+export const isMainnet = (networkId) => {
+  return String(networkId) === String(1);
+};

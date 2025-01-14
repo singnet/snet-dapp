@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useStyles } from "./styles";
 import Routes from "../../../utility/constants/Routes";
 import UserProfileToggler from "../../UserProfilePopUp/UserProfileToggler";
+import StyledButton from "../StyledButton";
 
 const HeaderActions = () => {
   const classes = useStyles();
@@ -18,30 +19,24 @@ const HeaderActions = () => {
   };
 
   return (
-    <ul className={classes.loginBtnsUl}>
+    <div className={classes.loginBtnsContainer}>
       {isLoggedIn ? (
         <UserProfileToggler />
       ) : (
         <Fragment>
-          <li className={classes.loginBtnsLi}>
-            <span
-              className={`${classes.loginBtnsAnchor} ${classes.loginBtn}`}
-              onClick={() => handleRedirection(`/${Routes.LOGIN}`)}
-            >
-              Login
-            </span>
-          </li>
-          <li className={`${classes.signupBtn} ${classes.loginBtnsLi}`}>
-            <span
-              className={`${classes.loginBtnsAnchor} ${classes.UppercaseText} ${classes.signupBtnText}`}
-              onClick={() => handleRedirection(`/${Routes.SIGNUP}`)}
-            >
-              Sign Up Free
-            </span>
-          </li>
+          <StyledButton
+            type="transparentBlueBorderDisable"
+            btnText="Login"
+            onClick={() => handleRedirection(`/${Routes.LOGIN}`)}
+          />
+          <StyledButton
+            type="whiteBorder"
+            btnText="Sign Up Free"
+            onClick={() => handleRedirection(`/${Routes.SIGNUP}`)}
+          />
         </Fragment>
       )}
-    </ul>
+    </div>
   );
 };
 
