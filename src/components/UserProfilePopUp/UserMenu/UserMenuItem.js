@@ -6,7 +6,7 @@ import { useStyles } from "./styles";
 
 const UserMenuItem = ({ classes, icon: Icon, title, linkTo }) => {
   return (
-    <li>
+    <li className={classes.userMenuItem}>
       <Link to={linkTo} relative="path">
         <Icon className={classes.icon} />
         <span className={classes.title}>{title}</span>

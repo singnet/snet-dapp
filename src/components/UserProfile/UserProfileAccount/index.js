@@ -9,8 +9,7 @@ import {
   fetchWalletLinkedProviders,
   walletTypes,
 } from "../../../Redux/actionCreators/UserActions";
-import { userActions, sdkActions } from "../../../Redux/actionCreators";
-import MetamaskDetails from "./MetamaskDetails";
+import { userActions } from "../../../Redux/actionCreators";
 import ProviderBalance from "./ProviderBalance";
 import AlertBox, { alertTypes } from "../../common/AlertBox";
 import ProvidersLinkedCount from "./ProvidersLinkedCount";
@@ -18,6 +17,8 @@ import { startAppLoader, stopAppLoader } from "../../../Redux/actionCreators/Loa
 import { LoaderContent } from "../../../utility/constants/LoaderContent";
 import { isEmpty } from "lodash";
 import { CircularProgress } from "@mui/material";
+import { getWeb3Address, ON_ACCOUNT_CHANGE } from "../../../utility/sdk";
+import MetamaskAccount from "./MetamaskDetails";
 
 const alertSelectCurrentWallet = {
   type: alertTypes.ERROR,
@@ -52,25 +53,34 @@ const UserProfileAccount = ({ classes }) => {
     [dispatch]
   );
 
+  const getEthereumProvider = () => {
+    if (!window?.ethereum) {
+      setAlert({ type: alertTypes.ERROR, message: `Can't find Metamask` });
+    }
+    return window.ethereum;
+  };
+
+  const fetchWallets = async () => {
+    try {
+      const currentAddress = await getWeb3Address();
+      const wallets = await getWallets(currentAddress);
+      setCurrentAddress(currentAddress);
+      setWallets(wallets);
+    } catch (error) {
+      setCurrentAddress("");
+      setWallets([]);
+    }
+  };
+
   useEffect(() => {
-    const fetchWallets = async () => {
-      if (!window?.ethereum) {
-        setAlert({ type: alertTypes.ERROR, message: `Can't find Metamask` });
-      }
-      try {
-        const sdk = await dispatch(sdkActions.getSdk());
-        const currentAddress = await sdk.account.getAddress();
-        const wallets = await getWallets(currentAddress);
-        setCurrentAddress(currentAddress);
-        setWallets(wallets);
-      } catch (error) {
-        setCurrentAddress("");
-        setWallets([]);
-      }
-    };
+    const ethereumProvider = getEthereumProvider();
+    ethereumProvider.addListener(ON_ACCOUNT_CHANGE, fetchWallets);
+    return () => ethereumProvider.removeListener(ON_ACCOUNT_CHANGE, fetchWallets);
+  }, []);
+
+  useEffect(() => {
     fetchWallets();
-    // eslint
-  }, [dispatch, getWallets]);
+  }, [dispatch]);
 
   useEffect(() => {
     const getProviders = async () => {
@@ -103,7 +113,7 @@ const UserProfileAccount = ({ classes }) => {
 
   const walletDetails = {
     [walletTypes.METAMASK]: isSameMetaMaskAddress(selectedWallet.address) ? (
-      <MetamaskDetails />
+      <MetamaskAccount />
     ) : (
       <AlertBox {...alertSelectCurrentWallet} />
     ),
