@@ -1,10 +1,16 @@
 const webpack = require("webpack");
+const path = require("path");
 const { aliasWebpack, configPaths } = require("react-app-alias");
 
 const aliasMap = configPaths("./jsconfig.json");
 
 const options = {
-  alias: aliasMap,
+  alias: {
+    ...aliasMap,
+    "@commonComponents": path.resolve(__dirname, "src/assets/thirdPartyServices/common/"),
+    "@standardComponents": path.resolve(__dirname, "src/assets/thirdPartyServices/standardComponents/"),
+    "@integratedComponents": path.resolve(__dirname, "src/components/common/"),
+  },
 };
 
 module.exports = function override(config) {

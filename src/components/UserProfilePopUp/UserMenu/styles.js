@@ -5,14 +5,6 @@ export const useStyles = (theme) => ({
     "& li": {
       listStyle: "none",
       padding: "12px 20px",
-      "& a": {
-        width: "100%",
-        display: "inline-block",
-        "&:hover": {
-          "& svg": { color: theme.palette.text.primary },
-          "& span": { color: theme.palette.text.primary },
-        },
-      },
       "& span": {
         color: theme.palette.text.black1,
         fontSize: 16,
@@ -40,6 +32,18 @@ export const useStyles = (theme) => ({
     "&:hover": {
       "& svg": { color: theme.palette.text.primary },
       "& span": { color: theme.palette.text.primary },
+    },
+  },
+  userMenuItem: {
+    "& a": {
+      textDecoration: "none",
+      width: "100%",
+      display: "flex",
+      alignItems: "center",
+      "&:hover": {
+        "& svg": { color: theme.palette.text.primary },
+        "& span": { color: theme.palette.text.primary },
+      },
     },
   },
 });
