@@ -1,12 +1,7 @@
 export const useStyles = (theme) => ({
-  DownloadTokenBtn: {
-    padding: "10px 30px",
-    display: "block",
-    color: "#fff",
-    backgroundColor: theme.palette.text.primary,
-    "&:hover": {
-      backgroundColor: "#005ACB",
-    },
+  downloadTokenLink: {
+    textDecoration: "none",
+    color: "inherit",
   },
   freecallContainer: {
     paddingLeft: 20,

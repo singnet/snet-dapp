@@ -119,7 +119,7 @@ const fetchFeedbackAPI = (email, orgId, serviceId, token) => {
   return getAPI(apiName, path, apiOptions);
 };
 
-const fetchAuthTokenAPI = (serviceId, groupId, publicKey, orgId, userId, token) => {
+const fetchAuthTokenAPI = async (serviceId, groupId, publicKey, orgId, userId, token) => {
   const apiName = APIEndpoints.SIGNER_SERVICE.name;
   const apiPath = APIPaths.FREE_CALL_TOKEN;
   const queryParams = {
@@ -130,8 +130,8 @@ const fetchAuthTokenAPI = (serviceId, groupId, publicKey, orgId, userId, token) 
     user_id: userId,
   };
   const apiOptions = initializeAPIOptions(token, null, queryParams);
-  const authTokenRequest = getAPI(apiName, apiPath, apiOptions);
-  return authTokenRequest.response;
+  const authTokenRequest = await getAPI(apiName, apiPath, apiOptions);
+  return authTokenRequest;
 };
 
 export const downloadAuthToken = (serviceId, groupId, publicKey, orgId) => async (dispatch) => {
