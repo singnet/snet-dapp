@@ -5,15 +5,15 @@ import { APIEndpoints, APIPaths } from "../config/APIEndpoints";
 import { initializeAPIOptions, postAPI } from "./API";
 import { fetchAuthenticatedUser, walletTypes } from "../Redux/actionCreators/UserActions";
 import PaypalPaymentMgmtStrategy from "./PaypalPaymentMgmtStrategy";
-import { ethereumMethods } from "./constants/EthereumUtils";
 import { store } from "../";
 import ProxyPaymentChannelManagementStrategy from "./ProxyPaymentChannelManagementStrategy";
 import { isEmpty, isUndefined } from "lodash";
+import Web3 from "web3";
 
 const DEFAULT_GAS_PRICE = 4700000;
 const DEFAULT_GAS_LIMIT = 210000;
-const ON_ACCOUNT_CHANGE = "accountsChanged";
-const ON_NETWORK_CHANGE = "chainChanged";
+export const ON_ACCOUNT_CHANGE = "accountsChanged";
+export const ON_NETWORK_CHANGE = "chainChanged";
 
 const EXPECTED_ID_ETHEREUM_NETWORK = Number(process.env.REACT_APP_ETH_NETWORK);
 
@@ -164,14 +164,12 @@ const defineWeb3Provider = () => {
   if (isUndefined(window.ethereum)) {
     throw new Error("Metamask is not found");
   }
-  web3Provider = window.ethereum;
+  const web3 = new Web3(window.ethereum);
+  web3Provider = web3.eth;
 };
 
 const detectEthereumNetwork = async () => {
-  const chainIdHex = await web3Provider.request({
-    method: "eth_chainId",
-    params: [],
-  });
+  const chainIdHex = await web3Provider.getChainId();
   const networkId = parseInt(chainIdHex);
   return networkId;
 };
@@ -183,7 +181,7 @@ const isUserAtExpectedEthereumNetwork = async () => {
 
 const switchNetwork = async () => {
   const hexifiedChainId = "0x" + EXPECTED_ID_ETHEREUM_NETWORK.toString(16);
-  await web3Provider.request({
+  await window.ethereum.request({
     method: "wallet_switchEthereumChain",
     params: [{ chainId: hexifiedChainId }],
   });
@@ -194,12 +192,14 @@ const clearSdk = () => {
 };
 
 const addListenersForWeb3 = () => {
-  web3Provider.addListener(ON_ACCOUNT_CHANGE, (accounts) => {
+  window.ethereum.addListener(ON_ACCOUNT_CHANGE, async (accounts) => {
+    console.log("ON_ACCOUNT_CHANGE");
+    await getWeb3Address();
     clearSdk();
-    const event = new CustomEvent("snetMMAccountChanged", { detail: { address: accounts[0] } });
+    const event = new CustomEvent("snetMMAccountChanged", { bubbles: true, details: accounts[0] });
     window.dispatchEvent(event);
   });
-  web3Provider.addListener(ON_NETWORK_CHANGE, (network) => {
+  window.ethereum.addListener(ON_NETWORK_CHANGE, (network) => {
     switchNetwork();
     const event = new CustomEvent("snetMMNetworkChanged", { detail: { network } });
     window.dispatchEvent(event);
@@ -208,8 +208,14 @@ const addListenersForWeb3 = () => {
 
 export const getWeb3Address = async () => {
   defineWeb3Provider();
-  const accounts = await web3Provider.request({ method: ethereumMethods.REQUEST_ACCOUNTS }); // TODO
-  return !isEmpty(accounts) ? accounts[0] : undefined;
+  await window.ethereum.enable();
+  const isExpectedNetwork = await isUserAtExpectedEthereumNetwork();
+
+  if (!isExpectedNetwork) {
+    await switchNetwork();
+  }
+  const accounts = await web3Provider.getAccounts();
+  return isEmpty(accounts) ? undefined : accounts[0];
 };
 
 export const initSdk = async () => {
@@ -217,7 +223,6 @@ export const initSdk = async () => {
     return Promise.resolve(sdk);
   }
   defineWeb3Provider();
-  await getWeb3Address(); // TODO
   addListenersForWeb3();
   const isExpectedNetwork = await isUserAtExpectedEthereumNetwork();
   if (!isExpectedNetwork) {
@@ -226,7 +231,7 @@ export const initSdk = async () => {
 
   const config = {
     networkId: await detectEthereumNetwork(),
-    web3Provider,
+    web3Provider: window.ethereum,
     defaultGasPrice: DEFAULT_GAS_PRICE,
     defaultGasLimit: DEFAULT_GAS_LIMIT,
   };
