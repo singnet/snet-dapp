@@ -3,7 +3,7 @@ import { withStyles } from "@mui/styles";
 import Dialog from "@mui/material/Dialog";
 
 import { useStyles } from "./styles";
-import MetamaskDetails from "../../../../../UserProfile/UserProfileAccount/MetamaskDetails";
+import MetamaskDetails from "../../../../../UserProfile/UserProfileAccount/MetamaskDetails/MetamaskDetails";
 
 const DialogTitles = ["Deposit into Escrow", "Withdraw from Escrow"];
 

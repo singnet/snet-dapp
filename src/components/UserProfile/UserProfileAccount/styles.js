@@ -6,7 +6,6 @@ export const useStyles = (theme) => ({
     "@media(max-width:960px)": { flexDirection: "column" },
   },
   accountContainer: {
-    maxWidth: 412,
     flexBasis: "100%",
     paddingBottom: 52,
     borderRadius: 4,
