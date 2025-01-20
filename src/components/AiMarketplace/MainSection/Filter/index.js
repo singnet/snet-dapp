@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { connect } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Grid from "@mui/material/Grid";
 
 import { useStyles } from "./styles";
@@ -13,20 +13,18 @@ import {
   generateOrganizationsFilterObject,
 } from "../../../../utility/constants/Pagination";
 
-const Filter = ({
-  listView,
-  total_count,
-  handleSearchChange,
-  toggleView,
-  currentPagination,
-  showToggler,
-  filterDataProps,
-  pagination,
-  handleFilterChange,
-}) => {
+const Filter = ({ listView, total_count, handleSearchChange, toggleView, currentPagination, showToggler }) => {
+  const { filterData, pagination } = useSelector((state) => state.serviceReducer);
+
   const [showSearchInput, toggleSearchInput] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState("");
   const [activeOrgItem, setActiveOrgItem] = useState("default");
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    return () => dispatch(serviceActions.resetFilter({ pagination }));
+  }, []);
 
   const handleSearch = (event) => {
     setSearchKeyword(event.currentTarget.value);
@@ -37,7 +35,7 @@ const Filter = ({
     handleSearchChange({ ...currentPagination, ...pagination });
   };
 
-  const enhancedFilterData = filterDataProps.org_id.map((el) => ({
+  const enhancedFilterData = filterData.org_id.map((el) => ({
     value: el.key,
     label: el.value,
   }));
@@ -56,7 +54,7 @@ const Filter = ({
     const currentActiveFilterData = { [name]: [value] };
 
     const latestPagination = { ...pagination, ...defaultPaginationParameters, q: pagination.q };
-    handleFilterChange({ pagination: latestPagination, filterObj, currentActiveFilterData });
+    dispatch(serviceActions.handleFilterChange({ pagination: latestPagination, filterObj, currentActiveFilterData }));
   };
 
   const classes = useStyles();
@@ -96,13 +94,4 @@ const Filter = ({
   );
 };
 
-const mapStateToProps = (state) => ({
-  filterDataProps: state.serviceReducer.filterData,
-  pagination: state.serviceReducer.pagination,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  handleFilterChange: (args) => dispatch(serviceActions.handleFilterChange(args)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Filter);
+export default Filter;
