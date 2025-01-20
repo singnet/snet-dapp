@@ -86,8 +86,12 @@ export const useStyles = (theme) => ({
   tabsContainer: {
     "& > div": {
       width: "100%",
-      marginBottom: 28,
     },
   },
   btnContainer: { textAlign: "center" },
+  circularProgress: {
+    width: "1rem !important",
+    height: "1rem !important",
+    color: theme.palette.text.gray1,
+  },
 });

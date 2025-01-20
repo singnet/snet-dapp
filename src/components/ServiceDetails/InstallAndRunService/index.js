@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Grid from "@mui/material/Grid";
 import { withStyles } from "@mui/styles";
-import Button from "@mui/material/Button";
 import InfoIcon from "@mui/icons-material/Info";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
@@ -16,6 +15,7 @@ import { useStyles } from "./styles";
 import { serviceActions } from "../../../Redux/actionCreators";
 import AlertBox, { alertTypes } from "../../common/AlertBox";
 import Card from "../../common/Card";
+import StyledButton from "../../common/StyledButton";
 
 const web3 = new Web3(process.env.REACT_APP_WEB3_PROVIDER, null, {});
 const downloadTokenFileName = "authToken.txt";
@@ -26,40 +26,59 @@ class InstallAndRunService extends Component {
     publickey: "",
     downloadTokenURL: "",
     alert: {},
+    isTokenGenerating: false,
+    isAddressValid: false,
   };
 
   handleTabChange = (activeTab) => {
     this.setState({ activeTab, alert: {}, downloadTokenURL: "" });
   };
 
-  generateToken = async (e) => {
-    e.preventDefault();
+  isValidAddress = (address) => {
     try {
-      this.setState({ alert: {}, downloadTokenURL: "" });
-      if (web3.utils.isAddress(this.state.publickey)) {
-        const { service, groupId, downloadAuthToken } = this.props;
-        const downloadTokenURL = await downloadAuthToken(
-          service.service_id,
-          groupId,
-          this.state.publickey,
-          service.org_id
-        );
-        this.setState({ downloadTokenURL });
-      } else {
-        this.setState({ alert: { type: alertTypes.ERROR, message: "invalid public key" } });
-      }
+      const checksumAddress = web3.utils.toChecksumAddress(address);
+      return checksumAddress ? true : false;
+    } catch (error) {
+      return false;
+    }
+  };
+
+  generateToken = async () => {
+    if (this.state.isTokenGenerating) {
+      return;
+    }
+
+    try {
+      this.setState({ alert: {}, downloadTokenURL: "", isTokenGenerating: true });
+      const { service, groupId, downloadAuthToken } = this.props;
+      const downloadTokenURL = await downloadAuthToken(
+        service.service_id,
+        groupId,
+        this.state.publickey,
+        service.org_id
+      );
+      this.setState({ downloadTokenURL });
     } catch (e) {
       this.setState({ alert: { type: alertTypes.ERROR, message: "Unable to download the token. Please try later" } });
+    } finally {
+      this.setState({ isTokenGenerating: false });
     }
   };
 
   handlePublicKey = (event) => {
-    this.setState({ publickey: event.currentTarget.value, alert: {}, downloadTokenURL: "" });
+    const address = event.currentTarget.value;
+    this.setState({ publickey: address, downloadTokenURL: "" });
+    const isAddressValid = this.isValidAddress(address);
+    if (!isAddressValid) {
+      this.setState({ alert: { type: alertTypes.ERROR, message: "invalid public key" }, isAddressValid: false });
+    } else {
+      this.setState({ alert: {}, isAddressValid: true });
+    }
   };
 
   render() {
     const { classes, service } = this.props;
-    const { activeTab, downloadTokenURL, alert } = this.state;
+    const { activeTab, downloadTokenURL, alert, isTokenGenerating, isAddressValid } = this.state;
     const tabs = [
       {
         name: "Python",
@@ -128,19 +147,27 @@ class InstallAndRunService extends Component {
                       </Typography>
                     </div>
                     {!downloadTokenURL && (
-                      <Button
-                        type="submit"
-                        className={classes.DownloadTokenBtn}
-                        color="primary"
+                      <StyledButton
+                        type="blue"
+                        btnText="Generate Token"
                         onClick={this.generateToken}
-                      >
-                        Generate Token
-                      </Button>
+                        disabled={isTokenGenerating || !isAddressValid}
+                      />
                     )}
                     {downloadTokenURL && (
-                      <a href={downloadTokenURL} download={downloadTokenFileName}>
-                        Download Token
-                      </a>
+                      <StyledButton
+                        type="blue"
+                        btnText={
+                          <a
+                            className={classes.downloadTokenLink}
+                            href={downloadTokenURL}
+                            download={downloadTokenFileName}
+                          >
+                            Download Token
+                          </a>
+                        }
+                        onClick={this.generateToken}
+                      />
                     )}
                   </div>
                   <AlertBox type={alert.type} message={alert.message} />
