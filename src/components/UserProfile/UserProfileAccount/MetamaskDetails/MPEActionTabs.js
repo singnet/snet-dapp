@@ -7,12 +7,11 @@ import Tab from "@mui/material/Tab";
 import StyledButton from "../../../common/StyledButton";
 import AlertBox, { alertTypes } from "../../../common/AlertBox";
 import { agiToCogs, txnTypes } from "../../../../utility/PricingStrategy";
-import { loaderActions, sdkActions } from "../../../../Redux/actionCreators";
-import { LoaderContent } from "../../../../utility/constants/LoaderContent";
-
+import { sdkActions } from "../../../../Redux/actionCreators";
 import { withStyles } from "@mui/styles";
 import { useStyles } from "./styles";
 import StyledTextField from "../../../common/StyledTextField";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const successAlert = {
   [txnTypes.WITHDRAW]: "Successfully withdrawn",
@@ -24,10 +23,19 @@ const errorAlert = {
   [txnTypes.DEPOSIT]: "Unable to deposit amount",
 };
 
+const MPEActions = {
+  [txnTypes.WITHDRAW]: "withdrawFromEscrowAccount",
+  [txnTypes.DEPOSIT]: "depositToEscrowAccount",
+};
+
 const MPEActionTabs = ({ classes }) => {
   const [activeTab, setActiveTab] = useState(0);
   const [amount, setAmount] = useState({});
   const [alert, setAlert] = useState({});
+  const [isActionInProgress, setIsActionInProgress] = useState({
+    [txnTypes.WITHDRAW]: false,
+    [txnTypes.DEPOSIT]: false,
+  });
 
   const dispatch = useDispatch();
 
@@ -41,32 +49,29 @@ const MPEActionTabs = ({ classes }) => {
     setAmount({ ...amount, [txnType]: value });
   };
 
-  const startLoader = {
-    [txnTypes.WITHDRAW]: () => dispatch(loaderActions.startAppLoader(LoaderContent.WITHDRAW)),
-    [txnTypes.DEPOSIT]: () => dispatch(loaderActions.startAppLoader(LoaderContent.DEPOSIT)),
-  };
-
-  const MPEAction = async () => {
+  const MPEAction = async (txnType, amountInCogs) => {
     const sdk = await dispatch(sdkActions.getSdk());
-    return {
-      [txnTypes.WITHDRAW]: () => sdk.account.withdrawFromEscrowAccount,
-      [txnTypes.DEPOSIT]: () => sdk.account.depositToEscrowAccount,
-    };
+    return await sdk.account[MPEActions[txnType]](amountInCogs);
   };
 
   const handleMPEAction = async () => {
-    const txnType = activeTab;
+    const txnType = activeComponent.name;
+    if (isActionInProgress[txnType]) {
+      return;
+    }
+
+    setIsActionInProgress({ ...isActionInProgress, [txnType]: true });
     setAlert({});
-    startLoader[txnType]();
     try {
       const amountInAGI = amount[txnType];
       const amountInCogs = agiToCogs(amountInAGI);
-      await MPEAction[txnType](amountInCogs);
+      await MPEAction(txnType, amountInCogs);
       setAlert({ type: alertTypes.SUCCESS, message: successAlert[txnType] });
     } catch (error) {
+      console.error(error);
       setAlert({ type: alertTypes.ERROR, message: errorAlert[txnType] });
     } finally {
-      dispatch(loaderActions.stopAppLoader());
+      setIsActionInProgress({ ...isActionInProgress, [txnType]: false });
     }
   };
 
@@ -95,6 +100,7 @@ const MPEActionTabs = ({ classes }) => {
     },
   ];
   const activeComponent = tabs[activeTab];
+  const activeComponentType = activeComponent.name;
 
   return (
     <Fragment>
@@ -112,8 +118,15 @@ const MPEActionTabs = ({ classes }) => {
       <div className={classes.btnContainer}>
         <StyledButton
           type="blue"
-          btnText={activeComponent.name}
-          onClick={() => handleMPEAction(activeComponent.name)}
+          btnText={
+            isActionInProgress[activeComponentType] ? (
+              <CircularProgress className={classes.circularProgress} />
+            ) : (
+              activeComponentType
+            )
+          }
+          onClick={() => handleMPEAction(activeComponentType)}
+          disabled={!Number(amount[activeComponentType]) || isActionInProgress[activeComponentType]}
         />
       </div>
     </Fragment>
