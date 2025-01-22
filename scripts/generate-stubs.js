@@ -21,6 +21,7 @@ let packageName;
 let orgId;
 let serviceId;
 let namespacePrefix;
+let osPlatform;
 
 console.log("proces architecture", process.arch);
 
@@ -29,8 +30,11 @@ const displayError = (...args) => {
   process.exit();
 };
 
+const getOsPlatform = () => {
+  osPlatform = os.platform();
+};
+
 const getProtoBinaryFileURL = () => {
-  const osPlatform = os.platform();
   switch (osPlatform) {
     case "win32":
       return `https://github.com/protocolbuffers/protobuf/releases/download/v${protoCVersion}/protoc-${protoCVersion}-win32.zip`;
@@ -104,12 +108,17 @@ const promptForDetails = async () => {
 };
 
 const getProtoFilePathFromArgs = () => {
-  let protoFilePath = process.argv[2];
+  const protoFilePath = process.argv[2];
   const regex = new RegExp("([a-zA-Z0-9s_\\.-:])+(.proto)$");
   if (!regex.test(protoFilePath)) {
     displayError("Please provide path to the file with `.proto` extension");
   }
   return protoFilePath;
+};
+
+const getProtoFileName = (protoFilePath) => {
+  const indexOfExtention = protoFilePath.indexOf(".proto");
+  return protoFilePath.substring(0, indexOfExtention);
 };
 
 const downloadProtoCBinary = async (protoBinaryFileURL) => {
@@ -130,6 +139,11 @@ const downloadProtoCBinary = async (protoBinaryFileURL) => {
   }
 };
 
+const protoGenTsPath = {
+  win32: "%cd%\\node_modules\\.bin\\protoc-gen-ts.cmd",
+  linux: ".\\node_modules\\.bin\\protoc-gen-ts",
+};
+
 const executeProtoCBinary = async (protoFilePath) => {
   if (shouldIncludeNamespacePrefix) {
     outputDir = `${outputDir}/${orgId.replace(/-/g, "_")}_${serviceId.replace(/-/g, "_")}`;
@@ -137,9 +151,9 @@ const executeProtoCBinary = async (protoFilePath) => {
   try {
     if (!fs.existsSync(outputDir)) await fsPromises.mkdir(outputDir, { recursive: true });
     const { stderr } = await exec(
-      `./${extractedFolder}/bin/protoc ${protoFilePath} --js_out=import_style=commonjs,binary,${
+      `.\\${extractedFolder}\\bin\\protoc --plugin=protoc-gen-ts=${protoGenTsPath[osPlatform]} --js_out=import_style=commonjs,binary,${
         namespacePrefix ? "namespace_prefix=" + namespacePrefix : ""
-      }:${outputDir} --ts_out=service=grpc-web:${outputDir} --plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts`
+      }:${outputDir} --ts_out=service=grpc-web:${outputDir} ${protoFilePath}`
     );
     if (stderr) throw new Error(stderr);
   } catch (err) {
@@ -147,20 +161,23 @@ const executeProtoCBinary = async (protoFilePath) => {
   }
 };
 
-const removeUnwantedFiles = () => {
+const removeUnwantedFiles = (protoFilePath) => {
+  const protoFileName = getProtoFileName(protoFilePath);
   rimraf.sync(extractedFolder);
   rimraf.sync(downloadedZipName);
-  rimraf.sync(`./${outputDir}/*.ts`);
+  rimraf.sync(`./${outputDir}/${protoFileName}_pb.d.ts`);
+  rimraf.sync(`./${outputDir}/${protoFileName}_pb_service.d.ts`);
 };
 
 const generateStubs = async () => {
   validateCommand();
   const protoFilePath = getProtoFilePathFromArgs();
   await promptForDetails();
+  getOsPlatform();
   const protoBinaryFileURL = getProtoBinaryFileURL();
   await downloadProtoCBinary(protoBinaryFileURL);
   await executeProtoCBinary(protoFilePath);
-  removeUnwantedFiles();
+  removeUnwantedFiles(protoFilePath);
   console.log(
     chalk.green("Grpc client libraries have been generated successfully and saved inside the folder ", outputDir)
   );

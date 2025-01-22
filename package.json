@@ -66,7 +66,7 @@
     "lint:fix": "eslint . --fix",
     "sitemap": "babel-node scripts/sitemap-generator.js",
     "zip-components": "babel-node scripts/zip-components.js",
-    "generate-stubs": "babel-node scripts/generate-stubs.js",
+    "generate-stubs": "babel-node scripts/generate-stubs.js example_service.proto",
     "prepare": "husky install"
   },
   "lint-staged": {
@@ -100,7 +100,7 @@
     "adm-zip": "0.5.15",
     "ajv": "^8.17.1",
     "archiver": "7.0.1",
-    "chalk": "5.3.0",
+    "chalk": "4.1.2",
     "dotenv": "16.4.5",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^9.1.0",
