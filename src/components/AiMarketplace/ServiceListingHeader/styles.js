@@ -118,9 +118,11 @@ export const useStyles = (theme) => ({
   },
   featuredServiceContainer: {
     "& span": {
-      display: "inline-block",
       fontSize: 14,
       lineHeight: "18px",
+      width: "min-content",
+      whiteSpace: "nowrap",
+      gap: 10,
       "& svg": {
         fontSize: 20,
         verticalAlign: "middle",
@@ -145,9 +147,9 @@ export const useStyles = (theme) => ({
     "&::after": {
       content: "' '",
       width: 18,
-      height: 23,
+      height: 26,
       display: "inline-block",
-      backgroundColor: "#371150",
+      backgroundColor: "#311049",
       transform: "rotate(40deg)",
       position: "absolute",
       right: -11,

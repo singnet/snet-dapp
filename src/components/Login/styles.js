@@ -1,6 +1,6 @@
 export const useStyles = (theme) => ({
   loginDetails: {
-    height: "100vh",
+    height: "calc(100vh - 122px)",
     textAlign: "center",
     backgroundColor: theme.palette.text.offWhiteColor,
     "& h2": {

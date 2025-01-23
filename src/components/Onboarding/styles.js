@@ -1,5 +1,6 @@
 export const useStyles = (theme) => ({
   onboardingContainer: {
+    height: "calc(100vh - 165px)",
     paddingBottom: 40,
     backgroundColor: theme.palette.text.offWhiteColor,
     "& ul": {
@@ -8,6 +9,11 @@ export const useStyles = (theme) => ({
         "&:before": { marginLeft: 16 },
       },
     },
+  },
+  onboardingComponentsContainer: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 20,
   },
   topSection: {
     textAlign: "center",

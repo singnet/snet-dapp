@@ -5,10 +5,11 @@ export const useStyles = (theme) => ({
     alignItems: "center",
     justifyContent: "space-between",
     flexBasis: "100%",
-    maxWidth: "71%",
-    margin: "0 auto",
-    padding: "30px 0",
-    "& h1": {
+    maxWidth: "70%",
+    margin: "0 auto 20px",
+    padding: "20px 0",
+    "& a": {
+      display: "block",
       width: 230,
       margin: 0,
       "& span": {
