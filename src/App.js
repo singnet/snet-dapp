@@ -53,6 +53,9 @@ const App = () => {
   const isTermsAccepted = useSelector((state) => state.userReducer.isTermsAccepted);
   const isInitialized = useSelector((state) => state.userReducer.isInitialized);
 
+  const isLoggedInAndTermsAccepted = isLoggedIn && isTermsAccepted;
+  const isNotLoggedInPageAvailable = !isLoggedIn || isTermsAccepted;
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -115,7 +118,7 @@ const App = () => {
               path={`/${Routes.AI_MARKETPLACE}`}
               element={
                 <PrivateRoute
-                  isAllowed={isTermsAccepted}
+                  isAllowed={isNotLoggedInPageAvailable}
                   component={withInAppWrapper(AiMarketplace)}
                   redirectTo={`/${Routes.ONBOARDING}`}
                   path={`/${Routes.AI_MARKETPLACE}`}
@@ -126,7 +129,7 @@ const App = () => {
               path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId/tab/:tabId`}
               element={
                 <PrivateRoute
-                  isAllowed={isTermsAccepted}
+                  isAllowed={isNotLoggedInPageAvailable}
                   component={withInAppWrapper(ServiceDetails)}
                   redirectTo={`/${Routes.ONBOARDING}`}
                   path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId/tab/:tabId`}
@@ -137,7 +140,7 @@ const App = () => {
               path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId/order/:orderId/payment/:paymentId/execute`}
               element={
                 <PrivateRoute
-                  isAllowed={isTermsAccepted}
+                  isAllowed={isLoggedInAndTermsAccepted}
                   component={withInAppWrapper(ServiceDetails)}
                   redirectTo={`/${Routes.ONBOARDING}`}
                   path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId/order/:orderId/payment/:paymentId/execute`}
@@ -148,7 +151,7 @@ const App = () => {
               path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId/order/:orderId/payment/:paymentId/cancel`}
               element={
                 <PrivateRoute
-                  isAllowed={isTermsAccepted}
+                  isAllowed={isLoggedInAndTermsAccepted}
                   component={PaymentCancelled}
                   redirectTo={`/${Routes.ONBOARDING}`}
                   path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId/order/:orderId/payment/:paymentId/cancel`}
@@ -159,7 +162,7 @@ const App = () => {
               path={`/${Routes.USER_PROFILE}/:activeTab?/*`}
               element={
                 <PrivateRoute
-                  isAllowed={isLoggedIn && isTermsAccepted}
+                  isAllowed={isLoggedInAndTermsAccepted}
                   component={withInAppWrapper(UserProfile)}
                   redirectTo={isLoggedIn ? `/${Routes.ONBOARDING}` : `/${Routes.LOGIN}`}
                   path={`/${Routes.USER_PROFILE}/:activeTab?`}
@@ -170,7 +173,7 @@ const App = () => {
               path="/"
               element={
                 <PrivateRoute
-                  isAllowed={isTermsAccepted}
+                  isAllowed={isLoggedInAndTermsAccepted}
                   component={withInAppWrapper(AiMarketplace)}
                   redirectTo={`/${Routes.ONBOARDING}`}
                   path="/"

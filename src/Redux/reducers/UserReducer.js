@@ -19,7 +19,7 @@ const InitialUserDetails = {
   email: "",
   nickname: "",
   emailAlerts: false,
-  isTermsAccepted: true,
+  isTermsAccepted: false,
   transactionHistory: [],
   jwt: {
     exp: "",
