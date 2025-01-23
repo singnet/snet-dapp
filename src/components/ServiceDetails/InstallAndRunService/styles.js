@@ -2,6 +2,10 @@ export const useStyles = (theme) => ({
   downloadTokenLink: {
     textDecoration: "none",
     color: "inherit",
+    height: "100%",
+    display: "block",
+    width: "min-content",
+    whiteSpace: "nowrap",
   },
   freecallContainer: {
     paddingLeft: 20,
