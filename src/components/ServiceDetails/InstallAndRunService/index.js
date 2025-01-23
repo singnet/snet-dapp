@@ -155,19 +155,9 @@ class InstallAndRunService extends Component {
                       />
                     )}
                     {downloadTokenURL && (
-                      <StyledButton
-                        type="blue"
-                        btnText={
-                          <a
-                            className={classes.downloadTokenLink}
-                            href={downloadTokenURL}
-                            download={downloadTokenFileName}
-                          >
-                            Download Token
-                          </a>
-                        }
-                        onClick={this.generateToken}
-                      />
+                      <a className={classes.downloadTokenLink} href={downloadTokenURL} download={downloadTokenFileName}>
+                        <StyledButton type="blue" btnText="Download Token" />
+                      </a>
                     )}
                   </div>
                   <AlertBox type={alert.type} message={alert.message} />
