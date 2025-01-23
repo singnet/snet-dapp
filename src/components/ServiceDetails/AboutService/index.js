@@ -1,7 +1,6 @@
 import React from "react";
 import Grid from "@mui/material/Grid";
 import { withStyles } from "@mui/styles";
-import { useSelector } from "react-redux";
 import { useStyles } from "./styles";
 import DemoToggler from "./DemoToggler";
 import ServiceOverview from "./ServiceOverview";
@@ -19,8 +18,6 @@ const AboutService = ({
   demoComponentRequired,
   isTrainingAvailable,
 }) => {
-  const isLoggedIn = useSelector((state) => state.userReducer.login.isLoggedIn);
-
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} sm={12} md={8} lg={8} className={classes.section}>
@@ -34,7 +31,6 @@ const AboutService = ({
           header="Service Demo"
           children={
             <DemoToggler
-              showDemo={isLoggedIn}
               classes={classes}
               service={service}
               serviceAvailable={serviceAvailable}

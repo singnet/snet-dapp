@@ -76,7 +76,6 @@ class MainSection extends Component {
 const mapStateToProps = (state) => ({
   services: state.serviceReducer.services,
   pagination: state.serviceReducer.pagination,
-  isLoggedIn: state.userReducer.login.isLoggedIn,
   currentFilter: state.serviceReducer.activeFilterItem,
 });
 

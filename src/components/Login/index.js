@@ -17,6 +17,7 @@ const Login = ({ classes }) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const loginError = useSelector((state) => state.userReducer.login.error);
+  const isTermsAccepted = useSelector((state) => state.userReducer.isTermsAccepted);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,11 +34,16 @@ const Login = ({ classes }) => {
     setPassword(event.currentTarget.value);
   };
 
-  const handleSubmit = async (event) => {
-    let route = `/${Routes.ONBOARDING}`;
-    if (location.state && location.state.sourcePath) {
-      route = location.state.sourcePath;
+  const getLinkToMarketplace = () => {
+    if (location?.state && location?.state?.sourcePath) {
+      return location.state.sourcePath;
     }
+
+    return `/${Routes.AI_MARKETPLACE}`;
+  };
+
+  const handleSubmit = async (event) => {
+    let route = isTermsAccepted ? getLinkToMarketplace() : `/${Routes.ONBOARDING}`;
     const isNotValid = snetValidator({ email, password }, loginConstraints);
     if (isNotValid) {
       dispatch(userActions.updateLoginError(isNotValid[0]));

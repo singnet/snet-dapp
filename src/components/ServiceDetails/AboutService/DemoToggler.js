@@ -1,26 +1,26 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { withStyles } from "@mui/styles";
 
 import StyledButton from "../../common/StyledButton";
 import ServiceDemo from "./ServiceDemo";
-import Routes from "../../../utility/constants/Routes";
 import serviceOfflineImg from "../../../assets/images/Artboard.png";
 import signInImg from "../../../assets/images/signIn.png";
 // import NoDemoComponent from "../../common/NoDemoComponent";
 
 import { useStyles } from "./styles";
+import LoginActionsBtns, { actionButtonsThemes } from "../../common/Header/HeaderActions/LoginActionsBtns";
 
 const DemoToggler = ({
   classes,
-  showDemo,
-  onClick,
   service,
   serviceAvailable,
   // scrollToView,
   demoComponentRequired,
 }) => {
-  if (!showDemo) {
+  const isLoggedIn = useSelector((state) => state.userReducer.login.isLoggedIn);
+
+  if (!isLoggedIn) {
     return (
       <div className={classes.serviceOffline}>
         <div className={classes.imgContainer}>
@@ -30,12 +30,7 @@ const DemoToggler = ({
           <p>Please login or sign up to run this demo for free.</p>
         </div>
         <div className={classes.btnContainer}>
-          <Link to={`/${Routes.LOGIN}`}>
-            <StyledButton btnText="login" type="transparent" onClick={onClick} />
-          </Link>
-          <Link to={`/${Routes.SIGNUP}`}>
-            <StyledButton btnText="sign up free" />
-          </Link>
+          <LoginActionsBtns theme={actionButtonsThemes.ACCENT} />
         </div>
       </div>
     );

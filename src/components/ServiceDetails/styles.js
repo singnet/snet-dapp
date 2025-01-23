@@ -17,6 +17,7 @@ export const useStyles = (theme) => ({
   TopSection: {
     width: "100%",
     display: "flex",
+    gap: 20,
     "@media(max-width:768px)": { flexDirection: "column" },
     "@media(max-width:480px)": { marginTop: 16 },
   },
