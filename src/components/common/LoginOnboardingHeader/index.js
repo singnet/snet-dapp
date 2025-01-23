@@ -2,7 +2,6 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { withStyles } from "@mui/styles";
 import Grid from "@mui/material/Grid";
-// import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
 import SnetSvgLogo from "../SnetSvgLogo";
@@ -13,6 +12,7 @@ import { userActions } from "../../../Redux/actionCreators";
 
 const LoginOnboardingHeader = ({ classes, headerData, signOut }) => {
   const navigate = useNavigate();
+
   const { headerTitle, linkPath, headerText } = headerData;
 
   const handleHeaderTextClick = (headerText, linkPath) => {
@@ -26,11 +26,9 @@ const LoginOnboardingHeader = ({ classes, headerData, signOut }) => {
     <Grid container className={classes.loginOnboardingHeaderContainer}>
       <Grid container className={classes.loginHeader}>
         <Grid item xs={12} sm={6} md={6} lg={6}>
-          <h1>
-            <Link to={Routes.AI_MARKETPLACE}>
-              <SnetSvgLogo />
-            </Link>
-          </h1>
+          <Link to={`/${Routes.AI_MARKETPLACE}`} replace>
+            <SnetSvgLogo />
+          </Link>
         </Grid>
         <Grid item xs={12} sm={6} md={6} lg={6} className={classes.loginHeaderLink}>
           <p>
