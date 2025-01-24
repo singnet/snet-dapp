@@ -6,7 +6,7 @@ import StyledButton from "../../common/StyledButton";
 import ServiceDemo from "./ServiceDemo";
 import serviceOfflineImg from "../../../assets/images/Artboard.png";
 import signInImg from "../../../assets/images/signIn.png";
-// import NoDemoComponent from "../../common/NoDemoComponent";
+import NoDemoComponent from "../../common/NoDemoComponent";
 
 import { useStyles } from "./styles";
 import LoginActionsBtns, { actionButtonsThemes } from "../../common/Header/HeaderActions/LoginActionsBtns";
@@ -60,10 +60,9 @@ const DemoToggler = ({
     );
   }
 
-  // if (process.env.REACT_APP_SANDBOX !== "true" && false) {
-  //   // && !demoComponentRequired) {
-  //   return <NoDemoComponent />;
-  // }
+  if (process.env.REACT_APP_SANDBOX !== "true" && !demoComponentRequired) {
+    return <NoDemoComponent />;
+  }
 
   return <ServiceDemo service={service} />;
 };
