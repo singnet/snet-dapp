@@ -14,6 +14,7 @@ export const useStyles = (theme) => ({
       },
     },
     "& li": {
+      whiteSpace: "nowrap",
       display: "flex",
       alignItems: "center",
       listStyle: "none",

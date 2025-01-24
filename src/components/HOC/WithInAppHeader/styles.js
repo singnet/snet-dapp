@@ -12,6 +12,7 @@ export const useStyles = makeStyles((theme) => ({
     top: 110,
   },
   componentHolder: {
+    position: "relative",
     minHeight: "calc(100vh - 70px - 250px)",
   },
 }));
