@@ -31,8 +31,6 @@ class UserProfileTransactionHistory extends Component {
 
     // const activeComponent = tabs.filter((el) => el.activeIndex === activeTab)[0].component;
 
-    console.log("transactionHistory: ", transactionHistory);
-
     return (
       <Grid container className={classes.transactionHistoryMainContainer}>
         <Helmet>
