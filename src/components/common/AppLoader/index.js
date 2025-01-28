@@ -11,7 +11,13 @@ export const AppLoader = ({ loading, loaderHeader, loaderText }) => {
   const classes = useStyles();
 
   return (
-    <SNETDialog isDialogOpen={loading} showCloseButton={false} title={loaderHeader}>
+    <SNETDialog
+      disableBackdropClick
+      disableEscapeKeyDown
+      isDialogOpen={loading}
+      showCloseButton={false}
+      title={loaderHeader}
+    >
       <div className={classes.circularProgressContainer}>
         <CircularProgress className={classes.circularProgress} />
       </div>
