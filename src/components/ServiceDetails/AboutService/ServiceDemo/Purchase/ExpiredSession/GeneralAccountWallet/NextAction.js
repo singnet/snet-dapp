@@ -30,7 +30,7 @@ const NextAction = (props) => {
   return (
     <StyledButton
       type="blue"
-      btnText="continue"
+      btnText="Run service"
       disabled={channel.balanceInAgi <= 0 || anyPendingTxn}
       onClick={handleContinue}
     />
