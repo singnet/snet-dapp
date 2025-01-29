@@ -14,6 +14,7 @@ import {
 } from "../../../../../../../Redux/reducers/UserReducer";
 import PaymentPopup from "./PaymentPopup";
 import { orderTypes } from "../../../../../../../utility/constants/PaymentConstants";
+import { isEmpty } from "lodash";
 
 const GeneralAccountWallet = ({ classes, handleContinue }) => {
   const anyGeneralWallet = useSelector((state) => getAnyGeneralWallet(state));
@@ -32,7 +33,7 @@ const GeneralAccountWallet = ({ classes, handleContinue }) => {
           type="transparentBlueBorder"
           btnText="top up wallet"
           onClick={() => setPaymentPopupVisibile(orderTypes.TOPUP_WALLET)}
-          // disabled={isEmpty(channelInfo)} TODO
+          disabled={isEmpty(channelInfo)}
         />
         <NextAction
           channel={channelInfo}
