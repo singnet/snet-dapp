@@ -160,6 +160,10 @@ const PaymentPopup = ({ classes, isVisible, handleClose, paymentModalType }) => 
 
   const progressBarDataByType = progressBarData[paymentModalType];
 
+  if (!paymentModalType) {
+    return null;
+  }
+
   return (
     <SNETDialog isDialogOpen={isVisible} onDialogClose={handleCancel} showCloseButton={true} title={title}>
       <div className={classes.paymentPopupContainer}>
