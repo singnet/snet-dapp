@@ -48,7 +48,8 @@ const UserFeedback = ({ open, handleClose, feedback, submitFeedback, orgId, serv
     const feedback = { rating, comment };
     try {
       const response = await submitFeedback(orgId, serviceId, feedback);
-      refetchFeedback();
+      await refetchFeedback();
+
       if (response.status === "success") {
         handleClose();
         setOpenSnackbar(true);
