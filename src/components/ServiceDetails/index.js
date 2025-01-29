@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
@@ -145,7 +145,7 @@ const ServiceDetails = ({ classes }) => {
 
   const seoURL = `${process.env.REACT_APP_BASE_URL}/servicedetails/org/${orgId}/service/${serviceId}`;
   return (
-    <div>
+    <Fragment>
       <Helmet>
         <title>{service.display_name}</title>
         <meta name="keywords" content={service.display_name} />
@@ -181,7 +181,7 @@ const ServiceDetails = ({ classes }) => {
         </div>
         <StyledTabs tabs={tabs} activeTab={Number(activeTab)} onTabChange={handleTabChange} />
       </Grid>
-    </div>
+    </Fragment>
   );
 };
 

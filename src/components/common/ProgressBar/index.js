@@ -26,9 +26,9 @@ const ProgressBar = ({ classes, activeSection, progressText }) => {
         {progressText.map((text, index) => (
           <ProgressSection
             key={index}
-            progressNumber={index + 1}
+            progressNumber={index}
             progressText={text.label}
-            progressStatus={computeProgressStatus(index + 1, activeSection, text.status)}
+            progressStatus={computeProgressStatus(index, activeSection, text.status)}
           />
         ))}
       </ul>

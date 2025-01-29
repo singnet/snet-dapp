@@ -46,12 +46,12 @@ const Filter = ({ listView, total_count, handleSearchChange, toggleView, current
       return;
     }
     let filterObj = [];
+    let currentActiveFilterData = {};
     if (value !== "default") {
       filterObj = generateOrganizationsFilterObject([value]);
+      currentActiveFilterData = { [name]: [value] };
     }
     setActiveOrgItem(value);
-
-    const currentActiveFilterData = { [name]: [value] };
 
     const latestPagination = { ...pagination, ...defaultPaginationParameters, q: pagination.q };
     dispatch(serviceActions.handleFilterChange({ pagination: latestPagination, filterObj, currentActiveFilterData }));

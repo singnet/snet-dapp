@@ -44,17 +44,16 @@ const SnetDialog = ({
       open={isDialogOpen}
       {...props}
     >
-      {title ||
-        (showCloseButton && (
-          <Box className={classes.dialogTitle}>
-            <Typography className={classes.titleText}>{title}</Typography>
-            {showCloseButton && (
-              <IconButton aria-label="close" onClick={onDialogClose} className={classes.iconButton}>
-                <CloseIcon />
-              </IconButton>
-            )}
-          </Box>
-        ))}
+      {(title || showCloseButton) && (
+        <Box className={classes.dialogTitle}>
+          <Typography className={classes.titleText}>{title}</Typography>
+          {showCloseButton && (
+            <IconButton aria-label="close" onClick={onDialogClose} className={classes.iconButton}>
+              <CloseIcon />
+            </IconButton>
+          )}
+        </Box>
+      )}
       <DialogContent dividers className={`${classes.dailogContent}, ${contentClass}`}>
         {children}
       </DialogContent>

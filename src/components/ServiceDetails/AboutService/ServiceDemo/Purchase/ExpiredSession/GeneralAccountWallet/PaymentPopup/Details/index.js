@@ -1,34 +1,35 @@
 import React, { useState } from "react";
 import { withStyles } from "@mui/styles";
 import Typography from "@mui/material/Typography";
-import InfoIcon from "@mui/icons-material/Info";
-import Avatar from "@mui/material/Avatar";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Web3 from "web3";
 import isEmpty from "lodash/isEmpty";
 import MPEContract from "singularitynet-platform-contracts/networks/MultiPartyEscrow";
 
 import PaymentInfoCard from "../../../../PaymentInfoCard";
-import StyledDropdown from "../../../../../../../../common/StyledDropdown";
 import StyledButton from "../../../../../../../../common/StyledButton";
-import SingularityLogo from "../../../../../../../../../assets/images/avatar.png";
 import { useStyles } from "./styles";
 import snetValidator from "../../../../../../../../../utility/snetValidator";
 import { paymentGatewayConstraints } from "./validationConstraints";
 import AlertBox, { alertTypes } from "../../../../../../../../common/AlertBox";
 import { tenYearBlockOffset } from "../../../../../../../../../utility/PricingStrategy";
-import { groupInfo, currentServiceDetails } from "../../../../../../../../../Redux/reducers/ServiceDetailsReducer";
+import { groupInfo as getGroupInfo } from "../../../../../../../../../Redux/reducers/ServiceDetailsReducer";
+import { channelInfo as getChannelInfo } from "../../../../../../../../../Redux/reducers/UserReducer";
 import { decodeGroupId } from "../../../../../../../../../utility/sdk";
-import { USDToAgi, USDToCogs } from "../../../../../../../../../Redux/reducers/PaymentReducer";
-import { orderTypes } from "../../../../../../../../../utility/constants/PaymentConstants";
+import {
+  USDToAgi as getUSDToAgi,
+  USDToCogs as getUSDToCogs,
+} from "../../../../../../../../../Redux/reducers/PaymentReducer";
+import { orderPayloadTypes, orderTypes } from "../../../../../../../../../utility/constants/PaymentConstants";
 import AGITokens from "./AGITokens";
 
+import { ReactComponent as PayPal } from "../../../../../../../../../assets/images/PayPal.svg";
+import TextField from "@mui/material/TextField";
+import { pickBy } from "lodash";
+import { paymentActions } from "../../../../../../../../../Redux/actionCreators";
+import { useParams } from "react-router-dom";
+
 export const paymentTypes = [{ value: "paypal", label: "Paypal" }];
-const paymentAmounts = [
-  { value: 2, label: "2" },
-  { value: 3, label: "3" },
-  { value: 5, label: "5" },
-];
 
 const web3 = new Web3(process.env.REACT_APP_WEB3_PROVIDER, null, {});
 
@@ -39,37 +40,61 @@ const description = {
   [orderTypes.CREATE_CHANNEL]: `Please enter the payment type in the box below, along with the amount you would like to enter into the payment channel.`,
 };
 
-const Details = (props) => {
-  const {
-    classes,
-    initiatePayment,
-    handleClose,
-    channelInfo,
-    orderType,
-    userProvidedPrivateKey: privateKey,
-    groupInfo,
-    serviceDetails,
-    USDToAgi,
-    USDToCogs,
-  } = props;
+const Details = ({ classes, handleClose, orderType, userProvidedPrivateKey: privateKey }) => {
+  const groupInfo = useSelector((state) => getGroupInfo(state));
+  const USDToAgi = useSelector((state) => getUSDToAgi(state));
+  const USDToCogs = useSelector((state) => getUSDToCogs(state));
+  const channelInfo = useSelector((state) => getChannelInfo(state));
 
-  const [payType, setPayType] = useState("default");
-  const [amount, setAmount] = useState(undefined);
+  const dispatch = useDispatch();
+  const { orgId, serviceId } = useParams();
+
+  const payType = "paypal";
+  const currency = "USD";
+
+  const [amount, setAmount] = useState(0);
   const [alert, setAlert] = useState({});
-  const [currency] = useState("USD");
+  const [amountError, setAmountError] = useState();
 
-  const handlePayTypeChange = (event) => {
-    const { value } = event.target;
-    if (value !== "default") {
-      setPayType(value);
-    }
+  const initiatePayment = (amount, currency, item, quantity, base64Signature, address, currentBlockNumber) => {
+    const itemDetails = {
+      item,
+      quantity: Number(quantity),
+      org_id: orgId,
+      service_id: serviceId,
+      group_id: groupInfo.group_id,
+      recipient: groupInfo.payment.payment_address,
+      order_type: orderPayloadTypes[orderType],
+      signature: base64Signature,
+      wallet_address: address,
+      current_block_number: currentBlockNumber,
+    };
+
+    const enhancedItemDetails = pickBy(itemDetails, (el) => el !== undefined); // removed all undefined fields
+
+    const paymentObj = {
+      price: { amount: Number(amount), currency },
+      item_details: enhancedItemDetails,
+      payment_method: "paypal",
+    };
+
+    return dispatch(paymentActions.initiatePayment(paymentObj));
   };
 
   const handleAmountChange = (event) => {
     const { value } = event.target;
-    if (value !== "default") {
-      setAmount(value);
+    if (!value) {
+      setAmountError();
+      setAmount(0);
+      return;
     }
+    const isNotValid = snetValidator({ amount: value }, paymentGatewayConstraints);
+    if (isNotValid) {
+      setAmountError(isNotValid[0]);
+      return;
+    }
+    setAmountError();
+    setAmount(value);
   };
 
   const generateSignature = async () => {
@@ -101,11 +126,6 @@ const Details = (props) => {
 
   const handleContinue = async () => {
     setAlert({});
-    const isNotValid = snetValidator({ payType, amount }, paymentGatewayConstraints);
-    if (isNotValid) {
-      setAlert({ type: alertTypes.ERROR, message: isNotValid[0] });
-      return;
-    }
     try {
       const amountInAGI = USDToAgi(amount);
       if (orderType === orderTypes.CREATE_CHANNEL) {
@@ -118,71 +138,35 @@ const Details = (props) => {
   };
 
   return (
-    <div className={classes.deatilsTabContainer}>
-      <Typography variant="body1" className={classes.deatilsTabDesc}>
-        {description[orderType]}
-      </Typography>
-      <div className={classes.providerAndBalanceInfo}>
-        <div className={classes.providerDetails}>
-          <Avatar alt="Singularity" src={SingularityLogo} className={classes.avatar} />
-          <div>
-            <Typography variant="body2" className={classes.providerName}>
-              {serviceDetails.organization_name}
-            </Typography>
-          </div>
-        </div>
-        <PaymentInfoCard
-          title="Channel Balance"
-          show={!isEmpty(channelInfo)}
-          value={channelInfo.balanceInAgi}
-          unit="AGIX"
+    <div className={classes.paymentContainer}>
+      <Typography className={classes.deatilsTabDesc}>{description[orderType]}</Typography>
+      <PaymentInfoCard
+        title="Channel Balance"
+        show={!isEmpty(channelInfo)}
+        value={channelInfo?.balanceInAgi}
+        unit="AGIX"
+      />
+      <div className={classes.paymentTypeContainer}>
+        <PayPal />
+      </div>
+      <div className={classes.purchaseAmtTextfield}>
+        <TextField
+          label="Select an Amount"
+          value={amount}
+          onChange={handleAmountChange}
+          helperText={amountError ? amountError : <AGITokens amount={USDToAgi(amount)} />}
+          InputProps={{ startAdornment: <span className={classes.currencyAdornment}>$</span> }}
+          error={Boolean(amountError)}
         />
       </div>
 
-      <div className={classes.dropDownTextfield}>
-        <div className={classes.paymentTypeDropDownContainer}>
-          <InfoIcon className={classes.infoIconContainer} />
-          <div className={classes.paymentTypeDropDown}>
-            <Typography className={classes.dropDownTitle} variant="subtitle1">
-              Payment Channel
-            </Typography>
-            <StyledDropdown
-              labelTxt="Select a Payment Gateway"
-              list={paymentTypes}
-              value={payType}
-              onChange={handlePayTypeChange}
-            />
-          </div>
-        </div>
-        <div className={classes.purchaseAmtTextfield}>
-          <div className={classes.paymentTypeDropDown}>
-            <Typography className={classes.dropDownTitle} variant="subtitle1">
-              Amount in USD
-            </Typography>
-            <StyledDropdown
-              labelTxt="Select an Amount"
-              list={paymentAmounts}
-              value={amount}
-              onChange={handleAmountChange}
-            />
-          </div>
-          <AGITokens amount={USDToAgi(amount)} />
-        </div>
-      </div>
       <AlertBox type={alert.type} message={alert.message} />
       <div className={classes.btnContainer}>
         <StyledButton btnText="cancel" type="transparent" onClick={handleClose} />
-        <StyledButton btnText="Continue" type="blue" onClick={handleContinue} />
+        <StyledButton btnText="Continue" type="blue" disabled={!Boolean(Number(amount))} onClick={handleContinue} />
       </div>
     </div>
   );
 };
 
-const mapStateToProps = (state) => ({
-  groupInfo: groupInfo(state),
-  serviceDetails: currentServiceDetails(state),
-  USDToAgi: USDToAgi(state),
-  USDToCogs: USDToCogs(state),
-});
-
-export default connect(mapStateToProps)(withStyles(useStyles)(Details));
+export default withStyles(useStyles)(Details);

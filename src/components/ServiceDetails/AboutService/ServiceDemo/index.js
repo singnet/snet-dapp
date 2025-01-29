@@ -20,9 +20,9 @@ import { progressTabStatus } from "../../../common/ProgressBar";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 const demoProgressStatus = {
-  purchasing: 1,
-  executingAIservice: 2,
-  displayingResponse: 3,
+  purchasing: 0,
+  executingAIservice: 1,
+  displayingResponse: 2,
 };
 
 const ServiceDemo = ({ classes, service }) => {
@@ -55,7 +55,6 @@ const ServiceDemo = ({ classes, service }) => {
     try {
       dispatch(loaderActions.startAppLoader(LoaderContent.INIT_SERVICE_DEMO));
       checkForPaymentsInProgress();
-      dispatch(paymentActions.fetchUSDConversionRate());
       scrollToHash();
       dispatch(loaderActions.stopAppLoader());
 

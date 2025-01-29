@@ -62,27 +62,26 @@ const App = () => {
     dispatch(userActions.fetchUserDetails());
   }, [dispatch]);
 
-  if (!isInitialized) {
+  const Loader = () => {
     return (
       <div className="loader-container">
         <CircularProgress />
       </div>
     );
+  };
+
+  if (!isInitialized) {
+    return <Loader />;
   }
 
   return (
     <ThemeProvider theme={theme}>
       <Router location={history}>
         <NavigateSetter />
-        <Suspense fallback={<CircularProgress />}>
+        <Suspense fallback={<Loader />}>
           <Switch>
             <Route path={`/${Routes.SIGNUP}`} Component={withRegistrationHeader(SignUp, headerData.SIGNUP)} />
-            <Route
-              replace
-              path={`/${Routes.LOGIN}`}
-              // {...this.props}
-              Component={withRegistrationHeader(Login, headerData.LOGIN)}
-            />
+            <Route replace path={`/${Routes.LOGIN}`} Component={withRegistrationHeader(Login, headerData.LOGIN)} />
             <Route
               path={`/${Routes.FORGOT_PASSWORD}`}
               // {...this.props}

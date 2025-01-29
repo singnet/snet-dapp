@@ -76,7 +76,7 @@ class PaymentMode extends Component {
     const { classes, wallet, groupInfo, service, channelInfo } = this.props;
 
     const channelPaymentOptions = [
-      { value: walletTypes.GENERAL, label: "General Account Wallet" },
+      { value: walletTypes.GENERAL, label: "PayPal" },
       { value: walletTypes.METAMASK, label: "Metamask" },
     ];
 

@@ -7,7 +7,7 @@ export const useStyles = (theme) => ({
     right: 60,
     backgroundColor: theme.palette.text.white,
     boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
-    zIndex: 1,
+    zIndex: 20,
     "@media(max-width: 769px)": {
       width: "100%",
       height: "100vh",

@@ -17,15 +17,15 @@ const Onboarding = ({ classes }) => {
   const isTermsAccepted = useSelector((state) => state.userReducer.isTermsAccepted);
   const nickname = useSelector((state) => state.userReducer.nickname);
 
-  const [activeSection, setActiveSection] = useState(1);
+  const [activeSection, setActiveSection] = useState(0);
   const progressText = [{ label: "Authentication" }, { label: "Terms of service" }];
 
   const initialChecks = () => {
     if (!isEmailVerified) {
       return;
     }
-    if (activeSection === 1) {
-      setActiveSection(2);
+    if (activeSection === 0) {
+      setActiveSection(1);
     }
     if (isTermsAccepted) {
       if (location?.state && location?.state?.sourcePath) {
@@ -76,7 +76,7 @@ const Onboarding = ({ classes }) => {
           key={item.title}
           classes={classes}
           item={item}
-          active={activeSection === index + 1}
+          active={activeSection === index}
           activeSection={activeSection}
           progressText={progressText}
         />
