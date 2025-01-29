@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { withStyles } from "@mui/styles";
-import { useDispatch, useSelector } from "react-redux";
-import pickBy from "lodash/pickBy";
+import { useDispatch } from "react-redux";
 
 import { paymentActions, userActions } from "../../../../../../../../Redux/actionCreators";
-import { groupInfo as getGroupInfo } from "../../../../../../../../Redux/reducers/ServiceDetailsReducer";
 
 import Details from "./Details";
 import Purchase from "./Purchase";
@@ -13,14 +11,9 @@ import Summary from "./Summary";
 import { useStyles } from "./styles";
 import Routes from "../../../../../../../../utility/constants/Routes";
 import VerifyKey from "./VerifyKey";
-import {
-  orderPayloadTypes,
-  orderTypes,
-  paymentTitles,
-} from "../../../../../../../../utility/constants/PaymentConstants";
+import { orderTypes, paymentTitles } from "../../../../../../../../utility/constants/PaymentConstants";
 import { useNavigate, useParams } from "react-router-dom";
 import SNETDialog from "../../../../../../../common/SNETDialog";
-import Button from "@material-ui/core/Button";
 import ProgressBar from "../../../../../../../common/ProgressBar";
 
 // const indexOfPurchaseSection = {
@@ -34,8 +27,6 @@ const PaymentPopup = ({ classes, isVisible, handleClose, paymentModalType }) => 
   const navigate = useNavigate();
   const { orgId, serviceId } = useParams();
 
-  const group = useSelector((state) => getGroupInfo(state));
-
   const [activeSection, setActiveSection] = useState(0); //indexOfPurchaseSection[paymentModalType] || 1);
   const [userProvidedPrivateKey, setUserProvidedPrivateKey] = useState();
   const [amount, setAmount] = useState("");
@@ -46,10 +37,6 @@ const PaymentPopup = ({ classes, isVisible, handleClose, paymentModalType }) => 
   useEffect(() => {
     dispatch(paymentActions.fetchUSDConversionRate());
   }, [dispatch]);
-
-  if (!paymentModalType) {
-    return null;
-  }
 
   const title = paymentTitles[paymentModalType];
 
@@ -80,9 +67,9 @@ const PaymentPopup = ({ classes, isVisible, handleClose, paymentModalType }) => 
     navigate(`/${Routes.SERVICE_DETAILS}/org/${orgId}/service/${serviceId}/tab/0`);
   };
 
-  const handleNextSection = () => {
+  const handleNextSection = useCallback(() => {
     setActiveSection(activeSection + 1);
-  };
+  }, [activeSection]);
 
   const handlePreviousSection = () => {
     if (activeSection > 0) {
@@ -90,54 +77,23 @@ const PaymentPopup = ({ classes, isVisible, handleClose, paymentModalType }) => 
     }
   };
 
-  const handleInitiatePayment = (
-    payType,
-    amount,
-    currency,
-    item,
-    quantity,
-    base64Signature,
-    address,
-    currentBlockNumber
-  ) => {
-    const itemDetails = {
-      item,
-      quantity: Number(quantity),
-      org_id: orgId,
-      service_id: serviceId,
-      group_id: group.group_id,
-      recipient: group.payment.payment_address,
-      order_type: orderPayloadTypes[paymentModalType],
-      signature: base64Signature,
-      wallet_address: address,
-      current_block_number: currentBlockNumber,
-    };
-
-    const enhancedItemDetails = pickBy(itemDetails, (el) => el !== undefined); // removed all undefined fields
-
-    const paymentObj = {
-      price: { amount: Number(amount), currency },
-      item_details: enhancedItemDetails,
-      payment_method: "paypal",
-    };
-
-    return dispatch(paymentActions.initiatePayment(paymentObj));
-  };
-
-  const executePaymentCompleted = async (data, orgId, group_id) => {
-    await dispatch(userActions.fetchWallet(orgId, group_id));
-    const {
-      private_key: privateKeyGenerated,
-      item_details: { item, quantity },
-      price: { amount },
-    } = data;
-    setPrivateKeyGenerated(privateKeyGenerated);
-    setAmount(amount);
-    setQuantity(quantity);
-    setItem(item);
-    handleNextSection();
-    return;
-  };
+  const executePaymentCompleted = useCallback(
+    async (data, orgId, group_id) => {
+      await dispatch(userActions.fetchWallet(orgId, group_id));
+      const {
+        private_key: privateKeyGenerated,
+        item_details: { item, quantity },
+        price: { amount },
+      } = data;
+      setPrivateKeyGenerated(privateKeyGenerated);
+      setAmount(amount);
+      setQuantity(quantity);
+      setItem(item);
+      handleNextSection();
+      return;
+    },
+    [dispatch, handleNextSection]
+  );
 
   const progressBarDataCreateWallet = [
     {
@@ -146,7 +102,6 @@ const PaymentPopup = ({ classes, isVisible, handleClose, paymentModalType }) => 
       component: (
         <Details
           handleNextSection={handleNextSection}
-          initiatePayment={handleInitiatePayment}
           handleClose={handleCancel}
           userProvidedPrivateKey={userProvidedPrivateKey}
           orderType={paymentModalType}
@@ -208,9 +163,6 @@ const PaymentPopup = ({ classes, isVisible, handleClose, paymentModalType }) => 
   return (
     <SNETDialog isDialogOpen={isVisible} onDialogClose={handleCancel} showCloseButton={true} title={title}>
       <div className={classes.paymentPopupContainer}>
-        <Button className={classes.tample} onClick={handleNextSection}>
-          Next
-        </Button>
         <ProgressBar activeSection={activeSection} progressText={progressBarDataByType} />
         <div className={classes.paymentComponentContainer}>{progressBarDataByType[activeSection].component}</div>
       </div>

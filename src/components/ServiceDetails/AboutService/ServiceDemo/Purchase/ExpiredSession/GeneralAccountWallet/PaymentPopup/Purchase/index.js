@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { withStyles } from "@mui/styles";
 import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -16,15 +16,7 @@ const Purchase = ({ classes, handleCancel, handleNext, executePaymentCompleted }
 
   const [alert, setAlert] = useState({});
 
-  useEffect(() => {
-    if (!isEmpty(paypalInProgress)) {
-      executePayment();
-    } else {
-      handleNext();
-    }
-  }, []);
-
-  const executePayment = async () => {
+  const executePayment = useCallback(async () => {
     const paymentExecObj = {
       order_id: paypalInProgress.orderId,
       payment_id: paypalInProgress.paymentId,
@@ -48,7 +40,15 @@ const Purchase = ({ classes, handleCancel, handleNext, executePaymentCompleted }
         mailerErrContent: error.message,
       });
     }
-  };
+  }, [dispatch, executePaymentCompleted, paypalInProgress]);
+
+  useEffect(() => {
+    if (!isEmpty(paypalInProgress)) {
+      executePayment();
+    } else {
+      handleNext();
+    }
+  }, [executePayment, handleNext, paypalInProgress]);
 
   if (!isEmpty(alert)) {
     return <PurchaseAlert alert={alert} handleCancel={handleCancel} orderId={paypalInProgress.orderId} />;

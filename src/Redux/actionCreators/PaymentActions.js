@@ -24,10 +24,12 @@ export const initiatePayment = (paymentObj) => async (dispatch) => {
     if (error.code) {
       throw error;
     }
-    window.location.replace(data.payment.payment_url);
+    window.open(data.payment.payment_url, "_blank");
   } catch (error) {
-    dispatch(loaderActions.stopAppLoader());
+    console.error(error);
     throw error;
+  } finally {
+    dispatch(loaderActions.stopAppLoader());
   }
 };
 

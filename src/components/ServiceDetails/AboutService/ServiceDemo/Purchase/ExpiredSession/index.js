@@ -58,7 +58,7 @@ class ExpiredSession extends Component {
       this.props;
     const { alert } = this.state;
     const channelPaymentOptions = [
-      { value: walletTypes.GENERAL, label: "General Account Wallet" },
+      { value: walletTypes.GENERAL, label: "PayPal" },
       { value: walletTypes.METAMASK, label: "Metamask" },
     ];
     return (

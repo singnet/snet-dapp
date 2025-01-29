@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { withStyles } from "@mui/styles";
 import Typography from "@mui/material/Typography";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Web3 from "web3";
 import isEmpty from "lodash/isEmpty";
 import MPEContract from "singularitynet-platform-contracts/networks/MultiPartyEscrow";
@@ -20,11 +20,14 @@ import {
   USDToAgi as getUSDToAgi,
   USDToCogs as getUSDToCogs,
 } from "../../../../../../../../../Redux/reducers/PaymentReducer";
-import { orderTypes } from "../../../../../../../../../utility/constants/PaymentConstants";
+import { orderPayloadTypes, orderTypes } from "../../../../../../../../../utility/constants/PaymentConstants";
 import AGITokens from "./AGITokens";
 
 import { ReactComponent as PayPal } from "../../../../../../../../../assets/images/PayPal.svg";
 import TextField from "@mui/material/TextField";
+import { pickBy } from "lodash";
+import { paymentActions } from "../../../../../../../../../Redux/actionCreators";
+import { useParams } from "react-router-dom";
 
 export const paymentTypes = [{ value: "paypal", label: "Paypal" }];
 
@@ -37,11 +40,14 @@ const description = {
   [orderTypes.CREATE_CHANNEL]: `Please enter the payment type in the box below, along with the amount you would like to enter into the payment channel.`,
 };
 
-const Details = ({ classes, initiatePayment, handleClose, orderType, userProvidedPrivateKey: privateKey }) => {
+const Details = ({ classes, handleClose, orderType, userProvidedPrivateKey: privateKey }) => {
   const groupInfo = useSelector((state) => getGroupInfo(state));
   const USDToAgi = useSelector((state) => getUSDToAgi(state));
   const USDToCogs = useSelector((state) => getUSDToCogs(state));
   const channelInfo = useSelector((state) => getChannelInfo(state));
+
+  const dispatch = useDispatch();
+  const { orgId, serviceId } = useParams();
 
   const payType = "paypal";
   const currency = "USD";
@@ -49,6 +55,31 @@ const Details = ({ classes, initiatePayment, handleClose, orderType, userProvide
   const [amount, setAmount] = useState(0);
   const [alert, setAlert] = useState({});
   const [amountError, setAmountError] = useState();
+
+  const initiatePayment = (amount, currency, item, quantity, base64Signature, address, currentBlockNumber) => {
+    const itemDetails = {
+      item,
+      quantity: Number(quantity),
+      org_id: orgId,
+      service_id: serviceId,
+      group_id: groupInfo.group_id,
+      recipient: groupInfo.payment.payment_address,
+      order_type: orderPayloadTypes[orderType],
+      signature: base64Signature,
+      wallet_address: address,
+      current_block_number: currentBlockNumber,
+    };
+
+    const enhancedItemDetails = pickBy(itemDetails, (el) => el !== undefined); // removed all undefined fields
+
+    const paymentObj = {
+      price: { amount: Number(amount), currency },
+      item_details: enhancedItemDetails,
+      payment_method: "paypal",
+    };
+
+    return dispatch(paymentActions.initiatePayment(paymentObj));
+  };
 
   const handleAmountChange = (event) => {
     const { value } = event.target;

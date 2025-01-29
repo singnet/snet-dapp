@@ -1,10 +1,10 @@
-export const useStyles = (theme) => ({
+export const useStyles = () => ({
   paymentPopupContainer: {
     padding: 20,
     maxWidth: 750,
     minWidth: 500,
-  },
-  tample: {
-    position: "absolute",
+    display: "flex",
+    flexDirection: "column",
+    gap: 20,
   },
 });
