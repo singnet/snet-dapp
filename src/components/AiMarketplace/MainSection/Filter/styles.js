@@ -23,6 +23,9 @@ export const useStyles = makeStyles((theme) => ({
     display: "flex",
     gap: 20,
     justifyContent: "space-between",
+    "& .MuiSelect-select": {
+      color: theme.palette.text.primary,
+    },
     "& svg": {
       color: theme.palette.text.primary,
       right: "0 !important",
