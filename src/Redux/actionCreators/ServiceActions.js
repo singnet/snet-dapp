@@ -166,7 +166,7 @@ const submitFeedbackAPI = (feedbackObj, token) => {
   const apiName = APIEndpoints.USER.name;
   const path = `${APIPaths.FEEDBACK}`;
   const apiOptions = initializeAPIOptions(token, feedbackObj);
-  return postAPI({ apiName, path, apiOptions });
+  return postAPI(apiName, path, apiOptions);
 };
 
 export const submitFeedback = (orgId, serviceId, feedback) => async (dispatch) => {

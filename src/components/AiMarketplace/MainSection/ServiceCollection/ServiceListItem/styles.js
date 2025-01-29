@@ -90,6 +90,7 @@ export const useStyles = makeStyles((theme) => ({
   ratingSection: {
     display: "flex",
     alignItems: "center",
+    gap: 20,
     "@media(max-width:768px)": {
       marginBottom: 10,
       flexDirection: "column",
