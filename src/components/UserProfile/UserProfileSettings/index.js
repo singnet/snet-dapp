@@ -24,8 +24,7 @@ const UserProfileSettings = ({ classes }) => {
   const emailAlerts = useSelector((state) => state.userReducer.emailAlerts);
   const isTermsAccepted = useSelector((state) => state.userReducer.isTermsAccepted);
 
-  // const [email, setEmail] = useState();
-  const [isEmailAlerts, setIsEmailAlerts] = useState();
+  const [isEmailAlerts, setIsEmailAlerts] = useState(emailAlerts);
   const [alert, setAlert] = useState({ message: "", type: alertTypes.ERROR });
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const [confirmDeleteError, setConfirmDeleteError] = useState();
@@ -48,17 +47,13 @@ const UserProfileSettings = ({ classes }) => {
 
   const handleSubmit = async () => {
     setAlert({});
-    const updatedUserData = { email_alerts: emailAlerts, is_terms_accepted: isTermsAccepted };
+    const updatedUserData = { email_alerts: isEmailAlerts, is_terms_accepted: isTermsAccepted };
     try {
       await dispatch(userActions.updateUserProfile(updatedUserData));
       setAlert({ type: alertTypes.SUCCESS, message: "Changes saved successfully" });
     } catch (error) {
       setAlert({ type: alertTypes.ERROR, message: String(error) });
     }
-  };
-
-  const shouldSubmitBeEnabled = () => {
-    return isEmailAlerts !== emailAlerts;
   };
 
   const handleConfirmDeleteClose = () => {
@@ -125,9 +120,8 @@ const UserProfileSettings = ({ classes }) => {
               control={
                 <Checkbox
                   className={classes.checkkBox}
-                  value=""
                   color="primary"
-                  checked={emailAlerts}
+                  checked={isEmailAlerts}
                   onChange={handleEmailAlerts}
                 />
               }
@@ -140,7 +134,7 @@ const UserProfileSettings = ({ classes }) => {
           </div>
           <AlertBox {...alert} />
           <div className={classes.btnContainer}>
-            <StyledButton btnText="save changes" disabled={!shouldSubmitBeEnabled()} onClick={handleSubmit} />
+            <StyledButton btnText="save changes" onClick={handleSubmit} />
             <StyledButton btnText="delete account" type="red" onClick={handleDelete} />
           </div>
         </div>
