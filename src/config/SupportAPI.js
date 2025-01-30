@@ -1,6 +1,8 @@
 import axios from "axios";
 
-export const sendFeedbackAPI = async ({ name, email, category, feedback, attachmentUrls }) => {
+const source = "MARKETPLACE";
+
+export const sendFeedbackSnetAPI = async ({ name, email, category, feedback, attachmentUrls }) => {
   const options = {
     method: "POST",
     headers: {
@@ -8,7 +10,7 @@ export const sendFeedbackAPI = async ({ name, email, category, feedback, attachm
       "Content-Type": "application/json;charset=UTF-8",
     },
     body: JSON.stringify({
-      source: "MARKETPLACE",
+      source,
       name,
       address: "",
       email,
@@ -25,6 +27,16 @@ export const sendFeedbackAPI = async ({ name, email, category, feedback, attachm
     throw new Error("Cannot start the application! process.env.REACT_APP_FEEDBACK_ENDPOINT is undefined");
   }
   await fetch(feedbackUrl + "/user/message", options);
+};
+
+const ENTER_CODE = "%0D%0A";
+const SPACE_CODE = "%20";
+
+export const sendFeedbackProviderAPI = ({ name, providerEmail, serviceId, category, feedback, attachmentUrls }) => {
+  const urls = attachmentUrls.map((url) => url + SPACE_CODE);
+  const body = serviceId + ENTER_CODE + name + ENTER_CODE + ENTER_CODE + feedback + ENTER_CODE + ENTER_CODE + urls;
+
+  window.open(`mailto:${providerEmail}?subject=${source + SPACE_CODE + category}&body=${body}`);
 };
 
 export const FEEDBACK_ATTACHMENTS_FOLDER = process.env.REACT_APP_FEEDBACK_ATTACHMENTS_FOLDER;

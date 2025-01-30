@@ -9,10 +9,14 @@ import AlertBox, { alertTypes } from "@common/AlertBox";
 import { LoaderContent } from "@utility/constants/LoaderContent";
 import { loaderActions } from "@redux/actionCreators";
 import StyledButton from "@common/StyledButton";
-import { sendFeedbackAPI } from "../../config/SupportAPI";
 import UploadAttacments from "./UploadAttacments";
 
-const FeedbackForm = ({ closeForm }) => {
+export const supportTypes = {
+  SNET: "SNET",
+  PROVIDER: "PROVIDER",
+};
+
+const FeedbackForm = ({ closeForm, sendFeedbackAPI }) => {
   const dispatch = useDispatch();
 
   const [formFields, setFormFields] = useState(initialFormState);
@@ -26,9 +30,9 @@ const FeedbackForm = ({ closeForm }) => {
     try {
       dispatch(loaderActions.startAppLoader(LoaderContent.FEEDBACK));
       setIsRequestHandling(true);
-      const { status, error } = await sendFeedbackAPI({ ...formFields, category, attachmentUrls });
-      if (status === "failed") {
-        throw new Error(error.message);
+      const response = await sendFeedbackAPI({ ...formFields, category, attachmentUrls });
+      if (response?.status === "failed") {
+        throw new Error(response?.error.message);
       }
       setAlert({ type: alertTypes.SUCCESS, message: "Our technical support will get in touch with you soon!" });
     } catch (error) {

@@ -214,7 +214,7 @@ export const publishDatasetForImproving = (fileBlob, name) => async (dispatch) =
 export const publishFilesToS3 = async (fileBlob, name, S3Instance, folder, email) => {
   try {
     const baseUrl = S3Instance.getUri();
-    let fileKey = name + "_" + email + "_" + Date.now();
+    let fileKey = Date.now() + "_" + email + "_" + name;
     if (folder) {
       fileKey = folder + "/" + fileKey;
     }

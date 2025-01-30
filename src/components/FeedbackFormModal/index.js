@@ -1,25 +1,22 @@
 import { Fragment, useState } from "react";
-import FeedbackForm from "./FeedbackForm";
 import OpenFormButton from "./OpenFormButton";
 import "./styles.css";
-import SNETDialog from "@common/SNETDialog";
+import FeedbackFormModal from "./FeedbackFormModal";
+import { sendFeedbackSnetAPI } from "../../config/SupportAPI";
 
-const FeedbackFormModal = () => {
+const FeedbackForm = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   return (
     <Fragment>
-      <SNETDialog
-        showCloseButton
-        isDialogOpen={isModalVisible}
-        onDialogClose={() => setIsModalVisible(false)}
-        title="Feedback form"
-      >
-        <FeedbackForm closeForm={() => setIsModalVisible(false)} />
-      </SNETDialog>
+      <FeedbackFormModal
+        sendFeedbackAPI={sendFeedbackSnetAPI}
+        isModalVisible={isModalVisible}
+        setIsModalVisible={setIsModalVisible}
+      />
       <OpenFormButton openForm={() => setIsModalVisible(true)} />
     </Fragment>
   );
 };
 
-export default FeedbackFormModal;
+export default FeedbackForm;
