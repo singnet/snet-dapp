@@ -6,12 +6,9 @@ import { useStyles } from "./styles";
 import SearchInputToggler from "./SearchInputToggler";
 import ServiceSortOptions from "./ServiceSortOptions";
 import ViewToggler from "./ViewToggler";
-import StyledDropdown from "../../../common/StyledDropdown";
-import { serviceActions } from "../../../../Redux/actionCreators";
-import {
-  defaultPaginationParameters,
-  generateOrganizationsFilterObject,
-} from "../../../../utility/constants/Pagination";
+import StyledDropdown from "@common/StyledDropdown";
+import { serviceActions } from "@redux/actionCreators";
+import { defaultPaginationParameters, generateOrganizationsFilterObject } from "@utility/constants/Pagination";
 
 const Filter = ({ listView, total_count, handleSearchChange, toggleView, currentPagination, showToggler }) => {
   const { filterData, pagination } = useSelector((state) => state.serviceReducer);
