@@ -19,7 +19,7 @@ const PrimaryFooterMain = [
   {
     title: "Resources",
     children: [
-      { label: "Documentation", link: "https://github.com/singnet" },
+      { label: "Documentation", link: "https://dev.singularitynet.io/docs/products/AIMarketplace/" },
       //{ label: "Datasets Download", link: "#" },
       //{ label: "API Library ", link: "#" },
       { label: "Telegram", link: "https://telegram.me/singularitynet" },
