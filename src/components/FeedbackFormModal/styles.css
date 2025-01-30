@@ -1,0 +1,152 @@
+:root{
+    --feedback-form-transition: .3s;
+    --feedback-form-background: rgba(255, 255, 255, 1);
+    --feedback-form-font-color: #666666;
+    --feedback-form-input-background: #FFF;
+}
+
+.feedback-form-holder {
+    width: 600px;
+    border-radius: 8px;
+    backdrop-filter: blur(2px);
+    background: var(--box-container-color);
+    color: var(--feedback-form-font-color);
+    padding: 20px;
+    transition: var(--feedback-form-transition) all;
+    border: 1px solid var(--button-background);
+}
+
+.feedback-form {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.feedback-form p {
+    margin: 0;
+}
+
+.submit-btn-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px
+}
+
+.form-header h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.form-header svg {
+    transition: var(--feedback-form-transition) all;
+}
+
+.form-header svg:hover {
+    transform: scale(1.3);
+}
+
+.feedback-form-fields {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.feedback-form-fields  .MuiTextField-root, 
+.feedback-form-fields {
+    flex: 1;
+    min-width: 250px !important;
+}
+
+.feedback-form-fields .MuiTextField-root:last-child {
+    min-width: 500px !important;
+}
+
+.submit-btn-container button {
+    width: 100%;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+    padding: 8px 0;
+}
+
+.submit-button {
+    background-color: var(--button-background) !important;
+}
+
+.submit-button:disabled {
+    background-color: rgba(0, 0, 0, 0.10) !important;
+}
+
+.cancel-button {
+   border-color: var(--button-background) !important;
+}
+
+/* FORM LAUNCHER */
+
+.feedback-form-launcher-holder {
+    width: 100px;
+    position: fixed;
+    bottom: 50px;
+    right: 30px;
+    z-index: var(--modal-layout-z-index);
+}
+
+.feedback-form-launcher {
+    width: 100px;
+    transition: var(--feedback-form-transition) all;
+}
+
+.feedback-form-launcher img{
+    width: 100%;
+    height: 100%;
+}
+
+.feedback-form-launcher:hover {
+    transform: scale(1.1);
+}
+
+.assets-uploader-container {
+    font-size: 14px;
+    width: 100%;
+}
+
+.assets-uploader-container
+.assets-uploader-helper {
+    margin-bottom: 10px ;
+}
+
+.assets-uploader-container .dropzone, 
+.assets-uploader-container .dropzone--isActive {
+    padding: 10px 20px !important;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.assets-uploader-container .dropzone--isActive {
+    border-color: var(--highlight-color) !important;
+}
+
+.assets-uploader-container .MuiSvgIcon-root {
+    font-size: 20px !important;
+}
+
+.assets-uploader-container #fileDetails {
+    padding: 10px 20px !important;
+}
+
+/* ALERT */
+.ready-alert {
+    width: 200px;
+    position: absolute;
+    right: 100px;
+    bottom: 30px;
+    padding: 10px;
+    border-radius: 8px;
+    color: var(--vp-c-green-1);
+    background-color: var(--vp-c-green-soft);
+    transition: var(--feedback-form-transition) all;
+}

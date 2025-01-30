@@ -24,7 +24,7 @@ export const DatafactoryInstanceS3 = axios.create({
   },
 });
 
-export const DatasetS3Endpoints = {
+export const filesToS3Endpoints = {
   UPLOAD: "/upload", // params: key
   DOWNLOAD: "/download", // params: key
 };

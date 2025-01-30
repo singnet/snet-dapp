@@ -48,6 +48,10 @@ export const LoaderContent = {
     loaderHeader: "Fetching Metamask Account",
     loaderText: "Please wait while we retrieve your account details from Metamask",
   },
+  FEEDBACK: {
+    loaderHeader: "Senting your feedback",
+    loaderText: "Please wait while we senting your feedback",
+  },
   DEPOSIT: {
     loaderHeader: "Deposit",
     loaderText: "Depositing AGIX tokens to Multi-party Escrow account",

@@ -20,6 +20,7 @@ import { CircularProgress } from "@mui/material";
 import initHotjar from "./assets/externalScripts/hotjar";
 import initGDPRNotification from "./assets/externalScripts/gdpr";
 import PaymentCancelled from "./components/ServiceDetails/PaymentCancelled";
+import FeedbackFormModal from "@components/FeedbackFormModal";
 
 const ForgotPassword = lazy(() => import("./components/Login/ForgotPassword"));
 const ForgotPasswordSubmit = lazy(() => import("./components/Login/ForgotPasswordSubmit"));
@@ -185,6 +186,7 @@ const App = () => {
           </Switch>
         </Suspense>
       </Router>
+      <FeedbackFormModal />
       <AppLoader />
     </ThemeProvider>
   );
