@@ -7,7 +7,6 @@ import CaretIcon from "@mui/icons-material/ArrowDropDown";
 import PropTypes from "prop-types";
 
 import { useStyles } from "./styles";
-import AnchorLink from "../AnchorLink";
 
 const StyledMenu = ({ classes, label, list }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -33,9 +32,15 @@ const StyledMenu = ({ classes, label, list }) => {
         disableScrollLock={true}
       >
         {list.map((item) => (
-          <MenuItem key={item.label} className={classes.menuItem}>
-            <AnchorLink label={item.label} href={item.link} newTab={item.newTab} />
-          </MenuItem>
+          <a
+            key={item.label}
+            className={classes.menuItem}
+            href={item.link}
+            target={item.newTab && "_blank"}
+            rel="noopener"
+          >
+            <MenuItem className={classes.menuItem}>{item.label}</MenuItem>
+          </a>
         ))}
       </Menu>
     </Fragment>

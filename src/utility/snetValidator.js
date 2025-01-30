@@ -31,6 +31,18 @@ const hasAWSPasswordSplChar = (value, options, key, attributes) => {
   return options.message || "must contain a special character";
 };
 
+const validEmail = (value, options) => {
+  const regexEmail = new RegExp(
+    /* eslint-disable-next-line */
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  );
+
+  if (regexEmail.test(value)) {
+    return;
+  }
+  return options?.message || `${value}  is not valid email`;
+};
+
 snetValidator.validators = {
   ...validate.validators,
   // custom validators
@@ -38,6 +50,7 @@ snetValidator.validators = {
   hasUpperCase,
   hasNumber,
   hasAWSPasswordSplChar,
+  validEmail,
 };
 
 // default options

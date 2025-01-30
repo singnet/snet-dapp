@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment, useState } from "react";
 import { useSelector } from "react-redux";
 import { withStyles } from "@mui/styles";
 
@@ -10,6 +10,8 @@ import NoDemoComponent from "../../common/NoDemoComponent";
 
 import { useStyles } from "./styles";
 import LoginActionsBtns, { actionButtonsThemes } from "../../common/Header/HeaderActions/LoginActionsBtns";
+import FeedbackFormModal from "../../FeedbackFormModal/FeedbackFormModal";
+import { sendFeedbackProviderAPI } from "../../../config/SupportAPI";
 
 const DemoToggler = ({
   classes,
@@ -19,6 +21,17 @@ const DemoToggler = ({
   demoComponentRequired,
 }) => {
   const isLoggedIn = useSelector((state) => state.userReducer.login.isLoggedIn);
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const providerSupport = service.contacts.find((contact) => contact.contact_type === "support");
+
+  const sendFeedback = (messageBody) => {
+    sendFeedbackProviderAPI({
+      ...messageBody,
+      providerEmail: providerSupport.email,
+      serviceId: service.service_id,
+    });
+  };
 
   if (!isLoggedIn) {
     return (
@@ -35,28 +48,37 @@ const DemoToggler = ({
       </div>
     );
   }
-
   if (!serviceAvailable) {
     return (
-      <div className={classes.serviceOffline}>
-        <div className={classes.imgContainer}>
-          <img
-            src={serviceOfflineImg}
-            title="Service Not Available"
-            alt="Service Not Available due to poor connection "
-            loading="lazy"
-          />
+      <Fragment>
+        <FeedbackFormModal
+          isModalVisible={isModalVisible}
+          setIsModalVisible={setIsModalVisible}
+          sendFeedbackAPI={sendFeedback}
+        />
+        <div className={classes.serviceOffline}>
+          <div className={classes.imgContainer}>
+            <img
+              src={serviceOfflineImg}
+              title="Service Not Available"
+              alt="Service Not Available due to poor connection "
+              loading="lazy"
+            />
+          </div>
+          <div className={classes.offDemoTitle}>
+            <p>Service temporary offline by provider.</p>
+            <p>Please try again Later.</p>
+            <span>If this error is continuing for some time, feel free to reach us.</span>
+          </div>
+          <div className={classes.btnContainer}>
+            <StyledButton
+              btnText="CONTACT SERVICE PROVIDER"
+              type="transparent"
+              onClick={() => setIsModalVisible(true)}
+            />
+          </div>
         </div>
-        <div className={classes.offDemoTitle}>
-          <p>Service temporary offline by provider.</p>
-          <p>Please try again Later.</p>
-          <span>If this error is continuing for some time, feel free to reach us.</span>
-        </div>
-        <div className={classes.btnContainer}>
-          <StyledButton btnText="submit error" type="transparent" />
-          <StyledButton btnText="contact support" type="transparent" />
-        </div>
-      </div>
+      </Fragment>
     );
   }
 
