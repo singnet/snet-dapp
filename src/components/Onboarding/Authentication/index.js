@@ -67,7 +67,7 @@ const Authentication = ({ classes, handleNextSection }) => {
         <span>A verification code has been sent to your registered email address.</span>
         <br /> <br />
         Please enter the verification code below to confirm your email address. Check your spam, or junk folders if you
-        encounter any delays. The email should be from otp@singularitynet.io. The code will be valid for 5 minutes.
+        encounter any delays. The email should be from no-reply@singularitynet.io. The code will be valid for 5 minutes.
       </p>
       <InlineLoader loading={loading} />
       <TextField
