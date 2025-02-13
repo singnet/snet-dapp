@@ -7,6 +7,7 @@ const Purchase = ({
   handleComplete,
   freeCallsRemaining,
   freeCallsAllowed,
+  isFreecallLoading,
   wallet,
   groupInfo,
   handlePurchaseError,
@@ -25,6 +26,7 @@ const Purchase = ({
   }
   return (
     <ActiveSession
+      isFreecallLoading={isFreecallLoading}
       freeCallsRemaining={freeCallsRemaining}
       freeCallsAllowed={freeCallsAllowed}
       handleComplete={handleComplete}
