@@ -5,10 +5,6 @@ export const useStyles = (theme) => ({
     display: "flex",
     flexDirection: "column",
     "& > div": { textAlign: "center" },
-    "& button": {
-      padding: "13px 50px 11px",
-      marginRight: "0 !important",
-    },
     "& p": {
       margin: 0,
     },

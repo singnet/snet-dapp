@@ -49,6 +49,8 @@ const ActiveSession = ({
     await dispatch(getTrainingModels(org_id, service_id, address));
   };
 
+  const isActionsDisabled = !isServiceAvailable || isFreecallLoading;
+
   return (
     <div className={classes.activeSessionContainer}>
       <AlertBox
@@ -72,13 +74,13 @@ const ActiveSession = ({
         classes={{ tooltip: classes.tooltip }}
       >
         <div className={classes.activeSectionButtons}>
-          <StyledButton type="blue" btnText="run for free" onClick={handleComplete} disabled={!isServiceAvailable} />
+          <StyledButton type="blue" btnText="run for free" onClick={handleComplete} disabled={isActionsDisabled} />
           {isTrainingAvailable && isUndefined(modelsList) && (
             <StyledButton
               type="transparent"
               btnText="request my models"
               onClick={handleRequestModels}
-              disabled={!isServiceAvailable}
+              disabled={isActionsDisabled}
             />
           )}
         </div>
