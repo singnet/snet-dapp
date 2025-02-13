@@ -46,11 +46,31 @@ const ServiceDemo = ({ classes, service }) => {
   const [purchaseCompleted, setPurchaseCompleted] = useState(false);
   const [isServiceExecutionComplete, setIsServiceExecutionComplete] = useState(false);
   const [alert, setAlert] = useState({});
+  const [isFreecallLoading, setIsFreecallLoading] = useState(false);
+
+  const fetchFreeCallsUsage = async () => {
+    try {
+      setIsFreecallLoading(true);
+      return await dispatch(
+        serviceDetailsActions.fetchMeteringData({
+          orgId: service.org_id,
+          serviceId: service.service_id,
+          groupId: groupInfo.group_id,
+          username: email,
+        })
+      );
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsFreecallLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (process.env.REACT_APP_SANDBOX) {
       return;
     }
+    fetchFreeCallsUsage();
 
     try {
       dispatch(loaderActions.startAppLoader(LoaderContent.INIT_SERVICE_DEMO));
@@ -82,17 +102,6 @@ const ServiceDemo = ({ classes, service }) => {
       dispatch(paymentActions.updatePaypalInProgress(orderId, orderType, paymentId, paypalPaymentId, PayerID));
       return dispatch(userActions.updateWallet({ type: walletTypes.GENERAL }));
     }
-  };
-
-  const fetchFreeCallsUsage = () => {
-    return dispatch(
-      serviceDetailsActions.fetchMeteringData({
-        orgId: service.org_id,
-        serviceId: service.service_id,
-        groupId: groupInfo.group_id,
-        username: email,
-      })
-    );
   };
 
   // const pollWalletDetails = async () => {
@@ -177,6 +186,7 @@ const ServiceDemo = ({ classes, service }) => {
           handleComplete: handlePurchaseComplete,
           freeCallsRemaining: freeCalls.remaining,
           freeCallsAllowed: freeCalls.allowed,
+          isFreecallLoading,
           wallet,
           handlePurchaseError,
           isServiceAvailable: Boolean(service.is_available),
