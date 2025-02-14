@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { withStyles } from "@mui/styles";
 import { useDispatch, useSelector } from "react-redux";
 import queryString from "query-string";
@@ -122,11 +122,11 @@ const ServiceDemo = ({ classes, service }) => {
     }
   };
 
-  const computeActiveSection = () => {
+  const computeActiveSection = useCallback(() => {
     const { purchasing, executingAIservice, displayingResponse } = demoProgressStatus;
 
     return purchaseCompleted ? (isServiceExecutionComplete ? displayingResponse : executingAIservice) : purchasing;
-  };
+  }, [purchaseCompleted, demoProgressStatus]);
 
   const serviceRequestStartHandler = () => {
     setAlert({});
@@ -150,7 +150,7 @@ const ServiceDemo = ({ classes, service }) => {
     setPurchaseCompleted(false);
     setIsServiceExecutionComplete(false);
     setAlert({});
-    // setProgressText(progressText.map((item) => ({ label: item.label })));
+    setProgressText(progressText.map((item) => ({ label: item.label })));
     fetchFreeCallsUsage();
   };
 
@@ -176,9 +176,11 @@ const ServiceDemo = ({ classes, service }) => {
     dispatch(loaderActions.stopAppLoader());
   };
 
+  const computedActiveSection = computeActiveSection();
+
   return (
     <div className={classes.demoExampleContainer}>
-      <ProgressBar activeSection={computeActiveSection()} progressText={progressText} />
+      <ProgressBar activeSection={computedActiveSection} progressText={progressText} />
       <PurchaseToggler
         groupInfo={groupInfo}
         purchaseCompleted={purchaseCompleted}
