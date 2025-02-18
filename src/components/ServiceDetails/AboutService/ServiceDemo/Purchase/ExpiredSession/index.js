@@ -40,6 +40,7 @@ class ExpiredSession extends Component {
 
   componentDidMount = () => {
     this.setState({ alert: this.transactionAlert() });
+    this.props.setIsLastPaidCall(false);
   };
 
   handlePayTypeChange = (event) => {
@@ -54,8 +55,16 @@ class ExpiredSession extends Component {
   };
 
   render() {
-    const { classes, wallet, handleComplete, groupInfo, handlePurchaseError, isServiceAvailable, channelInfo } =
-      this.props;
+    const {
+      classes,
+      wallet,
+      handleComplete,
+      groupInfo,
+      handlePurchaseError,
+      isServiceAvailable,
+      channelInfo,
+      setIsLastPaidCall,
+    } = this.props;
     const { alert } = this.state;
     const channelPaymentOptions = [
       { value: walletTypes.GENERAL, label: "PayPal" },
@@ -96,6 +105,7 @@ class ExpiredSession extends Component {
             generalWalletProps={{ handleContinue: handleComplete }}
             metamaskProps={{
               handleContinue: handleComplete,
+              setIsLastPaidCall,
               groupInfo,
               handlePurchaseError,
               isServiceAvailable,

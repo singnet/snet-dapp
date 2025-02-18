@@ -47,6 +47,7 @@ const ServiceDemo = ({ classes, service }) => {
   const [isServiceExecutionComplete, setIsServiceExecutionComplete] = useState(false);
   const [alert, setAlert] = useState({});
   const [isFreecallLoading, setIsFreecallLoading] = useState(false);
+  const [isLastPaidCall, setIsLastPaidCall] = useState(false);
 
   const fetchFreeCallsUsage = async () => {
     try {
@@ -103,15 +104,6 @@ const ServiceDemo = ({ classes, service }) => {
       return dispatch(userActions.updateWallet({ type: walletTypes.GENERAL }));
     }
   };
-
-  // const pollWalletDetails = async () => {
-  //   const {
-  //     service: { org_id: orgId },
-  //     groupInfo: { group_id: groupId },
-  //   } = this.props;
-
-  //   return await dispatch(userActions.startWalletDetailsPolling(orgId, groupId));
-  // };
 
   const scrollToHash = () => {
     if (location.hash === Routes.hash.SERVICE_DEMO) {
@@ -181,6 +173,13 @@ const ServiceDemo = ({ classes, service }) => {
   return (
     <div className={classes.demoExampleContainer}>
       <ProgressBar activeSection={computedActiveSection} progressText={progressText} />
+      {isLastPaidCall && (
+        <AlertBox
+          className={classes.lastPaidCallInfo}
+          type={alertTypes.INFO}
+          message="This is the last paid service call!"
+        />
+      )}
       <PurchaseToggler
         groupInfo={groupInfo}
         purchaseCompleted={purchaseCompleted}
@@ -190,6 +189,7 @@ const ServiceDemo = ({ classes, service }) => {
           freeCallsAllowed: freeCalls.allowed,
           isFreecallLoading,
           wallet,
+          setIsLastPaidCall,
           handlePurchaseError,
           isServiceAvailable: Boolean(service.is_available),
         }}
