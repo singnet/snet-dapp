@@ -56,5 +56,10 @@ export const useStyles = (theme) => ({
     fontSize: 20,
     lineHeight: "25px",
   },
-  escrowAccountDetails: { padding: "0 25px 25px" },
+  escrowAccountDetails: {
+    padding: "25px",
+    display: "flex",
+    gap: 20,
+    flexDirection: "column",
+  },
 });

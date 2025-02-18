@@ -5,7 +5,6 @@ export const useStyles = (theme) => ({
     borderStyle: "solid",
     borderColor: theme.palette.text.verticalTabLeftBorder,
     borderRadius: 4,
-    marginBottom: 20,
     backgroundColor: theme.palette.text.cardBackground,
     "&:hover": {
       borderColor: theme.palette.text.primary,
@@ -24,9 +23,10 @@ export const useStyles = (theme) => ({
     borderStyle: "solid",
     borderColor: theme.palette.text.primary,
     backgroundColor: theme.palette.text.cardBackground,
+    boxShadow: `0 0 5px ${theme.palette.text.primary}`,
   },
   LeftSideSection: {
-    padding: "14px 0",
+    padding: "14px 10px",
     display: "flex",
     alignItems: "center",
     "@media(max-width:480px)": { maxWidth: "100%" },
@@ -38,7 +38,7 @@ export const useStyles = (theme) => ({
     display: "flex",
     flexDirection: "column",
     gap: 7,
-
+    maxWidth: "70%",
     "& h2": {
       color: theme.palette.text.darkShadedGray,
       fontSize: 22,
@@ -51,13 +51,11 @@ export const useStyles = (theme) => ({
       },
     },
     "& input": {
-      width: 24,
       padding: "7px",
       borderWidth: 1,
       borderStyle: "solid",
       borderColor: theme.palette.text.inputBoxBorder,
       borderRadius: 4,
-      marginRight: 10,
       backgroundColor: theme.palette.text.whiteColor,
       color: theme.palette.text.mediumShadeGray,
       fontSize: 16,
@@ -66,7 +64,6 @@ export const useStyles = (theme) => ({
     },
     "& span": {
       color: theme.palette.text.lightShadedGray,
-      lineHeight: "17px",
     },
   },
   disabledInputDataContainer: {
@@ -80,14 +77,14 @@ export const useStyles = (theme) => ({
       color: theme.palette.text.disabledBtnBg,
     },
   },
-  value: {
-    fontSize: 18,
-    "@media(max-width:1023px)": { fontSize: 16 },
+  priceContainer: {
+    fontSize: 16,
+    display: "flex",
+    gap: 5,
+    flexWrap: "wrap",
   },
-  unit: {
-    marginLeft: 5,
-    display: "inline-block",
-    fontSize: 12,
+  value: {
+    overflow: "auto",
   },
   selectionBoxDescription: {
     padding: "14px 8px",
@@ -97,7 +94,6 @@ export const useStyles = (theme) => ({
     display: "flex",
     alignItems: "center",
     "& p": {
-      paddingLeft: 22,
       margin: 0,
       color: theme.palette.text.mediumShadeGray,
       fontSize: 14,

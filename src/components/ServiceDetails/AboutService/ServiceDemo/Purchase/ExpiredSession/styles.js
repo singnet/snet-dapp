@@ -14,7 +14,6 @@ export const useStyles = (theme) => ({
     fontFamily: theme.typography.primary.main,
   },
   paymentInfoCard: {
-    marginBottom: 25,
     display: "flex",
     justifyContent: "space-between",
   },

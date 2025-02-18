@@ -8,7 +8,7 @@ export const useStyles = (theme) => ({
       verticalAlign: "middle",
     },
     "& h5": {
-      margin: "0 0 0 7px",
+      margin: "0",
       display: "inline-block",
       color: theme.palette.text.lightShadedGray,
       fontSize: 16,
@@ -18,9 +18,7 @@ export const useStyles = (theme) => ({
     "@media(max-width:480px)": { textAlign: "left" },
   },
   TitleContainer: {
-    display: "flex",
-    alignItems: "center",
-    marginBottom: 5,
+    textAlign: "center",
   },
   content: {
     "& h3": {

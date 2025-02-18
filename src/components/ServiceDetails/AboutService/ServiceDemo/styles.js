@@ -5,6 +5,9 @@ export const useStyles = (theme) => ({
     flexDirection: "column",
     gap: 30,
   },
+  lastPaidCallInfo: {
+    margin: 0,
+  },
   uploadImageContainer: {
     display: "flex",
     justifyContent: "space-evenly",

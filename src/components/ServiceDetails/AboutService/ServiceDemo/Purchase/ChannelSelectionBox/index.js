@@ -28,13 +28,17 @@ const ChannelSelectionBox = ({
       onClick={onClick}
     >
       <Grid item xs={4} sm={4} md={4} lg={4} className={classes.LeftSideSection}>
-        <div className={classes.RadioButtonContainer}>
+        <Grid item lg={2} className={classes.RadioButtonContainer}>
           <Radio checked={checked} color="primary" name="radio-button" disabled={disabled} {...restProps} />
-        </div>
-        <div className={`${classes.InputDataContainer} ${disabled && classes.disabledInputDataContainer}`}>
+        </Grid>
+        <Grid
+          item
+          lg={10}
+          className={`${classes.InputDataContainer} ${disabled && classes.disabledInputDataContainer}`}
+        >
           <h2>{title}</h2>
           <CallPriceInput classes={classes} disabled={disabled} inputProps={inputProps} />
-        </div>
+        </Grid>
       </Grid>
       <Grid
         item
