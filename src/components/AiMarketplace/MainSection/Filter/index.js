@@ -21,7 +21,7 @@ const Filter = ({ listView, total_count, handleSearchChange, toggleView, current
 
   useEffect(() => {
     return () => dispatch(serviceActions.resetFilter({ pagination }));
-  }, []);
+  }, [dispatch]);
 
   const handleSearch = (event) => {
     setSearchKeyword(event.currentTarget.value);

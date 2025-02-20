@@ -45,7 +45,7 @@ export const useStyles = makeStyles((theme) => ({
     marginTop: 10,
     textAlign: "center",
     "& button": {
-      padding: " 13px 60px 11px",
+      padding: "15px 60px",
       marginTop: 10,
     },
   },

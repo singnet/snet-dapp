@@ -21,18 +21,16 @@ const ChannelList = ({ classes, linkedProviders }) => {
           </Grid>
         </Grid>
         {linkedProviders.map((provider) => {
-          const { org_name, hero_image, groups } = provider;
+          const { org_name, org_id, hero_image, groups } = provider;
           const firstGroup = groups[0];
           const firstChannel = firstGroup && firstGroup.channels[0];
           const balance_in_cogs = firstChannel && firstChannel.balance_in_cogs;
           return (
-            <Grid item xs={12} sm={12} md={12} lg={12} className={classes.tableData} key={org_name}>
+            <Grid item xs={12} sm={12} md={12} lg={12} className={classes.tableData} key={org_id}>
               <Grid item xs={12} sm={12} md={7} lg={7} className={classes.providerChannelDetails}>
                 <div className={classes.avatarContainer}>
                   <Avatar alt="Singularity" src={hero_image || SingularityLogo} className={classes.avatar} />
-                  <div>
-                    <Typography className={classes.channelName}>{org_name}</Typography>
-                  </div>
+                  <Typography className={classes.channelName}>{org_name}</Typography>
                 </div>
               </Grid>
               <Grid item xs={12} sm={12} md={5} lg={5}>

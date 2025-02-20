@@ -22,7 +22,6 @@ import {
   getIsTrainingAvailable,
 } from "../../Redux/actionCreators/ServiceDetailsActions";
 import {
-  pricing as getPricing,
   serviceDetails as getServiceDetails,
   groupInfo as getGroupInfo,
 } from "../../Redux/reducers/ServiceDetailsReducer";
@@ -52,7 +51,6 @@ const ServiceDetails = ({ classes }) => {
   const detailsTraining = useSelector((state) => state.serviceDetailsReducer.detailsTraining);
   const service = useSelector((state) => getServiceDetails(state, orgId, serviceId));
   const groupInfo = useSelector((state) => getGroupInfo(state));
-  const pricing = useSelector((state) => getPricing(state));
   const loading = useSelector((state) => state.loaderReducer.app.loading);
 
   const [activeTab, setActiveTab] = useState(tabId ? tabId : 0);
@@ -69,7 +67,7 @@ const ServiceDetails = ({ classes }) => {
       dispatch(fetchServiceDetails(orgId, serviceId));
     }
     dispatch(fetchTrainingModel(orgId, serviceId));
-  }, [dispatch]);
+  }, [dispatch, orgId, serviceId, service]);
 
   const handleTabChange = (activeTab) => {
     if (window.location.href.indexOf("#demo") > -1) {
@@ -177,7 +175,7 @@ const ServiceDetails = ({ classes }) => {
             totalRating={service.service_rating ? service.service_rating.total_users_rated : 0}
             shortDescription={service.short_description}
           />
-          <PricingDetails serviceAvailable={service.is_available} pricing={pricing} handleDemoClick={handleDemoClick} />
+          <PricingDetails serviceAvailable={service.is_available} handleDemoClick={handleDemoClick} />
         </div>
         <StyledTabs tabs={tabs} activeTab={Number(activeTab)} onTabChange={handleTabChange} />
       </Grid>

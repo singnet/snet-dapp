@@ -14,7 +14,7 @@ const PaymentCanceled = () => {
   useEffect(() => {
     dispatch(paymentActions.cancelOrder(orderId));
     navigate(`/${Routes.SERVICE_DETAILS}/org/${orgId}/service/${serviceId}`);
-  }, []);
+  }, [dispatch, navigate, orderId, serviceId, orgId]);
 
   return <CircularProgress />;
 };

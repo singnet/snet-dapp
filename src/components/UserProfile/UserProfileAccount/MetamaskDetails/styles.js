@@ -1,6 +1,5 @@
 export const useStyles = (theme) => ({
   accountDetails: {
-    marginTop: 32,
     boxSizing: "border-box",
     "& div": {
       display: "flex",

@@ -569,21 +569,25 @@ export const registerWallet = (address, type) => async (dispatch) => {
 };
 
 export const updateMetamaskWallet = () => async (dispatch, getState) => {
-  const sdk = await dispatch(sdkActions.getSdk());
-  const address = await sdk.account.getAddress();
+  try {
+    const sdk = await dispatch(sdkActions.getSdk());
+    const address = await sdk.account.getAddress();
 
-  if (getState().userReducer.wallet?.address === address) {
+    if (getState().userReducer.wallet?.address === address) {
+      return address;
+    }
+
+    const availableUserWallets = await dispatch(fetchAvailableUserWallets());
+    const addressAlreadyRegistered = availableUserWallets.some(
+      (wallet) => wallet.address.toLowerCase() === address.toLowerCase()
+    );
+
+    if (!addressAlreadyRegistered) {
+      await dispatch(registerWallet(address, walletTypes.METAMASK));
+    }
+    dispatch(updateWallet({ type: walletTypes.METAMASK, address }));
     return address;
+  } catch (err) {
+    throw new Error("Can't update metamask wallet");
   }
-
-  const availableUserWallets = await dispatch(fetchAvailableUserWallets());
-  const addressAlreadyRegistered = availableUserWallets.some(
-    (wallet) => wallet.address.toLowerCase() === address.toLowerCase()
-  );
-
-  if (!addressAlreadyRegistered) {
-    await dispatch(registerWallet(address, walletTypes.METAMASK));
-  }
-  dispatch(updateWallet({ type: walletTypes.METAMASK, address }));
-  return address;
 };

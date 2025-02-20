@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Grid from "@mui/material/Grid";
 import { withStyles } from "@mui/styles";
-import InfoIcon from "@mui/icons-material/Info";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { connect } from "react-redux";
@@ -131,7 +130,6 @@ class InstallAndRunService extends Component {
                   </Typography>
                   <div className={classes.textfieldContainer}>
                     <div>
-                      <InfoIcon className={classes.infoIcon} />
                       <TextField
                         id="outlined-user-name"
                         label="Public Address"

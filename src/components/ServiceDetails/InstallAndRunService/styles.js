@@ -11,12 +11,6 @@ export const useStyles = (theme) => ({
     paddingLeft: 20,
     paddingRight: 20,
   },
-  infoIcon: {
-    paddingRight: 12,
-    color: theme.palette.text.lightGray,
-    fontSize: 20,
-    verticalAlign: "sub",
-  },
   overViewContainer: {
     display: "flex",
     gap: 25,

@@ -121,7 +121,7 @@ export const useStyles = (theme) => ({
     marginTop: 10,
     display: "flex",
     "& button": {
-      padding: " 13px 60px 11px",
+      padding: "15px 60px",
       marginTop: 10,
       "&:first-of-type": { marginRight: 10 },
     },

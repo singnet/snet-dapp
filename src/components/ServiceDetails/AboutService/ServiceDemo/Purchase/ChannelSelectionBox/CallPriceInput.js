@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 
 const CallPriceInput = ({ classes, disabled, inputProps }) => {
   if (!inputProps) {
@@ -6,13 +6,15 @@ const CallPriceInput = ({ classes, disabled, inputProps }) => {
   }
 
   return (
-    <div>
+    <Fragment>
       {!inputProps?.noInput && (
-        <input type="text" disabled={disabled} value={inputProps.noOfServiceCalls} onChange={inputProps.onChange} />
+        <input type="number" disabled={disabled} value={inputProps.noOfServiceCalls} onChange={inputProps.onChange} />
       )}
-      <span className={classes.value}>{Number(inputProps.totalPrice)}</span>
-      <span className={classes.unit}>{inputProps.unit}</span>
-    </div>
+      <div className={classes.priceContainer}>
+        <span className={classes.value}>{String(inputProps.totalPrice)}</span>
+        <span className={classes.unit}>{inputProps.unit}</span>
+      </div>
+    </Fragment>
   );
 };
 

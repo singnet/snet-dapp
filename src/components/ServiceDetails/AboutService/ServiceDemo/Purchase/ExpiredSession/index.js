@@ -15,6 +15,7 @@ import WalletDetailsToggler from "./WalletDetailsToggler";
 import { channelInfo } from "../../../../../../Redux/reducers/UserReducer";
 import { anyPendingTxn, anyFailedTxn } from "../../../../../../Redux/reducers/PaymentReducer";
 import { LoaderContent } from "../../../../../../utility/constants/LoaderContent";
+import { initPaypalSdk } from "../../../../../../utility/sdk";
 
 const TransactionAlert = {
   PENDING: { type: alertTypes.WARNING, message: "Transaction Confirmed. Pending token allocation" },
@@ -40,21 +41,21 @@ class ExpiredSession extends Component {
 
   componentDidMount = () => {
     this.setState({ alert: this.transactionAlert() });
+    this.props.setIsLastPaidCall(false);
+    if (process.env.REACT_APP_SANDBOX || this.props.wallet.type !== walletTypes.GENERAL) {
+      initPaypalSdk(this.props.wallet.address, channelInfo);
+    }
   };
 
   handlePayTypeChange = (event) => {
     const { value } = event.target;
     const { updateWallet } = this.props;
     this.setState({ alert: {} });
-    if (value === walletTypes.GENERAL) {
-      updateWallet({ type: value });
-      return;
-    }
     updateWallet({ type: value });
   };
 
   render() {
-    const { classes, wallet, handleComplete, groupInfo, handlePurchaseError, isServiceAvailable, channelInfo } =
+    const { classes, wallet, handleComplete, handlePurchaseError, isServiceAvailable, channelInfo, setIsLastPaidCall } =
       this.props;
     const { alert } = this.state;
     const channelPaymentOptions = [
@@ -96,7 +97,7 @@ class ExpiredSession extends Component {
             generalWalletProps={{ handleContinue: handleComplete }}
             metamaskProps={{
               handleContinue: handleComplete,
-              groupInfo,
+              setIsLastPaidCall,
               handlePurchaseError,
               isServiceAvailable,
             }}

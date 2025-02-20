@@ -23,6 +23,10 @@ export const LoaderContent = {
     loaderHeader: "Forgot Password Submit",
     loaderText: "Resetting your password",
   },
+  FREE_CALLS_GETTING: {
+    loaderHeader: "Fetching Free Calls",
+    loaderText: "Please wait while we fetch the free call details",
+  },
   FETCH_SERVICE_DETAILS: {
     loaderHeader: "Fetching Service Details",
     loaderText: "Please wait while we fetch the service details",
