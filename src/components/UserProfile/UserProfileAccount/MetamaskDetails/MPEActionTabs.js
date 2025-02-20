@@ -28,7 +28,7 @@ const MPEActions = {
   [txnTypes.DEPOSIT]: "depositToEscrowAccount",
 };
 
-const MPEActionTabs = ({ classes, handleTitleChange }) => {
+const MPEActionTabs = ({ classes }) => {
   const [activeTab, setActiveTab] = useState(0);
   const [amount, setAmount] = useState({});
   const [alert, setAlert] = useState({});
@@ -42,7 +42,6 @@ const MPEActionTabs = ({ classes, handleTitleChange }) => {
   const onTabChange = (event, newValue) => {
     setAlert({});
     setActiveTab(newValue);
-    handleTitleChange(newValue);
   };
 
   const handleAmountChange = (event, txnType) => {

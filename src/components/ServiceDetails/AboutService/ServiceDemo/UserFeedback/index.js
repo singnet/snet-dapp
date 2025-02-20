@@ -1,11 +1,4 @@
 import React, { useState, useEffect, Fragment } from "react";
-import Modal from "@mui/material/Modal";
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CloseIcon from "@mui/icons-material/Close";
-import IconButton from "@mui/material/IconButton";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
 import Snackbar from "@mui/material/Snackbar";
 import StarRatingComponent from "react-star-rating-component";
 import { connect } from "react-redux";
@@ -16,10 +9,11 @@ import { useStyles } from "./styles";
 import StyledButton from "../../../../common/StyledButton";
 import { serviceActions } from "../../../../../Redux/actionCreators";
 import AlertBox from "../../../../common/AlertBox";
+import SNETDialog from "../../../../common/SNETDialog";
 
 const UserFeedback = ({ open, handleClose, feedback, submitFeedback, orgId, serviceId, refetchFeedback }) => {
   const [comment, setComment] = useState(feedback.comment);
-  const [openSnackbar, setOpenSnackbar] = useState(feedback.comment);
+  const [openSnackbar, setOpenSnackbar] = useState(Boolean(feedback.comment));
   const [count, setCount] = useState(feedback.comment.length);
   const [rating, setRating] = useState(feedback.rating);
   const [alert, setAlert] = useState({ type: "error", message: undefined });
@@ -73,49 +67,34 @@ const UserFeedback = ({ open, handleClose, feedback, submitFeedback, orgId, serv
 
   return (
     <Fragment>
-      <Modal open={open} onClose={handleCancel}>
-        <Card className={classes.card}>
-          <CardHeader
-            className={classes.cardHeader}
-            title={<h2>Write Your Own Review</h2>}
-            action={
-              <IconButton onClick={handleClose}>
-                <CloseIcon />
-              </IconButton>
-            }
+      <SNETDialog showCloseButton isDialogOpen={open} onDialogClose={handleCancel} title="Write Your Own Review">
+        <div className={classes.ratingConatiner}>
+          <StarRatingComponent
+            name="rate1"
+            starCount={5}
+            value={Number(rating)}
+            className={classes.ratingStars}
+            onStarClick={handlestartclick}
           />
-          <CardContent className={classes.cardContent}>
-            <div className={classes.ratingConatiner}>
-              <StarRatingComponent
-                name="rate1"
-                starCount={5}
-                value={rating}
-                className={classes.ratingStars}
-                onStarClick={handlestartclick}
-              />
-              <RatingsCount ratingGiven={rating} />
-            </div>
-            <div className={classes.InputWrapper}>
-              <StyledTextField
-                label="Review"
-                value={comment}
-                fullWidth
-                multiline
-                rowsMax="4"
-                onChange={handleCommentChange}
-                inputProps={{ maxLength: 500 }}
-                InputLabelProps={{ shrink: true }}
-              />
-              <span>{count} / 500 Characters</span>
-            </div>
-            <AlertBox type={alert.type} message={alert.message} />
-          </CardContent>
-          <CardActions className={classes.cardActions}>
-            <StyledButton type="transparent" btnText="Cancel" onClick={handleCancel} />
-            <StyledButton type="blue" btnText="Submit" onClick={handleSubmit} disabled={!shouldSubmitBeEnabled()} />
-          </CardActions>
-        </Card>
-      </Modal>
+          <RatingsCount ratingGiven={rating} />
+        </div>
+        <div className={classes.InputWrapper}>
+          <StyledTextField
+            label="Review"
+            value={comment}
+            fullWidth
+            multiline
+            rowsmax="4"
+            onChange={handleCommentChange}
+            inputProps={{ maxLength: 500 }}
+            InputLabelProps={{ shrink: true }}
+          />
+          <span>{count} / 500 Characters</span>
+        </div>
+        <AlertBox type={alert.type} message={alert.message} />
+        <StyledButton type="transparent" btnText="Cancel" onClick={handleCancel} />
+        <StyledButton type="blue" btnText="Submit" onClick={handleSubmit} disabled={!shouldSubmitBeEnabled()} />
+      </SNETDialog>
       <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleSnackbarClose} className={classes.snackbar}>
         <spna>Feedback updated successfully</spna>
       </Snackbar>

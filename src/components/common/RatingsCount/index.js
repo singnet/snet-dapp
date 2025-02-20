@@ -15,8 +15,8 @@ const RatingsCount = ({ ratingGiven, totalRating }) => {
 };
 
 RatingsCount.propTypes = {
-  ratingGiven: PropTypes.number,
-  totalRating: PropTypes.number,
+  ratingGiven: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  totalRating: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 
 export default RatingsCount;
