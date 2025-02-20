@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import Card from "../../common/Card";
 import DatasetUploader from "./DatasetUploader";
 import MergeIcon from "@mui/icons-material/CallMerge";
@@ -33,34 +33,33 @@ const DataPreset = ({ classes }) => {
   const mergeDataset = useSelector((state) => state.datasetReducer.mergeDataset);
   const recentDatasets = useSelector((state) => state.datasetReducer.recentDatasets);
 
+  const getStatistic = useCallback(
+    async (dataset, setDataset) => {
+      try {
+        dispatch(loaderActions.startAppLoader(LoaderContent.GET_DATASET_STATISTIC));
+        const datasetKey = dataset?.datasetKey;
+        const { data } = await dispatch(getDatasetStatistic(datasetKey));
+        const enrichedDataset = { ...dataset, additionalInfo: data };
+        const actualDatasetIndexInRecent = recentDatasets.find((el) => el.datasetKey === datasetKey);
+        if (!actualDatasetIndexInRecent) {
+          await dispatch(addRecentDataset(enrichedDataset));
+        } else {
+          await dispatch(updateRecentDataset(datasetKey, data));
+        }
+        await dispatch(setDataset(enrichedDataset));
+      } catch (error) {
+        console.error("getStatistic error", error);
+        dispatch(setDataset(null));
+      } finally {
+        dispatch(loaderActions.stopAppLoader());
+      }
+    },
+    [dispatch, recentDatasets]
+  );
+
   useEffect(() => {
     !!mainDataset && !mainDataset?.additionalInfo && getStatistic(mainDataset, setMainDataset);
-  }, [mainDataset]);
-
-  useEffect(() => {
-    !!mergeDataset && !mergeDataset?.additionalInfo && getStatistic(mergeDataset, setMergeDataset);
-  }, [mergeDataset]);
-
-  const getStatistic = async (dataset, setDataset) => {
-    try {
-      dispatch(loaderActions.startAppLoader(LoaderContent.GET_DATASET_STATISTIC));
-      const datasetKey = dataset?.datasetKey;
-      const { data } = await dispatch(getDatasetStatistic(datasetKey));
-      const enrichedDataset = { ...dataset, additionalInfo: data };
-      const actualDatasetIndexInRecent = recentDatasets.find((el) => el.datasetKey === datasetKey);
-      if (!actualDatasetIndexInRecent) {
-        await dispatch(addRecentDataset(enrichedDataset));
-      } else {
-        await dispatch(updateRecentDataset(datasetKey, data));
-      }
-      await dispatch(setDataset(enrichedDataset));
-    } catch (error) {
-      console.error("getStatistic error", error);
-      dispatch(setDataset(null));
-    } finally {
-      dispatch(loaderActions.stopAppLoader());
-    }
-  };
+  }, [mainDataset, getStatistic]);
 
   const cleanMainDataset = () => {
     dispatch(setMainDataset(mergeDataset));

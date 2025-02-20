@@ -20,25 +20,25 @@ const Onboarding = ({ classes }) => {
   const [activeSection, setActiveSection] = useState(0);
   const progressText = [{ label: "Authentication" }, { label: "Terms of service" }];
 
-  const initialChecks = () => {
-    if (!isEmailVerified) {
-      return;
-    }
-    if (activeSection === 0) {
-      setActiveSection(1);
-    }
-    if (isTermsAccepted) {
-      if (location?.state && location?.state?.sourcePath) {
-        navigate(location.state.sourcePath);
+  useEffect(() => {
+    const initialChecks = () => {
+      if (!isEmailVerified) {
         return;
       }
-      navigate(`/${Routes.AI_MARKETPLACE}`);
-    }
-  };
+      if (activeSection === 0) {
+        setActiveSection(1);
+      }
+      if (isTermsAccepted) {
+        if (location?.state && location?.state?.sourcePath) {
+          navigate(location.state.sourcePath);
+          return;
+        }
+        navigate(`/${Routes.AI_MARKETPLACE}`);
+      }
+    };
 
-  useEffect(() => {
     initialChecks();
-  }, []);
+  }, [navigate, isEmailVerified, isTermsAccepted, activeSection, location.state]);
 
   const handleNextSection = () => {
     setActiveSection(activeSection + 1);

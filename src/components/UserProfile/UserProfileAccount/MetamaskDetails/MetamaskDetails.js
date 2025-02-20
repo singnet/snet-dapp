@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { withStyles } from "@mui/styles";
 import { useStyles } from "./styles";
@@ -19,14 +19,7 @@ const MetamaskDetails = ({ classes }) => {
 
   const currentNetwork = Networks[process.env.REACT_APP_ETH_NETWORK];
 
-  useEffect(() => {
-    const getAccountDetails = async () => {
-      await retrieveAccountDetails();
-    };
-    getAccountDetails();
-  }, [wallet]);
-
-  const retrieveAccountDetails = async () => {
+  const retrieveAccountDetails = useCallback(async () => {
     try {
       dispatch(loaderActions.startAppLoader(LoaderContent.FETCH_MM_ACC_DETAILS));
       const sdk = await dispatch(sdkActions.getSdk());
@@ -36,12 +29,19 @@ const MetamaskDetails = ({ classes }) => {
       setEscrowBalance(cogsToAgi(escrowBalance));
       setTokenBalance(cogsToAgi(tokenBalance));
     } catch (error) {
-      console.log("error: ", error);
+      console.error("error: ", error);
       setAlert({ type: alertTypes.ERROR, message: `Unable to fetch account details` });
     } finally {
       dispatch(loaderActions.stopAppLoader());
     }
-  };
+  }, [dispatch]);
+
+  useEffect(() => {
+    const getAccountDetails = async () => {
+      await retrieveAccountDetails();
+    };
+    getAccountDetails();
+  }, [wallet, retrieveAccountDetails]);
 
   return (
     <div className={classes.accountDetails}>
