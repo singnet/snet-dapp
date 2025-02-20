@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import Tooltip from "@mui/material/Tooltip";
 import { withStyles } from "@mui/styles";
@@ -31,17 +31,10 @@ Click below to install and learn more about how to use Metamask and your AGIX cr
 
 const MIN_CALLS_NUMBER = 1;
 
-const paymentInfoCardData = {
-  mpeBal: {
-    title: "Escrow Balance",
-    id: "mpeBal",
-    unit: "AGIX",
-  },
-  channelBalance: {
-    title: "Channel Balance",
-    id: "channelBalance",
-    unit: "AGIX",
-  },
+const paymentInfoCardDatMpeBal = {
+  title: "Escrow Balance",
+  id: "mpeBal",
+  unit: "AGIX",
 };
 
 class MetamaskFlow extends Component {
@@ -99,7 +92,6 @@ class MetamaskFlow extends Component {
       startChannelSetupLoader();
       const sdk = await getSdk();
       const serviceClient = await sdk.createServiceClient(org_id, service_id);
-      // const serviceClient = new ServiceClient(sdk, org_id, service_id, sdk._mpeContract, {}, groupInfo);
       this.paymentChannelManagement = new PaymentChannelManagement(sdk, serviceClient);
       this.setState({ isStartServiceDisable: false });
     } catch (error) {
@@ -139,7 +131,7 @@ class MetamaskFlow extends Component {
   // };
 
   getBalanceData = async () => {
-    const { updateMetamaskWallet, startChannelSetupLoader, stopLoader } = this.props;
+    const { updateMetamaskWallet, startChannelSetupLoader, stopLoader, setIsLastPaidCall } = this.props;
     this.setState({ alert: {} });
     startChannelSetupLoader();
     try {
@@ -147,22 +139,29 @@ class MetamaskFlow extends Component {
       const mpeBal = await this.sdk.account.escrowBalance();
       const channelBalance = this.paymentChannelManagement.availableBalance();
       const channelBalanceInCogs = cogsToAgi(channelBalance);
-      console.log(channelBalanceInCogs);
 
-      if (channelBalanceInCogs > this.state.totalPrice) {
+      if (channelBalanceInCogs === this.state.totalPrice) {
         await this.handleSubmit();
+        setIsLastPaidCall(true);
+        return;
+      }
+      if (channelBalanceInCogs > this.state.totalPrice) {
+        setIsLastPaidCall(false);
+        await this.handleSubmit();
+        return;
       }
       // await this.updateChannelBalanceAPI();
       this.handleDisabledPaytypes(channelBalance, mpeBal);
       this.setState({
         mpeBal: cogsToAgi(mpeBal),
         channelBalance: channelBalanceInCogs,
+        selectedPayType: payTypes.MULTIPLE_CALLS,
       });
     } catch (error) {
-      console.log("getBalanceData error");
       this.setState({ alert: connectMMinfo });
+    } finally {
+      stopLoader();
     }
-    stopLoader();
   };
 
   handlePayTypeChange = (value) => {
@@ -210,12 +209,12 @@ class MetamaskFlow extends Component {
     if (!this.isValidCallsNumber(noOfServiceCalls)) {
       return;
     }
-    const totalPrice = String(cogsToAgi(this.paymentChannelManagement.noOfCallsToCogs(noOfServiceCalls)));
+    const totalPrice = cogsToAgi(this.paymentChannelManagement.noOfCallsToCogs(noOfServiceCalls));
     this.setState({ noOfServiceCalls, totalPrice });
   };
 
   handleSubmit = async () => {
-    const { startChannelSetupLoader, stopLoader, handleContinue } = this.props;
+    const { startChannelSetupLoader, stopLoader, handleContinue, setIsLastPaidCall } = this.props;
     startChannelSetupLoader();
     this.setState({ alert: {} });
 
@@ -229,13 +228,19 @@ class MetamaskFlow extends Component {
         handleContinue();
       } catch (e) {
         this.setState({ alert: { type: alertTypes.ERROR, message: e.message } });
+      } finally {
+        stopLoader();
       }
-      stopLoader();
       return;
     }
+
     if (selectedPayType === payTypes.SINGLE_CALL) {
       noOfServiceCalls = 1;
     }
+    if (noOfServiceCalls === 1) {
+      setIsLastPaidCall(true);
+    }
+
     try {
       const mpeBal = await this.sdk.account.escrowBalance();
       if (mpeBal < this.paymentChannelManagement.noOfCallsToCogs(noOfServiceCalls)) {
@@ -310,7 +315,6 @@ class MetamaskFlow extends Component {
     const {
       showPurchaseDialog,
       channelBalance,
-      // channelBalanceFromBack,
       selectedPayType,
       disabledPayTypes,
       noOfServiceCalls,
@@ -319,19 +323,10 @@ class MetamaskFlow extends Component {
       showTooltip,
       isStartServiceDisable,
     } = this.state;
+
     if (isUndefined(channelBalance) || isNaN(channelBalance)) {
-      // const channelBalanceCard = paymentInfoCardData.channelBalance;
       return (
         <>
-          {/* {this.sdk && (
-            <PaymentInfoCard
-              key={channelBalanceCard.id}
-              title={channelBalanceCard.title}
-              value={channelBalanceFromBack}
-              unit={channelBalanceCard.unit}
-            />
-          )} */}
-          {/* <div className={classes.runServiceContainer}> */}
           <StyledButton
             type="blue"
             btnText="run service"
@@ -339,34 +334,22 @@ class MetamaskFlow extends Component {
             disabled={isStartServiceDisable}
           />
           <AlertBox type={alert.type} message={alert.message} />
-          {/* </div> */}
         </>
       );
     }
+
     return (
-      <div className={classes.PurchaseFlowContainer}>
-        <PurchaseDialog show={showPurchaseDialog} onClose={this.handlePurchaseDialogClose} />
+      <Fragment>
         <div className={classes.paymentInfoCard}>
-          {Object.values(paymentInfoCardData).map((item) => (
-            <PaymentInfoCard key={item.id} title={item.title} value={this.state[item.id]} unit={item.unit} />
-          ))}
-        </div>
-        <div className={classes.ChannelSelectionBoxMainContainer}>
-          <span className={classes.channelSelectionTitle}>Best Value</span>
-          <ChannelSelectionBox
-            title="Multiple Calls"
-            description="Select the no of calls you want to make. The tokens are purchased from the available escrow balance. This  option helps save the gas cost."
-            checked={selectedPayType === payTypes.MULTIPLE_CALLS}
-            value={payTypes.MULTIPLE_CALLS}
-            onClick={() => this.handlePayTypeChange(payTypes.MULTIPLE_CALLS)}
-            inputProps={{
-              noOfServiceCalls,
-              onChange: this.handleNoOfCallsChange,
-              totalPrice,
-              unit: "AGIX",
-            }}
-            disabled={disabledPayTypes.includes(payTypes.MULTIPLE_CALLS)}
+          <PaymentInfoCard
+            key={paymentInfoCardDatMpeBal.id}
+            title={paymentInfoCardDatMpeBal.title}
+            value={this.state[paymentInfoCardDatMpeBal.id]}
+            unit={paymentInfoCardDatMpeBal.unit}
           />
+        </div>
+        <div className={classes.runServiceContainer}>
+          <PurchaseDialog show={showPurchaseDialog} onClose={this.handlePurchaseDialogClose} />
           <ChannelSelectionBox
             title="Single Call"
             description="Tokens are purchsed for a single call. The tokens are purchsed from the available escrow balance."
@@ -380,33 +363,50 @@ class MetamaskFlow extends Component {
             }}
             disabled={disabledPayTypes.includes(payTypes.SINGLE_CALL)}
           />
+          <div className={classes.bestValueContainer}>
+            <div className={classes.channelSelectionTitle}>Best Value</div>
+            <ChannelSelectionBox
+              title="Multiple Calls"
+              description="Select the no of calls you want to make. The tokens are purchased from the available escrow balance. This  option helps save the gas cost."
+              checked={selectedPayType === payTypes.MULTIPLE_CALLS}
+              value={payTypes.MULTIPLE_CALLS}
+              onClick={() => this.handlePayTypeChange(payTypes.MULTIPLE_CALLS)}
+              inputProps={{
+                noOfServiceCalls,
+                onChange: this.handleNoOfCallsChange,
+                totalPrice,
+                unit: "AGIX",
+              }}
+              disabled={disabledPayTypes.includes(payTypes.MULTIPLE_CALLS)}
+            />
+          </div>
+          <AlertBox type={alert.type} message={alert.message} />
+          <div className={classes.buttonContainer}>
+            <StyledButton
+              type={this.shouldDepositToEscrowBeHighlighted() ? "blue" : "transparent"}
+              btnText="Deposit into Escrow"
+              onClick={this.handlePurchaseDialogOpen}
+            />
+            <Tooltip
+              title="Service is currently offline. Please try after sometime"
+              aria-label="add-payment"
+              open={showTooltip}
+              onOpen={this.handleTooltipOpen}
+              onClose={this.handleTooltipClose}
+              className={classes.tooltip}
+            >
+              <div>
+                <StyledButton
+                  type="blue"
+                  btnText="Continue"
+                  onClick={this.handleSubmit}
+                  disabled={!this.shouldContinueBeEnabled()}
+                />
+              </div>
+            </Tooltip>
+          </div>
         </div>
-        <AlertBox type={alert.type} message={alert.message} />
-        <div className={classes.buttonContainer}>
-          <StyledButton
-            type={this.shouldDepositToEscrowBeHighlighted() ? "blue" : "transparent"}
-            btnText="Deposit into Escrow"
-            onClick={this.handlePurchaseDialogOpen}
-          />
-          <Tooltip
-            title="Service is currently offline. Please try after sometime"
-            aria-label="add-payment"
-            open={showTooltip}
-            onOpen={this.handleTooltipOpen}
-            onClose={this.handleTooltipClose}
-            className={classes.tooltip}
-          >
-            <div>
-              <StyledButton
-                type="blue"
-                btnText="Continue"
-                onClick={this.handleSubmit}
-                disabled={!this.shouldContinueBeEnabled()}
-              />
-            </div>
-          </Tooltip>
-        </div>
-      </div>
+      </Fragment>
     );
   }
 }
@@ -419,7 +419,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   startChannelSetupLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.SETUP_CHANNEL_FOR_SERV_EXEC)),
   updateMetamaskWallet: () => dispatch(userActions.updateMetamaskWallet()),
-  // stopWalletDetailsPolling: () => dispatch(userActions.stopWalletDetailsPolling),
   stopLoader: () => dispatch(loaderActions.stopAppLoader()),
   getSdk: () => dispatch(sdkActions.getSdk()),
   // updateChannelBalanceAPI: (orgId, serviceId, groupId, authorizedAmount, fullAmount, channelId, nonce) =>
