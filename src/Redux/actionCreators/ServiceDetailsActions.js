@@ -88,7 +88,8 @@ export const fetchMeteringData =
   async (dispatch) => {
     const { email, token } = await dispatch(fetchAuthenticatedUser());
     const usageData = await meteringAPI(token, orgId, serviceId, groupId, email);
-    return dispatch(fetchMeteringDataSuccess(usageData));
+    dispatch(fetchMeteringDataSuccess(usageData));
+    return usageData;
   };
 
 export const getIsTrainingAvailable = (detailsTraining, isLoggedIn) => {

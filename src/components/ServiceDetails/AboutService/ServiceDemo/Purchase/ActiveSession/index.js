@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { withStyles } from "@mui/styles";
 import Tooltip from "@mui/material/Tooltip";
-import CircularProgress from "@mui/material/CircularProgress";
 
 import AlertBox from "../../../../../common/AlertBox";
 import StyledButton from "../../../../../common/StyledButton";
@@ -14,20 +13,12 @@ import { currentServiceDetails } from "../../../../../../Redux/reducers/ServiceD
 import { isUndefined } from "lodash";
 import { updateMetamaskWallet } from "../../../../../../Redux/actionCreators/UserActions";
 
-const ActiveSession = ({
-  classes,
-  isFreecallLoading,
-  freeCallsRemaining,
-  handleComplete,
-  freeCallsAllowed,
-  isServiceAvailable,
-}) => {
+const ActiveSession = ({ classes, freeCallsRemaining, handleComplete, freeCallsAllowed, isServiceAvailable }) => {
   const dispatch = useDispatch();
   const { detailsTraining } = useSelector((state) => state.serviceDetailsReducer);
   const { org_id, service_id } = useSelector((state) => currentServiceDetails(state));
   const { modelsList } = useSelector((state) => state.serviceTrainingReducer);
   const isLoggedIn = useSelector((state) => state.userReducer.login.isLoggedIn);
-
   const [showTooltip, setShowTooltip] = useState(false);
 
   const progressValue = () => (freeCallsRemaining / freeCallsAllowed) * 100;
@@ -49,7 +40,7 @@ const ActiveSession = ({
     await dispatch(getTrainingModels(org_id, service_id, address));
   };
 
-  const isActionsDisabled = !isServiceAvailable || isFreecallLoading;
+  const isActionsDisabled = !isServiceAvailable;
 
   return (
     <div className={classes.activeSessionContainer}>
@@ -60,9 +51,7 @@ const ActiveSession = ({
       />
       <div className={classes.freeCallsInfo}>
         <span className={classes.FreeApiCallsText}>Free API Calls</span>
-        <span className={classes.ReaminaingCallsNo}>
-          {isFreecallLoading ? <CircularProgress size="20px" /> : freeCallsRemaining}
-        </span>
+        <span className={classes.ReaminaingCallsNo}>{freeCallsRemaining}</span>
         <StyledLinearProgress value={progressValue()} />
       </div>
       <Tooltip

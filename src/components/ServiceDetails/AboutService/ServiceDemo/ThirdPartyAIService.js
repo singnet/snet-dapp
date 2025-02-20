@@ -11,6 +11,7 @@ import ThirdPartyServiceErrorBoundary from "./ThirdPartyServiceErrorBoundary";
 import { channelInfo } from "../../../../Redux/reducers/UserReducer";
 import { isEmpty } from "lodash";
 import { modelStatus } from "../../../../Redux/reducers/ServiceTrainingReducer";
+import { freeCalls, groupInfo } from "../../../../Redux/reducers/ServiceDetailsReducer";
 
 class ThirdPartyAIService extends Component {
   state = {
@@ -117,6 +118,8 @@ const mapStateToProps = (state) => ({
   email: state.userReducer.email,
   wallet: state.userReducer.wallet,
   channelInfo: channelInfo(state),
+  groupInfo: groupInfo(state),
+  freeCallsRemaining: freeCalls(state).remaining,
 });
 
 const mapDispatchToProps = (dispatch) => ({
