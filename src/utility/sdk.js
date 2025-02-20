@@ -9,6 +9,7 @@ import { store } from "../";
 import ProxyPaymentChannelManagementStrategy from "./ProxyPaymentChannelManagementStrategy";
 import { isEmpty, isUndefined } from "lodash";
 import Web3 from "web3";
+import { ethereumMethods } from "./snetSdk";
 
 const DEFAULT_GAS_PRICE = 4700000;
 const DEFAULT_GAS_LIMIT = 210000;
@@ -193,7 +194,6 @@ const clearSdk = () => {
 
 const addListenersForWeb3 = () => {
   window.ethereum.addListener(ON_ACCOUNT_CHANGE, async (accounts) => {
-    console.log("ON_ACCOUNT_CHANGE");
     await getWeb3Address();
     clearSdk();
     const event = new CustomEvent("snetMMAccountChanged", { bubbles: true, details: accounts[0] });
@@ -208,7 +208,7 @@ const addListenersForWeb3 = () => {
 
 export const getWeb3Address = async () => {
   defineWeb3Provider();
-  await window.ethereum.enable();
+  await window.ethereum.request({ method: ethereumMethods.REQUEST_ACCOUNTS });
   const isExpectedNetwork = await isUserAtExpectedEthereumNetwork();
 
   if (!isExpectedNetwork) {
