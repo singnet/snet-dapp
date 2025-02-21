@@ -98,11 +98,6 @@ export const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.text.white,
     "& button": { padding: 0 },
   },
-  showMore: {
-    padding: 0,
-    margin: 0,
-    color: theme.palette.text.lightShadedGray,
-  },
   ratingStars: {
     "& label": { fontSize: 24 },
     "& .dv-star-rating-empty-star i": { color: theme.palette.text.disabledBtnBg },
