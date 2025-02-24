@@ -21,14 +21,18 @@ export default class PaymentChannelManagement {
   }
 
   async updateChannelInfo() {
-    const channels = await this.serviceClient.loadOpenChannels();
-    if (isEmpty(channels)) {
-      return;
-    }
+    try {
+      const channels = await this.serviceClient.loadOpenChannels();
+      if (isEmpty(channels)) {
+        return;
+      }
 
-    this._channel = minBy(channels, ({ channelId }) => channelId);
-    updateChannel(this._channel);
-    await this._channel.syncState();
+      this._channel = minBy(channels, ({ channelId }) => channelId);
+      updateChannel(this._channel);
+      await this._channel.syncState();
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
   async openChannel(noOfServiceCalls = 1) {
@@ -48,11 +52,15 @@ export default class PaymentChannelManagement {
   }
 
   async extendAndAddFunds(noOfServiceCalls = 1) {
-    const serviceCallPrice = this.noOfCallsToCogs(noOfServiceCalls);
-    const defaultExpiration = await this._channelExtensionBlockNumber();
+    try {
+      const serviceCallPrice = this.noOfCallsToCogs(noOfServiceCalls);
+      const defaultExpiration = await this._channelExtensionBlockNumber();
 
-    await this._channel.extendAndAddFunds(defaultExpiration, serviceCallPrice);
-    await this._channel.syncState();
+      await this._channel.extendAndAddFunds(defaultExpiration, serviceCallPrice);
+      await this._channel.syncState();
+    } catch (err) {
+      throw new Error(err?.message);
+    }
   }
 
   async canUseChannel() {

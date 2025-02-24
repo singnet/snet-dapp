@@ -36,7 +36,7 @@ const description = {
   [orderTypes.CREATE_CHANNEL]: `Please enter the payment type in the box below, along with the amount you would like to enter into the payment channel.`,
 };
 
-const Details = ({ classes, handleClose, orderType, userProvidedPrivateKey: privateKey }) => {
+const Details = ({ classes, handleClose, orderType, handleNextSection, userProvidedPrivateKey: privateKey }) => {
   const dispatch = useDispatch();
   const { orgId, serviceId } = useParams();
 
@@ -56,7 +56,7 @@ const Details = ({ classes, handleClose, orderType, userProvidedPrivateKey: priv
   const [alert, setAlert] = useState({});
   const [amountError, setAmountError] = useState();
 
-  const initiatePayment = (
+  const initiatePayment = async (
     // payType,
     amount,
     currency,
@@ -87,7 +87,7 @@ const Details = ({ classes, handleClose, orderType, userProvidedPrivateKey: priv
       payment_method: payType,
     };
 
-    return dispatch(paymentActions.initiatePayment(paymentObj));
+    return await dispatch(paymentActions.initiatePayment(paymentObj));
   };
 
   const handleAmountChange = (event) => {
@@ -141,7 +141,8 @@ const Details = ({ classes, handleClose, orderType, userProvidedPrivateKey: priv
       if (orderType === orderTypes.CREATE_CHANNEL) {
         var { signature, address, currentBlockNumber } = await generateSignature();
       }
-      initiatePayment(amount, currency, "AGIX", amountInAGI, signature, address, currentBlockNumber);
+      await initiatePayment(amount, currency, "AGIX", amountInAGI, signature, address, currentBlockNumber);
+      handleNextSection();
     } catch (error) {
       setAlert({ type: alertTypes.ERROR, message: `${error.message}. Please try again` });
     }

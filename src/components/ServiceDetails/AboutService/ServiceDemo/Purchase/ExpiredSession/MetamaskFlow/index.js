@@ -263,11 +263,10 @@ class MetamaskFlow extends Component {
       } else {
         await this.paymentChannelManagement.extendAndAddFunds(noOfServiceCalls);
       }
-
       handleContinue();
-      stopLoader();
     } catch (error) {
       this.setState({ alert: { type: alertTypes.ERROR, message: "Unable to execute the call" } });
+    } finally {
       stopLoader();
     }
   };

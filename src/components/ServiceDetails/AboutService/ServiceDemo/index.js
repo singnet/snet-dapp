@@ -38,6 +38,8 @@ const ServiceDemo = ({ classes, service }) => {
   const [isLastPaidCall, setIsLastPaidCall] = useState(false);
 
   const checkForPaymentsInProgress = useCallback(async () => {
+    console.log("checkForPaymentsInProgress location: ", location);
+
     const { paymentId: paypalPaymentId, PayerID } = queryString.parse(location);
     if (orderId && paymentId && paypalPaymentId && PayerID) {
       const { data } = await dispatch(paymentActions.fetchOrderDetails(orderId));
