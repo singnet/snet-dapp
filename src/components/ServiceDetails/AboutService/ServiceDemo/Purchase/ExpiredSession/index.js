@@ -10,7 +10,7 @@ import { walletTypes } from "../../../../../../Redux/actionCreators/UserActions"
 import StyledDropdown from "../../../../../common/StyledDropdown";
 import PaymentInfoCard from "../PaymentInfoCard";
 import isEmpty from "lodash/isEmpty";
-import { userActions, sdkActions, loaderActions } from "../../../../../../Redux/actionCreators";
+import { userActions, loaderActions } from "../../../../../../Redux/actionCreators";
 import WalletDetailsToggler from "./WalletDetailsToggler";
 import { channelInfo } from "../../../../../../Redux/reducers/UserReducer";
 import { anyPendingTxn, anyFailedTxn } from "../../../../../../Redux/reducers/PaymentReducer";
@@ -71,15 +71,10 @@ class ExpiredSession extends Component {
           <div className={classes.paymentChannelDropDownContainer}>
             <div className={classes.paymentChannelDropDown}>
               <Typography className={classes.dropDownTitle} variant="subtitle1">
-                Payment Channel
+                Payment Type
               </Typography>
               <AccountBalanceWalletIcon className={classes.walletIcon} />
-              <StyledDropdown
-                labelTxt="Select a Wallet"
-                list={channelPaymentOptions}
-                value={wallet.type || "default"}
-                onChange={this.handlePayTypeChange}
-              />
+              <StyledDropdown list={channelPaymentOptions} value={wallet.type} onChange={this.handlePayTypeChange} />
             </div>
           </div>
           {wallet.type === walletTypes.GENERAL && (
@@ -121,7 +116,6 @@ const mapDispatchToProps = (dispatch) => ({
   registerWallet: (address, type) => dispatch(userActions.registerWallet(address, type)),
   startChannelSetupLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.SETUP_CHANNEL_FOR_SERV_EXEC)),
   stopLoader: () => dispatch(loaderActions.stopAppLoader()),
-  getSdk: () => dispatch(sdkActions.getSdk()),
   // stopWalletDetailsPolling: () => dispatch(userActions.stopWalletDetailsPolling),
 });
 
