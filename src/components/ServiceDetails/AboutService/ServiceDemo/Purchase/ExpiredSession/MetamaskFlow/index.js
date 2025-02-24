@@ -56,8 +56,14 @@ class MetamaskFlow extends Component {
   serviceClient;
 
   componentDidMount = async () => {
-    this.sdk = await this.props.getSdk();
-    await this.initializedPaymentChannel();
+    try {
+      this.sdk = await this.props.getSdk();
+      await this.initializedPaymentChannel();
+      this.setState({ isStartServiceDisable: false });
+    } catch (err) {
+      this.setState({ isStartServiceDisable: true });
+      this.setState({ alert: { type: alertTypes.ERROR, message: err.message } });
+    }
     // await this.getChannelBalanceFromBack();
   };
 
@@ -95,7 +101,6 @@ class MetamaskFlow extends Component {
       this.paymentChannelManagement = new PaymentChannelManagement(sdk, serviceClient);
       this.setState({ isStartServiceDisable: false });
     } catch (error) {
-      console.log("initializedPaymentChannel error: ", error);
       this.setState({ isStartServiceDisable: true });
       this.setState({ alert: connectMMinfo });
     }
@@ -258,11 +263,10 @@ class MetamaskFlow extends Component {
       } else {
         await this.paymentChannelManagement.extendAndAddFunds(noOfServiceCalls);
       }
-
       handleContinue();
-      stopLoader();
     } catch (error) {
       this.setState({ alert: { type: alertTypes.ERROR, message: "Unable to execute the call" } });
+    } finally {
       stopLoader();
     }
   };
@@ -333,7 +337,9 @@ class MetamaskFlow extends Component {
             onClick={this.getPaymentChannelData}
             disabled={isStartServiceDisable}
           />
-          <AlertBox type={alert.type} message={alert.message} />
+          <div className={classes.alertContainer}>
+            <AlertBox type={alert.type} message={alert.message} />
+          </div>
         </>
       );
     }

@@ -26,7 +26,7 @@ const GeneralAccountWallet = ({ classes, handleContinue }) => {
   return (
     <Fragment>
       <div className={classes.btnsContainer}>
-        <Link to={userProfileRoutes.TRANSACTIONS} className={classes.routerLink}>
+        <Link to={userProfileRoutes.TRANSACTIONS} target="_blank" className={classes.routerLink}>
           <StyledButton type="transparentBlueBorder" btnText="transaction history" />
         </Link>
         <StyledButton

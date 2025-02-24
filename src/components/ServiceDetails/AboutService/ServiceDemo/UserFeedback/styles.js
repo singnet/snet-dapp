@@ -66,9 +66,10 @@ export const useStyles = makeStyles((theme) => ({
     padding: "10px 15px",
     borderRadius: 5,
     top: 20,
-    right: -100,
+    right: 15,
     bottom: "auto",
     left: "auto",
+    boxShadow: "0 0 10px #d8ffda",
   },
   ratingConatiner: {
     "& p": {

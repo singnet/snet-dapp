@@ -5,8 +5,6 @@ import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import IconButton from "@mui/material/IconButton";
 import Avatar from "@mui/material/Avatar";
 
 import RatingsCount from "../../../../common/RatingsCount";
@@ -47,9 +45,6 @@ const StyledCard = (props) => {
       </CardContent>
       <CardActions className={classes.cardActions}>
         <ServiceAvailabilityToggler isAvailable={props.isAvailable} />
-        <IconButton aria-label="Settings" className={classes.showMore}>
-          <MoreVertIcon />
-        </IconButton>
       </CardActions>
     </Card>
   );

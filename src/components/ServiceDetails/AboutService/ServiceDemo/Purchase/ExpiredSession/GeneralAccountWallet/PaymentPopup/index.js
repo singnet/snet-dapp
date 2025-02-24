@@ -1,10 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { withStyles } from "@mui/styles";
 import { useDispatch, useSelector } from "react-redux";
-import pickBy from "lodash/pickBy";
 
 import { paymentActions, userActions } from "../../../../../../../../Redux/actionCreators";
-import { groupInfo as getGroupInfo } from "../../../../../../../../Redux/reducers/ServiceDetailsReducer";
 
 import Details from "./Details";
 import Purchase from "./Purchase";
@@ -13,34 +11,31 @@ import Summary from "./Summary";
 import { useStyles } from "./styles";
 import Routes from "../../../../../../../../utility/constants/Routes";
 import VerifyKey from "./VerifyKey";
-import {
-  orderPayloadTypes,
-  orderTypes,
-  paymentTitles,
-} from "../../../../../../../../utility/constants/PaymentConstants";
+import { orderTypes, paymentTitles } from "../../../../../../../../utility/constants/PaymentConstants";
 import { useNavigate, useParams } from "react-router-dom";
 import SNETDialog from "../../../../../../../common/SNETDialog";
 import ProgressBar from "../../../../../../../common/ProgressBar";
+import { isEmpty } from "lodash";
 
-// const indexOfPurchaseSection = {
-//   [orderTypes.CREATE_WALLET]: 1,
-//   [orderTypes.TOPUP_WALLET]: 2,
-//   [orderTypes.CREATE_CHANNEL]: 3,
-// };
+const indexOfPurchaseSection = {
+  [orderTypes.CREATE_WALLET]: 1,
+  [orderTypes.TOPUP_WALLET]: 2,
+  [orderTypes.CREATE_CHANNEL]: 3,
+};
 
 const PaymentPopup = ({ classes, isVisible, handleClose, paymentModalType }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { orgId, serviceId } = useParams();
 
-  const group = useSelector((state) => getGroupInfo(state));
-
-  const [activeSection, setActiveSection] = useState(0); //indexOfPurchaseSection[paymentModalType] || 1);
+  const [activeSection, setActiveSection] = useState(indexOfPurchaseSection[paymentModalType] || 0);
   const [userProvidedPrivateKey, setUserProvidedPrivateKey] = useState();
   const [amount, setAmount] = useState("");
   const [item, setItem] = useState("");
   const [quantity, setQuantity] = useState("");
   const [privateKeyGenerated, setPrivateKeyGenerated] = useState();
+
+  const paypalInProgress = useSelector((state) => state.paymentReducer.paypalInProgress);
 
   useEffect(() => {
     dispatch(paymentActions.fetchUSDConversionRate());
@@ -48,18 +43,19 @@ const PaymentPopup = ({ classes, isVisible, handleClose, paymentModalType }) => 
 
   const title = paymentTitles[paymentModalType];
 
-  // const purchaseWallet = () => {
-  //   if (paypalInProgress.orderType === orderType) {
-  //     setActiveSection(indexOfPurchaseSection[orderType]);
-  //   }
-  // };
+  const purchaseWallet = () => {
+    if (paypalInProgress.orderType === paymentModalType) {
+      setActiveSection(indexOfPurchaseSection[paymentModalType]);
+    }
+  };
 
-  // useEffect(() => {
-  //   if (!isEmpty(paypalInProgress)) {
-  //     purchaseWallet();
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+  useEffect(() => {
+    console.log("paypalInProgress: ", paypalInProgress);
+
+    if (!isEmpty(paypalInProgress)) {
+      purchaseWallet();
+    }
+  }, []);
 
   const handleCancel = () => {
     // if (activeSection === indexOfPurchaseSection[paymentModalType]) {
@@ -85,48 +81,17 @@ const PaymentPopup = ({ classes, isVisible, handleClose, paymentModalType }) => 
     }
   };
 
-  const handleInitiatePayment = (
-    payType,
-    amount,
-    currency,
-    item,
-    quantity,
-    base64Signature,
-    address,
-    currentBlockNumber
-  ) => {
-    const itemDetails = {
-      item,
-      quantity: Number(quantity),
-      org_id: orgId,
-      service_id: serviceId,
-      group_id: group.group_id,
-      recipient: group.payment.payment_address,
-      order_type: orderPayloadTypes[paymentModalType],
-      signature: base64Signature,
-      wallet_address: address,
-      current_block_number: currentBlockNumber,
-    };
-
-    const enhancedItemDetails = pickBy(itemDetails, (el) => el !== undefined); // removed all undefined fields
-
-    const paymentObj = {
-      price: { amount: Number(amount), currency },
-      item_details: enhancedItemDetails,
-      payment_method: "paypal",
-    };
-
-    return dispatch(paymentActions.initiatePayment(paymentObj));
-  };
-
   const executePaymentCompleted = useCallback(
     async (data, orgId, group_id) => {
       await dispatch(userActions.fetchWallet(orgId, group_id));
+      console.log("fetchWallet data: ", data);
+
       const {
         private_key: privateKeyGenerated,
         item_details: { item, quantity },
         price: { amount },
       } = data;
+
       setPrivateKeyGenerated(privateKeyGenerated);
       setAmount(amount);
       setQuantity(quantity);
@@ -144,7 +109,6 @@ const PaymentPopup = ({ classes, isVisible, handleClose, paymentModalType }) => 
       component: (
         <Details
           handleNextSection={handleNextSection}
-          initiatePayment={handleInitiatePayment}
           handleClose={handleCancel}
           userProvidedPrivateKey={userProvidedPrivateKey}
           orderType={paymentModalType}
