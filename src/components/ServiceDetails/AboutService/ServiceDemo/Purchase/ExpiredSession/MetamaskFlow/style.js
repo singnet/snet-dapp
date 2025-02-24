@@ -73,4 +73,8 @@ export const useStyles = (theme) => ({
     },
   },
   tooltip: { fontSize: 14 },
+  alertContainer: {
+    width: "100%",
+    flexShrink: 0,
+  },
 });
