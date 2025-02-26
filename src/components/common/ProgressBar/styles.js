@@ -6,7 +6,6 @@ export const useStyles = (theme) => ({
       margin: 0,
       padding: 0,
       display: "flex",
-      flexWrap: "wrap",
       gap: 15,
       justifyContent: "center",
       "@media (max-width:420px)": {
