@@ -24,7 +24,7 @@ export const initiatePayment = (paymentObj) => async (dispatch) => {
     if (error.code) {
       throw error;
     }
-    window.open(data.payment.payment_url, "_blank");
+    window.location.replace(data.payment.payment_url);
   } catch (error) {
     console.error(error);
     throw error;
