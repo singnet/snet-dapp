@@ -146,7 +146,7 @@ class PaypalSDK extends SnetSDK {
   }
 }
 
-export const initPaypalSdk = (address, channelInfo) => {
+export const initPaypalSdk = (address, channelId) => {
   const config = {
     networkId: process.env.REACT_APP_ETH_NETWORK,
     web3Provider: process.env.REACT_APP_WEB3_PROVIDER,
@@ -154,7 +154,7 @@ export const initPaypalSdk = (address, channelInfo) => {
     defaultGasLimit: DEFAULT_GAS_LIMIT,
   };
   sdk = new PaypalSDK(address, config, {});
-  sdk.paymentChannelManagementStrategy = new PaypalPaymentMgmtStrategy(sdk, channelInfo.id);
+  sdk.paymentChannelManagementStrategy = new PaypalPaymentMgmtStrategy(sdk, channelId);
 };
 
 export const updateChannel = (newChannel) => {

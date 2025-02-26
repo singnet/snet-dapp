@@ -9,7 +9,7 @@ import { LoaderContent } from "../../../../../utility/constants/LoaderContent";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import "./styles.css";
 
-const Purchase = ({ handleComplete, wallet, handlePurchaseError, isServiceAvailable, setIsLastPaidCall }) => {
+const Purchase = ({ handleComplete, handlePurchaseError, isServiceAvailable, setIsLastPaidCall }) => {
   const dispatch = useDispatch();
   const { org_id, service_id } = useSelector((state) => currentServiceDetails(state));
   const group_id = useSelector((state) => groupInfo(state).group_id);
@@ -59,7 +59,6 @@ const Purchase = ({ handleComplete, wallet, handlePurchaseError, isServiceAvaila
       <ExpiredSession
         setIsLastPaidCall={setIsLastPaidCall}
         handleComplete={handleComplete}
-        wallet={wallet}
         handlePurchaseError={handlePurchaseError}
         isServiceAvailable={isServiceAvailable}
       />

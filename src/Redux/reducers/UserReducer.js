@@ -127,7 +127,7 @@ const userReducer = (state = InitialUserDetails, action) => {
 };
 
 export const channelInfo = (state) => {
-  const { walletList } = userReducer;
+  const { walletList } = state.userReducer;
   if (isEmpty(walletList)) {
     return {};
   }

@@ -8,13 +8,31 @@ import { useStyles } from "./styles";
 import PurchaseAlert from "./PurchaseAlert";
 import { alertTypes } from "../../../../../../../../common/AlertBox";
 import { useDispatch, useSelector } from "react-redux";
-import { paymentActions } from "../../../../../../../../../Redux/actionCreators";
+import { paymentActions, userActions } from "../../../../../../../../../Redux/actionCreators";
 
-const Purchase = ({ classes, handleCancel, handleNext, executePaymentCompleted }) => {
+const Purchase = ({ classes, handleCancel, handleNext, setAmount, setPrivateKeyGenerated }) => {
   const dispatch = useDispatch();
   const paypalInProgress = useSelector((state) => state.paymentReducer.paypalInProgress);
 
   const [alert, setAlert] = useState({});
+
+  const executePaymentCompleted = useCallback(
+    async (data, orgId, group_id) => {
+      await dispatch(userActions.fetchWallet(orgId, group_id));
+
+      const {
+        private_key: privateKey,
+        item_details: { item, quantity },
+        price: { amount },
+      } = data;
+
+      setPrivateKeyGenerated(privateKey);
+      setAmount({ amount, quantity, item });
+      handleNext();
+      return;
+    },
+    [dispatch, setAmount, setPrivateKeyGenerated, handleNext]
+  );
 
   const executePayment = useCallback(async () => {
     const paymentExecObj = {
@@ -51,7 +69,7 @@ const Purchase = ({ classes, handleCancel, handleNext, executePaymentCompleted }
   }, [executePayment, handleNext, paypalInProgress]);
 
   if (!isEmpty(alert)) {
-    return <PurchaseAlert alert={alert} handleCancel={handleCancel} orderId={paypalInProgress.orderId} />;
+    return <PurchaseAlert alert={alert} handleCancel={handleCancel} />;
   }
 
   return (

@@ -1,10 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { withStyles } from "@mui/styles";
-import { useDispatch, useSelector } from "react-redux";
-import queryString from "query-string";
+import { useDispatch } from "react-redux";
 
-import { loaderActions, userActions, paymentActions } from "../../../../Redux/actionCreators";
-import { walletTypes } from "../../../../Redux/actionCreators/UserActions";
+import { loaderActions } from "../../../../Redux/actionCreators";
 
 import ProgressBar from "../../../common/ProgressBar";
 import { useStyles } from "./styles";
@@ -13,7 +11,7 @@ import { LoaderContent } from "../../../../utility/constants/LoaderContent";
 import AlertBox, { alertTypes } from "../../../common/AlertBox";
 import Routes from "../../../../utility/constants/Routes";
 import { progressTabStatus } from "../../../common/ProgressBar";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const demoProgressStatus = {
   purchasing: 0,
@@ -24,8 +22,6 @@ const demoProgressStatus = {
 const ServiceDemo = ({ classes, service }) => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const { orderId, paymentId } = useParams();
-  const wallet = useSelector((state) => state.userReducer.wallet);
 
   const [progressText, setProgressText] = useState([
     { label: "Purchase" },
@@ -37,18 +33,6 @@ const ServiceDemo = ({ classes, service }) => {
   const [alert, setAlert] = useState({});
   const [isLastPaidCall, setIsLastPaidCall] = useState(false);
 
-  const checkForPaymentsInProgress = useCallback(async () => {
-    console.log("checkForPaymentsInProgress location: ", location);
-
-    const { paymentId: paypalPaymentId, PayerID } = queryString.parse(location);
-    if (orderId && paymentId && paypalPaymentId && PayerID) {
-      const { data } = await dispatch(paymentActions.fetchOrderDetails(orderId));
-      const orderType = data.item_details.order_type;
-      dispatch(paymentActions.updatePaypalInProgress(orderId, orderType, paymentId, paypalPaymentId, PayerID));
-      return dispatch(userActions.updateWallet({ type: walletTypes.GENERAL }));
-    }
-  }, [dispatch, orderId, paymentId, location]);
-
   useEffect(() => {
     if (location.hash === Routes.hash.SERVICE_DEMO) {
       window.scroll({
@@ -57,20 +41,6 @@ const ServiceDemo = ({ classes, service }) => {
       });
     }
   }, [location.hash]);
-
-  useEffect(() => {
-    if (process.env.REACT_APP_SANDBOX) {
-      return;
-    }
-
-    try {
-      dispatch(loaderActions.startAppLoader(LoaderContent.INIT_SERVICE_DEMO));
-      checkForPaymentsInProgress();
-      dispatch(loaderActions.stopAppLoader());
-    } catch (error) {
-      dispatch(loaderActions.stopAppLoader());
-    }
-  }, [dispatch, checkForPaymentsInProgress]);
 
   const computeActiveSection = useCallback(() => {
     const { purchasing, executingAIservice, displayingResponse } = demoProgressStatus;
@@ -141,7 +111,6 @@ const ServiceDemo = ({ classes, service }) => {
         purchaseCompleted={purchaseCompleted}
         purchaseProps={{
           handleComplete: handlePurchaseComplete,
-          wallet,
           setIsLastPaidCall,
           handlePurchaseError,
           isServiceAvailable: Boolean(service.is_available),

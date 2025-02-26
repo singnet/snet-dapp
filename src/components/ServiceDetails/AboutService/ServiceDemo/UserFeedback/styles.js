@@ -69,7 +69,6 @@ export const useStyles = makeStyles((theme) => ({
     right: 15,
     bottom: "auto",
     left: "auto",
-    boxShadow: "0 0 10px #d8ffda",
   },
   ratingConatiner: {
     "& p": {

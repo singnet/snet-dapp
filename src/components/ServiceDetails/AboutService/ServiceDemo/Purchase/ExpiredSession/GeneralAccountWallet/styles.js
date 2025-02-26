@@ -2,10 +2,7 @@ export const useStyles = (theme) => ({
   btnsContainer: {
     display: "flex",
     gap: 20,
-    justifyContent: "space-between",
-    "& button": {
-      borderWidth: 2,
-    },
+    width: "100%",
     "& a > button": {
       "@media(max-width:940px)": { width: "100%" },
     },

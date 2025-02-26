@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { withStyles } from "@mui/styles";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
-import { paymentActions, userActions } from "../../../../../../../../Redux/actionCreators";
+import { paymentActions } from "../../../../../../../../Redux/actionCreators";
 
 import Details from "./Details";
 import Purchase from "./Purchase";
@@ -15,27 +15,22 @@ import { orderTypes, paymentTitles } from "../../../../../../../../utility/const
 import { useNavigate, useParams } from "react-router-dom";
 import SNETDialog from "../../../../../../../common/SNETDialog";
 import ProgressBar from "../../../../../../../common/ProgressBar";
-import { isEmpty } from "lodash";
 
 const indexOfPurchaseSection = {
   [orderTypes.CREATE_WALLET]: 1,
-  [orderTypes.TOPUP_WALLET]: 2,
-  [orderTypes.CREATE_CHANNEL]: 3,
+  [orderTypes.TOPUP_WALLET]: 1,
+  [orderTypes.CREATE_CHANNEL]: 2,
 };
 
-const PaymentPopup = ({ classes, isVisible, handleClose, paymentModalType }) => {
+const PaymentPopup = ({ classes, isVisible, handleClose, paymentModalType, isPaypalInProgress }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { orgId, serviceId } = useParams();
 
-  const [activeSection, setActiveSection] = useState(indexOfPurchaseSection[paymentModalType] || 0);
+  const [activeSection, setActiveSection] = useState(0);
   const [userProvidedPrivateKey, setUserProvidedPrivateKey] = useState();
-  const [amount, setAmount] = useState("");
-  const [item, setItem] = useState("");
-  const [quantity, setQuantity] = useState("");
+  const [priceInfo, setPriceInfo] = useState({ amount: "", item: "", quantity: "" });
   const [privateKeyGenerated, setPrivateKeyGenerated] = useState();
-
-  const paypalInProgress = useSelector((state) => state.paymentReducer.paypalInProgress);
 
   useEffect(() => {
     dispatch(paymentActions.fetchUSDConversionRate());
@@ -43,24 +38,13 @@ const PaymentPopup = ({ classes, isVisible, handleClose, paymentModalType }) => 
 
   const title = paymentTitles[paymentModalType];
 
-  const purchaseWallet = () => {
-    if (paypalInProgress.orderType === paymentModalType) {
+  useEffect(() => {
+    if (isPaypalInProgress) {
       setActiveSection(indexOfPurchaseSection[paymentModalType]);
     }
-  };
-
-  useEffect(() => {
-    console.log("paypalInProgress: ", paypalInProgress);
-
-    if (!isEmpty(paypalInProgress)) {
-      purchaseWallet();
-    }
-  }, []);
+  }, [isPaypalInProgress, paymentModalType]);
 
   const handleCancel = () => {
-    // if (activeSection === indexOfPurchaseSection[paymentModalType]) {
-    //   return;
-    // }
     dispatch(paymentActions.updatePaypalCompleted());
     resetPaymentPopup();
   };
@@ -81,28 +65,18 @@ const PaymentPopup = ({ classes, isVisible, handleClose, paymentModalType }) => 
     }
   };
 
-  const executePaymentCompleted = useCallback(
-    async (data, orgId, group_id) => {
-      await dispatch(userActions.fetchWallet(orgId, group_id));
-      console.log("fetchWallet data: ", data);
-
-      const {
-        private_key: privateKeyGenerated,
-        item_details: { item, quantity },
-        price: { amount },
-      } = data;
-
-      setPrivateKeyGenerated(privateKeyGenerated);
-      setAmount(amount);
-      setQuantity(quantity);
-      setItem(item);
-      handleNextSection();
-      return;
+  const progressBarDataAllFields = [
+    {
+      key: "verifyKey",
+      label: "Key",
+      component: (
+        <VerifyKey
+          handleNextSection={handleNextSection}
+          handleLostPrivateKey={handlePreviousSection}
+          handleUserProvidedPrivateKey={setUserProvidedPrivateKey}
+        />
+      ),
     },
-    [dispatch, handleNextSection]
-  );
-
-  const progressBarDataCreateWallet = [
     {
       key: "details",
       label: "Details",
@@ -120,9 +94,10 @@ const PaymentPopup = ({ classes, isVisible, handleClose, paymentModalType }) => 
       label: "Purchase",
       component: (
         <Purchase
+          setAmount={setPriceInfo}
+          setPrivateKeyGenerated={setPrivateKeyGenerated}
           handleCancel={handleCancel}
           handleNext={handleNextSection}
-          executePaymentCompleted={executePaymentCompleted}
         />
       ),
     },
@@ -132,24 +107,13 @@ const PaymentPopup = ({ classes, isVisible, handleClose, paymentModalType }) => 
       component: <PrivateKey privateKey={privateKeyGenerated} handleNextSection={handleNextSection} />,
     },
     {
-      key: "verifyKey",
-      label: "Key",
-      component: (
-        <VerifyKey
-          handleNextSection={handleNextSection}
-          handleLostPrivateKey={handlePreviousSection}
-          handleUserProvidedPrivateKey={() => setUserProvidedPrivateKey(userProvidedPrivateKey)}
-        />
-      ),
-    },
-    {
       key: "summary",
       label: "Summary",
       component: (
         <Summary
-          amount={amount}
-          item={item}
-          quantity={quantity}
+          amount={priceInfo.amount}
+          item={priceInfo.item}
+          quantity={priceInfo.quantity}
           handlePaymentComplete={handleCancel}
           orderType={paymentModalType}
         />
@@ -157,12 +121,14 @@ const PaymentPopup = ({ classes, isVisible, handleClose, paymentModalType }) => 
     },
   ];
 
-  const progressBarDataTopUp = progressBarDataCreateWallet.filter((el) => !el.key.includes("Key"));
+  const progressBarDataTopUp = progressBarDataAllFields.filter((el) => !el.key.includes("Key"));
+  const progressBarDataCreateWallet = progressBarDataAllFields.filter((el) => !el.key.includes("verifyKey"));
+  const progressBarDataCreateChannel = progressBarDataAllFields.filter((el) => !el.key.includes("privateKey"));
 
   const progressBarData = {
     [orderTypes.CREATE_WALLET]: progressBarDataCreateWallet,
     [orderTypes.TOPUP_WALLET]: progressBarDataTopUp,
-    [orderTypes.CREATE_CHANNEL]: progressBarDataTopUp,
+    [orderTypes.CREATE_CHANNEL]: progressBarDataCreateChannel,
   };
 
   const progressBarDataByType = progressBarData[paymentModalType];
