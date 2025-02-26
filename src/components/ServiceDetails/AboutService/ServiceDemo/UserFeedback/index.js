@@ -96,7 +96,7 @@ const UserFeedback = ({ open, handleClose, feedback, submitFeedback, orgId, serv
         <StyledButton type="blue" btnText="Submit" onClick={handleSubmit} disabled={!shouldSubmitBeEnabled()} />
       </SNETDialog>
       <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleSnackbarClose} className={classes.snackbar}>
-        <spna>Feedback updated successfully</spna>
+        <span>Feedback updated successfully</span>
       </Snackbar>
     </Fragment>
   );
