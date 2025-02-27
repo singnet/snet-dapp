@@ -109,16 +109,23 @@ const Details = ({ classes, handleClose, orderType, handleNextSection, userProvi
 
   const generateSignature = async () => {
     const account = web3.eth.accounts.privateKeyToAccount(privateKey);
+    console.log("account: ", account);
+
     const address = account.address;
+    console.log("address: ", address);
     web3.eth.accounts.wallet.add(account);
     web3.eth.defaultAccount = address;
     const recipient = groupInfo.payment.payment_address;
     const hexGroupId = decodeGroupId(groupInfo.group_id);
     const amountInCogs = USDToCogs(amount, usd_cogs_rate);
-    const currentBlockNumber = await web3.eth.getBlockNumber();
+    const currentBlockNumber = Number(await web3.eth.getBlockNumber());
+    console.log("currentBlockNumber: ", currentBlockNumber);
+
     const mpeContractAddress = web3.utils.toChecksumAddress(MPEContract[process.env.REACT_APP_ETH_NETWORK].address);
     // block no is mined in 15 sec on average, setting expiration as 10 years
     const expiration = currentBlockNumber + tenYearBlockOffset;
+    console.log("expiration: ", expiration);
+
     const sha3Message = web3.utils.soliditySha3(
       { t: "string", v: "__openChannelByThirdParty" },
       { t: "address", v: mpeContractAddress },
@@ -130,8 +137,12 @@ const Details = ({ classes, handleClose, orderType, handleNextSection, userProvi
       { t: "uint256", v: expiration },
       { t: "uint256", v: currentBlockNumber }
     );
-    const { signature } = await web3.eth.accounts.sign(sha3Message, privateKey);
-    return Promise.resolve({ signature, address, currentBlockNumber });
+    console.log("sha3Message: ", sha3Message);
+
+    const response = await web3.eth.accounts.sign(sha3Message, privateKey);
+    console.log("response: ", response);
+
+    return Promise.resolve({ signature: response.signature, address, currentBlockNumber });
   };
 
   const handleContinue = async () => {
