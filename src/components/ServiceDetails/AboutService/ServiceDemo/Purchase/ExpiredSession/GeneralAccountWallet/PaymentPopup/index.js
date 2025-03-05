@@ -22,7 +22,14 @@ const indexOfPurchaseSection = {
   [orderTypes.CREATE_CHANNEL]: 2,
 };
 
-const PaymentPopup = ({ classes, isVisible, handleClose, paymentModalType, isPaypalInProgress }) => {
+const PaymentPopup = ({
+  classes,
+  setCreateWalletType,
+  isVisible,
+  handleClose,
+  paymentModalType,
+  isPaypalInProgress,
+}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { orgId, serviceId } = useParams();
@@ -31,10 +38,6 @@ const PaymentPopup = ({ classes, isVisible, handleClose, paymentModalType, isPay
   const [userProvidedPrivateKey, setUserProvidedPrivateKey] = useState();
   const [priceInfo, setPriceInfo] = useState({ amount: "", item: "", quantity: "" });
   const [privateKeyGenerated, setPrivateKeyGenerated] = useState();
-
-  useEffect(() => {
-    dispatch(paymentActions.fetchUSDConversionRate());
-  }, [dispatch]);
 
   const title = paymentTitles[paymentModalType];
 
@@ -49,6 +52,11 @@ const PaymentPopup = ({ classes, isVisible, handleClose, paymentModalType, isPay
     resetPaymentPopup();
   };
 
+  const handleLostPrivateKey = () => {
+    handleCancel();
+    setCreateWalletType();
+  };
+
   const resetPaymentPopup = () => {
     handleClose();
     setActiveSection(0);
@@ -59,12 +67,6 @@ const PaymentPopup = ({ classes, isVisible, handleClose, paymentModalType, isPay
     setActiveSection(activeSection + 1);
   }, [activeSection]);
 
-  const handlePreviousSection = () => {
-    if (activeSection > 0) {
-      setActiveSection(activeSection - 1);
-    }
-  };
-
   const progressBarDataAllFields = [
     {
       key: "verifyKey",
@@ -72,8 +74,8 @@ const PaymentPopup = ({ classes, isVisible, handleClose, paymentModalType, isPay
       component: (
         <VerifyKey
           handleNextSection={handleNextSection}
-          handleLostPrivateKey={handlePreviousSection}
           handleUserProvidedPrivateKey={setUserProvidedPrivateKey}
+          handleLostPrivateKey={handleLostPrivateKey}
         />
       ),
     },

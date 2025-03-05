@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { withStyles } from "@mui/styles";
 import Typography from "@mui/material/Typography";
 import Web3 from "web3";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 
 import AlertBox, { alertTypes } from "../../../../../../../../common/AlertBox";
 import StyledButton from "../../../../../../../../common/StyledButton";
@@ -17,14 +17,11 @@ const warningMessage = [
 
 const web3 = new Web3(process.env.REACT_APP_WEB3_PROVIDER, null, {});
 
-const VerifyKey = ({ classes, handleLostPrivateKey, walletList, handleUserProvidedPrivateKey, handleNextSection }) => {
+const VerifyKey = ({ classes, handleLostPrivateKey, handleUserProvidedPrivateKey, handleNextSection }) => {
   const [keyLost, setKeyLost] = useState(false);
   const [privateKey, setPrivateKey] = useState("");
   const [alert, setAlert] = useState({});
-
-  const handleConfirmNewWallet = () => {
-    handleLostPrivateKey();
-  };
+  const walletList = useSelector((state) => state.userReducer.walletList);
 
   const validatePrivateKey = (event) => {
     event.preventDefault();
@@ -41,9 +38,10 @@ const VerifyKey = ({ classes, handleLostPrivateKey, walletList, handleUserProvid
       }
       handleNextSection();
     } catch (error) {
+      console.error("error: ", error);
       setAlert({
         type: alertTypes.ERROR,
-        message: "I’m sorry there was an error, please check the key you entered and try again.",
+        message: "Please check the key you entered and try again.",
       });
       return;
     }
@@ -65,7 +63,7 @@ const VerifyKey = ({ classes, handleLostPrivateKey, walletList, handleUserProvid
         </Typography>
         <div className={classes.btnContainer}>
           <StyledButton type="transparent" btnText="back" onClick={() => setKeyLost(false)} />
-          <StyledButton type="blue" btnText="create new wallet" onClick={handleConfirmNewWallet} />
+          <StyledButton type="blue" btnText="create new wallet" onClick={handleLostPrivateKey} />
         </div>
       </div>
     );
@@ -93,8 +91,4 @@ const VerifyKey = ({ classes, handleLostPrivateKey, walletList, handleUserProvid
   );
 };
 
-const mapStateToProps = (state) => ({
-  walletList: state.userReducer.walletList,
-});
-
-export default connect(mapStateToProps)(withStyles(useStyles)(VerifyKey));
+export default withStyles(useStyles)(VerifyKey);

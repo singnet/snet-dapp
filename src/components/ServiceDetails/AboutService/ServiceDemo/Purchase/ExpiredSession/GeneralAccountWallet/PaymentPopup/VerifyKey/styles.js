@@ -52,7 +52,11 @@ export const useStyles = (theme) => ({
     letterSpacing: 0.4,
     lineHeight: "16px",
   },
-  btnContainer: { textAlign: "center" },
+  btnContainer: {
+    display: "flex",
+    justifyContent: "center",
+    gap: 30,
+  },
   lostKeyContainer: { paddingBottom: "0 !important" },
   WarningBoxConatiner: {
     padding: "12px 17px",
