@@ -15,6 +15,7 @@ const Purchase = ({ classes, handleCancel, handleNext, setAmount, setPrivateKeyG
   const paypalInProgress = useSelector((state) => state.paymentReducer.paypalInProgress);
 
   const [alert, setAlert] = useState({});
+  const [isExecuteInProcess, setIsExecuteInProcess] = useState(false);
 
   const executePaymentCompleted = useCallback(
     async (data, orgId, group_id) => {
@@ -47,6 +48,7 @@ const Purchase = ({ classes, handleCancel, handleNext, setAmount, setPrivateKeyG
     };
 
     try {
+      setIsExecuteInProcess(true);
       const { data } = await dispatch(paymentActions.executePayment(paymentExecObj));
       await executePaymentCompleted(data);
     } catch (error) {
@@ -59,10 +61,16 @@ const Purchase = ({ classes, handleCancel, handleNext, setAmount, setPrivateKeyG
         message: "There was an error in communicating with PayPal. Please click contact support.",
         mailerErrContent: error.message,
       });
+    } finally {
+      setIsExecuteInProcess(false);
     }
   }, [dispatch, executePaymentCompleted, paypalInProgress]);
 
   useEffect(() => {
+    if (isExecuteInProcess) {
+      return;
+    }
+
     if (!isEmpty(paypalInProgress)) {
       executePayment();
     } else {
