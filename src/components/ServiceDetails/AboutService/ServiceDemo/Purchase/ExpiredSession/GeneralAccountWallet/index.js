@@ -58,7 +58,7 @@ const GeneralAccountWallet = ({ classes, handleContinue }) => {
     };
 
     walletList.forEach((wallet) => {
-      if (!wallet.transactions) {
+      if (isEmpty(wallet.transactions)) {
         return;
       }
       const walletTransactions = wallet.transactions;
