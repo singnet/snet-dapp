@@ -13,15 +13,15 @@ import { orderPayloadTypes, orderTypes } from "../../../../../../../utility/cons
 import { isEmpty } from "lodash";
 import PaymentInfoCard from "../../PaymentInfoCard";
 import AlertBox, { alertTypes } from "../../../../../../common/AlertBox";
-import {
-  anyPendingTxn as getAnyPendingTxn,
-  anyFailedTxn as getAnyFailedTxn,
-} from "../../../../../../../Redux/reducers/PaymentReducer";
 import { userActions } from "../../../../../../../Redux/actionCreators";
 import { groupInfo } from "../../../../../../../Redux/reducers/ServiceDetailsReducer";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { initPaypalSdk } from "../../../../../../../utility/sdk";
 
+const transactionsStatus = {
+  PENDING: "PENDING",
+  FAILED: "FAILED",
+};
 const TransactionAlert = {
   PENDING: { type: alertTypes.WARNING, message: "Transaction Confirmed. Pending token allocation" },
   FAILED: { type: alertTypes.ERROR, message: "Transaction Failed. See history for more details" },
@@ -32,11 +32,9 @@ const GeneralAccountWallet = ({ classes, handleContinue }) => {
   const { orgId } = useParams();
 
   const channelInfo = useSelector((state) => getChannelInfo(state));
-  const anyPendingTxn = useSelector((state) => getAnyPendingTxn(state));
-  const anyFailedTxn = useSelector((state) => getAnyFailedTxn(state));
   const groupId = useSelector((state) => groupInfo(state).group_id);
   const inProgressOrderType = useSelector((state) => state.paymentReducer.paypalInProgress.orderType);
-
+  const walletList = useSelector((state) => state.userReducer.walletList);
   const progressTransaction = Object.keys(orderPayloadTypes).find(
     (key) => orderPayloadTypes[key] === inProgressOrderType
   );
@@ -52,14 +50,30 @@ const GeneralAccountWallet = ({ classes, handleContinue }) => {
   }, [channelInfo]);
 
   useEffect(() => {
-    if (anyPendingTxn) {
-      setAlert(TransactionAlert.PENDING);
-    }
-    if (anyFailedTxn) {
-      setAlert(TransactionAlert.FAILED);
-    }
-    setAlert({});
-  }, [anyPendingTxn, anyFailedTxn]);
+    const checkTransactionsByStatus = (transactions, status) => {
+      return transactions.some((txn) => txn.status === status);
+    };
+    const checkLastTransactionStatus = (transactions, status) => {
+      return transactions[transactions.length - 1].status === status;
+    };
+
+    walletList.forEach((wallet) => {
+      if (!wallet.transactions) {
+        return;
+      }
+      const walletTransactions = wallet.transactions;
+
+      if (checkTransactionsByStatus(walletTransactions, transactionsStatus.PENDING)) {
+        setAlert(TransactionAlert.PENDING);
+        return;
+      } else if (checkLastTransactionStatus(walletTransactions, transactionsStatus.FAILED)) {
+        setAlert(TransactionAlert.FAILED);
+        return;
+      } else {
+        setAlert({});
+      }
+    });
+  }, [walletList]);
 
   useEffect(() => {
     const getWalletInfo = async () => {
@@ -74,6 +88,10 @@ const GeneralAccountWallet = ({ classes, handleContinue }) => {
     };
     getWalletInfo();
   }, [dispatch, orgId, groupId]);
+
+  const setCreateWalletType = () => {
+    setPaymentPopupVisibile(orderTypes.CREATE_WALLET);
+  };
 
   return (
     <Fragment>
@@ -94,7 +112,7 @@ const GeneralAccountWallet = ({ classes, handleContinue }) => {
         ) : (
           <NextAction
             channel={channelInfo}
-            setShowCreateWalletPopup={() => setPaymentPopupVisibile(orderTypes.CREATE_WALLET)}
+            setShowCreateWalletPopup={setCreateWalletType}
             setShowLinkProvider={() => setPaymentPopupVisibile(orderTypes.CREATE_CHANNEL)}
             setShowTopUpWallet={() => setPaymentPopupVisibile(orderTypes.TOPUP_WALLET)}
             handleContinue={handleContinue}
@@ -103,6 +121,7 @@ const GeneralAccountWallet = ({ classes, handleContinue }) => {
         <AlertBox {...alert} />
       </div>
       <PaymentPopup
+        setCreateWalletType={setCreateWalletType}
         paymentModalType={paymentPopupVisibile}
         isVisible={Boolean(paymentPopupVisibile)}
         isPaypalInProgress={Boolean(progressTransaction)}
