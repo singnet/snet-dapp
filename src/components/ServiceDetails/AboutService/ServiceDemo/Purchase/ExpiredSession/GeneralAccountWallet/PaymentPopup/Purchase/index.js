@@ -35,6 +35,8 @@ const Purchase = ({ classes, handleCancel, handleNext, setAmount, setPrivateKeyG
   );
 
   const executePayment = useCallback(async () => {
+    console.log("executePayment useCallback: ", paypalInProgress);
+
     const paymentExecObj = {
       order_id: paypalInProgress.orderId,
       payment_id: paypalInProgress.paymentId,

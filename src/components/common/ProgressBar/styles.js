@@ -1,6 +1,5 @@
 export const useStyles = (theme) => ({
   tabsContainer: {
-    width: 630,
     margin: "0 auto",
     "& ul": {
       margin: 0,
