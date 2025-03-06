@@ -53,9 +53,6 @@ const GeneralAccountWallet = ({ classes, handleContinue }) => {
     const checkTransactionsByStatus = (transactions, status) => {
       return transactions.some((txn) => txn.status === status);
     };
-    const checkLastTransactionStatus = (transactions, status) => {
-      return transactions[transactions.length - 1].status === status;
-    };
 
     walletList.forEach((wallet) => {
       if (isEmpty(wallet.transactions)) {
@@ -65,9 +62,6 @@ const GeneralAccountWallet = ({ classes, handleContinue }) => {
 
       if (checkTransactionsByStatus(walletTransactions, transactionsStatus.PENDING)) {
         setAlert(TransactionAlert.PENDING);
-        return;
-      } else if (checkLastTransactionStatus(walletTransactions, transactionsStatus.FAILED)) {
-        setAlert(TransactionAlert.FAILED);
         return;
       } else {
         setAlert({});
