@@ -47,7 +47,7 @@ const Details = ({ classes, handleClose, orderType, handleNextSection, userProvi
   });
 
   const { usd_agi_rate, agi_divisibility, usd_cogs_rate } = useSelector((state) => state.paymentReducer);
-  const balanceInAgi = useSelector((state) => getChannelInfo(state).balanceInAgi);
+  const balanceInAgi = useSelector((state) => getChannelInfo(state.userReducer.walletList).balanceInAgi);
 
   useEffect(() => {
     dispatch(paymentActions.fetchUSDConversionRate());
@@ -129,8 +129,8 @@ const Details = ({ classes, handleClose, orderType, handleNextSection, userProvi
     const sha3Message = web3.utils.soliditySha3(
       { t: "string", v: "__openChannelByThirdParty" },
       { t: "address", v: mpeContractAddress },
-      { t: "address", v: process.env.REACT_APP_EXECUTOR_WALLET_ADDRESS },
-      { t: "address", v: process.env.REACT_APP_SNET_SIGNER_ADDRESS },
+      { t: "address", v: "0x3Bb9b2499c283cec176e7C707Ecb495B7a961ebf" }, //process.env.REACT_APP_EXECUTOR_WALLET_ADDRESS },
+      { t: "address", v: "0x7DF35C98f41F3Af0df1dc4c7F7D4C19a71Dd059F" }, //process.env.REACT_APP_SNET_SIGNER_ADDRESS },
       { t: "address", v: recipient },
       { t: "bytes32", v: hexGroupId },
       { t: "uint256", v: amountInCogs },
@@ -145,17 +145,24 @@ const Details = ({ classes, handleClose, orderType, handleNextSection, userProvi
     return Promise.resolve({ signature: response.signature, address, currentBlockNumber });
   };
 
+  let initiateInProcess = false;
   const handleContinue = async () => {
     setAlert({});
     try {
+      if (initiateInProcess) return;
       const amountInAGI = USDToAgi(amount, usd_agi_rate, agi_divisibility);
+      console.log("amountInAGI: ", amountInAGI);
+
       if (orderType === orderTypes.CREATE_CHANNEL) {
         var { signature, address, currentBlockNumber } = await generateSignature();
       }
+      initiateInProcess = true;
       await initiatePayment(amount, currency, "AGIX", amountInAGI, signature, address, currentBlockNumber);
       handleNextSection();
     } catch (error) {
       setAlert({ type: alertTypes.ERROR, message: `${error.message}. Please try again` });
+    } finally {
+      initiateInProcess = false;
     }
   };
 
@@ -183,7 +190,12 @@ const Details = ({ classes, handleClose, orderType, handleNextSection, userProvi
       <AlertBox type={alert.type} message={alert.message} />
       <div className={classes.btnContainer}>
         <StyledButton btnText="cancel" type="transparent" onClick={handleClose} />
-        <StyledButton btnText="Continue" type="blue" disabled={!Boolean(Number(amount))} onClick={handleContinue} />
+        <StyledButton
+          btnText="Continue"
+          type="blue"
+          disabled={!Boolean(Number(amount)) || !usd_agi_rate}
+          onClick={handleContinue}
+        />
       </div>
     </div>
   );

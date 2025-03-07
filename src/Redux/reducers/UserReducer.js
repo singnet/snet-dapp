@@ -126,8 +126,7 @@ const userReducer = (state = InitialUserDetails, action) => {
   }
 };
 
-export const channelInfo = (state) => {
-  const { walletList } = state.userReducer;
+export const channelInfo = (walletList) => {
   if (isEmpty(walletList)) {
     return {};
   }

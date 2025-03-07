@@ -31,10 +31,10 @@ const GeneralAccountWallet = ({ classes, handleContinue }) => {
   const dispatch = useDispatch();
   const { orgId } = useParams();
 
-  const channelInfo = useSelector((state) => getChannelInfo(state));
   const groupId = useSelector((state) => groupInfo(state).group_id);
   const inProgressOrderType = useSelector((state) => state.paymentReducer.paypalInProgress.orderType);
   const walletList = useSelector((state) => state.userReducer.walletList);
+  const channelInfo = getChannelInfo(walletList);
   const progressTransaction = Object.keys(orderPayloadTypes).find(
     (key) => orderPayloadTypes[key] === inProgressOrderType
   );

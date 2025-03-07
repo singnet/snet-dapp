@@ -117,7 +117,7 @@ const mapStateToProps = (state) => ({
   isComplete: state.serviceReducer.serviceMethodExecution.isComplete,
   email: state.userReducer.email,
   wallet: state.userReducer.wallet,
-  channelInfo: channelInfo(state),
+  channelInfo: channelInfo(state.userReducer.walletList),
   groupInfo: groupInfo(state),
   freeCallsRemaining: freeCalls(state).remaining,
 });
