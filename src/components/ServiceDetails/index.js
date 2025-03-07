@@ -141,7 +141,9 @@ const ServiceDetails = ({ classes }) => {
     });
   }
 
-  const seoURL = `${process.env.REACT_APP_BASE_URL}/servicedetails/org/${orgId}/service/${serviceId}`;
+  const seoURL = `${process.env.REACT_APP_BASE_URL}/servicedetails/org/${orgId}/service/${serviceId}/tab/${activeTab}`;
+  const tags = service.tags.map((tag) => tag.tag_name);
+
   return (
     <Fragment>
       <Helmet>
@@ -154,7 +156,7 @@ const ServiceDetails = ({ classes }) => {
         description={service.short_description}
         image={service.org_assets_url ? service.org_assets_url.hero_image : CardImg}
         url={seoURL}
-        keywords={service.tags}
+        keywords={tags}
       />
       <Grid container className={classes.serviceDetailContainer}>
         <div className={classes.notificationBar}>
