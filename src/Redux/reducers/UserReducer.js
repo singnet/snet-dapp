@@ -138,6 +138,7 @@ export const channelInfo = (walletList) => {
     return {
       id: selectedChannel.channel_id,
       balanceInAgi: cogsToAgi(selectedChannel.balance_in_cogs),
+      walletaddress: walletWithChannel.address,
     };
   }
   return {};
