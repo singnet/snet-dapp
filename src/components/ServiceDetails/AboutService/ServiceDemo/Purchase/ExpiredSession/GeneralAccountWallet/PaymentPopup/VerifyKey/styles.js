@@ -36,7 +36,7 @@ export const useStyles = (theme) => ({
       borderStyle: "solid",
       borderColor: "rgba(25,25,25,0.32)",
       borderRadius: 4,
-      padding: "19px 0",
+      padding: "19px 10px",
     },
     "& + p": { margin: "0 49px 16px" },
   },
