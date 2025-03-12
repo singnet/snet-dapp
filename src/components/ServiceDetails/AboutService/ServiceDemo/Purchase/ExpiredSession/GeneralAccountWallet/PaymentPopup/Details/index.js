@@ -6,14 +6,12 @@ import Web3 from "web3";
 import isEmpty from "lodash/isEmpty";
 import MPEContract from "singularitynet-platform-contracts/networks/MultiPartyEscrow";
 
-import PaymentInfoCard from "../../../../PaymentInfoCard";
 import StyledButton from "../../../../../../../../common/StyledButton";
 import { useStyles } from "./styles";
 import snetValidator from "../../../../../../../../../utility/snetValidator";
 import { paymentGatewayConstraints } from "./validationConstraints";
 import AlertBox, { alertTypes } from "../../../../../../../../common/AlertBox";
 import { tenYearBlockOffset } from "../../../../../../../../../utility/PricingStrategy";
-import { channelInfo as getChannelInfo } from "../../../../../../../../../Redux/reducers/UserReducer";
 import { decodeGroupId } from "../../../../../../../../../utility/sdk";
 import { USDToAgi, USDToCogs } from "../../../../../../../../../Redux/reducers/PaymentReducer";
 import { orderPayloadTypes, orderTypes } from "../../../../../../../../../utility/constants/PaymentConstants";
@@ -47,7 +45,6 @@ const Details = ({ classes, handleClose, orderType, handleNextSection, userProvi
   });
 
   const { usd_agi_rate, agi_divisibility, usd_cogs_rate } = useSelector((state) => state.paymentReducer);
-  const balanceInAgi = useSelector((state) => getChannelInfo(state.userReducer.walletList).balanceInAgi);
 
   useEffect(() => {
     dispatch(paymentActions.fetchUSDConversionRate());
@@ -129,8 +126,8 @@ const Details = ({ classes, handleClose, orderType, handleNextSection, userProvi
     const sha3Message = web3.utils.soliditySha3(
       { t: "string", v: "__openChannelByThirdParty" },
       { t: "address", v: mpeContractAddress },
-      { t: "address", v: "0x3Bb9b2499c283cec176e7C707Ecb495B7a961ebf" }, //process.env.REACT_APP_EXECUTOR_WALLET_ADDRESS },
-      { t: "address", v: "0x7DF35C98f41F3Af0df1dc4c7F7D4C19a71Dd059F" }, //process.env.REACT_APP_SNET_SIGNER_ADDRESS },
+      { t: "address", v: process.env.REACT_APP_EXECUTOR_WALLET_ADDRESS },
+      { t: "address", v: process.env.REACT_APP_SNET_SIGNER_ADDRESS },
       { t: "address", v: recipient },
       { t: "bytes32", v: hexGroupId },
       { t: "uint256", v: amountInCogs },
@@ -151,7 +148,6 @@ const Details = ({ classes, handleClose, orderType, handleNextSection, userProvi
     try {
       if (initiateInProcess) return;
       const amountInAGI = USDToAgi(amount, usd_agi_rate, agi_divisibility);
-      console.log("amountInAGI: ", amountInAGI);
 
       if (orderType === orderTypes.CREATE_CHANNEL) {
         var { signature, address, currentBlockNumber } = await generateSignature();
@@ -169,7 +165,6 @@ const Details = ({ classes, handleClose, orderType, handleNextSection, userProvi
   return (
     <div className={classes.paymentContainer}>
       <Typography className={classes.deatilsTabDesc}>{description[orderType]}</Typography>
-      <PaymentInfoCard title="Channel Balance" show={!isEmpty(balanceInAgi)} value={balanceInAgi} unit="AGIX" />
       <div className={classes.paymentTypeContainer}>
         <PayPal />
       </div>
