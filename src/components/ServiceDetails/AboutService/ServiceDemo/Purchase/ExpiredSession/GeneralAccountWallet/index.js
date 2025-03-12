@@ -16,7 +16,7 @@ import AlertBox, { alertTypes } from "../../../../../../common/AlertBox";
 import { userActions } from "../../../../../../../Redux/actionCreators";
 import { groupInfo } from "../../../../../../../Redux/reducers/ServiceDetailsReducer";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { initPaypalSdk } from "../../../../../../../utility/sdk";
+import UpdatePaymentChannel from "./UpdatePaymentChannel";
 
 const transactionsStatus = {
   PENDING: "PENDING",
@@ -31,7 +31,7 @@ const GeneralAccountWallet = ({ classes, handleContinue }) => {
   const dispatch = useDispatch();
   const { orgId } = useParams();
 
-  const groupId = useSelector((state) => groupInfo(state).group_id);
+  const group = useSelector((state) => groupInfo(state));
   const inProgressOrderType = useSelector((state) => state.paymentReducer.paypalInProgress.orderType);
   const walletList = useSelector((state) => state.userReducer.walletList);
   const channelInfo = getChannelInfo(walletList);
@@ -41,13 +41,7 @@ const GeneralAccountWallet = ({ classes, handleContinue }) => {
   const [paymentPopupVisibile, setPaymentPopupVisibile] = useState(progressTransaction);
   const [alert, setAlert] = useState({});
   const [isLoadingChannelInfo, setLoadingChannelInfo] = useState(false);
-
-  useEffect(() => {
-    if (process.env.REACT_APP_SANDBOX) {
-      return;
-    }
-    initPaypalSdk(channelInfo.address, channelInfo.id); // TODO get address
-  }, [channelInfo]);
+  const [channelBalance, setChannelBalance] = useState("");
 
   useEffect(() => {
     const checkTransactionsByStatus = (transactions, status) => {
@@ -73,7 +67,7 @@ const GeneralAccountWallet = ({ classes, handleContinue }) => {
     const getWalletInfo = async () => {
       try {
         setLoadingChannelInfo(true);
-        await dispatch(userActions.fetchWallet(orgId, groupId));
+        await dispatch(userActions.fetchWallet(orgId, group.group_id));
       } catch (error) {
         console.error("error: ", error);
       } finally {
@@ -81,7 +75,7 @@ const GeneralAccountWallet = ({ classes, handleContinue }) => {
       }
     };
     getWalletInfo();
-  }, [dispatch, orgId, groupId]);
+  }, [dispatch, orgId, group.group_id]);
 
   const setCreateWalletType = () => {
     setPaymentPopupVisibile(orderTypes.CREATE_WALLET);
@@ -90,12 +84,10 @@ const GeneralAccountWallet = ({ classes, handleContinue }) => {
   return (
     <Fragment>
       <div className={classes.channelBalance}>
-        <PaymentInfoCard
-          show={!isEmpty(channelInfo)}
-          title="Channel Balance"
-          value={!isEmpty(channelInfo) && channelInfo.balanceInAgi}
-          unit="AGIX"
-        />
+        <UpdatePaymentChannel setActualBalance={setChannelBalance} handleLostKey={setCreateWalletType} />
+        {channelBalance && (
+          <PaymentInfoCard show={!isEmpty(channelInfo)} title="Channel Balance" value={channelBalance} unit="AGIX" />
+        )}
       </div>
       <div className={classes.btnsContainer}>
         <Link to={userProfileRoutes.TRANSACTIONS} target="_blank" className={classes.routerLink}>
