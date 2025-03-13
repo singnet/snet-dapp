@@ -13,7 +13,7 @@ import SNETDialog from "../../../../common/SNETDialog";
 
 const UserFeedback = ({ open, handleClose, feedback, submitFeedback, orgId, serviceId, refetchFeedback }) => {
   const [comment, setComment] = useState(feedback.comment);
-  const [openSnackbar, setOpenSnackbar] = useState(Boolean(feedback.comment));
+  const [openSnackbar, setOpenSnackbar] = useState(false);
   const [count, setCount] = useState(feedback.comment.length);
   const [rating, setRating] = useState(feedback.rating);
   const [alert, setAlert] = useState({ type: "error", message: undefined });

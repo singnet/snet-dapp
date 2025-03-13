@@ -64,7 +64,6 @@ class MetamaskFlow extends Component {
       this.setState({ isStartServiceDisable: true });
       this.setState({ alert: { type: alertTypes.ERROR, message: err.message } });
     }
-    // await this.getChannelBalanceFromBack();
   };
 
   handleDisabledPaytypes = (channelBalance, mpeBal) => {
@@ -114,26 +113,30 @@ class MetamaskFlow extends Component {
       startChannelSetupLoader();
       await this.paymentChannelManagement.updateChannelInfo();
       await this.getBalanceData();
+      this.updateChannelBalance();
     } catch (error) {
       this.setState({ alert: connectMMinfo });
     }
     stopLoader();
   };
 
-  // updateChannelBalanceAPI = async () => {
-  //   const { updateChannelBalanceAPI, serviceDetails } = this.props;
-  //   console.log("this.paymentChannelManagement: ", this.paymentChannelManagement);
-  //   const channel = this.paymentChannelManagement._channel;
-  //   await updateChannelBalanceAPI(
-  //     serviceDetails.org_id,
-  //     serviceDetails.service_id,
-  //     serviceDetails.groups[0].group_id,
-  //     Number(channel._state.availableAmount),
-  //     Number(channel._state.amountDeposited),
-  //     Number(channel._channelId),
-  //     Number(channel._state.nonce)
-  //   );
-  // };
+  updateChannelBalance = async () => {
+    try {
+      const { updateChannelBalanceAPI, serviceDetails } = this.props;
+      const channel = this.paymentChannelManagement._channel;
+      await updateChannelBalanceAPI(
+        serviceDetails.org_id,
+        serviceDetails.service_id,
+        serviceDetails.groups[0].group_id,
+        Number(channel._state.amountDeposited) - Number(channel._state.availableAmount),
+        Number(channel._state.amountDeposited),
+        Number(channel._channelId),
+        Number(channel._state.nonce)
+      );
+    } catch (error) {
+      console.error("error: ", error);
+    }
+  };
 
   getBalanceData = async () => {
     const { updateMetamaskWallet, startChannelSetupLoader, stopLoader, setIsLastPaidCall } = this.props;
@@ -155,7 +158,6 @@ class MetamaskFlow extends Component {
         await this.handleSubmit();
         return;
       }
-      // await this.updateChannelBalanceAPI();
       this.handleDisabledPaytypes(channelBalance, mpeBal);
       this.setState({
         mpeBal: cogsToAgi(mpeBal),
@@ -163,6 +165,7 @@ class MetamaskFlow extends Component {
         selectedPayType: payTypes.MULTIPLE_CALLS,
       });
     } catch (error) {
+      console.error("get balance error: ", error);
       this.setState({ alert: connectMMinfo });
     } finally {
       stopLoader();
@@ -294,26 +297,25 @@ class MetamaskFlow extends Component {
     this.setState({ showTooltip: false });
   };
 
-  // getChannelBalanceFromBack = async () => {
-  //   const {
-  //     serviceDetails: { org_id },
-  //   } = this.props;
-  //   const selectedEthAddress = window.ethereum && window.ethereum.selectedAddress;
-  //   console.log("this.paymentChannelManagement: ", this.paymentChannelManagement);
-  //   const channelId = this.paymentChannelManagement?._channel?._channelId;
-  //   if (!channelId) {
-  //     this.setState({ channelBalanceFromBack: 0 });
-  //     return;
-  //   }
-  //   const providers = await userActions.fetchWalletLinkedProviders(selectedEthAddress);
-  //   const [provider] = providers.filter((provider) => provider.org_id === org_id);
-  //   if (channelId && provider.groups[0]) {
-  //     const [channel] = provider.groups[0].channels.filter((channelItem) => channelItem.channel_id === channelId);
-  //     const channelBalance = Number(channel.current_balance);
-  //     this.setState({ channelBalanceFromBack: channelBalance });
-  //   }
-  // };
-  //
+  getChannelBalanceFromBack = async () => {
+    const {
+      serviceDetails: { org_id },
+    } = this.props;
+    const selectedEthAddress = window.ethereum && window.ethereum.selectedAddress;
+    const channelId = this.paymentChannelManagement?._channel?._channelId;
+    if (!channelId) {
+      this.setState({ channelBalanceFromBack: 0 });
+      return;
+    }
+    const providers = await userActions.fetchWalletLinkedProviders(selectedEthAddress);
+    const [provider] = providers.filter((provider) => provider.org_id === org_id);
+    if (channelId && provider.groups[0]) {
+      const [channel] = provider.groups[0].channels.filter((channelItem) => channelItem.channel_id === channelId);
+      const channelBalance = Number(channel.current_balance);
+      this.setState({ channelBalanceFromBack: channelBalance });
+    }
+  };
+
   render() {
     const { classes } = this.props;
     const {
@@ -427,10 +429,10 @@ const mapDispatchToProps = (dispatch) => ({
   updateMetamaskWallet: () => dispatch(userActions.updateMetamaskWallet()),
   stopLoader: () => dispatch(loaderActions.stopAppLoader()),
   getSdk: () => dispatch(sdkActions.getSdk()),
-  // updateChannelBalanceAPI: (orgId, serviceId, groupId, authorizedAmount, fullAmount, channelId, nonce) =>
-  //   dispatch(
-  //     userActions.updateChannelBalanceAPI(orgId, serviceId, groupId, authorizedAmount, fullAmount, channelId, nonce)
-  //   ),
+  updateChannelBalanceAPI: (orgId, serviceId, groupId, authorizedAmount, fullAmount, channelId, nonce) =>
+    dispatch(
+      userActions.updateChannelBalanceAPI(orgId, serviceId, groupId, authorizedAmount, fullAmount, channelId, nonce)
+    ),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(MetamaskFlow));
