@@ -8,6 +8,7 @@ import { loaderActions, serviceDetailsActions } from "../../../../../Redux/actio
 import { LoaderContent } from "../../../../../utility/constants/LoaderContent";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import "./styles.css";
+import { isUndefined } from "lodash";
 
 const Purchase = ({ handleComplete, handlePurchaseError, isServiceAvailable, setIsLastPaidCall }) => {
   const dispatch = useDispatch();
@@ -16,7 +17,7 @@ const Purchase = ({ handleComplete, handlePurchaseError, isServiceAvailable, set
   const email = useSelector((state) => state.userReducer.email);
 
   const [isFreecallLoading, setIsFreecallLoading] = useState(false);
-  const [freeCalls, setFreeCalls] = useState({ freeCallsAllowed: 0, freeCallsRemaining: 0 });
+  const [freeCalls, setFreeCalls] = useState({ freeCallsAllowed: undefined, freeCallsRemaining: undefined });
 
   useEffect(() => {
     const fetchFreeCallsUsage = async () => {
@@ -46,7 +47,7 @@ const Purchase = ({ handleComplete, handlePurchaseError, isServiceAvailable, set
     fetchFreeCallsUsage();
   }, [dispatch, org_id, service_id, group_id, email]);
 
-  if (isFreecallLoading) {
+  if (isFreecallLoading || isUndefined(freeCalls.freeCallsRemaining)) {
     return (
       <div className="freecall-loader-container">
         <CircularProgress size="40px" />

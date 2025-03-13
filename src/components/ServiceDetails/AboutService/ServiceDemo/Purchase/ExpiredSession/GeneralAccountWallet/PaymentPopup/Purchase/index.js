@@ -8,7 +8,7 @@ import { useStyles } from "./styles";
 import PurchaseAlert from "./PurchaseAlert";
 import { alertTypes } from "../../../../../../../../common/AlertBox";
 import { useDispatch, useSelector } from "react-redux";
-import { paymentActions, userActions } from "../../../../../../../../../Redux/actionCreators";
+import { paymentActions } from "../../../../../../../../../Redux/actionCreators";
 
 const Purchase = ({ classes, handleCancel, handleNext, setAmount, setPrivateKeyGenerated }) => {
   const dispatch = useDispatch();
@@ -18,9 +18,7 @@ const Purchase = ({ classes, handleCancel, handleNext, setAmount, setPrivateKeyG
   const [isExecuteInProcess, setIsExecuteInProcess] = useState(false);
 
   const executePaymentCompleted = useCallback(
-    async (data, orgId, group_id) => {
-      await dispatch(userActions.fetchWallet(orgId, group_id));
-
+    async (data) => {
       const {
         private_key: privateKey,
         item_details: { item, quantity },
@@ -36,8 +34,6 @@ const Purchase = ({ classes, handleCancel, handleNext, setAmount, setPrivateKeyG
   );
 
   const executePayment = useCallback(async () => {
-    console.log("executePayment useCallback: ", paypalInProgress);
-
     const paymentExecObj = {
       order_id: paypalInProgress.orderId,
       payment_id: paypalInProgress.paymentId,

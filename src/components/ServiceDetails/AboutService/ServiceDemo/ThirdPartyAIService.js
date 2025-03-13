@@ -36,7 +36,7 @@ class ThirdPartyAIService extends Component {
       wallet
     );
     this.setupComponent();
-    this.setState({ loading: false });
+    this.setState({ loading: false, callType });
   };
 
   setupComponent = () => {
@@ -80,7 +80,7 @@ class ThirdPartyAIService extends Component {
 
     const { selectedModelId, org_id, service_id, classes, stopLoader, isServiceExecutionComplete, handleResetAndRun } =
       this.props;
-    const { feedback } = this.state;
+    const { feedback, callType } = this.state;
     const { serviceClient } = this;
     const AIServiceCustomComponent = thirdPartyCustomUIComponents.componentFor(org_id, service_id);
     const modelsIds = this.getModelsIds();
@@ -105,6 +105,7 @@ class ThirdPartyAIService extends Component {
           serviceId={service_id}
           refetchFeedback={this.fetchUserFeedback}
           handleResetAndRun={handleResetAndRun}
+          callType={callType}
         />
       </div>
     );
@@ -117,7 +118,7 @@ const mapStateToProps = (state) => ({
   isComplete: state.serviceReducer.serviceMethodExecution.isComplete,
   email: state.userReducer.email,
   wallet: state.userReducer.wallet,
-  channelInfo: channelInfo(state),
+  channelInfo: channelInfo(state.userReducer.walletList),
   groupInfo: groupInfo(state),
   freeCallsRemaining: freeCalls(state).remaining,
 });

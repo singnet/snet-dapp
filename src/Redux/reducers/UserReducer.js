@@ -126,8 +126,7 @@ const userReducer = (state = InitialUserDetails, action) => {
   }
 };
 
-export const channelInfo = (state) => {
-  const { walletList } = state.userReducer;
+export const channelInfo = (walletList) => {
   if (isEmpty(walletList)) {
     return {};
   }
@@ -139,6 +138,7 @@ export const channelInfo = (state) => {
     return {
       id: selectedChannel.channel_id,
       balanceInAgi: cogsToAgi(selectedChannel.balance_in_cogs),
+      walletaddress: walletWithChannel.address,
     };
   }
   return {};

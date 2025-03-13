@@ -6,14 +6,12 @@ import Web3 from "web3";
 import isEmpty from "lodash/isEmpty";
 import MPEContract from "singularitynet-platform-contracts/networks/MultiPartyEscrow";
 
-import PaymentInfoCard from "../../../../PaymentInfoCard";
 import StyledButton from "../../../../../../../../common/StyledButton";
 import { useStyles } from "./styles";
 import snetValidator from "../../../../../../../../../utility/snetValidator";
 import { paymentGatewayConstraints } from "./validationConstraints";
 import AlertBox, { alertTypes } from "../../../../../../../../common/AlertBox";
 import { tenYearBlockOffset } from "../../../../../../../../../utility/PricingStrategy";
-import { channelInfo as getChannelInfo } from "../../../../../../../../../Redux/reducers/UserReducer";
 import { decodeGroupId } from "../../../../../../../../../utility/sdk";
 import { USDToAgi, USDToCogs } from "../../../../../../../../../Redux/reducers/PaymentReducer";
 import { orderPayloadTypes, orderTypes } from "../../../../../../../../../utility/constants/PaymentConstants";
@@ -47,7 +45,6 @@ const Details = ({ classes, handleClose, orderType, handleNextSection, userProvi
   });
 
   const { usd_agi_rate, agi_divisibility, usd_cogs_rate } = useSelector((state) => state.paymentReducer);
-  const balanceInAgi = useSelector((state) => getChannelInfo(state).balanceInAgi);
 
   useEffect(() => {
     dispatch(paymentActions.fetchUSDConversionRate());
@@ -145,24 +142,29 @@ const Details = ({ classes, handleClose, orderType, handleNextSection, userProvi
     return Promise.resolve({ signature: response.signature, address, currentBlockNumber });
   };
 
+  let initiateInProcess = false;
   const handleContinue = async () => {
     setAlert({});
     try {
+      if (initiateInProcess) return;
       const amountInAGI = USDToAgi(amount, usd_agi_rate, agi_divisibility);
+
       if (orderType === orderTypes.CREATE_CHANNEL) {
         var { signature, address, currentBlockNumber } = await generateSignature();
       }
+      initiateInProcess = true;
       await initiatePayment(amount, currency, "AGIX", amountInAGI, signature, address, currentBlockNumber);
       handleNextSection();
     } catch (error) {
       setAlert({ type: alertTypes.ERROR, message: `${error.message}. Please try again` });
+    } finally {
+      initiateInProcess = false;
     }
   };
 
   return (
     <div className={classes.paymentContainer}>
       <Typography className={classes.deatilsTabDesc}>{description[orderType]}</Typography>
-      <PaymentInfoCard title="Channel Balance" show={!isEmpty(balanceInAgi)} value={balanceInAgi} unit="AGIX" />
       <div className={classes.paymentTypeContainer}>
         <PayPal />
       </div>
@@ -183,7 +185,12 @@ const Details = ({ classes, handleClose, orderType, handleNextSection, userProvi
       <AlertBox type={alert.type} message={alert.message} />
       <div className={classes.btnContainer}>
         <StyledButton btnText="cancel" type="transparent" onClick={handleClose} />
-        <StyledButton btnText="Continue" type="blue" disabled={!Boolean(Number(amount))} onClick={handleContinue} />
+        <StyledButton
+          btnText="Continue"
+          type="blue"
+          disabled={!Boolean(Number(amount)) || !usd_agi_rate}
+          onClick={handleContinue}
+        />
       </div>
     </div>
   );

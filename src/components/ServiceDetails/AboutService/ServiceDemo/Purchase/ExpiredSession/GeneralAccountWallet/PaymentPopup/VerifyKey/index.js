@@ -9,6 +9,7 @@ import StyledButton from "../../../../../../../../common/StyledButton";
 import BulletPoint from "../../../../../../../../common/BulletPoint";
 import { useStyles } from "./styles";
 import AlertText from "../../../../../../../../common/AlertText";
+import { isEmpty } from "lodash";
 
 const warningMessage = [
   `You will still be able to top up your wallet and use it with all providers that you have already opened payment channels to.`,
@@ -84,7 +85,13 @@ const VerifyKey = ({ classes, handleLostPrivateKey, handleUserProvidedPrivateKey
         <AlertBox type={alert.type} message={alert.message} />
         <div className={classes.btnContainer}>
           <StyledButton type="transparent" btnText="i lost my key" onClick={() => setKeyLost(true)} />
-          <StyledButton type="blue" btnText="validate" onClick={validatePrivateKey} btnType="submit" />
+          <StyledButton
+            type="blue"
+            btnText="validate"
+            onClick={validatePrivateKey}
+            btnType="submit"
+            disabled={isEmpty(walletList)}
+          />
         </div>
       </form>
     </div>

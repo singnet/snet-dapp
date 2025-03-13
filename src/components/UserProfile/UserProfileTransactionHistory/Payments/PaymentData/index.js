@@ -22,6 +22,7 @@ const PaymentData = ({
 }) => {
   const paymentStatusType = {
     PENDING: alertTypes.WARNING,
+    PROCESSING: alertTypes.WARNING,
     NOT_SUBMITTED: alertTypes.INFO,
     SUCCESS: alertTypes.SUCCESS,
   };
