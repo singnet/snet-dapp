@@ -244,7 +244,7 @@ const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, handlePurcha
     }
 
     try {
-      if (mpeBalance < paymentChannelManagement.noOfCallsToCogs(noOfServiceCalls)) {
+      if (mpeBalance < cogsToAgi(paymentChannelManagement.noOfCallsToCogs(noOfServiceCalls))) {
         setAlert({
           type: alertTypes.ERROR,
           message: "Insufficient MPE balance. Please deposit some AGIX tokens to your escrow account",
