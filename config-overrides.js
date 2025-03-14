@@ -10,6 +10,12 @@ const options = {
     "@commonComponents": path.resolve(__dirname, "src/assets/thirdPartyServices/common/"),
     "@standardComponents": path.resolve(__dirname, "src/assets/thirdPartyServices/standardComponents/"),
     "@integratedComponents": path.resolve(__dirname, "src/components/common/"),
+    "@assets": path.resolve(__dirname, "src/assets"),
+    "@common": path.resolve(__dirname, "src/components/common"),
+    "@components": path.resolve(__dirname, "src/components"),
+    "@config": path.resolve(__dirname, "src/config"),
+    "@utility": path.resolve(__dirname, "src/utility"),
+    "@redux": path.resolve(__dirname, "src/Redux"),
   },
 };
 

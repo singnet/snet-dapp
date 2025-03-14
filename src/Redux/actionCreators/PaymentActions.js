@@ -26,8 +26,10 @@ export const initiatePayment = (paymentObj) => async (dispatch) => {
     }
     window.location.replace(data.payment.payment_url);
   } catch (error) {
-    dispatch(loaderActions.stopAppLoader());
+    console.error(error);
     throw error;
+  } finally {
+    dispatch(loaderActions.stopAppLoader());
   }
 };
 

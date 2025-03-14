@@ -60,7 +60,7 @@ const UserProfileAccount = ({ classes }) => {
     return window.ethereum;
   };
 
-  const fetchWallets = async () => {
+  const fetchWallets = useCallback(async () => {
     try {
       const currentAddress = await getWeb3Address();
       const wallets = await getWallets(currentAddress);
@@ -70,17 +70,17 @@ const UserProfileAccount = ({ classes }) => {
       setCurrentAddress("");
       setWallets([]);
     }
-  };
+  }, [getWallets]);
 
   useEffect(() => {
     const ethereumProvider = getEthereumProvider();
     ethereumProvider.addListener(ON_ACCOUNT_CHANGE, fetchWallets);
     return () => ethereumProvider.removeListener(ON_ACCOUNT_CHANGE, fetchWallets);
-  }, []);
+  }, [fetchWallets]);
 
   useEffect(() => {
     fetchWallets();
-  }, [dispatch]);
+  }, [fetchWallets]);
 
   useEffect(() => {
     const getProviders = async () => {

@@ -6,12 +6,9 @@ import { useStyles } from "./styles";
 import SearchInputToggler from "./SearchInputToggler";
 import ServiceSortOptions from "./ServiceSortOptions";
 import ViewToggler from "./ViewToggler";
-import StyledDropdown from "../../../common/StyledDropdown";
-import { serviceActions } from "../../../../Redux/actionCreators";
-import {
-  defaultPaginationParameters,
-  generateOrganizationsFilterObject,
-} from "../../../../utility/constants/Pagination";
+import StyledDropdown from "@common/StyledDropdown";
+import { serviceActions } from "@redux/actionCreators";
+import { defaultPaginationParameters, generateOrganizationsFilterObject } from "@utility/constants/Pagination";
 
 const Filter = ({ listView, total_count, handleSearchChange, toggleView, currentPagination, showToggler }) => {
   const { filterData, pagination } = useSelector((state) => state.serviceReducer);
@@ -24,7 +21,7 @@ const Filter = ({ listView, total_count, handleSearchChange, toggleView, current
 
   useEffect(() => {
     return () => dispatch(serviceActions.resetFilter({ pagination }));
-  }, []);
+  }, [dispatch]);
 
   const handleSearch = (event) => {
     setSearchKeyword(event.currentTarget.value);
@@ -46,12 +43,12 @@ const Filter = ({ listView, total_count, handleSearchChange, toggleView, current
       return;
     }
     let filterObj = [];
+    let currentActiveFilterData = {};
     if (value !== "default") {
       filterObj = generateOrganizationsFilterObject([value]);
+      currentActiveFilterData = { [name]: [value] };
     }
     setActiveOrgItem(value);
-
-    const currentActiveFilterData = { [name]: [value] };
 
     const latestPagination = { ...pagination, ...defaultPaginationParameters, q: pagination.q };
     dispatch(serviceActions.handleFilterChange({ pagination: latestPagination, filterObj, currentActiveFilterData }));

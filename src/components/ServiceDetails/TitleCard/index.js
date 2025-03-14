@@ -68,8 +68,8 @@ const TitleCard = ({
 
         <h1>{display_name}</h1>
 
-        <div>
-          <StarRatingComponent name="rate1" starCount={5} value={star_rating} className={classes.ratingStars} />
+        <div className={classes.ratingContainer}>
+          <StarRatingComponent name="rate1" starCount={5} value={Number(star_rating)} className={classes.ratingStars} />
           <RatingsCount ratingGiven={star_rating} totalRating={totalRating} />
         </div>
       </div>

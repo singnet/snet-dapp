@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { withStyles } from "@mui/styles";
 import { useStyles } from "./styles";
 
-import InfoIcon from "@mui/icons-material/Info";
 import { cogsToAgi } from "../../../../utility/PricingStrategy";
 import { loaderActions, sdkActions } from "../../../../Redux/actionCreators";
 import { LoaderContent } from "../../../../utility/constants/LoaderContent";
@@ -20,14 +19,7 @@ const MetamaskDetails = ({ classes }) => {
 
   const currentNetwork = Networks[process.env.REACT_APP_ETH_NETWORK];
 
-  useEffect(() => {
-    const getAccountDetails = async () => {
-      await retrieveAccountDetails();
-    };
-    getAccountDetails();
-  }, [wallet]);
-
-  const retrieveAccountDetails = async () => {
+  const retrieveAccountDetails = useCallback(async () => {
     try {
       dispatch(loaderActions.startAppLoader(LoaderContent.FETCH_MM_ACC_DETAILS));
       const sdk = await dispatch(sdkActions.getSdk());
@@ -37,39 +29,42 @@ const MetamaskDetails = ({ classes }) => {
       setEscrowBalance(cogsToAgi(escrowBalance));
       setTokenBalance(cogsToAgi(tokenBalance));
     } catch (error) {
-      console.log("error: ", error);
+      console.error("error: ", error);
       setAlert({ type: alertTypes.ERROR, message: `Unable to fetch account details` });
     } finally {
       dispatch(loaderActions.stopAppLoader());
     }
-  };
+  }, [dispatch]);
+
+  useEffect(() => {
+    const getAccountDetails = async () => {
+      await retrieveAccountDetails();
+    };
+    getAccountDetails();
+  }, [wallet, retrieveAccountDetails]);
 
   return (
     <div className={classes.accountDetails}>
       <div>
         <div className={classes.label}>
-          <InfoIcon />
           <span>Current Network</span>
         </div>
         <span>{currentNetwork} Network</span>
       </div>
       <div>
         <div className={classes.label}>
-          <InfoIcon />
           <span>Wallet ID</span>
         </div>
         <span className={classes.walletId}>{wallet.address}</span>
       </div>
       <div className={classes.bgBox}>
         <div className={classes.label}>
-          <InfoIcon />
           <span>Total Tokens</span>
         </div>
         <span>{tokenBalance} AGIX</span>
       </div>
       <div className={classes.bgBox}>
         <div className={classes.label}>
-          <InfoIcon />
           <span>Escrow Balance</span>
         </div>
         <span>{escrowBalance} AGIX</span>

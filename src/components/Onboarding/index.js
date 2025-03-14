@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Helmet } from "react-helmet";
 import { withStyles } from "@mui/styles";
@@ -11,34 +11,34 @@ import Routes from "../../utility/constants/Routes";
 
 const Onboarding = ({ classes }) => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const isEmailVerified = useSelector((state) => state.userReducer.isEmailVerified);
   const isTermsAccepted = useSelector((state) => state.userReducer.isTermsAccepted);
   const nickname = useSelector((state) => state.userReducer.nickname);
 
-  const [activeSection, setActiveSection] = useState(1);
+  const [activeSection, setActiveSection] = useState(0);
   const progressText = [{ label: "Authentication" }, { label: "Terms of service" }];
 
-  const initialChecks = () => {
-    if (!isEmailVerified) {
-      return;
-    }
-    if (activeSection === 1) {
-      setActiveSection(2);
-    }
-    if (isTermsAccepted) {
-      // TODO
-      // if (history.location) {
-      //   navigate(location.state.sourcePath);
-      //   return;
-      // }
-      navigate(`/${Routes.AI_MARKETPLACE}`);
-    }
-  };
-
   useEffect(() => {
+    const initialChecks = () => {
+      if (!isEmailVerified) {
+        return;
+      }
+      if (activeSection === 0) {
+        setActiveSection(1);
+      }
+      if (isTermsAccepted) {
+        if (location?.state && location?.state?.sourcePath) {
+          navigate(location.state.sourcePath);
+          return;
+        }
+        navigate(`/${Routes.AI_MARKETPLACE}`);
+      }
+    };
+
     initialChecks();
-  }, []);
+  }, [navigate, isEmailVerified, isTermsAccepted, activeSection, location.state]);
 
   const handleNextSection = () => {
     setActiveSection(activeSection + 1);
@@ -76,7 +76,7 @@ const Onboarding = ({ classes }) => {
           key={item.title}
           classes={classes}
           item={item}
-          active={activeSection === index + 1}
+          active={activeSection === index}
           activeSection={activeSection}
           progressText={progressText}
         />

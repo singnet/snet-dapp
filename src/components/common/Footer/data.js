@@ -11,15 +11,21 @@ const PrimaryFooterMain = [
     title: "AI Marketplace",
     children: [
       { label: "Free Signup", link: "#", internalLink: true },
-      { label: "Get Started", link: "https://dev.singularitynet.io/tutorials/getting-started/" },
-      { label: "Core Concepts", link: "https://dev.singularitynet.io/docs/concepts/" },
-      { label: "Tutorials", link: "https://dev.singularitynet.io/tutorials/" },
+      { label: "Get Started", link: "https://dev.singularitynet.io/docs/products/AIMarketplace/" },
+      {
+        label: "Core Concepts",
+        link: "https://dev.singularitynet.io/docs/products/DecentralizedAIPlatform/CoreConcepts/glossary/",
+      },
+      {
+        label: "Tutorials",
+        link: "https://dev.singularitynet.io/docs/products/DecentralizedAIPlatform/QuickStartGuides/GettingReadyToOnboardCheckUp/",
+      },
     ],
   },
   {
     title: "Resources",
     children: [
-      { label: "Documentation", link: "https://github.com/singnet" },
+      { label: "Documentation", link: "https://dev.singularitynet.io/docs/products/AIMarketplace/" },
       //{ label: "Datasets Download", link: "#" },
       //{ label: "API Library ", link: "#" },
       { label: "Telegram", link: "https://telegram.me/singularitynet" },

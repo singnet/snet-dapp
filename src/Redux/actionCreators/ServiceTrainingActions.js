@@ -4,7 +4,7 @@ import { startAppLoader, stopAppLoader } from "./LoaderActions";
 import { getServiceClient } from "./SDKActions";
 import { fetchAuthenticatedUser, updateMetamaskWallet } from "./UserActions";
 import { modelStatus } from "../reducers/ServiceTrainingReducer";
-import { DatafactoryInstanceS3, DatasetS3Endpoints, TrainingInstanceS3 } from "../../config/DatasetS3Client";
+import { DatafactoryInstanceS3, filesToS3Endpoints, TrainingInstanceS3 } from "../../config/DatasetS3Client";
 // import { userActions } from ".";
 export const SET_MODEL_DETAILS = "SET_MODEL_DETAILS";
 export const SET_MODELS_LIST = "SET_MODELS_LIST";
@@ -193,7 +193,8 @@ const modelStatusByNumber = {
 
 export const publishDatasetForTraining = (fileBlob, name) => async (dispatch) => {
   try {
-    const linkAndKeyDataset = await dispatch(publishDatasetToS3(fileBlob, name, TrainingInstanceS3));
+    const { email } = await dispatch(fetchAuthenticatedUser());
+    const linkAndKeyDataset = await publishFilesToS3(fileBlob, name, TrainingInstanceS3, email);
     return linkAndKeyDataset;
   } catch (error) {
     console.log("publishing Dataset For Training error: ", error);
@@ -202,20 +203,22 @@ export const publishDatasetForTraining = (fileBlob, name) => async (dispatch) =>
 
 export const publishDatasetForImproving = (fileBlob, name) => async (dispatch) => {
   try {
-    const linkAndKeyDataset = await dispatch(publishDatasetToS3(fileBlob, name, DatafactoryInstanceS3));
+    const { email } = await dispatch(fetchAuthenticatedUser());
+    const linkAndKeyDataset = await publishFilesToS3(fileBlob, name, DatafactoryInstanceS3, email);
     return linkAndKeyDataset;
   } catch (error) {
     console.log("publishing Dataset For Improving error: ", error);
   }
 };
 
-export const publishDatasetToS3 = (fileBlob, name, S3Instance) => async (dispatch) => {
-  const { email } = await dispatch(fetchAuthenticatedUser());
-
+export const publishFilesToS3 = async (fileBlob, name, S3Instance, folder, email) => {
   try {
     const baseUrl = S3Instance.getUri();
-    const fileKey = name + "_" + email + "_" + Date.now();
-    const response = await S3Instance.get(DatasetS3Endpoints.UPLOAD, { params: { key: fileKey } });
+    let fileKey = Date.now() + "_" + email + "_" + name;
+    if (folder) {
+      fileKey = folder + "/" + fileKey;
+    }
+    const response = await S3Instance.get(filesToS3Endpoints.UPLOAD, { params: { key: fileKey } });
     await axios.put(response.data.uploadURL, fileBlob);
     return {
       url: `${baseUrl}/download?key=${fileKey}`,
@@ -227,7 +230,7 @@ export const publishDatasetToS3 = (fileBlob, name, S3Instance) => async (dispatc
 };
 
 export const getDatasetSizeFromS3 = async (fileKey, S3instance) => {
-  return S3instance.get(DatasetS3Endpoints.DOWNLOAD, { params: { key: fileKey, action: "getsize" } })
+  return S3instance.get(filesToS3Endpoints.DOWNLOAD, { params: { key: fileKey, action: "getsize" } })
     .then((response) => {
       return response.data.fileSize;
     })

@@ -1,6 +1,5 @@
 import React from "react";
 import { withStyles } from "@mui/styles";
-import InfoIcon from "@mui/icons-material/Info";
 
 import { useStyles } from "./styles";
 
@@ -11,11 +10,10 @@ const PaymentInfoCard = ({ classes, title, value, unit, show = true }) => {
   return (
     <div className={classes.PaymentInfoCardContainer}>
       <div className={classes.TitleContainer}>
-        <InfoIcon />
         <h5>{title}</h5>
       </div>
       <div className={classes.content}>
-        <h3>{Number(value)}</h3>
+        <h3>{String(value)}</h3>
         {unit ? <span className={classes.unit}>AGIX</span> : ""}
       </div>
     </div>

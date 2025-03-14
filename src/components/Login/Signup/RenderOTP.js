@@ -19,7 +19,7 @@ const RenderOTP = ({ classes, otp, handleOTP, handleResendOTP, handleConfirmSign
         </p>
         <p>
           Please enter the verification code below to confirm your email address. Check your spam, or junk folders if
-          you encounter any delays. The email should be from otp@singularitynet.io.
+          you encounter any delays. The email should be from no-reply@singularitynet.io.
         </p>
         <TextField
           id="outlined-confirm-otp"

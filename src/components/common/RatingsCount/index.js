@@ -5,17 +5,18 @@ import { useStyles } from "./styles";
 
 const RatingsCount = ({ ratingGiven, totalRating }) => {
   const classes = useStyles();
+
   return (
     <p className={classes.ratedCount}>
-      <span> {parseFloat(ratingGiven).toFixed(1)} </span>
+      <span> {ratingGiven ? parseFloat(ratingGiven).toFixed(1) : 0} </span>
       <span>({totalRating ? `${totalRating}` : 0}) </span>
     </p>
   );
 };
 
 RatingsCount.propTypes = {
-  ratingGiven: PropTypes.number,
-  totalRating: PropTypes.number,
+  ratingGiven: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  totalRating: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 
 export default RatingsCount;

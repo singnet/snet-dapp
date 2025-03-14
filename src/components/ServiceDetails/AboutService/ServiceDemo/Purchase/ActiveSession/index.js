@@ -19,7 +19,6 @@ const ActiveSession = ({ classes, freeCallsRemaining, handleComplete, freeCallsA
   const { org_id, service_id } = useSelector((state) => currentServiceDetails(state));
   const { modelsList } = useSelector((state) => state.serviceTrainingReducer);
   const isLoggedIn = useSelector((state) => state.userReducer.login.isLoggedIn);
-
   const [showTooltip, setShowTooltip] = useState(false);
 
   const progressValue = () => (freeCallsRemaining / freeCallsAllowed) * 100;
@@ -40,6 +39,8 @@ const ActiveSession = ({ classes, freeCallsRemaining, handleComplete, freeCallsA
     const address = await dispatch(updateMetamaskWallet());
     await dispatch(getTrainingModels(org_id, service_id, address));
   };
+
+  const isActionsDisabled = !isServiceAvailable;
 
   return (
     <div className={classes.activeSessionContainer}>
@@ -62,13 +63,13 @@ const ActiveSession = ({ classes, freeCallsRemaining, handleComplete, freeCallsA
         classes={{ tooltip: classes.tooltip }}
       >
         <div className={classes.activeSectionButtons}>
-          <StyledButton type="blue" btnText="run for free" onClick={handleComplete} disabled={!isServiceAvailable} />
+          <StyledButton type="blue" btnText="run for free" onClick={handleComplete} disabled={isActionsDisabled} />
           {isTrainingAvailable && isUndefined(modelsList) && (
             <StyledButton
               type="transparent"
               btnText="request my models"
               onClick={handleRequestModels}
-              disabled={!isServiceAvailable}
+              disabled={isActionsDisabled}
             />
           )}
         </div>

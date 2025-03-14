@@ -110,18 +110,6 @@ export const useStyles = makeStyles((theme) => ({
     color: "#fff !important",
     fontWeight: 600,
   },
-  loginBtnsContainer: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-end",
-    "& button": {
-      minWidth: "auto",
-      padding: "11px",
-    },
-    "@media (max-width:375px)": {
-      flexDirection: "column",
-    },
-  },
   loginBtn: {
     "&:hover": { fontWeight: 400 },
   },

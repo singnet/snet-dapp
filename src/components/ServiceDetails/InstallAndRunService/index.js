@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Grid from "@mui/material/Grid";
 import { withStyles } from "@mui/styles";
-import InfoIcon from "@mui/icons-material/Info";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { connect } from "react-redux";
@@ -131,7 +130,6 @@ class InstallAndRunService extends Component {
                   </Typography>
                   <div className={classes.textfieldContainer}>
                     <div>
-                      <InfoIcon className={classes.infoIcon} />
                       <TextField
                         id="outlined-user-name"
                         label="Public Address"
@@ -155,19 +153,9 @@ class InstallAndRunService extends Component {
                       />
                     )}
                     {downloadTokenURL && (
-                      <StyledButton
-                        type="blue"
-                        btnText={
-                          <a
-                            className={classes.downloadTokenLink}
-                            href={downloadTokenURL}
-                            download={downloadTokenFileName}
-                          >
-                            Download Token
-                          </a>
-                        }
-                        onClick={this.generateToken}
-                      />
+                      <a className={classes.downloadTokenLink} href={downloadTokenURL} download={downloadTokenFileName}>
+                        <StyledButton type="blue" btnText="Download Token" />
+                      </a>
                     )}
                   </div>
                   <AlertBox type={alert.type} message={alert.message} />

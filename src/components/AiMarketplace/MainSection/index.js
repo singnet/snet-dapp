@@ -44,7 +44,7 @@ class MainSection extends Component {
   };
 
   render() {
-    const { classes, services, pagination, currentFilter } = this.props;
+    const { classes, services, pagination } = this.props;
     const { listView } = this.state;
     return (
       <Grid container className={classes.mainSection}>
@@ -55,7 +55,6 @@ class MainSection extends Component {
             handleSearchChange={this.handlePaginationChange}
             toggleView={this.toggleView}
             currentPagination={pagination}
-            currentFilter={currentFilter}
             showToggler={isDesktop}
           />
         </Grid>
@@ -76,7 +75,6 @@ class MainSection extends Component {
 const mapStateToProps = (state) => ({
   services: state.serviceReducer.services,
   pagination: state.serviceReducer.pagination,
-  isLoggedIn: state.userReducer.login.isLoggedIn,
   currentFilter: state.serviceReducer.activeFilterItem,
 });
 

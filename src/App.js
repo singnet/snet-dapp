@@ -20,6 +20,7 @@ import { CircularProgress } from "@mui/material";
 import initHotjar from "./assets/externalScripts/hotjar";
 import initGDPRNotification from "./assets/externalScripts/gdpr";
 import PaymentCancelled from "./components/ServiceDetails/PaymentCancelled";
+import FeedbackFormModal from "@components/FeedbackFormModal";
 
 const ForgotPassword = lazy(() => import("./components/Login/ForgotPassword"));
 const ForgotPasswordSubmit = lazy(() => import("./components/Login/ForgotPasswordSubmit"));
@@ -53,33 +54,35 @@ const App = () => {
   const isTermsAccepted = useSelector((state) => state.userReducer.isTermsAccepted);
   const isInitialized = useSelector((state) => state.userReducer.isInitialized);
 
+  const isLoggedInAndTermsAccepted = isLoggedIn && isTermsAccepted;
+  const isNotLoggedInPageAvailable = !isLoggedIn || isTermsAccepted;
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(userActions.fetchUserDetails());
   }, [dispatch]);
 
-  if (!isInitialized) {
+  const Loader = () => {
     return (
       <div className="loader-container">
         <CircularProgress />
       </div>
     );
+  };
+
+  if (!isInitialized) {
+    return <Loader />;
   }
 
   return (
     <ThemeProvider theme={theme}>
       <Router location={history}>
         <NavigateSetter />
-        <Suspense fallback={<CircularProgress />}>
+        <Suspense fallback={<Loader />}>
           <Switch>
             <Route path={`/${Routes.SIGNUP}`} Component={withRegistrationHeader(SignUp, headerData.SIGNUP)} />
-            <Route
-              replace
-              path={`/${Routes.LOGIN}`}
-              // {...this.props}
-              Component={withRegistrationHeader(Login, headerData.LOGIN)}
-            />
+            <Route replace path={`/${Routes.LOGIN}`} Component={withRegistrationHeader(Login, headerData.LOGIN)} />
             <Route
               path={`/${Routes.FORGOT_PASSWORD}`}
               // {...this.props}
@@ -115,7 +118,7 @@ const App = () => {
               path={`/${Routes.AI_MARKETPLACE}`}
               element={
                 <PrivateRoute
-                  isAllowed={isTermsAccepted}
+                  isAllowed={isNotLoggedInPageAvailable}
                   component={withInAppWrapper(AiMarketplace)}
                   redirectTo={`/${Routes.ONBOARDING}`}
                   path={`/${Routes.AI_MARKETPLACE}`}
@@ -126,7 +129,7 @@ const App = () => {
               path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId/tab/:tabId`}
               element={
                 <PrivateRoute
-                  isAllowed={isTermsAccepted}
+                  isAllowed={isNotLoggedInPageAvailable}
                   component={withInAppWrapper(ServiceDetails)}
                   redirectTo={`/${Routes.ONBOARDING}`}
                   path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId/tab/:tabId`}
@@ -137,7 +140,7 @@ const App = () => {
               path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId/order/:orderId/payment/:paymentId/execute`}
               element={
                 <PrivateRoute
-                  isAllowed={isTermsAccepted}
+                  isAllowed={isLoggedInAndTermsAccepted}
                   component={withInAppWrapper(ServiceDetails)}
                   redirectTo={`/${Routes.ONBOARDING}`}
                   path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId/order/:orderId/payment/:paymentId/execute`}
@@ -148,7 +151,7 @@ const App = () => {
               path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId/order/:orderId/payment/:paymentId/cancel`}
               element={
                 <PrivateRoute
-                  isAllowed={isTermsAccepted}
+                  isAllowed={isLoggedInAndTermsAccepted}
                   component={PaymentCancelled}
                   redirectTo={`/${Routes.ONBOARDING}`}
                   path={`/${Routes.SERVICE_DETAILS}/org/:orgId/service/:serviceId/order/:orderId/payment/:paymentId/cancel`}
@@ -159,7 +162,7 @@ const App = () => {
               path={`/${Routes.USER_PROFILE}/:activeTab?/*`}
               element={
                 <PrivateRoute
-                  isAllowed={isLoggedIn && isTermsAccepted}
+                  isAllowed={isLoggedInAndTermsAccepted}
                   component={withInAppWrapper(UserProfile)}
                   redirectTo={isLoggedIn ? `/${Routes.ONBOARDING}` : `/${Routes.LOGIN}`}
                   path={`/${Routes.USER_PROFILE}/:activeTab?`}
@@ -170,7 +173,7 @@ const App = () => {
               path="/"
               element={
                 <PrivateRoute
-                  isAllowed={isTermsAccepted}
+                  isAllowed={isLoggedInAndTermsAccepted}
                   component={withInAppWrapper(AiMarketplace)}
                   redirectTo={`/${Routes.ONBOARDING}`}
                   path="/"
@@ -183,6 +186,7 @@ const App = () => {
           </Switch>
         </Suspense>
       </Router>
+      <FeedbackFormModal />
       <AppLoader />
     </ThemeProvider>
   );

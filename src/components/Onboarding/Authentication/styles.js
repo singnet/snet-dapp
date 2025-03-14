@@ -45,7 +45,7 @@ export const useStyles = (theme) => ({
   buttonsContainer: {
     marginTop: 40,
     "& button": {
-      padding: " 13px 60px 11px",
+      padding: "15px 60px",
     },
   },
   infoText: {

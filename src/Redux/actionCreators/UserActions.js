@@ -102,8 +102,12 @@ const fetchUserProfile = (token) => async (dispatch) => {
       dispatch(registerInMarketplace(token));
       return;
     }
-    dispatch(updateEmailAlertsSubscription(Boolean(userProfile.data.data[0].email_alerts)));
-    dispatch(updateIsTermsAccepted(Boolean(userProfile.data.data[0].is_terms_accepted)));
+    const userProfileData = userProfile.data.data[0];
+    const isTermsAccepted = Boolean(userProfileData.is_terms_accepted);
+    const emailAlerts = Boolean(userProfileData.email_alerts);
+
+    dispatch(updateEmailAlertsSubscription(emailAlerts));
+    dispatch(updateIsTermsAccepted(isTermsAccepted));
   } catch (err) {
     return;
   }
@@ -185,7 +189,7 @@ export const fetchUserDetails = () => async (dispatch) => {
     const { nickname, token, email, email_verified } = await dispatch(fetchAuthenticatedUser());
 
     await dispatch(fetchUserProfile(token));
-    if (email === null || email === undefined) {
+    if (!email) {
       dispatch(noAuthenticatedUser());
       return;
     }
@@ -272,7 +276,7 @@ export const loginSuccess =
 
 export const login =
   ({ email, password, route }) =>
-  (dispatch) => {
+  async (dispatch) => {
     dispatch(loaderActions.startAppLoader(LoaderContent.LOGIN));
     let userDetails = {};
     return signIn({ username: email, password })
@@ -335,10 +339,13 @@ export const signOut = () => (dispatch) => {
   };
   signOutAws()
     .then(() => {
-      userDetails.payload.login = {
-        isLoggedIn: false,
-        error: undefined,
-        loading: false,
+      userDetails.payload = {
+        login: {
+          isLoggedIn: false,
+          error: undefined,
+          loading: false,
+        },
+        isTermsAccepted: false,
       };
     })
     .finally(() => {
@@ -562,21 +569,25 @@ export const registerWallet = (address, type) => async (dispatch) => {
 };
 
 export const updateMetamaskWallet = () => async (dispatch, getState) => {
-  const sdk = await dispatch(sdkActions.getSdk());
-  const address = await sdk.account.getAddress();
+  try {
+    const sdk = await dispatch(sdkActions.getSdk());
+    const address = await sdk.account.getAddress();
 
-  if (getState().userReducer.wallet?.address === address) {
+    if (getState().userReducer.wallet?.address === address) {
+      return address;
+    }
+
+    const availableUserWallets = await dispatch(fetchAvailableUserWallets());
+    const addressAlreadyRegistered = availableUserWallets.some(
+      (wallet) => wallet.address.toLowerCase() === address.toLowerCase()
+    );
+
+    if (!addressAlreadyRegistered) {
+      await dispatch(registerWallet(address, walletTypes.METAMASK));
+    }
+    dispatch(updateWallet({ type: walletTypes.METAMASK, address }));
     return address;
+  } catch (err) {
+    throw new Error("Can't update metamask wallet");
   }
-
-  const availableUserWallets = await dispatch(fetchAvailableUserWallets());
-  const addressAlreadyRegistered = availableUserWallets.some(
-    (wallet) => wallet.address.toLowerCase() === address.toLowerCase()
-  );
-
-  if (!addressAlreadyRegistered) {
-    await dispatch(registerWallet(address, walletTypes.METAMASK));
-  }
-  dispatch(updateWallet({ type: walletTypes.METAMASK, address }));
-  return address;
 };

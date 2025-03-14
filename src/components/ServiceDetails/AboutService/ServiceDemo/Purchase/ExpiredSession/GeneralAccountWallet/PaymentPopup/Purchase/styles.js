@@ -5,7 +5,9 @@ export const useStyles = (theme) => ({
   },
   btnContainer: {
     marginTop: 35,
-    textAlign: "center",
+    justifyContent: "center",
+    display: "flex",
+    gap: 20,
   },
   purchaseContainer: { paddingBottom: 0 },
   purchaseDesc: {

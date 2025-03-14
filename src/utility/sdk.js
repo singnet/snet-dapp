@@ -1,4 +1,4 @@
-import SnetSDK, { WebServiceClient as ServiceClient } from "snet-sdk-web";
+import SnetSDK, { WebServiceClient as ServiceClient, PrivateKeyIdentity } from "snet-sdk-web";
 import MPEContract from "singularitynet-platform-contracts/networks/MultiPartyEscrow";
 
 import { APIEndpoints, APIPaths } from "../config/APIEndpoints";
@@ -9,6 +9,7 @@ import { store } from "../";
 import ProxyPaymentChannelManagementStrategy from "./ProxyPaymentChannelManagementStrategy";
 import { isEmpty, isUndefined } from "lodash";
 import Web3 from "web3";
+import { ethereumMethods } from "./snetSdk";
 
 const DEFAULT_GAS_PRICE = 4700000;
 const DEFAULT_GAS_LIMIT = 210000;
@@ -123,16 +124,16 @@ const generateOptions = (callType, wallet, serviceRequestErrorHandler, groupInfo
   }
 };
 
-class PaypalIdentity {
-  constructor(address, web3) {
-    this._web3 = web3;
-    this._web3.eth.defaultAccount = address;
-  }
+// class PaypalIdentity {
+//   constructor(address, web3) {
+//     this._web3 = web3;
+//     this._web3.eth.defaultAccount = address;
+//   }
 
-  getAddress() {
-    return this._web3.eth.defaultAccount;
-  }
-}
+//   getAddress() {
+//     return this._web3.eth.defaultAccount;
+//   }
+// }
 
 class PaypalSDK extends SnetSDK {
   constructor(address, ...args) {
@@ -141,19 +142,21 @@ class PaypalSDK extends SnetSDK {
   }
 
   _createIdentity() {
-    return new PaypalIdentity(this._address, this._web3);
+    return new PrivateKeyIdentity(this._config, this._web3); //new PaypalIdentity(this._address, this._web3);
   }
 }
 
-export const initPaypalSdk = (address, channelInfo) => {
+export const initPaypalSdk = (address, channelId, privateKey) => {
   const config = {
     networkId: process.env.REACT_APP_ETH_NETWORK,
     web3Provider: process.env.REACT_APP_WEB3_PROVIDER,
     defaultGasPrice: DEFAULT_GAS_PRICE,
     defaultGasLimit: DEFAULT_GAS_LIMIT,
+    privateKey,
   };
   sdk = new PaypalSDK(address, config, {});
-  sdk.paymentChannelManagementStrategy = new PaypalPaymentMgmtStrategy(sdk, channelInfo.id);
+  sdk.paymentChannelManagementStrategy = new PaypalPaymentMgmtStrategy(sdk, channelId);
+  return sdk;
 };
 
 export const updateChannel = (newChannel) => {
@@ -193,7 +196,6 @@ const clearSdk = () => {
 
 const addListenersForWeb3 = () => {
   window.ethereum.addListener(ON_ACCOUNT_CHANGE, async (accounts) => {
-    console.log("ON_ACCOUNT_CHANGE");
     await getWeb3Address();
     clearSdk();
     const event = new CustomEvent("snetMMAccountChanged", { bubbles: true, details: accounts[0] });
@@ -208,7 +210,7 @@ const addListenersForWeb3 = () => {
 
 export const getWeb3Address = async () => {
   defineWeb3Provider();
-  await window.ethereum.enable();
+  await window.ethereum.request({ method: ethereumMethods.REQUEST_ACCOUNTS });
   const isExpectedNetwork = await isUserAtExpectedEthereumNetwork();
 
   if (!isExpectedNetwork) {

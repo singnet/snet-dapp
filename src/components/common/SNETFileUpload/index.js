@@ -9,6 +9,7 @@ import { useStyles } from "./styles";
 import FileStats from "./FileStats";
 import { Box, IconButton } from "@mui/material";
 import { Close } from "@mui/icons-material";
+import { isArray } from "lodash";
 
 const SNETFileUpload = (props) => {
   const {
@@ -60,7 +61,7 @@ const SNETFileUpload = (props) => {
               </IconButton>
             )}
             <TaskIcon />
-            <Typography>{fileName}</Typography>
+            <Typography>{isArray(fileName) ? fileName.map((name) => " " + name) : fileName}</Typography>
           </>
         ) : (
           <>
@@ -71,7 +72,12 @@ const SNETFileUpload = (props) => {
           </>
         )}
         {helperText === null ? (
-          <Typography>(Package must be under {maxSize}mb. Make sure the extension is .zip or .tar)</Typography>
+          <p>
+            Click here to select one or more files, or drag and drop them over this text. Directory must be dragged. We
+            expect
+            {Object.values(accept).map((acceptTypes) => acceptTypes.map((acceptType) => " " + acceptType))} to be
+            uploaded. Other files are disabled.
+          </p>
         ) : (
           helperText
         )}
@@ -101,7 +107,7 @@ SNETFileUpload.prototypes = {
   onDropAccepted: PropTypes.func,
   onDropRejected: PropTypes.func,
   showFileDetails: PropTypes.bool,
-  fileName: PropTypes.string,
+  fileName: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   fileSize: PropTypes.number,
   fileDownloadURL: PropTypes.string,
   uploadSuccess: PropTypes.bool,

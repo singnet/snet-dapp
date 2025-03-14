@@ -23,6 +23,10 @@ export const LoaderContent = {
     loaderHeader: "Forgot Password Submit",
     loaderText: "Resetting your password",
   },
+  FREE_CALLS_GETTING: {
+    loaderHeader: "Fetching Free Calls",
+    loaderText: "Please wait while we fetch the free call details",
+  },
   FETCH_SERVICE_DETAILS: {
     loaderHeader: "Fetching Service Details",
     loaderText: "Please wait while we fetch the service details",
@@ -47,6 +51,10 @@ export const LoaderContent = {
   FETCH_MM_ACC_DETAILS: {
     loaderHeader: "Fetching Metamask Account",
     loaderText: "Please wait while we retrieve your account details from Metamask",
+  },
+  FEEDBACK: {
+    loaderHeader: "Senting your feedback",
+    loaderText: "Please wait while we senting your feedback",
   },
   DEPOSIT: {
     loaderHeader: "Deposit",

@@ -5,8 +5,8 @@ export const useStyles = (theme) => ({
   },
   termsOfUseContainer: {
     width: 630,
-    paddingBottom: 40,
-    margin: "40px auto 0",
+    paddingBottom: 20,
+    margin: "0 auto",
     backgroundColor: theme.palette.text.white,
     boxShadow: "0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.14), 0 1px 3px 0 rgba(0,0,0,0.2)",
     textAlign: "center",

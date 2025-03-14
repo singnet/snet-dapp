@@ -2,16 +2,14 @@ export const useStyles = (theme) => ({
   downloadTokenLink: {
     textDecoration: "none",
     color: "inherit",
+    height: "100%",
+    display: "block",
+    width: "min-content",
+    whiteSpace: "nowrap",
   },
   freecallContainer: {
     paddingLeft: 20,
     paddingRight: 20,
-  },
-  infoIcon: {
-    paddingRight: 12,
-    color: theme.palette.text.lightGray,
-    fontSize: 20,
-    verticalAlign: "sub",
   },
   overViewContainer: {
     display: "flex",
