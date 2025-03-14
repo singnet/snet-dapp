@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { withStyles } from "@material-ui/styles";
+import { withStyles } from "@mui/styles";
 import { connect } from "react-redux";
 
 import UserProfilePopUpHeader from "./UserProfilePopUpHeader";

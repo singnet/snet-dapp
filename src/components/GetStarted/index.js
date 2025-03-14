@@ -1,6 +1,6 @@
 import React from "react";
-import Grid from "@material-ui/core/Grid";
-import { withStyles } from "@material-ui/styles";
+import Grid from "@mui/material/Grid";
+import { withStyles } from "@mui/styles";
 import GetStartedDescription from "./GetStartedDescription";
 import { Helmet } from "react-helmet";
 import { GetStartedCategoriesData } from "../../utility/constants/GetStarted";
@@ -17,7 +17,7 @@ const seoData = {
   url: `${process.env.REACT_APP_BASE_URL}/getstarted`,
 };
 
-const GetStarted = ({ classes, history }) => {
+const GetStarted = ({ classes }) => {
   return (
     <React.Fragment>
       <Helmet>
@@ -34,7 +34,7 @@ const GetStarted = ({ classes, history }) => {
         url={seoData.url}
         twitterImage={seoData.twitterImage}
       />
-      <Grid container spacing={24} className={classes.GetStartedMainContaienr}>
+      <Grid container className={classes.GetStartedMainContaienr}>
         <Grid item xs={12} sm={12} md={12} lg={12} className={classes.TopSection}>
           <GetStartedDescription
             title="One AI Marketplace For All"
@@ -58,7 +58,6 @@ const GetStarted = ({ classes, history }) => {
             button
             btnType="blue"
             btnText="Sign up free"
-            history={history}
           />
         </Grid>
         {/*

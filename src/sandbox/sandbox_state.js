@@ -1,4 +1,4 @@
-export default {
+const sandboxState = {
   userReducer: {
     login: {
       isLoggedIn: true,
@@ -43,3 +43,5 @@ export default {
     },
   },
 };
+
+export default sandboxState;

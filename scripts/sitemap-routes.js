@@ -1,9 +1,9 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Route, Routes as Switch } from "react-router-dom";
 import Routes from "../src/utility/constants/Routes";
 
 export default (
-  <Route>
+  <Switch>
     <Route path={`/${Routes.SIGNUP}`} />
     <Route path={`/${Routes.LOGIN}`} />
     <Route path={`/${Routes.FORGOT_PASSWORD}`} />
@@ -17,5 +17,5 @@ export default (
     <Route path="/" exact />
     <Route path={`/${Routes.GET_STARTED}`} />
     <Route path={`/${Routes.AI_REQUEST_FORM}`} />
-  </Route>
+  </Switch>
 );

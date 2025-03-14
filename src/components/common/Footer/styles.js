@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@mui/styles";
 
 export const useStyles = makeStyles((theme) => ({
   footer: {
@@ -41,6 +41,7 @@ export const useStyles = makeStyles((theme) => ({
     opacity: 0.6,
     "& span": {
       fontSize: 20,
+      width: "100%",
       "@media (max-width:767px)": {
         fontSize: 14,
       },

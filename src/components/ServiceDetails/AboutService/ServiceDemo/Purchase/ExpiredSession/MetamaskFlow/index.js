@@ -1,22 +1,23 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import Tooltip from "@material-ui/core/Tooltip";
-import { withStyles } from "@material-ui/styles";
-import { WebServiceClient as ServiceClient } from "snet-sdk-web";
-
+import React, { Fragment, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Tooltip from "@mui/material/Tooltip";
+import { withStyles } from "@mui/styles";
 import StyledButton from "../../../../../../common/StyledButton";
 import PaymentInfoCard from "../../PaymentInfoCard";
 import PurchaseDialog from "../../PurchaseDialog";
 import ChannelSelectionBox from "../../ChannelSelectionBox";
 import AlertBox, { alertTypes } from "../../../../../../common/AlertBox";
-import { initSdk } from "../../../../../../../utility/sdk";
 import { cogsToAgi } from "../../../../../../../utility/PricingStrategy";
-import { currentServiceDetails, pricing } from "../../../../../../../Redux/reducers/ServiceDetailsReducer";
+import { pricing as getPricing, groupInfo } from "../../../../../../../Redux/reducers/ServiceDetailsReducer";
 import PaymentChannelManagement from "../../../../../../../utility/PaymentChannelManagement";
-import { loaderActions, userActions } from "../../../../../../../Redux/actionCreators";
+import { loaderActions } from "../../../../../../../Redux/actionCreators";
 import { LoaderContent } from "../../../../../../../utility/constants/LoaderContent";
 import { useStyles } from "./style";
-import { walletTypes } from "../../../../../../../Redux/actionCreators/UserActions";
+import { isUndefined } from "lodash";
+
+import { currentServiceDetails } from "../../../../../../../Redux/reducers/ServiceDetailsReducer";
+import { updateChannelBalanceAPI, updateMetamaskWallet } from "../../../../../../../Redux/actionCreators/UserActions";
+import { getSdk } from "../../../../../../../Redux/actionCreators/SDKActions";
 
 const payTypes = {
   CHANNEL_BALANCE: "CHANNEL_BALANCE",
@@ -31,337 +32,346 @@ Click below to install and learn more about how to use Metamask and your AGIX cr
 };
 
 const MIN_CALLS_NUMBER = 1;
-class MetamaskFlow extends Component {
-  state = {
-    MMconnected: false,
-    mpeBal: "0",
-    selectedPayType: payTypes.CHANNEL_BALANCE,
-    disabledPayTypes: [],
-    showPurchaseDialog: false,
-    noOfServiceCalls: 1,
-    totalPrice: cogsToAgi(this.props.pricing.price_in_cogs),
-    alert: {},
-    showTooltip: false,
-  };
 
-  sdk;
+const paymentInfoCardDatMpeBal = {
+  title: "Escrow Balance",
+  id: "mpeBal",
+  unit: "AGIX",
+};
 
-  serviceClient;
+let paymentChannelManagement;
 
-  paymentChannelManagement;
+const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, handlePurchaseError, isServiceAvailable }) => {
+  const dispatch = useDispatch();
+  const { price_in_cogs } = useSelector((state) => getPricing(state));
+  const { org_id, service_id } = useSelector((state) => currentServiceDetails(state));
+  const group_id = useSelector((state) => groupInfo(state).group_id);
 
-  componentDidMount = () => {
-    this.initializePaymentChannel();
-  };
+  const [mpeBalance, setMpeBalance] = useState("0");
+  const [selectedPayType, setSelectedPayType] = useState(payTypes.CHANNEL_BALANCE);
+  const [disabledPayTypes, setDisabledPayTypes] = useState([]);
+  const [showPurchaseDialog, setShowPurchaseDialog] = useState(false);
+  const [noOfServiceCalls, setNoOfServiceCalls] = useState(1);
+  const [totalPrice, setTotalPrice] = useState(cogsToAgi(price_in_cogs));
+  const [alert, setAlert] = useState({});
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [channelBalance, setChannelBalance] = useState();
 
-  initializePaymentChannel = async () => {
+  useEffect(() => {
+    if (!isUndefined(channelBalance)) {
+      return;
+    }
+
+    const updateBalanceData = async () => {
+      try {
+        await initializedPaymentChannel();
+        await getPaymentChannelData();
+      } catch (err) {
+        setAlert({ type: alertTypes.ERROR, message: err.message });
+      }
+    };
+
+    updateBalanceData();
+  }, [channelBalance]);
+
+  useEffect(() => {
+    const handleDisabledPaytypes = () => {
+      const disabledPayTypes = [];
+
+      if (channelBalance <= 0 && !disabledPayTypes.includes(payTypes.CHANNEL_BALANCE)) {
+        disabledPayTypes.push(payTypes.CHANNEL_BALANCE);
+        setSelectedPayType("");
+      }
+      if (mpeBalance <= 0) {
+        if (!disabledPayTypes.includes(payTypes.SINGLE_CALL)) {
+          disabledPayTypes.push(payTypes.SINGLE_CALL);
+        }
+        if (!disabledPayTypes.includes(payTypes.MULTIPLE_CALLS)) {
+          disabledPayTypes.push(payTypes.MULTIPLE_CALLS);
+        }
+      }
+      setDisabledPayTypes(disabledPayTypes);
+    };
+
+    handleDisabledPaytypes();
+  }, [channelBalance, mpeBalance]);
+
+  const initializedPaymentChannel = async () => {
     try {
-      const {
-        serviceDetails: { org_id, service_id },
-        groupInfo,
-      } = this.props;
-      this.sdk = await initSdk();
-      this.serviceClient = new ServiceClient(this.sdk, org_id, service_id, this.sdk._mpeContract, {}, groupInfo);
-      this.paymentChannelManagement = new PaymentChannelManagement(this.sdk, this.serviceClient);
+      setAlert({});
+      dispatch(loaderActions.startAppLoader(LoaderContent.SETUP_CHANNEL_FOR_SERV_EXEC));
+      const sdk = await dispatch(getSdk());
+      const serviceClient = await sdk.createServiceClient(org_id, service_id);
+      paymentChannelManagement = new PaymentChannelManagement(sdk, serviceClient);
+      const escrowBalance = await sdk.account.escrowBalance();
+      setMpeBalance(cogsToAgi(escrowBalance));
     } catch (error) {
-      this.props.handlePurchaseError("Unable to initialize payment channel. Please try again");
+      setAlert(connectMMinfo);
+    } finally {
+      dispatch(loaderActions.stopAppLoader());
     }
   };
 
-  PaymentInfoCardData = [
-    {
-      title: "Escrow Balance",
-      value: this.state.mpeBal,
-      unit: "AGIX",
-    },
-    {
-      title: "Channel Balance",
-      value: this.state.channelBalance,
-      unit: "AGIX",
-    },
-  ];
-
-  handleDisabledPaytypes = (channelBalance, mpeBal) => {
-    const disabledPayTypes = [];
-    let { selectedPayType } = this.state;
-
-    if (channelBalance <= 0 && !disabledPayTypes.includes(payTypes.CHANNEL_BALANCE)) {
-      disabledPayTypes.push(payTypes.CHANNEL_BALANCE);
-      selectedPayType = "";
-    }
-    if (mpeBal <= 0) {
-      if (!disabledPayTypes.includes(payTypes.SINGLE_CALL)) {
-        disabledPayTypes.push(payTypes.SINGLE_CALL);
-      }
-      if (!disabledPayTypes.includes(payTypes.MULTIPLE_CALLS)) {
-        disabledPayTypes.push(payTypes.MULTIPLE_CALLS);
-      }
-    }
-    this.setState({ disabledPayTypes, selectedPayType });
-  };
-
-  handleConnectMM = async () => {
-    const { startMMconnectLoader, stopLoader, registerWallet, updateWallet, fetchAvailableUserWallets } = this.props;
-    this.setState({ alert: {} });
+  const getPaymentChannelData = async () => {
+    setAlert({});
     try {
-      startMMconnectLoader();
-      if (!this.sdk) {
-        this.initializePaymentChannel();
-      }
-      const mpeBal = await this.sdk.account.escrowBalance();
-      await this.paymentChannelManagement.updateChannelInfo();
-      const address = await this.sdk.account.getAddress();
-      const availableUserWallets = await fetchAvailableUserWallets();
-      const addressAlreadyRegistered = availableUserWallets.some(
-        (wallet) => wallet.address.toLowerCase() === address.toLowerCase()
+      dispatch(loaderActions.startAppLoader(LoaderContent.SETUP_CHANNEL_FOR_SERV_EXEC));
+      await paymentChannelManagement.updateChannelInfo();
+      await getBalanceData();
+      await updateChannelBalance();
+    } catch (error) {
+      setAlert(connectMMinfo);
+    } finally {
+      dispatch(loaderActions.stopAppLoader());
+    }
+  };
+
+  const updateChannelBalance = async () => {
+    try {
+      const channel = paymentChannelManagement._channel;
+      await dispatch(
+        updateChannelBalanceAPI(
+          org_id,
+          service_id,
+          group_id,
+          Number(channel._state.amountDeposited) - Number(channel._state.availableAmount),
+          Number(channel._state.amountDeposited),
+          Number(channel._channelId),
+          Number(channel._state.nonce)
+        )
       );
-      if (!addressAlreadyRegistered) {
-        await registerWallet(address, walletTypes.METAMASK);
-      }
-
-      updateWallet({ type: walletTypes.METAMASK, address });
-      this.PaymentInfoCardData.map((el) => {
-        if (el.title === "Escrow Balance") {
-          el.value = cogsToAgi(mpeBal);
-        }
-        if (el.title === "Channel Balance") {
-          el.value = cogsToAgi(this.paymentChannelManagement.availableBalance());
-        }
-        return el;
-      });
-      const channelBalance = this.paymentChannelManagement.availableBalance();
-      this.handleDisabledPaytypes(channelBalance, mpeBal);
-
-      this.setState({ MMconnected: true, mpeBal, channelBalance });
     } catch (error) {
-      this.setState({ alert: { type: connectMMinfo.type, message: connectMMinfo.message } });
+      console.error("error: ", error);
     }
-    stopLoader();
   };
 
-  handlePayTypeChange = (value) => {
-    const { disabledPayTypes, selectedPayType } = this.state;
+  const getBalanceData = async () => {
+    setAlert({});
+    dispatch(loaderActions.startAppLoader(LoaderContent.SETUP_CHANNEL_FOR_SERV_EXEC));
+    try {
+      await dispatch(updateMetamaskWallet());
+      const channelBalance = paymentChannelManagement.availableBalance();
+      const channelBalanceInCogs = cogsToAgi(channelBalance);
+      setChannelBalance(channelBalanceInCogs);
+      if (channelBalanceInCogs === totalPrice) {
+        setIsLastPaidCall(true);
+        await handleSubmit();
+        return;
+      }
+      if (channelBalanceInCogs > totalPrice) {
+        setIsLastPaidCall(false);
+        await handleSubmit();
+        return;
+      }
+      setSelectedPayType(payTypes.MULTIPLE_CALLS);
+    } catch (error) {
+      console.error("get balance error: ", error);
+      setAlert(connectMMinfo);
+    } finally {
+      dispatch(loaderActions.stopAppLoader());
+    }
+  };
+
+  const handlePayTypeChange = (value) => {
     if (disabledPayTypes.includes(value) || selectedPayType === value) {
       return;
     }
-    this.setState({ selectedPayType: value });
+    setSelectedPayType(value);
   };
 
-  handlePurchaseDialogOpen = () => {
-    this.setState({ showPurchaseDialog: true });
+  const handlePurchaseDialogOpen = () => {
+    setShowPurchaseDialog(true);
   };
 
-  handlePurchaseDialogClose = () => {
-    this.setState({ showPurchaseDialog: false });
+  const handlePurchaseDialogClose = () => {
+    setShowPurchaseDialog(false);
   };
 
-  isValidCallsNumber = (numberOfCalls) => {
-    const isMoreOrEqualThanMinimum = numberOfCalls >= MIN_CALLS_NUMBER;
+  const isValidCallsNumber = (numberOfCalls) => {
     const isInteger = numberOfCalls % 1 === 0;
-    const isNumber = Number(numberOfCalls);
-    return isMoreOrEqualThanMinimum && isInteger && isNumber;
+    const isNumber = !isNaN(Number(numberOfCalls));
+    return isInteger && isNumber;
   };
 
-  handleNoOfCallsChange = (event) => {
-    const noOfServiceCalls = event.target.value;
-    console.log(noOfServiceCalls);
-    if (!this.isValidCallsNumber(noOfServiceCalls)) {
+  const isCallsMoreOrEqualThanMinimum = () => {
+    return noOfServiceCalls >= MIN_CALLS_NUMBER;
+  };
+
+  const formatValue = (value) => {
+    let stringValue = String(value);
+    if (stringValue[0] === "0" && stringValue.length > 1) {
+      return stringValue.slice(1);
+    }
+    return value;
+  };
+
+  const handleNoOfCallsChange = (event) => {
+    let noOfServiceCalls = event.target.value;
+    if (!noOfServiceCalls || noOfServiceCalls === 0) {
+      noOfServiceCalls = 0;
+    }
+    noOfServiceCalls = formatValue(noOfServiceCalls);
+    setNoOfServiceCalls(noOfServiceCalls);
+    if (!isValidCallsNumber(noOfServiceCalls)) {
       return;
     }
-    const totalPrice = String(cogsToAgi(this.paymentChannelManagement.noOfCallsToCogs(noOfServiceCalls)));
-    this.setState({ noOfServiceCalls, totalPrice });
+    const totalPriceInCogs = cogsToAgi(paymentChannelManagement.noOfCallsToCogs(noOfServiceCalls));
+    setTotalPrice(totalPriceInCogs);
   };
 
-  handleSubmit = async () => {
-    this.props.startChannelSetupLoader();
-    this.setState({ alert: {} });
-
-    let { noOfServiceCalls, selectedPayType } = this.state;
+  const handleSubmit = async () => {
+    dispatch(loaderActions.startAppLoader(LoaderContent.SETUP_CHANNEL_FOR_SERV_EXEC));
+    setAlert({});
     if (selectedPayType === payTypes.CHANNEL_BALANCE) {
       try {
-        const isChannelNearToExpiry = await this.paymentChannelManagement.isChannelNearToExpiry();
+        const isChannelNearToExpiry = await paymentChannelManagement.isChannelNearToExpiry();
         if (isChannelNearToExpiry) {
-          await this.paymentChannelManagement.extendChannel();
+          await paymentChannelManagement.extendChannel();
         }
-        this.props.handleContinue();
+        handleContinue();
       } catch (e) {
-        this.setState({ alert: { type: alertTypes.ERROR, message: e.message } });
+        setAlert({ type: alertTypes.ERROR, message: e.message });
+      } finally {
+        dispatch(loaderActions.stopAppLoader());
       }
-      this.props.stopLoader();
-      return;
     }
+
     if (selectedPayType === payTypes.SINGLE_CALL) {
-      noOfServiceCalls = 1;
+      setNoOfServiceCalls(1);
     }
+    if (noOfServiceCalls === 1) {
+      setIsLastPaidCall(true);
+    }
+
     try {
-      const sdk = await initSdk();
-      const mpeBal = await sdk.account.escrowBalance();
-      if (mpeBal < this.paymentChannelManagement.noOfCallsToCogs(noOfServiceCalls)) {
-        this.setState({
-          mpeBal,
-          alert: {
-            type: alertTypes.ERROR,
-            message: `Insufficient MPE balance. Please deposit some AGIX tokens to your escrow account`,
-          },
+      if (mpeBalance < cogsToAgi(paymentChannelManagement.noOfCallsToCogs(noOfServiceCalls))) {
+        setAlert({
+          type: alertTypes.ERROR,
+          message: "Insufficient MPE balance. Please deposit some AGIX tokens to your escrow account",
         });
         return;
       }
-      if (!this.paymentChannelManagement.channel) {
-        await this.paymentChannelManagement.openChannel(noOfServiceCalls);
+      if (!paymentChannelManagement.channel) {
+        await paymentChannelManagement.openChannel(noOfServiceCalls);
       } else {
-        await this.paymentChannelManagement.extendAndAddFunds(noOfServiceCalls);
+        await paymentChannelManagement.extendAndAddFunds(noOfServiceCalls);
       }
-
-      this.props.handleContinue();
-      this.props.stopLoader();
+      handleContinue();
     } catch (error) {
-      this.setState({ alert: { type: alertTypes.ERROR, message: `Unable to execute the call` } });
-      this.props.stopLoader();
+      setAlert({ type: alertTypes.ERROR, message: "Unable to execute the call" });
+    } finally {
+      dispatch(loaderActions.stopAppLoader());
     }
   };
 
-  parseChannelBalFromPaymentCard = () => {
-    return this.PaymentInfoCardData.find((el) => el.title === "Channel Balance").value;
-  };
-
-  shouldContinueBeEnabled = () => {
-    const { mpeBal, totalPrice, channelBalance, selectedPayType } = this.state;
+  const shouldContinueBeEnabled = () => {
     return (
+      // if pay type multiple calls the call number should be more than MIN_CALLS_NUMBER
+      (selectedPayType !== payTypes.MULTIPLE_CALLS || isCallsMoreOrEqualThanMinimum()) &&
       selectedPayType &&
-      this.props.isServiceAvailable &&
-      (Number(mpeBal) >= Number(totalPrice) || Number(channelBalance) >= Number(totalPrice))
+      isServiceAvailable &&
+      (Number(mpeBalance) >= Number(totalPrice) || Number(channelBalance) >= Number(totalPrice))
     );
   };
 
-  shouldDepositToEscrowBeHighlighted = () => this.state.mpeBal <= 0;
+  const shouldDepositToEscrowBeHighlighted = () => mpeBalance <= 0;
 
-  handleTooltipOpen = () => {
-    if (!this.props.isServiceAvailable) {
-      this.setState({ showTooltip: true });
+  const handleTooltipOpen = () => {
+    if (!isServiceAvailable) {
+      setShowTooltip(true);
     }
   };
 
-  handleTooltipClose = () => {
-    this.setState({ showTooltip: false });
+  const handleTooltipClose = () => {
+    setShowTooltip(false);
   };
 
-  render() {
-    const { classes } = this.props;
-    const {
-      MMconnected,
-      showPurchaseDialog,
-      selectedPayType,
-      disabledPayTypes,
-      noOfServiceCalls,
-      totalPrice,
-      alert,
-      showTooltip,
-    } = this.state;
+  // if (isUndefined(channelBalance) || isNaN(channelBalance)) {
+  //   return (
+  //     <>
+  //       <StyledButton
+  //         type="blue"
+  //         btnText="run service"
+  //         onClick={this.getPaymentChannelData}
+  //         disabled={isStartServiceDisable}
+  //       />
+  //       <div className={classes.alertContainer}>
+  //         <AlertBox type={alert.type} message={alert.message} />
+  //       </div>
+  //     </>
+  //   );
+  // }
 
-    if (!MMconnected) {
-      return (
-        <div className={classes.ExpiredSessionContainer}>
-          <AlertBox type={alert.type} message={alert.message} />
-          <StyledButton type="blue" btnText="connect metamask" onClick={this.handleConnectMM} />
-        </div>
-      );
-    }
-    return (
-      <div className={classes.PurchaseFlowContainer}>
-        <PurchaseDialog show={showPurchaseDialog} onClose={this.handlePurchaseDialogClose} />
-        <div className={classes.paymentInfoCard}>
-          {this.PaymentInfoCardData.map((item) => (
-            <PaymentInfoCard key={item.title} title={item.title} value={item.value} unit={item.unit} />
-          ))}
-        </div>
-        <div className={classes.ChannelSelectionBoxMainContainer}>
-          <div>
-            <span className={classes.channelSelectionTitle}>Recommended</span>
-            <ChannelSelectionBox
-              title="Channel Balance"
-              description={`You have ${Number(this.parseChannelBalFromPaymentCard())} AGIX in you channel. This can be used for running demos across all the services from this vendor.`}
-              checked={selectedPayType === payTypes.CHANNEL_BALANCE}
-              value={payTypes.CHANNEL_BALANCE}
-              onClick={() => this.handlePayTypeChange(payTypes.CHANNEL_BALANCE)}
-              disabled={disabledPayTypes.includes(payTypes.CHANNEL_BALANCE)}
-            />
-          </div>
-          <div>
-            <span className={classes.channelSelectionTitle}>Best Value</span>
-            <ChannelSelectionBox
-              title="Multiple Calls"
-              description="Select the no of calls you want to make. The tokens are purchased from the available escrow balance. This  option helps save the gas cost."
-              checked={selectedPayType === payTypes.MULTIPLE_CALLS}
-              value={payTypes.MULTIPLE_CALLS}
-              onClick={() => this.handlePayTypeChange(payTypes.MULTIPLE_CALLS)}
-              inputProps={{
-                noOfServiceCalls,
-                onChange: this.handleNoOfCallsChange,
-                totalPrice,
-                unit: "AGIX",
-              }}
-              disabled={disabledPayTypes.includes(payTypes.MULTIPLE_CALLS)}
-            />
-            <ChannelSelectionBox
-              title="Single Call"
-              description="Tokens are purchsed for a single call. The tokens are purchsed from the available escrow balance."
-              checked={selectedPayType === payTypes.SINGLE_CALL}
-              value={payTypes.SINGLE_CALL}
-              onClick={() => this.handlePayTypeChange(payTypes.SINGLE_CALL)}
-              inputProps={{
-                totalPrice: cogsToAgi(this.props.pricing.price_in_cogs),
-                unit: "AGIX",
-                noInput: true,
-              }}
-              disabled={disabledPayTypes.includes(payTypes.SINGLE_CALL)}
-            />
-          </div>
+  return (
+    <Fragment>
+      <div className={classes.paymentInfoCard}>
+        <PaymentInfoCard
+          key={paymentInfoCardDatMpeBal.id}
+          title={paymentInfoCardDatMpeBal.title}
+          value={mpeBalance}
+          unit={paymentInfoCardDatMpeBal.unit}
+        />
+      </div>
+      <div className={classes.runServiceContainer}>
+        <PurchaseDialog show={showPurchaseDialog} onClose={handlePurchaseDialogClose} />
+        <ChannelSelectionBox
+          title="Single Call"
+          description="Tokens are purchsed for a single call. The tokens are purchsed from the available escrow balance."
+          checked={selectedPayType === payTypes.SINGLE_CALL}
+          value={payTypes.SINGLE_CALL}
+          onClick={() => handlePayTypeChange(payTypes.SINGLE_CALL)}
+          inputProps={{
+            totalPrice: cogsToAgi(price_in_cogs),
+            unit: "AGIX",
+            noInput: true,
+          }}
+          disabled={disabledPayTypes.includes(payTypes.SINGLE_CALL)}
+        />
+        <div className={classes.bestValueContainer}>
+          <div className={classes.channelSelectionTitle}>Best Value</div>
+          <ChannelSelectionBox
+            title="Multiple Calls"
+            description="Select the no of calls you want to make. The tokens are purchased from the available escrow balance. This  option helps save the gas cost."
+            checked={selectedPayType === payTypes.MULTIPLE_CALLS}
+            value={payTypes.MULTIPLE_CALLS}
+            onClick={() => handlePayTypeChange(payTypes.MULTIPLE_CALLS)}
+            inputProps={{
+              noOfServiceCalls,
+              onChange: handleNoOfCallsChange,
+              totalPrice,
+              unit: "AGIX",
+            }}
+            disabled={disabledPayTypes.includes(payTypes.MULTIPLE_CALLS)}
+          />
         </div>
         <AlertBox type={alert.type} message={alert.message} />
         <div className={classes.buttonContainer}>
           <StyledButton
-            type={this.shouldDepositToEscrowBeHighlighted() ? "blue" : "transparent"}
+            type={shouldDepositToEscrowBeHighlighted() ? "blue" : "transparent"}
             btnText="Deposit into Escrow"
-            onClick={this.handlePurchaseDialogOpen}
+            onClick={handlePurchaseDialogOpen}
           />
           <Tooltip
             title="Service is currently offline. Please try after sometime"
             aria-label="add-payment"
             open={showTooltip}
-            onOpen={this.handleTooltipOpen}
-            onClose={this.handleTooltipClose}
+            onOpen={handleTooltipOpen}
+            onClose={handleTooltipClose}
             className={classes.tooltip}
-            classes={classes}
           >
             <div>
               <StyledButton
                 type="blue"
                 btnText="Continue"
-                onClick={this.handleSubmit}
-                disabled={!this.shouldContinueBeEnabled()}
+                onClick={handleSubmit}
+                disabled={!shouldContinueBeEnabled()}
               />
             </div>
           </Tooltip>
         </div>
       </div>
-    );
-  }
-}
+    </Fragment>
+  );
+};
 
-const mapStateToProps = (state) => ({
-  serviceDetails: currentServiceDetails(state),
-  pricing: pricing(state),
-  wallet: state.userReducer.wallet,
-  walletList: state.userReducer.walletList,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  startMMconnectLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.CONNECT_METAMASK)),
-  startChannelSetupLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.SETUP_CHANNEL_FOR_SERV_EXEC)),
-  updateWallet: ({ type, address }) => dispatch(userActions.updateWallet({ type, address })),
-  registerWallet: (address, type) => dispatch(userActions.registerWallet(address, type)),
-  fetchAvailableUserWallets: () => dispatch(userActions.fetchAvailableUserWallets()),
-  stopLoader: () => dispatch(loaderActions.stopAppLoader),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(MetamaskFlow));
+export default withStyles(useStyles)(MetamaskFlow);

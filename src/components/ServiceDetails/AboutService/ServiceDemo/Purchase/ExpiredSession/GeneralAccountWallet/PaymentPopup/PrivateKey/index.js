@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { withStyles } from "@material-ui/styles";
-import Typography from "@material-ui/core/Typography";
+import { withStyles } from "@mui/styles";
+import Typography from "@mui/material/Typography";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
 import AlertText from "../../../../../../../../common/AlertText";

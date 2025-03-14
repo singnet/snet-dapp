@@ -1,131 +1,109 @@
 import React, { useState } from "react";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Switch from "@material-ui/core/Switch";
-import { withStyles } from "@material-ui/styles";
-import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
-import { WebServiceClient as ServiceClient } from "snet-sdk-web";
-import StyledDropdown from "../../../../common/StyledDropdown";
+import { useDispatch, useSelector } from "react-redux";
+
+// import FormControlLabel from "@mui/material/FormControlLabel";
+// import Switch from "@mui/material/Switch";
 import StyledTextField from "../../../../common/StyledTextField";
 import StyledButton from "../../../../common/StyledButton";
-import AddMoreEthAddress from "./AddMoreEthAddress";
-import { useStyles } from "./styles";
-import { connect, useDispatch } from "react-redux";
-import { loaderActions, userActions } from "../../../../../Redux/actionCreators";
+
+import { loaderActions } from "../../../../../Redux/actionCreators";
+import { createModel, deleteModel } from "../../../../../Redux/actionCreators/ServiceTrainingActions";
 import { LoaderContent } from "../../../../../utility/constants/LoaderContent";
-import { initSdk } from "../../../../../utility/sdk";
-import { walletTypes } from "../../../../../Redux/actionCreators/UserActions";
-import { currentServiceDetails, groupInfo } from "../../../../../Redux/reducers/ServiceDetailsReducer";
+import { currentServiceDetails } from "../../../../../Redux/reducers/ServiceDetailsReducer";
 import AlertBox, { alertTypes } from "../../../../common/AlertBox";
 
-const ModelInfo = ({
-  classes,
-  handleNextClick,
-  training,
-  groupInfo,
-  serviceDetails,
-  startMMconnectLoader,
-  fetchAvailableUserWallets,
-  stopLoader,
-  registerWallet,
-  updateWallet,
-  setModelData,
-  modelDetailsOnEdit,
-  cancelEditModel,
-  updateModel,
-  deleteModel,
-}) => {
-  const [enableAccessModel, setEnableAccessModel] = useState(
-    modelDetailsOnEdit && modelDetailsOnEdit.publicAccess === true ? true : false
-  );
-  const [ethAddress, setEthAddress] = useState(modelDetailsOnEdit ? modelDetailsOnEdit.addressList : []);
-  const [trainingMethod, setTrainingMethod] = useState(modelDetailsOnEdit ? modelDetailsOnEdit.methodName : undefined);
-  const [trainingModelName, setTrainingServiceName] = useState(modelDetailsOnEdit ? modelDetailsOnEdit.modelName : "");
-  const [trainingModelDescription, setTrainingModelDescription] = useState(
-    modelDetailsOnEdit ? modelDetailsOnEdit.description : ""
-  );
-  const [alert, setAlert] = useState({});
+import { withStyles } from "@mui/styles";
+import { useStyles } from "./styles";
+import AccessModel from "./AccessModel";
+import Data from "../Data";
+
+const ModelInfo = ({ classes, cancelEditModel }) => {
   const dispatch = useDispatch();
-  const createModel = async (sdk, address) => {
-    const { org_id, service_id } = serviceDetails;
-    const serviceClient = new ServiceClient(sdk, org_id, service_id, sdk._mpeContract, {}, groupInfo);
-    const serviceName = trainingMethod.split(".")[1].split("/")[0];
-    const params = {
-      modelName: trainingModelName,
-      method: trainingMethod,
-      serviceName,
-      description: trainingModelDescription,
-      publicAccess: enableAccessModel,
-      address: !enableAccessModel ? ethAddress : [],
-    };
-    const param = {
-      grpcMethod: training.training_methods[0],
-      grpcService: serviceName,
-      address,
-    };
-    const response = await serviceClient.getExistingModel(param);
-    if (response.length < 20) {
-      return await serviceClient.createModel(address, params);
-    }
-  };
-  const onUpdate = () => {
-    const updateModelParams = {
-      trainingModelName,
-      trainingModelDescription,
-      ethAddress,
-      enableAccessModel,
-    };
-    updateModel(updateModelParams);
+  const { detailsTraining } = useSelector((state) => state.serviceDetailsReducer);
+  const { currentModel } = useSelector((state) => state.serviceTrainingReducer);
+  const { org_id, service_id } = useSelector((state) => currentServiceDetails(state));
+
+  // const [trainingMethod, setTrainingMethod] = useState(currentModel ? currentModel.methodName : undefined);
+  //eslint-disable-next-line
+  const [isRestrictAccessModel, setIsRestrictAccessModel] = useState(
+    true
+    // currentModel && currentModel.publicAccess ? true : false
+  );
+  const [accessAddresses, setAccessAddresses] = useState(currentModel ? currentModel.addressList : []);
+  const [trainingModelName, setTrainingServiceName] = useState(currentModel ? currentModel.modelName : "");
+  const [trainingModelDescription, setTrainingModelDescription] = useState(
+    currentModel ? currentModel.description : ""
+  );
+  const [trainingDataset, setTrainingDataset] = useState(currentModel ? currentModel.dataset : "");
+  const [alert, setAlert] = useState({});
+
+  const trainingMethod = detailsTraining?.trainingMethods[0];
+  // const onUpdate = async () => {
+  //   const updateModelParams = {
+  //     trainingModelName,
+  //     trainingModelDescription,
+  //     accessAddresses,
+  //     isRestrictAccessModel,
+  //     dataLink: trainingDataLink,
+  //   };
+
+  //   try {
+  //     const address = await dispatch(userActions.updateMetamaskWallet());
+  //     await dispatch(updateModel(org_id, service_id, updateModelParams));
+  //     cancelEditModel();
+  //   } catch (error) {
+  //     setAlert({ type: alertTypes.ERROR, message: "Unable to update model. Please try again" });
+  //   } finally {
+  //     dispatch(loaderActions.stopAppLoader());
+  //   }
+  // };
+
+  const onDelete = async () => {
+    await dispatch(
+      deleteModel(org_id, service_id, currentModel.modelId, currentModel.methodName, currentModel.serviceName)
+    );
+    cancelEditModel();
   };
 
   const onNext = async () => {
     try {
-      startMMconnectLoader();
-      const sdk = await initSdk();
-      const address = await sdk.account.getAddress();
-      const availableUserWallets = await fetchAvailableUserWallets();
-      const addressAlreadyRegistered = availableUserWallets.some((wallet) => wallet.address.toLowerCase() === address);
-      if (!addressAlreadyRegistered) {
-        await registerWallet(address, walletTypes.METAMASK);
-      }
-      updateWallet({ type: walletTypes.METAMASK, address });
-      dispatch(loaderActions.startAppLoader(LoaderContent.CREATE_TRAINING_MODEL));
-      const createdModelData = await createModel(sdk, address);
-      const data = {
-        modelId: createdModelData?.modelId || "",
-        method: createdModelData?.methodName || "",
-        serviceName: createdModelData?.serviceName || "",
-        name: createdModelData?.modelName || "",
-        description: createdModelData?.description || "",
-        publicAccess: createdModelData?.publicAccess || false,
-        address: createdModelData?.addressList || [],
-        updatedDate: createdModelData?.updatedDate || "",
-        status: createdModelData?.status || "",
+      dispatch(loaderActions.startAppLoader(LoaderContent.CONNECT_METAMASK));
+      const newModelParams = {
+        trainingModelName,
+        trainingMethod,
+        trainingModelDescription,
+        accessAddresses,
+        isRestrictAccessModel,
+        dataLink: trainingDataset.link,
       };
-      setModelData(data);
-      stopLoader();
-      handleNextClick();
+      await dispatch(createModel(org_id, service_id, newModelParams));
+      dispatch(loaderActions.stopAppLoader());
+      // handleNextClick();
+      cancelEditModel();
     } catch (error) {
+      console.log("error onNext: ", error);
       setAlert({ type: alertTypes.ERROR, message: "Unable to create model. Please try again" });
-      stopLoader();
+      dispatch(loaderActions.stopAppLoader());
     }
   };
-  const onAccessModelSwitchChange = () => {
-    setEnableAccessModel(!enableAccessModel);
-  };
 
-  const trainingModelAccess = training?.training_methods || [];
+  // const onAccessModelSwitchChange = () => {
+  //   setIsRestrictAccessModel(!isRestrictAccessModel);
+  // };
 
-  const trainingDropDownObject = trainingModelAccess.map((e) => ({
-    value: e,
-    label: e,
-  }));
+  // const trainingModelAccess = detailsTraining?.trainingMethods || [];
 
-  const trainingMethodDropDownBox = (event) => {
-    const { value } = event.target;
-    if (value !== "default") {
-      setTrainingMethod(value);
-    }
-  };
+  // const trainingDropDownObject = trainingModelAccess.map((e) => ({
+  //   value: e,
+  //   label: e,d
+  // }));
+
+  // const trainingMethodDropDownBox = (event) => {
+  //   const { value } = event.target;
+  //   if (value !== "default") {
+  //     setTrainingMethod(value);
+  //   }
+  // };
 
   const handleModelServiceName = (event) => {
     setTrainingServiceName(event.target.value);
@@ -135,32 +113,31 @@ const ModelInfo = ({
     setTrainingModelDescription(event.target.value);
   };
 
-  const addEthAddress = (text) => setEthAddress([...ethAddress, text]);
-
-  const toggleEthAddress = (index) => {
-    const newTEthAddress = [...ethAddress];
-    newTEthAddress[index].isCompleted = !newTEthAddress[index]?.isCompleted;
-    setEthAddress(newTEthAddress);
+  const isCreatingAvailable = trainingMethod && trainingModelName && trainingModelDescription && trainingDataset?.link;
+  const CreateModelButtonGroup = () => {
+    return <StyledButton btnText="Create" onClick={onNext} disabled={!isCreatingAvailable} />;
   };
 
-  const removeEthAddress = (index) => {
-    const newEthAddress = [...ethAddress];
-    newEthAddress.splice(index, 1);
-    setEthAddress(newEthAddress);
+  const UpdateModelButtonGroup = () => {
+    return (
+      <div className={classes.btnContainer}>
+        <StyledButton btnText="Delete" type="redBg" onClick={onDelete} />
+        {/* <StyledButton btnText="Update" type="blue" onClick={onUpdate} /> */}
+      </div>
+    );
   };
 
   return (
     <div className={classes.modelInfoContaienr}>
       <div className={classes.trainingBasicDetails}>
         <div className={classes.methodDropBox}>
-          <StyledDropdown
-            labelTxt="Select Method"
+          {/*<StyledDropdown
             inputLabel="Training Method"
             list={trainingDropDownObject}
             value={trainingMethod}
             onChange={trainingMethodDropDownBox}
           />
-          <span>Please select a method to train as a first step.</span>
+          {/* <span>Please select a method to train as a first step.</span> */}
         </div>
         <div className={classes.modelNameContainer}>
           <StyledTextField label="Model name" value={trainingModelName} onChange={handleModelServiceName} />
@@ -180,64 +157,30 @@ const ModelInfo = ({
           />
         </div>
       </div>
+      <Data trainingDataset={trainingDataset} setTrainingDataset={setTrainingDataset} />
       <div className={classes.accessModelContainer}>
-        <FormControlLabel
-          label="Enable access for this model"
+        {/* <FormControlLabel
+          label="Enable access restriction for this model"
           control={
             <Switch
-              checked={enableAccessModel}
+              checked={isRestrictAccessModel}
               onChange={onAccessModelSwitchChange}
               color="primary"
               className={classes.switchToggle}
             />
           }
-        />
-        {!enableAccessModel ? (
-          <div className={classes.accessModelContainer}>
-            <span>Add a list of address that can access this model.</span>
-            <div className={classes.ethAddressContainer}>
-              <span>Ethereum addresses</span>
-              {ethAddress.map((address, index) => (
-                <div key={index.toString()} className={classes.addedEthAdd}>
-                  <span onClick={() => toggleEthAddress(index)}>{address}</span>
-                  <DeleteOutlineIcon onClick={() => removeEthAddress(index)} />
-                </div>
-              ))}
-              <AddMoreEthAddress addEthAddress={addEthAddress} />
-            </div>
-          </div>
-        ) : null}
+        /> */}
+        {isRestrictAccessModel && (
+          <AccessModel accessAddresses={accessAddresses} setAccessAddresses={setAccessAddresses} />
+        )}
       </div>
-      {modelDetailsOnEdit ? (
-        <div className={classes.editVersionBtnContainer}>
-          <StyledButton btnText="Delete" type="redBg" onClick={deleteModel} />
-          <div>
-            <StyledButton btnText="Cancel" onClick={cancelEditModel} />
-            <StyledButton btnText="Update" type="blue" onClick={onUpdate} />
-          </div>
-        </div>
-      ) : (
-        <div className={classes.btnContainer}>
-          <StyledButton btnText="Next" onClick={onNext} />
-        </div>
-      )}
+      <div className={classes.btnContainer}>
+        <StyledButton btnText="Cancel" type="transparent" onClick={cancelEditModel} />
+        {currentModel?.modelId ? <UpdateModelButtonGroup /> : <CreateModelButtonGroup />}
+      </div>
       <AlertBox type={alert.type} message={alert.message} />
     </div>
   );
 };
 
-const mapStateToProps = (state) => ({
-  wallet: state.userReducer.wallet,
-  serviceDetails: currentServiceDetails(state),
-  groupInfo: groupInfo(state),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  startMMconnectLoader: () => dispatch(loaderActions.startAppLoader(LoaderContent.CONNECT_METAMASK)),
-  fetchAvailableUserWallets: () => dispatch(userActions.fetchAvailableUserWallets()),
-  registerWallet: (address, type) => dispatch(userActions.registerWallet(address, type)),
-  updateWallet: ({ type, address }) => dispatch(userActions.updateWallet({ type, address })),
-  stopLoader: () => dispatch(loaderActions.stopAppLoader),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(ModelInfo));
+export default withStyles(useStyles)(ModelInfo);

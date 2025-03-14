@@ -14,12 +14,16 @@ export const useStyles = (theme) => ({
       fontWeight: 400,
       "@media(max-width:1280px)": {
         boxSizing: "border-box",
-        width: 1280,
       },
     },
   },
   transactionHistoryContainer: { "@media(max-width: 1280px)": { overflow: "auto" } },
-  transactionHistoryContent: { "@media(max-width:1280px)": { width: 1280 } },
+  transactionHistoryContent: {
+    // "@media(max-width:1280px)": { width: 1280 },
+    "& h3": {
+      textAlign: "center",
+    },
+  },
   tabsHeader: {
     padding: "7px 22px 0",
     borderBottomWidth: 1,

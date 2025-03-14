@@ -1,31 +1,19 @@
 export const useStyles = (theme) => ({
   mainContainer: {
-    paddingTop: 35,
-    "& button": {
-      marginTop: 36,
-      marginRight: "0 !important",
-      paddingBottomg: 15,
+    gap: 30,
+    display: "flex",
+    flexDirection: "column",
+    "& p": {
+      margin: 0,
     },
   },
   description: {
-    paddingLeft: 20,
     margin: 0,
+    textAlign: "center",
     color: theme.palette.text.alertBoxColor,
     fontFamily: theme.typography.primary.main,
-    fontSize: 14,
-    letterSpacing: 0.25,
-    lineHeight: "20px",
-  },
-  PurchaseFlowContainer: { padding: "0 50px 50px" },
-  PurchaseFlowDescription: {
-    margin: "33px 0 45px",
-    color: theme.palette.text.alertBoxColor,
-    fontSize: 14,
-    letterSpacing: 0.25,
-    lineHeight: "21px",
   },
   paymentInfoCard: {
-    marginBottom: 25,
     display: "flex",
     justifyContent: "space-between",
   },
@@ -44,23 +32,21 @@ export const useStyles = (theme) => ({
     fontSize: 16,
     fontWeight: 600,
   },
+  metamaskButtonContainer: {
+    width: "100%",
+    textAlign: "right",
+  },
   tooltip: { fontSize: 14 },
   paymentChannelAndDetails: {
-    marginTop: 35,
     display: "flex",
-    "& > p": {
-      width: "100%",
-      margin: "0 0 0 40px",
-      "@media(max-width:1280px)": { margin: "25px 0 0 0" },
-    },
+    alignItems: "center",
+    justifyContent: "space-between",
+    flexWrap: "wrap",
+    gap: 30,
     "@media(max-width:767px)": { flexDirection: "column" },
-    "@media(max-width:1280px)": { flexWrap: "wrap" },
   },
   paymentChannelDropDownContainer: {
-    display: "flex",
-    marginBottom: 30,
     "& fieldset": { display: "none" },
-    "@media(max-width:940px)": { width: "100%", marginBottom: 30 },
   },
   infoIconContainer: {
     marginRight: 10,

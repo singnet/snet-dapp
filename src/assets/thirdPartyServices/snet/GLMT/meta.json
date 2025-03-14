@@ -1,0 +1,73 @@
+{
+    "type": "local",
+    "version": "1.0",
+    "config": {
+        "request": {
+            "default": "",
+            "type": "string",
+            "min": 0,
+            "max": 2000
+        },
+        "system_prompt": {
+            "default": "",
+            "type": "string",
+            "min": 0,
+            "max": 2000
+        },
+        "max_new_tokens": {
+            "default": 128,
+            "type": "number",
+            "min": 0,
+            "max": 2000,
+            "step": 1
+        },
+        "top_p": {
+            "default": 1,
+            "type": "number",
+            "min": 0,
+            "max": 2,
+            "step": 0.1
+        },
+        "temperature": {
+            "default": 1,
+            "type": "number",
+            "min": 0,
+            "max": 2,
+            "step": 0.1
+        },
+        "min_length": {
+            "default": 4,
+            "type": "number",
+            "min": 0,
+            "max": 2000,
+            "step": 1
+        },
+        "top_k": {
+            "default": 50,
+            "type": "number",
+            "min": 0,
+            "max": 50,
+            "step": 1
+        },
+        "repetition_penalty": {
+            "default": 1,
+            "type": "number",
+            "min": 0,
+            "max": 1,
+            "step": 0.1
+        },
+        "length_penalty": {
+            "default": 1,
+            "type": "number",
+            "min": -2,
+            "max": 2,
+            "step": 0.1
+        },
+        "models": [
+            {
+                "value": "none",
+                "label": "Default"
+            }
+        ]
+    }
+}

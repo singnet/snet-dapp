@@ -6,7 +6,6 @@ export const useStyles = (theme) => ({
     "@media(max-width:960px)": { flexDirection: "column" },
   },
   accountContainer: {
-    maxWidth: 412,
     flexBasis: "100%",
     paddingBottom: 52,
     borderRadius: 4,
@@ -89,6 +88,12 @@ export const useStyles = (theme) => ({
   walletId: {
     fontSize: "14px !important",
     wordBreak: "break-all",
+  },
+  loaderContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    minHeight: "400px",
   },
   bgBox: {
     alignItems: "center",

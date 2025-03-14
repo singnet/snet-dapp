@@ -1,6 +1,6 @@
 import React, { Component, Suspense } from "react";
 import { connect } from "react-redux";
-import { withStyles } from "@material-ui/styles";
+import { withStyles } from "@mui/styles";
 
 import thirdPartyCustomUIComponents from "../../../../assets/thirdPartyServices";
 import { useStyles } from "./styles";
@@ -9,6 +9,9 @@ import CompletedActions from "./CompletedActions";
 import { createServiceClient, callTypes } from "../../../../utility/sdk";
 import ThirdPartyServiceErrorBoundary from "./ThirdPartyServiceErrorBoundary";
 import { channelInfo } from "../../../../Redux/reducers/UserReducer";
+import { isEmpty } from "lodash";
+import { modelStatus } from "../../../../Redux/reducers/ServiceTrainingReducer";
+import { freeCalls, groupInfo } from "../../../../Redux/reducers/ServiceDetailsReducer";
 
 class ThirdPartyAIService extends Component {
   state = {
@@ -20,7 +23,7 @@ class ThirdPartyAIService extends Component {
   };
 
   componentDidMount = async () => {
-    const { org_id, service_id, freeCallsRemaining, groupInfo, wallet, channelInfo } = this.props;
+    const { org_id, service_id, freeCallsRemaining, groupInfo, wallet } = this.props;
     const callType = freeCallsRemaining > 0 ? callTypes.FREE : callTypes.REGULAR;
     this.serviceClient = await createServiceClient(
       org_id,
@@ -30,11 +33,10 @@ class ThirdPartyAIService extends Component {
       this.props.serviceRequestCompleteHandler,
       this.props.serviceRequestErrorHandler,
       callType,
-      wallet,
-      channelInfo
+      wallet
     );
-    await this.setupComponent();
-    this.setState({ loading: false });
+    this.setupComponent();
+    this.setState({ loading: false, callType });
   };
 
   setupComponent = () => {
@@ -48,11 +50,27 @@ class ThirdPartyAIService extends Component {
   fetchUserFeedback = async () => {
     const { org_id, service_id } = this.props;
     const feedback = await this.props.fetchFeedback(org_id, service_id);
-    if (!feedback.data.length > 0) {
+    if (!feedback.data?.length > 0) {
       return;
     }
     this.setState({ feedback: { comment: feedback.data[0].comment[0], rating: feedback.data[0].rating } });
   };
+
+  getModelsIds() {
+    const modelsList = this.props.modelsList;
+
+    if (isEmpty(modelsList)) {
+      return [];
+    }
+    return modelsList
+      .filter((model) => model.status === modelStatus.COMPLETED)
+      .map((model) => {
+        return {
+          value: model.modelId,
+          label: model.modelName,
+        };
+      });
+  }
 
   render() {
     const { loading } = this.state;
@@ -60,10 +78,12 @@ class ThirdPartyAIService extends Component {
       return null;
     }
 
-    const { org_id, service_id, classes, stopLoader, isServiceExecutionComplete, handleResetAndRun } = this.props;
-    const { feedback } = this.state;
+    const { selectedModelId, org_id, service_id, classes, stopLoader, isServiceExecutionComplete, handleResetAndRun } =
+      this.props;
+    const { feedback, callType } = this.state;
     const { serviceClient } = this;
     const AIServiceCustomComponent = thirdPartyCustomUIComponents.componentFor(org_id, service_id);
+    const modelsIds = this.getModelsIds();
 
     return (
       <div className={classes.serviceDetailsTab}>
@@ -73,6 +93,8 @@ class ThirdPartyAIService extends Component {
               serviceClient={serviceClient}
               isComplete={isServiceExecutionComplete}
               sliderWidth="550px"
+              modelsIds={modelsIds}
+              selectedModelId={selectedModelId}
             />
           </ThirdPartyServiceErrorBoundary>
         </Suspense>
@@ -83,6 +105,7 @@ class ThirdPartyAIService extends Component {
           serviceId={service_id}
           refetchFeedback={this.fetchUserFeedback}
           handleResetAndRun={handleResetAndRun}
+          callType={callType}
         />
       </div>
     );
@@ -90,10 +113,14 @@ class ThirdPartyAIService extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  selectedModelId: state.serviceTrainingReducer.currentModel.modelId,
+  modelsList: state.serviceTrainingReducer.modelsList,
   isComplete: state.serviceReducer.serviceMethodExecution.isComplete,
   email: state.userReducer.email,
   wallet: state.userReducer.wallet,
-  channelInfo: channelInfo(state),
+  channelInfo: channelInfo(state.userReducer.walletList),
+  groupInfo: groupInfo(state),
+  freeCallsRemaining: freeCalls(state).remaining,
 });
 
 const mapDispatchToProps = (dispatch) => ({

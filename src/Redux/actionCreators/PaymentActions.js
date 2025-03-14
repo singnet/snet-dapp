@@ -1,8 +1,6 @@
-import API from "@aws-amplify/api";
-
 import { userActions, loaderActions } from "./";
 import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
-import { initializeAPIOptions } from "../../utility/API";
+import { getAPI, initializeAPIOptions, postAPI } from "../../utility/API";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
 import { walletTypes, fetchAuthenticatedUser } from "./UserActions";
 
@@ -15,7 +13,7 @@ const initiatePaymentAPI = (token, paymentObj) => {
   const apiName = APIEndpoints.ORCHESTRATOR.name;
   const apiPath = APIPaths.INITIATE_PAYMNET;
   const apiOptions = initializeAPIOptions(token, paymentObj);
-  return API.post(apiName, apiPath, apiOptions);
+  return postAPI(apiName, apiPath, apiOptions);
 };
 
 export const initiatePayment = (paymentObj) => async (dispatch) => {
@@ -28,8 +26,10 @@ export const initiatePayment = (paymentObj) => async (dispatch) => {
     }
     window.location.replace(data.payment.payment_url);
   } catch (error) {
-    dispatch(loaderActions.stopAppLoader);
+    console.error(error);
     throw error;
+  } finally {
+    dispatch(loaderActions.stopAppLoader());
   }
 };
 
@@ -37,7 +37,7 @@ const executePaymentAPI = (token, paymentExecObj) => {
   const apiName = APIEndpoints.ORCHESTRATOR.name;
   const apiPath = APIPaths.EXECUTE_PAYMENT;
   const apiOptions = initializeAPIOptions(token, paymentExecObj);
-  return API.post(apiName, apiPath, apiOptions);
+  return postAPI(apiName, apiPath, apiOptions);
 };
 
 export const executePayment = (paymentExecObj) => async (dispatch) => {
@@ -49,7 +49,7 @@ const orderDetailsAPI = (token, orderId) => {
   const apiName = APIEndpoints.ORCHESTRATOR.name;
   const apiPath = `${APIPaths.ORDER_DETAILS}/${orderId}`;
   const apiOptions = initializeAPIOptions(token);
-  return API.get(apiName, apiPath, apiOptions);
+  return getAPI(apiName, apiPath, apiOptions);
 };
 
 export const fetchOrderDetails = (orderId) => async (dispatch) => {
@@ -62,7 +62,7 @@ export const updatePaypalInProgress = (orderId, orderType, paymentId, paypalPaym
   dispatch(userActions.updateWallet({ type: walletTypes.GENERAL }));
 };
 
-export const updatePaypalCompleted = (dispatch) => {
+export const updatePaypalCompleted = () => (dispatch) => {
   dispatch({ type: UPDATE_PAYPAL_COMPLETED });
 };
 
@@ -70,7 +70,7 @@ const cancelOrderAPI = (token, orderId) => () => {
   const apiName = APIEndpoints.ORCHESTRATOR.name;
   const path = APIPaths.CANCEL_ORDER(orderId);
   const apiOptions = initializeAPIOptions(token);
-  return API.get(apiName, path, apiOptions);
+  return getAPI(apiName, path, apiOptions);
 };
 
 export const cancelOrder = (orderId) => async (dispatch) => {
@@ -89,7 +89,7 @@ const USDConversionRateAPI = async (amount) => {
   return response.json();
 };
 
-export const fetchUSDConversionRate = async (dispatch) => {
+export const fetchUSDConversionRate = () => async (dispatch) => {
   const { data } = await USDConversionRateAPI(1);
   return dispatch(fetchUSDConversionRateSuccess(data));
 };

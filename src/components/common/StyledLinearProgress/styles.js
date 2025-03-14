@@ -3,6 +3,7 @@ export const useStyles = (theme) => ({
     width: 553,
     height: 15,
     margin: "9px auto 5px",
+    borderRadius: 5,
     backgroundColor: "rgba(64, 134, 255, 0.3)",
     "& div": { backgroundColor: theme.palette.text.primary },
     "@media (max-width: 1045px)": { width: "auto" },

@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import Grid from "@material-ui/core/Grid";
-import { withStyles } from "@material-ui/styles";
+import Grid from "@mui/material/Grid";
+import { withStyles } from "@mui/styles";
 import { connect } from "react-redux";
 
 import Filter from "./Filter";
+import StyledPagination from "./StyledPagination";
 import ServiceCollection from "./ServiceCollection";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../../Redux/actionCreators";
@@ -43,35 +44,27 @@ class MainSection extends Component {
   };
 
   render() {
-    const { classes, services, pagination, currentFilter } = this.props;
+    const { classes, services, pagination } = this.props;
     const { listView } = this.state;
     return (
-      <Grid container spacing={24} className={classes.mainSection}>
+      <Grid container className={classes.mainSection}>
         <Grid item xs={12} sm={12} md={12} lg={12} className={classes.filterMainContainer}>
           <Filter
-            toolbarProps={{
-              listView,
-              total_count: pagination.total_count,
-              handleSearchChange: this.handlePaginationChange,
-              toggleView: this.toggleView,
-              currentPagination: pagination,
-              currentFilter,
-              showToggler: isDesktop,
-            }}
+            listView={listView}
+            total_count={pagination.total_count}
+            handleSearchChange={this.handlePaginationChange}
+            toggleView={this.toggleView}
+            currentPagination={pagination}
+            showToggler={isDesktop}
           />
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={12} className={classes.servieMainContainer}>
-          <ServiceCollection
-            cardGroupProps={{
-              data: services,
-              listView,
-            }}
-            paginationProps={{
-              limit: pagination.limit,
-              offset: pagination.offset,
-              total_count: pagination.total_count,
-              handleChange: this.handlePaginationChange,
-            }}
+          <ServiceCollection data={services} listView={listView} />
+          <StyledPagination
+            limit={pagination.limit}
+            offset={pagination.offset}
+            total_count={pagination.total_count}
+            handleChange={this.handlePaginationChange}
           />
         </Grid>
       </Grid>
@@ -82,7 +75,6 @@ class MainSection extends Component {
 const mapStateToProps = (state) => ({
   services: state.serviceReducer.services,
   pagination: state.serviceReducer.pagination,
-  isLoggedIn: state.userReducer.login.isLoggedIn,
   currentFilter: state.serviceReducer.activeFilterItem,
 });
 

@@ -5,6 +5,7 @@ export const useStyles = (theme) => ({
     },
   },
   menuItem: {
-    fontFamily: theme.typography.primary.main,
+    color: theme.palette.text.primary,
+    textDecoration: "none !important",
   },
 });

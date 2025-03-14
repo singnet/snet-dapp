@@ -1,11 +1,15 @@
 import React from "react";
-import { withStyles } from "@material-ui/styles";
+import { withStyles } from "@mui/styles";
 import parseHtml from "html-react-parser";
 
 import { useStyles } from "./styles";
-import Tags from "./Tags";
+import Tags from "../../common/Tags";
+import Card from "../../common/Card";
+import { Link, useLocation } from "react-router-dom";
 
-const ServiceOverview = ({ classes, description, tags }) => {
+const ServiceOverview = ({ classes, description, tags, isTrainingAvailable }) => {
+  const location = useLocation();
+
   const parseDescription = (description) => {
     if (description.startsWith("<div>")) {
       return parseHtml(description);
@@ -26,12 +30,25 @@ const ServiceOverview = ({ classes, description, tags }) => {
   };
 
   return (
-    <div className={classes.overViewContainer}>
-      <h2>Overview</h2>
-      {renderSandboxInfo()}
-      <p>{parseDescription(description)}</p>
-      <Tags className={classes.tagsContainer} tags={tags} />
-    </div>
+    <Card
+      header="Overview"
+      children={
+        <>
+          {renderSandboxInfo()}
+          <p className={classes.description}>{parseDescription(description)}</p>
+          <Tags tags={tags} />
+          {Boolean(isTrainingAvailable) && (
+            <div className={classes.trainingLink}>
+              <p>For this service you can create your own training model!</p>
+              {/* //TODO */}
+              <Link className={classes.tryTrainingBtn} to={location.pathname.split("tab/")[0] + "tab/" + 3}>
+                Try now!
+              </Link>
+            </div>
+          )}
+        </>
+      }
+    />
   );
 };
 

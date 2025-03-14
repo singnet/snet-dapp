@@ -1,17 +1,17 @@
 import React from "react";
-import Modal from "@material-ui/core/Modal";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CloseIcon from "@material-ui/icons/Close";
-import IconButton from "@material-ui/core/IconButton";
-import CardContent from "@material-ui/core/CardContent";
-import CardActions from "@material-ui/core/CardActions";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import TextField from "@material-ui/core/TextField";
+import Modal from "@mui/material/Modal";
+import Card from "@mui/material/Card";
+import CardHeader from "@mui/material/CardHeader";
+import CloseIcon from "@mui/icons-material/Close";
+import IconButton from "@mui/material/IconButton";
+import CardContent from "@mui/material/CardContent";
+import CardActions from "@mui/material/CardActions";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import TextField from "@mui/material/TextField";
 
 import { useStyles } from "./styles";
 import StyledButton from "../../../common/StyledButton";
@@ -77,11 +77,7 @@ const ConfirmDelete = ({ open, handleClose, handleSubmit, error }) => {
             <div className={classes.inputFieldContainer}>
               <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel htmlFor="outlined-age-simple">Help us improve, tell us why you are leaving</InputLabel>
-                <Select
-                  value={reasonForLeaving}
-                  onChange={handleChange}
-                  input={<OutlinedInput labelWidth={320} name="age" id="outlined-age-simple" />}
-                >
+                <Select value={reasonForLeaving} onChange={handleChange} input={<OutlinedInput />}>
                   {resonForLeaving.map((item) => (
                     <MenuItem className={classes.menuItem} key={item.label} value={item.label}>
                       {item.label}

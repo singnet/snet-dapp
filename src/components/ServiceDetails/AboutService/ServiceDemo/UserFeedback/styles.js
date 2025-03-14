@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@mui/styles";
 
 export const useStyles = makeStyles((theme) => ({
   card: {
@@ -45,7 +45,7 @@ export const useStyles = makeStyles((theme) => ({
     marginTop: 10,
     textAlign: "center",
     "& button": {
-      padding: " 13px 60px 11px",
+      padding: "15px 60px",
       marginTop: 10,
     },
   },
@@ -66,7 +66,7 @@ export const useStyles = makeStyles((theme) => ({
     padding: "10px 15px",
     borderRadius: 5,
     top: 20,
-    right: -100,
+    right: 15,
     bottom: "auto",
     left: "auto",
   },

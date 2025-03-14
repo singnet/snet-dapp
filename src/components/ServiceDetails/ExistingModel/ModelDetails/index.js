@@ -1,73 +1,122 @@
-import React from "react";
-import { withStyles } from "@material-ui/styles";
-import { useStyles } from "./styles";
-import Button from "@material-ui/core/Button";
-import EditIcon from "@material-ui/icons/Edit";
-import DeleteIcon from "@material-ui/icons/Delete";
-import NearMeOutlinedIcon from "@material-ui/icons/NearMeOutlined";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
-import Modal from "@material-ui/core/Modal";
-import StyledButton from "../../../common/StyledButton";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-const ModelDetails = ({ classes, model, deleteModels, editModel }) => {
-  const [open, setOpen] = React.useState(false);
+import { withStyles } from "@mui/styles";
+import { useStyles } from "./styles";
+
+import Button from "@mui/material/Button";
+// import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Modal from "@mui/material/Modal";
+import StyledButton from "../../../common/StyledButton";
+import {
+  setCurrentModelDetails,
+  deleteModel,
+  getTrainingModelStatus,
+  setModelsList,
+} from "../../../../Redux/actionCreators/ServiceTrainingActions";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { modelStatus } from "../../../../Redux/reducers/ServiceTrainingReducer";
+import { updateMetamaskWallet } from "../../../../Redux/actionCreators/UserActions";
+
+const ModelDetails = ({ classes, openEditModel, model }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const { modelsList } = useSelector((state) => state.serviceTrainingReducer);
+  const { orgId, serviceId } = useParams();
+
+  const [open, setOpen] = useState(false);
   const handleOpenModal = () => setOpen(true);
   const handleCloseModal = () => setOpen(false);
 
-  const handleDeleteModel = () => {
-    deleteModels(model);
+  const isInferenceAvailable = model.status === modelStatus.COMPLETED;
+
+  const handleDeleteModel = async () => {
+    await dispatch(deleteModel(orgId, serviceId, model.modelId, model.methodName, model.serviceName));
     setOpen(false);
   };
 
-  const handleEditModel = () => {
-    editModel(model);
+  // const handleEditModel = () => {
+  //   dispatch(setCurrentModelDetails(model));
+  //   openEditModel();
+  // };
+
+  const handleSetModel = () => {
+    dispatch(setCurrentModelDetails(model));
+    navigate(location.pathname.split("tab/")[0] + "tab/" + 0); //TODO
+  };
+
+  const handleGetModelStatus = async () => {
+    const address = await dispatch(updateMetamaskWallet());
+    const getModelStatusParams = {
+      organizationId: orgId,
+      serviceId,
+      modelId: model.modelId,
+      name: model.serviceName,
+      method: model.methodName,
+      address,
+    };
+
+    const newModelStatus = await dispatch(getTrainingModelStatus(getModelStatusParams));
+    const updatedModelList = modelsList.map((modelBeforeUpdating) => {
+      let modelForUpdating = modelBeforeUpdating;
+      if (modelForUpdating.modelId === model.modelId) {
+        modelForUpdating.status = newModelStatus;
+      }
+      return modelForUpdating;
+    });
+    await dispatch(setModelsList(updatedModelList));
   };
 
   return (
     <>
       <div className={classes.modelDetailsContainer}>
-        <div className={classes.titleIdContainer}>
-          <h3>{model.modelName}</h3>
-          <p>
-            Model id: <span>{model.modelId}</span>
-          </p>
-        </div>
-        <p>{model.description}</p>
-        <div className={classes.statusAccessLastUpdateContainer}>
-          <div>
-            <p>
-              Status: <span data-status-type="Inprogress">{model.status}</span>
-            </p>
-            <p className={classes.accessValue}>
-              Access:
-              <>
-                <span> {`limited(${model.addressList.length})`}</span>
-                <ul>
+        <div className={classes.modelDetails}>
+          <div className={classes.titleIdContainer}>
+            <div className={classes.modelNameContainer}>
+              <h2>{model.modelName}</h2>
+            </div>
+            <h3>
+              Model id: <span>{model.modelId}</span>
+            </h3>
+          </div>
+          <div className={classes.descriptionContainer}>{model.description}</div>
+          <div className={classes.statusAccessLastUpdateContainer}>
+            <div className={classes.additionalInfoContainer}>
+              <div className={classes.statusValueContainer}>
+                Status: <span data-status-type={model.status}>{model.status}</span>
+              </div>
+              <div className={classes.accessValueContainer}>
+                <span>Access: limited({model.addressList.length})</span>
+                <ul className={classes.accessValue}>
                   {model.addressList.map((address) => (
                     <li key={address}>{address}</li>
                   ))}
                 </ul>
-              </>
-            </p>
+              </div>
+            </div>
+            <p>Last update: {model.updatedDate}</p>
           </div>
-          <p>Last update: {model.updatedDate}</p>
         </div>
         <div className={classes.actionButtons}>
-          <div>
-            <Button className={classes.updateBtn} onClick={handleEditModel}>
+          <div className={classes.actionButtonsGroup}>
+            <StyledButton btnText="Inference" disabled={!isInferenceAvailable} onClick={handleSetModel} />
+            <StyledButton type="transparentBlueBorder" btnText="Get status" onClick={handleGetModelStatus} />
+          </div>
+          <div className={classes.actionButtonsGroup}>
+            {/* <Button className={classes.updateBtn} onClick={handleEditModel}>
               <EditIcon />
               <span>Edit</span>
-            </Button>
-            <Button className={classes.testBtn}>
-              <NearMeOutlinedIcon />
-              <span>Test</span>
+            </Button> */}
+            <Button className={classes.deleteBtn} onClick={handleOpenModal}>
+              <DeleteIcon />
+              <span>Delete</span>
             </Button>
           </div>
-          <Button className={classes.deleteBtn} onClick={handleOpenModal}>
-            <DeleteIcon />
-            <span>Delete</span>
-          </Button>
         </div>
       </div>
       <Modal

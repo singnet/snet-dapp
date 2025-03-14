@@ -1,6 +1,26 @@
 const webpack = require("webpack");
+const path = require("path");
+const { aliasWebpack, configPaths } = require("react-app-alias");
+
+const aliasMap = configPaths("./jsconfig.json");
+
+const options = {
+  alias: {
+    ...aliasMap,
+    "@commonComponents": path.resolve(__dirname, "src/assets/thirdPartyServices/common/"),
+    "@standardComponents": path.resolve(__dirname, "src/assets/thirdPartyServices/standardComponents/"),
+    "@integratedComponents": path.resolve(__dirname, "src/components/common/"),
+    "@assets": path.resolve(__dirname, "src/assets"),
+    "@common": path.resolve(__dirname, "src/components/common"),
+    "@components": path.resolve(__dirname, "src/components"),
+    "@config": path.resolve(__dirname, "src/config"),
+    "@utility": path.resolve(__dirname, "src/utility"),
+    "@redux": path.resolve(__dirname, "src/Redux"),
+  },
+};
 
 module.exports = function override(config) {
+  const modifiedConfig = aliasWebpack(options)(config);
   const fallback = config.resolve.fallback || {};
   Object.assign(fallback, {
     os: require.resolve("os-browserify"),
@@ -23,5 +43,5 @@ module.exports = function override(config) {
       fullySpecified: false,
     },
   });
-  return config;
+  return modifiedConfig;
 };

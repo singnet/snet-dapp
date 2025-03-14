@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 
 import ProgressBar from "../common/ProgressBar";
 
@@ -7,14 +7,14 @@ const OnboardingContainer = ({ item, classes, active, activeSection, progressTex
     return null;
   }
   return (
-    <Fragment>
+    <div className={classes.onboardingComponentsContainer}>
       <div className={classes.topSection}>
         <h2>{item.title}</h2>
-        <span> {item.description}</span>
+        {item.description}
       </div>
       <ProgressBar activeSection={activeSection} progressText={progressText} />
       {item.component}
-    </Fragment>
+    </div>
   );
 };
 

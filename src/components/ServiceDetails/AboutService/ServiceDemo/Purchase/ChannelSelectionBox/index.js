@@ -1,7 +1,7 @@
 import React from "react";
-import Grid from "@material-ui/core/Grid";
-import Radio from "@material-ui/core/Radio";
-import { withStyles } from "@material-ui/styles";
+import Grid from "@mui/material/Grid";
+import Radio from "@mui/material/Radio";
+import { withStyles } from "@mui/styles";
 
 import { useStyles } from "./styles";
 import CallPriceInput from "./CallPriceInput";
@@ -21,7 +21,6 @@ const ChannelSelectionBox = ({
   return (
     <Grid
       container
-      spacing={24}
       className={`${classes.ChannelSelectionBoxContainer}
        ${disabled && classes.disabledChannelBox} 
        ${checked && classes.selectedChannelBox}`}
@@ -29,13 +28,17 @@ const ChannelSelectionBox = ({
       onClick={onClick}
     >
       <Grid item xs={4} sm={4} md={4} lg={4} className={classes.LeftSideSection}>
-        <div className={classes.RadioButtonContainer}>
+        <Grid item lg={2} className={classes.RadioButtonContainer}>
           <Radio checked={checked} color="primary" name="radio-button" disabled={disabled} {...restProps} />
-        </div>
-        <div className={`${classes.InputDataContainer} ${disabled && classes.disabledInputDataContainer}`}>
+        </Grid>
+        <Grid
+          item
+          lg={10}
+          className={`${classes.InputDataContainer} ${disabled && classes.disabledInputDataContainer}`}
+        >
           <h2>{title}</h2>
           <CallPriceInput classes={classes} disabled={disabled} inputProps={inputProps} />
-        </div>
+        </Grid>
       </Grid>
       <Grid
         item

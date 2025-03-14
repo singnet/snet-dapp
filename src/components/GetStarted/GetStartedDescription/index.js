@@ -1,13 +1,15 @@
 import React from "react";
-import { withStyles } from "@material-ui/styles";
+import { withStyles } from "@mui/styles";
 
 import Routes from "../../../utility/constants/Routes";
 import StyledButton from "../../common/StyledButton";
 import { useStyles } from "./styles";
+import { useNavigate } from "react-router-dom";
 
-const GetStartedDescription = ({ classes, title, description, button, btnText, btnType, history }) => {
+const GetStartedDescription = ({ classes, title, description, button, btnText, btnType }) => {
+  const navigate = useNavigate();
   const handleClick = () => {
-    history.push(`/${Routes.SIGNUP}`);
+    navigate(`/${Routes.SIGNUP}`, { replace: true });
   };
 
   return (

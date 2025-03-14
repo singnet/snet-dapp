@@ -1,11 +1,10 @@
-import API from "@aws-amplify/api";
-
 import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
-import { initializeAPIOptions } from "../../utility/API";
+import { getAPI, initializeAPIOptions } from "../../utility/API";
 import { fetchAuthenticatedUser } from "./UserActions";
 import { loaderActions } from "./";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
-// import { cacheS3Url } from "../../utility/image";
+import { isEmpty } from "lodash";
+import { resetCurrentModelDetails, resetModelList } from "./ServiceTrainingActions";
 
 export const UPDATE_SERVICE_DETAILS = "UPDATE_SERVICE_DETAILS";
 export const RESET_SERVICE_DETAILS = "RESET_SERVICE_DETAILS";
@@ -17,7 +16,7 @@ const resetServiceDetails = (dispatch) => {
 };
 
 const fetchServiceDetailsFailure = (err) => (dispatch) => {
-  dispatch(loaderActions.stopAppLoader);
+  dispatch(loaderActions.stopAppLoader());
 };
 
 const fetchServiceDetailsSuccess = (serviceDetails) => (dispatch) => {
@@ -25,7 +24,7 @@ const fetchServiceDetailsSuccess = (serviceDetails) => (dispatch) => {
   //   ...serviceDetails,
   //   data: { ...serviceDetails.data, media: serviceDetails.data.media.map(el => ({ ...el, url: cacheS3Url(el.url) })) },
   // };
-  dispatch(loaderActions.stopAppLoader);
+  dispatch(loaderActions.stopAppLoader());
   dispatch({ type: UPDATE_SERVICE_DETAILS, payload: serviceDetails.data });
 };
 
@@ -39,6 +38,8 @@ export const fetchServiceDetails = (orgId, serviceId) => async (dispatch) => {
   try {
     dispatch(loaderActions.startAppLoader(LoaderContent.FETCH_SERVICE_DETAILS));
     dispatch(resetServiceDetails);
+    dispatch(resetCurrentModelDetails());
+    dispatch(resetModelList());
     const serviceDetails = await fetchServiceDetailsAPI(orgId, serviceId);
     dispatch(fetchServiceDetailsSuccess(serviceDetails));
   } catch (error) {
@@ -61,7 +62,7 @@ const fetchTrainingModelSuccess = (serviceTrainingData) => (dispatch) => {
 const fetchServiceTrainingDataAPI = async (orgId, serviceId) => {
   try {
     const dataForUrl = await fetchServiceDetailsAPI(orgId, serviceId);
-    const url = `${dataForUrl.data.groups[0].endpoints[0].endpoint}/servicemethoddetails`;
+    const url = `${dataForUrl.data.groups[0].endpoints[0].endpoint}/heartbeat`;
     const response = await fetch(url);
     return response.json();
   } catch (error) {
@@ -79,7 +80,7 @@ const meteringAPI = (token, orgId, serviceId, groupId, userId) => {
   const apiPath = APIPaths.FREE_CALL_USAGE;
   const queryParams = { organization_id: orgId, service_id: serviceId, group_id: groupId, username: userId };
   const apiOptions = initializeAPIOptions(token, null, queryParams);
-  return API.get(apiName, apiPath, apiOptions);
+  return getAPI(apiName, apiPath, apiOptions);
 };
 
 export const fetchMeteringData =
@@ -87,5 +88,22 @@ export const fetchMeteringData =
   async (dispatch) => {
     const { email, token } = await dispatch(fetchAuthenticatedUser());
     const usageData = await meteringAPI(token, orgId, serviceId, groupId, email);
-    return dispatch(fetchMeteringDataSuccess(usageData));
+    dispatch(fetchMeteringDataSuccess(usageData));
+    return usageData;
   };
+
+export const getIsTrainingAvailable = (detailsTraining, isLoggedIn) => {
+  if (isEmpty(detailsTraining)) {
+    return false;
+  }
+
+  if (!Object.prototype.hasOwnProperty.call(detailsTraining, "trainingMethods") || !detailsTraining?.trainingMethods) {
+    return false;
+  }
+
+  return (
+    process.env.REACT_APP_TRAINING_ENABLE === "true" &&
+    Object.keys(detailsTraining.trainingMethods).length &&
+    isLoggedIn
+  );
+};

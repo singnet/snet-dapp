@@ -73,11 +73,11 @@ class MethodPricing {
 
     pricingData.details.map((servicePrice) => {
       this.pricing[servicePrice.service_name] = {};
-      servicePrice.method_pricing.map((methodPrice) => {
+      return servicePrice.method_pricing.map((methodPrice) => {
         if (methodPrice.price_in_cogs > this.maxPriceInCogs) {
-          this.maxPriceInCogs = methodPrice.price_in_cogs;
+          return (this.maxPriceInCogs = methodPrice.price_in_cogs);
         }
-        this.pricing[servicePrice.service_name][methodPrice.method_name] = methodPrice.price_in_cogs;
+        return (this.pricing[servicePrice.service_name][methodPrice.method_name] = methodPrice.price_in_cogs);
       });
     });
   }

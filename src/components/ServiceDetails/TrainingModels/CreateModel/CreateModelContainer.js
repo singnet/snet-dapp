@@ -2,12 +2,12 @@ import React, { Fragment } from "react";
 
 import ProgressBar from "../../../common/ProgressBar";
 
-const CreateModelContainer = ({ item, active, activeSection, progressText, key }) => {
+const CreateModelContainer = ({ item, active, activeSection, progressText }) => {
   if (!active) {
     return null;
   }
   return (
-    <Fragment key={key}>
+    <Fragment>
       <ProgressBar activeSection={activeSection} progressText={progressText} />
       {item.component}
     </Fragment>

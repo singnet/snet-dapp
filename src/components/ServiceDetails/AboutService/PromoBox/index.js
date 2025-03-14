@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
-import { withStyles } from "@material-ui/styles";
+import { withStyles } from "@mui/styles";
 import { Link } from "react-router-dom";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import { useStyles } from "./styles";
 import Routes from "../../../../utility/constants/Routes";

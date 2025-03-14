@@ -1,10 +1,8 @@
 import React, { Component } from "react";
-import Grid from "@material-ui/core/Grid";
-import { withStyles } from "@material-ui/styles";
-import Button from "@material-ui/core/Button";
-import InfoIcon from "@material-ui/icons/Info";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
+import Grid from "@mui/material/Grid";
+import { withStyles } from "@mui/styles";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 import { connect } from "react-redux";
 import Web3 from "web3";
 
@@ -15,6 +13,8 @@ import ProjectDetails from "../ProjectDetails";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../../Redux/actionCreators";
 import AlertBox, { alertTypes } from "../../common/AlertBox";
+import Card from "../../common/Card";
+import StyledButton from "../../common/StyledButton";
 
 const web3 = new Web3(process.env.REACT_APP_WEB3_PROVIDER, null, {});
 const downloadTokenFileName = "authToken.txt";
@@ -25,40 +25,59 @@ class InstallAndRunService extends Component {
     publickey: "",
     downloadTokenURL: "",
     alert: {},
+    isTokenGenerating: false,
+    isAddressValid: false,
   };
 
   handleTabChange = (activeTab) => {
     this.setState({ activeTab, alert: {}, downloadTokenURL: "" });
   };
 
-  generateToken = async (e) => {
-    e.preventDefault();
+  isValidAddress = (address) => {
     try {
-      this.setState({ alert: {}, downloadTokenURL: "" });
-      if (web3.utils.isAddress(this.state.publickey)) {
-        const { service, groupId, downloadAuthToken } = this.props;
-        const downloadTokenURL = await downloadAuthToken(
-          service.service_id,
-          groupId,
-          this.state.publickey,
-          service.org_id
-        );
-        this.setState({ downloadTokenURL });
-      } else {
-        this.setState({ alert: { type: alertTypes.ERROR, message: "invalid public key" } });
-      }
+      const checksumAddress = web3.utils.toChecksumAddress(address);
+      return checksumAddress ? true : false;
+    } catch (error) {
+      return false;
+    }
+  };
+
+  generateToken = async () => {
+    if (this.state.isTokenGenerating) {
+      return;
+    }
+
+    try {
+      this.setState({ alert: {}, downloadTokenURL: "", isTokenGenerating: true });
+      const { service, groupId, downloadAuthToken } = this.props;
+      const downloadTokenURL = await downloadAuthToken(
+        service.service_id,
+        groupId,
+        this.state.publickey,
+        service.org_id
+      );
+      this.setState({ downloadTokenURL });
     } catch (e) {
       this.setState({ alert: { type: alertTypes.ERROR, message: "Unable to download the token. Please try later" } });
+    } finally {
+      this.setState({ isTokenGenerating: false });
     }
   };
 
   handlePublicKey = (event) => {
-    this.setState({ publickey: event.currentTarget.value, alert: {}, downloadTokenURL: "" });
+    const address = event.currentTarget.value;
+    this.setState({ publickey: address, downloadTokenURL: "" });
+    const isAddressValid = this.isValidAddress(address);
+    if (!isAddressValid) {
+      this.setState({ alert: { type: alertTypes.ERROR, message: "invalid public key" }, isAddressValid: false });
+    } else {
+      this.setState({ alert: {}, isAddressValid: true });
+    }
   };
 
   render() {
     const { classes, service } = this.props;
-    const { activeTab, downloadTokenURL, alert } = this.state;
+    const { activeTab, downloadTokenURL, alert, isTokenGenerating, isAddressValid } = this.state;
     const tabs = [
       {
         name: "Python",
@@ -87,60 +106,63 @@ class InstallAndRunService extends Component {
       // },
     ];
     return (
-      <Grid container spacing={24} className={classes.installAndRunContainer}>
+      <Grid container className={classes.installAndRunContainer} spacing={3}>
         <Grid item xs={12} sm={12} md={8} lg={8} className={classes.overViewContainer}>
-          <div className={classes.integrationSetupContainer}>
-            <h2>Integration Setup</h2>
-            <div className={classes.integrationContent}>
-              <StyledTabs tabs={tabs} onTabChange={this.handleTabChange} activeTab={activeTab} />
-            </div>
-          </div>
-          <div className={classes.integrationSetupContainer}>
-            <h2>Free Call Authentication Token</h2>
-            <div className={classes.overViewContainer}>
-              <div className={classes.freecallContainer}>
-                <Typography className={classes.intSetupDesc}>
-                  Generate the free call token to use in your SDK. The address used to generate this token should be the
-                  same as the identity specified in your SDK configuation. This will allow you to invoke the service
-                  from your SDK on a trial basis
-                </Typography>
-                <div className={classes.textfieldContainer}>
-                  <div>
-                    <InfoIcon className={classes.infoIcon} />
-                    <TextField
-                      id="outlined-user-name"
-                      label="Public Address"
-                      className={classes.textField}
-                      margin="normal"
-                      variant="outlined"
-                      value={this.state.publickey}
-                      onChange={this.handlePublicKey}
-                    />
-                    <Typography className={classes.publicAddDesc}>
-                      Ethereum address used in your SDK. This is the public address corresponding to the private key you
-                      use in the SDK
-                    </Typography>
-                  </div>
-                  {!downloadTokenURL && (
-                    <Button
-                      type="submit"
-                      className={classes.DownloadTokenBtn}
-                      color="primary"
-                      onClick={this.generateToken}
-                    >
-                      Generate Token
-                    </Button>
-                  )}
-                  {downloadTokenURL && (
-                    <a href={downloadTokenURL} download={downloadTokenFileName}>
-                      Download Token
-                    </a>
-                  )}
+          <Card
+            header="Integration Setup"
+            children={
+              <>
+                <div className={classes.integrationContent}>
+                  <StyledTabs tabs={tabs} onTabChange={this.handleTabChange} activeTab={activeTab} />
                 </div>
-                <AlertBox type={alert.type} message={alert.message} />
+              </>
+            }
+          />
+          <Card
+            header="Free Call Authentication Token"
+            children={
+              <div className={classes.overViewContainer}>
+                <div className={classes.freecallContainer}>
+                  <Typography className={classes.intSetupDesc}>
+                    Generate the free call token to use in your SDK. The address used to generate this token should be
+                    the same as the identity specified in your SDK configuation. This will allow you to invoke the
+                    service from your SDK on a trial basis
+                  </Typography>
+                  <div className={classes.textfieldContainer}>
+                    <div>
+                      <TextField
+                        id="outlined-user-name"
+                        label="Public Address"
+                        className={classes.textField}
+                        margin="normal"
+                        variant="outlined"
+                        value={this.state.publickey}
+                        onChange={this.handlePublicKey}
+                      />
+                      <Typography className={classes.publicAddDesc}>
+                        Ethereum address used in your SDK. This is the public address corresponding to the private key
+                        you use in the SDK
+                      </Typography>
+                    </div>
+                    {!downloadTokenURL && (
+                      <StyledButton
+                        type="blue"
+                        btnText="Generate Token"
+                        onClick={this.generateToken}
+                        disabled={isTokenGenerating || !isAddressValid}
+                      />
+                    )}
+                    {downloadTokenURL && (
+                      <a className={classes.downloadTokenLink} href={downloadTokenURL} download={downloadTokenFileName}>
+                        <StyledButton type="blue" btnText="Download Token" />
+                      </a>
+                    )}
+                  </div>
+                  <AlertBox type={alert.type} message={alert.message} />
+                </div>
               </div>
-            </div>
-          </div>
+            }
+          />
         </Grid>
         <Grid item xs={12} sm={12} md={4} lg={4}>
           <ProjectDetails
