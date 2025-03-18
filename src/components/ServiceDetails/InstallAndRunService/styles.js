@@ -48,9 +48,7 @@ export const useStyles = (theme) => ({
     "@media(max-width:960px)": { marginRight: 0 },
   },
   integrationContent: {
-    minHeight: 500,
     padding: "0 22px",
-    paddingBottom: 10,
   },
   tabsHeader: {
     backgroundColor: "transparent",
@@ -98,24 +96,6 @@ export const useStyles = (theme) => ({
     lineHeight: "20px",
     letterSpacing: 0.25,
     "@media(max-width: 600px)": { margin: "10px 0" },
-  },
-  setingUpFilesContainer: {
-    marginTop: 40,
-    "& h3": {
-      margin: 0,
-      color: theme.palette.text.darkShadedGray,
-      fontSize: 18,
-      fontWeight: 400,
-      lineHeight: "23px",
-    },
-    "& span": {
-      margin: "18px 0 10px",
-      display: "inline-block",
-      color: theme.palette.text.lightShadedGray,
-      fontSize: 14,
-      letterSpacing: 0.25,
-      lineHeight: "20px",
-    },
   },
   descriptionBtnsContainer: {
     "& p": {

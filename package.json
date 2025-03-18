@@ -10,6 +10,7 @@
     "@mui/material": "^5.16.6",
     "@mui/styles": "^5.16.6",
     "@sentry/browser": "^8.23.0",
+    "@sentry/react": "^9.5.0",
     "aws-amplify": "^6.4.4",
     "axios": "^1.7.3",
     "clsx": "^2.1.1",
