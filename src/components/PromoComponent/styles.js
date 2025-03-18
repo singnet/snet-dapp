@@ -1,5 +1,4 @@
-import publisherPromoBG from "../../assets/images/publisherPromoBG.svg";
-import newAIServiceBG from "../../assets/images/newAIServiceBG.svg";
+import newAIServiceBG from "../../assets/images/newAIServiceBG.webp";
 
 export const useStyles = (theme) => ({
   promoWrapper: {
@@ -9,17 +8,14 @@ export const useStyles = (theme) => ({
     display: "flex",
     justifyContent: "space-between",
     "& > div": {
+      backgroundRepeat: "no-repeat",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
       "&:first-of-type": {
         backgroundImage: `url(${newAIServiceBG})`,
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
       },
       "&:last-of-type": {
-        backgroundImage: `url(${publisherPromoBG})`,
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
+        backgroundImage: `url(${newAIServiceBG})`,
         "@media(max-width:1113px)": { marginTop: 20 },
       },
     },
