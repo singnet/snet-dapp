@@ -8,6 +8,7 @@ import AlertBox, { alertTypes } from "../../../common/AlertBox";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import StyledButton from "../../../common/StyledButton";
+import clsx from "clsx";
 
 const web3 = new Web3(process.env.REACT_APP_WEB3_PROVIDER, null, {});
 const downloadTokenFileName = "authToken.txt";
@@ -62,7 +63,7 @@ const FreecallToken = ({ classes }) => {
 
   return (
     <div className={classes.overViewContainer}>
-      <div className={classes.freecallContainer}>
+      <div className={clsx(classes.cardContainer, classes.freecallcardContainer)}>
         <Typography className={classes.intSetupDesc}>
           Generate the free call token to use in your SDK. The address used to generate this token should be the same as
           the identity specified in your SDK configuation. This will allow you to invoke the service from your SDK on a

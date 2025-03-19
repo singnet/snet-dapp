@@ -1,17 +1,17 @@
 export const tabNames = {
-  PYTHON: "python",
-  NODEJS: "nodejs",
+  PYTHON: "Python",
+  NODEJS: "NodeJS",
 };
 
 export const tabsContent = {
-  python: {
+  [tabNames.PYTHON]: {
     projectName: "Python SDK",
     docsLink:
       "https://dev.singularitynet.io/docs/products/DecentralizedAIPlatform/SDK/PythonSDK/getting-started-guide/",
     assetType: "grpc-stub/python",
     fileName: "python.zip",
   },
-  nodejs: {
+  [tabNames.NODEJS]: {
     projectName: "NodeJS SDK",
     docsLink:
       "https://dev.singularitynet.io/docs/products/DecentralizedAIPlatform/SDK/JavascriptSDKs/NodeJsSDK/getting-started-guide/",

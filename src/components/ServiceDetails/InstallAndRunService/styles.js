@@ -7,9 +7,11 @@ export const useStyles = (theme) => ({
     width: "min-content",
     whiteSpace: "nowrap",
   },
-  freecallContainer: {
-    paddingLeft: 20,
-    paddingRight: 20,
+  cardContainer: {
+    padding: "0 20px",
+  },
+  freecallcardContainer: {
+    paddingBottom: 30,
   },
   overViewContainer: {
     display: "flex",
