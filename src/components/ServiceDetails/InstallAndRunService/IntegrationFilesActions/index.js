@@ -18,7 +18,7 @@ const IntegrationFilesActions = ({ classes, tabName }) => {
   const isDownloadAvailable = isMediaAvailableForDownloading(media, content.assetType);
 
   return (
-    <section className={classes.languageTabSection}>
+    <section className={classes.cardContainer}>
       <div className={classes.descriptionBtnsContainer}>
         <p>{description}</p>
         <div className={classes.btnContainer}>
