@@ -1,19 +1,5 @@
 export const useStyles = (theme) => ({
   createModelContainer: {
-    boxShadow: "0 1px 1px 0 rgba(0,0,0,0.07), 0 2px 1px -1px rgba(0,0,0,0.07), 0 1px 3px 0 rgba(0,0,0,0.1)",
-    backgroundColor: theme.palette.text.white,
-    borderRadius: 4,
-    paddingBottom: 20,
-    "& h2": {
-      padding: "11px 22px",
-      borderBottomWidth: 1,
-      borderBottomStyle: "solid",
-      borderBottomColor: theme.palette.text.gray1,
-      margin: 0,
-      color: theme.palette.text.darkShadedGray,
-      fontSize: 20,
-      fontWeight: 400,
-    },
     "& > div": {
       "&:first-of-type": {
         "& ul": {

@@ -1,11 +1,12 @@
 import React from "react";
-import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
+import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
 
 import OutlinedDropDown from "../../common/OutlinedDropdown";
 import OutlinedTextArea from "../../common/OutlinedTextArea";
 
-import { Calculator } from "./example_service_pb_service";
+// import { Calculator } from "./example_service_pb_service";
+import { ServiceExample as Calculator } from "./example_training_pb_service";
 
 const initialUserInput = {
   methodIndex: "0",
@@ -60,8 +61,8 @@ export default class ExampleService extends React.Component {
   }
 
   submitAction() {
-    const { methodIndex, methodNames } = this.state;
-    const methodDescriptor = Calculator[methodNames[methodIndex].content];
+    // const { methodIndex, methodNames } = this.state;
+    const methodDescriptor = Calculator.callWithModelID; //[methodNames[methodIndex].content];
     const request = new methodDescriptor.requestType();
     request.setA(this.state.a);
     request.setB(this.state.b);
@@ -81,6 +82,7 @@ export default class ExampleService extends React.Component {
     return (
       <React.Fragment>
         <Grid container direction="column" alignItems="center" justify="center">
+          <p>{this.props.trainigModelId}</p>
           <Grid item xs={6} container style={{ textAlign: "center" }}>
             <OutlinedDropDown
               id="method"

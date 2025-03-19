@@ -1,6 +1,6 @@
 import React from "react";
-import Input from "@material-ui/core/Input";
-import Icon from "@material-ui/core/Icon";
+import Input from "@mui/material/Input";
+import Icon from "@mui/material/Icon";
 import clsx from "clsx";
 
 import { useStyles } from "./styles";

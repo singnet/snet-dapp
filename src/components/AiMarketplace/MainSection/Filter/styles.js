@@ -1,72 +1,90 @@
-import { makeStyles, createStyles } from "@material-ui/styles";
-export const useStyles = (theme) =>
-  createStyles({
-    filterContainer: {
-      maxWidth: 1280,
-      margin: "0 auto",
-      "@media(max-width: 1280px)": { padding: "0 10px" },
+import { makeStyles } from "@mui/styles";
+
+export const useStyles = makeStyles((theme) => ({
+  toolBar: {
+    padding: 20,
+    alignItems: "center",
+    justifyContent: "space-between",
+    borderBottom: "1px solid rgba(155,155,155,0.9);",
+    "@media(max-width: 768px)": {
+      padding: "10px 15px",
     },
-    filterResetBtnContainer: {
-      padding: "12px 22px",
-      display: "flex",
-      justifyContent: "space-between",
-      borderRadius: "4px 4px 0 0",
-      borderBottom: 1,
-      borderBottomStyle: "solid",
-      borderBottomColor: theme.palette.text.gray1,
+    "@media(max-width: 480px)": {
+      maxWidth: "auto",
+      alignItems: "flex-start",
     },
-    h2: {
-      color: theme.palette.text.darkShadedGray,
-      fontSize: 20,
-      fontWeight: "normal",
-    },
-    resetBtn: {
-      border: "none",
-      backgroundColor: "transparent",
+  },
+  sortDropdownsContainer: {
+    display: "flex",
+    alignItems: "center",
+  },
+  serviceCollection: { paddingLeft: 25 },
+  sortBySection: {
+    display: "flex",
+    gap: 20,
+    justifyContent: "space-between",
+    "& .MuiSelect-select": {
       color: theme.palette.text.primary,
-      cursor: "pointer",
-      fontFamily: theme.typography.primary.main,
-      fontSize: 14,
-      outline: "none",
-      textTransform: "uppercase",
     },
-    filterExpansionPanel: {
-      marginTop: 0,
-      marginBottom: 1,
-      boxShadow: "none",
-      backgroundColor: theme.palette.text.gray,
-      "&::before": { position: "static" },
-      "&.Mui-expanded": {
-        marginTop: 0,
-        backgroundColor: theme.palette.text.white,
-      },
+    "& svg": {
+      color: theme.palette.text.primary,
+      right: "0 !important",
     },
-    filtersHeadingTitle: {
-      color: theme.palette.text.darkShadedGray,
-      fontFamily: theme.typography.primary.main,
-      fontSize: 16,
+    "& fieldset": { display: "none" },
+    "& .MuiSelect-selectMenu": {
+      padding: "0 30px 0 0",
+      color: theme.palette.text.primary,
     },
-    filterDetails: {
-      backgroundColor: theme.palette.text.white,
+    "@media(max-width: 768px)": {
       flexDirection: "column",
+      alignItems: "flex-start",
+      gap: 0,
     },
-    formCntrlGrup: {
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      "& svg": {
-        color: theme.palette.text.mediumShadeGray,
+  },
+  sortbyTxt: {
+    padding: "0 17px 0 0",
+    color: theme.palette.text.lightShadedGray,
+    fontSize: 16,
+  },
+  servicesCount: {
+    color: theme.palette.text.lightShadedGray,
+    fontSize: 16,
+    "&::after": {
+      content: "' '",
+      width: 2,
+      height: 15,
+      marginLeft: 10,
+      display: "inline-block",
+      backgroundColor: theme.palette.text.lightShadedGray,
+      verticalAlign: "middle",
+      "@media(max-width: 480px)": { display: "none" },
+    },
+  },
+  searchBar: {
+    "& div": {
+      color: theme.palette.text.mediumShadeGray,
+      "&::after": { borderBottomColor: "#9b9b9b !important" },
+    },
+  },
+  iconsContainer: {
+    minHeight: 34,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    "& button": {
+      border: "none",
+      paddingLeft: 19,
+      backgroundColor: "transparent",
+      outline: "none",
+      cursor: "pointer",
+      "& span": {
+        color: theme.palette.text.lightShadedGray,
+        fontSize: 18,
       },
     },
-    count: {
-      color: theme.palette.text.mediumShadeGray,
-      fontSize: 14,
+    "@media(max-width: 480px)": {
+      width: "100%",
+      justifyContent: "space-between",
     },
-    checkboxLabel: {
-      fontFamily: theme.typography.primary.main,
-      fontSize: 14,
-      letterSpacing: "0.25px",
-      color: theme.palette.text.mediumShadeGray,
-    },
-  });
-export const useStylesHook = makeStyles(useStyles);
+  },
+}));

@@ -1,6 +1,6 @@
 import React from "react";
-import { withStyles } from "@material-ui/styles";
-import Divider from "@material-ui/core/Divider";
+import { withStyles } from "@mui/styles";
+import Divider from "@mui/material/Divider";
 
 import UserMenuItem from "./UserMenuItem";
 import { useStyles } from "./styles";
@@ -15,7 +15,7 @@ const UserMenu = ({ classes, handleClick }) => {
       ))}
       <Divider />
       {UserMenuActionList.map((action) => (
-        <UserMenuAction key={action.Title} icon={action.menuIcon} title={action.menuTitle} action={action.action} />
+        <UserMenuAction key={action.menuTitle} icon={action.menuIcon} title={action.menuTitle} action={action.action} />
       ))}
     </ul>
   );

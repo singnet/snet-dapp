@@ -1,290 +1,152 @@
-import React, { Component } from "react";
-import { withStyles } from "@material-ui/styles";
-import Modal from "@material-ui/core/Modal";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CloseIcon from "@material-ui/icons/Close";
-import IconButton from "@material-ui/core/IconButton";
-import CardContent from "@material-ui/core/CardContent";
-import { connect } from "react-redux";
-import isEmpty from "lodash/isEmpty";
-import { withRouter } from "react-router-dom";
-import pickBy from "lodash/pickBy";
+import React, { useCallback, useEffect, useState } from "react";
+import { withStyles } from "@mui/styles";
+import { useDispatch } from "react-redux";
+
+import { paymentActions } from "../../../../../../../../Redux/actionCreators";
 
 import Details from "./Details";
 import Purchase from "./Purchase";
 import PrivateKey from "./PrivateKey";
 import Summary from "./Summary";
-import PopupDetails from "../PopupDetails";
 import { useStyles } from "./styles";
-import { paymentActions, userActions } from "../../../../../../../../Redux/actionCreators";
-import { groupInfo } from "../../../../../../../../Redux/reducers/ServiceDetailsReducer";
 import Routes from "../../../../../../../../utility/constants/Routes";
-import { channelInfo } from "../../../../../../../../Redux/reducers/UserReducer";
 import VerifyKey from "./VerifyKey";
-import { orderTypes } from "../../../../../../../../utility/constants/PaymentConstants";
+import { orderTypes, paymentTitles } from "../../../../../../../../utility/constants/PaymentConstants";
+import { useNavigate, useParams } from "react-router-dom";
+import SNETDialog from "../../../../../../../common/SNETDialog";
+import ProgressBar from "../../../../../../../common/ProgressBar";
 
 const indexOfPurchaseSection = {
-  [orderTypes.CREATE_WALLET]: 2,
-  [orderTypes.TOPUP_WALLET]: 2,
-  [orderTypes.CREATE_CHANNEL]: 3,
+  [orderTypes.CREATE_WALLET]: 1,
+  [orderTypes.TOPUP_WALLET]: 1,
+  [orderTypes.CREATE_CHANNEL]: 2,
 };
 
-class PaymentPopup extends Component {
-  state = {
-    activeSection: 1,
-    privateKeyGenerated: undefined,
-    userProvidedPrivateKey: undefined,
-    amount: "",
-    item: "",
-    quantity: "",
-  };
+const PaymentPopup = ({
+  classes,
+  setCreateWalletType,
+  isVisible,
+  handleClose,
+  paymentModalType,
+  isPaypalInProgress,
+}) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { orgId, serviceId } = useParams();
 
-  componentDidMount = () => {
-    if (!isEmpty(this.props.paypalInProgress)) {
-      this.purchaseWallet();
+  const [activeSection, setActiveSection] = useState(0);
+  const [userProvidedPrivateKey, setUserProvidedPrivateKey] = useState();
+  const [priceInfo, setPriceInfo] = useState({ amount: "", item: "", quantity: "" });
+  const [privateKeyGenerated, setPrivateKeyGenerated] = useState();
+
+  const title = paymentTitles[paymentModalType];
+
+  useEffect(() => {
+    if (isPaypalInProgress) {
+      setActiveSection(indexOfPurchaseSection[paymentModalType]);
     }
+  }, [isPaypalInProgress, paymentModalType]);
+
+  const handleCancel = () => {
+    dispatch(paymentActions.updatePaypalCompleted());
+    resetPaymentPopup();
   };
 
-  purchaseWallet = () => {
-    const {
-      paypalInProgress: { orderType },
-    } = this.props;
-    if (orderType === this.props.orderType) {
-      this.setState({ activeSection: indexOfPurchaseSection[orderType] });
-    }
+  const handleLostPrivateKey = () => {
+    handleCancel();
+    setCreateWalletType();
   };
 
-  handlePaymentComplete = () => {
-    this.props.paypalCompleted();
-    this.handleClose();
-  };
-
-  handleUserProvidedPrivateKey = (userProvidedPrivateKey) => {
-    this.setState({ userProvidedPrivateKey });
-  };
-
-  handleClose = () => {
-    const { orderType } = this.props;
-    if (this.state.activeSection === indexOfPurchaseSection[orderType]) {
-      return;
-    }
-    this.handleCancel();
-  };
-
-  handleCancel = () => {
-    this.props.paypalCompleted();
-    this.resetPaymentPopup();
-  };
-
-  resetPaymentPopup = () => {
-    const {
-      handleClose,
-      match: {
-        params: { orgId, serviceId },
-      },
-      history,
-    } = this.props;
+  const resetPaymentPopup = () => {
     handleClose();
-    this.setState({ activeSection: 1 });
-    history.push(`/${Routes.SERVICE_DETAILS}/org/${orgId}/service/${serviceId}`);
+    setActiveSection(0);
+    navigate(`/${Routes.SERVICE_DETAILS}/org/${orgId}/service/${serviceId}/tab/0`);
   };
 
-  handleNextSection = () => {
-    this.setState({ activeSection: this.state.activeSection + 1 });
+  const handleNextSection = useCallback(() => {
+    setActiveSection(activeSection + 1);
+  }, [activeSection]);
+
+  const progressBarDataAllFields = [
+    {
+      key: "verifyKey",
+      label: "Key",
+      component: (
+        <VerifyKey
+          handleNextSection={handleNextSection}
+          handleUserProvidedPrivateKey={setUserProvidedPrivateKey}
+          handleLostPrivateKey={handleLostPrivateKey}
+        />
+      ),
+    },
+    {
+      key: "details",
+      label: "Details",
+      component: (
+        <Details
+          handleNextSection={handleNextSection}
+          handleClose={handleCancel}
+          userProvidedPrivateKey={userProvidedPrivateKey}
+          orderType={paymentModalType}
+        />
+      ),
+    },
+    {
+      key: "purchase",
+      label: "Purchase",
+      component: (
+        <Purchase
+          setAmount={setPriceInfo}
+          setPrivateKeyGenerated={setPrivateKeyGenerated}
+          handleCancel={handleCancel}
+          handleNext={handleNextSection}
+        />
+      ),
+    },
+    {
+      key: "privateKey",
+      label: "Key",
+      component: <PrivateKey privateKey={privateKeyGenerated} handleNextSection={handleNextSection} />,
+    },
+    {
+      key: "summary",
+      label: "Summary",
+      component: (
+        <Summary
+          amount={priceInfo.amount}
+          item={priceInfo.item}
+          quantity={priceInfo.quantity}
+          handlePaymentComplete={handleCancel}
+          orderType={paymentModalType}
+        />
+      ),
+    },
+  ];
+
+  const progressBarDataTopUp = progressBarDataAllFields.filter((el) => !el.key.includes("Key"));
+  const progressBarDataCreateWallet = progressBarDataAllFields.filter((el) => !el.key.includes("verifyKey"));
+  const progressBarDataCreateChannel = progressBarDataAllFields.filter((el) => !el.key.includes("privateKey"));
+
+  const progressBarData = {
+    [orderTypes.CREATE_WALLET]: progressBarDataCreateWallet,
+    [orderTypes.TOPUP_WALLET]: progressBarDataTopUp,
+    [orderTypes.CREATE_CHANNEL]: progressBarDataCreateChannel,
   };
 
-  handleInitiatePayment = (payType, amount, currency, item, quantity, base64Signature, address, currentBlockNumber) => {
-    const {
-      match: {
-        params: { orgId, serviceId },
-      },
-      group: {
-        group_id,
-        payment: { payment_address },
-      },
-      initiatePayment,
-      orderType,
-    } = this.props;
+  const progressBarDataByType = progressBarData[paymentModalType];
 
-    const itemDetails = {
-      item,
-      quantity: Number(quantity),
-      org_id: orgId,
-      service_id: serviceId,
-      group_id,
-      recipient: payment_address,
-      order_type: orderType,
-      signature: base64Signature,
-      wallet_address: address,
-      current_block_number: currentBlockNumber,
-    };
-
-    const enhancedItemDetails = pickBy(itemDetails, (el) => el !== undefined);
-
-    const paymentObj = {
-      price: { amount: Number(amount), currency },
-      item_details: enhancedItemDetails,
-      payment_method: payType,
-    };
-
-    return initiatePayment(paymentObj);
-  };
-
-  executePaymentCompleted = async (data, orgId, group_id) => {
-    const { fetchWalletDetails } = this.props;
-
-    await fetchWalletDetails(orgId, group_id);
-    const {
-      private_key: privateKeyGenerated,
-      item_details: { item, quantity },
-      price: { amount },
-    } = data;
-    this.setState({ privateKeyGenerated, amount, quantity, item });
-    this.handleNextSection();
-    return;
-  };
-
-  handleExecutePayment = async () => {
-    const {
-      paypalInProgress: { orderId, paymentId, paypalPaymentId, PayerID },
-      match: {
-        params: { orgId },
-      },
-      group: { group_id },
-      executePayment,
-    } = this.props;
-
-    const paymentExecObj = {
-      order_id: orderId,
-      payment_id: paymentId,
-      payment_details: {
-        payer_id: PayerID,
-        payment_id: paypalPaymentId,
-      },
-    };
-
-    try {
-      const { data } = await executePayment(paymentExecObj);
-      await this.executePaymentCompleted(data, orgId, group_id);
-    } catch (error) {
-      if (error.response && error.response.data && error.response.data.data && error.response.data.data.private_key) {
-        await this.executePaymentCompleted(error.response.data.data, orgId, group_id);
-        return;
-      }
-      throw error;
-    }
-  };
-
-  render() {
-    const { classes, visible, paypalInProgress, orderType, title, channelInfo, handleLostPrivateKey, updateSignature } =
-      this.props;
-    const { activeSection, privateKeyGenerated, amount, item, quantity, userProvidedPrivateKey } = this.state;
-
-    const progressText = [{ label: "Details" }, { label: "Purchase" }, { label: "Summary" }];
-    const PopupProgressBarComponents = [
-      {
-        key: "details",
-        component: (
-          <Details
-            handleNextSection={this.handleNextSection}
-            initiatePayment={this.handleInitiatePayment}
-            handleClose={this.handleClose}
-            channelInfo={channelInfo}
-            userProvidedPrivateKey={userProvidedPrivateKey}
-            orderType={orderType}
-          />
-        ),
-      },
-      {
-        key: "purchase",
-        component: (
-          <Purchase
-            paypalInProgress={paypalInProgress}
-            executePayment={this.handleExecutePayment}
-            handleCancel={this.handleCancel}
-          />
-        ),
-      },
-      {
-        key: "summary",
-        component: (
-          <Summary
-            amount={amount}
-            item={item}
-            quantity={quantity}
-            handlePaymentComplete={this.handlePaymentComplete}
-            orderType={orderType}
-          />
-        ),
-      },
-    ];
-
-    if (orderType === orderTypes.CREATE_WALLET) {
-      progressText.splice(2, 0, { label: "Verify Key" });
-      PopupProgressBarComponents.splice(2, 0, {
-        key: "privateKey",
-        component: <PrivateKey privateKey={privateKeyGenerated} handleNextSection={this.handleNextSection} />,
-      });
-    }
-
-    if (orderType === orderTypes.CREATE_CHANNEL) {
-      progressText.splice(0, 0, { label: "Verify Key" });
-      PopupProgressBarComponents.splice(0, 0, {
-        key: "verifyKey",
-        component: (
-          <VerifyKey
-            handleNextSection={this.handleNextSection}
-            handleLostPrivateKey={handleLostPrivateKey}
-            updateSignature={updateSignature}
-            handleUserProvidedPrivateKey={this.handleUserProvidedPrivateKey}
-          />
-        ),
-      });
-    }
-
-    return (
-      <div className={classes.generalAccWalletContainer}>
-        <Modal open={visible} onClose={this.handleClose} className={classes.Modal}>
-          <Card className={classes.card}>
-            <CardHeader
-              className={classes.CardHeader}
-              title={title}
-              action={
-                <IconButton onClick={this.handleClose}>
-                  <CloseIcon />
-                </IconButton>
-              }
-            />
-            <CardContent className={classes.CardContent}>
-              {PopupProgressBarComponents.map((item, index) => (
-                <PopupDetails
-                  item={item}
-                  key={item.key}
-                  active={activeSection === index + 1}
-                  activeSection={activeSection}
-                  progressText={progressText}
-                />
-              ))}
-            </CardContent>
-          </Card>
-        </Modal>
-      </div>
-    );
+  if (!paymentModalType) {
+    return null;
   }
-}
 
-const mapStateToProps = (state) => ({
-  paypalInProgress: state.paymentReducer.paypalInProgress,
-  group: groupInfo(state),
-  channelInfo: channelInfo(state),
-});
+  return (
+    <SNETDialog isDialogOpen={isVisible} onDialogClose={handleCancel} showCloseButton={true} title={title}>
+      <div className={classes.paymentPopupContainer}>
+        <ProgressBar activeSection={activeSection} progressText={progressBarDataByType} />
+        <div className={classes.paymentComponentContainer}>{progressBarDataByType[activeSection].component}</div>
+      </div>
+    </SNETDialog>
+  );
+};
 
-const mapDispatchToProps = (dispatch) => ({
-  initiatePayment: (paymentObj) => dispatch(paymentActions.initiatePayment(paymentObj)),
-  executePayment: (paymentExecObj) => dispatch(paymentActions.executePayment(paymentExecObj)),
-  fetchWalletDetails: (orgId, groupId) => dispatch(userActions.fetchWallet(orgId, groupId)),
-  paypalCompleted: () => dispatch(paymentActions.updatePaypalCompleted),
-});
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(PaymentPopup)));
+export default withStyles(useStyles)(PaymentPopup);

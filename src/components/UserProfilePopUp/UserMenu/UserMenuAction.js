@@ -1,13 +1,15 @@
 import React from "react";
-// import Icon from "@material-ui/core/Icon";
-import { connect } from "react-redux";
-import { withStyles } from "@material-ui/styles";
+import { useDispatch } from "react-redux";
+// import Icon from "@mui/material/Icon";
+import { withStyles } from "@mui/styles";
 
 import { useStyles } from "./styles";
 
-const UserMenuAction = ({ title, icon: Icon, action, dispatch, classes }) => {
+const UserMenuAction = ({ title, icon: Icon, action, classes }) => {
+  const dispatch = useDispatch();
+
   const handleClick = () => {
-    dispatch(action);
+    dispatch(action());
   };
 
   return (
@@ -18,4 +20,4 @@ const UserMenuAction = ({ title, icon: Icon, action, dispatch, classes }) => {
   );
 };
 
-export default connect()(withStyles(useStyles)(UserMenuAction));
+export default withStyles(useStyles)(UserMenuAction);

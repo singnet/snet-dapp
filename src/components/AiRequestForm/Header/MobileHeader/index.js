@@ -1,12 +1,12 @@
 import React, { Fragment } from "react";
-import { withStyles } from "@material-ui/styles";
-import MenuIcon from "@material-ui/icons/Menu";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
+import { withStyles } from "@mui/styles";
+import MenuIcon from "@mui/icons-material/Menu";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
 import { connect } from "react-redux";
 import { stylesActions } from "../../../../Redux/actionCreators";
-import CloseIcon from "@material-ui/icons/Close";
+import CloseIcon from "@mui/icons-material/Close";
 
 import { useStyles } from "./styles";
 

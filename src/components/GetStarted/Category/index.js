@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Grid from "@material-ui/core/Grid";
-import { withStyles } from "@material-ui/styles";
+import Grid from "@mui/material/Grid";
+import { withStyles } from "@mui/styles";
 
 import FeatureMedia from "./FeatureMedia";
 import VerticalTabs from "./VerticalTabs";
@@ -21,11 +21,7 @@ const Category = ({ classes, icon: Icon, title, description, tabs, rightAlign })
   };
 
   return (
-    <Grid
-      container
-      spacing={24}
-      className={`${classes.CategoryWrapper} ${rightAlign ? classes.reverseDirection : null}`}
-    >
+    <Grid container className={`${classes.CategoryWrapper} ${rightAlign ? classes.reverseDirection : null}`}>
       <Grid item xs={12} sm={6} md={6} lg={6} className={classes.CategoryContent}>
         <div className={classes.Title}>
           {Icon ? <Icon /> : null}

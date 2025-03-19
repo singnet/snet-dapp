@@ -1,7 +1,7 @@
 import React from "react";
-import { withStyles } from "@material-ui/styles";
-import CloseIcon from "@material-ui/icons/Close";
-import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
+import { withStyles } from "@mui/styles";
+import CloseIcon from "@mui/icons-material/Close";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import AnnoucementIcon from "../../../assets/images/AnnoucementIcon.png";
 
 import { useStyles } from "./styles";

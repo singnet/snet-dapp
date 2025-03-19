@@ -1,9 +1,9 @@
 import React from "react";
-import { withStyles } from "@material-ui/styles";
-import Grid from "@material-ui/core/Grid";
-import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
+import { withStyles } from "@mui/styles";
+import Grid from "@mui/material/Grid";
+import AppBar from "@mui/material/AppBar";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 
 import { useStyles } from "./styles";
 import RequestedModel from "./RequestedModel";
@@ -24,7 +24,7 @@ const UserProfileModels = ({ classes }) => {
   const activeComponent = tabs.filter((el) => el.activeIndex === activeTab)[0].component;
 
   return (
-    <Grid container spacing={24} className={classes.userProfileModelMainContainer}>
+    <Grid container className={classes.userProfileModelMainContainer}>
       <Grid item xs={12} sm={12} md={12} lg={12} className={classes.userProfileModelContainer}>
         <h3>Model Training</h3>
         <div className={classes.userProfileModelContent}>

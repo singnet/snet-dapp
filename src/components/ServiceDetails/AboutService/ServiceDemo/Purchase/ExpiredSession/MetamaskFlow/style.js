@@ -2,14 +2,23 @@ export const useStyles = (theme) => ({
   ExpiredSessionContainer: {
     textAlign: "center",
     "& button": {
-      marginTop: 36,
-      marginRight: "0 !important",
+      margin: "0 auto",
       paddingBottomg: 15,
     },
   },
+  runServiceContainer: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    gap: 25,
+  },
   PurchaseFlowContainer: {
-    padding: "0 50px 50px",
     "@media(max-width:1280px)": { padding: 0 },
+  },
+  channelSelectionTitle: {
+    color: theme.palette.text.primary,
+    fontWeight: 600,
+    marginBottom: 10,
   },
   PurchaseFlowDescription: {
     margin: "33px 0 45px",
@@ -19,10 +28,11 @@ export const useStyles = (theme) => ({
     lineHeight: "21px",
   },
   paymentInfoCard: {
-    marginBottom: 25,
     display: "flex",
     justifyContent: "space-between",
-    "@media(max-width:460px)": { flexDirection: "column", gap: 25 },
+    flexWrap: "wrap",
+    gap: 25,
+    "@media(max-width:650px)": { justifyContent: "center" },
   },
   paymentChannelDropDownContainer: { display: "flex" },
   infoIconContainer: {
@@ -55,7 +65,6 @@ export const useStyles = (theme) => ({
   },
   walletIcon: { color: theme.palette.text.lightShadedGray },
   buttonContainer: {
-    marginTop: 35,
     textAlign: "center",
     display: "flex",
     justifyContent: "space-evenly",
@@ -63,12 +72,9 @@ export const useStyles = (theme) => ({
       display: "inline-block",
     },
   },
-  channelSelectionTitle: {
-    marginBottom: 5,
-    display: "inline-block",
-    color: theme.palette.text.mediumShadeGray,
-    fontSize: 16,
-    fontWeight: 600,
-  },
   tooltip: { fontSize: 14 },
+  alertContainer: {
+    width: "100%",
+    flexShrink: 0,
+  },
 });

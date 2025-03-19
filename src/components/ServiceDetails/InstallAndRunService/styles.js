@@ -1,44 +1,22 @@
 export const useStyles = (theme) => ({
-  DownloadTokenBtn: {
-    padding: "10px 30px",
+  downloadTokenLink: {
+    textDecoration: "none",
+    color: "inherit",
+    height: "100%",
     display: "block",
-    color: "#fff",
-    backgroundColor: theme.palette.text.primary,
-    "&:hover": {
-      backgroundColor: "#005ACB",
-    },
+    width: "min-content",
+    whiteSpace: "nowrap",
   },
-  freecallContainer: {
-    paddingLeft: 20,
-    paddingRight: 20,
+  cardContainer: {
+    padding: "0 20px",
   },
-  installAndRunContainer: {
-    paddingTop: 11,
-    marginBottom: 25,
-    borderTopWidth: 1,
-    borderTopStyle: "solid",
-    borderTopColor: theme.palette.text.verticalTabLeftBorder,
-    "& h2": {
-      padding: "12px 22px",
-      borderBottomWidth: 1,
-      borderBottomStyle: "solid",
-      borderBottomColor: theme.palette.text.gray1,
-      margin: 0,
-      color: theme.palette.text.darkShadedGray,
-      fontSize: 20,
-      fontWeight: 400,
-    },
-    "& .ProjectDetails-projectDetailsContainer-415": {
-      "& h2": { marginBottom: 20 },
-    },
-  },
-  infoIcon: {
-    paddingRight: 12,
-    color: theme.palette.text.lightGray,
-    fontSize: 20,
-    verticalAlign: "sub",
+  freecallcardContainer: {
+    paddingBottom: 30,
   },
   overViewContainer: {
+    display: "flex",
+    gap: 25,
+    flexDirection: "column",
     "& ul": {
       margin: "20px 0 0",
       padding: "0 22px",
@@ -62,9 +40,6 @@ export const useStyles = (theme) => ({
       fontSize: 16,
       "@media(max-width:800px)": { paddingLeft: 0 },
     },
-    "& > div": {
-      "&:not(:first-of-type)": { marginTop: 25 },
-    },
   },
   integrationSetupContainer: {
     paddingBottom: 25,
@@ -75,9 +50,7 @@ export const useStyles = (theme) => ({
     "@media(max-width:960px)": { marginRight: 0 },
   },
   integrationContent: {
-    minHeight: 500,
     padding: "0 22px",
-    paddingBottom: 10,
   },
   tabsHeader: {
     backgroundColor: "transparent",
@@ -126,24 +99,6 @@ export const useStyles = (theme) => ({
     letterSpacing: 0.25,
     "@media(max-width: 600px)": { margin: "10px 0" },
   },
-  setingUpFilesContainer: {
-    marginTop: 40,
-    "& h3": {
-      margin: 0,
-      color: theme.palette.text.darkShadedGray,
-      fontSize: 18,
-      fontWeight: 400,
-      lineHeight: "23px",
-    },
-    "& span": {
-      margin: "18px 0 10px",
-      display: "inline-block",
-      color: theme.palette.text.lightShadedGray,
-      fontSize: 14,
-      letterSpacing: 0.25,
-      lineHeight: "20px",
-    },
-  },
   descriptionBtnsContainer: {
     "& p": {
       margin: "16px 0 24px",
@@ -152,5 +107,9 @@ export const useStyles = (theme) => ({
       letterSpacing: 0.25,
       lineHeight: "20px",
     },
+  },
+  btnContainer: {
+    display: "flex",
+    gap: 20,
   },
 });

@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import Grid from "@material-ui/core/Grid";
-import { withStyles } from "@material-ui/styles";
-import map from "lodash/map";
-import find from "lodash/find";
+import React, { useCallback, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import Grid from "@mui/material/Grid";
+import { withStyles } from "@mui/styles";
 import StyledDropdown from "../../common/StyledDropdown";
 import { useStyles } from "./styles";
 import {
@@ -12,108 +10,138 @@ import {
   walletTypes,
 } from "../../../Redux/actionCreators/UserActions";
 import { userActions } from "../../../Redux/actionCreators";
-import MetamaskDetails from "./MetamaskDetails";
-import { initSdk } from "../../../utility/sdk";
 import ProviderBalance from "./ProviderBalance";
 import AlertBox, { alertTypes } from "../../common/AlertBox";
 import ProvidersLinkedCount from "./ProvidersLinkedCount";
 import { startAppLoader, stopAppLoader } from "../../../Redux/actionCreators/LoaderActions";
 import { LoaderContent } from "../../../utility/constants/LoaderContent";
-import { initialWallet } from "../../../Redux/reducers/UserReducer";
-import { Helmet } from "react-helmet";
+import { isEmpty } from "lodash";
+import { CircularProgress } from "@mui/material";
+import { getWeb3Address, ON_ACCOUNT_CHANGE } from "../../../utility/sdk";
+import MetamaskAccount from "./MetamaskDetails";
 
-const UserProfileAccount = ({ classes, startAppLoader, stopAppLoader, wallet, updateWallet, fetchUserWallets }) => {
+const alertSelectCurrentWallet = {
+  type: alertTypes.ERROR,
+  message: `The selected wallet address does not match the address in the current metamask account. Please select the correct account in metamask and try again.`,
+};
+
+const UserProfileAccount = ({ classes }) => {
   const [alert, setAlert] = useState({});
-  const [wallets, updateWallets] = useState([]);
-  const [linkedProviders, updateLinkedProviders] = useState([]);
+  const [wallets, setWallets] = useState([]);
+  const [selectedWallet, setSelectedWallet] = useState({});
+  const [linkedProviders, setLinkedProviders] = useState([]);
+  const [currentAddress, setCurrentAddress] = useState("");
+  const dispatch = useDispatch();
+
+  const parseWallet = (address, type) => {
+    return { value: address, label: `${type} (${address})`, address, type };
+  };
+
+  const getWallets = useCallback(
+    async (currentAddress) => {
+      const availableWallets = await dispatch(fetchAvailableUserWallets());
+      let currentWallet = availableWallets.find(({ address }) => address === currentAddress);
+      const enhancedWallets = availableWallets.map(({ address, type }) => parseWallet(address, type));
+      if (!currentWallet) {
+        currentWallet = parseWallet(currentAddress, walletTypes.METAMASK);
+        enhancedWallets.push(currentWallet);
+      }
+      setSelectedWallet(parseWallet(currentWallet.address, currentWallet.type));
+      dispatch(userActions.updateWallet(currentWallet));
+      return enhancedWallets;
+    },
+    [dispatch]
+  );
+
+  const getEthereumProvider = () => {
+    if (!window?.ethereum) {
+      setAlert({ type: alertTypes.ERROR, message: `Can't find Metamask` });
+    }
+    return window.ethereum;
+  };
+
+  const fetchWallets = useCallback(async () => {
+    try {
+      const currentAddress = await getWeb3Address();
+      const wallets = await getWallets(currentAddress);
+      setCurrentAddress(currentAddress);
+      setWallets(wallets);
+    } catch (error) {
+      setCurrentAddress("");
+      setWallets([]);
+    }
+  }, [getWallets]);
+
   useEffect(() => {
-    const fetchWallets = async () => {
-      const availableWallets = await fetchUserWallets();
-      const enhancedWallets = map(availableWallets, ({ address, type }) => {
-        return { address, type, value: address, label: `${type} (${address})` };
-      });
-      updateWallets(enhancedWallets);
-    };
+    const ethereumProvider = getEthereumProvider();
+    ethereumProvider.addListener(ON_ACCOUNT_CHANGE, fetchWallets);
+    return () => ethereumProvider.removeListener(ON_ACCOUNT_CHANGE, fetchWallets);
+  }, [fetchWallets]);
+
+  useEffect(() => {
     fetchWallets();
-  }, [fetchUserWallets]);
+  }, [fetchWallets]);
+
+  useEffect(() => {
+    const getProviders = async () => {
+      if (!selectedWallet?.address) {
+        return;
+      }
+
+      dispatch(startAppLoader(LoaderContent.FETCH_LINKED_PROVIDERS));
+      const organizations = await fetchWalletLinkedProviders(selectedWallet.address);
+      setLinkedProviders(organizations);
+      dispatch(stopAppLoader());
+    };
+
+    getProviders();
+  }, [selectedWallet, dispatch]);
 
   const isSameMetaMaskAddress = (address) => {
-    const selectedEthAddress = window.ethereum && window.ethereum.selectedAddress;
-    if (selectedEthAddress && address) {
-      return selectedEthAddress.toLowerCase() === address.toLowerCase();
+    if (currentAddress && address) {
+      return currentAddress.toLowerCase() === address.toLowerCase();
     }
-
     return false;
   };
 
-  const handleWalletTypeChange = async (event) => {
+  const handleWalletTypeChange = (event) => {
     setAlert({});
     const { value: selectedValue } = event.target;
-    const selectedWallet = find(wallets, ({ value }) => selectedValue === value);
-    if (!selectedWallet) {
-      updateWallet(initialWallet);
-      return;
-    }
-
-    startAppLoader();
-    const organizations = await fetchWalletLinkedProviders(selectedWallet.address);
-    stopAppLoader();
-    updateLinkedProviders(organizations);
-    updateWallet(selectedWallet);
-
-    if (selectedWallet.type === walletTypes.METAMASK) {
-      try {
-        if (isSameMetaMaskAddress(selectedWallet.address)) {
-          const selectedEthAddress = window.ethereum && window.ethereum.selectedAddress;
-          await initSdk(selectedEthAddress);
-          return;
-        }
-        if (!isSameMetaMaskAddress(selectedWallet.address)) {
-          setAlert({
-            type: alertTypes.ERROR,
-            message: `The selected wallet address does not match the address in the current metamask account. Please select the correct account in metamask and try again.`,
-          });
-        } else {
-          setAlert({ type: alertTypes.ERROR, message: `Unable to fetch Metamask address. Please try again` });
-        }
-      } catch (error) {
-        setAlert({ type: alertTypes.ERROR, message: `Something went wrong. Please try again` });
-      }
-    }
+    const selectedWallet = wallets.find(({ value }) => selectedValue === value);
+    setSelectedWallet(selectedWallet);
   };
 
   const walletDetails = {
-    [walletTypes.METAMASK]: isSameMetaMaskAddress(wallet.address) ? <MetamaskDetails /> : undefined,
+    [walletTypes.METAMASK]: isSameMetaMaskAddress(selectedWallet.address) ? (
+      <MetamaskAccount />
+    ) : (
+      <AlertBox {...alertSelectCurrentWallet} />
+    ),
   };
 
-  const hasSelectedWallet = wallet.type !== initialWallet.type;
+  if (isEmpty(selectedWallet)) {
+    return (
+      <div className={classes.loaderContainer}>
+        <CircularProgress />
+      </div>
+    );
+  }
+
   return (
-    <Grid container spacing={24} className={classes.accountMainContainer}>
-      <Helmet>
-        <meta
-          name="description"
-          content="Take control of your AI journey with SingularityNET user account management. Customize, track, and optimize your use of AI services."
-        />
-        <meta name="keywords" content="User Account, AI Services, SingularityNET, Profile Management" />
-      </Helmet>
+    <Grid container className={classes.accountMainContainer}>
       <Grid item xs={12} sm={12} md={4} lg={4} className={classes.accountContainer}>
         <h3>Payment / Transfer Method</h3>
         <div className={classes.accountWrapper}>
           <div className={classes.dropDown}>
             <span className={classes.dropDownTitle}>Wallet</span>
-            <StyledDropdown
-              labelTxt="Select a Wallet"
-              list={wallets}
-              value={wallet.value}
-              onChange={handleWalletTypeChange}
-            />
+            <StyledDropdown list={wallets} value={selectedWallet.value} onChange={handleWalletTypeChange} />
           </div>
-          {walletDetails[wallet.type]}
+          {walletDetails[selectedWallet.type]}
           <AlertBox type={alert.type} message={alert.message} />
-          {hasSelectedWallet && <ProvidersLinkedCount providerCount={linkedProviders.length} />}
+          {selectedWallet.address && <ProvidersLinkedCount providerCount={linkedProviders.length} />}
         </div>
       </Grid>
-      {hasSelectedWallet && (
+      {linkedProviders.length > 0 && (
         <Grid item xs={12} sm={12} md={8} lg={8} className={classes.providerBalMaincontainer}>
           <ProviderBalance linkedProviders={linkedProviders} />
         </Grid>
@@ -122,17 +150,4 @@ const UserProfileAccount = ({ classes, startAppLoader, stopAppLoader, wallet, up
   );
 };
 
-const mapStateToProps = (state) => ({
-  wallet: state.userReducer.wallet,
-});
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    updateWallet: (args) => dispatch(userActions.updateWallet(args)),
-    startAppLoader: () => dispatch(startAppLoader(LoaderContent.FETCH_LINKED_PROVIDERS)),
-    stopAppLoader: () => dispatch(stopAppLoader),
-    fetchUserWallets: () => dispatch(fetchAvailableUserWallets()),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(UserProfileAccount));
+export default withStyles(useStyles)(UserProfileAccount);

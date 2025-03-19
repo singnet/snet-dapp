@@ -36,7 +36,7 @@ export const useStyles = (theme) => ({
       borderStyle: "solid",
       borderColor: "rgba(25,25,25,0.32)",
       borderRadius: 4,
-      padding: "19px 0",
+      padding: "19px 10px",
     },
     "& + p": { margin: "0 49px 16px" },
   },
@@ -52,7 +52,11 @@ export const useStyles = (theme) => ({
     letterSpacing: 0.4,
     lineHeight: "16px",
   },
-  btnContainer: { textAlign: "center" },
+  btnContainer: {
+    display: "flex",
+    justifyContent: "center",
+    gap: 30,
+  },
   lostKeyContainer: { paddingBottom: "0 !important" },
   WarningBoxConatiner: {
     padding: "12px 17px",

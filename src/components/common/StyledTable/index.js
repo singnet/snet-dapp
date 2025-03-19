@@ -1,11 +1,11 @@
 import React from "react";
-import { withStyles } from "@material-ui/styles";
-import Typography from "@material-ui/core/Typography";
+import { withStyles } from "@mui/styles";
+import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
 
 import { useStyles } from "./styles";
 
-const StyledTable = ({ classes, title, columns, rows }) => {
+const StyledTable = ({ classes, title, columns = [{}], rows = [{ values: [{}] }] }) => {
   return (
     <div className={classes.styledTable}>
       <Typography variant="h5" className={classes.styledTableHeader}>
@@ -32,11 +32,6 @@ const StyledTable = ({ classes, title, columns, rows }) => {
       </div>
     </div>
   );
-};
-
-StyledTable.defaultProps = {
-  columns: [{}],
-  rows: [{ values: [{}] }],
 };
 
 StyledTable.propTypes = {

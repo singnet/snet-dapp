@@ -49,20 +49,18 @@ export const anyFailedTxn = (state) => {
   return istransactionsFailed;
 };
 
-export const USDToAgi = (state) => (usd) => {
-  const { usd_agi_rate, agi_divisibility } = state.paymentReducer;
-  if (!usd_agi_rate) {
+export const USDToAgi = (usd, usdFiatRate, fiatDivisibility) => {
+  if (!usdFiatRate) {
     return undefined;
   }
-  return (usd * usd_agi_rate).toFixed(agi_divisibility);
+  return (usd * usdFiatRate).toFixed(fiatDivisibility);
 };
 
-export const USDToCogs = (state) => (usd) => {
-  const { usd_cogs_rate } = state.paymentReducer;
-  if (!usd_cogs_rate) {
+export const USDToCogs = (usd, usdCogsRate) => {
+  if (!usdCogsRate) {
     return undefined;
   }
-  return usd * usd_cogs_rate;
+  return usd * usdCogsRate;
 };
 
 export default paymentReducer;

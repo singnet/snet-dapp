@@ -1,13 +1,12 @@
 import React, { Fragment, useState } from "react";
-import Button from "@material-ui/core/Button";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import { withStyles } from "@material-ui/styles";
-import CaretIcon from "@material-ui/icons/ArrowDropDown";
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import { withStyles } from "@mui/styles";
+import CaretIcon from "@mui/icons-material/ArrowDropDown";
 import PropTypes from "prop-types";
 
 import { useStyles } from "./styles";
-import AnchorLink from "../AnchorLink";
 
 const StyledMenu = ({ classes, label, list }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -25,11 +24,23 @@ const StyledMenu = ({ classes, label, list }) => {
         <Button className={classes.button}>{label}</Button>
         <CaretIcon />
       </div>
-      <Menu anchorEl={anchorEl} id="simple-menu" open={Boolean(anchorEl)} onClose={handleClose}>
+      <Menu
+        anchorEl={anchorEl}
+        id="simple-menu"
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+        disableScrollLock={true}
+      >
         {list.map((item) => (
-          <MenuItem key={item.label} className={classes.menuItem}>
-            <AnchorLink label={item.label} href={item.link} newTab={item.newTab} />
-          </MenuItem>
+          <a
+            key={item.label}
+            className={classes.menuItem}
+            href={item.link}
+            target={item.newTab && "_blank"}
+            rel="noopener"
+          >
+            <MenuItem className={classes.menuItem}>{item.label}</MenuItem>
+          </a>
         ))}
       </Menu>
     </Fragment>

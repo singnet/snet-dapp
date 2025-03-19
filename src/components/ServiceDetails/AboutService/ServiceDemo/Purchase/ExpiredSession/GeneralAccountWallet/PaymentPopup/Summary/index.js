@@ -1,13 +1,13 @@
 import React from "react";
-import { withStyles } from "@material-ui/styles";
-import Typography from "@material-ui/core/Typography";
+import { withStyles } from "@mui/styles";
+import Typography from "@mui/material/Typography";
 // import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
 import StyledButton from "../../../../../../../../common/StyledButton";
 import { useStyles } from "./styles";
 import StyledTable from "../../../../../../../../common/StyledTable";
-import InfoIcon from "@material-ui/icons/Info";
+import InfoIcon from "@mui/icons-material/Info";
 import { agiInDecimal } from "../../../../../../../../../utility/PricingStrategy";
 import { currentServiceDetails } from "../../../../../../../../../Redux/reducers/ServiceDetailsReducer";
 import { orderTypes } from "../../../../../../../../../utility/constants/PaymentConstants";

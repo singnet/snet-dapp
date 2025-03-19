@@ -1,34 +1,29 @@
-import React, { useState } from "react";
-import { withStyles } from "@material-ui/styles";
-import Typography from "@material-ui/core/Typography";
-import InfoIcon from "@material-ui/icons/Info";
-import Avatar from "@material-ui/core/Avatar";
-import { connect } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { withStyles } from "@mui/styles";
+import Typography from "@mui/material/Typography";
+import { useDispatch, useSelector } from "react-redux";
 import Web3 from "web3";
 import isEmpty from "lodash/isEmpty";
 import MPEContract from "singularitynet-platform-contracts/networks/MultiPartyEscrow";
 
-import PaymentInfoCard from "../../../../PaymentInfoCard";
-import StyledDropdown from "../../../../../../../../common/StyledDropdown";
 import StyledButton from "../../../../../../../../common/StyledButton";
-import SingularityLogo from "../../../../../../../../../assets/images/avatar.png";
 import { useStyles } from "./styles";
 import snetValidator from "../../../../../../../../../utility/snetValidator";
 import { paymentGatewayConstraints } from "./validationConstraints";
 import AlertBox, { alertTypes } from "../../../../../../../../common/AlertBox";
 import { tenYearBlockOffset } from "../../../../../../../../../utility/PricingStrategy";
-import { groupInfo, currentServiceDetails } from "../../../../../../../../../Redux/reducers/ServiceDetailsReducer";
 import { decodeGroupId } from "../../../../../../../../../utility/sdk";
 import { USDToAgi, USDToCogs } from "../../../../../../../../../Redux/reducers/PaymentReducer";
-import { orderTypes } from "../../../../../../../../../utility/constants/PaymentConstants";
+import { orderPayloadTypes, orderTypes } from "../../../../../../../../../utility/constants/PaymentConstants";
 import AGITokens from "./AGITokens";
 
+import { ReactComponent as PayPal } from "../../../../../../../../../assets/images/PayPal.svg";
+import TextField from "@mui/material/TextField";
+import { pickBy } from "lodash";
+import { paymentActions } from "../../../../../../../../../Redux/actionCreators";
+import { useParams } from "react-router-dom";
+
 export const paymentTypes = [{ value: "paypal", label: "Paypal" }];
-const paymentAmounts = [
-  { value: 2, label: "2" },
-  { value: 3, label: "3" },
-  { value: 5, label: "5" },
-];
 
 const web3 = new Web3(process.env.REACT_APP_WEB3_PROVIDER, null, {});
 
@@ -39,51 +34,95 @@ const description = {
   [orderTypes.CREATE_CHANNEL]: `Please enter the payment type in the box below, along with the amount you would like to enter into the payment channel.`,
 };
 
-const Details = (props) => {
-  const {
-    classes,
-    initiatePayment,
-    handleClose,
-    channelInfo,
-    orderType,
-    userProvidedPrivateKey: privateKey,
-    groupInfo,
-    serviceDetails,
-    USDToAgi,
-    USDToCogs,
-  } = props;
+const Details = ({ classes, handleClose, orderType, handleNextSection, userProvidedPrivateKey: privateKey }) => {
+  const dispatch = useDispatch();
+  const { orgId, serviceId } = useParams();
 
-  const [payType, setPayType] = useState("default");
-  const [amount, setAmount] = useState(undefined);
+  const groupInfo = useSelector((state) => {
+    return state.serviceDetailsReducer.details.groups.find((group) => {
+      return !isEmpty(group.endpoints.find((endpoint) => endpoint.is_available === 1));
+    });
+  });
+
+  const { usd_agi_rate, agi_divisibility, usd_cogs_rate } = useSelector((state) => state.paymentReducer);
+
+  useEffect(() => {
+    dispatch(paymentActions.fetchUSDConversionRate());
+  }, [dispatch]);
+
+  const payType = "paypal";
+  const currency = "USD";
+
+  const [amount, setAmount] = useState("");
   const [alert, setAlert] = useState({});
-  const [currency] = useState("USD");
+  const [amountError, setAmountError] = useState();
 
-  const handlePayTypeChange = (event) => {
-    const { value } = event.target;
-    if (value !== "default") {
-      setPayType(value);
-    }
+  const initiatePayment = async (
+    // payType,
+    amount,
+    currency,
+    item,
+    quantity,
+    base64Signature,
+    address,
+    currentBlockNumber
+  ) => {
+    const itemDetails = {
+      item,
+      quantity: Number(quantity),
+      org_id: orgId,
+      service_id: serviceId,
+      group_id: groupInfo.group_id,
+      recipient: groupInfo.payment.payment_address,
+      order_type: orderPayloadTypes[orderType],
+      signature: base64Signature,
+      wallet_address: address,
+      current_block_number: currentBlockNumber,
+    };
+
+    const enhancedItemDetails = pickBy(itemDetails, (el) => el !== undefined); // removed all undefined fields
+
+    const paymentObj = {
+      price: { amount: Number(amount), currency },
+      item_details: enhancedItemDetails,
+      payment_method: payType,
+    };
+
+    return await dispatch(paymentActions.initiatePayment(paymentObj));
   };
 
   const handleAmountChange = (event) => {
     const { value } = event.target;
-    if (value !== "default") {
-      setAmount(value);
+    if (!value) {
+      setAmountError();
+      setAmount("");
+      return;
     }
+    const isNotValid = snetValidator({ amount: value }, paymentGatewayConstraints);
+    if (isNotValid) {
+      setAmountError(isNotValid[0]);
+      setAmount("");
+      return;
+    }
+    setAmountError();
+    setAmount(value);
   };
 
   const generateSignature = async () => {
     const account = web3.eth.accounts.privateKeyToAccount(privateKey);
+
     const address = account.address;
     web3.eth.accounts.wallet.add(account);
     web3.eth.defaultAccount = address;
     const recipient = groupInfo.payment.payment_address;
     const hexGroupId = decodeGroupId(groupInfo.group_id);
-    const amountInCogs = USDToCogs(amount);
-    const currentBlockNumber = await web3.eth.getBlockNumber();
+    const amountInCogs = USDToCogs(amount, usd_cogs_rate);
+    const currentBlockNumber = Number(await web3.eth.getBlockNumber());
+
     const mpeContractAddress = web3.utils.toChecksumAddress(MPEContract[process.env.REACT_APP_ETH_NETWORK].address);
     // block no is mined in 15 sec on average, setting expiration as 10 years
     const expiration = currentBlockNumber + tenYearBlockOffset;
+
     const sha3Message = web3.utils.soliditySha3(
       { t: "string", v: "__openChannelByThirdParty" },
       { t: "address", v: mpeContractAddress },
@@ -95,94 +134,66 @@ const Details = (props) => {
       { t: "uint256", v: expiration },
       { t: "uint256", v: currentBlockNumber }
     );
-    const { signature } = await web3.eth.accounts.sign(sha3Message, privateKey);
-    return Promise.resolve({ signature, address, currentBlockNumber });
+    console.log("sha3Message: ", sha3Message);
+
+    const response = await web3.eth.accounts.sign(sha3Message, privateKey);
+    console.log("response: ", response);
+
+    return Promise.resolve({ signature: response.signature, address, currentBlockNumber });
   };
 
+  let initiateInProcess = false;
   const handleContinue = async () => {
     setAlert({});
-    const isNotValid = snetValidator({ payType, amount }, paymentGatewayConstraints);
-    if (isNotValid) {
-      setAlert({ type: alertTypes.ERROR, message: isNotValid[0] });
-      return;
-    }
     try {
-      const amountInAGI = USDToAgi(amount);
+      if (initiateInProcess) return;
+      const amountInAGI = USDToAgi(amount, usd_agi_rate, agi_divisibility);
+
       if (orderType === orderTypes.CREATE_CHANNEL) {
         var { signature, address, currentBlockNumber } = await generateSignature();
       }
-      await initiatePayment(payType, amount, currency, "AGIX", amountInAGI, signature, address, currentBlockNumber);
+      initiateInProcess = true;
+      await initiatePayment(amount, currency, "AGIX", amountInAGI, signature, address, currentBlockNumber);
+      handleNextSection();
     } catch (error) {
       setAlert({ type: alertTypes.ERROR, message: `${error.message}. Please try again` });
+    } finally {
+      initiateInProcess = false;
     }
   };
 
   return (
-    <div className={classes.deatilsTabContainer}>
-      <Typography variant="body1" className={classes.deatilsTabDesc}>
-        {description[orderType]}
-      </Typography>
-      <div className={classes.providerAndBalanceInfo}>
-        <div className={classes.providerDetails}>
-          <Avatar alt="Singularity" src={SingularityLogo} className={classes.avatar} />
-          <div>
-            <Typography variant="body2" className={classes.providerName}>
-              {serviceDetails.organization_name}
-            </Typography>
-          </div>
-        </div>
-        <PaymentInfoCard
-          title="Channel Balance"
-          show={!isEmpty(channelInfo)}
-          value={channelInfo.balanceInAgi}
-          unit="AGIX"
+    <div className={classes.paymentContainer}>
+      <Typography className={classes.deatilsTabDesc}>{description[orderType]}</Typography>
+      <div className={classes.paymentTypeContainer}>
+        <PayPal />
+      </div>
+      <div className={classes.purchaseAmtTextfield}>
+        <TextField
+          label="Select an Amount"
+          value={amount}
+          placeholder="0"
+          onChange={(e) => handleAmountChange(e)}
+          helperText={
+            amountError ? amountError : <AGITokens amount={USDToAgi(amount, usd_agi_rate, agi_divisibility)} />
+          }
+          InputProps={{ startAdornment: <span className={classes.currencyAdornment}>$</span> }}
+          error={Boolean(amountError)}
         />
       </div>
 
-      <div className={classes.dropDownTextfield}>
-        <div className={classes.paymentTypeDropDownContainer}>
-          <InfoIcon className={classes.infoIconContainer} />
-          <div className={classes.paymentTypeDropDown}>
-            <Typography className={classes.dropDownTitle} variant="subtitle1">
-              Payment Channel
-            </Typography>
-            <StyledDropdown
-              labelTxt="Select a Payment Gateway"
-              list={paymentTypes}
-              value={payType}
-              onChange={handlePayTypeChange}
-            />
-          </div>
-        </div>
-        <div className={classes.purchaseAmtTextfield}>
-          <div className={classes.paymentTypeDropDown}>
-            <Typography className={classes.dropDownTitle} variant="subtitle1">
-              Amount in USD
-            </Typography>
-            <StyledDropdown
-              labelTxt="Select an Amount"
-              list={paymentAmounts}
-              value={amount}
-              onChange={handleAmountChange}
-            />
-          </div>
-          <AGITokens amount={USDToAgi(amount)} />
-        </div>
-      </div>
       <AlertBox type={alert.type} message={alert.message} />
       <div className={classes.btnContainer}>
         <StyledButton btnText="cancel" type="transparent" onClick={handleClose} />
-        <StyledButton btnText="Continue" type="blue" onClick={handleContinue} />
+        <StyledButton
+          btnText="Continue"
+          type="blue"
+          disabled={!Boolean(Number(amount)) || !usd_agi_rate}
+          onClick={handleContinue}
+        />
       </div>
     </div>
   );
 };
 
-const mapStateToProps = (state) => ({
-  groupInfo: groupInfo(state),
-  serviceDetails: currentServiceDetails(state),
-  USDToAgi: USDToAgi(state),
-  USDToCogs: USDToCogs(state),
-});
-
-export default connect(mapStateToProps)(withStyles(useStyles)(Details));
+export default withStyles(useStyles)(Details);

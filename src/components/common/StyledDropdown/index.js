@@ -1,32 +1,36 @@
 import React from "react";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import InputLabel from "@mui/material/InputLabel";
 import PropTypes from "prop-types";
 
 import { useStyles } from "./styles";
 
 const StyledDropdown = ({ labelTxt, name, list, value, onChange, formControlProps, inputLabel, disabled }) => {
   const classes = useStyles();
+  if (!list) {
+    return null;
+  }
+
   return (
     <FormControl variant="outlined" className={classes.formControl} {...formControlProps}>
-      {inputLabel ? <InputLabel htmlFor="age-simple">{inputLabel}</InputLabel> : null}
+      {inputLabel && <InputLabel htmlFor="age-simple">{inputLabel}</InputLabel>}
       <Select
-        value={value}
+        value={value || ""}
         onChange={onChange}
         name={name}
-        className={classes.selectEmpty}
+        MenuProps={{ disableScrollLock: true }}
         variant="outlined"
         disabled={disabled}
+        className={classes.selectEmpty}
       >
-        <MenuItem value="default">{labelTxt || "Select a value"}</MenuItem>
-        {list &&
-          list.map((item) => (
-            <MenuItem key={item.value} value={item.value}>
-              {item.label}
-            </MenuItem>
-          ))}
+        {labelTxt && <MenuItem value="default">{labelTxt}</MenuItem>}
+        {list.map((item) => (
+          <MenuItem key={item.value} value={item.value}>
+            {item.label}
+          </MenuItem>
+        ))}
       </Select>
     </FormControl>
   );
@@ -42,11 +46,6 @@ StyledDropdown.propTypes = {
     })
   ),
   onChange: PropTypes.func,
-};
-
-StyledDropdown.defaultProps = {
-  labelTxt: "",
-  value: "default",
 };
 
 export default StyledDropdown;

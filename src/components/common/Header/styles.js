@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@mui/styles";
 
 export const useStyles = makeStyles((theme) => ({
   header: {
@@ -18,16 +18,20 @@ export const useStyles = makeStyles((theme) => ({
   mainHeader: {
     boxSizing: "border-box",
     width: "100%",
-    padding: "13px 65px 6px 60px",
+    justifyContent: "space-between",
+    padding: "14px 60px",
     display: "flex",
     alignItems: "center",
-    "@media (max-width:1280px)": { padding: "13px 10px 6px 10px" },
+    gap: 20,
+    "@media (max-width:1024px)": {},
   },
   logoSection: {
-    width: "30%",
     display: "flex",
     alignItems: "center",
-    "@media (max-width:1024px)": { width: "40%" },
+    gap: 20,
+  },
+  mainPortalButton: {
+    "@media (max-width:1024px)": { display: "none" },
   },
   h1: {
     margin: 0,
@@ -37,32 +41,38 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   logoAnchor: {
-    display: "inline-block",
+    display: "flex",
     "& img": { width: 172 },
   },
   logoIcon: { width: "100%" },
   navigationSection: {
-    width: "58%",
-    marginBottom: 10,
     "@media (max-width:1024px)": { display: "none" },
   },
+  loginBtnsSection: {
+    "@media (max-width:578px)": { display: "none" },
+  },
   headerDropDown: {
-    marginRight: 53,
     "& > div": {
       display: "flex",
       alignItems: "flex-start",
+    },
+    "& a": {
+      textDecoration: "none",
+    },
+    "& button": {
+      textTransform: "none",
     },
     "&:hover": {
       "& button": { color: theme.palette.text.white },
       "& svg": { color: theme.palette.text.white },
     },
-    "&:last-of-type": { marginRight: 0 },
-    "@media (max-width:1280px) and (min-width: 1024px)": { marginRight: 26 },
   },
   navUl: {
     padding: 0,
     margin: 0,
     display: "flex",
+    alignItems: "center",
+    gap: 20,
     "& button": {
       padding: 0,
       color: "#9b9b9b",
@@ -78,9 +88,7 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   navLinks: {
-    marginRight: 53,
     listStyle: "none",
-    "@media (max-width:1280px) and (min-width: 1024px)": { marginRight: 26 },
     "& a": {
       textDecoration: "none",
       fontSize: 16,
@@ -101,52 +109,6 @@ export const useStyles = makeStyles((theme) => ({
     borderBottomColor: theme.palette.text.white,
     color: "#fff !important",
     fontWeight: 600,
-  },
-  loginBtnsSection: {
-    width: "30%",
-    marginBottom: 6,
-    "@media (max-width:1024px)": { width: "59%" },
-  },
-  loginBtnsUl: {
-    margin: 0,
-    padding: 0,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-end",
-    "& a": { textDecoration: "none" },
-  },
-  loginBtnsLi: {
-    marginRight: 30,
-    listStyle: "none",
-    "& span": {
-      "& span": {
-        "@media (max-width:768px)": { display: "none" },
-      },
-    },
-    "@media (max-width:550px)": { display: "none" },
-  },
-  signupBtn: {
-    padding: "4px 24px",
-    borderWidth: "1px",
-    borderStyle: "solid",
-    borderColor: theme.palette.text.white,
-    borderRadius: 4,
-    marginRight: 0,
-    cursor: "pointer",
-    "&:hover": { backgroundColor: theme.palette.text.outlinedBtnHoverBg },
-  },
-  loginBtnsAnchor: {
-    textDecoration: "none",
-    fontSize: 16,
-    color: theme.palette.text.white,
-    cursor: "pointer",
-    "&:hover": {
-      paddingBottom: 4,
-      borderBottomWidth: "2px",
-      borderBottomStyle: "solid",
-      borderBottomColor: theme.palette.text.white,
-      fontWeight: 600,
-    },
   },
   loginBtn: {
     "&:hover": { fontWeight: 400 },

@@ -1,5 +1,5 @@
 import React from "react";
-import { withStyles } from "@material-ui/styles";
+import { withStyles } from "@mui/styles";
 import PropTypes from "prop-types";
 
 import ProgressSection, { ProgressStatusList } from "./ProgressSection";
@@ -25,10 +25,10 @@ const ProgressBar = ({ classes, activeSection, progressText }) => {
       <ul>
         {progressText.map((text, index) => (
           <ProgressSection
-            progressNumber={index + 1}
+            key={index}
+            progressNumber={index}
             progressText={text.label}
-            progressStatus={computeProgressStatus(index + 1, activeSection, text.status)}
-            key={index.toString()}
+            progressStatus={computeProgressStatus(index, activeSection, text.status)}
           />
         ))}
       </ul>
@@ -38,7 +38,7 @@ const ProgressBar = ({ classes, activeSection, progressText }) => {
 
 ProgressBar.propTypes = {
   activeSection: PropTypes.number,
-  progressText: PropTypes.arrayOf(PropTypes.string),
+  progressText: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default withStyles(useStyles)(ProgressBar);

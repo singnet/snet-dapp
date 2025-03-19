@@ -1,11 +1,13 @@
-import React from "react";
+import React, { Fragment } from "react";
 import isEmpty from "lodash/isEmpty";
-
+import { anyPendingTxn as getAnyPendingTxn } from "../../../../../../../Redux/reducers/PaymentReducer";
+import { anyGeneralWallet as getAnyGeneralWallet } from "../../../../../../../Redux/reducers/UserReducer";
 import StyledButton from "../../../../../../common/StyledButton";
+import { useSelector } from "react-redux";
 
-const NextAction = (props) => {
-  const { channel, setShowCreateWalletPopup, setShowLinkProvider, handleContinue, anyPendingTxn, anyGeneralWallet } =
-    props;
+const NextAction = ({ channel, setShowCreateWalletPopup, setShowLinkProvider, setShowTopUpWallet, handleContinue }) => {
+  const anyGeneralWallet = useSelector((state) => getAnyGeneralWallet(state));
+  const anyPendingTxn = useSelector((state) => getAnyPendingTxn(state));
 
   if (!anyGeneralWallet) {
     return (
@@ -28,12 +30,15 @@ const NextAction = (props) => {
     );
   }
   return (
-    <StyledButton
-      type="blue"
-      btnText="continue"
-      disabled={channel.balanceInAgi <= 0 || anyPendingTxn}
-      onClick={handleContinue}
-    />
+    <Fragment>
+      <StyledButton type="transparentBlueBorder" btnText="top up wallet" onClick={setShowTopUpWallet} />
+      <StyledButton
+        type="blue"
+        btnText="Run service"
+        disabled={channel.balanceInAgi <= 0 || anyPendingTxn}
+        onClick={handleContinue}
+      />
+    </Fragment>
   );
 };
 

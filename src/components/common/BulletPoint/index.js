@@ -1,5 +1,5 @@
 import React from "react";
-import WarningIcon from "@material-ui/icons/Warning";
+import WarningIcon from "@mui/icons-material/Warning";
 import PropTypes from "prop-types";
 
 import AlertBox, { alertTypes } from "../AlertBox";
@@ -8,17 +8,13 @@ const Icon = {
   warning: <WarningIcon />,
 };
 
-const BulletPoint = ({ message, type }) => {
+const BulletPoint = ({ message, type = alertTypes.WARNING }) => {
   return (
     <div>
       <div>{Icon[type]}</div>
       <AlertBox type={type} message={message} />
     </div>
   );
-};
-
-BulletPoint.defaultProps = {
-  type: alertTypes.WARNING,
 };
 
 BulletPoint.propTypes = {

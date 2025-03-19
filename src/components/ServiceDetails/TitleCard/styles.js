@@ -80,14 +80,14 @@ export const useStyles = (theme) => ({
   titleImg: {
     width: 234,
     cursor: "pointer",
-    "& img": { width: "100%" },
+    "& img": {
+      width: "100%",
+      objectFit: "contain",
+    },
     "@media(max-width:480px)": {
       width: 302,
       margin: "0 auto",
     },
-  },
-  serviceLightBox: {
-    position: "relative",
   },
   serviceImgContainer: {
     boxSizing: "border-box",

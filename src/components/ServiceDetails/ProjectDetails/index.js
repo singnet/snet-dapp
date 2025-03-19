@@ -1,32 +1,44 @@
 import React from "react";
-import { withStyles } from "@material-ui/styles";
-import Grid from "@material-ui/core/Grid";
+import { withStyles } from "@mui/styles";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 
 import { useStyles } from "./styles";
 import ProjectURL from "./ProjectURL";
 import Contributors from "./Contibutors";
+import { Grid } from "@mui/material";
+import Card from "../../common/Card";
 
 const ProjectDetails = ({ classes, projectURL, contributors, orgId, serviceId }) => {
+  const data = [
+    { label: "Project URL", value: <ProjectURL URL={projectURL} /> },
+    { label: "Organization ID", value: orgId },
+    { label: "Service ID", value: serviceId },
+  ];
+
+  if (!isEmpty(contributors)) {
+    const contributorsRow = { label: "Contributors", value: <Contributors contributors={contributors} /> };
+    data.push(contributorsRow);
+  }
+
   return (
-    <div className={classes.projectDetailsContainer}>
-      <h2>Project Details</h2>
-      <Grid container>
-        <Grid item lg={5} md={7} sm={7} className={classes.projectDetailsHeadings}>
-          <h5>Project URL</h5>
-          <h5>Organization ID</h5>
-          <h5>Service ID</h5>
-          {!isEmpty(contributors) ? <h5>Contributors</h5> : null}
-        </Grid>
-        <Grid item lg={7} md={5} sm={5} className={classes.projectDetailsValue}>
-          <ProjectURL URL={projectURL} />
-          <span className={classes.orgIdValue}>{orgId}</span>
-          <span className={classes.serviceIdValue}>{serviceId}</span>
-          <Contributors contributors={contributors} />
-        </Grid>
-      </Grid>
-    </div>
+    <Card
+      header="Project Details"
+      children={
+        <div className={classes.projectDetailsContainer}>
+          {data.map((dataRow) => (
+            <Grid container alignItems="center" key={dataRow.label}>
+              <Grid item sm={5} xs={12}>
+                <h5>{dataRow.label}</h5>
+              </Grid>
+              <Grid item sm={7} xs={12} className={classes.projectDetailsValue}>
+                <span>{dataRow.value}</span>
+              </Grid>
+            </Grid>
+          ))}
+        </div>
+      }
+    />
   );
 };
 

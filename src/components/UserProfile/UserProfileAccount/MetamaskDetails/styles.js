@@ -1,6 +1,6 @@
 export const useStyles = (theme) => ({
   accountDetails: {
-    marginTop: 32,
+    boxSizing: "border-box",
     "& div": {
       display: "flex",
       margin: "7px 0 13px",
@@ -10,7 +10,7 @@ export const useStyles = (theme) => ({
         textAlign: "center",
       },
       "& div": {
-        width: "56%",
+        width: "45%",
         marginTop: 0,
         display: "inline-block",
         "& svg": {
@@ -20,6 +20,7 @@ export const useStyles = (theme) => ({
           verticalAlign: "middle",
         },
         "& span": {
+          boxSizing: "border-box",
           width: "auto",
           display: "inline-block",
           color: theme.palette.text.mediumShadeGray,
@@ -28,7 +29,7 @@ export const useStyles = (theme) => ({
         },
       },
       "& span": {
-        width: "44%",
+        width: "55%",
         display: "inline-block",
         color: theme.palette.text.darkShadedGray,
         fontSize: 16,
@@ -84,8 +85,12 @@ export const useStyles = (theme) => ({
   tabsContainer: {
     "& > div": {
       width: "100%",
-      marginBottom: 28,
     },
   },
   btnContainer: { textAlign: "center" },
+  circularProgress: {
+    width: "1rem !important",
+    height: "1rem !important",
+    color: theme.palette.text.gray1,
+  },
 });

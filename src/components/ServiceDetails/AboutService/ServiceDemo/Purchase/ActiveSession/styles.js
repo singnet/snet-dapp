@@ -1,12 +1,12 @@
 export const useStyles = (theme) => ({
-  FreeApiCallsData: {
-    marginTop: 30,
+  activeSessionContainer: {
     textAlign: "center",
+    gap: 30,
+    display: "flex",
+    flexDirection: "column",
     "& > div": { textAlign: "center" },
-    "& button": {
-      padding: "13px 50px 11px",
-      marginTop: 30,
-      marginRight: "0 !important",
+    "& p": {
+      margin: 0,
     },
   },
   FreeApiCallsText: {
@@ -24,5 +24,10 @@ export const useStyles = (theme) => ({
   },
   tooltip: {
     fontSize: 14,
+  },
+  activeSectionButtons: {
+    display: "flex",
+    gap: 20,
+    justifyContent: "center",
   },
 });
