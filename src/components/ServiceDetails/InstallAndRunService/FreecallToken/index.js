@@ -13,16 +13,16 @@ import clsx from "clsx";
 const web3 = new Web3(process.env.REACT_APP_WEB3_PROVIDER, null, {});
 const downloadTokenFileName = "authToken.txt";
 
-const FreecallToken = ({ classes }) => {
+const FreecallToken = ({ classes, service, groupId }) => {
   const dispatch = useDispatch();
 
   const [isTokenGenerating, setIsTokenGenerating] = useState(false);
   const [isAddressValid, setIsAddressValid] = useState(true);
   const [downloadTokenURL, setDownloadTokenURL] = useState("");
-  const [publickey, setPublickey] = useState();
+  const [publickey, setPublickey] = useState("");
   const [alert, setAlert] = useState({});
 
-  const generateToken = async ({ service, groupId }) => {
+  const generateToken = async () => {
     if (isTokenGenerating) {
       return;
     }
@@ -33,6 +33,7 @@ const FreecallToken = ({ classes }) => {
       const downloadToken = await dispatch(downloadAuthToken(service.service_id, groupId, publickey, service.org_id));
       setDownloadTokenURL(downloadToken);
     } catch (e) {
+      console.error("generating token error: ", e?.message);
       setAlert({ type: alertTypes.ERROR, message: "Unable to download the token. Please try later" });
     } finally {
       setIsTokenGenerating(false);
@@ -48,8 +49,9 @@ const FreecallToken = ({ classes }) => {
     }
   };
 
-  const handlePublicKey = (event) => {
-    const address = event.currentTarget.value;
+  const handlePublicKey = (currentvalue) => {
+    console.log(currentvalue);
+    const address = currentvalue;
     setPublickey(address);
     const isAddressValid = isValidAddress(address);
     if (!isAddressValid) {
@@ -78,7 +80,7 @@ const FreecallToken = ({ classes }) => {
               margin="normal"
               variant="outlined"
               value={publickey}
-              onChange={handlePublicKey}
+              onChange={(event) => handlePublicKey(event.target.value)}
             />
             <Typography className={classes.publicAddDesc}>
               Ethereum address used in your SDK. This is the public address corresponding to the private key you use in
