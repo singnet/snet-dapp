@@ -16,6 +16,8 @@ const UclnlpService = lazy(() => import("./nunet-org/uclnlp-service"));
 const ServNaint7 = lazy(() => import("./Naint1/ServNaint7"));
 const ProblemService = lazy(() => import("./Naint1/ProblemService"));
 
+const HateDetection = lazy(() => import("./egor-sing-test/hate-detection"));
+
 class ThirdPartyCustomUIComponents {
   constructor() {
     this.customUIComponents = {};
@@ -62,4 +64,5 @@ thirdPartyCustomUIComponents.addCustomUIComponent("nunet-org", "uclnlp-service",
 thirdPartyCustomUIComponents.addCustomUIComponent("Naint1", "ServNaint7", ServNaint7);
 thirdPartyCustomUIComponents.addCustomUIComponent("Naint1", "ProblemService", ProblemService);
 
+thirdPartyCustomUIComponents.addCustomUIComponent("egor-sing-test", "hate-detection", HateDetection);
 export default thirdPartyCustomUIComponents;

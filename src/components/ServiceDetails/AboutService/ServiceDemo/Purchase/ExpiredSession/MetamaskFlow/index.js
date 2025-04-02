@@ -56,23 +56,18 @@ const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, handlePurcha
   const [alert, setAlert] = useState({});
   const [showTooltip, setShowTooltip] = useState(false);
   const [channelBalance, setChannelBalance] = useState();
+  const [isStartServiceDisable, setIsStartServiceDisable] = useState(false);
 
-  useEffect(() => {
-    if (!isUndefined(channelBalance)) {
-      return;
+  const updateBalanceData = async () => {
+    try {
+      await initializedPaymentChannel();
+      await getPaymentChannelData();
+      setIsStartServiceDisable(false);
+    } catch (err) {
+      setIsStartServiceDisable(true);
+      setAlert({ type: alertTypes.ERROR, message: err.message });
     }
-
-    const updateBalanceData = async () => {
-      try {
-        await initializedPaymentChannel();
-        await getPaymentChannelData();
-      } catch (err) {
-        setAlert({ type: alertTypes.ERROR, message: err.message });
-      }
-    };
-
-    updateBalanceData();
-  }, [channelBalance]);
+  };
 
   useEffect(() => {
     const handleDisabledPaytypes = () => {
@@ -286,21 +281,16 @@ const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, handlePurcha
     setShowTooltip(false);
   };
 
-  // if (isUndefined(channelBalance) || isNaN(channelBalance)) {
-  //   return (
-  //     <>
-  //       <StyledButton
-  //         type="blue"
-  //         btnText="run service"
-  //         onClick={this.getPaymentChannelData}
-  //         disabled={isStartServiceDisable}
-  //       />
-  //       <div className={classes.alertContainer}>
-  //         <AlertBox type={alert.type} message={alert.message} />
-  //       </div>
-  //     </>
-  //   );
-  // }
+  if (isUndefined(channelBalance) || isNaN(channelBalance)) {
+    return (
+      <>
+        <StyledButton type="blue" btnText="run service" onClick={updateBalanceData} disabled={isStartServiceDisable} />
+        <div className={classes.alertContainer}>
+          <AlertBox type={alert.type} message={alert.message} />
+        </div>
+      </>
+    );
+  }
 
   return (
     <Fragment>
