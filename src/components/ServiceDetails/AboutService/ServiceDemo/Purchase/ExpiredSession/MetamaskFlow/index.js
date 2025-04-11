@@ -8,7 +8,7 @@ import PurchaseDialog from "../../PurchaseDialog";
 import ChannelSelectionBox from "../../ChannelSelectionBox";
 import AlertBox, { alertTypes } from "../../../../../../common/AlertBox";
 import { cogsToAgi } from "../../../../../../../utility/PricingStrategy";
-import { pricing as getPricing, groupInfo } from "../../../../../../../Redux/reducers/ServiceDetailsReducer";
+import { pricing as getPricing } from "../../../../../../../Redux/reducers/ServiceDetailsReducer";
 import PaymentChannelManagement from "../../../../../../../utility/PaymentChannelManagement";
 import { loaderActions } from "../../../../../../../Redux/actionCreators";
 import { LoaderContent } from "../../../../../../../utility/constants/LoaderContent";
@@ -16,7 +16,7 @@ import { useStyles } from "./style";
 import { isUndefined } from "lodash";
 
 import { currentServiceDetails } from "../../../../../../../Redux/reducers/ServiceDetailsReducer";
-import { updateChannelBalanceAPI, updateMetamaskWallet } from "../../../../../../../Redux/actionCreators/UserActions";
+import { updateMetamaskWallet } from "../../../../../../../Redux/actionCreators/UserActions";
 import { getSdk } from "../../../../../../../Redux/actionCreators/SDKActions";
 
 const payTypes = {
@@ -45,7 +45,6 @@ const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, handlePurcha
   const dispatch = useDispatch();
   const { price_in_cogs } = useSelector((state) => getPricing(state));
   const { org_id, service_id } = useSelector((state) => currentServiceDetails(state));
-  const group_id = useSelector((state) => groupInfo(state).group_id);
 
   const [mpeBalance, setMpeBalance] = useState("0");
   const [selectedPayType, setSelectedPayType] = useState(payTypes.CHANNEL_BALANCE);
@@ -113,30 +112,10 @@ const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, handlePurcha
       dispatch(loaderActions.startAppLoader(LoaderContent.SETUP_CHANNEL_FOR_SERV_EXEC));
       await paymentChannelManagement.updateChannelInfo();
       await getBalanceData();
-      await updateChannelBalance();
     } catch (error) {
       setAlert(connectMMinfo);
     } finally {
       dispatch(loaderActions.stopAppLoader());
-    }
-  };
-
-  const updateChannelBalance = async () => {
-    try {
-      const channel = paymentChannelManagement._channel;
-      await dispatch(
-        updateChannelBalanceAPI(
-          org_id,
-          service_id,
-          group_id,
-          Number(channel._state.amountDeposited) - Number(channel._state.availableAmount),
-          Number(channel._state.amountDeposited),
-          Number(channel._channelId),
-          Number(channel._state.nonce)
-        )
-      );
-    } catch (error) {
-      console.error("error: ", error);
     }
   };
 

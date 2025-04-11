@@ -138,7 +138,7 @@ const fetchUserTransactionsSuccess = (response) => (dispatch) => {
       orderId: value.order_id,
       paymentChannel: value.wallet_type,
       orderType: value.item_details.order_type,
-      status: value.order_status,
+      status: isEmpty(value.wallet_transactions) ? "PENDING" : value.order_status,
       cost: value.price.amount,
       itemQuantity: value.item_details.quantity,
       itemUnit: value.item_details.item,
@@ -475,18 +475,16 @@ const fetchWalletSuccess = (response) => (dispatch) => {
 };
 
 export const updateChannelBalanceAPI =
-  (orgId, serviceId, groupId, authorizedAmount, fullAmount, channelId, nonce) => async (dispatch) => {
+  ({ orgId, serviceId, channelId, signedAmount }) =>
+  async (dispatch) => {
     const { token } = await dispatch(fetchAuthenticatedUser());
     const apiName = APIEndpoints.CONTRACT.name;
     const apiPath = APIPaths.UPDATE_CHANNEL_BALANCE(channelId);
     const payload = {
-      OrganizationID: orgId,
-      ServiceID: serviceId,
-      GroupID: groupId,
-      AuthorizedAmount: authorizedAmount,
-      FullAmount: fullAmount,
-      ChannelId: channelId,
-      Nonce: nonce,
+      signed_amount: signedAmount,
+      channel_id: channelId,
+      org_id: orgId,
+      service_id: serviceId,
     };
     const apiOptions = initializeAPIOptions(token, payload);
     return postAPI(apiName, apiPath, apiOptions);

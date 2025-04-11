@@ -1,4 +1,4 @@
-import SnetSDK, { WebServiceClient as ServiceClient, PrivateKeyIdentity } from "snet-sdk-web";
+import SnetSDK, { WebServiceClient as ServiceClient } from "snet-sdk-web";
 import MPEContract from "singularitynet-platform-contracts/networks/MultiPartyEscrow";
 
 import { APIEndpoints, APIPaths } from "../config/APIEndpoints";
@@ -124,16 +124,16 @@ const generateOptions = (callType, wallet, serviceRequestErrorHandler, groupInfo
   }
 };
 
-// class PaypalIdentity {
-//   constructor(address, web3) {
-//     this._web3 = web3;
-//     this._web3.eth.defaultAccount = address;
-//   }
+class PaypalIdentity {
+  constructor(address, web3) {
+    this._web3 = web3;
+    this._web3.eth.defaultAccount = address;
+  }
 
-//   getAddress() {
-//     return this._web3.eth.defaultAccount;
-//   }
-// }
+  getAddress() {
+    return this._web3.eth.defaultAccount;
+  }
+}
 
 class PaypalSDK extends SnetSDK {
   constructor(address, ...args) {
@@ -142,17 +142,16 @@ class PaypalSDK extends SnetSDK {
   }
 
   _createIdentity() {
-    return new PrivateKeyIdentity(this._config, this._web3); //new PaypalIdentity(this._address, this._web3);
+    return new PaypalIdentity(this._address, this._web3);
   }
 }
 
-export const initPaypalSdk = (address, channelId, privateKey) => {
+export const initPaypalSdk = (address, channelId) => {
   const config = {
     networkId: process.env.REACT_APP_ETH_NETWORK,
     web3Provider: process.env.REACT_APP_WEB3_PROVIDER,
     defaultGasPrice: DEFAULT_GAS_PRICE,
     defaultGasLimit: DEFAULT_GAS_LIMIT,
-    privateKey,
   };
   sdk = new PaypalSDK(address, config, {});
   sdk.paymentChannelManagementStrategy = new PaypalPaymentMgmtStrategy(sdk, channelId);

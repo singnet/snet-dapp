@@ -26,12 +26,20 @@ const ExpiredSession = ({ classes, setIsLastPaidCall, handleComplete, handlePurc
 
   const checkForPaymentsInProgress = useCallback(async () => {
     const { paymentId: paypalPaymentId, PayerID } = queryString.parse(location.search);
-    if (orderId && paymentId && paypalPaymentId && PayerID) {
-      const { data } = await dispatch(paymentActions.fetchOrderDetails(orderId));
+    if (!(orderId && paymentId && paypalPaymentId && PayerID)) {
+      return;
+    }
 
+    try {
+      dispatch(loaderActions.startAppLoader(LoaderContent.FETCH_WALLET));
+      const { data } = await dispatch(paymentActions.fetchOrderDetails(orderId));
       const orderType = data.item_details.order_type;
       dispatch(paymentActions.updatePaypalInProgress(orderId, orderType, paymentId, paypalPaymentId, PayerID));
-      return dispatch(userActions.updateWallet({ type: walletTypes.GENERAL }));
+      dispatch(userActions.updateWallet({ type: walletTypes.GENERAL }));
+    } catch (err) {
+      console.error("error in fetching of order details: ", err);
+    } finally {
+      dispatch(loaderActions.stopAppLoader());
     }
   }, [dispatch, orderId, paymentId, location.search]);
 

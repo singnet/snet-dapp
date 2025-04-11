@@ -31,7 +31,9 @@ const NextAction = ({ channel, setShowCreateWalletPopup, setShowLinkProvider, se
   }
   return (
     <Fragment>
-      <StyledButton type="transparentBlueBorder" btnText="top up wallet" onClick={setShowTopUpWallet} />
+      {channel.hasPrivateKey && (
+        <StyledButton type="transparentBlueBorder" btnText="top up wallet" onClick={setShowTopUpWallet} />
+      )}
       <StyledButton
         type="blue"
         btnText="Run service"

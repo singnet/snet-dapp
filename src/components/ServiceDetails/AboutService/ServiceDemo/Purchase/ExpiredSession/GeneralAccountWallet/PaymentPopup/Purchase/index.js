@@ -10,7 +10,7 @@ import { alertTypes } from "../../../../../../../../common/AlertBox";
 import { useDispatch, useSelector } from "react-redux";
 import { paymentActions } from "../../../../../../../../../Redux/actionCreators";
 
-const Purchase = ({ classes, handleCancel, handleNext, setAmount, setPrivateKeyGenerated }) => {
+const Purchase = ({ classes, handleCancel, handleNext, setAmount }) => {
   const dispatch = useDispatch();
   const paypalInProgress = useSelector((state) => state.paymentReducer.paypalInProgress);
 
@@ -20,17 +20,15 @@ const Purchase = ({ classes, handleCancel, handleNext, setAmount, setPrivateKeyG
   const executePaymentCompleted = useCallback(
     async (data) => {
       const {
-        private_key: privateKey,
         item_details: { item, quantity },
         price: { amount },
       } = data;
 
-      setPrivateKeyGenerated(privateKey);
       setAmount({ amount, quantity, item });
       handleNext();
       return;
     },
-    [dispatch, setAmount, setPrivateKeyGenerated, handleNext]
+    [dispatch, setAmount, handleNext]
   );
 
   const executePayment = useCallback(async () => {

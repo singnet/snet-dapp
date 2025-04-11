@@ -2,18 +2,14 @@ import React, { useEffect, useState } from "react";
 import { withStyles } from "@mui/styles";
 import Typography from "@mui/material/Typography";
 import { useDispatch, useSelector } from "react-redux";
-import Web3 from "web3";
 import isEmpty from "lodash/isEmpty";
-import MPEContract from "singularitynet-platform-contracts/networks/MultiPartyEscrow";
 
 import StyledButton from "../../../../../../../../common/StyledButton";
 import { useStyles } from "./styles";
 import snetValidator from "../../../../../../../../../utility/snetValidator";
 import { paymentGatewayConstraints } from "./validationConstraints";
 import AlertBox, { alertTypes } from "../../../../../../../../common/AlertBox";
-import { tenYearBlockOffset } from "../../../../../../../../../utility/PricingStrategy";
-import { decodeGroupId } from "../../../../../../../../../utility/sdk";
-import { USDToAgi, USDToCogs } from "../../../../../../../../../Redux/reducers/PaymentReducer";
+import { USDToAgi } from "../../../../../../../../../Redux/reducers/PaymentReducer";
 import { orderPayloadTypes, orderTypes } from "../../../../../../../../../utility/constants/PaymentConstants";
 import AGITokens from "./AGITokens";
 
@@ -22,10 +18,9 @@ import TextField from "@mui/material/TextField";
 import { pickBy } from "lodash";
 import { paymentActions } from "../../../../../../../../../Redux/actionCreators";
 import { useParams } from "react-router-dom";
+import { walletTypes } from "../../../../../../../../../Redux/actionCreators/UserActions";
 
 export const paymentTypes = [{ value: "paypal", label: "Paypal" }];
-
-const web3 = new Web3(process.env.REACT_APP_WEB3_PROVIDER, null, {});
 
 const description = {
   [orderTypes.CREATE_WALLET]: `Please enter the payment type in the box below, along with the amount you would 
@@ -34,17 +29,18 @@ const description = {
   [orderTypes.CREATE_CHANNEL]: `Please enter the payment type in the box below, along with the amount you would like to enter into the payment channel.`,
 };
 
-const Details = ({ classes, handleClose, orderType, handleNextSection, userProvidedPrivateKey: privateKey }) => {
+const Details = ({ classes, handleClose, orderType, handleNextSection }) => {
   const dispatch = useDispatch();
   const { orgId, serviceId } = useParams();
 
+  const walletList = useSelector((state) => state.userReducer.walletList);
+  const generalWallet = walletList.find((wallet) => wallet.type === walletTypes.GENERAL);
+  const { usd_agi_rate, agi_divisibility } = useSelector((state) => state.paymentReducer);
   const groupInfo = useSelector((state) => {
     return state.serviceDetailsReducer.details.groups.find((group) => {
       return !isEmpty(group.endpoints.find((endpoint) => endpoint.is_available === 1));
     });
   });
-
-  const { usd_agi_rate, agi_divisibility, usd_cogs_rate } = useSelector((state) => state.paymentReducer);
 
   useEffect(() => {
     dispatch(paymentActions.fetchUSDConversionRate());
@@ -57,16 +53,7 @@ const Details = ({ classes, handleClose, orderType, handleNextSection, userProvi
   const [alert, setAlert] = useState({});
   const [amountError, setAmountError] = useState();
 
-  const initiatePayment = async (
-    // payType,
-    amount,
-    currency,
-    item,
-    quantity,
-    base64Signature,
-    address,
-    currentBlockNumber
-  ) => {
+  const initiatePayment = async (amount, currency, item, quantity, address) => {
     const itemDetails = {
       item,
       quantity: Number(quantity),
@@ -75,9 +62,7 @@ const Details = ({ classes, handleClose, orderType, handleNextSection, userProvi
       group_id: groupInfo.group_id,
       recipient: groupInfo.payment.payment_address,
       order_type: orderPayloadTypes[orderType],
-      signature: base64Signature,
       wallet_address: address,
-      current_block_number: currentBlockNumber,
     };
 
     const enhancedItemDetails = pickBy(itemDetails, (el) => el !== undefined); // removed all undefined fields
@@ -108,40 +93,6 @@ const Details = ({ classes, handleClose, orderType, handleNextSection, userProvi
     setAmount(value);
   };
 
-  const generateSignature = async () => {
-    const account = web3.eth.accounts.privateKeyToAccount(privateKey);
-
-    const address = account.address;
-    web3.eth.accounts.wallet.add(account);
-    web3.eth.defaultAccount = address;
-    const recipient = groupInfo.payment.payment_address;
-    const hexGroupId = decodeGroupId(groupInfo.group_id);
-    const amountInCogs = USDToCogs(amount, usd_cogs_rate);
-    const currentBlockNumber = Number(await web3.eth.getBlockNumber());
-
-    const mpeContractAddress = web3.utils.toChecksumAddress(MPEContract[process.env.REACT_APP_ETH_NETWORK].address);
-    // block no is mined in 15 sec on average, setting expiration as 10 years
-    const expiration = currentBlockNumber + tenYearBlockOffset;
-
-    const sha3Message = web3.utils.soliditySha3(
-      { t: "string", v: "__openChannelByThirdParty" },
-      { t: "address", v: mpeContractAddress },
-      { t: "address", v: process.env.REACT_APP_EXECUTOR_WALLET_ADDRESS },
-      { t: "address", v: process.env.REACT_APP_SNET_SIGNER_ADDRESS },
-      { t: "address", v: recipient },
-      { t: "bytes32", v: hexGroupId },
-      { t: "uint256", v: amountInCogs },
-      { t: "uint256", v: expiration },
-      { t: "uint256", v: currentBlockNumber }
-    );
-    console.log("sha3Message: ", sha3Message);
-
-    const response = await web3.eth.accounts.sign(sha3Message, privateKey);
-    console.log("response: ", response);
-
-    return Promise.resolve({ signature: response.signature, address, currentBlockNumber });
-  };
-
   let initiateInProcess = false;
   const handleContinue = async () => {
     setAlert({});
@@ -149,11 +100,8 @@ const Details = ({ classes, handleClose, orderType, handleNextSection, userProvi
       if (initiateInProcess) return;
       const amountInAGI = USDToAgi(amount, usd_agi_rate, agi_divisibility);
 
-      if (orderType === orderTypes.CREATE_CHANNEL) {
-        var { signature, address, currentBlockNumber } = await generateSignature();
-      }
       initiateInProcess = true;
-      await initiatePayment(amount, currency, "AGIX", amountInAGI, signature, address, currentBlockNumber);
+      await initiatePayment(amount, currency, "AGIX", amountInAGI, generalWallet?.address);
       handleNextSection();
     } catch (error) {
       setAlert({ type: alertTypes.ERROR, message: `${error.message}. Please try again` });
