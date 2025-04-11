@@ -16,7 +16,7 @@ import AlertBox, { alertTypes } from "../../../../../../common/AlertBox";
 import { userActions } from "../../../../../../../Redux/actionCreators";
 import { groupInfo } from "../../../../../../../Redux/reducers/ServiceDetailsReducer";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import UpdatePaymentChannel from "./UpdatePaymentChannel";
+import { initPaypalSdk } from "../../../../../../../utility/sdk";
 
 const transactionsStatus = {
   PENDING: "PENDING",
@@ -38,10 +38,17 @@ const GeneralAccountWallet = ({ classes, handleContinue }) => {
   const progressTransaction = Object.keys(orderPayloadTypes).find(
     (key) => orderPayloadTypes[key] === inProgressOrderType
   );
+
   const [paymentPopupVisibile, setPaymentPopupVisibile] = useState(progressTransaction);
   const [alert, setAlert] = useState({});
   const [isLoadingChannelInfo, setLoadingChannelInfo] = useState(false);
-  const [channelBalance, setChannelBalance] = useState("");
+
+  useEffect(() => {
+    if (process.env.REACT_APP_SANDBOX || !channelInfo?.walletaddress || !channelInfo?.id) {
+      return;
+    }
+    initPaypalSdk(channelInfo?.walletaddress, channelInfo.id);
+  }, [channelInfo]);
 
   useEffect(() => {
     const checkTransactionsByStatus = (transactions, status) => {
@@ -81,13 +88,11 @@ const GeneralAccountWallet = ({ classes, handleContinue }) => {
     setPaymentPopupVisibile(orderTypes.CREATE_WALLET);
   };
 
+  const channelBalance = channelInfo ? channelInfo.currentBalance : 0;
   return (
     <Fragment>
       <div className={classes.channelBalance}>
-        <UpdatePaymentChannel setActualBalance={setChannelBalance} handleLostKey={setCreateWalletType} />
-        {channelBalance && (
-          <PaymentInfoCard show={!isEmpty(channelInfo)} title="Channel Balance" value={channelBalance} unit="AGIX" />
-        )}
+        <PaymentInfoCard show={!isEmpty(channelInfo)} title="Channel Balance" value={channelBalance} unit="AGIX" />
       </div>
       <div className={classes.btnsContainer}>
         <Link to={userProfileRoutes.TRANSACTIONS} target="_blank" className={classes.routerLink}>
