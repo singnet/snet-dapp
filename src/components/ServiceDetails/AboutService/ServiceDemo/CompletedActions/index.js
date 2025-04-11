@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import StyledButton from "../../../../common/StyledButton";
 import { useStyles } from "./styles";
@@ -30,7 +30,7 @@ const CompletedActions = ({ isComplete, callType, feedback, orgId, serviceId, re
     setUserFeedback(false);
   };
 
-  const getSignedAmountAndChannelId = async () => {
+  const getSignedAmountAndChannelId = useCallback(async () => {
     const sdk = await dispatch(getSdk());
     const serviceClient = await sdk.createServiceClient(orgId, serviceId);
     const paymentChannelManagement = new PaymentChannelManagement(sdk, serviceClient);
@@ -39,7 +39,7 @@ const CompletedActions = ({ isComplete, callType, feedback, orgId, serviceId, re
     const signedAmount = Number(channel._state.amountDeposited) - Number(channel._state.availableAmount);
 
     return { channelId: channel._channelId, signedAmount };
-  };
+  }, [dispatch, orgId, serviceId]);
 
   useEffect(() => {
     if (callType !== callTypes.REGULAR || !isComplete) {
@@ -67,7 +67,7 @@ const CompletedActions = ({ isComplete, callType, feedback, orgId, serviceId, re
     };
 
     updateBalance();
-  }, [callType, isComplete]);
+  }, [dispatch, getSignedAmountAndChannelId, callType, isComplete, channelInfo.id, walletType, orgId, serviceId]);
 
   if (!isComplete) {
     return null;

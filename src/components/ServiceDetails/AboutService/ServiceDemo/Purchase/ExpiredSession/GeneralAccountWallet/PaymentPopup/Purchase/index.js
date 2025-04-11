@@ -18,7 +18,7 @@ const Purchase = ({ classes, handleCancel, handleNext, setAmount }) => {
   const [isExecuteInProcess, setIsExecuteInProcess] = useState(false);
 
   const executePaymentCompleted = useCallback(
-    async (data) => {
+    (data) => {
       const {
         item_details: { item, quantity },
         price: { amount },
@@ -28,7 +28,7 @@ const Purchase = ({ classes, handleCancel, handleNext, setAmount }) => {
       handleNext();
       return;
     },
-    [dispatch, setAmount, handleNext]
+    [setAmount, handleNext]
   );
 
   const executePayment = useCallback(async () => {
@@ -44,10 +44,10 @@ const Purchase = ({ classes, handleCancel, handleNext, setAmount }) => {
     try {
       setIsExecuteInProcess(true);
       const { data } = await dispatch(paymentActions.executePayment(paymentExecObj));
-      await executePaymentCompleted(data);
+      executePaymentCompleted(data);
     } catch (error) {
       if (error.response && error.response.data && error.response.data.data && error.response.data.data.private_key) {
-        await executePaymentCompleted(error.response.data.data);
+        executePaymentCompleted(error.response.data.data);
         return;
       }
       setAlert({
@@ -70,7 +70,7 @@ const Purchase = ({ classes, handleCancel, handleNext, setAmount }) => {
     } else {
       handleNext();
     }
-  }, [executePayment, handleNext, paypalInProgress]);
+  }, [executePayment, handleNext, paypalInProgress, isExecuteInProcess]);
 
   if (!isEmpty(alert)) {
     return <PurchaseAlert alert={alert} handleCancel={handleCancel} />;

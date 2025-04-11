@@ -43,18 +43,17 @@ const GeneralAccountWallet = ({ classes, handleContinue }) => {
   const [alert, setAlert] = useState({});
   const [isLoadingChannelInfo, setLoadingChannelInfo] = useState(false);
 
-  const initializatePaypalSdk = () => {
+  useEffect(() => {
     if (process.env.REACT_APP_SANDBOX || !channelInfo?.walletaddress || !channelInfo?.id) {
       return;
     }
     initPaypalSdk(channelInfo?.walletaddress, channelInfo.id);
-  };
+  }, [channelInfo]);
 
   useEffect(() => {
     const checkTransactionsByStatus = (transactions, status) => {
       return transactions.some((txn) => txn.status === status);
     };
-    initializatePaypalSdk();
 
     walletList.forEach((wallet) => {
       if (isEmpty(wallet.transactions)) {
