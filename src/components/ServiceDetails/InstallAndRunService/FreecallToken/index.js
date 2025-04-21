@@ -14,6 +14,19 @@ import clsx from "clsx";
 const web3 = new Web3(process.env.REACT_APP_WEB3_PROVIDER, null, {});
 const downloadTokenFileName = "authToken.txt";
 
+const parseError = (e) => {
+  let errorString;
+  try {
+    console.error(e, e.response);
+    const responseBody = JSON.parse(JSON.parse(e.response.body));
+    errorString = responseBody.error.split("'")[1];
+  } catch (e) {
+    console.error(e);
+    errorString = "unknown error";
+  }
+  return "Unable to download the token: " + errorString;
+};
+
 const FreecallToken = ({ classes, service, groupId }) => {
   const dispatch = useDispatch();
 
@@ -34,8 +47,8 @@ const FreecallToken = ({ classes, service, groupId }) => {
       const downloadToken = await dispatch(downloadAuthToken(service.service_id, groupId, publickey, service.org_id));
       setDownloadTokenURL(downloadToken);
     } catch (e) {
-      console.error("generating token error: ", e?.message);
-      setAlert({ type: alertTypes.ERROR, message: "Unable to download the token. Please try later" });
+      const errorString = parseError(e);
+      setAlert({ type: alertTypes.ERROR, message: errorString });
     } finally {
       setIsTokenGenerating(false);
     }
