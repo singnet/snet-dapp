@@ -5,6 +5,7 @@ import { useStyles } from "../styles";
 import { withStyles } from "@mui/styles";
 import { downloadAuthToken } from "../../../../Redux/actionCreators/ServiceActions";
 import AlertBox, { alertTypes } from "../../../common/AlertBox";
+import UnauthenticatedDummyToggler from "../../../common/UnauthenticatedDummyToggler";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import StyledButton from "../../../common/StyledButton";
@@ -71,36 +72,40 @@ const FreecallToken = ({ classes, service, groupId }) => {
           the identity specified in your SDK configuation. This will allow you to invoke the service from your SDK on a
           trial basis
         </Typography>
-        <div className={classes.textfieldContainer}>
-          <div>
-            <TextField
-              id="outlined-user-name"
-              label="Public Address"
-              className={classes.textField}
-              margin="normal"
-              variant="outlined"
-              value={publickey}
-              onChange={(event) => handlePublicKey(event.target.value)}
-            />
-            <Typography className={classes.publicAddDesc}>
-              Ethereum address used in your SDK. This is the public address corresponding to the private key you use in
-              the SDK
-            </Typography>
+
+        <UnauthenticatedDummyToggler label={"Please login or sign up to generate free call token."}>
+          <div className={classes.textfieldContainer}>
+            <div>
+              <TextField
+                id="outlined-user-name"
+                label="Public Address"
+                className={classes.textField}
+                margin="normal"
+                variant="outlined"
+                value={publickey}
+                onChange={(event) => handlePublicKey(event.target.value)}
+              />
+              <Typography className={classes.publicAddDesc}>
+                Ethereum address used in your SDK. This is the public address corresponding to the private key you use
+                in the SDK
+              </Typography>
+            </div>
+            {!downloadTokenURL && (
+              <StyledButton
+                type="blue"
+                btnText="Generate Token"
+                onClick={generateToken}
+                disabled={isTokenGenerating || !isAddressValid}
+              />
+            )}
+            {downloadTokenURL && (
+              <a className={classes.downloadTokenLink} href={downloadTokenURL} download={downloadTokenFileName}>
+                <StyledButton type="blue" btnText="Download Token" />
+              </a>
+            )}
           </div>
-          {!downloadTokenURL && (
-            <StyledButton
-              type="blue"
-              btnText="Generate Token"
-              onClick={generateToken}
-              disabled={isTokenGenerating || !isAddressValid}
-            />
-          )}
-          {downloadTokenURL && (
-            <a className={classes.downloadTokenLink} href={downloadTokenURL} download={downloadTokenFileName}>
-              <StyledButton type="blue" btnText="Download Token" />
-            </a>
-          )}
-        </div>
+        </UnauthenticatedDummyToggler>
+
         <AlertBox type={alert.type} message={alert.message} />
       </div>
     </div>
