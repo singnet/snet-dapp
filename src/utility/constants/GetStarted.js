@@ -52,8 +52,7 @@ export const GetStartedCategoriesData = [
   {
     categoryIcon: PlayCircleFilledIcon,
     categoryTitle: "Demo AI Services",
-    categoryDescription:
-      "Try it out yourself! – Majority of services have free demo calls that you can try right away.  Input your parameters and data and let AI process your request instantly.  After your trial demo calls used up, you can still run the demos using MetaMask via AGIX tokens. ",
+    categoryDescription: `Try it out yourself! – Majority of services have free demo calls that you can try right away.  Input your parameters and data and let AI process your request instantly.  After your trial demo calls used up, you can still run the demos using MetaMask via ${process.env.REACT_APP_TOKEN_NAME} tokens. `,
     categoryTabs: [
       {
         title: "Accessing the demo",
@@ -104,12 +103,11 @@ export const GetStartedCategoriesData = [
   },
   {
     categoryIcon: SettingsIcon,
-    categoryTitle: "Using AGIX",
-    categoryDescription:
-      "Own your funds - Whether you want to use services, delete your account or use your funds outside of the platform, you are the sole controller of your funds. Your wallet, your cryptographic key, your AGIX. ",
+    categoryTitle: `Using ${process.env.REACT_APP_TOKEN_NAME}`,
+    categoryDescription: `Own your funds - Whether you want to use services, delete your account or use your funds outside of the platform, you are the sole controller of your funds. Your wallet, your cryptographic key, your ${process.env.REACT_APP_TOKEN_NAME}.`,
     categoryTabs: [
       {
-        title: "Managing your AGIX tokens",
+        title: `Managing your ${process.env.REACT_APP_TOKEN_NAME} tokens`,
         media: { type: "img", content: imgPath("UsingAgi", "ManagingyourAGItokens") },
       },
       {

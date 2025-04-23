@@ -28,7 +28,7 @@ const payTypes = {
 const connectMMinfo = {
   type: alertTypes.ERROR,
   message: `Please install Metamask and use your Metamask wallet to connect to SingularityNet. 
-Click below to install and learn more about how to use Metamask and your AGIX credits with SinguarlityNet AI Marketplace.`,
+Click below to install and learn more about how to use Metamask and your ${process.env.REACT_APP_TOKEN_NAME} credits with SinguarlityNet AI Marketplace.`,
 };
 
 const MIN_CALLS_NUMBER = 1;
@@ -36,7 +36,7 @@ const MIN_CALLS_NUMBER = 1;
 const paymentInfoCardDatMpeBal = {
   title: "Escrow Balance",
   id: "mpeBal",
-  unit: "AGIX",
+  unit: process.env.REACT_APP_TOKEN_NAME,
 };
 
 let paymentChannelManagement;
@@ -221,7 +221,7 @@ const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, handlePurcha
       if (mpeBalance < cogsToAgi(paymentChannelManagement.noOfCallsToCogs(noOfServiceCalls))) {
         setAlert({
           type: alertTypes.ERROR,
-          message: "Insufficient MPE balance. Please deposit some AGIX tokens to your escrow account",
+          message: `Insufficient MPE balance. Please deposit some ${process.env.REACT_APP_TOKEN_NAME} tokens to your escrow account`,
         });
         return;
       }
@@ -291,7 +291,7 @@ const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, handlePurcha
           onClick={() => handlePayTypeChange(payTypes.SINGLE_CALL)}
           inputProps={{
             totalPrice: cogsToAgi(price_in_cogs),
-            unit: "AGIX",
+            unit: process.env.REACT_APP_TOKEN_NAME,
             noInput: true,
           }}
           disabled={disabledPayTypes.includes(payTypes.SINGLE_CALL)}
@@ -308,7 +308,7 @@ const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, handlePurcha
               noOfServiceCalls,
               onChange: handleNoOfCallsChange,
               totalPrice,
-              unit: "AGIX",
+              unit: process.env.REACT_APP_TOKEN_NAME,
             }}
             disabled={disabledPayTypes.includes(payTypes.MULTIPLE_CALLS)}
           />

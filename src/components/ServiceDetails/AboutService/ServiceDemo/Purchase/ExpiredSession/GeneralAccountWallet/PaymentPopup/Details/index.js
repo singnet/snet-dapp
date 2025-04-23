@@ -101,7 +101,7 @@ const Details = ({ classes, handleClose, orderType, handleNextSection }) => {
       const amountInAGI = USDToAgi(amount, usd_agi_rate, agi_divisibility);
 
       initiateInProcess = true;
-      await initiatePayment(amount, currency, "AGIX", amountInAGI, generalWallet?.address);
+      await initiatePayment(amount, currency, process.env.REACT_APP_TOKEN_NAME, amountInAGI, generalWallet?.address);
       handleNextSection();
     } catch (error) {
       setAlert({ type: alertTypes.ERROR, message: `${error.message}. Please try again` });

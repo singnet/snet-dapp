@@ -24,12 +24,12 @@ const PromoComponent = ({ classes }) => {
           </div>
         </div>
         <div className={classes.box}>
-          <img src={pubisherIcon} alt="Interested in earning AGIX?" />
+          <img src={pubisherIcon} alt={`Interested in earning ${process.env.REACT_APP_TOKEN_NAME}?`} />
           <div>
-            <span>Interested in earning AGIX?</span>
+            <span>Interested in earning {process.env.REACT_APP_TOKEN_NAME}?</span>
             <p>
-              We've made it fast and easy to publish your own services through AI Publisher. Start earning AGIX tokens
-              by publishing services into AI Marketplace.
+              We've made it fast and easy to publish your own services through AI Publisher. Start earning{" "}
+              {process.env.REACT_APP_TOKEN_NAME} tokens by publishing services into AI Marketplace.
             </p>
             <a href="https://publisher.singularitynet.io/" title="Visit AI Publisher" target="_blank" rel="noreferrer">
               visit ai publisher
