@@ -44,7 +44,7 @@
     "recharts": "^2.13.3",
     "redux": "^5.0.1",
     "redux-thunk": "^3.1.0",
-    "singularitynet-platform-contracts": "^1.0.4",
+    "singularitynet-platform-contracts": "2.0.2",
     "slick-carousel": "^1.8.1",
     "snet-sdk-web": "4.1.4",
     "utf8": "^3.0.0",

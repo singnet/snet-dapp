@@ -39,7 +39,9 @@ export const decodeGroupId = (encodedGroupId) => {
 
 const parseRegularCallMetadata = ({ data }) => ({
   signatureBytes: parseSignature(data["snet-payment-channel-signature-bin"]),
-  "snet-payment-mpe-address": MPEContract[process.env.REACT_APP_ETH_NETWORK].address,
+  "snet-payment-mpe-address":
+    MPEContract[process.env.REACT_APP_ETH_NETWORK][process.env.REACT_APP_TOKEN_NAME][process.env.REACT_APP_STAND]
+      .address,
 });
 
 const parseFreeCallMetadata = ({ data }) => ({
