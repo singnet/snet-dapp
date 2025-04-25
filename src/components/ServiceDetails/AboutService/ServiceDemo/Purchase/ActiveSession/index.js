@@ -64,7 +64,7 @@ const ActiveSession = ({ classes, freeCallsRemaining, handleComplete, freeCallsA
       >
         <div className={classes.activeSectionButtons}>
           <StyledButton type="blue" btnText="run for free" onClick={handleComplete} disabled={isActionsDisabled} />
-          {isTrainingAvailable && isUndefined(modelsList) && (
+          {!!isTrainingAvailable && isUndefined(modelsList) && (
             <StyledButton
               type="transparent"
               btnText="request my models"
