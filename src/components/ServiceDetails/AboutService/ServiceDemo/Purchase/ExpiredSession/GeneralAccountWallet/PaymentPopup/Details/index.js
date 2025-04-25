@@ -6,8 +6,7 @@ import isEmpty from "lodash/isEmpty";
 
 import StyledButton from "../../../../../../../../common/StyledButton";
 import { useStyles } from "./styles";
-import snetValidator from "../../../../../../../../../utility/snetValidator";
-import { paymentGatewayConstraints } from "./validationConstraints";
+import { isValidCurrencyInput } from "./validationConstraints";
 import AlertBox, { alertTypes } from "../../../../../../../../common/AlertBox";
 import { USDToAgi } from "../../../../../../../../../Redux/reducers/PaymentReducer";
 import { orderPayloadTypes, orderTypes } from "../../../../../../../../../utility/constants/PaymentConstants";
@@ -24,7 +23,7 @@ export const paymentTypes = [{ value: "paypal", label: "Paypal" }];
 
 const description = {
   [orderTypes.CREATE_WALLET]: `Please enter the payment type in the box below, along with the amount you would 
-  like to enter into the paymentchannel.`,
+  like to enter into the payment channel.`,
   [orderTypes.TOPUP_WALLET]: `Please enter the payment type in the box below, along with the amount you would like to top up.`,
   [orderTypes.CREATE_CHANNEL]: `Please enter the payment type in the box below, along with the amount you would like to enter into the payment channel.`,
 };
@@ -83,14 +82,13 @@ const Details = ({ classes, handleClose, orderType, handleNextSection }) => {
       setAmount("");
       return;
     }
-    const isNotValid = snetValidator({ amount: value }, paymentGatewayConstraints);
-    if (isNotValid) {
-      setAmountError(isNotValid[0]);
-      setAmount("");
+
+    if (!isValidCurrencyInput(value)) {
       return;
     }
+
     setAmountError();
-    setAmount(value);
+    setAmount(value.trim());
   };
 
   let initiateInProcess = false;
