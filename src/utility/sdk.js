@@ -237,6 +237,8 @@ export const initSdk = async () => {
     web3Provider: window.ethereum,
     defaultGasPrice: DEFAULT_GAS_PRICE,
     defaultGasLimit: DEFAULT_GAS_LIMIT,
+    tokenName: process.env.REACT_APP_TOKEN_NAME,
+    standType: process.env.REACT_APP_STAND,
   };
 
   sdk = await new SnetSDK(config);
