@@ -39,7 +39,9 @@ export const decodeGroupId = (encodedGroupId) => {
 
 const parseRegularCallMetadata = ({ data }) => ({
   signatureBytes: parseSignature(data["snet-payment-channel-signature-bin"]),
-  "snet-payment-mpe-address": MPEContract[process.env.REACT_APP_ETH_NETWORK].address,
+  "snet-payment-mpe-address":
+    MPEContract[process.env.REACT_APP_ETH_NETWORK][process.env.REACT_APP_TOKEN_NAME][process.env.REACT_APP_STAND]
+      .address,
 });
 
 const parseFreeCallMetadata = ({ data }) => ({
@@ -235,6 +237,8 @@ export const initSdk = async () => {
     web3Provider: window.ethereum,
     defaultGasPrice: DEFAULT_GAS_PRICE,
     defaultGasLimit: DEFAULT_GAS_LIMIT,
+    tokenName: process.env.REACT_APP_TOKEN_NAME,
+    standType: process.env.REACT_APP_STAND,
   };
 
   sdk = await new SnetSDK(config);

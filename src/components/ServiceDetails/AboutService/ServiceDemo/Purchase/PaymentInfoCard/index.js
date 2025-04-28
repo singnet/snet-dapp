@@ -14,7 +14,7 @@ const PaymentInfoCard = ({ classes, title, value, unit, show = true }) => {
       </div>
       <div className={classes.content}>
         <h3>{String(value)}</h3>
-        {unit ? <span className={classes.unit}>AGIX</span> : ""}
+        {unit ? <span className={classes.unit}>{process.env.REACT_APP_TOKEN_NAME}</span> : ""}
       </div>
     </div>
   );

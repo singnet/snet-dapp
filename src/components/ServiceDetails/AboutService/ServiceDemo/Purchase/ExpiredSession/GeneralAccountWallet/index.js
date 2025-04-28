@@ -92,7 +92,12 @@ const GeneralAccountWallet = ({ classes, handleContinue }) => {
   return (
     <Fragment>
       <div className={classes.channelBalance}>
-        <PaymentInfoCard show={!isEmpty(channelInfo)} title="Channel Balance" value={channelBalance} unit="AGIX" />
+        <PaymentInfoCard
+          show={!isEmpty(channelInfo)}
+          title="Channel Balance"
+          value={channelBalance}
+          unit={process.env.REACT_APP_TOKEN_NAME}
+        />
       </div>
       <div className={classes.btnsContainer}>
         <Link to={userProfileRoutes.TRANSACTIONS} target="_blank" className={classes.routerLink}>

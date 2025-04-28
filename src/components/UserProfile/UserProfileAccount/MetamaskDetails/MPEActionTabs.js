@@ -81,7 +81,7 @@ const MPEActionTabs = ({ classes }) => {
       activeIndex: 0,
       component: (
         <StyledTextField
-          label="Amount to be deposited in AGIX"
+          label={`Amount to be deposited in ${process.env.REACT_APP_TOKEN_NAME}`}
           value={amount[txnTypes.DEPOSIT] || ""}
           onChange={(event) => handleAmountChange(event, txnTypes.DEPOSIT)}
         />
@@ -92,7 +92,7 @@ const MPEActionTabs = ({ classes }) => {
       activeIndex: 1,
       component: (
         <StyledTextField
-          label="Amount to be withdrawn in AGIX"
+          label={`Amount to be withdrawn in ${process.env.REACT_APP_TOKEN_NAME}`}
           value={amount[txnTypes.WITHDRAW] || ""}
           onChange={(event) => handleAmountChange(event, txnTypes.WITHDRAW)}
         />

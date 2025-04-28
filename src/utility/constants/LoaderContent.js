@@ -58,11 +58,11 @@ export const LoaderContent = {
   },
   DEPOSIT: {
     loaderHeader: "Deposit",
-    loaderText: "Depositing AGIX tokens to Multi-party Escrow account",
+    loaderText: `Depositing ${process.env.REACT_APP_TOKEN_NAME} tokens to Multi-party Escrow account`,
   },
   WITHDRAW: {
     loaderHeader: "Withdraw",
-    loaderText: "Withdrawing AGIX tokens from Multi-party Escrow account",
+    loaderText: `Withdrawing ${process.env.REACT_APP_TOKEN_NAME} tokens from Multi-party Escrow account`,
   },
   CONNECT_METAMASK: {
     loaderHeader: "Connecting MetaMask",

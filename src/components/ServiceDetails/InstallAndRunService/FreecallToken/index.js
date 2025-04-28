@@ -86,7 +86,7 @@ const FreecallToken = ({ classes, service, groupId }) => {
           trial basis
         </Typography>
 
-        <UnauthenticatedDummyToggler label={"Please login or sign up to generate free call token."}>
+        <UnauthenticatedDummyToggler label="Please login or sign up to generate free call token.">
           <div className={classes.textfieldContainer}>
             <div>
               <TextField
