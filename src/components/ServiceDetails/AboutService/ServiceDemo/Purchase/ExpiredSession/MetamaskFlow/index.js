@@ -41,7 +41,7 @@ const paymentInfoCardDatMpeBal = {
 
 let paymentChannelManagement;
 
-const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, handlePurchaseError, isServiceAvailable }) => {
+const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, isServiceAvailable }) => {
   const dispatch = useDispatch();
   const { price_in_cogs } = useSelector((state) => getPricing(state));
   const { org_id, service_id } = useSelector((state) => currentServiceDetails(state));
@@ -100,6 +100,7 @@ const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, handlePurcha
       const escrowBalance = await sdk.account.escrowBalance();
       setMpeBalance(cogsToAgi(escrowBalance));
     } catch (error) {
+      console.error("error on initialize Metamask payment channel: ", error);
       setAlert(connectMMinfo);
     } finally {
       dispatch(loaderActions.stopAppLoader());

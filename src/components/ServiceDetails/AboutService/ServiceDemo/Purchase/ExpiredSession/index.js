@@ -13,7 +13,7 @@ import { LoaderContent } from "../../../../../../utility/constants/LoaderContent
 import { useLocation, useParams } from "react-router-dom";
 import queryString from "query-string";
 
-const ExpiredSession = ({ classes, setIsLastPaidCall, handleComplete, handlePurchaseError, isServiceAvailable }) => {
+const ExpiredSession = ({ classes, setIsLastPaidCall, handleComplete, isServiceAvailable }) => {
   const dispatch = useDispatch();
   const { orderId, paymentId } = useParams();
   const location = useLocation();
@@ -88,7 +88,6 @@ const ExpiredSession = ({ classes, setIsLastPaidCall, handleComplete, handlePurc
           metamaskProps={{
             handleContinue: handleComplete,
             setIsLastPaidCall,
-            handlePurchaseError,
             isServiceAvailable,
           }}
         />
