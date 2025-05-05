@@ -15,8 +15,6 @@ export const updateServiceClient = (serviceClient) => (dispatch) => {
 export const initializingSdk = () => async (dispatch) => {
   try {
     const sdk = await initSdk();
-    console.log("sdk: ", sdk);
-
     dispatch(updateSdkInstance(sdk));
     return sdk;
   } catch (error) {
