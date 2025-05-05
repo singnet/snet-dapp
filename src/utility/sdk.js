@@ -154,6 +154,8 @@ export const initPaypalSdk = (address, channelId) => {
     web3Provider: process.env.REACT_APP_WEB3_PROVIDER,
     defaultGasPrice: DEFAULT_GAS_PRICE,
     defaultGasLimit: DEFAULT_GAS_LIMIT,
+    tokenName: process.env.REACT_APP_TOKEN_NAME,
+    standType: process.env.REACT_APP_STAND,
   };
   sdk = new PaypalSDK(address, config, {});
   sdk.paymentChannelManagementStrategy = new PaypalPaymentMgmtStrategy(sdk, channelId);

@@ -93,6 +93,11 @@ const Details = ({ classes, handleClose, orderType, handleNextSection }) => {
 
   let initiateInProcess = false;
   const handleContinue = async () => {
+    if (!groupInfo?.group_id) {
+      setAlert({ type: alertTypes.ERROR, message: "The group id is undefined. Please try later" });
+      return;
+    }
+
     setAlert({});
     try {
       if (initiateInProcess) return;

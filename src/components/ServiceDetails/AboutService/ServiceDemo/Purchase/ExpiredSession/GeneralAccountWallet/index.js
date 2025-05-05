@@ -47,7 +47,7 @@ const GeneralAccountWallet = ({ classes, handleContinue }) => {
     if (process.env.REACT_APP_SANDBOX || !channelInfo?.walletaddress || !channelInfo?.id) {
       return;
     }
-    initPaypalSdk(channelInfo?.walletaddress, channelInfo.id);
+    initPaypalSdk(channelInfo.walletaddress, channelInfo.id);
   }, [channelInfo]);
 
   useEffect(() => {
