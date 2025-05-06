@@ -36,9 +36,10 @@ const CompletedActions = ({ isComplete, callType, feedback, orgId, serviceId, re
     const paymentChannelManagement = new PaymentChannelManagement(sdk, serviceClient);
     await paymentChannelManagement.updateChannelInfo();
     const channel = paymentChannelManagement._channel;
-    const signedAmount = Number(channel.state.amountDeposited) - Number(channel.state.availableAmount);
+    // eslint-disable-next-line no-undef
+    const signedAmount = channel.state.amountDeposited - BigInt(channel.state.availableAmount);
 
-    return { channelId: Number(channel._channelId), signedAmount };
+    return { channelId: Number(channel._channelId), signedAmount: Number(signedAmount) };
   }, [dispatch, orgId, serviceId]);
 
   useEffect(() => {
