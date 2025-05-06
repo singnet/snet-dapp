@@ -2,6 +2,7 @@ export const useStyles = (theme) => ({
   btnsContainer: {
     display: "flex",
     gap: 20,
+    flexWrap: "wrap",
     width: "100%",
     "& a > button": {
       "@media(max-width:940px)": { width: "100%" },

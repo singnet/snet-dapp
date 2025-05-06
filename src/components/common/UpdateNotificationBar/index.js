@@ -13,8 +13,8 @@ const UpdateNotificationBar = ({ classes, showNotification, onCloseClick }) => {
       <img src={AnnoucementIcon} alt="Announcment" />
       <p>
         <span>
-          SingularityNET Phase II has officially launched!!! Check your brand new AGIX balance on your wallets or use
-          our
+          SingularityNET Phase II has officially launched!!! Check your brand new {process.env.REACT_APP_TOKEN_NAME}{" "}
+          balance on your wallets or use our
         </span>
         <a
           href="https://snapshot.singularitynet.io/"

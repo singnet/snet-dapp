@@ -29,7 +29,10 @@ const Summary = (props) => {
   const rows = [
     {
       key: 1,
-      values: [{ label: "Total AGIX tokens", icon: InfoIcon }, { label: `${agiInDecimal(quantity)} ${item}` }],
+      values: [
+        { label: `Total ${process.env.REACT_APP_TOKEN_NAME} tokens`, icon: InfoIcon },
+        { label: `${agiInDecimal(quantity)} ${item}` },
+      ],
       highlight: true,
     },
   ];

@@ -6,7 +6,7 @@ import { useStyles } from "./styles";
 const Deposit = ({ classes }) => {
   return (
     <div className={classes.depositAmtContainer}>
-      <span>AGIX Token Amount</span>
+      <span>{process.env.REACT_APP_TOKEN_NAME} Token Amount</span>
     </div>
   );
 };

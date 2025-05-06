@@ -38,6 +38,10 @@ const Purchase = ({ handleComplete, handlePurchaseError, isServiceAvailable, set
         });
       } catch (error) {
         console.error(error);
+        setFreeCalls({
+          freeCallsAllowed: 0,
+          freeCallsRemaining: 0,
+        });
       } finally {
         setIsFreecallLoading(false);
         dispatch(loaderActions.stopAppLoader());

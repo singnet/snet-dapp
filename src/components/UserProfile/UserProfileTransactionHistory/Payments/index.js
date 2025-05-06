@@ -34,7 +34,7 @@ const Payments = ({ classes, transactionHistory }) => {
         </Grid>
       </Grid>
       <Grid container className={classes.paymentsDataContainer}>
-        {transactionHistory.map((transaction, index) => (
+        {transactionHistory.map((transaction) => (
           <PaymentData
             key={transaction.orderId}
             date={transaction.date}

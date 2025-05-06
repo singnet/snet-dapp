@@ -10,7 +10,7 @@ import { alertTypes } from "../../../../../../../../common/AlertBox";
 import { useDispatch, useSelector } from "react-redux";
 import { paymentActions } from "../../../../../../../../../Redux/actionCreators";
 
-const Purchase = ({ classes, handleCancel, handleNext, setAmount, setPrivateKeyGenerated }) => {
+const Purchase = ({ classes, handleCancel, handleNext, setAmount }) => {
   const dispatch = useDispatch();
   const paypalInProgress = useSelector((state) => state.paymentReducer.paypalInProgress);
 
@@ -18,19 +18,17 @@ const Purchase = ({ classes, handleCancel, handleNext, setAmount, setPrivateKeyG
   const [isExecuteInProcess, setIsExecuteInProcess] = useState(false);
 
   const executePaymentCompleted = useCallback(
-    async (data) => {
+    (data) => {
       const {
-        private_key: privateKey,
         item_details: { item, quantity },
         price: { amount },
       } = data;
 
-      setPrivateKeyGenerated(privateKey);
       setAmount({ amount, quantity, item });
       handleNext();
       return;
     },
-    [dispatch, setAmount, setPrivateKeyGenerated, handleNext]
+    [setAmount, handleNext]
   );
 
   const executePayment = useCallback(async () => {
@@ -46,10 +44,10 @@ const Purchase = ({ classes, handleCancel, handleNext, setAmount, setPrivateKeyG
     try {
       setIsExecuteInProcess(true);
       const { data } = await dispatch(paymentActions.executePayment(paymentExecObj));
-      await executePaymentCompleted(data);
+      executePaymentCompleted(data);
     } catch (error) {
       if (error.response && error.response.data && error.response.data.data && error.response.data.data.private_key) {
-        await executePaymentCompleted(error.response.data.data);
+        executePaymentCompleted(error.response.data.data);
         return;
       }
       setAlert({
@@ -72,7 +70,7 @@ const Purchase = ({ classes, handleCancel, handleNext, setAmount, setPrivateKeyG
     } else {
       handleNext();
     }
-  }, [executePayment, handleNext, paypalInProgress]);
+  }, [executePayment, handleNext, paypalInProgress, isExecuteInProcess]);
 
   if (!isEmpty(alert)) {
     return <PurchaseAlert alert={alert} handleCancel={handleCancel} />;

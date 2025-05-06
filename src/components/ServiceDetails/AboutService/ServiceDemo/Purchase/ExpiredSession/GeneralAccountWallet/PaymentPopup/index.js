@@ -6,55 +6,33 @@ import { paymentActions } from "../../../../../../../../Redux/actionCreators";
 
 import Details from "./Details";
 import Purchase from "./Purchase";
-import PrivateKey from "./PrivateKey";
 import Summary from "./Summary";
 import { useStyles } from "./styles";
 import Routes from "../../../../../../../../utility/constants/Routes";
-import VerifyKey from "./VerifyKey";
-import { orderTypes, paymentTitles } from "../../../../../../../../utility/constants/PaymentConstants";
+import { paymentTitles } from "../../../../../../../../utility/constants/PaymentConstants";
 import { useNavigate, useParams } from "react-router-dom";
 import SNETDialog from "../../../../../../../common/SNETDialog";
 import ProgressBar from "../../../../../../../common/ProgressBar";
 
-const indexOfPurchaseSection = {
-  [orderTypes.CREATE_WALLET]: 1,
-  [orderTypes.TOPUP_WALLET]: 1,
-  [orderTypes.CREATE_CHANNEL]: 2,
-};
-
-const PaymentPopup = ({
-  classes,
-  setCreateWalletType,
-  isVisible,
-  handleClose,
-  paymentModalType,
-  isPaypalInProgress,
-}) => {
+const PaymentPopup = ({ classes, isVisible, handleClose, paymentModalType, isPaypalInProgress }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { orgId, serviceId } = useParams();
 
   const [activeSection, setActiveSection] = useState(0);
-  const [userProvidedPrivateKey, setUserProvidedPrivateKey] = useState();
   const [priceInfo, setPriceInfo] = useState({ amount: "", item: "", quantity: "" });
-  const [privateKeyGenerated, setPrivateKeyGenerated] = useState();
 
   const title = paymentTitles[paymentModalType];
 
   useEffect(() => {
     if (isPaypalInProgress) {
-      setActiveSection(indexOfPurchaseSection[paymentModalType]);
+      setActiveSection(1);
     }
   }, [isPaypalInProgress, paymentModalType]);
 
   const handleCancel = () => {
     dispatch(paymentActions.updatePaypalCompleted());
     resetPaymentPopup();
-  };
-
-  const handleLostPrivateKey = () => {
-    handleCancel();
-    setCreateWalletType();
   };
 
   const resetPaymentPopup = () => {
@@ -67,46 +45,18 @@ const PaymentPopup = ({
     setActiveSection(activeSection + 1);
   }, [activeSection]);
 
-  const progressBarDataAllFields = [
-    {
-      key: "verifyKey",
-      label: "Key",
-      component: (
-        <VerifyKey
-          handleNextSection={handleNextSection}
-          handleUserProvidedPrivateKey={setUserProvidedPrivateKey}
-          handleLostPrivateKey={handleLostPrivateKey}
-        />
-      ),
-    },
+  const progressBarData = [
     {
       key: "details",
       label: "Details",
       component: (
-        <Details
-          handleNextSection={handleNextSection}
-          handleClose={handleCancel}
-          userProvidedPrivateKey={userProvidedPrivateKey}
-          orderType={paymentModalType}
-        />
+        <Details handleNextSection={handleNextSection} handleClose={handleCancel} orderType={paymentModalType} />
       ),
     },
     {
       key: "purchase",
       label: "Purchase",
-      component: (
-        <Purchase
-          setAmount={setPriceInfo}
-          setPrivateKeyGenerated={setPrivateKeyGenerated}
-          handleCancel={handleCancel}
-          handleNext={handleNextSection}
-        />
-      ),
-    },
-    {
-      key: "privateKey",
-      label: "Key",
-      component: <PrivateKey privateKey={privateKeyGenerated} handleNextSection={handleNextSection} />,
+      component: <Purchase setAmount={setPriceInfo} handleCancel={handleCancel} handleNext={handleNextSection} />,
     },
     {
       key: "summary",
@@ -123,18 +73,6 @@ const PaymentPopup = ({
     },
   ];
 
-  const progressBarDataTopUp = progressBarDataAllFields.filter((el) => !el.key.includes("Key"));
-  const progressBarDataCreateWallet = progressBarDataAllFields.filter((el) => !el.key.includes("verifyKey"));
-  const progressBarDataCreateChannel = progressBarDataAllFields.filter((el) => !el.key.includes("privateKey"));
-
-  const progressBarData = {
-    [orderTypes.CREATE_WALLET]: progressBarDataCreateWallet,
-    [orderTypes.TOPUP_WALLET]: progressBarDataTopUp,
-    [orderTypes.CREATE_CHANNEL]: progressBarDataCreateChannel,
-  };
-
-  const progressBarDataByType = progressBarData[paymentModalType];
-
   if (!paymentModalType) {
     return null;
   }
@@ -142,8 +80,8 @@ const PaymentPopup = ({
   return (
     <SNETDialog isDialogOpen={isVisible} onDialogClose={handleCancel} showCloseButton={true} title={title}>
       <div className={classes.paymentPopupContainer}>
-        <ProgressBar activeSection={activeSection} progressText={progressBarDataByType} />
-        <div className={classes.paymentComponentContainer}>{progressBarDataByType[activeSection].component}</div>
+        <ProgressBar activeSection={activeSection} progressText={progressBarData} />
+        <div className={classes.paymentComponentContainer}>{progressBarData[activeSection].component}</div>
       </div>
     </SNETDialog>
   );
