@@ -3,7 +3,7 @@ export default class ProxyPaymentChannelManagementStrategy {
     this._channel = channel;
   }
 
-  selectChannel(serviceClient) {
+  selectChannel() {
     return this._channel;
   }
 
@@ -35,7 +35,7 @@ export default class ProxyPaymentChannelManagementStrategy {
   async getPaymentMetadata(serviceClient) {
     const channel = await this.selectChannel();
 
-    const amount = channel.state.currentSignedAmount.toNumber() + serviceClient._pricePerServiceCall.toNumber();
+    const amount = channel?.state?.currentSignedAmount.toNumber() + serviceClient._pricePerServiceCall.toNumber();
 
     const signature = await this.generateSignature(serviceClient, channel.channelId, channel.state.nonce, amount);
     return [

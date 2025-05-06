@@ -51,7 +51,9 @@ const parseFreeCallMetadata = ({ data }) => ({
   "snet-payment-channel-signature-bin": parseSignature(data["snet-payment-channel-signature-bin"]),
   "snet-free-call-auth-token-bin": parseSignature(data["snet-free-call-auth-token-bin"]),
   "snet-free-call-token-expiry-block": `${data["snet-free-call-token-expiry-block"]}`,
-  "snet-payment-mpe-address": MPEContract[process.env.REACT_APP_ETH_NETWORK].address,
+  "snet-payment-mpe-address":
+    MPEContract[process.env.REACT_APP_ETH_NETWORK][process.env.REACT_APP_TOKEN_NAME][process.env.REACT_APP_STAND]
+      .address,
 });
 
 const metadataGenerator = (serviceRequestErrorHandler, groupId) => async (serviceClient, serviceName, method) => {
@@ -254,6 +256,8 @@ export const getSdkConfig = async () => {
     web3Provider,
     defaultGasPrice: DEFAULT_GAS_PRICE,
     defaultGasLimit: DEFAULT_GAS_LIMIT,
+    tokenName: process.env.REACT_APP_TOKEN_NAME,
+    standType: process.env.REACT_APP_STAND,
   };
 
   return config;

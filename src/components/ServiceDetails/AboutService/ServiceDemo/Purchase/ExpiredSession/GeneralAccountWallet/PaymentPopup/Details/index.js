@@ -34,7 +34,7 @@ const Details = ({ classes, handleClose, orderType, handleNextSection }) => {
 
   const walletList = useSelector((state) => state.userReducer.walletList);
   const generalWallet = walletList.find((wallet) => wallet.type === walletTypes.GENERAL);
-  const { usd_agi_rate, agi_divisibility } = useSelector((state) => state.paymentReducer);
+  const { usd_agi_rate, divisibility } = useSelector((state) => state.paymentReducer);
   const groupInfo = useSelector((state) => {
     return state.serviceDetailsReducer.details.groups.find((group) => {
       return !isEmpty(group.endpoints.find((endpoint) => endpoint.is_available === 1));
@@ -101,7 +101,7 @@ const Details = ({ classes, handleClose, orderType, handleNextSection }) => {
     setAlert({});
     try {
       if (initiateInProcess) return;
-      const amountInAGI = USDToAgi(amount, usd_agi_rate, agi_divisibility);
+      const amountInAGI = USDToAgi(amount, usd_agi_rate, divisibility);
 
       initiateInProcess = true;
       await initiatePayment(amount, currency, process.env.REACT_APP_TOKEN_NAME, amountInAGI, generalWallet?.address);
@@ -125,9 +125,7 @@ const Details = ({ classes, handleClose, orderType, handleNextSection }) => {
           value={amount}
           placeholder="0"
           onChange={(e) => handleAmountChange(e)}
-          helperText={
-            amountError ? amountError : <AGITokens amount={USDToAgi(amount, usd_agi_rate, agi_divisibility)} />
-          }
+          helperText={amountError ? amountError : <AGITokens amount={USDToAgi(amount, usd_agi_rate, divisibility)} />}
           InputProps={{ startAdornment: <span className={classes.currencyAdornment}>$</span> }}
           error={Boolean(amountError)}
         />
