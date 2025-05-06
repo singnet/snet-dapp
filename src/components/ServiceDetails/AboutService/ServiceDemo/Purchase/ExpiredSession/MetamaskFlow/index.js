@@ -134,6 +134,7 @@ const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, isServiceAva
         return;
       }
       if (channelBalanceInCogs > totalPrice) {
+        setNoOfServiceCalls(channelBalanceInCogs / totalPrice);
         setIsLastPaidCall(false);
         await handleSubmit();
         return;
@@ -204,6 +205,7 @@ const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, isServiceAva
           await paymentChannelManagement.extendChannel();
         }
         handleContinue();
+        return;
       } catch (e) {
         setAlert({ type: alertTypes.ERROR, message: e.message });
       } finally {

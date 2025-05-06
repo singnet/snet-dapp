@@ -53,7 +53,7 @@ const MetamaskDetails = ({ classes }) => {
       </div>
       <div>
         <div className={classes.label}>
-          <span>Wallet ID</span>
+          <span>Wallet Address</span>
         </div>
         <span className={classes.walletId}>{wallet.address}</span>
       </div>

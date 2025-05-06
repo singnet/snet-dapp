@@ -226,12 +226,6 @@ export const getWeb3Address = async () => {
 };
 
 export const initSdk = async () => {
-  console.log(
-    "MPE: ",
-    MPEContract,
-    MPEContract[process.env.REACT_APP_ETH_NETWORK][process.env.REACT_APP_TOKEN_NAME][process.env.REACT_APP_STAND]
-  );
-
   if (sdk && !(sdk instanceof PaypalSDK)) {
     return Promise.resolve(sdk);
   }

@@ -36,9 +36,10 @@ const CompletedActions = ({ isComplete, callType, feedback, orgId, serviceId, re
     const paymentChannelManagement = new PaymentChannelManagement(sdk, serviceClient);
     await paymentChannelManagement.updateChannelInfo();
     const channel = paymentChannelManagement._channel;
-    const signedAmount = Number(channel._state.amountDeposited) - Number(channel._state.availableAmount);
+    // eslint-disable-next-line no-undef
+    const signedAmount = channel.state.amountDeposited - BigInt(channel.state.availableAmount);
 
-    return { channelId: channel._channelId, signedAmount };
+    return { channelId: Number(channel._channelId), signedAmount: Number(signedAmount) };
   }, [dispatch, orgId, serviceId]);
 
   useEffect(() => {
@@ -51,7 +52,7 @@ const CompletedActions = ({ isComplete, callType, feedback, orgId, serviceId, re
         if (walletType === walletTypes.METAMASK) {
           signedAmountAndChannelId = await getSignedAmountAndChannelId();
         } else {
-          signedAmountAndChannelId = { channelId: channelInfo.id, signedAmount: undefined };
+          signedAmountAndChannelId = { channelId: Number(channelInfo.id), signedAmount: undefined };
         }
 
         await dispatch(
