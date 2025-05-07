@@ -1,5 +1,7 @@
 // const allowedPayTypes = ["paypal"];
 
+import { priceData } from "../../../../../../../../../utility/PricingStrategy";
+
 export const paymentGatewayConstraints = {
   // payType: {
   //   presence: { allowEmpty: false },
@@ -11,15 +13,27 @@ export const paymentGatewayConstraints = {
   },
 };
 
-const FLOAT_PART_MAXIMUM_DIGIT = 2;
+export const FLOAT_MAXIMUM_DIGIT_CASES = {
+  DEFAULT: "DEFAULT",
+  TOKEN: "TOKEN",
+};
+const FLOAT_MAXIMUM_DIGIT = {
+  [FLOAT_MAXIMUM_DIGIT_CASES.DEFAULT]: 2,
+  [FLOAT_MAXIMUM_DIGIT_CASES.TOKEN]: priceData.divisibility,
+};
+
 const AVAILABLE_SEPARATORS = [",", "."];
 
-const isValidFloatPart = (firstPartNumbersList, secondPartNumbersList) => {
+const isValidFloatPart = (
+  firstPartNumbersList,
+  secondPartNumbersList,
+  floatMaximimDigitCase = FLOAT_MAXIMUM_DIGIT_CASES.DEFAULT
+) => {
   if (!secondPartNumbersList.length) {
     return true;
   }
 
-  if (secondPartNumbersList.length > FLOAT_PART_MAXIMUM_DIGIT) {
+  if (secondPartNumbersList.length > FLOAT_MAXIMUM_DIGIT[floatMaximimDigitCase]) {
     return false;
   }
 
@@ -29,10 +43,10 @@ const isValidFloatPart = (firstPartNumbersList, secondPartNumbersList) => {
 
   const zeroCount = secondPartNumbersList.reduce((count, symbol) => (symbol === "0" ? count + 1 : count), 0);
 
-  return zeroCount < FLOAT_PART_MAXIMUM_DIGIT;
+  return zeroCount < FLOAT_MAXIMUM_DIGIT[floatMaximimDigitCase];
 };
 
-export const isValidCurrencyInput = (query) => {
+export const isValidCurrencyInput = (query, floatMaximimDigitCase) => {
   if (isNaN(query)) {
     return false;
   }
@@ -48,5 +62,5 @@ export const isValidCurrencyInput = (query) => {
   const floatNumberFirstPartList = queryList.slice(0, separatorIndex);
   const floatNumberSecondPartList = queryList.slice(separatorIndex + 1);
 
-  return isValidFloatPart(floatNumberFirstPartList, floatNumberSecondPartList);
+  return isValidFloatPart(floatNumberFirstPartList, floatNumberSecondPartList, floatMaximimDigitCase);
 };
