@@ -17,9 +17,9 @@ const PricingDetails = ({ classes, serviceAvailable, handleDemoClick }) => {
   const price_model = typeof price_strategy === "undefined" ? undefined : price_strategy.getPriceModel();
 
   return (
-    <Grid item xs={12} sm={12} md={4} lg={4} className={classes.creditsContainer}>
+    <Grid item xs={12} sm={12} md={5} lg={5} className={classes.creditsContainer}>
       <div className={classes.creditsAndToken}>
-        <Price unit="agix tokens" value={priceInAGI} />
+        <Price unit={`${process.env.REACT_APP_TOKEN_NAME} tokens`} value={priceInAGI} />
       </div>
       <p>
         <InfoIcon className={classes.infoIcon} />

@@ -12,9 +12,9 @@ export const updateServiceClient = (serviceClient) => (dispatch) => {
   dispatch({ type: SET_SERVICE_CLIENT, payload: { ...serviceClient } });
 };
 
-export const initializingSdk = (ethereumWalletAddress) => async (dispatch) => {
+export const initializingSdk = () => async (dispatch) => {
   try {
-    const sdk = await initSdk(ethereumWalletAddress);
+    const sdk = await initSdk();
     dispatch(updateSdkInstance(sdk));
     return sdk;
   } catch (error) {

@@ -133,11 +133,15 @@ export const channelInfo = (walletList) => {
   const walletWithChannel = walletList.find(
     (wallet) => wallet.type === walletTypes.GENERAL && !isEmpty(wallet.channels[0])
   );
+
   if (walletWithChannel) {
     const selectedChannel = walletWithChannel.channels[0];
+
     return {
       id: selectedChannel.channel_id,
+      hasPrivateKey: Boolean(walletWithChannel.has_private_key),
       balanceInAgi: cogsToAgi(selectedChannel.balance_in_cogs),
+      currentBalance: cogsToAgi(selectedChannel.current_balance),
       walletaddress: walletWithChannel.address,
     };
   }

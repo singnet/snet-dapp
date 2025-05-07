@@ -7,6 +7,7 @@ const aliasMap = configPaths("./jsconfig.json");
 const options = {
   alias: {
     ...aliasMap,
+    "@": path.resolve(__dirname, "src"),
     "@commonComponents": path.resolve(__dirname, "src/assets/thirdPartyServices/common/"),
     "@standardComponents": path.resolve(__dirname, "src/assets/thirdPartyServices/standardComponents/"),
     "@integratedComponents": path.resolve(__dirname, "src/components/common/"),

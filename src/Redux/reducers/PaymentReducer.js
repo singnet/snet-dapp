@@ -1,10 +1,11 @@
+import { priceData } from "../../utility/PricingStrategy";
 import { paymentActions } from "../actionCreators";
 
 const InitialPaymentDetails = {
   paypalInProgress: {},
   usd_agi_rate: undefined,
   usd_cogs_rate: undefined,
-  agi_divisibility: 8,
+  divisibility: priceData.divisibility,
 };
 
 const paymentReducer = (state = InitialPaymentDetails, action) => {
