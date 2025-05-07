@@ -12,6 +12,10 @@ import { withStyles } from "@mui/styles";
 import { useStyles } from "./styles";
 import StyledTextField from "../../../common/StyledTextField";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import {
+  FLOAT_MAXIMUM_DIGIT_CASES,
+  isValidCurrencyInput,
+} from "../../../ServiceDetails/AboutService/ServiceDemo/Purchase/ExpiredSession/GeneralAccountWallet/PaymentPopup/Details/validationConstraints";
 
 const successAlert = {
   [txnTypes.WITHDRAW]: "Successfully withdrawn",
@@ -46,6 +50,10 @@ const MPEActionTabs = ({ classes }) => {
 
   const handleAmountChange = (event, txnType) => {
     const { value } = event.target;
+
+    if (!isValidCurrencyInput(value, FLOAT_MAXIMUM_DIGIT_CASES.TOKEN)) {
+      return;
+    }
     setAmount({ ...amount, [txnType]: value });
   };
 
