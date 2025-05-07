@@ -8,7 +8,7 @@ import PurchaseDialog from "../../PurchaseDialog";
 import ChannelSelectionBox from "../../ChannelSelectionBox";
 import AlertBox, { alertTypes } from "../../../../../../common/AlertBox";
 import { cogsToAgi } from "../../../../../../../utility/PricingStrategy";
-import { pricing as getPricing, groupInfo } from "../../../../../../../Redux/reducers/ServiceDetailsReducer";
+import { pricing as getPricing } from "../../../../../../../Redux/reducers/ServiceDetailsReducer";
 import PaymentChannelManagement from "../../../../../../../utility/PaymentChannelManagement";
 import { loaderActions } from "../../../../../../../Redux/actionCreators";
 import { LoaderContent } from "../../../../../../../utility/constants/LoaderContent";
@@ -16,7 +16,7 @@ import { useStyles } from "./style";
 import { isUndefined } from "lodash";
 
 import { currentServiceDetails } from "../../../../../../../Redux/reducers/ServiceDetailsReducer";
-import { updateChannelBalanceAPI, updateMetamaskWallet } from "../../../../../../../Redux/actionCreators/UserActions";
+import { updateMetamaskWallet } from "../../../../../../../Redux/actionCreators/UserActions";
 import { getSdk } from "../../../../../../../Redux/actionCreators/SDKActions";
 
 const payTypes = {
@@ -28,7 +28,7 @@ const payTypes = {
 const connectMMinfo = {
   type: alertTypes.ERROR,
   message: `Please install Metamask and use your Metamask wallet to connect to SingularityNet. 
-Click below to install and learn more about how to use Metamask and your AGIX credits with SinguarlityNet AI Marketplace.`,
+Click below to install and learn more about how to use Metamask and your ${process.env.REACT_APP_TOKEN_NAME} credits with SinguarlityNet AI Marketplace.`,
 };
 
 const MIN_CALLS_NUMBER = 1;
@@ -36,16 +36,15 @@ const MIN_CALLS_NUMBER = 1;
 const paymentInfoCardDatMpeBal = {
   title: "Escrow Balance",
   id: "mpeBal",
-  unit: "AGIX",
+  unit: process.env.REACT_APP_TOKEN_NAME,
 };
 
 let paymentChannelManagement;
 
-const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, handlePurchaseError, isServiceAvailable }) => {
+const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, isServiceAvailable }) => {
   const dispatch = useDispatch();
   const { price_in_cogs } = useSelector((state) => getPricing(state));
   const { org_id, service_id } = useSelector((state) => currentServiceDetails(state));
-  const group_id = useSelector((state) => groupInfo(state).group_id);
 
   const [mpeBalance, setMpeBalance] = useState("0");
   const [selectedPayType, setSelectedPayType] = useState(payTypes.CHANNEL_BALANCE);
@@ -56,23 +55,18 @@ const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, handlePurcha
   const [alert, setAlert] = useState({});
   const [showTooltip, setShowTooltip] = useState(false);
   const [channelBalance, setChannelBalance] = useState();
+  const [isStartServiceDisable, setIsStartServiceDisable] = useState(false);
 
-  useEffect(() => {
-    if (!isUndefined(channelBalance)) {
-      return;
+  const updateBalanceData = async () => {
+    try {
+      await initializedPaymentChannel();
+      await getPaymentChannelData();
+      setIsStartServiceDisable(false);
+    } catch (err) {
+      setIsStartServiceDisable(true);
+      setAlert({ type: alertTypes.ERROR, message: err.message });
     }
-
-    const updateBalanceData = async () => {
-      try {
-        await initializedPaymentChannel();
-        await getPaymentChannelData();
-      } catch (err) {
-        setAlert({ type: alertTypes.ERROR, message: err.message });
-      }
-    };
-
-    updateBalanceData();
-  }, [channelBalance]);
+  };
 
   useEffect(() => {
     const handleDisabledPaytypes = () => {
@@ -106,6 +100,7 @@ const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, handlePurcha
       const escrowBalance = await sdk.account.escrowBalance();
       setMpeBalance(cogsToAgi(escrowBalance));
     } catch (error) {
+      console.error("error on initialize Metamask payment channel: ", error);
       setAlert(connectMMinfo);
     } finally {
       dispatch(loaderActions.stopAppLoader());
@@ -118,30 +113,10 @@ const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, handlePurcha
       dispatch(loaderActions.startAppLoader(LoaderContent.SETUP_CHANNEL_FOR_SERV_EXEC));
       await paymentChannelManagement.updateChannelInfo();
       await getBalanceData();
-      await updateChannelBalance();
     } catch (error) {
       setAlert(connectMMinfo);
     } finally {
       dispatch(loaderActions.stopAppLoader());
-    }
-  };
-
-  const updateChannelBalance = async () => {
-    try {
-      const channel = paymentChannelManagement._channel;
-      await dispatch(
-        updateChannelBalanceAPI(
-          org_id,
-          service_id,
-          group_id,
-          Number(channel._state.amountDeposited) - Number(channel._state.availableAmount),
-          Number(channel._state.amountDeposited),
-          Number(channel._channelId),
-          Number(channel._state.nonce)
-        )
-      );
-    } catch (error) {
-      console.error("error: ", error);
     }
   };
 
@@ -159,6 +134,7 @@ const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, handlePurcha
         return;
       }
       if (channelBalanceInCogs > totalPrice) {
+        setNoOfServiceCalls(channelBalanceInCogs / totalPrice);
         setIsLastPaidCall(false);
         await handleSubmit();
         return;
@@ -229,6 +205,7 @@ const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, handlePurcha
           await paymentChannelManagement.extendChannel();
         }
         handleContinue();
+        return;
       } catch (e) {
         setAlert({ type: alertTypes.ERROR, message: e.message });
       } finally {
@@ -247,7 +224,7 @@ const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, handlePurcha
       if (mpeBalance < cogsToAgi(paymentChannelManagement.noOfCallsToCogs(noOfServiceCalls))) {
         setAlert({
           type: alertTypes.ERROR,
-          message: "Insufficient MPE balance. Please deposit some AGIX tokens to your escrow account",
+          message: `Insufficient MPE balance. Please deposit some ${process.env.REACT_APP_TOKEN_NAME} tokens to your escrow account`,
         });
         return;
       }
@@ -286,21 +263,16 @@ const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, handlePurcha
     setShowTooltip(false);
   };
 
-  // if (isUndefined(channelBalance) || isNaN(channelBalance)) {
-  //   return (
-  //     <>
-  //       <StyledButton
-  //         type="blue"
-  //         btnText="run service"
-  //         onClick={this.getPaymentChannelData}
-  //         disabled={isStartServiceDisable}
-  //       />
-  //       <div className={classes.alertContainer}>
-  //         <AlertBox type={alert.type} message={alert.message} />
-  //       </div>
-  //     </>
-  //   );
-  // }
+  if (isUndefined(channelBalance) || isNaN(channelBalance)) {
+    return (
+      <>
+        <StyledButton type="blue" btnText="run service" onClick={updateBalanceData} disabled={isStartServiceDisable} />
+        <div className={classes.alertContainer}>
+          <AlertBox type={alert.type} message={alert.message} />
+        </div>
+      </>
+    );
+  }
 
   return (
     <Fragment>
@@ -322,7 +294,7 @@ const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, handlePurcha
           onClick={() => handlePayTypeChange(payTypes.SINGLE_CALL)}
           inputProps={{
             totalPrice: cogsToAgi(price_in_cogs),
-            unit: "AGIX",
+            unit: process.env.REACT_APP_TOKEN_NAME,
             noInput: true,
           }}
           disabled={disabledPayTypes.includes(payTypes.SINGLE_CALL)}
@@ -339,7 +311,7 @@ const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, handlePurcha
               noOfServiceCalls,
               onChange: handleNoOfCallsChange,
               totalPrice,
-              unit: "AGIX",
+              unit: process.env.REACT_APP_TOKEN_NAME,
             }}
             disabled={disabledPayTypes.includes(payTypes.MULTIPLE_CALLS)}
           />

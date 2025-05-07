@@ -9,7 +9,7 @@ const NextAction = ({ channel, setShowCreateWalletPopup, setShowLinkProvider, se
   const anyGeneralWallet = useSelector((state) => getAnyGeneralWallet(state));
   const anyPendingTxn = useSelector((state) => getAnyPendingTxn(state));
 
-  if (!anyGeneralWallet) {
+  if (!anyGeneralWallet || (!channel.hasPrivateKey && (channel?.currentBalance === 0 || isEmpty(channel)))) {
     return (
       <StyledButton
         type="blue"
@@ -19,7 +19,7 @@ const NextAction = ({ channel, setShowCreateWalletPopup, setShowLinkProvider, se
       />
     );
   }
-  if (isEmpty(channel)) {
+  if (isEmpty(channel) && channel.hasPrivateKey) {
     return (
       <StyledButton
         type="blue"
@@ -31,7 +31,9 @@ const NextAction = ({ channel, setShowCreateWalletPopup, setShowLinkProvider, se
   }
   return (
     <Fragment>
-      <StyledButton type="transparentBlueBorder" btnText="top up wallet" onClick={setShowTopUpWallet} />
+      {channel.hasPrivateKey && (
+        <StyledButton type="transparentBlueBorder" btnText="top up wallet" onClick={setShowTopUpWallet} />
+      )}
       <StyledButton
         type="blue"
         btnText="Run service"

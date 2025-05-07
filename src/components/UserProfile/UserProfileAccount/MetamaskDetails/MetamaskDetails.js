@@ -53,7 +53,7 @@ const MetamaskDetails = ({ classes }) => {
       </div>
       <div>
         <div className={classes.label}>
-          <span>Wallet ID</span>
+          <span>Wallet Address</span>
         </div>
         <span className={classes.walletId}>{wallet.address}</span>
       </div>
@@ -61,13 +61,17 @@ const MetamaskDetails = ({ classes }) => {
         <div className={classes.label}>
           <span>Total Tokens</span>
         </div>
-        <span>{tokenBalance} AGIX</span>
+        <span>
+          {tokenBalance} {process.env.REACT_APP_TOKEN_NAME}
+        </span>
       </div>
       <div className={classes.bgBox}>
         <div className={classes.label}>
           <span>Escrow Balance</span>
         </div>
-        <span>{escrowBalance} AGIX</span>
+        <span>
+          {escrowBalance} {process.env.REACT_APP_TOKEN_NAME}
+        </span>
       </div>
       <AlertBox type={alert.type} message={alert.message} />
     </div>

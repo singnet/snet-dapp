@@ -34,7 +34,9 @@ const ChannelList = ({ classes, linkedProviders }) => {
                 </div>
               </Grid>
               <Grid item xs={12} sm={12} md={5} lg={5}>
-                <span className={classes.availableTokenCount}>{cogsToAgi(current_balance || 0)} AGIX</span>
+                <span className={classes.availableTokenCount}>
+                  {cogsToAgi(current_balance || 0)} {process.env.REACT_APP_TOKEN_NAME}
+                </span>
               </Grid>
             </Grid>
           );
