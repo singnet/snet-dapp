@@ -43,6 +43,10 @@ export const walletTypes = {
   DEFAULT: "default",
 };
 
+const NEXT_SIGN_IN_STEP = {
+  CONFIRM_SIGN_UP: "CONFIRM_SIGN_UP",
+};
+
 const setJWTExp = (exp) => ({ type: SET_JWT_EXP, payload: exp });
 
 export const fetchAuthenticatedUser = () => async (dispatch) => {
@@ -279,36 +283,43 @@ export const login =
   async (dispatch) => {
     dispatch(loaderActions.startAppLoader(LoaderContent.LOGIN));
     let userDetails = {};
-    return signIn({ username: email, password })
-      .then(() => {
+    try {
+      const loginRequest = await signIn({ username: email, password });
+
+      if (loginRequest?.isSignedIn) {
         dispatch(loginSuccess({ route }));
-      })
-      .catch((err) => {
-        if (err.code === "PasswordResetRequiredException") {
-          dispatch(updateEmail(email));
-          History.navigate(`/${Routes.RESET_PASSWORD}`);
-          dispatch(loaderActions.stopAppLoader());
-          return;
-        } else if (err.code === "UserNotConfirmedException") {
-          dispatch(updateEmail(email));
-          userDetails = {
-            type: LOGIN_SUCCESS,
-            payload: { login: { isLoggedIn: true } },
-          };
-          dispatch(userDetails);
-          History.navigate(`/${Routes.ONBOARDING}`);
-          dispatch(loaderActions.stopAppLoader());
-          return;
-        }
-        const error = parseError(err);
+      }
+      if (loginRequest?.nextStep?.signInStep === NEXT_SIGN_IN_STEP.CONFIRM_SIGN_UP) {
+        throw new Error("User does not exist.");
+      }
+      throw new Error("Something went wrong. Please, try again later");
+    } catch (err) {
+      if (err?.code === "PasswordResetRequiredException") {
+        dispatch(updateEmail(email));
+        History.navigate(`/${Routes.RESET_PASSWORD}`);
+        dispatch(loaderActions.stopAppLoader());
+        return;
+      } else if (err?.code === "UserNotConfirmedException") {
+        dispatch(updateEmail(email));
         userDetails = {
-          type: LOGIN_ERROR,
-          payload: { login: { error } },
+          type: LOGIN_SUCCESS,
+          payload: { login: { isLoggedIn: true } },
         };
         dispatch(userDetails);
+        History.navigate(`/${Routes.ONBOARDING}`);
         dispatch(loaderActions.stopAppLoader());
-        throw err;
-      });
+        return;
+      }
+      const error = parseError(err);
+      userDetails = {
+        type: LOGIN_ERROR,
+        payload: { login: { error } },
+      };
+      dispatch(userDetails);
+      throw err;
+    } finally {
+      dispatch(loaderActions.stopAppLoader());
+    }
   };
 
 const registrationAPI = (token) => {
