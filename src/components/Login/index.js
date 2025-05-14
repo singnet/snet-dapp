@@ -51,7 +51,11 @@ const Login = ({ classes }) => {
     }
     event.preventDefault();
     event.stopPropagation();
-    await dispatch(userActions.login({ email, password, route }));
+    try {
+      await dispatch(userActions.login({ email, password, route }));
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
