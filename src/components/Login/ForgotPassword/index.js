@@ -13,7 +13,7 @@ import { forgotPasswordConstraints } from "./validationConstraints";
 import snetValidator from "../../../utility/snetValidator";
 import { useMatch } from "react-router-dom";
 
-const ForgotPassword = ({ classes, email, error, handleForgotPassword, history, updateError, resetError }) => {
+const ForgotPassword = ({ classes, email, error, handleForgotPassword, updateError, resetError }) => {
   const [localEmail, setEmail] = useState(email);
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const ForgotPassword = ({ classes, email, error, handleForgotPassword, history, 
       return;
     }
     const route = `/${Routes.FORGOT_PASSWORD_SUBMIT}`;
-    handleForgotPassword({ email: localEmail, history, route });
+    handleForgotPassword({ email: localEmail, route });
   };
 
   const isResetPasswordRoute = useMatch(`/${Routes.RESET_PASSWORD}`);
