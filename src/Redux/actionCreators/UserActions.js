@@ -288,11 +288,11 @@ export const login =
 
       if (loginRequest?.isSignedIn) {
         dispatch(loginSuccess({ route }));
-      }
-      if (loginRequest?.nextStep?.signInStep === NEXT_SIGN_IN_STEP.CONFIRM_SIGN_UP) {
+      } else if (loginRequest?.nextStep?.signInStep === NEXT_SIGN_IN_STEP.CONFIRM_SIGN_UP) {
         throw new Error("User does not exist.");
+      } else {
+        throw new Error("Something went wrong. Please, try again later");
       }
-      throw new Error("Something went wrong. Please, try again later");
     } catch (err) {
       if (err?.code === "PasswordResetRequiredException") {
         dispatch(updateEmail(email));
