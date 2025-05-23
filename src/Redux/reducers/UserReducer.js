@@ -87,6 +87,7 @@ const userReducer = (state = InitialUserDetails, action) => {
           ...state.login,
           ...action.payload.login,
         },
+        isTermsAccepted: action.payload.isTermsAccepted,
         wallet: { type: walletTypes.SNET },
       };
     }
