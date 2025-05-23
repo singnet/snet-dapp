@@ -1,18 +1,12 @@
-import React from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
-import Row from "./Row";
 
 const Contibutors = ({ contributors }) => {
   if (isEmpty(contributors)) {
     return null;
   }
-  const contributorsNames = contributors.map((contributor, index) => (
-    <span key={contributor.name}>
-      {contributor.name} {index + 1 !== contributors.length ? "," : ""}
-    </span>
-  ));
-  return <Row content={contributorsNames} />;
+  const contributorsNames = contributors.map((contributor, index) => contributor.name).join(", ");
+  return contributorsNames;
 };
 
 Contibutors.propTypes = {

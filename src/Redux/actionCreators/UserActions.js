@@ -259,7 +259,7 @@ const getCurrentUser = async () => {
 
 export const loginSuccess =
   ({ route }) =>
-  async (dispatch) => {
+  async (dispatch, getState) => {
     const { userAttributes, idToken } = await getCurrentUser();
 
     const userDetails = {
@@ -273,8 +273,12 @@ export const loginSuccess =
     };
 
     dispatch(userDetails);
-    History.navigate(route);
     await dispatch(fetchUserProfile(idToken.toString()));
+    const isTermsAccepted = getState().userReducer.isTermsAccepted;
+    if (!isTermsAccepted) {
+      route = `/${Routes.ONBOARDING}`;
+    }
+    History.navigate(route);
     dispatch(loaderActions.stopAppLoader());
   };
 
