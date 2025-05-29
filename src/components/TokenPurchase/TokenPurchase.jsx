@@ -3,22 +3,21 @@ import { OnrampWebSDK } from '@onramp.money/onramp-web-sdk';
 import { withStyles } from "@mui/styles";
 import { useStyles } from "./styles";
 import StyledButton from "../common/StyledButton";
-import { getWeb3Address } from "../../utility/sdk";
+import { useDispatch } from "react-redux";
+import { sdkActions } from "../../Redux/actionCreators";
 
 const TokenPurchase = () => {
+  const dispatch = useDispatch();
 
   const isMetamaskAvailable = window?.ethereum?.isMetaMask;
 
-  const showOrump = async () => {
-    console.log("isMetamaskAvailable: ", isMetamaskAvailable);
-    
+  const showOrump = async () => {    
     if (!isMetamaskAvailable) {
       return;
     }
     try {
-
-      const address = await getWeb3Address();
-      console.log("address; ", address);
+      const sdk = await dispatch(sdkActions.getSdk());
+      const address = await sdk.account.getAddress();
       
       const onrampInstance = new OnrampWebSDK({
         appId: 1, // replace this with the appID you got during onboarding process

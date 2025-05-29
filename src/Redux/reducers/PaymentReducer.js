@@ -1,11 +1,10 @@
-import { priceData } from "../../utility/PricingStrategy";
+import { DIVISIBILITY } from "../../utility/PricingStrategy";
 import { paymentActions } from "../actionCreators";
 
 const InitialPaymentDetails = {
   paypalInProgress: {},
   usd_agi_rate: undefined,
   usd_cogs_rate: undefined,
-  divisibility: priceData.divisibility,
 };
 
 const paymentReducer = (state = InitialPaymentDetails, action) => {
@@ -50,11 +49,11 @@ export const anyFailedTxn = (state) => {
   return istransactionsFailed;
 };
 
-export const USDToAgi = (usd, usdFiatRate, fiatDivisibility) => {
+export const USDToAgi = (usd, usdFiatRate) => {
   if (!usdFiatRate) {
     return undefined;
   }
-  return (usd * usdFiatRate).toFixed(fiatDivisibility);
+  return (usd * usdFiatRate).toFixed(DIVISIBILITY);
 };
 
 export const USDToCogs = (usd, usdCogsRate) => {

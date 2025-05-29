@@ -17,8 +17,9 @@ import { startAppLoader, stopAppLoader } from "../../../Redux/actionCreators/Loa
 import { LoaderContent } from "../../../utility/constants/LoaderContent";
 import { isEmpty } from "lodash";
 import { CircularProgress } from "@mui/material";
-import { getWeb3Address, ON_ACCOUNT_CHANGE } from "../../../utility/sdk";
+import { ON_ACCOUNT_CHANGE } from "../../../utility/sdk";
 import MetamaskAccount from "./MetamaskDetails";
+import { getSdk } from "../../../Redux/actionCreators/SDKActions";
 
 const alertSelectCurrentWallet = {
   type: alertTypes.ERROR,
@@ -39,16 +40,20 @@ const UserProfileAccount = ({ classes }) => {
 
   const getWallets = useCallback(
     async (currentAddress) => {
-      const availableWallets = await dispatch(fetchAvailableUserWallets());
-      let currentWallet = availableWallets.find(({ address }) => address === currentAddress);
-      const enhancedWallets = availableWallets.map(({ address, type }) => parseWallet(address, type));
-      if (!currentWallet) {
-        currentWallet = parseWallet(currentAddress, walletTypes.METAMASK);
-        enhancedWallets.push(currentWallet);
+      try {
+        const availableWallets = await dispatch(fetchAvailableUserWallets());
+        let currentWallet = availableWallets.find(({ address }) => address === currentAddress);
+        const enhancedWallets = availableWallets.map(({ address, type }) => parseWallet(address, type));
+        if (!currentWallet) {
+          currentWallet = parseWallet(currentAddress, walletTypes.METAMASK);
+          enhancedWallets.push(currentWallet);
+        }
+        setSelectedWallet(parseWallet(currentWallet.address, currentWallet.type));
+        dispatch(userActions.updateWallet(currentWallet));
+        return enhancedWallets;
+      } catch (err) {
+        console.error(err);
       }
-      setSelectedWallet(parseWallet(currentWallet.address, currentWallet.type));
-      dispatch(userActions.updateWallet(currentWallet));
-      return enhancedWallets;
     },
     [dispatch]
   );
@@ -62,11 +67,13 @@ const UserProfileAccount = ({ classes }) => {
 
   const fetchWallets = useCallback(async () => {
     try {
-      const currentAddress = await getWeb3Address();
+      const sdk = await dispatch(getSdk());
+      const currentAddress = await sdk.account.getAddress();
       const wallets = await getWallets(currentAddress);
       setCurrentAddress(currentAddress);
       setWallets(wallets);
     } catch (error) {
+      console.error("error: ", error);
       setCurrentAddress("");
       setWallets([]);
     }
