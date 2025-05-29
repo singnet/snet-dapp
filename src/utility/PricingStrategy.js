@@ -1,18 +1,15 @@
-const priceDataByToken = {
-  FET: {
-    precision: 1000000000000000000,
-    divisibility: 18,
-  },
-  AGIX: {
-    precision: 100000000,
-    divisibility: 8,
-  },
+import { cogsToToken as cogsToTokenSDK } from "snet-sdk-web/utils/tokenUtils";
+
+const TOKEN_DIVISIBILITY = {
+  FET: 18,
+  AGIX: 8,
 };
 
-export const priceData = {
+export const DIVISIBILITY = TOKEN_DIVISIBILITY[process.env.REACT_APP_TOKEN_NAME];
+
+const priceData = {
   fixed_price_model: "fixed_price",
   fixed_price_per_method: "fixed_price_per_method",
-  ...priceDataByToken[process.env.REACT_APP_TOKEN_NAME],
 };
 
 const priceModelNames = {
@@ -106,7 +103,7 @@ class MethodPricing {
   }
 }
 
-export const cogsToAgi = (cogs) => (Number(cogs) / priceData.precision).toFixed(priceData.divisibility);
+export const cogsToToken = (cogs) => cogsToTokenSDK(cogs, [process.env.REACT_APP_TOKEN_NAME]);
 
 export const agiToCogs = (agi) => Math.round(agi * priceData.precision);
 
