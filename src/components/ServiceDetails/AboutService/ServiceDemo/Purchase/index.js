@@ -9,6 +9,7 @@ import { LoaderContent } from "../../../../../utility/constants/LoaderContent";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import "./styles.css";
 import { isUndefined } from "lodash";
+import { localStorageKeys, useLocalStorage } from "../../../../Hooks/useLocalStorage";
 
 const Purchase = ({ handleComplete, handlePurchaseError, isServiceAvailable, setIsLastPaidCall }) => {
   const dispatch = useDispatch();
@@ -16,31 +17,37 @@ const Purchase = ({ handleComplete, handlePurchaseError, isServiceAvailable, set
   const group_id = useSelector((state) => groupInfo(state).group_id);
   const email = useSelector((state) => state.userReducer.email);
 
+  const [freeCallToken, setFreeCallToken] = useLocalStorage(localStorageKeys.FREE_CALL_TOKEN, "");
+
   const [isFreecallLoading, setIsFreecallLoading] = useState(false);
-  const [freeCalls, setFreeCalls] = useState({ freeCallsAllowed: undefined, freeCallsRemaining: undefined });
+  const [freeCalls, setFreeCalls] = useState({ freeCallsTotal: undefined, freeCallsAvailable: undefined });
 
   useEffect(() => {
     const fetchFreeCallsUsage = async () => {
       dispatch(loaderActions.startAppLoader(LoaderContent.FREE_CALLS_GETTING));
       try {
         setIsFreecallLoading(true);
-        const { free_calls_allowed, total_calls_made } = await dispatch(
+        const { free_calls_total, free_calls_available, free_call_token_hex } = await dispatch(
           serviceDetailsActions.fetchMeteringData({
             orgId: org_id,
             serviceId: service_id,
             groupId: group_id,
             username: email,
+            freeCallToken,
           })
         );
+        console.log("freeCallToken: ", freeCallToken, "new: ", free_call_token_hex);
+
+        setFreeCallToken(free_call_token_hex);
         setFreeCalls({
-          freeCallsAllowed: free_calls_allowed,
-          freeCallsRemaining: free_calls_allowed - total_calls_made,
+          freeCallsTotal: free_calls_total,
+          freeCallsAvailable: free_calls_available,
         });
       } catch (error) {
         console.error(error);
         setFreeCalls({
-          freeCallsAllowed: 0,
-          freeCallsRemaining: 0,
+          freeCallsTotal: 0,
+          freeCallsAvailable: 0,
         });
       } finally {
         setIsFreecallLoading(false);
@@ -51,7 +58,7 @@ const Purchase = ({ handleComplete, handlePurchaseError, isServiceAvailable, set
     fetchFreeCallsUsage();
   }, [dispatch, org_id, service_id, group_id, email]);
 
-  if (isFreecallLoading || isUndefined(freeCalls.freeCallsRemaining)) {
+  if (isFreecallLoading || isUndefined(freeCalls.freeCallsAvailable)) {
     return (
       <div className="freecall-loader-container">
         <CircularProgress size="40px" />
@@ -59,7 +66,7 @@ const Purchase = ({ handleComplete, handlePurchaseError, isServiceAvailable, set
     );
   }
 
-  if (freeCalls.freeCallsRemaining < 1) {
+  if (freeCalls.freeCallsAvailable < 1) {
     return (
       <ExpiredSession
         setIsLastPaidCall={setIsLastPaidCall}
@@ -71,8 +78,8 @@ const Purchase = ({ handleComplete, handlePurchaseError, isServiceAvailable, set
   }
   return (
     <ActiveSession
-      freeCallsRemaining={freeCalls.freeCallsRemaining}
-      freeCallsAllowed={freeCalls.freeCallsAllowed}
+      freeCallsAvailable={freeCalls.freeCallsAvailable}
+      freeCallsTotal={freeCalls.freeCallsTotal}
       handleComplete={handleComplete}
       isServiceAvailable={isServiceAvailable}
     />

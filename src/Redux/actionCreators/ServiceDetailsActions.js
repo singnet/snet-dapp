@@ -51,7 +51,10 @@ export const fetchServiceDetails = (orgId, serviceId) => async (dispatch) => {
 const fetchMeteringDataSuccess = (usageData) => (dispatch) => {
   dispatch({
     type: UPDATE_FREE_CALLS_INFO,
-    payload: usageData.total_calls_made,
+    payload: {
+      freeCallsTotal: usageData.free_calls_total,
+      freeCallsAvailable: usageData.free_calls_available,
+    },
   });
 };
 
@@ -75,19 +78,19 @@ export const fetchTrainingModel = (orgId, serviceId) => async (dispatch) => {
   dispatch(fetchTrainingModelSuccess(serviceTrainingData));
 };
 
-const meteringAPI = (token, orgId, serviceId, groupId, userId) => {
-  const apiName = APIEndpoints.USER.name;
+const meteringAPI = (token, orgId, serviceId, groupId, freeCallToken) => {
+  const apiName = APIEndpoints.SIGNER_SERVICE.name;
   const apiPath = APIPaths.FREE_CALL_USAGE;
-  const queryParams = { organization_id: orgId, service_id: serviceId, group_id: groupId, username: userId };
+  const queryParams = { org_id: orgId, service_id: serviceId, group_id: groupId, freecall_token: freeCallToken };
   const apiOptions = initializeAPIOptions(token, null, queryParams);
   return getAPI(apiName, apiPath, apiOptions);
 };
 
 export const fetchMeteringData =
-  ({ orgId, serviceId, groupId }) =>
+  ({ orgId, serviceId, groupId, freeCallToken }) =>
   async (dispatch) => {
     const { email, token } = await dispatch(fetchAuthenticatedUser());
-    const usageData = await meteringAPI(token, orgId, serviceId, groupId, email);
+    const usageData = await meteringAPI(token, orgId, serviceId, groupId, email, freeCallToken);
     dispatch(fetchMeteringDataSuccess(usageData));
     return usageData;
   };

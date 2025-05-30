@@ -13,7 +13,7 @@ import { currentServiceDetails } from "../../../../../../Redux/reducers/ServiceD
 import { isUndefined } from "lodash";
 import { updateMetamaskWallet } from "../../../../../../Redux/actionCreators/UserActions";
 
-const ActiveSession = ({ classes, freeCallsRemaining, handleComplete, freeCallsAllowed, isServiceAvailable }) => {
+const ActiveSession = ({ classes, freeCallsAvailable, handleComplete, freeCallsTotal, isServiceAvailable }) => {
   const dispatch = useDispatch();
   const { detailsTraining } = useSelector((state) => state.serviceDetailsReducer);
   const { org_id, service_id } = useSelector((state) => currentServiceDetails(state));
@@ -21,7 +21,7 @@ const ActiveSession = ({ classes, freeCallsRemaining, handleComplete, freeCallsA
   const isLoggedIn = useSelector((state) => state.userReducer.login.isLoggedIn);
   const [showTooltip, setShowTooltip] = useState(false);
 
-  const progressValue = () => (freeCallsRemaining / freeCallsAllowed) * 100;
+  const progressValue = () => (freeCallsAvailable / freeCallsTotal) * 100;
 
   const handleTooltipOpen = () => {
     if (!isServiceAvailable) {
@@ -46,12 +46,12 @@ const ActiveSession = ({ classes, freeCallsRemaining, handleComplete, freeCallsA
     <div className={classes.activeSessionContainer}>
       <AlertBox
         type="info"
-        message={`You are free to use ${freeCallsRemaining} more API calls to tryout the service.
+        message={`You are free to use ${freeCallsAvailable} more API calls to tryout the service.
 		 Post the limit you have to purchase to continue using the service.`}
       />
       <div className={classes.freeCallsInfo}>
         <span className={classes.FreeApiCallsText}>Free API Calls</span>
-        <span className={classes.ReaminaingCallsNo}>{freeCallsRemaining}</span>
+        <span className={classes.ReaminaingCallsNo}>{freeCallsAvailable}</span>
         <StyledLinearProgress value={progressValue()} />
       </div>
       <Tooltip
