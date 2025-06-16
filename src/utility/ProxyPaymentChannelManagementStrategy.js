@@ -34,7 +34,6 @@ export default class ProxyPaymentChannelManagementStrategy {
 
   async getPaymentMetadata(serviceClient) {
     const channel = await this.selectChannel();
-
     const amount = channel?.state?.currentSignedAmount.toNumber() + serviceClient._pricePerServiceCall.toNumber();
 
     const signature = await this.generateSignature(serviceClient, channel.channelId, channel.state.nonce, amount);
