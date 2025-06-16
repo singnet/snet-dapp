@@ -7,7 +7,7 @@ import PaymentInfoCard from "../../PaymentInfoCard";
 import PurchaseDialog from "../../PurchaseDialog";
 import ChannelSelectionBox from "../../ChannelSelectionBox";
 import AlertBox, { alertTypes } from "../../../../../../common/AlertBox";
-import { cogsToAgi } from "../../../../../../../utility/PricingStrategy";
+import { cogsToToken } from "../../../../../../../utility/PricingStrategy";
 import { pricing as getPricing } from "../../../../../../../Redux/reducers/ServiceDetailsReducer";
 import PaymentChannelManagement from "../../../../../../../utility/PaymentChannelManagement";
 import { loaderActions } from "../../../../../../../Redux/actionCreators";
@@ -51,7 +51,7 @@ const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, isServiceAva
   const [disabledPayTypes, setDisabledPayTypes] = useState([]);
   const [showPurchaseDialog, setShowPurchaseDialog] = useState(false);
   const [noOfServiceCalls, setNoOfServiceCalls] = useState(1);
-  const [totalPrice, setTotalPrice] = useState(cogsToAgi(price_in_cogs));
+  const [totalPrice, setTotalPrice] = useState(cogsToToken(price_in_cogs));
   const [alert, setAlert] = useState({});
   const [showTooltip, setShowTooltip] = useState(false);
   const [channelBalance, setChannelBalance] = useState();
@@ -95,10 +95,10 @@ const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, isServiceAva
       setAlert({});
       dispatch(loaderActions.startAppLoader(LoaderContent.SETUP_CHANNEL_FOR_SERV_EXEC));
       const sdk = await dispatch(getSdk());
-      const serviceClient = await sdk.createServiceClient(org_id, service_id);
+      const serviceClient = await sdk.createServiceClient({ orgId: org_id, serviceId: service_id });
       paymentChannelManagement = new PaymentChannelManagement(sdk, serviceClient);
       const escrowBalance = await sdk.account.escrowBalance();
-      setMpeBalance(cogsToAgi(escrowBalance));
+      setMpeBalance(cogsToToken(escrowBalance));
     } catch (error) {
       console.error("error on initialize Metamask payment channel: ", error);
       setAlert(connectMMinfo);
@@ -126,7 +126,7 @@ const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, isServiceAva
     try {
       await dispatch(updateMetamaskWallet());
       const channelBalance = paymentChannelManagement.availableBalance();
-      const channelBalanceInCogs = cogsToAgi(channelBalance);
+      const channelBalanceInCogs = cogsToToken(channelBalance);
       setChannelBalance(channelBalanceInCogs);
       if (channelBalanceInCogs === totalPrice) {
         setIsLastPaidCall(true);
@@ -191,7 +191,7 @@ const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, isServiceAva
     if (!isValidCallsNumber(noOfServiceCalls)) {
       return;
     }
-    const totalPriceInCogs = cogsToAgi(paymentChannelManagement.noOfCallsToCogs(noOfServiceCalls));
+    const totalPriceInCogs = cogsToToken(paymentChannelManagement.noOfCallsToCogs(noOfServiceCalls));
     setTotalPrice(totalPriceInCogs);
   };
 
@@ -221,7 +221,7 @@ const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, isServiceAva
     }
 
     try {
-      if (mpeBalance < cogsToAgi(paymentChannelManagement.noOfCallsToCogs(noOfServiceCalls))) {
+      if (mpeBalance < cogsToToken(paymentChannelManagement.noOfCallsToCogs(noOfServiceCalls))) {
         setAlert({
           type: alertTypes.ERROR,
           message: `Insufficient MPE balance. Please deposit some ${process.env.REACT_APP_TOKEN_NAME} tokens to your escrow account`,
@@ -293,7 +293,7 @@ const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, isServiceAva
           value={payTypes.SINGLE_CALL}
           onClick={() => handlePayTypeChange(payTypes.SINGLE_CALL)}
           inputProps={{
-            totalPrice: cogsToAgi(price_in_cogs),
+            totalPrice: cogsToToken(price_in_cogs),
             unit: process.env.REACT_APP_TOKEN_NAME,
             noInput: true,
           }}

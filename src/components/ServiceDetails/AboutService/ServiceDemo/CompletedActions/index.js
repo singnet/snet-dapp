@@ -32,7 +32,7 @@ const CompletedActions = ({ isComplete, callType, feedback, orgId, serviceId, re
 
   const getSignedAmountAndChannelId = useCallback(async () => {
     const sdk = await dispatch(getSdk());
-    const serviceClient = await sdk.createServiceClient(orgId, serviceId);
+    const serviceClient = await sdk.createServiceClient({ orgId, serviceId });
     const paymentChannelManagement = new PaymentChannelManagement(sdk, serviceClient);
     await paymentChannelManagement.updateChannelInfo();
     const channel = paymentChannelManagement._channel;

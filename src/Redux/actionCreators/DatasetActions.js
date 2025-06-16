@@ -55,12 +55,12 @@ export const clearRecentDatasets = () => (dispatch) => {
   });
 };
 
-export const getDatasetStatistic = (datasetKey) => async (dispatch) => {
+export const getDatasetStatistic = (datasetKey) => {
   const params = new URLSearchParams([["dataset_key", datasetKey]]);
   return DatasetClient.get(DatasetEndpoints.VALIDATE_AND_ANALIZE, { params });
 };
 
-export const improveDataset = (datasetKey, improveOptionsList) => async (dispatch) => {
+export const improveDataset = (datasetKey, improveOptionsList) => {
   const params = {
     dataset_key: datasetKey,
     improve_options: improveOptionsList.reduce((acc, field) => {
@@ -71,7 +71,7 @@ export const improveDataset = (datasetKey, improveOptionsList) => async (dispatc
   return DatasetClient.post(DatasetEndpoints.IMPROVE, params);
 };
 
-export const mergeDatasets = (mainDataset, mergeDataset) => async (dispatch) => {
+export const mergeDatasets = (mainDataset, mergeDataset) => {
   const params = {
     dataset_key_base: mainDataset,
     dataset_key_additional: mergeDataset,
@@ -85,7 +85,7 @@ export const mergeDatasets = (mainDataset, mergeDataset) => async (dispatch) => 
     });
 };
 
-export const validateMergeDatasets = (mainDataset, mergeDataset) => async (dispatch) => {
+export const validateMergeDatasets = (mainDataset, mergeDataset) => {
   const params = {
     dataset_key_base: mainDataset,
     dataset_key_additional: mergeDataset,

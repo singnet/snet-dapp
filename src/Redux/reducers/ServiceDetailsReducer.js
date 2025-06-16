@@ -5,8 +5,12 @@ import some from "lodash/some";
 import map from "lodash/map";
 
 const InitialServiceDetails = {
+  freeCalls: {
+    freeCallsTotal: "",
+    freeCallsAvailable: "",
+  },
+  freeCallSignature: { signature: "", expirationBlock: "", freeCallToken: "", signerAddress: "" },
   details: {},
-  freeCallsUsed: "",
   detailsTraining: {},
 };
 
@@ -19,29 +23,18 @@ const serviceDetailsReducer = (state = InitialServiceDetails, action) => {
       return { ...state, details: action.payload };
     }
     case serviceDetailsActions.UPDATE_FREE_CALLS_INFO: {
-      return { ...state, freeCallsUsed: action.payload };
+      return { ...state, freeCalls: action.payload };
     }
     case serviceDetailsActions.UPDATE_TRAINING_DETAILS: {
       return { ...state, detailsTraining: action.payload };
+    }
+    case serviceDetailsActions.UPDATE_FREECALL_SIGNATURE: {
+      return { ...state, freeCallSignature: action.payload };
     }
     default: {
       return state;
     }
   }
-};
-
-export const freeCalls = (state) => {
-  const selectedGroup = groupInfo(state);
-  if (!selectedGroup) {
-    return {};
-  }
-  if (selectedGroup.free_calls === 0) {
-    return { allowed: 0, remaining: 0 };
-  }
-  return {
-    allowed: selectedGroup.free_calls,
-    remaining: selectedGroup.free_calls - state.serviceDetailsReducer.freeCallsUsed,
-  };
 };
 
 export const currentServiceDetails = (state) => {

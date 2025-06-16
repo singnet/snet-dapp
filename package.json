@@ -10,6 +10,7 @@
     "@mui/material": "^5.16.6",
     "@mui/styles": "^5.16.6",
     "@onramp.money/onramp-web-sdk": "1.5.7",
+    "@sentry-internal/feedback": "^9.25.1",
     "@sentry/browser": "^8.23.0",
     "@sentry/react": "^9.5.0",
     "aws-amplify": "^6.4.4",
@@ -47,7 +48,7 @@
     "redux-thunk": "^3.1.0",
     "singularitynet-platform-contracts": "2.1.0",
     "slick-carousel": "^1.8.1",
-    "snet-sdk-web": "4.2.2",
+    "snet-sdk-web": "5.0.3",
     "utf8": "^3.0.0",
     "validate.js": "^0.13.1",
     "web3": "^4.11.1"
