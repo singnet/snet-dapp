@@ -36,7 +36,6 @@ function useLocalStorage(key, initialValue) {
 
 const localStorageKeys = {
   SHOW_PHASE2_NOTIFICATION: "SHOW_PHASE2_NOTIFICATION",
-  FREE_CALL_TOKEN: "FREE_CALL_TOKEN",
 };
 
 export { useLocalStorage, localStorageKeys };
