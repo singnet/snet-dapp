@@ -38,7 +38,7 @@ const DataPreset = ({ classes }) => {
       try {
         dispatch(loaderActions.startAppLoader(LoaderContent.GET_DATASET_STATISTIC));
         const datasetKey = dataset?.datasetKey;
-        const { data } = await dispatch(getDatasetStatistic(datasetKey));
+        const { data } = getDatasetStatistic(datasetKey);
         const enrichedDataset = { ...dataset, additionalInfo: data };
         const actualDatasetIndexInRecent = recentDatasets.find((el) => el.datasetKey === datasetKey);
         if (!actualDatasetIndexInRecent) {
@@ -91,7 +91,7 @@ const DataPreset = ({ classes }) => {
   const onMergeDatasets = async () => {
     try {
       dispatch(startAppLoader(LoaderContent.MERGE_DATASETS));
-      const mergedDatasets = await dispatch(validateMergeDatasets(mainDataset?.datasetKey, mergeDataset?.datasetKey));
+      const mergedDatasets = validateMergeDatasets(mainDataset?.datasetKey, mergeDataset?.datasetKey);
       const size = await getDatasetSizeFromS3(mergedDatasets.dataset_key_merged, DatafactoryInstanceS3);
       const mergedDataset = {
         additionalInfo: mergedDatasets,

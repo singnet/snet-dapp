@@ -19,7 +19,7 @@ const ButtonsGroup = ({ classes, selectedParameters, isTableView, toggleTableVie
   const getImprovedDataset = async () => {
     try {
       dispatch(startAppLoader(LoaderContent.IMPROVE_DATASET));
-      const { data } = await dispatch(improveDataset(dataset.datasetKey, Array.from(selectedParameters.keys())));
+      const { data } = improveDataset(dataset.datasetKey, Array.from(selectedParameters.keys()));
       const size = await getDatasetSizeFromS3(data.dataset_key_new, DatafactoryInstanceS3);
       const improvedDataset = {
         additionalInfo: {
