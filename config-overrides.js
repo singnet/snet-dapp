@@ -22,12 +22,12 @@ const options = {
 
 module.exports = function override(config) {
   const modifiedConfig = aliasWebpack(options)(config);
-  const fallback = config.resolve.fallback || {};
+  let fallback = config.resolve.fallback || {};
+  fallback = { ...fallback, fs: false };
   Object.assign(fallback, {
     os: require.resolve("os-browserify"),
     url: require.resolve("url"),
     path: require.resolve("path-browserify"),
-    fs: require.resolve("fs"),
   });
   config.resolve.fallback = fallback;
   config.plugins = (config.plugins || []).concat([
