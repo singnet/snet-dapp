@@ -1,18 +1,25 @@
 import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
-import { getAPI, initializeAPIOptions } from "../../utility/API";
+import { initializeAPIOptions, postAPI } from "../../utility/API";
 import { fetchAuthenticatedUser } from "./UserActions";
 import { loaderActions } from "./";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
 import { isEmpty } from "lodash";
 import { resetCurrentModelDetails, resetModelList } from "./ServiceTrainingActions";
+import { createFreecallStrategy } from "../../utility/sdk";
+import { initializingSdk } from "./SDKActions";
 
 export const UPDATE_SERVICE_DETAILS = "UPDATE_SERVICE_DETAILS";
 export const RESET_SERVICE_DETAILS = "RESET_SERVICE_DETAILS";
 export const UPDATE_FREE_CALLS_INFO = "UPDATE_FREE_CALLS_INFO";
 export const UPDATE_TRAINING_DETAILS = "UPDATE_TRAINING_DETAILS";
+export const UPDATE_FREECALL_SIGNATURE = "UPDATE_FREECALL_SIGNATURE";
 
 const resetServiceDetails = (dispatch) => {
   dispatch({ type: RESET_SERVICE_DETAILS });
+};
+
+const setFreeCallSignature = (freeCallSignature) => (dispatch) => {
+  dispatch({ type: UPDATE_FREECALL_SIGNATURE, payload: freeCallSignature });
 };
 
 const fetchServiceDetailsFailure = (err) => (dispatch) => {
@@ -48,12 +55,12 @@ export const fetchServiceDetails = (orgId, serviceId) => async (dispatch) => {
   }
 };
 
-const fetchMeteringDataSuccess = (usageData) => (dispatch) => {
+const fetchMeteringDataSuccess = (freeCallsAvailable, freeCallsTotal) => (dispatch) => {
   dispatch({
     type: UPDATE_FREE_CALLS_INFO,
     payload: {
-      freeCallsTotal: usageData.free_calls_total,
-      freeCallsAvailable: usageData.free_calls_available,
+      freeCallsTotal: freeCallsAvailable,
+      freeCallsAvailable: freeCallsTotal,
     },
   });
 };
@@ -78,21 +85,75 @@ export const fetchTrainingModel = (orgId, serviceId) => async (dispatch) => {
   dispatch(fetchTrainingModelSuccess(serviceTrainingData));
 };
 
-const meteringAPI = (token, orgId, serviceId, groupId, freeCallToken) => {
-  const apiName = APIEndpoints.SIGNER_SERVICE.name;
-  const apiPath = APIPaths.FREE_CALL_USAGE;
-  const queryParams = { org_id: orgId, service_id: serviceId, group_id: groupId, freecall_token: freeCallToken };
-  const apiOptions = initializeAPIOptions(token, null, queryParams);
-  return getAPI(apiName, apiPath, apiOptions);
+const getAvailableFreeCalls = (orgId, serviceId, groupId) => async (dispatch) => {
+  const {
+    signature,
+    currentBlockNumber,
+    userId,
+    freeCallToken,
+    signerAddress: address,
+  } = await dispatch(getFreeCallSign(orgId, serviceId, groupId));
+
+  try {
+    const freecallStrategy = await createFreecallStrategy(orgId, serviceId);
+    const availableFreeCalls = await freecallStrategy.getFreeCallsAvailable({
+      signature,
+      currentBlockNumber,
+      userId,
+      token: freeCallToken,
+      address,
+    });
+    return availableFreeCalls;
+  } catch (err) {
+    console.error("error on getting available free calls:", err);
+
+    throw new Error(err);
+  }
+};
+
+export const getFreeCallSign = (orgId, serviceId, groupId) => async (dispatch, getState) => {
+  try {
+    const sdk = await dispatch(initializingSdk());
+    const currentBlock = await sdk.account.getCurrentBlockNumber();
+    const { email, token } = await dispatch(fetchAuthenticatedUser());
+    console.log(getState());
+
+    const freeCallSignatureDetails = getState().serviceDetailsReducer.freeCallSignature;
+
+    if (freeCallSignatureDetails.expirationBlock && freeCallSignatureDetails.expirationBlock < currentBlock) {
+      return { ...freeCallSignatureDetails, userId: email };
+    }
+    const payload = {
+      organization_id: orgId,
+      service_id: serviceId,
+      group_id: groupId,
+    };
+    const apiName = APIEndpoints.SIGNER_SERVICE.name;
+    const apiOptions = initializeAPIOptions(token, payload);
+    const { data: freeCallSignerResp } = await postAPI(apiName, APIPaths.SIGNER_FREE_CALL, apiOptions);
+
+    const freeCallSignature = {
+      signature: freeCallSignerResp.signature_hex,
+      expirationBlock: freeCallSignerResp.expiration_block_number,
+      currentBlockNumber: freeCallSignerResp.current_block_number,
+      freeCallToken: freeCallSignerResp.free_call_token_hex,
+      signerAddress: freeCallSignerResp.signer_address,
+      userId: email,
+    };
+    dispatch(setFreeCallSignature(freeCallSignature));
+    return freeCallSignature;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
 };
 
 export const fetchMeteringData =
-  ({ orgId, serviceId, groupId, freeCallToken }) =>
+  ({ orgId, serviceId, groupId, freeCallsTotal }) =>
   async (dispatch) => {
-    const { email, token } = await dispatch(fetchAuthenticatedUser());
-    const usageData = await meteringAPI(token, orgId, serviceId, groupId, email, freeCallToken);
-    dispatch(fetchMeteringDataSuccess(usageData));
-    return usageData;
+    const freeCallsAvailable = await dispatch(getAvailableFreeCalls(orgId, serviceId, groupId));
+    dispatch(fetchMeteringDataSuccess(freeCallsAvailable, freeCallsTotal));
+    return { freeCallsAvailable, freeCallsTotal };
   };
 
 export const getIsTrainingAvailable = (detailsTraining, isLoggedIn) => {
