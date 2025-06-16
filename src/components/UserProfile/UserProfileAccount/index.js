@@ -77,7 +77,7 @@ const UserProfileAccount = ({ classes }) => {
       setCurrentAddress("");
       setWallets([]);
     }
-  }, [getWallets]);
+  }, [getWallets, dispatch]);
 
   useEffect(() => {
     const ethereumProvider = getEthereumProvider();

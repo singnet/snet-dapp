@@ -18,6 +18,8 @@ export const initializingSdk = () => async (dispatch) => {
     dispatch(updateSdkInstance(sdk));
     return sdk;
   } catch (error) {
+    console.error("init sdk", error);
+
     throw new Error(error);
   }
 };

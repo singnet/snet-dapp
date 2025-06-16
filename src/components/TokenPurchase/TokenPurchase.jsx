@@ -4,7 +4,7 @@ import { withStyles } from "@mui/styles";
 import { useStyles } from "./styles";
 import StyledButton from "../common/StyledButton";
 import { useDispatch } from "react-redux";
-import { sdkActions } from "../../Redux/actionCreators";
+import { getSdk } from "../../Redux/actionCreators/SDKActions";
 
 const TokenPurchase = () => {
   const dispatch = useDispatch();
@@ -16,7 +16,7 @@ const TokenPurchase = () => {
       return;
     }
     try {
-      const sdk = await dispatch(sdkActions.getSdk());
+      const sdk = await dispatch(getSdk());
       const address = await sdk.account.getAddress();
       
       const onrampInstance = new OnrampWebSDK({

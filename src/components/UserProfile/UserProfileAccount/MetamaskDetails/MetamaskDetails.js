@@ -4,10 +4,11 @@ import { withStyles } from "@mui/styles";
 import { useStyles } from "./styles";
 
 import { cogsToToken } from "../../../../utility/PricingStrategy";
-import { loaderActions, sdkActions } from "../../../../Redux/actionCreators";
+import { loaderActions } from "../../../../Redux/actionCreators";
 import { LoaderContent } from "../../../../utility/constants/LoaderContent";
 import AlertBox, { alertTypes } from "../../../common/AlertBox";
 import { Networks } from "../../../../config/Networks";
+import { getSdk } from "../../../../Redux/actionCreators/SDKActions";
 
 const MetamaskDetails = ({ classes }) => {
   const wallet = useSelector((state) => state.userReducer.wallet);
@@ -21,7 +22,7 @@ const MetamaskDetails = ({ classes }) => {
   const retrieveAccountDetails = useCallback(async () => {
     try {
       dispatch(loaderActions.startAppLoader(LoaderContent.FETCH_MM_ACC_DETAILS));
-      const sdk = await dispatch(sdkActions.getSdk());
+      const sdk = await dispatch(getSdk());
       const escrowBalance = await sdk.account.escrowBalance();
       const tokenBalance = await sdk.account.balance();
 

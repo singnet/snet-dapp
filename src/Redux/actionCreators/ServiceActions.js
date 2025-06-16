@@ -112,7 +112,7 @@ export const resetFilter =
       .catch(() => dispatch(loaderActions.stopAIServiceListLoader()));
   };
 
-const fetchFeedbackAPI = (email, orgId, serviceId, token) => {
+const fetchFeedbackAPI = (orgId, serviceId, token) => {
   const apiName = APIEndpoints.USER.name;
   const path = `${APIPaths.FEEDBACK}?org_id=${orgId}&service_id=${serviceId}`;
   const apiOptions = initializeAPIOptions(token);
@@ -157,8 +157,8 @@ export const downloadAuthToken = (serviceId, groupId, publicKey, orgId) => async
 
 //Username review
 export const fetchFeedback = (orgId, serviceId) => async (dispatch) => {
-  const { email, token } = await dispatch(userActions.fetchAuthenticatedUser());
-  return fetchFeedbackAPI(email, orgId, serviceId, token);
+  const { token } = await dispatch(userActions.fetchAuthenticatedUser());
+  return fetchFeedbackAPI(orgId, serviceId, token);
 };
 
 const submitFeedbackAPI = (feedbackObj, token) => {
