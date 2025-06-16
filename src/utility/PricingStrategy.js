@@ -44,13 +44,7 @@ export class PricingStrategy {
   }
 
   getMaxPriceInAGI() {
-    return AGIUtils.inAGI(this.pricingModel.getMaxPriceInCogs());
-  }
-}
-
-class AGIUtils {
-  static inAGI(cogs) {
-    return (cogs / priceData.precision).toFixed(priceData.divisibility);
+    return cogsToToken(this.pricingModel.getMaxPriceInCogs());
   }
 }
 
@@ -64,7 +58,7 @@ class FixedPricing {
   }
 
   getPriceInAGI(serviceName, methodName) {
-    return AGIUtils.inAGI(this.price_in_cogs);
+    return cogsToToken(this.priceInCogs);
   }
 
   getMaxPriceInCogs() {
@@ -95,7 +89,7 @@ class MethodPricing {
 
   getPriceInAGI(serviceName, methodName) {
     const priceInCogs = this.getPriceInCogs(serviceName, methodName);
-    return AGIUtils.inAGI(priceInCogs);
+    return priceInCogs(priceInCogs);
   }
 
   getMaxPriceInCogs() {
