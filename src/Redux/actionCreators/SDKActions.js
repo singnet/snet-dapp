@@ -1,5 +1,6 @@
 import { isEmpty } from "lodash";
 import { initSdk } from "../../utility/sdk";
+import PaymentChannelManagement from "../../utility/PaymentChannelManagement";
 
 export const SET_SDK = "SET_SDK";
 export const SET_SERVICE_CLIENT = "SET_SERVICE_CLIENT";
@@ -47,4 +48,14 @@ export const getServiceClient = (organizationId, serviceId) => async (dispatch, 
   }
   serviceClient = await dispatch(initializeServiceClient(organizationId, serviceId));
   return serviceClient;
+};
+
+export const createPaymentChannelManagement = (orgId, serviceId) => async (dispatch) => {
+  try {
+    const sdk = await dispatch(initializingSdk());
+    const metadataProvider = await sdk.createServiceMetadataProvider(orgId, serviceId);
+    return new PaymentChannelManagement(sdk, metadataProvider);
+  } catch (err) {
+    console.error(err);
+  }
 };

@@ -32,7 +32,6 @@ const Purchase = ({ handleComplete, handlePurchaseError, isServiceAvailable, set
             freeCallsTotal: free_calls,
           })
         );
-        console.log(freeCallsTotal, freeCallsAvailable);
 
         setFreeCalls({
           freeCallsTotal,

@@ -7,7 +7,6 @@ import { initializeAPIOptions, postAPI } from "./API";
 import { fetchAuthenticatedUser, walletTypes } from "../Redux/actionCreators/UserActions";
 import PaypalPaymentMgmtStrategy from "./PaypalPaymentMgmtStrategy";
 import { store } from "../";
-import ProxyPaymentChannelManagementStrategy from "./ProxyPaymentChannelManagementStrategy";
 import FreeCallPaymentStrategy from "snet-sdk-web/paymentStrategies/FreeCallPaymentStrategy";
 import { getFreeCallSign } from "../Redux/actionCreators/ServiceDetailsActions";
 
@@ -19,7 +18,6 @@ export const ON_NETWORK_CHANGE = "chainChanged";
 const EXPECTED_ID_ETHEREUM_NETWORK = Number(process.env.REACT_APP_ETH_NETWORK);
 
 let sdk;
-let channel;
 let serviceMetadataProvider;
 
 export const callTypes = {
@@ -112,6 +110,8 @@ const paidCallMetadataGenerator = (serviceRequestErrorHandler) => async (channel
 };
 
 const generateOptions = (callType, wallet, serviceRequestErrorHandler, groupInfo) => {
+  console.log("callType: ", callType);
+
   const defaultOptions = { concurrency: false };
   if (process.env.REACT_APP_SANDBOX) {
     return {
@@ -123,6 +123,8 @@ const generateOptions = (callType, wallet, serviceRequestErrorHandler, groupInfo
   if (callType === callTypes.FREE) {
     return { ...defaultOptions, metadataGenerator: metadataGenerator(serviceRequestErrorHandler, groupInfo.group_id) };
   }
+  console.log("wallet: ", wallet);
+
   if (wallet && wallet.type === walletTypes.METAMASK) {
     return { ...defaultOptions };
   }
@@ -171,10 +173,6 @@ export const initPaypalSdk = (address, channelId) => {
   return sdk;
 };
 
-export const updateChannel = (newChannel) => {
-  channel = newChannel;
-};
-
 export const initSdk = async () => {
   if (sdk && !(sdk instanceof PaypalSDK)) {
     return Promise.resolve(sdk);
@@ -217,14 +215,12 @@ export const createServiceClient = async (
   callType,
   wallet
 ) => {
+  console.log("createServiceClient");
+
   const options = generateOptions(callType, wallet, serviceRequestErrorHandler, groupInfo);
+  console.log("createServiceClient ", options);
   await createMetadataProvider(org_id, service_id, groupInfo.group_name, options);
-  let paymentChannelManagementStrategy = sdk && sdk._paymentChannelManagementStrategy;
-  if (!(paymentChannelManagementStrategy instanceof PaypalPaymentMgmtStrategy)) {
-    paymentChannelManagementStrategy = new ProxyPaymentChannelManagementStrategy(channel);
-  }
   const serviceClient = await sdk.createServiceClient({
-    paymentStrategy: paymentChannelManagementStrategy,
     serviceMetadataProvider,
     options,
   });

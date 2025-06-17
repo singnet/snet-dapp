@@ -1,36 +1,41 @@
 import find from "lodash/find";
 import minBy from "lodash/minBy";
 import isEmpty from "lodash/isEmpty";
-import { updateChannel } from "./sdk";
+import { PaymentChannelProvider } from "snet-sdk-core/mpe";
 
 const ONE_YEAR_BLOCKS = 2102400;
 
 export default class PaymentChannelManagement {
-  constructor(sdkContext, serviceClient) {
+  constructor(sdkContext, metadataProvider) {
     this._sdkContext = sdkContext;
-    this._serviceClient = serviceClient;
+    this._metadataProvider = metadataProvider;
     this._channel = undefined;
+    this.paymentChannelProvider = undefined;
   }
 
   get channel() {
     return this._channel;
   }
 
-  get serviceClient() {
-    return this._serviceClient;
+  get metadataProvider() {
+    return this._metadataProvider;
   }
 
   async updateChannelInfo() {
     try {
-      const channels = await this.serviceClient.loadOpenChannels();
+      console.log(this._sdkContext);
+
+      this.paymentChannelProvider = new PaymentChannelProvider(this._sdkContext._account, this._metadataProvider);
+      console.log(this.paymentChannelProvider);
+      const channels = await this.paymentChannelProvider.loadOpenChannels();
       if (isEmpty(channels)) {
         return;
       }
 
       this._channel = minBy(channels, ({ channelId }) => channelId);
-      updateChannel(this._channel);
       await this._channel.syncState();
     } catch (error) {
+      console.error("update channel: ", error);
       throw new Error(error);
     }
   }
@@ -39,7 +44,7 @@ export default class PaymentChannelManagement {
     const serviceCallPrice = this.noOfCallsToCogs(noOfServiceCalls);
     const defaultExpiration = await this._channelExtensionBlockNumber();
 
-    this._channel = await this.serviceClient.openChannel(serviceCallPrice, defaultExpiration);
+    this._channel = await this.paymentChannelProvider.openChannel(serviceCallPrice, defaultExpiration);
     await this._channel.syncState();
     this._sdkContext.currentChannel = this._channel;
   }
@@ -100,7 +105,7 @@ export default class PaymentChannelManagement {
   }
 
   _pricePerServiceCall() {
-    const { pricing } = this.serviceClient.group;
+    const { pricing } = this._metadataProvider.group;
     const fixedPricing = find(pricing, ({ price_model }) => "fixed_price" === price_model);
 
     return fixedPricing.price_in_cogs;
@@ -112,13 +117,13 @@ export default class PaymentChannelManagement {
     const channelExpiryBlock = this._channel?.state?.expiry ?? 0;
 
     const defaultExpiration =
-      Number(currentBlockNumber) + this.serviceClient.group.payment_expiration_threshold + ONE_YEAR_BLOCKS;
+      Number(currentBlockNumber) + this._metadataProvider.group.payment_expiration_threshold + ONE_YEAR_BLOCKS;
 
     return channelExpiryBlock < defaultExpiration ? defaultExpiration : channelExpiryBlock;
   }
 
   async _defaultChannelExpiration() {
     const currentBlockNumber = await this._sdkContext.web3.eth.getBlockNumber();
-    return currentBlockNumber + this._serviceClient.group.payment_expiration_threshold;
+    return currentBlockNumber + this._metadataProvider.group.payment_expiration_threshold;
   }
 }
