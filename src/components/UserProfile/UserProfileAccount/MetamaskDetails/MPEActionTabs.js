@@ -6,7 +6,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import StyledButton from "../../../common/StyledButton";
 import AlertBox, { alertTypes } from "../../../common/AlertBox";
-import { agiToCogs, txnTypes } from "../../../../utility/PricingStrategy";
+import { tokenToCogs, txnTypes } from "../../../../utility/PricingStrategy";
 import { sdkActions } from "../../../../Redux/actionCreators";
 import { withStyles } from "@mui/styles";
 import { useStyles } from "./styles";
@@ -58,6 +58,8 @@ const MPEActionTabs = ({ classes }) => {
   };
 
   const MPEAction = async (txnType, amountInCogs) => {
+    console.log("amountInCogs", amountInCogs);
+
     const sdk = await dispatch(sdkActions.getSdk());
     return await sdk.account[MPEActions[txnType]](amountInCogs);
   };
@@ -72,7 +74,7 @@ const MPEActionTabs = ({ classes }) => {
     setAlert({});
     try {
       const amountInAGI = amount[txnType];
-      const amountInCogs = agiToCogs(amountInAGI);
+      const amountInCogs = tokenToCogs(amountInAGI);
       await MPEAction(txnType, amountInCogs);
       setAlert({ type: alertTypes.SUCCESS, message: successAlert[txnType] });
     } catch (error) {

@@ -1,4 +1,4 @@
-import { cogsToToken as cogsToTokenSDK } from "snet-sdk-web/utils/tokenUtils";
+import { cogsToToken as cogsToTokenSDK, tokenToCogs as tokenToCogsSDK } from "snet-sdk-web/utils/tokenUtils";
 
 const TOKEN_DIVISIBILITY = {
   FET: 18,
@@ -98,8 +98,7 @@ class MethodPricing {
 }
 
 export const cogsToToken = (cogs) => cogsToTokenSDK(cogs, [process.env.REACT_APP_TOKEN_NAME]);
-
-export const agiToCogs = (agi) => Math.round(agi * priceData.precision);
+export const tokenToCogs = (tokens) => tokenToCogsSDK(tokens, [process.env.REACT_APP_TOKEN_NAME]);
 
 export const agiInDecimal = (agi) => parseFloat(agi).toFixed(priceData.divisibility);
 

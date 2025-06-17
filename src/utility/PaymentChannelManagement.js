@@ -90,7 +90,7 @@ export default class PaymentChannelManagement {
   async isChannelNearToExpiry() {
     const channelExpiry = (await this._channel?.state?.expiry) ?? 0;
     const blockNumber = await this._sdkContext.web3.eth.getBlockNumber();
-    const threshold = this.serviceClient.group.payment_expiration_threshold;
+    const threshold = this._metadataProvider.group.payment_expiration_threshold;
     const difference = Math.abs(Number(channelExpiry - blockNumber));
     return difference <= threshold;
   }
