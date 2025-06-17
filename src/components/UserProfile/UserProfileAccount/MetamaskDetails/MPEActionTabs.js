@@ -58,8 +58,6 @@ const MPEActionTabs = ({ classes }) => {
   };
 
   const MPEAction = async (txnType, amountInCogs) => {
-    console.log("amountInCogs", amountInCogs);
-
     const sdk = await dispatch(sdkActions.getSdk());
     return await sdk.account[MPEActions[txnType]](amountInCogs);
   };
