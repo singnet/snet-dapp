@@ -129,13 +129,6 @@ const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, isServiceAva
   }, [dispatch, noOfServiceCalls, setIsLastPaidCall, mpeBalance, handleContinue]);
 
   const isContinueEnabled = useMemo(() => {
-    console.log(
-      isCallsMoreOrEqualThanMinimum(noOfServiceCalls) &&
-        selectedPayType &&
-        isServiceAvailable &&
-        (Number(mpeBalance) >= Number(totalPrice) || Number(channelBalance) >= Number(totalPrice))
-    );
-
     return (
       isCallsMoreOrEqualThanMinimum(noOfServiceCalls) &&
       selectedPayType &&

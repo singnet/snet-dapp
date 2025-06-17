@@ -150,8 +150,6 @@ export const fetchMeteringData =
   ({ orgId, serviceId, groupId, freeCallsTotal }) =>
   async (dispatch) => {
     const freeCallsAvailable = await dispatch(getAvailableFreeCalls(orgId, serviceId, groupId));
-    console.log("fetchMeteringData freeCallsAvailable: ", freeCallsAvailable);
-
     dispatch(fetchMeteringDataSuccess(freeCallsAvailable, freeCallsTotal));
     return { freeCallsAvailable, freeCallsTotal };
   };
