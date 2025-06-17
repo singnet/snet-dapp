@@ -1,6 +1,6 @@
 export const useStyles = (theme) => ({
   mainContainer: {
-    gap: 30,
+    gap: 24,
     display: "flex",
     flexDirection: "column",
     "& p": {
@@ -40,9 +40,9 @@ export const useStyles = (theme) => ({
   paymentChannelAndDetails: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "space-between",
     flexWrap: "wrap",
-    gap: 30,
+    justifyContent: "center",
+    gap: 24,
     "@media(max-width:767px)": { flexDirection: "column" },
   },
   paymentChannelDropDownContainer: {

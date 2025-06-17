@@ -4,6 +4,9 @@ export const useStyles = (theme) => ({
     display: "flex",
     flexDirection: "column",
     gap: 30,
+    [theme.breakpoints.down("sm")]: {
+      padding: 0,
+    },
   },
   lastPaidCallInfo: {
     margin: 0,
