@@ -6,8 +6,8 @@ import map from "lodash/map";
 
 const InitialServiceDetails = {
   freeCalls: {
-    freeCallsTotal: "",
-    freeCallsAvailable: "",
+    freeCallsTotal: 0,
+    freeCallsAvailable: 0,
   },
   freeCallSignature: { signature: "", expirationBlock: "", freeCallToken: "", signerAddress: "" },
   details: {},

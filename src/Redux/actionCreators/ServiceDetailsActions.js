@@ -59,8 +59,8 @@ const fetchMeteringDataSuccess = (freeCallsAvailable, freeCallsTotal) => (dispat
   dispatch({
     type: UPDATE_FREE_CALLS_INFO,
     payload: {
-      freeCallsTotal: freeCallsAvailable,
-      freeCallsAvailable: freeCallsTotal,
+      freeCallsTotal,
+      freeCallsAvailable,
     },
   });
 };
@@ -116,8 +116,6 @@ export const getFreeCallSign = (orgId, serviceId, groupId) => async (dispatch, g
     const sdk = await dispatch(initializingSdk());
     const currentBlock = await sdk.account.getCurrentBlockNumber();
     const { email, token } = await dispatch(fetchAuthenticatedUser());
-    console.log(getState());
-
     const freeCallSignatureDetails = getState().serviceDetailsReducer.freeCallSignature;
 
     if (freeCallSignatureDetails.expirationBlock && freeCallSignatureDetails.expirationBlock < currentBlock) {
@@ -152,6 +150,8 @@ export const fetchMeteringData =
   ({ orgId, serviceId, groupId, freeCallsTotal }) =>
   async (dispatch) => {
     const freeCallsAvailable = await dispatch(getAvailableFreeCalls(orgId, serviceId, groupId));
+    console.log("fetchMeteringData freeCallsAvailable: ", freeCallsAvailable);
+
     dispatch(fetchMeteringDataSuccess(freeCallsAvailable, freeCallsTotal));
     return { freeCallsAvailable, freeCallsTotal };
   };
