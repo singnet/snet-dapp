@@ -3,9 +3,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import StyledButton from "../../../../common/StyledButton";
 import { useStyles } from "./styles";
 import UserFeedback from "../UserFeedback";
-import PaymentChannelManagement from "../../../../../utility/PaymentChannelManagement";
 import { updateChannelBalanceAPI, walletTypes } from "../../../../../Redux/actionCreators/UserActions";
-import { getSdk } from "../../../../../Redux/actionCreators/SDKActions";
+import { createPaymentChannelManagement } from "../../../../../Redux/actionCreators/SDKActions";
 import { channelInfo as getChannelInfo } from "../../../../../Redux/reducers/UserReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { callTypes } from "../../../../../utility/sdk";
@@ -31,9 +30,7 @@ const CompletedActions = ({ isComplete, callType, feedback, orgId, serviceId, re
   };
 
   const getSignedAmountAndChannelId = useCallback(async () => {
-    const sdk = await dispatch(getSdk());
-    const serviceClient = await sdk.createServiceClient({ orgId, serviceId });
-    const paymentChannelManagement = new PaymentChannelManagement(sdk, serviceClient);
+    const paymentChannelManagement = await dispatch(createPaymentChannelManagement(orgId, serviceId));
     await paymentChannelManagement.updateChannelInfo();
     const channel = paymentChannelManagement._channel;
     // eslint-disable-next-line no-undef
