@@ -46,6 +46,21 @@ const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, isServiceAva
     setTotalPrice(totalPriceInCogs);
   }, [noOfServiceCalls]);
 
+  const handleContinueWithChanelBalance = useCallback(async () => {
+    try {
+      const isChannelNearToExpiry = await paymentChannelManagementRef.current.isChannelNearToExpiry();
+      if (isChannelNearToExpiry) {
+        await paymentChannelManagementRef.current.extendChannel();
+      }
+      handleContinue();
+      return;
+    } catch (e) {
+      setAlert({ type: alertTypes.ERROR, message: e.message });
+    } finally {
+      dispatch(loaderActions.stopAppLoader());
+    }
+  }, [dispatch, handleContinue]);
+
   const getBalanceData = useCallback(async () => {
     setAlert({});
     dispatch(loaderActions.startAppLoader(LoaderContent.SETUP_CHANNEL_FOR_SERV_EXEC));
@@ -66,7 +81,7 @@ const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, isServiceAva
     } finally {
       dispatch(loaderActions.stopAppLoader());
     }
-  }, [dispatch]);
+  }, [dispatch, handleContinueWithChanelBalance, setIsLastPaidCall, totalPrice]);
 
   const updateBalanceData = useCallback(async () => {
     try {
@@ -87,21 +102,6 @@ const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, isServiceAva
       dispatch(loaderActions.stopAppLoader());
     }
   }, [dispatch, getBalanceData, org_id, service_id]);
-
-  const handleContinueWithChanelBalance = async () => {
-    try {
-      const isChannelNearToExpiry = await paymentChannelManagementRef.current.isChannelNearToExpiry();
-      if (isChannelNearToExpiry) {
-        await paymentChannelManagementRef.current.extendChannel();
-      }
-      handleContinue();
-      return;
-    } catch (e) {
-      setAlert({ type: alertTypes.ERROR, message: e.message });
-    } finally {
-      dispatch(loaderActions.stopAppLoader());
-    }
-  };
 
   const handleSubmit = useCallback(async () => {
     dispatch(loaderActions.startAppLoader(LoaderContent.SETUP_CHANNEL_FOR_SERV_EXEC));
