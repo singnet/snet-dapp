@@ -1,13 +1,13 @@
 import SnetSDK from "snet-sdk-web";
 import { FreecallMetadataGenerator, hexStringToBytes } from "snet-sdk-web/utils";
-import MPEContract from "singularitynet-platform-contracts/networks/MultiPartyEscrow";
+import { FreeCallPaymentStrategy, PaidPaymentStrategy } from "snet-sdk-web/paymentStrategies";
 
+import MPEContract from "singularitynet-platform-contracts/networks/MultiPartyEscrow";
 import { APIEndpoints, APIPaths } from "../config/APIEndpoints";
 import { initializeAPIOptions, postAPI } from "./API";
 import { fetchAuthenticatedUser, walletTypes } from "../Redux/actionCreators/UserActions";
 import PaypalPaymentMgmtStrategy from "./PaypalPaymentMgmtStrategy";
 import { store } from "../";
-import FreeCallPaymentStrategy from "snet-sdk-web/paymentStrategies/FreeCallPaymentStrategy";
 import { getFreeCallSign } from "../Redux/actionCreators/ServiceDetailsActions";
 
 const DEFAULT_GAS_PRICE = 4700000;
@@ -215,12 +215,10 @@ export const createServiceClient = async (
   callType,
   wallet
 ) => {
-  console.log("createServiceClient");
-
   const options = generateOptions(callType, wallet, serviceRequestErrorHandler, groupInfo);
-  console.log("createServiceClient ", options);
   await createMetadataProvider(org_id, service_id, groupInfo.group_name, options);
   const serviceClient = await sdk.createServiceClient({
+    paymentStrategy: new PaidPaymentStrategy(sdk.account, serviceMetadataProvider),
     serviceMetadataProvider,
     options,
   });
