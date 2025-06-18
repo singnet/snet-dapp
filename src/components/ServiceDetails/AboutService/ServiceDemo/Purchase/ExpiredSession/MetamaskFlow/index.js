@@ -12,7 +12,6 @@ import { LoaderContent } from "../../../../../../../utility/constants/LoaderCont
 import { useStyles } from "./style";
 import { isUndefined } from "lodash";
 
-import { currentServiceDetails } from "../../../../../../../Redux/reducers/ServiceDetailsReducer";
 import { updateMetamaskWallet } from "../../../../../../../Redux/actionCreators/UserActions";
 import { createPaymentChannelManagement, getSdk } from "../../../../../../../Redux/actionCreators/SDKActions";
 import { payTypes, connectMMinfo, paymentInfoCardDatMpeBal, insufficientMpeError } from "./metadata";
@@ -25,7 +24,7 @@ const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, isServiceAva
   const dispatch = useDispatch();
   const paymentChannelManagementRef = useRef();
   const { price_in_cogs } = useSelector((state) => getPricing(state));
-  const { org_id, service_id } = useSelector((state) => currentServiceDetails(state));
+  const { org_id, service_id } = useSelector((state) => state.serviceDetailsReducer.details);
 
   const servicePriceInToken = useMemo(() => cogsToToken(price_in_cogs), [price_in_cogs]);
   const [mpeBalance, setMpeBalance] = useState("");
@@ -37,7 +36,11 @@ const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, isServiceAva
   const [isStartServiceDisable, setIsStartServiceDisable] = useState(false);
 
   useEffect(() => {
-    dispatch(updateMetamaskWallet());
+    try {
+      dispatch(updateMetamaskWallet());
+    } catch (err) {
+      console.error(err);
+    }
   }, [dispatch]);
 
   useEffect(() => {

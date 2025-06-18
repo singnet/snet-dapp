@@ -27,16 +27,12 @@ const fetchServiceDetailsFailure = (err) => (dispatch) => {
 };
 
 const fetchServiceDetailsSuccess = (serviceDetails) => (dispatch) => {
-  // const enhancedServiceDetails = {
-  //   ...serviceDetails,
-  //   data: { ...serviceDetails.data, media: serviceDetails.data.media.map(el => ({ ...el, url: cacheS3Url(el.url) })) },
-  // };
   dispatch(loaderActions.stopAppLoader());
   dispatch({ type: UPDATE_SERVICE_DETAILS, payload: serviceDetails.data });
 };
 
 const fetchServiceDetailsAPI = async (orgId, serviceId) => {
-  const url = `${APIEndpoints.CONTRACT.endpoint}/org/${orgId}/service/${serviceId}`;
+  const url = APIEndpoints.CONTRACT.endpoint + APIPaths.SERVICE_DETAILS(orgId, serviceId);
   const response = await fetch(url);
   return response.json();
 };

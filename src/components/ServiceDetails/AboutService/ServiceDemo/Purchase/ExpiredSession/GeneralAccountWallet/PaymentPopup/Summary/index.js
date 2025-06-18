@@ -9,7 +9,6 @@ import { useStyles } from "./styles";
 import StyledTable from "../../../../../../../../common/StyledTable";
 import InfoIcon from "@mui/icons-material/Info";
 import { agiInDecimal } from "../../../../../../../../../utility/PricingStrategy";
-import { currentServiceDetails } from "../../../../../../../../../Redux/reducers/ServiceDetailsReducer";
 import { orderTypes } from "../../../../../../../../../utility/constants/PaymentConstants";
 
 const successMessage = {
@@ -19,7 +18,7 @@ const successMessage = {
 };
 
 const Summary = (props) => {
-  const { classes, amount, item, quantity, handlePaymentComplete, serviceDetails, orderType } = props;
+  const { classes, amount, item, quantity, handlePaymentComplete, organizationName, orderType } = props;
 
   const columns = [
     { key: "item", label: "Total $USD spent" },
@@ -40,7 +39,7 @@ const Summary = (props) => {
   return (
     <div className={classes.summaryContainer}>
       <Typography variant="body2" className={classes.successMsg}>
-        {successMessage[orderType]} {serviceDetails.organization_name}
+        {successMessage[orderType]} {organizationName}
       </Typography>
       <StyledTable title="Transaction Receipt" columns={columns} rows={rows} />
       <div className={classes.btnContainer}>
@@ -51,7 +50,7 @@ const Summary = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  serviceDetails: currentServiceDetails(state),
+  organizationName: state.serviceDetailsReducer.details.organization_name,
 });
 
 export default connect(mapStateToProps)(withStyles(useStyles)(Summary));

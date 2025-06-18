@@ -24,16 +24,7 @@ export const resetFilterItem = (dispatch) => {
 };
 
 export const fetchServiceSuccess = (res) => (dispatch) => {
-  dispatch({
-    type: UPDATE_PAGINATION_DETAILS,
-    payload: {
-      total_count: res.data.total_count,
-    },
-  });
-  // const enhancedResult = res.data.result.map(service => ({
-  //   ...service,
-  //   media: { ...service.media, url: service.media.url ? cacheS3Url(service.media.url) : null },
-  // }));
+  dispatch(updatePagination({ total_count: res.data.total_count }));
   dispatch({ type: UPDATE_SERVICE_LIST, payload: res.data.result });
   dispatch(loaderActions.stopAIServiceListLoader());
 };
@@ -59,8 +50,8 @@ const onlyUserOrgsFilter = () => async (dispatch) => {
 export const fetchService =
   (pagination, filters = []) =>
   async (dispatch) => {
+    // env variable is string
     if (process.env.REACT_APP_IS_ALL_SERVICES_AVAILIBLE !== "true") {
-      // env variable is string
       filters = await dispatch(onlyUserOrgsFilter());
     }
     dispatch(loaderActions.startAIServiceListLoader());

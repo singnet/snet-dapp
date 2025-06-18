@@ -9,14 +9,13 @@ import { useStyles } from "./styles";
 import { getIsTrainingAvailable } from "../../../../../../Redux/actionCreators/ServiceDetailsActions";
 import { useDispatch, useSelector } from "react-redux";
 import { getTrainingModels } from "../../../../../../Redux/actionCreators/ServiceTrainingActions";
-import { currentServiceDetails } from "../../../../../../Redux/reducers/ServiceDetailsReducer";
 import { isUndefined } from "lodash";
 import { updateMetamaskWallet } from "../../../../../../Redux/actionCreators/UserActions";
 
 const ActiveSession = ({ classes, freeCallsAvailable, handleComplete, freeCallsTotal, isServiceAvailable }) => {
   const dispatch = useDispatch();
   const { detailsTraining } = useSelector((state) => state.serviceDetailsReducer);
-  const { org_id, service_id } = useSelector((state) => currentServiceDetails(state));
+  const { org_id, service_id } = useSelector((state) => state.serviceDetailsReducer.details);
   const { modelsList } = useSelector((state) => state.serviceTrainingReducer);
   const isLoggedIn = useSelector((state) => state.userReducer.login.isLoggedIn);
   const [showTooltip, setShowTooltip] = useState(false);
@@ -36,8 +35,12 @@ const ActiveSession = ({ classes, freeCallsAvailable, handleComplete, freeCallsT
   const isTrainingAvailable = getIsTrainingAvailable(detailsTraining, isLoggedIn);
 
   const handleRequestModels = async () => {
-    const address = await dispatch(updateMetamaskWallet());
-    await dispatch(getTrainingModels(org_id, service_id, address));
+    try {
+      const address = await dispatch(updateMetamaskWallet());
+      await dispatch(getTrainingModels(org_id, service_id, address));
+    } catch (error) {
+      console.error("handle request model: ", error);
+    }
   };
 
   const isActionsDisabled = !isServiceAvailable;

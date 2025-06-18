@@ -5,7 +5,6 @@ import { useStyles } from "./styles";
 import ModelDetails from "./ModelDetails";
 import { loaderActions, userActions } from "../../../Redux/actionCreators";
 import { LoaderContent } from "../../../utility/constants/LoaderContent";
-import { currentServiceDetails } from "../../../Redux/reducers/ServiceDetailsReducer";
 import AlertBox, { alertTypes } from "../../common/AlertBox";
 import Card from "../../common/Card";
 import { getTrainingModels } from "../../../Redux/actionCreators/ServiceTrainingActions";
@@ -13,7 +12,7 @@ import { isUndefined } from "lodash";
 import StyledButton from "../../common/StyledButton";
 
 const ExistingModel = ({ classes, openEditModel }) => {
-  const { org_id, service_id } = useSelector((state) => currentServiceDetails(state));
+  const { org_id, service_id } = useSelector((state) => state.serviceDetailsReducer.details);
   const { modelsList } = useSelector((state) => state.serviceTrainingReducer);
   const { address } = useSelector((state) => state.userReducer.wallet);
 
