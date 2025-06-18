@@ -9,7 +9,6 @@ import StyledButton from "../../../../common/StyledButton";
 import { loaderActions } from "../../../../../Redux/actionCreators";
 import { createModel, deleteModel } from "../../../../../Redux/actionCreators/ServiceTrainingActions";
 import { LoaderContent } from "../../../../../utility/constants/LoaderContent";
-import { currentServiceDetails } from "../../../../../Redux/reducers/ServiceDetailsReducer";
 import AlertBox, { alertTypes } from "../../../../common/AlertBox";
 
 import { withStyles } from "@mui/styles";
@@ -21,7 +20,7 @@ const ModelInfo = ({ classes, cancelEditModel }) => {
   const dispatch = useDispatch();
   const { detailsTraining } = useSelector((state) => state.serviceDetailsReducer);
   const { currentModel } = useSelector((state) => state.serviceTrainingReducer);
-  const { org_id, service_id } = useSelector((state) => currentServiceDetails(state));
+  const { org_id, service_id } = useSelector((state) => state.serviceDetailsReducer.details);
 
   // const [trainingMethod, setTrainingMethod] = useState(currentModel ? currentModel.methodName : undefined);
   //eslint-disable-next-line

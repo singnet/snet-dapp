@@ -1,6 +1,5 @@
 import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { loaderActions, userActions } from "./";
-import { LoaderContent } from "../../utility/constants/LoaderContent";
 import { getAPI, postAPI, initializeAPIOptions } from "../../utility/API";
 import { generateOrganizationsFilterObject } from "../../utility/constants/Pagination";
 // import { cacheS3Url } from "../../utility/image";
@@ -24,16 +23,7 @@ export const resetFilterItem = (dispatch) => {
 };
 
 export const fetchServiceSuccess = (res) => (dispatch) => {
-  dispatch({
-    type: UPDATE_PAGINATION_DETAILS,
-    payload: {
-      total_count: res.data.total_count,
-    },
-  });
-  // const enhancedResult = res.data.result.map(service => ({
-  //   ...service,
-  //   media: { ...service.media, url: service.media.url ? cacheS3Url(service.media.url) : null },
-  // }));
+  dispatch(updatePagination({ total_count: res.data.total_count }));
   dispatch({ type: UPDATE_SERVICE_LIST, payload: res.data.result });
   dispatch(loaderActions.stopAIServiceListLoader());
 };
@@ -59,8 +49,8 @@ const onlyUserOrgsFilter = () => async (dispatch) => {
 export const fetchService =
   (pagination, filters = []) =>
   async (dispatch) => {
+    // env variable is string
     if (process.env.REACT_APP_IS_ALL_SERVICES_AVAILIBLE !== "true") {
-      // env variable is string
       filters = await dispatch(onlyUserOrgsFilter());
     }
     dispatch(loaderActions.startAIServiceListLoader());
@@ -117,42 +107,6 @@ const fetchFeedbackAPI = (orgId, serviceId, token) => {
   const path = `${APIPaths.FEEDBACK}?org_id=${orgId}&service_id=${serviceId}`;
   const apiOptions = initializeAPIOptions(token);
   return getAPI(apiName, path, apiOptions);
-};
-
-const fetchAuthTokenAPI = async (serviceId, groupId, publicKey, orgId, token) => {
-  const apiName = APIEndpoints.SIGNER_SERVICE.name;
-  const apiPath = APIPaths.FREE_CALL_TOKEN;
-  const queryParams = {
-    service_id: serviceId,
-    group_id: groupId,
-    public_key: publicKey,
-    org_id: orgId,
-  };
-  const apiOptions = initializeAPIOptions(token, null, queryParams);
-  const authTokenRequest = await getAPI(apiName, apiPath, apiOptions);
-  return authTokenRequest;
-};
-
-export const downloadAuthToken = (serviceId, groupId, publicKey, orgId) => async (dispatch) => {
-  try {
-    dispatch(loaderActions.startAppLoader(LoaderContent.GENERATE_AUTH_TOKEN));
-    const { token, email } = await dispatch(userActions.fetchAuthenticatedUser());
-
-    const { data } = await fetchAuthTokenAPI(serviceId, groupId, publicKey, orgId, token);
-
-    const jsonToDownload = {
-      email,
-      tokenToMakeFreeCall: data.token_to_make_free_call,
-      tokenExpirationBlock: data.token_expiration_block,
-    };
-    const downloadBlob = new Blob([JSON.stringify(jsonToDownload)], { type: "text/json;charset=utf-8" });
-    const downloadURL = window.URL.createObjectURL(downloadBlob);
-    dispatch(loaderActions.stopAppLoader());
-    return downloadURL;
-  } catch (e) {
-    dispatch(loaderActions.stopAppLoader());
-    throw e;
-  }
 };
 
 //Username review
