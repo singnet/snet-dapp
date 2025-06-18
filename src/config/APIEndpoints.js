@@ -40,7 +40,6 @@ export const APIPaths = {
   GET_SERVICE_LIST: "/service",
   FILTER_DATA: "/service?attribute=",
   SERVICE_DETAILS: (orgId, serviceId) => `/org/${orgId}/service/${serviceId}`,
-  GET_CAROUSEL: "/uicontent/marketplacecarousel",
   UPDATE_CHANNEL_BALANCE: (channelId) => `/channel/${channelId}/balance`,
   LINKED_PROVIDERS: "/v2/channel",
   SIGNER_FREE_CALL: "/freecall",
