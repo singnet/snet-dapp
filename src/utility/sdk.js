@@ -56,7 +56,11 @@ const parseFreeCallMetadata = (data) => {
 };
 
 export const createFreecallStrategy = async (org_id, service_id, group_name, options) => {
-  if (!serviceMetadataProvider) {
+  if (
+    !serviceMetadataProvider ||
+    serviceMetadataProvider.serviceMetadata.orgId !== org_id ||
+    serviceMetadataProvider.serviceMetadata.serviceId !== service_id
+  ) {
     await createMetadataProvider(org_id, service_id, group_name, options);
   }
 

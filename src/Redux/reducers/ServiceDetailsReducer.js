@@ -39,6 +39,19 @@ const serviceDetailsReducer = (state = InitialServiceDetails, action) => {
 
 const enhanceGroup = (group) => ({ ...group, endpoints: map(group.endpoints, ({ endpoint }) => endpoint) });
 
+export const currentServiceDetails = (state) => {
+  return state.serviceDetailsReducer.details;
+};
+
+export const serviceDetails = (state, orgId, serviceId) => {
+  const { org_id, service_id } = currentServiceDetails(state);
+  if (org_id !== orgId || service_id !== serviceId) {
+    return undefined;
+  }
+
+  return currentServiceDetails(state);
+};
+
 export const groupInfo = (state) => {
   const serviceGroups = state.serviceDetailsReducer.details.groups;
   const availableGroup = find(serviceGroups, ({ endpoints }) =>
