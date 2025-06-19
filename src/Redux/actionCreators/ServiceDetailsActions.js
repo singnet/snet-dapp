@@ -28,7 +28,7 @@ const fetchServiceDetailsFailure = (err) => (dispatch) => {
 
 const fetchServiceDetailsSuccess = (serviceDetails) => (dispatch) => {
   dispatch(loaderActions.stopAppLoader());
-  dispatch({ type: UPDATE_SERVICE_DETAILS, payload: serviceDetails.data });
+  dispatch({ type: UPDATE_SERVICE_DETAILS, payload: serviceDetails });
 };
 
 const fetchServiceDetailsAPI = async (orgId, serviceId) => {
@@ -43,7 +43,7 @@ export const fetchServiceDetails = (orgId, serviceId) => async (dispatch) => {
     dispatch(resetServiceDetails);
     dispatch(resetCurrentModelDetails());
     dispatch(resetModelList());
-    const serviceDetails = await fetchServiceDetailsAPI(orgId, serviceId);
+    const { data: serviceDetails } = await fetchServiceDetailsAPI(orgId, serviceId);
     dispatch(fetchServiceDetailsSuccess(serviceDetails));
   } catch (error) {
     dispatch(fetchServiceDetailsFailure(error));

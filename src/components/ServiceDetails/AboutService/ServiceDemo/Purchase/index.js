@@ -2,18 +2,22 @@ import React, { useEffect, useState } from "react";
 
 import ActiveSession from "./ActiveSession";
 import ExpiredSession from "./ExpiredSession";
-import { groupInfo } from "../../../../../Redux/reducers/ServiceDetailsReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { loaderActions, serviceDetailsActions } from "../../../../../Redux/actionCreators";
 import { LoaderContent } from "../../../../../utility/constants/LoaderContent";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import "./styles.css";
-import { isUndefined } from "lodash";
+import { isUndefined, some } from "lodash";
+import { useParams } from "react-router-dom";
 
 const Purchase = ({ handleComplete, handlePurchaseError, isServiceAvailable, setIsLastPaidCall }) => {
   const dispatch = useDispatch();
-  const { org_id, service_id } = useSelector((state) => state.serviceDetailsReducer.details);
-  const { free_calls, group_id } = useSelector((state) => groupInfo(state));
+  const { orgId, serviceId } = useParams();
+  const { free_calls, group_id } = useSelector((state) =>
+    state.serviceDetailsReducer.details.groups.find(({ endpoints }) =>
+      some(endpoints, (endpoint) => endpoint.is_available === 1)
+    )
+  );
   const email = useSelector((state) => state.userReducer.email);
 
   const [isFreecallLoading, setIsFreecallLoading] = useState(false);
@@ -26,8 +30,8 @@ const Purchase = ({ handleComplete, handlePurchaseError, isServiceAvailable, set
         setIsFreecallLoading(true);
         const { freeCallsAvailable, freeCallsTotal } = await dispatch(
           serviceDetailsActions.fetchMeteringData({
-            orgId: org_id,
-            serviceId: service_id,
+            orgId,
+            serviceId,
             groupId: group_id,
             freeCallsTotal: free_calls,
           })
@@ -50,7 +54,7 @@ const Purchase = ({ handleComplete, handlePurchaseError, isServiceAvailable, set
     };
 
     fetchFreeCallsUsage();
-  }, [dispatch, org_id, service_id, group_id, email, free_calls]);
+  }, [dispatch, orgId, serviceId, group_id, email, free_calls]);
 
   if (isFreecallLoading || isUndefined(freeCalls.freeCallsAvailable)) {
     return (

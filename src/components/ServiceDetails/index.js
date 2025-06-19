@@ -21,6 +21,7 @@ import {
   fetchServiceDetails,
   getIsTrainingAvailable,
 } from "../../Redux/actionCreators/ServiceDetailsActions";
+import { serviceDetails as getServiceDetails } from "../../Redux/reducers/ServiceDetailsReducer";
 
 import ErrorBox from "../common/ErrorBox";
 import SeoMetadata from "../common/SeoMetadata";
@@ -45,7 +46,7 @@ const ServiceDetails = ({ classes }) => {
 
   const isLoggedIn = useSelector((state) => state.userReducer.login.isLoggedIn);
   const detailsTraining = useSelector((state) => state.serviceDetailsReducer.detailsTraining);
-  const service = useSelector((state) => state.serviceDetailsReducer.details);
+  const service = useSelector((state) => getServiceDetails(state, orgId, serviceId));
   const loading = useSelector((state) => state.loaderReducer.app.loading);
 
   const [activeTab, setActiveTab] = useState(tabId ? tabId : 0);
