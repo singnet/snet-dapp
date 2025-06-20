@@ -8,7 +8,7 @@ import SingularityLogo from "../../../assets/images/avatar.png";
 import { useStyles } from "./styles";
 import Contacts from "./Contacts";
 
-const CreatorDetails = ({ classes, organizationName, orgImg, contacts }) => {
+const CreatorDetails = ({ classes, organizationName, orgImg }) => {
   const [showContacts, setShowContacts] = useState(false);
 
   return (
@@ -25,7 +25,7 @@ const CreatorDetails = ({ classes, organizationName, orgImg, contacts }) => {
           <ChatBubbleOutlineIcon fontSize="small" /> Contact
         </span>
       </div>
-      <Contacts contacts={contacts} show={showContacts} handleClose={() => setShowContacts(false)} />
+      <Contacts show={showContacts} handleClose={() => setShowContacts(false)} />
     </div>
   );
 };
@@ -33,13 +33,6 @@ const CreatorDetails = ({ classes, organizationName, orgImg, contacts }) => {
 CreatorDetails.propTypes = {
   orgImg: PropTypes.string,
   organizationName: PropTypes.string,
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      phone: PropTypes.string,
-      email_id: PropTypes.string,
-      contact_type: PropTypes.string,
-    })
-  ),
 };
 
 export default withStyles(useStyles)(CreatorDetails);

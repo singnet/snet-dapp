@@ -6,7 +6,6 @@ import StyledButton from "../../../../../../common/StyledButton";
 import PaymentInfoCard from "../../PaymentInfoCard";
 import AlertBox, { alertTypes } from "../../../../../../common/AlertBox";
 import { cogsToToken } from "../../../../../../../utility/PricingStrategy";
-import { pricing as getPricing } from "../../../../../../../Redux/reducers/ServiceDetailsReducer";
 import { loaderActions } from "../../../../../../../Redux/actionCreators";
 import { LoaderContent } from "../../../../../../../utility/constants/LoaderContent";
 import { useStyles } from "./style";
@@ -23,9 +22,8 @@ import PaymentOptions from "./PaymentOptions";
 const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, isServiceAvailable }) => {
   const dispatch = useDispatch();
   const paymentChannelManagementRef = useRef();
-  const { price_in_cogs } = useSelector((state) => getPricing(state));
-  const { org_id, service_id } = useSelector((state) => state.serviceDetailsReducer.details);
-
+  const { org_id, service_id, pricing } = useSelector((state) => state.serviceDetailsReducer.details);
+  const { price_in_cogs } = pricing;
   const servicePriceInToken = useMemo(() => cogsToToken(price_in_cogs), [price_in_cogs]);
   const [mpeBalance, setMpeBalance] = useState("");
   const [selectedPayType, setSelectedPayType] = useState(payTypes.CHANNEL_BALANCE);

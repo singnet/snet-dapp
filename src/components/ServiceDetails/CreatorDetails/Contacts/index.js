@@ -1,6 +1,5 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
-import isEmpty from "lodash/isEmpty";
 import Modal from "@mui/material/Modal";
 import Card from "@mui/material/Card";
 import { withStyles } from "@mui/styles";
@@ -13,18 +12,10 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import { useStyles } from "./styles";
 import AlertBox from "../../../common/AlertBox";
+import { useSelector } from "react-redux";
 
-const ContactTypes = {
-  SUPPORT: "support",
-};
-
-const Contacts = ({ contacts, show, handleClose, classes }) => {
-  if (isEmpty(contacts)) {
-    return null;
-  }
-  const supportContact = contacts.find((el) =>
-    el.contact_type ? el.contact_type.toLowerCase().trim() === ContactTypes.SUPPORT : null
-  );
+const Contacts = ({ show, handleClose, classes }) => {
+  const supportContact = useSelector((state) => state.serviceDetailsReducer.details.contacts);
 
   if (!supportContact) {
     return (
@@ -84,13 +75,6 @@ const Contacts = ({ contacts, show, handleClose, classes }) => {
 Contacts.propTypes = {
   show: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      phone: PropTypes.string,
-      email_id: PropTypes.string,
-      contact_type: PropTypes.string,
-    })
-  ),
   classes: PropTypes.object.isRequired,
 };
 

@@ -16,12 +16,7 @@ import AboutService from "./AboutService";
 import InstallAndRunService from "./InstallAndRunService";
 import NotificationBar, { notificationBarTypes } from "../common/NotificationBar";
 
-import {
-  fetchTrainingModel,
-  fetchServiceDetails,
-  getIsTrainingAvailable,
-} from "../../Redux/actionCreators/ServiceDetailsActions";
-import { serviceDetails as getServiceDetails } from "../../Redux/reducers/ServiceDetailsReducer";
+import { fetchServiceDetails, getIsTrainingAvailable } from "../../Redux/actionCreators/ServiceDetailsActions";
 
 import ErrorBox from "../common/ErrorBox";
 import SeoMetadata from "../common/SeoMetadata";
@@ -46,7 +41,7 @@ const ServiceDetails = ({ classes }) => {
 
   const isLoggedIn = useSelector((state) => state.userReducer.login.isLoggedIn);
   const detailsTraining = useSelector((state) => state.serviceDetailsReducer.detailsTraining);
-  const service = useSelector((state) => getServiceDetails(state, orgId, serviceId));
+  const service = useSelector((state) => state.serviceDetailsReducer.details);
   const loading = useSelector((state) => state.loaderReducer.app.loading);
 
   const [activeTab, setActiveTab] = useState(tabId ? tabId : 0);
@@ -59,11 +54,16 @@ const ServiceDetails = ({ classes }) => {
     if (process.env.REACT_APP_SANDBOX) {
       return;
     }
-    if (isEmpty(service) || !service) {
-      dispatch(fetchServiceDetails(orgId, serviceId));
-    }
-    dispatch(fetchTrainingModel(orgId, serviceId));
-  }, [dispatch, orgId, serviceId, service]);
+    const updateServiceDetails = async () => {
+      console.log("updateServiceDetails");
+      const { org_id, service_id } = service;
+      if (!serviceId || org_id !== orgId || service_id !== serviceId) {
+        await dispatch(fetchServiceDetails(orgId, serviceId));
+      }
+    };
+
+    updateServiceDetails();
+  }, [dispatch, orgId, serviceId]);
 
   const handleTabChange = (activeTab) => {
     if (window.location.href.indexOf("#demo") > -1) {

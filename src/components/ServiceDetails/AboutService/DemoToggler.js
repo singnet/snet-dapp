@@ -19,12 +19,11 @@ const DemoToggler = ({
   demoComponentRequired,
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const providerSupport = service.contacts.find((contact) => contact.contact_type === "support");
 
   const sendFeedback = (messageBody) => {
     sendFeedbackProviderAPI({
       ...messageBody,
-      providerEmail: providerSupport.email,
+      providerEmail: service.contacts.email,
       serviceId: service.service_id,
     });
   };
