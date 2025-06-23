@@ -1,7 +1,7 @@
 import find from "lodash/find";
 import minBy from "lodash/minBy";
 import isEmpty from "lodash/isEmpty";
-import { PaymentChannelProvider } from "snet-sdk-core/mpe";
+import { PaymentChannelProvider } from "snet-sdk-web/mpe";
 
 const ONE_YEAR_BLOCKS = 2102400;
 
