@@ -15,7 +15,7 @@ import { useDispatch } from "react-redux";
 import { resetCurrentModelDetails } from "../../../Redux/actionCreators/ServiceTrainingActions";
 import { useLocation } from "react-router-dom";
 
-const TrainingModels = ({ classes, service }) => {
+const TrainingModels = ({ classes }) => {
   const { state } = useLocation();
 
   const [showCreateModel, setShowCreateModel] = useState(
@@ -66,7 +66,7 @@ const TrainingModels = ({ classes, service }) => {
     <Grid container spacing={3} className={classes.trainingModelContainer}>
       <Grid item xs={12} sm={12} md={8} lg={8} className={classes.leftSideSection}>
         {showCreateModel ? (
-          <CreateModel service={service} cancelEditModel={cancelEditModel} />
+          <CreateModel cancelEditModel={cancelEditModel} />
         ) : (
           <Fragment>
             <RequestNewModelCard />
@@ -75,12 +75,7 @@ const TrainingModels = ({ classes, service }) => {
         )}
       </Grid>
       <Grid item xs={12} sm={12} md={4} lg={4} className={classes.rightSideSection}>
-        <ProjectDetails
-          projectURL={service.url}
-          contributors={service.contributors}
-          orgId={service.org_id}
-          serviceId={service.service_id}
-        />
+        <ProjectDetails />
       </Grid>
     </Grid>
   );

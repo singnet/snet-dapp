@@ -55,7 +55,6 @@ const ServiceDetails = ({ classes }) => {
       return;
     }
     const updateServiceDetails = async () => {
-      console.log("updateServiceDetails");
       const { org_id, service_id } = service;
       if (!serviceId || org_id !== orgId || service_id !== serviceId) {
         await dispatch(fetchServiceDetails(orgId, serviceId));
@@ -63,7 +62,7 @@ const ServiceDetails = ({ classes }) => {
     };
 
     updateServiceDetails();
-  }, [dispatch, orgId, serviceId]);
+  }, [dispatch, orgId, serviceId, service]);
 
   const handleTabChange = (activeTab) => {
     if (window.location.href.indexOf("#demo") > -1) {
@@ -100,21 +99,13 @@ const ServiceDetails = ({ classes }) => {
       name: "About",
       activeIndex: 0,
       tabId: "serviceDemo",
-      component: (
-        <AboutService
-          service={service}
-          serviceAvailable={service.is_available}
-          // scrollToView={scrollToView}
-          demoComponentRequired={!!service.demo_component_required}
-          isTrainingAvailable={isTrainingAvailable}
-        />
-      ),
+      component: <AboutService isTrainingAvailable={isTrainingAvailable} />,
     },
     {
       name: "Install and Run",
       tabId: "serviceGuides",
       activeIndex: 1,
-      component: <InstallAndRunService service={service} />, //TODO remove service attribute
+      component: <InstallAndRunService />,
     },
   ];
 
@@ -132,7 +123,7 @@ const ServiceDetails = ({ classes }) => {
       name: "Models",
       tabId: "serviceTraining",
       activeIndex: 3,
-      component: <TrainingModels service={service} />,
+      component: <TrainingModels />,
     });
   }
 
