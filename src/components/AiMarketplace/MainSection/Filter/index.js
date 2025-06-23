@@ -21,6 +21,7 @@ const Filter = ({ listView, total_count, handleSearchChange, toggleView, current
 
   useEffect(() => {
     return () => dispatch(serviceActions.resetFilter({ pagination }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   const handleSearch = (event) => {

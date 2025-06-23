@@ -229,7 +229,7 @@ export const publishFilesToS3 = async (fileBlob, name, S3Instance, folder, email
   }
 };
 
-export const getDatasetSizeFromS3 = async (fileKey, S3instance) => {
+export const getDatasetSizeFromS3 = (fileKey, S3instance) => {
   return S3instance.get(filesToS3Endpoints.DOWNLOAD, { params: { key: fileKey, action: "getsize" } })
     .then((response) => {
       return response.data.fileSize;

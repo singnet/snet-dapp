@@ -31,7 +31,7 @@ export const useStyles = (theme) => ({
     display: "flex",
     justifyContent: "space-between",
     flexWrap: "wrap",
-    gap: 25,
+    gap: 24,
     "@media(max-width:650px)": { justifyContent: "center" },
   },
   paymentChannelDropDownContainer: { display: "flex" },
@@ -67,9 +67,10 @@ export const useStyles = (theme) => ({
   buttonContainer: {
     textAlign: "center",
     display: "flex",
-    justifyContent: "space-evenly",
-    "& div": {
-      display: "inline-block",
+    justifyContent: "center",
+    gap: 24,
+    [theme.breakpoints.down("sm")]: {
+      flexDirection: "column",
     },
   },
   tooltip: { fontSize: 14 },

@@ -21,10 +21,7 @@ import {
   fetchServiceDetails,
   getIsTrainingAvailable,
 } from "../../Redux/actionCreators/ServiceDetailsActions";
-import {
-  serviceDetails as getServiceDetails,
-  groupInfo as getGroupInfo,
-} from "../../Redux/reducers/ServiceDetailsReducer";
+import { serviceDetails as getServiceDetails } from "../../Redux/reducers/ServiceDetailsReducer";
 
 import ErrorBox from "../common/ErrorBox";
 import SeoMetadata from "../common/SeoMetadata";
@@ -50,7 +47,6 @@ const ServiceDetails = ({ classes }) => {
   const isLoggedIn = useSelector((state) => state.userReducer.login.isLoggedIn);
   const detailsTraining = useSelector((state) => state.serviceDetailsReducer.detailsTraining);
   const service = useSelector((state) => getServiceDetails(state, orgId, serviceId));
-  const groupInfo = useSelector((state) => getGroupInfo(state));
   const loading = useSelector((state) => state.loaderReducer.app.loading);
 
   const [activeTab, setActiveTab] = useState(tabId ? tabId : 0);
@@ -82,7 +78,6 @@ const ServiceDetails = ({ classes }) => {
   };
 
   if (isEmpty(service)) {
-    // || !isEmpty(alert)) {
     if (loading) {
       return null;
     }
@@ -119,7 +114,7 @@ const ServiceDetails = ({ classes }) => {
       name: "Install and Run",
       tabId: "serviceGuides",
       activeIndex: 1,
-      component: <InstallAndRunService service={service} groupId={groupInfo.group_id} />,
+      component: <InstallAndRunService service={service} />, //TODO remove service attribute
     },
   ];
 
