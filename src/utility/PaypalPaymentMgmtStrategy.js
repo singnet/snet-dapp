@@ -18,7 +18,7 @@ export default class PaypalPaymentChannelMgmtStrategy {
       this._channelId,
       this._sdk.web3,
       this._sdk.account,
-      serviceClient,
+      serviceClient.metadataProvider,
       this._sdk._mpeContract
     );
   }

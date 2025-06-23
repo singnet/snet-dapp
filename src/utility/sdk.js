@@ -1,15 +1,14 @@
-import SnetSDK, { WebServiceClient as ServiceClient } from "snet-sdk-web";
-import MPEContract from "singularitynet-platform-contracts/networks/MultiPartyEscrow";
+import SnetSDK from "snet-sdk-web";
+import { FreecallMetadataGenerator, hexStringToBytes } from "snet-sdk-web/utils";
+import { FreeCallPaymentStrategy, PaidPaymentStrategy } from "snet-sdk-web/paymentStrategies";
 
+import MPEContract from "singularitynet-platform-contracts/networks/MultiPartyEscrow";
 import { APIEndpoints, APIPaths } from "../config/APIEndpoints";
 import { initializeAPIOptions, postAPI } from "./API";
 import { fetchAuthenticatedUser, walletTypes } from "../Redux/actionCreators/UserActions";
 import PaypalPaymentMgmtStrategy from "./PaypalPaymentMgmtStrategy";
 import { store } from "../";
-import ProxyPaymentChannelManagementStrategy from "./ProxyPaymentChannelManagementStrategy";
-import { isEmpty, isUndefined } from "lodash";
-import Web3 from "web3";
-import { ethereumMethods } from "./snetSdk";
+import { getFreeCallSign } from "../Redux/actionCreators/ServiceDetailsActions";
 
 const DEFAULT_GAS_PRICE = 4700000;
 const DEFAULT_GAS_LIMIT = 210000;
@@ -19,8 +18,7 @@ export const ON_NETWORK_CHANGE = "chainChanged";
 const EXPECTED_ID_ETHEREUM_NETWORK = Number(process.env.REACT_APP_ETH_NETWORK);
 
 let sdk;
-let channel;
-let web3Provider;
+let serviceMetadataProvider;
 
 export const callTypes = {
   FREE: "FREE",
@@ -44,28 +42,39 @@ const parseRegularCallMetadata = ({ data }) => ({
       .address,
 });
 
-const parseFreeCallMetadata = ({ data }) => ({
-  "snet-payment-type": data["snet-payment-type"],
-  "snet-free-call-user-id": data["snet-free-call-user-id"],
-  "snet-current-block-number": `${data["snet-current-block-number"]}`,
-  "snet-payment-channel-signature-bin": parseSignature(data["snet-payment-channel-signature-bin"]),
-  "snet-free-call-auth-token-bin": parseSignature(data["snet-free-call-auth-token-bin"]),
-  "snet-free-call-token-expiry-block": `${data["snet-free-call-token-expiry-block"]}`,
-  "snet-payment-mpe-address":
-    MPEContract[process.env.REACT_APP_ETH_NETWORK][process.env.REACT_APP_TOKEN_NAME][process.env.REACT_APP_STAND]
-      .address,
-});
+const parseFreeCallMetadata = (data) => {
+  const MetadataGenerator = new FreecallMetadataGenerator();
+  const metadataFields = {
+    type: "free-call",
+    userAddress: data.signerAddress,
+    currentBlockNumber: data.currentBlockNumber,
+    freecallAuthToken: hexStringToBytes(data.freeCallToken),
+    signatureBytes: hexStringToBytes(data.signature),
+    userId: data.userId,
+  };
+  return MetadataGenerator.generateMetadata(metadataFields);
+};
 
-const metadataGenerator = (serviceRequestErrorHandler, groupId) => async (serviceClient, serviceName, method) => {
+export const createFreecallStrategy = async (org_id, service_id, group_name, options) => {
+  if (
+    !serviceMetadataProvider ||
+    serviceMetadataProvider.serviceMetadata.orgId !== org_id ||
+    serviceMetadataProvider.serviceMetadata.serviceId !== service_id
+  ) {
+    await createMetadataProvider(org_id, service_id, group_name, options);
+  }
+
+  const paymentStrategy = new FreeCallPaymentStrategy(sdk.account, serviceMetadataProvider);
+  return paymentStrategy;
+};
+
+const metadataGenerator = (serviceRequestErrorHandler, groupId) => async (serviceClient) => {
   try {
-    const { orgId: org_id, serviceId: service_id } = serviceClient.metadata;
-    const { email, token } = await store.dispatch(fetchAuthenticatedUser());
-    const payload = { org_id, service_id, service_name: serviceName, method, username: email, group_id: groupId };
-    const apiName = APIEndpoints.SIGNER_SERVICE.name;
-    const apiOptions = initializeAPIOptions(token, payload);
-    const meta = await postAPI(apiName, APIPaths.SIGNER_FREE_CALL, apiOptions);
+    const { orgId, serviceId } = serviceClient.metadataProvider.serviceMetadata;
+    const meta = await store.dispatch(getFreeCallSign(orgId, serviceId, groupId));
     return parseFreeCallMetadata(meta);
   } catch (err) {
+    console.error("error on generating metadata: ", err);
     serviceRequestErrorHandler(err);
   }
 };
@@ -105,6 +114,8 @@ const paidCallMetadataGenerator = (serviceRequestErrorHandler) => async (channel
 };
 
 const generateOptions = (callType, wallet, serviceRequestErrorHandler, groupInfo) => {
+  console.log("callType: ", callType);
+
   const defaultOptions = { concurrency: false };
   if (process.env.REACT_APP_SANDBOX) {
     return {
@@ -116,6 +127,8 @@ const generateOptions = (callType, wallet, serviceRequestErrorHandler, groupInfo
   if (callType === callTypes.FREE) {
     return { ...defaultOptions, metadataGenerator: metadataGenerator(serviceRequestErrorHandler, groupInfo.group_id) };
   }
+  console.log("wallet: ", wallet);
+
   if (wallet && wallet.type === walletTypes.METAMASK) {
     return { ...defaultOptions };
   }
@@ -164,80 +177,13 @@ export const initPaypalSdk = (address, channelId) => {
   return sdk;
 };
 
-export const updateChannel = (newChannel) => {
-  channel = newChannel;
-};
-
-const defineWeb3Provider = () => {
-  if (isUndefined(window.ethereum)) {
-    throw new Error("Metamask is not found");
-  }
-  const web3 = new Web3(window.ethereum);
-  web3Provider = web3.eth;
-};
-
-const detectEthereumNetwork = async () => {
-  const chainIdHex = await web3Provider.getChainId();
-  const networkId = parseInt(chainIdHex);
-  return networkId;
-};
-
-const isUserAtExpectedEthereumNetwork = async () => {
-  const currentNetworkId = await detectEthereumNetwork();
-  return Number(currentNetworkId) === Number(EXPECTED_ID_ETHEREUM_NETWORK);
-};
-
-const switchNetwork = async () => {
-  const hexifiedChainId = "0x" + EXPECTED_ID_ETHEREUM_NETWORK.toString(16);
-  await window.ethereum.request({
-    method: "wallet_switchEthereumChain",
-    params: [{ chainId: hexifiedChainId }],
-  });
-};
-
-const clearSdk = () => {
-  sdk = undefined;
-};
-
-const addListenersForWeb3 = () => {
-  window.ethereum.addListener(ON_ACCOUNT_CHANGE, async (accounts) => {
-    await getWeb3Address();
-    clearSdk();
-    const event = new CustomEvent("snetMMAccountChanged", { bubbles: true, details: accounts[0] });
-    window.dispatchEvent(event);
-  });
-  window.ethereum.addListener(ON_NETWORK_CHANGE, (network) => {
-    switchNetwork();
-    const event = new CustomEvent("snetMMNetworkChanged", { detail: { network } });
-    window.dispatchEvent(event);
-  });
-};
-
-export const getWeb3Address = async () => {
-  defineWeb3Provider();
-  await window.ethereum.request({ method: ethereumMethods.REQUEST_ACCOUNTS });
-  const isExpectedNetwork = await isUserAtExpectedEthereumNetwork();
-
-  if (!isExpectedNetwork) {
-    await switchNetwork();
-  }
-  const accounts = await web3Provider.getAccounts();
-  return isEmpty(accounts) ? undefined : accounts[0];
-};
-
 export const initSdk = async () => {
   if (sdk && !(sdk instanceof PaypalSDK)) {
     return Promise.resolve(sdk);
   }
-  defineWeb3Provider();
-  addListenersForWeb3();
-  const isExpectedNetwork = await isUserAtExpectedEthereumNetwork();
-  if (!isExpectedNetwork) {
-    await switchNetwork();
-  }
 
   const config = {
-    networkId: await detectEthereumNetwork(),
+    networkId: EXPECTED_ID_ETHEREUM_NETWORK,
     web3Provider: window.ethereum,
     defaultGasPrice: DEFAULT_GAS_PRICE,
     defaultGasLimit: DEFAULT_GAS_LIMIT,
@@ -247,20 +193,6 @@ export const initSdk = async () => {
 
   sdk = await new SnetSDK(config);
   return Promise.resolve(sdk);
-};
-
-export const getSdkConfig = async () => {
-  defineWeb3Provider();
-  const config = {
-    networkId: await detectEthereumNetwork(),
-    web3Provider,
-    defaultGasPrice: DEFAULT_GAS_PRICE,
-    defaultGasLimit: DEFAULT_GAS_LIMIT,
-    tokenName: process.env.REACT_APP_TOKEN_NAME,
-    standType: process.env.REACT_APP_STAND,
-  };
-
-  return config;
 };
 
 const getMethodNames = (service) => {
@@ -273,7 +205,11 @@ const getMethodNames = (service) => {
   });
 };
 
-export const createServiceClient = (
+const createMetadataProvider = async (org_id, service_id, groupName, options) => {
+  serviceMetadataProvider = await sdk.createServiceMetadataProvider(org_id, service_id, groupName, options);
+};
+
+export const createServiceClient = async (
   org_id,
   service_id,
   groupInfo,
@@ -284,21 +220,12 @@ export const createServiceClient = (
   wallet
 ) => {
   const options = generateOptions(callType, wallet, serviceRequestErrorHandler, groupInfo);
-  let paymentChannelManagementStrategy = sdk && sdk._paymentChannelManagementStrategy;
-  if (!(paymentChannelManagementStrategy instanceof PaypalPaymentMgmtStrategy)) {
-    paymentChannelManagementStrategy = new ProxyPaymentChannelManagementStrategy(channel);
-  }
-  const serviceClient = new ServiceClient(
-    sdk,
-    org_id,
-    service_id,
-    sdk && sdk._mpeContract,
-    {},
-    process.env.REACT_APP_SANDBOX ? {} : groupInfo,
-    paymentChannelManagementStrategy,
-    options
-  );
-
+  await createMetadataProvider(org_id, service_id, groupInfo.group_name, options);
+  const serviceClient = await sdk.createServiceClient({
+    paymentStrategy: new PaidPaymentStrategy(sdk.account, serviceMetadataProvider),
+    serviceMetadataProvider,
+    options,
+  });
   const finishServiceInteraction = () => {
     if (serviceRequestCompleteHandler) {
       serviceRequestCompleteHandler();

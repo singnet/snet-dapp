@@ -1,12 +1,6 @@
-// const allowedPayTypes = ["paypal"];
-
-import { priceData } from "../../../../../../../../../utility/PricingStrategy";
+import { DIVISIBILITY } from "../../../../../../../../../utility/PricingStrategy";
 
 export const paymentGatewayConstraints = {
-  // payType: {
-  //   presence: { allowEmpty: false },
-  //   inclusion: { within: allowedPayTypes, message: "is not valid" },
-  // },
   amount: {
     presence: { isNumber: true, allowEmpty: true },
     numericality: { lessThan: 10000 },
@@ -17,9 +11,10 @@ export const FLOAT_MAXIMUM_DIGIT_CASES = {
   DEFAULT: "DEFAULT",
   TOKEN: "TOKEN",
 };
+
 const FLOAT_MAXIMUM_DIGIT = {
   [FLOAT_MAXIMUM_DIGIT_CASES.DEFAULT]: 2,
-  [FLOAT_MAXIMUM_DIGIT_CASES.TOKEN]: priceData.divisibility,
+  [FLOAT_MAXIMUM_DIGIT_CASES.TOKEN]: DIVISIBILITY,
 };
 
 const AVAILABLE_SEPARATORS = [",", "."];

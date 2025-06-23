@@ -7,7 +7,6 @@ import errorReducer from "./ErrorReducer";
 import loaderReducer from "./LoaderReducer";
 import stylesReducer from "./StylesReducer";
 import paymentReducer from "./PaymentReducer";
-import uiContentReducer from "./UiContentReducer";
 import sdkReducer from "./SDKReducer";
 import datasetReducer from "./DatasetReducer";
 
@@ -20,7 +19,6 @@ const rootReducer = combineReducers({
   loaderReducer,
   stylesReducer,
   paymentReducer,
-  uiContentReducer,
   sdkReducer,
   datasetReducer,
 });

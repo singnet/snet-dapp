@@ -44,7 +44,7 @@ class MainSection extends Component {
   };
 
   render() {
-    const { classes, services, pagination } = this.props;
+    const { classes, pagination } = this.props;
     const { listView } = this.state;
     return (
       <Grid container className={classes.mainSection}>
@@ -59,7 +59,7 @@ class MainSection extends Component {
           />
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={12} className={classes.servieMainContainer}>
-          <ServiceCollection data={services} listView={listView} />
+          <ServiceCollection listView={listView} />
           <StyledPagination
             limit={pagination.limit}
             offset={pagination.offset}
@@ -73,7 +73,6 @@ class MainSection extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  services: state.serviceReducer.services,
   pagination: state.serviceReducer.pagination,
   currentFilter: state.serviceReducer.activeFilterItem,
 });

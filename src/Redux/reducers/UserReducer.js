@@ -2,7 +2,7 @@ import isEmpty from "lodash/isEmpty";
 
 import { userActions } from "../actionCreators";
 import { walletTypes, RESET_LOGIN_ERROR } from "../actionCreators/UserActions";
-import { cogsToAgi } from "../../utility/PricingStrategy";
+import { cogsToToken } from "../../utility/PricingStrategy";
 
 export const initialWallet = { value: walletTypes.DEFAULT, type: walletTypes.METAMASK };
 const InitialUserDetails = {
@@ -141,8 +141,8 @@ export const channelInfo = (walletList) => {
     return {
       id: selectedChannel.channel_id,
       hasPrivateKey: Boolean(walletWithChannel.has_private_key),
-      balanceInAgi: cogsToAgi(selectedChannel.balance_in_cogs),
-      currentBalance: cogsToAgi(selectedChannel.current_balance),
+      balanceInAgi: cogsToToken(selectedChannel.balance_in_cogs),
+      currentBalance: cogsToToken(selectedChannel.current_balance),
       walletaddress: walletWithChannel.address,
     };
   }

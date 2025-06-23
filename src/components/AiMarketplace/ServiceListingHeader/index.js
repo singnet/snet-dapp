@@ -1,5 +1,4 @@
-import React, { Fragment, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { Fragment } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -10,16 +9,9 @@ import StarRateIcon from "@mui/icons-material/StarRate";
 
 import { useStyles } from "./styles";
 import StyledButton from "../../common/StyledButton";
-import { uiContentActions } from "../../../Redux/actionCreators";
+import { carousel } from "./CarouselMetadata";
 
 const ServiceListingHeader = ({ classes }) => {
-  const dispatch = useDispatch();
-  const carousel = useSelector((state) => state.uiContentReducer.carousel);
-
-  useEffect(() => {
-    dispatch(uiContentActions.fetchCarousel());
-  }, [dispatch]);
-
   const isMoreThanOneElement = () => {
     return carousel.length > 1;
   };

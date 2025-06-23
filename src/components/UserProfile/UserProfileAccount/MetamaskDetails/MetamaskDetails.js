@@ -3,15 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { withStyles } from "@mui/styles";
 import { useStyles } from "./styles";
 
-import { cogsToAgi } from "../../../../utility/PricingStrategy";
-import { loaderActions, sdkActions } from "../../../../Redux/actionCreators";
+import { cogsToToken } from "../../../../utility/PricingStrategy";
+import { loaderActions } from "../../../../Redux/actionCreators";
 import { LoaderContent } from "../../../../utility/constants/LoaderContent";
 import AlertBox, { alertTypes } from "../../../common/AlertBox";
 import { Networks } from "../../../../config/Networks";
+import { getSdk } from "../../../../Redux/actionCreators/SDKActions";
 
 const MetamaskDetails = ({ classes }) => {
   const wallet = useSelector((state) => state.userReducer.wallet);
-
   const [tokenBalance, setTokenBalance] = useState("");
   const [escrowBalance, setEscrowBalance] = useState("");
   const [alert, setAlert] = useState({});
@@ -22,12 +22,12 @@ const MetamaskDetails = ({ classes }) => {
   const retrieveAccountDetails = useCallback(async () => {
     try {
       dispatch(loaderActions.startAppLoader(LoaderContent.FETCH_MM_ACC_DETAILS));
-      const sdk = await dispatch(sdkActions.getSdk());
+      const sdk = await dispatch(getSdk());
       const escrowBalance = await sdk.account.escrowBalance();
       const tokenBalance = await sdk.account.balance();
 
-      setEscrowBalance(cogsToAgi(escrowBalance));
-      setTokenBalance(cogsToAgi(tokenBalance));
+      setEscrowBalance(cogsToToken(escrowBalance));
+      setTokenBalance(cogsToToken(tokenBalance));
     } catch (error) {
       console.error("error: ", error);
       setAlert({ type: alertTypes.ERROR, message: `Unable to fetch account details` });

@@ -6,11 +6,10 @@ import StyledTabs from "../StyledTabs";
 import ProjectDetails from "../ProjectDetails";
 import { useStyles } from "./styles";
 import Card from "../../common/Card";
-import FreecallToken from "./FreecallToken";
 import { tabNames } from "./TabsMeta";
 import IntegrationFilesActions from "./IntegrationFilesActions";
 
-const InstallAndRunService = ({ classes, service, groupId }) => {
+const InstallAndRunService = ({ classes, service }) => {
   const [activeTab, setActiveTab] = useState(0);
 
   const handleTabChange = (newActiveTab) => {
@@ -36,10 +35,6 @@ const InstallAndRunService = ({ classes, service, groupId }) => {
         <Card
           header="Integration Setup"
           children={<StyledTabs tabs={tabs} onTabChange={handleTabChange} activeTab={activeTab} />}
-        />
-        <Card
-          header="Free Call Authentication Token"
-          children={<FreecallToken service={service} groupId={groupId} />}
         />
       </Grid>
       <Grid item xs={12} sm={12} md={4} lg={4}>

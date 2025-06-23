@@ -5,8 +5,12 @@ import some from "lodash/some";
 import map from "lodash/map";
 
 const InitialServiceDetails = {
+  freeCalls: {
+    freeCallsTotal: 0,
+    freeCallsAvailable: 0,
+  },
+  freeCallSignature: { signature: "", expirationBlock: "", freeCallToken: "", signerAddress: "" },
   details: {},
-  freeCallsUsed: "",
   detailsTraining: {},
 };
 
@@ -19,10 +23,13 @@ const serviceDetailsReducer = (state = InitialServiceDetails, action) => {
       return { ...state, details: action.payload };
     }
     case serviceDetailsActions.UPDATE_FREE_CALLS_INFO: {
-      return { ...state, freeCallsUsed: action.payload };
+      return { ...state, freeCalls: action.payload };
     }
     case serviceDetailsActions.UPDATE_TRAINING_DETAILS: {
       return { ...state, detailsTraining: action.payload };
+    }
+    case serviceDetailsActions.UPDATE_FREECALL_SIGNATURE: {
+      return { ...state, freeCallSignature: action.payload };
     }
     default: {
       return state;
@@ -30,19 +37,7 @@ const serviceDetailsReducer = (state = InitialServiceDetails, action) => {
   }
 };
 
-export const freeCalls = (state) => {
-  const selectedGroup = groupInfo(state);
-  if (!selectedGroup) {
-    return {};
-  }
-  if (selectedGroup.free_calls === 0) {
-    return { allowed: 0, remaining: 0 };
-  }
-  return {
-    allowed: selectedGroup.free_calls,
-    remaining: selectedGroup.free_calls - state.serviceDetailsReducer.freeCallsUsed,
-  };
-};
+const enhanceGroup = (group) => ({ ...group, endpoints: map(group.endpoints, ({ endpoint }) => endpoint) });
 
 export const currentServiceDetails = (state) => {
   return state.serviceDetailsReducer.details;
@@ -57,14 +52,8 @@ export const serviceDetails = (state, orgId, serviceId) => {
   return currentServiceDetails(state);
 };
 
-const groups = (state) => {
-  return state.serviceDetailsReducer.details.groups;
-};
-
-const enhanceGroup = (group) => ({ ...group, endpoints: map(group.endpoints, ({ endpoint }) => endpoint) });
-
 export const groupInfo = (state) => {
-  const serviceGroups = groups(state);
+  const serviceGroups = state.serviceDetailsReducer.details.groups;
   const availableGroup = find(serviceGroups, ({ endpoints }) =>
     some(endpoints, (endpoint) => endpoint.is_available === 1)
   );

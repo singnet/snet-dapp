@@ -11,10 +11,11 @@ import moment from "moment";
 
 import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { parseError } from "../../utility/ErrorHandling";
-import { sdkActions, errorActions, loaderActions } from "./";
+import { errorActions, loaderActions } from "./";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
 import { getAPI, initializeAPIOptions, postAPI } from "../../utility/API";
 import Routes from "../../utility/constants/Routes";
+import { getSdk } from "./SDKActions";
 
 export const SET_USER_DETAILS = "SET_USER_DETAILS";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
@@ -583,7 +584,7 @@ export const registerWallet = (address, type) => async (dispatch) => {
 
 export const updateMetamaskWallet = () => async (dispatch, getState) => {
   try {
-    const sdk = await dispatch(sdkActions.getSdk());
+    const sdk = await dispatch(getSdk());
     const address = await sdk.account.getAddress();
 
     if (getState().userReducer.wallet?.address === address) {

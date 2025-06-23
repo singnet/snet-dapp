@@ -11,7 +11,7 @@ import ThirdPartyServiceErrorBoundary from "./ThirdPartyServiceErrorBoundary";
 import { channelInfo } from "../../../../Redux/reducers/UserReducer";
 import { isEmpty } from "lodash";
 import { modelStatus } from "../../../../Redux/reducers/ServiceTrainingReducer";
-import { freeCalls, groupInfo } from "../../../../Redux/reducers/ServiceDetailsReducer";
+import { groupInfo } from "../../../../Redux/reducers/ServiceDetailsReducer";
 
 class ThirdPartyAIService extends Component {
   state = {
@@ -23,8 +23,8 @@ class ThirdPartyAIService extends Component {
   };
 
   componentDidMount = async () => {
-    const { org_id, service_id, freeCallsRemaining, groupInfo, wallet } = this.props;
-    const callType = freeCallsRemaining > 0 ? callTypes.FREE : callTypes.REGULAR;
+    const { org_id, service_id, freeCallsAvailable, groupInfo, wallet } = this.props;
+    const callType = freeCallsAvailable > 0 ? callTypes.FREE : callTypes.REGULAR;
     this.serviceClient = await createServiceClient(
       org_id,
       service_id,
@@ -120,7 +120,7 @@ const mapStateToProps = (state) => ({
   wallet: state.userReducer.wallet,
   channelInfo: channelInfo(state.userReducer.walletList),
   groupInfo: groupInfo(state),
-  freeCallsRemaining: freeCalls(state).remaining,
+  freeCallsAvailable: state.serviceDetailsReducer.freeCalls.freeCallsAvailable,
 });
 
 const mapDispatchToProps = (dispatch) => ({
