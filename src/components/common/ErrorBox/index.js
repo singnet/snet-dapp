@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { withStyles } from "@mui/styles";
 import PropTypes from "prop-types";
 
@@ -23,4 +23,4 @@ ErrorBox.propTypes = {
   errText: PropTypes.string,
 };
 
-export default withStyles(useStyles)(ErrorBox);
+export default memo(withStyles(useStyles)(ErrorBox));

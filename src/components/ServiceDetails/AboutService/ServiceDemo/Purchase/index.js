@@ -10,7 +10,7 @@ import "./styles.css";
 import { isUndefined, some } from "lodash";
 import { useParams } from "react-router-dom";
 
-const Purchase = ({ handleComplete, handlePurchaseError, isServiceAvailable, setIsLastPaidCall }) => {
+const Purchase = ({ handleComplete, handlePurchaseError, setIsLastPaidCall }) => {
   const dispatch = useDispatch();
   const { orgId, serviceId } = useParams();
   const { free_calls, group_id } = useSelector((state) =>
@@ -70,7 +70,6 @@ const Purchase = ({ handleComplete, handlePurchaseError, isServiceAvailable, set
         setIsLastPaidCall={setIsLastPaidCall}
         handleComplete={handleComplete}
         handlePurchaseError={handlePurchaseError}
-        isServiceAvailable={isServiceAvailable}
       />
     );
   }
@@ -79,7 +78,6 @@ const Purchase = ({ handleComplete, handlePurchaseError, isServiceAvailable, set
       freeCallsAvailable={freeCalls.freeCallsAvailable}
       freeCallsTotal={freeCalls.freeCallsTotal}
       handleComplete={handleComplete}
-      isServiceAvailable={isServiceAvailable}
     />
   );
 };

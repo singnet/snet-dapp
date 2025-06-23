@@ -12,10 +12,14 @@ import { getTrainingModels } from "../../../../../../Redux/actionCreators/Servic
 import { isUndefined } from "lodash";
 import { updateMetamaskWallet } from "../../../../../../Redux/actionCreators/UserActions";
 
-const ActiveSession = ({ classes, freeCallsAvailable, handleComplete, freeCallsTotal, isServiceAvailable }) => {
+const ActiveSession = ({ classes, freeCallsAvailable, handleComplete, freeCallsTotal }) => {
   const dispatch = useDispatch();
   const { detailsTraining } = useSelector((state) => state.serviceDetailsReducer);
-  const { org_id, service_id } = useSelector((state) => state.serviceDetailsReducer.details);
+  const {
+    org_id,
+    service_id,
+    is_available: isServiceAvailable,
+  } = useSelector((state) => state.serviceDetailsReducer.details);
   const { modelsList } = useSelector((state) => state.serviceTrainingReducer);
   const isLoggedIn = useSelector((state) => state.userReducer.login.isLoggedIn);
   const [showTooltip, setShowTooltip] = useState(false);
