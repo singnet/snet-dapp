@@ -10,7 +10,7 @@ import { alertTypes } from "../../../../../../../../common/AlertBox";
 import { useDispatch, useSelector } from "react-redux";
 import { paymentActions } from "../../../../../../../../../Redux/actionCreators";
 
-const Purchase = ({ classes, handleCancel, handleNext, setAmount }) => {
+const PaymentPopup = ({ classes, handleCancel, handleNext, setAmount }) => {
   const dispatch = useDispatch();
   const paypalInProgress = useSelector((state) => state.paymentReducer.paypalInProgress);
 
@@ -88,4 +88,4 @@ const Purchase = ({ classes, handleCancel, handleNext, setAmount }) => {
     </div>
   );
 };
-export default withStyles(useStyles)(Purchase);
+export default withStyles(useStyles)(PaymentPopup);

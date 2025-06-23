@@ -19,10 +19,15 @@ import ContinueButton from "./ContinueButton";
 import DepositButton from "./DepositButton";
 import PaymentOptions from "./PaymentOptions";
 
-const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, isServiceAvailable }) => {
+const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall }) => {
   const dispatch = useDispatch();
   const paymentChannelManagementRef = useRef();
-  const { org_id, service_id, pricing } = useSelector((state) => state.serviceDetailsReducer.details);
+  const {
+    org_id,
+    service_id,
+    pricing,
+    is_available: isServiceAvailable,
+  } = useSelector((state) => state.serviceDetailsReducer.details);
   const { price_in_cogs } = pricing;
   const servicePriceInToken = useMemo(() => cogsToToken(price_in_cogs), [price_in_cogs]);
   const [mpeBalance, setMpeBalance] = useState("");
@@ -191,5 +196,4 @@ MetamaskFlow.propTypes = {
   classes: PropTypes.object.isRequired,
   handleContinue: PropTypes.func.isRequired,
   setIsLastPaidCall: PropTypes.func.isRequired,
-  isServiceAvailable: PropTypes.bool.isRequired,
 };
