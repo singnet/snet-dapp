@@ -18,8 +18,8 @@ const InitialUserDetails = {
   firstTimeFetchWallet: true,
   email: "",
   nickname: "",
-  emailAlerts: false,
-  isTermsAccepted: false,
+  emailAlerts: undefined,
+  isTermsAccepted: { ver: "0", accepted: false },
   transactionHistory: [],
   jwt: {
     exp: "",
