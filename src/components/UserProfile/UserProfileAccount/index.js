@@ -35,7 +35,7 @@ const UserProfileAccount = ({ classes }) => {
   const dispatch = useDispatch();
 
   const parseWallet = (address, type) => {
-    return { value: address, label: `${type} (${address})`, address, type };
+    return { value: address, label: address, address, type };
   };
 
   const getWallets = useCallback(
@@ -136,7 +136,7 @@ const UserProfileAccount = ({ classes }) => {
 
   return (
     <Grid container className={classes.accountMainContainer}>
-      <Grid item xs={12} sm={12} md={4} lg={4} className={classes.accountContainer}>
+      <Grid item xs={12} sm={12} md={5} lg={5} className={classes.accountContainer}>
         <h3>Payment / Transfer Method</h3>
         <div className={classes.accountWrapper}>
           <div className={classes.dropDown}>
@@ -149,7 +149,7 @@ const UserProfileAccount = ({ classes }) => {
         </div>
       </Grid>
       {linkedProviders.length > 0 && (
-        <Grid item xs={12} sm={12} md={8} lg={8} className={classes.providerBalMaincontainer}>
+        <Grid item xs={12} sm={12} md={7} lg={7} className={classes.providerBalMaincontainer}>
           <ProviderBalance linkedProviders={linkedProviders} />
         </Grid>
       )}
