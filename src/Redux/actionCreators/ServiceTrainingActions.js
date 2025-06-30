@@ -105,15 +105,6 @@ export const deleteModel = (organizationId, serviceId, modelId, methodName, serv
   }
 };
 
-// export const getServiceName = () => (getState) => {
-//   // const { serviceDetailsReducer, serviceTrainingReducer } = getState();
-//   // if (serviceTrainingReducer.serviceName) {
-//   //   return serviceTrainingReducer.serviceName;
-//   // }
-//   const training = serviceDetailsReducer.training;
-//   return getServiceNameFromTrainingMethod(training.trainingMethods[0]);
-// };
-
 const getServiceNameFromTrainingMethod = (trainingMethod) => {
   return trainingMethod.split(".")[1].split("/")[0];
 };

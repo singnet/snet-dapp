@@ -14,7 +14,11 @@ export const UPDATE_FREE_CALLS_INFO = "UPDATE_FREE_CALLS_INFO";
 export const UPDATE_TRAINING_DETAILS = "UPDATE_TRAINING_DETAILS";
 export const UPDATE_FREECALL_SIGNATURE = "UPDATE_FREECALL_SIGNATURE";
 
-const resetServiceDetails = (dispatch) => {
+const ContactTypes = {
+  SUPPORT: "support",
+};
+
+const resetServiceDetails = () => (dispatch) => {
   dispatch({ type: RESET_SERVICE_DETAILS });
 };
 
@@ -37,18 +41,38 @@ const fetchServiceDetailsAPI = async (orgId, serviceId) => {
   return response.json();
 };
 
-export const fetchServiceDetails = (orgId, serviceId) => async (dispatch) => {
-  try {
-    dispatch(loaderActions.startAppLoader(LoaderContent.FETCH_SERVICE_DETAILS));
-    dispatch(resetServiceDetails);
-    dispatch(resetCurrentModelDetails());
-    dispatch(resetModelList());
-    const { data: serviceDetails } = await fetchServiceDetailsAPI(orgId, serviceId);
-    dispatch(fetchServiceDetailsSuccess(serviceDetails));
-  } catch (error) {
-    dispatch(fetchServiceDetailsFailure(error));
-    throw error;
+const enhanceGroup = (group) => ({ ...group, endpoints: group.endpoints.map(({ endpoint }) => endpoint) });
+
+const parseGroupInfo = (groups) => {
+  const serviceGroups = groups;
+  const availableGroup = serviceGroups.find(({ endpoints }) =>
+    endpoints.some((endpoint) => endpoint.is_available === 1)
+  );
+  if (availableGroup) {
+    return enhanceGroup(availableGroup);
   }
+  const firstGroup = serviceGroups[0];
+  if (firstGroup) {
+    return enhanceGroup(firstGroup);
+  }
+};
+
+const parsePricing = (group) => {
+  if (!group) {
+    return {};
+  }
+
+  return group.pricing.find((price) => price.default === true);
+};
+
+const parseServiceDetails = (service) => {
+  const groupInfo = parseGroupInfo(service.groups);
+  return {
+    ...service,
+    contacts: service.contacts.find((contact) => contact.contact_type === ContactTypes.SUPPORT),
+    groupInfo,
+    pricing: parsePricing(groupInfo),
+  };
 };
 
 const fetchMeteringDataSuccess = (freeCallsAvailable, freeCallsTotal) => (dispatch) => {
@@ -65,20 +89,20 @@ const fetchTrainingModelSuccess = (serviceTrainingData) => (dispatch) => {
   dispatch({ type: UPDATE_TRAINING_DETAILS, payload: serviceTrainingData });
 };
 
-const fetchServiceTrainingDataAPI = async (orgId, serviceId) => {
+export const fetchServiceDetails = (orgId, serviceId) => async (dispatch) => {
   try {
-    const dataForUrl = await fetchServiceDetailsAPI(orgId, serviceId);
-    const url = `${dataForUrl.data.groups[0].endpoints[0].endpoint}/heartbeat`;
-    const response = await fetch(url);
-    return response.json();
+    dispatch(loaderActions.startAppLoader(LoaderContent.FETCH_SERVICE_DETAILS));
+    dispatch(resetServiceDetails());
+    dispatch(resetCurrentModelDetails());
+    dispatch(resetModelList());
+    const { data: serviceDetails } = await fetchServiceDetailsAPI(orgId, serviceId);
+    const parsedServiceDetails = parseServiceDetails(serviceDetails);
+    dispatch(fetchServiceDetailsSuccess(parsedServiceDetails));
+    dispatch(fetchTrainingModelSuccess(serviceDetails));
   } catch (error) {
-    return {};
+    dispatch(fetchServiceDetailsFailure(error));
+    throw error;
   }
-};
-
-export const fetchTrainingModel = (orgId, serviceId) => async (dispatch) => {
-  const serviceTrainingData = await fetchServiceTrainingDataAPI(orgId, serviceId);
-  dispatch(fetchTrainingModelSuccess(serviceTrainingData));
 };
 
 const getAvailableFreeCalls = (orgId, serviceId, groupId) => async (dispatch) => {

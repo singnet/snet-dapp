@@ -14,7 +14,6 @@ import { isEmpty } from "lodash";
 import PaymentInfoCard from "../../PaymentInfoCard";
 import AlertBox, { alertTypes } from "../../../../../../common/AlertBox";
 import { userActions } from "../../../../../../../Redux/actionCreators";
-import { groupInfo } from "../../../../../../../Redux/reducers/ServiceDetailsReducer";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { initPaypalSdk } from "../../../../../../../utility/sdk";
 
@@ -31,7 +30,7 @@ const GeneralAccountWallet = ({ classes, handleContinue }) => {
   const dispatch = useDispatch();
   const { orgId } = useParams();
 
-  const group = useSelector((state) => groupInfo(state));
+  const group = useSelector((state) => state.serviceDetailsReducer.details.groupInfo);
   const inProgressOrderType = useSelector((state) => state.paymentReducer.paypalInProgress.orderType);
   const walletList = useSelector((state) => state.userReducer.walletList);
   const channelInfo = getChannelInfo(walletList);

@@ -7,9 +7,14 @@ import Avatar from "@mui/material/Avatar";
 import SingularityLogo from "../../../assets/images/avatar.png";
 import { useStyles } from "./styles";
 import Contacts from "./Contacts";
+import { useSelector } from "react-redux";
 
-const CreatorDetails = ({ classes, organizationName, orgImg, contacts }) => {
+const CreatorDetails = ({ classes }) => {
   const [showContacts, setShowContacts] = useState(false);
+  const { organization_name: organizationName, org_assets_url } = useSelector(
+    (state) => state.serviceDetailsReducer.details
+  );
+  const orgImg = org_assets_url?.hero_image;
 
   return (
     <div className={classes.content}>
@@ -25,21 +30,13 @@ const CreatorDetails = ({ classes, organizationName, orgImg, contacts }) => {
           <ChatBubbleOutlineIcon fontSize="small" /> Contact
         </span>
       </div>
-      <Contacts contacts={contacts} show={showContacts} handleClose={() => setShowContacts(false)} />
+      <Contacts show={showContacts} handleClose={() => setShowContacts(false)} />
     </div>
   );
 };
 
 CreatorDetails.propTypes = {
-  orgImg: PropTypes.string,
-  organizationName: PropTypes.string,
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      phone: PropTypes.string,
-      email_id: PropTypes.string,
-      contact_type: PropTypes.string,
-    })
-  ),
+  classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(useStyles)(CreatorDetails);

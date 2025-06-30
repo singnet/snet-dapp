@@ -8,8 +8,16 @@ import ProjectURL from "./ProjectURL";
 import Contributors from "./Contibutors";
 import { Grid } from "@mui/material";
 import Card from "../../common/Card";
+import { useSelector } from "react-redux";
 
-const ProjectDetails = ({ classes, projectURL, contributors, orgId, serviceId }) => {
+const ProjectDetails = ({ classes }) => {
+  const {
+    url: projectURL,
+    contributors,
+    org_id: orgId,
+    service_id: serviceId,
+  } = useSelector((state) => state.serviceDetailsReducer.details);
+
   const data = [
     { label: "Project URL", value: <ProjectURL URL={projectURL} /> },
     { label: "Organization ID", value: orgId },
@@ -43,13 +51,7 @@ const ProjectDetails = ({ classes, projectURL, contributors, orgId, serviceId })
 };
 
 ProjectDetails.propTypes = {
-  projectURL: PropTypes.string,
-  contributors: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-      email_id: PropTypes.string,
-    })
-  ),
+  classes: PropTypes.object,
 };
 
 export default withStyles(useStyles)(ProjectDetails);

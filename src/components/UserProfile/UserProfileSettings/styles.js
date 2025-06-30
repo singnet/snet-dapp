@@ -27,18 +27,12 @@ export const useStyles = (theme) => ({
     },
   },
   settingsContent: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 24,
     padding: "30px 25px",
     "& div": {
-      width: 411,
-      margin: "30px 0 0",
       fontFamily: theme.typography.primary.main,
-      "@media(max-width:660px)": {
-        width: "100%",
-        flexDirection: "column",
-      },
-      "&:first-of-type": {
-        marginTop: 0,
-      },
     },
     "& label": {
       color: theme.palette.text.black1,

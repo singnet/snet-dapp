@@ -9,7 +9,7 @@ import Card from "../../common/Card";
 import { tabNames } from "./TabsMeta";
 import IntegrationFilesActions from "./IntegrationFilesActions";
 
-const InstallAndRunService = ({ classes, service }) => {
+const InstallAndRunService = ({ classes }) => {
   const [activeTab, setActiveTab] = useState(0);
 
   const handleTabChange = (newActiveTab) => {
@@ -38,12 +38,7 @@ const InstallAndRunService = ({ classes, service }) => {
         />
       </Grid>
       <Grid item xs={12} sm={12} md={4} lg={4}>
-        <ProjectDetails
-          projectURL={service.url}
-          contributors={service.contributors}
-          orgId={service.org_id}
-          serviceId={service.service_id}
-        />
+        <ProjectDetails />
       </Grid>
     </Grid>
   );

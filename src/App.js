@@ -51,16 +51,17 @@ initGDPRNotification();
 
 const App = () => {
   const isLoggedIn = useSelector((state) => state.userReducer.login.isLoggedIn);
-  const isTermsAccepted = useSelector((state) => state.userReducer.isTermsAccepted);
+  const isTermsAccepted = useSelector((state) => state.userReducer.isTermsAccepted.accepted);
   const isInitialized = useSelector((state) => state.userReducer.isInitialized);
 
   const isLoggedInAndTermsAccepted = isLoggedIn && isTermsAccepted;
-  const isNotLoggedInPageAvailable = !isLoggedIn || isTermsAccepted;
+  const isNotLoggedInPageAvailable = !isLoggedIn || isLoggedInAndTermsAccepted;
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(userActions.fetchUserDetails());
+    dispatch(userActions.fetchAuthenticatedUser());
   }, [dispatch]);
 
   const Loader = () => {

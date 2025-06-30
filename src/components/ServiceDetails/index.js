@@ -16,12 +16,7 @@ import AboutService from "./AboutService";
 import InstallAndRunService from "./InstallAndRunService";
 import NotificationBar, { notificationBarTypes } from "../common/NotificationBar";
 
-import {
-  fetchTrainingModel,
-  fetchServiceDetails,
-  getIsTrainingAvailable,
-} from "../../Redux/actionCreators/ServiceDetailsActions";
-import { serviceDetails as getServiceDetails } from "../../Redux/reducers/ServiceDetailsReducer";
+import { fetchServiceDetails, getIsTrainingAvailable } from "../../Redux/actionCreators/ServiceDetailsActions";
 
 import ErrorBox from "../common/ErrorBox";
 import SeoMetadata from "../common/SeoMetadata";
@@ -46,7 +41,7 @@ const ServiceDetails = ({ classes }) => {
 
   const isLoggedIn = useSelector((state) => state.userReducer.login.isLoggedIn);
   const detailsTraining = useSelector((state) => state.serviceDetailsReducer.detailsTraining);
-  const service = useSelector((state) => getServiceDetails(state, orgId, serviceId));
+  const service = useSelector((state) => state.serviceDetailsReducer.details);
   const loading = useSelector((state) => state.loaderReducer.app.loading);
 
   const [activeTab, setActiveTab] = useState(tabId ? tabId : 0);
@@ -59,10 +54,14 @@ const ServiceDetails = ({ classes }) => {
     if (process.env.REACT_APP_SANDBOX) {
       return;
     }
-    if (isEmpty(service) || !service) {
-      dispatch(fetchServiceDetails(orgId, serviceId));
-    }
-    dispatch(fetchTrainingModel(orgId, serviceId));
+    const updateServiceDetails = async () => {
+      const { org_id, service_id } = service;
+      if (!serviceId || org_id !== orgId || service_id !== serviceId) {
+        await dispatch(fetchServiceDetails(orgId, serviceId));
+      }
+    };
+
+    updateServiceDetails();
   }, [dispatch, orgId, serviceId, service]);
 
   const handleTabChange = (activeTab) => {
@@ -100,21 +99,13 @@ const ServiceDetails = ({ classes }) => {
       name: "About",
       activeIndex: 0,
       tabId: "serviceDemo",
-      component: (
-        <AboutService
-          service={service}
-          serviceAvailable={service.is_available}
-          // scrollToView={scrollToView}
-          demoComponentRequired={!!service.demo_component_required}
-          isTrainingAvailable={isTrainingAvailable}
-        />
-      ),
+      component: <AboutService isTrainingAvailable={isTrainingAvailable} />,
     },
     {
       name: "Install and Run",
       tabId: "serviceGuides",
       activeIndex: 1,
-      component: <InstallAndRunService service={service} />, //TODO remove service attribute
+      component: <InstallAndRunService />,
     },
   ];
 
@@ -132,7 +123,7 @@ const ServiceDetails = ({ classes }) => {
       name: "Models",
       tabId: "serviceTraining",
       activeIndex: 3,
-      component: <TrainingModels service={service} />,
+      component: <TrainingModels />,
     });
   }
 

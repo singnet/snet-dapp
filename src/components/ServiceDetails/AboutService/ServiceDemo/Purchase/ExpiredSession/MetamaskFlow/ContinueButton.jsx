@@ -9,7 +9,6 @@ const ContinueButton = ({classes, isServiceAvailable, isContinueEnabled, handleS
     const tooltipText = "Service is currently offline. Please try after sometime";
     const showTooltip = !isServiceAvailable;
     const isDisabled = !isServiceAvailable || !isContinueEnabled;
-console.log("ContinueButton: ", isServiceAvailable, isContinueEnabled);
 
     return (
       <Tooltip

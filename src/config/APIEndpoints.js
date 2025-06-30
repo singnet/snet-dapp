@@ -32,11 +32,11 @@ export const APIEndpoints = {
 };
 
 export const APIPaths = {
+  USER: "/user",
+  UPDATE_USER_ALERTS: "/user/alerts",
+  FEEDBACK: "/user/review",
+
   SIGNUP: "/signup",
-  GET_USER_PROFILE: "/profile",
-  UPDATE_USER_PROFILE: "/profile",
-  DELETE_USER: "/user/delete",
-  FEEDBACK: "/feedback",
   GET_SERVICE_LIST: "/service",
   FILTER_DATA: "/service?attribute=",
   SERVICE_DETAILS: (orgId, serviceId) => `/org/${orgId}/service/${serviceId}`,
