@@ -125,12 +125,10 @@ const submitFeedbackAPI = (feedbackObj, token) => {
 export const submitFeedback = (orgId, serviceId, feedback) => async (dispatch) => {
   const { token } = await dispatch(userActions.fetchAuthenticatedUser());
   const feedbackObj = {
-    feedback: {
-      org_id: orgId,
-      service_id: serviceId,
-      user_rating: parseFloat(feedback.rating).toFixed(1),
-      comment: feedback.comment,
-    },
+    orgId,
+    serviceId,
+    userRating: Number(parseFloat(feedback.rating).toFixed(1)),
+    comment: feedback.comment,
   };
   return submitFeedbackAPI(feedbackObj, token);
 };
