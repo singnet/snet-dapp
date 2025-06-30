@@ -18,11 +18,11 @@ export const UserMenuList = [
     menuTitle: "Settings",
     menuLink: userProfileRoutes.SETTINGS,
   },
-  {
-    menuIcon: SettingIcon,
-    menuTitle: "Transactions",
-    menuLink: userProfileRoutes.TRANSACTIONS,
-  },
+  // {
+  //   menuIcon: SettingIcon,
+  //   menuTitle: "Transactions",
+  //   menuLink: userProfileRoutes.TRANSACTIONS,
+  // },
 ];
 
 // if (process.env.REACT_APP_TRAINING_ENABLE === "true") {
