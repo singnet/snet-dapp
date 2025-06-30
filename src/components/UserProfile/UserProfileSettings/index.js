@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { withStyles } from "@mui/styles";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
@@ -14,6 +14,7 @@ import AlertBox, { alertTypes } from "../../common/AlertBox";
 import ConfirmDelete from "./ConfirmDelete";
 import { Helmet } from "react-helmet";
 import { useNavigate } from "react-router-dom";
+import { isUndefined } from "lodash";
 
 const UserProfileSettings = ({ classes }) => {
   const navigate = useNavigate();
@@ -22,16 +23,18 @@ const UserProfileSettings = ({ classes }) => {
   const userEmail = useSelector((state) => state.userReducer.email);
   const nickname = useSelector((state) => state.userReducer.nickname);
   const emailAlerts = useSelector((state) => state.userReducer.emailAlerts);
-  const isTermsAccepted = useSelector((state) => state.userReducer.isTermsAccepted);
 
-  const [isEmailAlerts, setIsEmailAlerts] = useState(emailAlerts);
+  const [isEmailAlerts, setIsEmailAlerts] = useState(emailAlerts || false);
   const [alert, setAlert] = useState({ message: "", type: alertTypes.ERROR });
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const [confirmDeleteError, setConfirmDeleteError] = useState();
 
-  // const handleEmailChange = (event) => {
-  //     setEmail(event.target.value);
-  // };
+  useEffect(() => {
+    setIsEmailAlerts(emailAlerts);
+    if (isUndefined(emailAlerts)) {
+      dispatch(userActions.fetchUserAlerts());
+    }
+  }, [dispatch, emailAlerts]);
 
   const handleEmailAlerts = () => {
     setIsEmailAlerts(!isEmailAlerts);
@@ -47,9 +50,8 @@ const UserProfileSettings = ({ classes }) => {
 
   const handleSubmit = async () => {
     setAlert({});
-    const updatedUserData = { email_alerts: isEmailAlerts, is_terms_accepted: isTermsAccepted };
     try {
-      await dispatch(userActions.updateUserProfile(updatedUserData));
+      await dispatch(userActions.updateUserProfile(isEmailAlerts));
       setAlert({ type: alertTypes.SUCCESS, message: "Changes saved successfully" });
     } catch (error) {
       setAlert({ type: alertTypes.ERROR, message: String(error) });
