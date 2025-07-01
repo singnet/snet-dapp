@@ -10,11 +10,13 @@ import { updateUserAttributes } from "aws-amplify/auth";
 import Routes from "../../../utility/constants/Routes";
 import AlertBox, { alertTypes } from "../../common/AlertBox";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getIsTermsAcceptedInfo } from "../../../Redux/actionCreators/UserActions";
 
 const TermsOfUse = ({ classes }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
   const isTermsAcceptedPrev = useSelector((state) => state.userReducer.isTermsAccepted.accepted);
 
   const [isTermsAccepted, setIsTermsAccepted] = useState(false);
@@ -38,6 +40,7 @@ const TermsOfUse = ({ classes }) => {
     const userAttributes = { "custom:publisher_tnc": JSON.stringify(tncValue) };
     try {
       await updateUserAttributes({ userAttributes });
+      dispatch(getIsTermsAcceptedInfo());
 
       if (location.state && location.state.sourcePath) {
         navigate(location.state.sourcePath);

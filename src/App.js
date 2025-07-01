@@ -61,7 +61,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(userActions.fetchUserDetails());
-    dispatch(userActions.fetchAuthenticatedUser());
+    dispatch(userActions.getIsTermsAcceptedInfo());
   }, [dispatch]);
 
   const Loader = () => {

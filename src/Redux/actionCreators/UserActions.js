@@ -5,6 +5,7 @@ import {
   resetPassword,
   confirmResetPassword,
   deleteUser,
+  fetchUserAttributes,
 } from "aws-amplify/auth";
 import isEmpty from "lodash/isEmpty";
 import moment from "moment";
@@ -54,11 +55,6 @@ export const fetchAuthenticatedUser = () => async (dispatch) => {
   const { userAttributes, idToken } = await getCurrentUser();
   const newExp = idToken.payload.exp;
   dispatch(setJWTExp(newExp));
-
-  const publisherTnC = userAttributes["custom:publisher_tnc"]
-    ? JSON.parse(userAttributes["custom:publisher_tnc"])
-    : { ver: "1", accepted: false };
-  dispatch(updateIsTermsAccepted(publisherTnC));
 
   return {
     nickname: userAttributes.nickname,
@@ -210,6 +206,14 @@ const updateUserProfileSuccess = () => (dispatch) => {
 const updateUserProfileFailure = (err) => (dispatch) => {
   dispatch(errorActions.updateProfileSettingsError(String(err)));
   dispatch(loaderActions.stopAppLoader());
+};
+export const getIsTermsAcceptedInfo = () => async (dispatch) => {
+  const newAttributes = await fetchUserAttributes();
+  const checkIsTermsAccepted = newAttributes?.["custom:publisher_tnc"]
+    ? JSON.parse(newAttributes?.["custom:publisher_tnc"])
+    : { ver: "1", accepted: false };
+
+  dispatch(updateIsTermsAccepted(checkIsTermsAccepted));
 };
 
 export const updateUserProfile = (isEmailAlerts) => async (dispatch) => {
