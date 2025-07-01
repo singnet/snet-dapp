@@ -25,7 +25,7 @@ export const useStyles = (theme) => ({
     },
   },
   termsAndConditions: {
-    height: "50vh",
+    height: 250,
     margin: "15px 12px 0",
     padding: "9px 7px",
     overflow: "auto",
