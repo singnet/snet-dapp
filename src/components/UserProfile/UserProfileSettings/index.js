@@ -5,6 +5,7 @@ import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { useDispatch, useSelector } from "react-redux";
+import PropTypes from "prop-types";
 
 import StyledButton from "../../common/StyledButton";
 import { useStyles } from "./styles";
@@ -14,7 +15,6 @@ import AlertBox, { alertTypes } from "../../common/AlertBox";
 import ConfirmDelete from "./ConfirmDelete";
 import { Helmet } from "react-helmet";
 import { useNavigate } from "react-router-dom";
-import { isUndefined } from "lodash";
 
 const UserProfileSettings = ({ classes }) => {
   const navigate = useNavigate();
@@ -31,9 +31,7 @@ const UserProfileSettings = ({ classes }) => {
 
   useEffect(() => {
     setIsEmailAlerts(emailAlerts);
-    if (isUndefined(emailAlerts)) {
-      dispatch(userActions.fetchUserAlerts());
-    }
+    dispatch(userActions.fetchUserAlerts());
   }, [dispatch, emailAlerts]);
 
   const handleEmailAlerts = () => {
@@ -152,3 +150,7 @@ const UserProfileSettings = ({ classes }) => {
 };
 
 export default withStyles(useStyles)(UserProfileSettings);
+
+UserProfileSettings.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
