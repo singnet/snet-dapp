@@ -7,11 +7,11 @@ require("@babel/register")({
 const defaultPagination = {
   q: "",
   limit: 50,
-  offset: 0,
-  total_count: 0,
+  page: 1,
+  totalCount: 0,
   s: "all",
-  sort_by: "ranking",
-  order_by: "asc",
+  sort: "ranking",
+  order: "asc",
   filters: [],
 };
 
@@ -24,17 +24,17 @@ async function fetchServices(pagination = defaultPagination, step = 50) {
       data: { data },
     } = await axios.post(url, pagination);
     const { result } = data;
-    console.log("offset", data.offset);
+    console.log("page", data.page);
     console.log("limit", data.limit);
     console.log("services length", services.length);
-    console.log("total count", data.total_count);
+    console.log("total count", data.totalCount);
     console.log("-----****-----");
     services = services.concat(result);
-    if (services.length < data.total_count) {
+    if (services.length < data.totalCount) {
       const enhancedPagination = Object.assign({}, pagination, {
-        offset: pagination.offset + step,
+        page: pagination.page + step,
       });
-      if (enhancedPagination.offset > data.total_count) {
+      if (enhancedPagination.page > data.totalCount) {
         throw new Error("Trying to fetch more than total count");
       }
       await fetchServices(enhancedPagination);
@@ -55,8 +55,8 @@ async function generateSitemap() {
   await fetchServices();
   console.log("fetched all services");
   const idMap = services.map((service) => ({
-    orgId: service.org_id,
-    serviceId: service.service_id,
+    orgId: service.orgId,
+    serviceId: service.serviceId,
   }));
 
   const activeUserTabsMap = ["account", "settings", "transactions"].map((tab) => ({ "activeTab?": tab }));
