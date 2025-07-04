@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Pagination from "@mui/material/Pagination";
 import Grid from "@mui/material/Grid";
 import FormControl from "@mui/material/FormControl";
@@ -10,35 +10,53 @@ import { useStyles } from "./styles";
 
 const paginationLimits = [12, 24, 36];
 
-const StyledPagination = ({ limit, offset, total_count, handleChange }) => {
+const StyledPagination = ({ limit, page, totalCount, handleChange }) => {
   const [itemsPerPage, setItemsPerPage] = useState(limit);
   const classes = useStyles();
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [limit, page, totalCount]);
+
   const handleItemsPerPage = (event) => {
     const pagination = {
-      offset: 0,
+      page: 1,
       limit: event.target.value,
     };
     setItemsPerPage(event.target.value);
     handleChange(pagination);
   };
 
-  const handlePageChange = (selectedOffset) => {
-    if (selectedOffset-- === parseFloat(offset)) {
-      return;
-    }
-    const pagination = { offset: selectedOffset };
+  const handlePageChange = (selectedPage) => {
+    console.log("selectedPage: ", selectedPage, page);
+
+    // if (selectedPage === parseFloat(page)) {
+    //   return;
+    // }
+    const pagination = { page: selectedPage };
     handleChange(pagination);
   };
 
-  const currentFirstItem = offset * limit;
+  const currentFirstItem = --page * limit;
   const viewedCountService = limit + currentFirstItem;
-  const currentLastItem = total_count > viewedCountService ? viewedCountService : total_count;
+  const currentLastItem = totalCount > viewedCountService ? viewedCountService : totalCount;
+  const count = Math.ceil(totalCount / limit) || 1;
+
+  console.log(
+    "currentFirstItem: ",
+    currentFirstItem,
+    "viewedCountService: ",
+    viewedCountService,
+    "currentLastItem: ",
+    currentLastItem,
+    "count: ",
+    count
+  );
 
   return (
     <Grid container className={classes.paginationContainer}>
       <Grid item xs={6} sm={6} md={6} lg={6}>
-        <Pagination count={Math.ceil(total_count / limit)} onChange={(e, offset) => handlePageChange(offset)} />
+        <Pagination count={count} onChange={(e, page) => handlePageChange(page)} />
       </Grid>
       <Grid item xs={6} sm={6} md={6} lg={6} className={classes.pageCountSection}>
         <span className={classes.itemPerPageTxt}>Items per page</span>
@@ -56,7 +74,7 @@ const StyledPagination = ({ limit, offset, total_count, handleChange }) => {
           </Select>
         </FormControl>
         <span>
-          {currentFirstItem}-{currentLastItem} of {total_count}
+          {currentFirstItem}-{currentLastItem} of {totalCount}
         </span>
       </Grid>
     </Grid>

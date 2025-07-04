@@ -11,15 +11,12 @@ import { useSelector } from "react-redux";
 
 const CreatorDetails = ({ classes }) => {
   const [showContacts, setShowContacts] = useState(false);
-  const { organization_name: organizationName, org_assets_url } = useSelector(
-    (state) => state.serviceDetailsReducer.details
-  );
-  const orgImg = org_assets_url?.hero_image;
+  const { organizationName, orgImageUrl } = useSelector((state) => state.serviceDetailsReducer.details);
 
   return (
     <div className={classes.content}>
       <div className={classes.companyInfo}>
-        <Avatar alt="Singularity" src={orgImg || SingularityLogo} className={classes.avatar} />
+        <Avatar alt="Singularity" src={orgImageUrl || SingularityLogo} className={classes.avatar} />
         <div className={classes.companyName}>
           <h3>{organizationName}</h3>
         </div>

@@ -1,11 +1,9 @@
 import React from "react";
 import { withStyles } from "@mui/styles";
 import PropTypes from "prop-types";
-import isEmpty from "lodash/isEmpty";
 
 import { useStyles } from "./styles";
 import ProjectURL from "./ProjectURL";
-import Contributors from "./Contibutors";
 import { Grid } from "@mui/material";
 import Card from "../../common/Card";
 import { useSelector } from "react-redux";
@@ -14,20 +12,16 @@ const ProjectDetails = ({ classes }) => {
   const {
     url: projectURL,
     contributors,
-    org_id: orgId,
-    service_id: serviceId,
+    orgId,
+    serviceId,
   } = useSelector((state) => state.serviceDetailsReducer.details);
 
   const data = [
     { label: "Project URL", value: <ProjectURL URL={projectURL} /> },
     { label: "Organization ID", value: orgId },
     { label: "Service ID", value: serviceId },
+    { label: "Contributors", value: contributors },
   ];
-
-  if (!isEmpty(contributors)) {
-    const contributorsRow = { label: "Contributors", value: <Contributors contributors={contributors} /> };
-    data.push(contributorsRow);
-  }
 
   return (
     <Card

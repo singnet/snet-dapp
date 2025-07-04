@@ -15,11 +15,7 @@ import { updateMetamaskWallet } from "../../../../../../Redux/actionCreators/Use
 const ActiveSession = ({ classes, freeCallsAvailable, handleComplete, freeCallsTotal }) => {
   const dispatch = useDispatch();
   const { detailsTraining } = useSelector((state) => state.serviceDetailsReducer);
-  const {
-    org_id,
-    service_id,
-    is_available: isServiceAvailable,
-  } = useSelector((state) => state.serviceDetailsReducer.details);
+  const { orgId, serviceId, isAvailable } = useSelector((state) => state.serviceDetailsReducer.details);
   const { modelsList } = useSelector((state) => state.serviceTrainingReducer);
   const isLoggedIn = useSelector((state) => state.userReducer.login.isLoggedIn);
   const [showTooltip, setShowTooltip] = useState(false);
@@ -27,7 +23,7 @@ const ActiveSession = ({ classes, freeCallsAvailable, handleComplete, freeCallsT
   const progressValue = () => (freeCallsAvailable / freeCallsTotal) * 100;
 
   const handleTooltipOpen = () => {
-    if (!isServiceAvailable) {
+    if (!isAvailable) {
       setShowTooltip(true);
     }
   };
@@ -41,13 +37,13 @@ const ActiveSession = ({ classes, freeCallsAvailable, handleComplete, freeCallsT
   const handleRequestModels = async () => {
     try {
       const address = await dispatch(updateMetamaskWallet());
-      await dispatch(getTrainingModels(org_id, service_id, address));
+      await dispatch(getTrainingModels(orgId, serviceId, address));
     } catch (error) {
       console.error("handle request model: ", error);
     }
   };
 
-  const isActionsDisabled = !isServiceAvailable;
+  const isActionsDisabled = !isAvailable;
 
   return (
     <div className={classes.activeSessionContainer}>

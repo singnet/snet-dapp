@@ -50,7 +50,7 @@ const Summary = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  organizationName: state.serviceDetailsReducer.details.organization_name,
+  organizationName: state.serviceDetailsReducer.details.organizationName,
 });
 
 export default connect(mapStateToProps)(withStyles(useStyles)(Summary));

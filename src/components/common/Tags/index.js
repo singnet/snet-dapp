@@ -11,9 +11,7 @@ const Tags = ({ classes, tags }) => {
   return (
     <div className={classes.tagsHolder}>
       <h5>Tags</h5>
-      <div className={classes.tagsContainer}>
-        {tags && tags.map((tag) => <Tag key={tag.tag_name} text={tag.tag_name} />)}
-      </div>
+      <div className={classes.tagsContainer}>{tags && tags.map((tag) => <Tag key={tag} text={tag} />)}</div>
     </div>
   );
 };

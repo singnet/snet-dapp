@@ -20,7 +20,7 @@ const ModelInfo = ({ classes, cancelEditModel }) => {
   const dispatch = useDispatch();
   const { detailsTraining } = useSelector((state) => state.serviceDetailsReducer);
   const { currentModel } = useSelector((state) => state.serviceTrainingReducer);
-  const { org_id, service_id } = useSelector((state) => state.serviceDetailsReducer.details);
+  const { orgId, serviceId } = useSelector((state) => state.serviceDetailsReducer.details);
 
   // const [trainingMethod, setTrainingMethod] = useState(currentModel ? currentModel.methodName : undefined);
   //eslint-disable-next-line
@@ -48,7 +48,7 @@ const ModelInfo = ({ classes, cancelEditModel }) => {
 
   //   try {
   //     const address = await dispatch(userActions.updateMetamaskWallet());
-  //     await dispatch(updateModel(org_id, service_id, updateModelParams));
+  //     await dispatch(updateModel(orgId, serviceId, updateModelParams));
   //     cancelEditModel();
   //   } catch (error) {
   //     setAlert({ type: alertTypes.ERROR, message: "Unable to update model. Please try again" });
@@ -59,7 +59,7 @@ const ModelInfo = ({ classes, cancelEditModel }) => {
 
   const onDelete = async () => {
     await dispatch(
-      deleteModel(org_id, service_id, currentModel.modelId, currentModel.methodName, currentModel.serviceName)
+      deleteModel(orgId, serviceId, currentModel.modelId, currentModel.methodName, currentModel.serviceName)
     );
     cancelEditModel();
   };
@@ -75,7 +75,7 @@ const ModelInfo = ({ classes, cancelEditModel }) => {
         isRestrictAccessModel,
         dataLink: trainingDataset.link,
       };
-      await dispatch(createModel(org_id, service_id, newModelParams));
+      await dispatch(createModel(orgId, serviceId, newModelParams));
       dispatch(loaderActions.stopAppLoader());
       // handleNextClick();
       cancelEditModel();

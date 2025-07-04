@@ -23,10 +23,10 @@ const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall }) => {
   const dispatch = useDispatch();
   const paymentChannelManagementRef = useRef();
   const {
-    org_id,
-    service_id,
+    orgId,
+    serviceId,
     pricing,
-    is_available: isServiceAvailable,
+    isAvailable: isServiceAvailable,
   } = useSelector((state) => state.serviceDetailsReducer.details);
   const { price_in_cogs } = pricing;
   const servicePriceInToken = useMemo(() => cogsToToken(price_in_cogs), [price_in_cogs]);
@@ -93,7 +93,7 @@ const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall }) => {
     try {
       setAlert({});
       dispatch(loaderActions.startAppLoader(LoaderContent.SETUP_CHANNEL_FOR_SERV_EXEC));
-      paymentChannelManagementRef.current = await dispatch(createPaymentChannelManagement(org_id, service_id));
+      paymentChannelManagementRef.current = await dispatch(createPaymentChannelManagement(orgId, serviceId));
       await paymentChannelManagementRef.current.updateChannelInfo();
       await getBalanceData();
       const sdk = await dispatch(getSdk());
@@ -107,7 +107,7 @@ const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall }) => {
     } finally {
       dispatch(loaderActions.stopAppLoader());
     }
-  }, [dispatch, getBalanceData, org_id, service_id]);
+  }, [dispatch, getBalanceData, orgId, serviceId]);
 
   const handleSubmit = useCallback(async () => {
     dispatch(loaderActions.startAppLoader(LoaderContent.SETUP_CHANNEL_FOR_SERV_EXEC));

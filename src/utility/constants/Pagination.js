@@ -1,6 +1,6 @@
-export const filterParamters = { org_id: "org" };
+export const filterParamters = { orgId: "org" };
 
-export const filterAttributes = ["org_id"];
+export const filterAttributes = ["orgId", "tagName"];
 
 export const defaultFilterData = {
   tags: {
@@ -11,63 +11,34 @@ export const defaultFilterData = {
 };
 
 export const defaultActiveFilterItem = {
-  org_id: [],
+  onlyAvailable: true,
 };
 
 export const filterTitles = {
   tags: "Tags",
-  display_name: "Display Name",
-  org_id: "Organization",
+  displayName: "Display Name",
+  orgId: "Organization",
 };
 
-export const generateOrganizationsFilterObject = (value) => {
-  return [
-    {
-      filter: [
-        {
-          filter_condition: {
-            attr: "org_id",
-            operator: "IN",
-            value,
-          },
-        },
-      ],
-    },
-  ];
-};
-
-export const generateFilterObject = (filterData) => {
-  const filterObject = [];
-  const filter = { filter: [] };
-  filter.filter = Object.entries(filterData).map(([attribute, values]) => {
-    const filterCondition = { filter_condition: { attr: attribute, operator: "IN", value: [] } };
-    filterCondition.filter_condition.value = values.map((value) => value);
-    return filterCondition;
-  });
-  filterObject.push(filter);
-  return filterObject;
-};
-
-export const sortByCategories = [{ value: "display_name", label: "Display Name" }];
+export const sortByCategories = [
+  { value: "ranking", label: "All" },
+  { value: "rating", label: "Rating" },
+  { value: "numberOfRatings", label: "Number of ratings" },
+];
 
 export const defaultPaginationParameters = {
   q: "",
   limit: 36,
-  offset: 0,
-  total_count: 0,
-};
-
-export const defaultFilterParameters = {
-  s: "all",
+  page: 1,
 };
 
 export const defaultSortParameters = {
-  sort_by: "ranking",
-  order_by: "asc",
+  sort: "ranking",
+  order: "desc",
 };
 
 export const defaultListingConfig = {
   ...defaultPaginationParameters,
-  ...defaultFilterParameters,
+  // ...defaultFilterParameters,
   ...defaultSortParameters,
 };
