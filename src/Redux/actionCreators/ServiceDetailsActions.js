@@ -14,10 +14,6 @@ export const UPDATE_FREE_CALLS_INFO = "UPDATE_FREE_CALLS_INFO";
 export const UPDATE_TRAINING_DETAILS = "UPDATE_TRAINING_DETAILS";
 export const UPDATE_FREECALL_SIGNATURE = "UPDATE_FREECALL_SIGNATURE";
 
-const ContactTypes = {
-  SUPPORT: "support",
-};
-
 const resetServiceDetails = () => (dispatch) => {
   dispatch({ type: RESET_SERVICE_DETAILS });
 };
@@ -46,7 +42,7 @@ const enhanceGroup = (group) => ({ ...group, endpoints: group.endpoints.map(({ e
 const parseGroupInfo = (groups) => {
   const serviceGroups = groups;
   const availableGroup = serviceGroups.find(({ endpoints }) =>
-    endpoints.some((endpoint) => endpoint.is_available === 1)
+    endpoints.some((endpoint) => endpoint.isAvailable === 1)
   );
   if (availableGroup) {
     return enhanceGroup(availableGroup);
@@ -69,7 +65,6 @@ const parseServiceDetails = (service) => {
   const groupInfo = parseGroupInfo(service.groups);
   return {
     ...service,
-    contacts: service.contacts.find((contact) => contact.contact_type === ContactTypes.SUPPORT),
     groupInfo,
     pricing: parsePricing(groupInfo),
   };
@@ -90,6 +85,11 @@ const fetchTrainingModelSuccess = (serviceTrainingData) => (dispatch) => {
 };
 
 export const fetchServiceDetails = (orgId, serviceId) => async (dispatch) => {
+  if (!orgId || !serviceId) {
+    console.error("orgId: ", orgId, "serviceId: ", serviceId);
+    return;
+  }
+
   try {
     dispatch(loaderActions.startAppLoader(LoaderContent.FETCH_SERVICE_DETAILS));
     dispatch(resetServiceDetails());

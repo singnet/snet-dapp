@@ -496,10 +496,9 @@ export const updateChannelBalanceAPI =
     const apiName = APIEndpoints.CONTRACT.name;
     const apiPath = APIPaths.UPDATE_CHANNEL_BALANCE(channelId);
     const payload = {
-      signed_amount: signedAmount,
-      channel_id: channelId,
-      org_id: orgId,
-      service_id: serviceId,
+      signedAmount,
+      orgId,
+      serviceId,
     };
     const apiOptions = initializeAPIOptions(token, payload);
     return postAPI(apiName, apiPath, apiOptions);
@@ -509,8 +508,8 @@ const fetchWalletAPI = (token, orgId, groupId) => {
   const apiName = APIEndpoints.ORCHESTRATOR.name;
   const apiPath = APIPaths.WALLET;
   const queryStringParameters = {
-    org_id: orgId,
-    group_id: groupId,
+    orgId,
+    groupId,
   };
   const apiOptions = initializeAPIOptions(token, null, queryStringParameters);
   return getAPI(apiName, apiPath, apiOptions);
@@ -536,9 +535,9 @@ export const fetchAvailableUserWallets = () => async (dispatch) => {
 };
 
 export const fetchWalletLinkedProviders = async (address) => {
-  const url = `${APIEndpoints.CONTRACT.endpoint}${APIPaths.LINKED_PROVIDERS}?wallet_address=${address}`;
+  const url = `${APIEndpoints.CONTRACT.endpoint}${APIPaths.LINKED_PROVIDERS}?walletAddress=${address}`;
   const response = await fetch(url).then((res) => res.json());
-  return response.organizations || [];
+  return response.data.organizations || [];
 };
 
 export const startWalletDetailsPolling = (orgId, groupId) => (dispatch) => {

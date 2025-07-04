@@ -20,7 +20,7 @@ const ThirdPartyAIService = ({
   handleResetAndRun,
 }) => {
   const dispatch = useDispatch();
-  const { service_id, org_id, groupInfo } = useSelector((state) => state.serviceDetailsReducer.details);
+  const { serviceId, orgId, groupInfo } = useSelector((state) => state.serviceDetailsReducer.details);
   const freeCallsAvailable = useSelector((state) => state.serviceDetailsReducer.freeCalls.freeCallsAvailable);
   const wallet = useSelector((state) => state.userReducer.wallet);
   const { modelsList, modelId: selectedModelId } = useSelector((state) => state.serviceTrainingReducer);
@@ -29,15 +29,15 @@ const ThirdPartyAIService = ({
     comment: "",
     rating: "",
   });
-  const [callType, setCallType] = useState();
+  const [callType, setCallType] = useState(freeCallsAvailable > 0 ? callTypes.FREE : callTypes.REGULAR);
   const [serviceClient, setServiceClient] = useState();
 
   useEffect(() => {
     const getServiceClient = async () => {
       const callType = freeCallsAvailable > 0 ? callTypes.FREE : callTypes.REGULAR;
       const newServiceClient = await createServiceClient(
-        org_id,
-        service_id,
+        orgId,
+        serviceId,
         groupInfo,
         onStart,
         onComplete,
@@ -50,7 +50,7 @@ const ThirdPartyAIService = ({
     getServiceClient();
     setupComponent();
     setCallType(callType);
-  }, [org_id, service_id]);
+  }, [orgId, serviceId]);
 
   const setupComponent = () => {
     if (process.env.REACT_APP_SANDBOX) {
@@ -61,7 +61,7 @@ const ThirdPartyAIService = ({
   };
 
   const fetchUserFeedback = async () => {
-    const feedback = await dispatch(fetchFeedback(org_id, service_id));
+    const feedback = await dispatch(fetchFeedback(orgId, serviceId));
     if (!feedback.data?.length > 0) {
       return;
     }
@@ -83,7 +83,7 @@ const ThirdPartyAIService = ({
       });
   };
 
-  const AIServiceCustomComponent = thirdPartyCustomUIComponents.componentFor(org_id, service_id);
+  const AIServiceCustomComponent = thirdPartyCustomUIComponents.componentFor(orgId, serviceId);
   const modelsIds = getModelsIds();
   if (isEmpty(serviceClient) || !serviceClient) {
     return <div>Loading Service...</div>;
@@ -105,8 +105,8 @@ const ThirdPartyAIService = ({
       <CompletedActions
         isComplete={isServiceExecutionComplete}
         feedback={feedback}
-        orgId={org_id}
-        serviceId={service_id}
+        orgId={orgId}
+        serviceId={serviceId}
         refetchFeedback={fetchUserFeedback}
         handleResetAndRun={handleResetAndRun}
         callType={callType}

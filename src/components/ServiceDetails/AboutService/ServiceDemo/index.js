@@ -27,7 +27,7 @@ const ServiceDemo = ({ classes }) => {
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const serviceName = useSelector((state) => state.serviceDetailsReducer.details.display_name);
+  const serviceName = useSelector((state) => state.serviceDetailsReducer.details.displayName);
 
   const [progressText, setProgressText] = useState(progressList);
   const [purchaseCompleted, setPurchaseCompleted] = useState(false);

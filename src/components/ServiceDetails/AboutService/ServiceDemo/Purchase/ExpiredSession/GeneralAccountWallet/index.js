@@ -73,7 +73,7 @@ const GeneralAccountWallet = ({ classes, handleContinue }) => {
     const getWalletInfo = async () => {
       try {
         setLoadingChannelInfo(true);
-        await dispatch(userActions.fetchWallet(orgId, group.group_id));
+        await dispatch(userActions.fetchWallet(orgId, group.groupId));
       } catch (error) {
         console.error("error: ", error);
       } finally {
@@ -81,7 +81,7 @@ const GeneralAccountWallet = ({ classes, handleContinue }) => {
       }
     };
     getWalletInfo();
-  }, [dispatch, orgId, group.group_id]);
+  }, [dispatch, orgId, group.groupId]);
 
   const setCreateWalletType = () => {
     setPaymentPopupVisibile(orderTypes.CREATE_WALLET);

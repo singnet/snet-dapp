@@ -14,24 +14,21 @@ import { useSelector } from "react-redux";
 
 const DemoToggler = ({ classes }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const {
-    service_id,
-    contacts,
-    demo_component_required: demoComponentRequired,
-    is_available: serviceAvailable,
-  } = useSelector((state) => state.serviceDetailsReducer.details);
-  const supportContactEmail = contacts.email;
+  const { serviceId, supportContacts, demoComponentRequired, isAvailable } = useSelector(
+    (state) => state.serviceDetailsReducer.details
+  );
+  const supportContactEmail = supportContacts.email;
 
   const sendFeedback = (messageBody) => {
     sendFeedbackProviderAPI({
       ...messageBody,
       providerEmail: supportContactEmail,
-      serviceId: service_id,
+      serviceId,
     });
   };
 
   const getServiceOrPlaceHolder = () => {
-    if (!serviceAvailable) {
+    if (!isAvailable) {
       return (
         <Fragment>
           <FeedbackFormModal

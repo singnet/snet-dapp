@@ -15,9 +15,9 @@ import AlertBox from "../../../common/AlertBox";
 import { useSelector } from "react-redux";
 
 const Contacts = ({ show, handleClose, classes }) => {
-  const supportContact = useSelector((state) => state.serviceDetailsReducer.details.contacts);
+  const supportContacts = useSelector((state) => state.serviceDetailsReducer.details.supportContacts);
 
-  if (!supportContact) {
+  if (!supportContacts) {
     return (
       <Modal open={show} onClose={handleClose}>
         <Card className={classes.card}>
@@ -46,10 +46,10 @@ const Contacts = ({ show, handleClose, classes }) => {
             <ListItem alignItems="flex-start" divider>
               <ListItemText
                 primary="Support email"
-                secondary={supportContact.email}
+                secondary={supportContacts.email}
                 secondaryTypographyProps={{
                   component: "a",
-                  href: `mailTo:${supportContact.email}`,
+                  href: `mailTo:${supportContacts.email}`,
                   target: "_blank",
                   rel: "noopener noreferrer",
                   className: classes.anchor,
@@ -60,7 +60,7 @@ const Contacts = ({ show, handleClose, classes }) => {
             <ListItem>
               <ListItemText
                 primary="Support phone"
-                secondary={supportContact.phone}
+                secondary={supportContacts.phone}
                 secondaryTypographyProps={{ component: "span", className: classes.phoneNo }}
                 className={classes.listItemText}
               />

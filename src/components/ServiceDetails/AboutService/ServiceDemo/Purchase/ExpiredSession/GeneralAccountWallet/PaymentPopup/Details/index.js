@@ -51,9 +51,9 @@ const Details = ({ classes, handleClose, orderType, handleNextSection }) => {
     const itemDetails = {
       item,
       quantity: Number(quantity),
-      org_id: orgId,
-      service_id: serviceId,
-      group_id: groupInfo.group_id,
+      orgId,
+      serviceId,
+      groupId: groupInfo.groupId,
       recipient: groupInfo.payment.payment_address,
       order_type: orderPayloadTypes[orderType],
       wallet_address: address,
@@ -88,7 +88,7 @@ const Details = ({ classes, handleClose, orderType, handleNextSection }) => {
 
   let initiateInProcess = false;
   const handleContinue = async () => {
-    if (!groupInfo?.group_id) {
+    if (!groupInfo?.groupId) {
       setAlert({ type: alertTypes.ERROR, message: "The group id is undefined. Please try later" });
       return;
     }

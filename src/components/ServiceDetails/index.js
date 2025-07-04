@@ -55,8 +55,8 @@ const ServiceDetails = ({ classes }) => {
       return;
     }
     const updateServiceDetails = async () => {
-      const { org_id, service_id } = service;
-      if (!serviceId || org_id !== orgId || service_id !== serviceId) {
+      const { orgId: serviceOrgId, serviceId: serviceDataServiceId } = service;
+      if (!serviceId || serviceOrgId !== orgId || serviceDataServiceId !== serviceId) {
         await dispatch(fetchServiceDetails(orgId, serviceId));
       }
     };
@@ -128,42 +128,40 @@ const ServiceDetails = ({ classes }) => {
   }
 
   const seoURL = `${process.env.REACT_APP_BASE_URL}/servicedetails/org/${orgId}/service/${serviceId}/tab/${activeTab}`;
-  const tags = service.tags.map((tag) => tag.tag_name);
-
   return (
     <Fragment>
       <Helmet>
-        <title>{service.display_name}</title>
-        <meta name="keywords" content={service.display_name} />
-        <meta name="description" content={service.short_description} />
+        <title>{service.displayName}</title>
+        <meta name="keywords" content={service.displayName} />
+        <meta name="description" content={service.shortDescription} />
       </Helmet>
       <SeoMetadata
-        title={service.display_name}
-        description={service.short_description}
-        image={service.org_assets_url ? service.org_assets_url.hero_image : CardImg}
+        title={service.displayName}
+        description={service.shortDescription}
+        image={service?.orgImageUrl ? service.orgImageUrl : CardImg}
         url={seoURL}
-        keywords={tags}
+        keywords={service.tags}
       />
       <Grid container className={classes.serviceDetailContainer}>
         <div className={classes.notificationBar}>
           <NotificationBar
             type={offlineNotication.type}
-            showNotification={!service.is_available}
+            showNotification={!service.isAvailable}
             icon={ErrorOutlineIcon}
             message={offlineNotication.message}
           />
         </div>
         <div className={classes.TopSection}>
           <TitleCard
-            organizationName={service.organization_name}
-            display_name={service.display_name}
-            service={service.media}
-            orgImg={service.org_assets_url && service.org_assets_url.hero_image}
-            star_rating={service.service_rating && service.service_rating.rating}
-            totalRating={service.service_rating ? service.service_rating.total_users_rated : 0}
-            shortDescription={service.short_description}
+            organizationName={service.organizationName}
+            displayName={service.displayName}
+            serviceMedia={service.media}
+            orgImg={service.orgImageUrl}
+            star_rating={service.rating}
+            totalRating={service.numberOfRatings ? service.numberOfRatings : 0}
+            shortDescription={service.shortDescription}
           />
-          <PricingDetails serviceAvailable={service.is_available} handleDemoClick={handleDemoClick} />
+          <PricingDetails serviceAvailable={service.isAvailable} handleDemoClick={handleDemoClick} />
         </div>
         <StyledTabs tabs={tabs} activeTab={Number(activeTab)} onTabChange={handleTabChange} />
       </Grid>
