@@ -54,7 +54,8 @@
     "web3": "^4.11.1"
   },
   "resolutions": {
-    "concat-stream": "github:singnet/concat-stream"
+    "concat-stream": "github:singnet/concat-stream",
+    "zod": "3.21.4"
   },
   "overrides": {
     "rimraf": "^4.0.0",
