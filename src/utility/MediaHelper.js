@@ -1,7 +1,7 @@
 import { isUndefined } from "lodash";
 
 const DownloadMedia = (media, asset_type, filename) => {
-  const mediaDetails = media.find((mediaItem) => mediaItem.asset_type === asset_type);
+  const mediaDetails = media.find((mediaItem) => mediaItem.assetType === asset_type);
 
   if (typeof mediaDetails !== "undefined") {
     const url = mediaDetails["url"];
@@ -20,7 +20,8 @@ export const isMediaAvailableForDownloading = (media, assetType) => {
     return;
   }
 
-  const mediaDetails = media.find((mediaItem) => mediaItem?.asset_type === assetType);
+  const mediaDetails = media.find((mediaItem) => mediaItem?.assetType === assetType);
+
   return !isUndefined(mediaDetails);
 };
 
