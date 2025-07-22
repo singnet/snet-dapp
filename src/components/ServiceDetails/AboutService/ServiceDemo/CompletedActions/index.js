@@ -3,18 +3,18 @@ import React, { useCallback, useEffect, useState } from "react";
 import StyledButton from "../../../../common/StyledButton";
 import { useStyles } from "./styles";
 import UserFeedback from "../UserFeedback";
-import { updateChannelBalanceAPI, walletTypes } from "../../../../../Redux/actionCreators/UserActions";
+import { updateChannelBalanceAPI } from "../../../../../Redux/actionCreators/UserActions";
 import { createPaymentChannelManagement } from "../../../../../Redux/actionCreators/SDKActions";
-import { channelInfo as getChannelInfo } from "../../../../../Redux/reducers/UserReducer";
-import { useDispatch, useSelector } from "react-redux";
+// import { channelInfo as getChannelInfo } from "../../../../../Redux/reducers/UserReducer";
+import { useDispatch } from "react-redux";
 import { callTypes } from "../../../../../utility/sdk";
 
 const CompletedActions = ({ isComplete, callType, feedback, orgId, serviceId, refetchFeedback, handleResetAndRun }) => {
   const dispatch = useDispatch();
   const classes = useStyles();
-  const walletType = useSelector((state) => state.userReducer.wallet.type);
-  const walletList = useSelector((state) => state.userReducer.walletList);
-  const channelInfo = getChannelInfo(walletList);
+  // const walletType = useSelector((state) => state.userReducer.wallet.type);
+  // const walletList = useSelector((state) => state.userReducer.walletList);
+  // const channelInfo = getChannelInfo(walletList);
 
   const [openUserFeedback, setUserFeedback] = useState(false);
 
@@ -45,12 +45,12 @@ const CompletedActions = ({ isComplete, callType, feedback, orgId, serviceId, re
     }
     const updateBalance = async () => {
       try {
-        let signedAmountAndChannelId = {};
-        if (walletType === walletTypes.METAMASK) {
-          signedAmountAndChannelId = await getSignedAmountAndChannelId();
-        } else {
-          signedAmountAndChannelId = { channelId: Number(channelInfo.id), signedAmount: undefined };
-        }
+        const signedAmountAndChannelId = await getSignedAmountAndChannelId();
+        // if (walletType === walletTypes.METAMASK) {
+        // signedAmountAndChannelId = await getSignedAmountAndChannelId();
+        // } else {
+        //   signedAmountAndChannelId = { channelId: Number(channelInfo.id), signedAmount: undefined };
+        // }
 
         await dispatch(
           updateChannelBalanceAPI({
@@ -65,7 +65,7 @@ const CompletedActions = ({ isComplete, callType, feedback, orgId, serviceId, re
     };
 
     updateBalance();
-  }, [dispatch, getSignedAmountAndChannelId, callType, isComplete, channelInfo.id, walletType, orgId, serviceId]);
+  }, [dispatch, callType, isComplete, orgId, serviceId]);
 
   if (!isComplete) {
     return null;

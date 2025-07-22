@@ -16,12 +16,7 @@ import AboutService from "./AboutService";
 import InstallAndRunService from "./InstallAndRunService";
 import NotificationBar, { notificationBarTypes } from "../common/NotificationBar";
 
-import {
-  fetchTrainingModel,
-  fetchServiceDetails,
-  getIsTrainingAvailable,
-} from "../../Redux/actionCreators/ServiceDetailsActions";
-import { serviceDetails as getServiceDetails } from "../../Redux/reducers/ServiceDetailsReducer";
+import { fetchServiceDetails, getIsTrainingAvailable } from "../../Redux/actionCreators/ServiceDetailsActions";
 
 import ErrorBox from "../common/ErrorBox";
 import SeoMetadata from "../common/SeoMetadata";
@@ -46,7 +41,7 @@ const ServiceDetails = ({ classes }) => {
 
   const isLoggedIn = useSelector((state) => state.userReducer.login.isLoggedIn);
   const detailsTraining = useSelector((state) => state.serviceDetailsReducer.detailsTraining);
-  const service = useSelector((state) => getServiceDetails(state, orgId, serviceId));
+  const service = useSelector((state) => state.serviceDetailsReducer.details);
   const loading = useSelector((state) => state.loaderReducer.app.loading);
 
   const [activeTab, setActiveTab] = useState(tabId ? tabId : 0);
@@ -59,10 +54,14 @@ const ServiceDetails = ({ classes }) => {
     if (process.env.REACT_APP_SANDBOX) {
       return;
     }
-    if (isEmpty(service) || !service) {
-      dispatch(fetchServiceDetails(orgId, serviceId));
-    }
-    dispatch(fetchTrainingModel(orgId, serviceId));
+    const updateServiceDetails = async () => {
+      const { orgId: serviceOrgId, serviceId: serviceDataServiceId } = service;
+      if (!serviceId || serviceOrgId !== orgId || serviceDataServiceId !== serviceId) {
+        await dispatch(fetchServiceDetails(orgId, serviceId));
+      }
+    };
+
+    updateServiceDetails();
   }, [dispatch, orgId, serviceId, service]);
 
   const handleTabChange = (activeTab) => {
@@ -100,21 +99,13 @@ const ServiceDetails = ({ classes }) => {
       name: "About",
       activeIndex: 0,
       tabId: "serviceDemo",
-      component: (
-        <AboutService
-          service={service}
-          serviceAvailable={service.is_available}
-          // scrollToView={scrollToView}
-          demoComponentRequired={!!service.demo_component_required}
-          isTrainingAvailable={isTrainingAvailable}
-        />
-      ),
+      component: <AboutService isTrainingAvailable={isTrainingAvailable} />,
     },
     {
       name: "Install and Run",
       tabId: "serviceGuides",
       activeIndex: 1,
-      component: <InstallAndRunService service={service} />, //TODO remove service attribute
+      component: <InstallAndRunService />,
     },
   ];
 
@@ -132,47 +123,45 @@ const ServiceDetails = ({ classes }) => {
       name: "Models",
       tabId: "serviceTraining",
       activeIndex: 3,
-      component: <TrainingModels service={service} />,
+      component: <TrainingModels />,
     });
   }
 
   const seoURL = `${process.env.REACT_APP_BASE_URL}/servicedetails/org/${orgId}/service/${serviceId}/tab/${activeTab}`;
-  const tags = service.tags.map((tag) => tag.tag_name);
-
   return (
     <Fragment>
       <Helmet>
-        <title>{service.display_name}</title>
-        <meta name="keywords" content={service.display_name} />
-        <meta name="description" content={service.short_description} />
+        <title>{service.displayName}</title>
+        <meta name="keywords" content={service.displayName} />
+        <meta name="description" content={service.shortDescription} />
       </Helmet>
       <SeoMetadata
-        title={service.display_name}
-        description={service.short_description}
-        image={service.org_assets_url ? service.org_assets_url.hero_image : CardImg}
+        title={service.displayName}
+        description={service.shortDescription}
+        image={service?.orgImageUrl ? service.orgImageUrl : CardImg}
         url={seoURL}
-        keywords={tags}
+        keywords={service.tags}
       />
       <Grid container className={classes.serviceDetailContainer}>
         <div className={classes.notificationBar}>
           <NotificationBar
             type={offlineNotication.type}
-            showNotification={!service.is_available}
+            showNotification={!service.isAvailable}
             icon={ErrorOutlineIcon}
             message={offlineNotication.message}
           />
         </div>
         <div className={classes.TopSection}>
           <TitleCard
-            organizationName={service.organization_name}
-            display_name={service.display_name}
-            service={service.media}
-            orgImg={service.org_assets_url && service.org_assets_url.hero_image}
-            star_rating={service.service_rating && service.service_rating.rating}
-            totalRating={service.service_rating ? service.service_rating.total_users_rated : 0}
-            shortDescription={service.short_description}
+            organizationName={service.organizationName}
+            displayName={service.displayName}
+            serviceMedia={service.media}
+            orgImg={service.orgImageUrl}
+            star_rating={service.rating}
+            totalRating={service.numberOfRatings ? service.numberOfRatings : 0}
+            shortDescription={service.shortDescription}
           />
-          <PricingDetails serviceAvailable={service.is_available} handleDemoClick={handleDemoClick} />
+          <PricingDetails serviceAvailable={service.isAvailable} handleDemoClick={handleDemoClick} />
         </div>
         <StyledTabs tabs={tabs} activeTab={Number(activeTab)} onTabChange={handleTabChange} />
       </Grid>

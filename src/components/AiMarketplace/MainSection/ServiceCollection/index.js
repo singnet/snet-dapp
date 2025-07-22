@@ -41,13 +41,13 @@ const CardGroup = ({ listView }) => {
 
   const cardPropsGenerate = (card) => {
     return {
-      cardMedia: card.media.url,
-      orgImg: card.org_assets_url.hero_image,
-      cardTitle: card.display_name,
-      cardSubheader: card.organization_name,
-      ratingGiven: card.service_rating,
-      cardDescription: truncate(card.short_description, { length: maxDescriptionChars }),
-      isAvailable: Boolean(card.is_available),
+      cardMedia: card.serviceImageUrl,
+      orgImg: card.orgImageUrl,
+      cardTitle: card.displayName,
+      cardSubheader: card.organizationName,
+      ratingGiven: { rating: card.rating, numberOfRatings: card.numberOfRatings },
+      cardDescription: truncate(card.shortDescription, { length: maxDescriptionChars }),
+      isAvailable: Boolean(card.isAvailable),
     };
   };
 
@@ -58,8 +58,8 @@ const CardGroup = ({ listView }) => {
 
         return (
           <Link
-            key={card.org_id + card.service_id}
-            to={`/${Routes.SERVICE_DETAILS}/org/${card.org_id}/service/${card.service_id}/tab/0`} //TODO
+            key={card.orgId + card.serviceId}
+            to={`/${Routes.SERVICE_DETAILS}/org/${card.orgId}/service/${card.serviceId}/tab/0`} //TODO
             className={classes.routerLink}
           >
             {listView ? <ServiceListItem {...cardProps} /> : <GridViewItem {...cardProps} />}

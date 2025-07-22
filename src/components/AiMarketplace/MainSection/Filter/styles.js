@@ -49,16 +49,6 @@ export const useStyles = makeStyles((theme) => ({
   servicesCount: {
     color: theme.palette.text.lightShadedGray,
     fontSize: 16,
-    "&::after": {
-      content: "' '",
-      width: 2,
-      height: 15,
-      marginLeft: 10,
-      display: "inline-block",
-      backgroundColor: theme.palette.text.lightShadedGray,
-      verticalAlign: "middle",
-      "@media(max-width: 480px)": { display: "none" },
-    },
   },
   searchBar: {
     "& div": {

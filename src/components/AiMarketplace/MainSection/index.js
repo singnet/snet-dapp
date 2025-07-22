@@ -8,7 +8,7 @@ import StyledPagination from "./StyledPagination";
 import ServiceCollection from "./ServiceCollection";
 import { useStyles } from "./styles";
 import { serviceActions } from "../../../Redux/actionCreators";
-import { filterAttributes, generateFilterObject } from "../../../utility/constants/Pagination";
+import { filterAttributes } from "../../../utility/constants/Pagination";
 import { isDesktop } from "../../../utility/constants/UXProperties";
 
 class MainSection extends Component {
@@ -29,14 +29,7 @@ class MainSection extends Component {
 
   handleFetchService = (pagination) => {
     const { currentFilter, fetchService } = this.props;
-    let filterObj = [];
-    for (let i in currentFilter) {
-      if (currentFilter[i].length > 0) {
-        filterObj = generateFilterObject(currentFilter);
-        break;
-      }
-    }
-    fetchService(pagination, filterObj);
+    fetchService(pagination, currentFilter);
   };
 
   toggleView = () => {
@@ -44,17 +37,15 @@ class MainSection extends Component {
   };
 
   render() {
-    const { classes, pagination } = this.props;
+    const { classes, pagination, totalCount } = this.props;
     const { listView } = this.state;
     return (
       <Grid container className={classes.mainSection}>
         <Grid item xs={12} sm={12} md={12} lg={12} className={classes.filterMainContainer}>
           <Filter
             listView={listView}
-            total_count={pagination.total_count}
             handleSearchChange={this.handlePaginationChange}
             toggleView={this.toggleView}
-            currentPagination={pagination}
             showToggler={isDesktop}
           />
         </Grid>
@@ -62,8 +53,8 @@ class MainSection extends Component {
           <ServiceCollection listView={listView} />
           <StyledPagination
             limit={pagination.limit}
-            offset={pagination.offset}
-            total_count={pagination.total_count}
+            page={pagination.page}
+            totalCount={totalCount}
             handleChange={this.handlePaginationChange}
           />
         </Grid>
@@ -73,6 +64,7 @@ class MainSection extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  totalCount: state.serviceReducer.totalCount,
   pagination: state.serviceReducer.pagination,
   currentFilter: state.serviceReducer.activeFilterItem,
 });

@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 
 import AlertBox, { alertTypes } from "../../../common/AlertBox";
+import { connect } from "react-redux";
+import { stopAppLoader } from "../../../../Redux/actionCreators/LoaderActions";
+
 class ThirdPartyServiceErrorBoundary extends Component {
   state = {
     error: undefined,
@@ -27,4 +30,8 @@ class ThirdPartyServiceErrorBoundary extends Component {
   }
 }
 
-export default ThirdPartyServiceErrorBoundary;
+const mapDispatchToProps = (dispatch) => ({
+  stopLoader: () => dispatch(stopAppLoader()),
+});
+
+export default connect(undefined, mapDispatchToProps)(ThirdPartyServiceErrorBoundary);

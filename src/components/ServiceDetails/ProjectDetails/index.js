@@ -1,25 +1,27 @@
 import React from "react";
 import { withStyles } from "@mui/styles";
 import PropTypes from "prop-types";
-import isEmpty from "lodash/isEmpty";
 
 import { useStyles } from "./styles";
 import ProjectURL from "./ProjectURL";
-import Contributors from "./Contibutors";
 import { Grid } from "@mui/material";
 import Card from "../../common/Card";
+import { useSelector } from "react-redux";
 
-const ProjectDetails = ({ classes, projectURL, contributors, orgId, serviceId }) => {
+const ProjectDetails = ({ classes }) => {
+  const {
+    url: projectURL,
+    contributors,
+    orgId,
+    serviceId,
+  } = useSelector((state) => state.serviceDetailsReducer.details);
+
   const data = [
     { label: "Project URL", value: <ProjectURL URL={projectURL} /> },
     { label: "Organization ID", value: orgId },
     { label: "Service ID", value: serviceId },
+    { label: "Contributors", value: contributors },
   ];
-
-  if (!isEmpty(contributors)) {
-    const contributorsRow = { label: "Contributors", value: <Contributors contributors={contributors} /> };
-    data.push(contributorsRow);
-  }
 
   return (
     <Card
@@ -43,13 +45,7 @@ const ProjectDetails = ({ classes, projectURL, contributors, orgId, serviceId })
 };
 
 ProjectDetails.propTypes = {
-  projectURL: PropTypes.string,
-  contributors: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-      email_id: PropTypes.string,
-    })
-  ),
+  classes: PropTypes.object,
 };
 
 export default withStyles(useStyles)(ProjectDetails);

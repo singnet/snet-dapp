@@ -1,64 +1,75 @@
-import React, { Component, Suspense } from "react";
-import { connect } from "react-redux";
+import React, { Suspense, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { withStyles } from "@mui/styles";
 
 import thirdPartyCustomUIComponents from "../../../../assets/thirdPartyServices";
 import { useStyles } from "./styles";
-import { serviceActions, loaderActions } from "../../../../Redux/actionCreators";
 import CompletedActions from "./CompletedActions";
 import { createServiceClient, callTypes } from "../../../../utility/sdk";
 import ThirdPartyServiceErrorBoundary from "./ThirdPartyServiceErrorBoundary";
-import { channelInfo } from "../../../../Redux/reducers/UserReducer";
 import { isEmpty } from "lodash";
 import { modelStatus } from "../../../../Redux/reducers/ServiceTrainingReducer";
-import { groupInfo } from "../../../../Redux/reducers/ServiceDetailsReducer";
+import { fetchFeedback } from "../../../../Redux/actionCreators/ServiceActions";
 
-class ThirdPartyAIService extends Component {
-  state = {
-    feedback: {
-      comment: "",
-      rating: "",
-    },
-    loading: true,
-  };
+const ThirdPartyAIService = ({
+  classes,
+  isServiceExecutionComplete,
+  onStart,
+  onComplete,
+  onError,
+  handleResetAndRun,
+}) => {
+  const dispatch = useDispatch();
+  const { serviceId, orgId, groupInfo } = useSelector((state) => state.serviceDetailsReducer.details);
+  const freeCallsAvailable = useSelector((state) => state.serviceDetailsReducer.freeCalls.freeCallsAvailable);
+  const wallet = useSelector((state) => state.userReducer.wallet);
+  const { modelsList, modelId: selectedModelId } = useSelector((state) => state.serviceTrainingReducer);
 
-  componentDidMount = async () => {
-    const { org_id, service_id, freeCallsAvailable, groupInfo, wallet } = this.props;
-    const callType = freeCallsAvailable > 0 ? callTypes.FREE : callTypes.REGULAR;
-    this.serviceClient = await createServiceClient(
-      org_id,
-      service_id,
-      groupInfo,
-      this.props.serviceRequestStartHandler,
-      this.props.serviceRequestCompleteHandler,
-      this.props.serviceRequestErrorHandler,
-      callType,
-      wallet
-    );
-    this.setupComponent();
-    this.setState({ loading: false, callType });
-  };
+  const [feedback, setFeedback] = useState({
+    comment: "",
+    rating: "",
+  });
+  const [callType, setCallType] = useState(freeCallsAvailable > 0 ? callTypes.FREE : callTypes.REGULAR);
+  const [serviceClient, setServiceClient] = useState();
 
-  setupComponent = () => {
+  useEffect(() => {
+    const getServiceClient = async () => {
+      const callType = freeCallsAvailable > 0 ? callTypes.FREE : callTypes.REGULAR;
+      const newServiceClient = await createServiceClient(
+        orgId,
+        serviceId,
+        groupInfo,
+        onStart,
+        onComplete,
+        onError,
+        callType,
+        wallet
+      );
+      setServiceClient(newServiceClient);
+    };
+    getServiceClient();
+    setupComponent();
+    setCallType(callType);
+  }, [orgId, serviceId]);
+
+  const setupComponent = () => {
     if (process.env.REACT_APP_SANDBOX) {
       return;
     }
 
-    this.fetchUserFeedback();
+    fetchUserFeedback();
   };
 
-  fetchUserFeedback = async () => {
-    const { org_id, service_id } = this.props;
-    const feedback = await this.props.fetchFeedback(org_id, service_id);
+  const fetchUserFeedback = async () => {
+    const feedback = await dispatch(fetchFeedback(orgId, serviceId));
     if (!feedback.data?.length > 0) {
       return;
     }
-    this.setState({ feedback: { comment: feedback.data[0].comment[0], rating: feedback.data[0].rating } });
+    const feedbackData = feedback.data[0];
+    setFeedback({ comment: feedbackData.comment[0], rating: feedbackData.rating });
   };
 
-  getModelsIds() {
-    const modelsList = this.props.modelsList;
-
+  const getModelsIds = () => {
     if (isEmpty(modelsList)) {
       return [];
     }
@@ -70,62 +81,38 @@ class ThirdPartyAIService extends Component {
           label: model.modelName,
         };
       });
+  };
+
+  const AIServiceCustomComponent = thirdPartyCustomUIComponents.componentFor(orgId, serviceId);
+  const modelsIds = getModelsIds();
+  if (isEmpty(serviceClient) || !serviceClient) {
+    return <div>Loading Service...</div>;
   }
 
-  render() {
-    const { loading } = this.state;
-    if (loading) {
-      return null;
-    }
+  return (
+    <div className={classes.serviceDetailsTab}>
+      <Suspense fallback={<div>Loading Service...</div>}>
+        <ThirdPartyServiceErrorBoundary>
+          <AIServiceCustomComponent
+            serviceClient={serviceClient}
+            isComplete={isServiceExecutionComplete}
+            sliderWidth="550px"
+            modelsIds={modelsIds}
+            selectedModelId={selectedModelId}
+          />
+        </ThirdPartyServiceErrorBoundary>
+      </Suspense>
+      <CompletedActions
+        isComplete={isServiceExecutionComplete}
+        feedback={feedback}
+        orgId={orgId}
+        serviceId={serviceId}
+        refetchFeedback={fetchUserFeedback}
+        handleResetAndRun={handleResetAndRun}
+        callType={callType}
+      />
+    </div>
+  );
+};
 
-    const { selectedModelId, org_id, service_id, classes, stopLoader, isServiceExecutionComplete, handleResetAndRun } =
-      this.props;
-    const { feedback, callType } = this.state;
-    const { serviceClient } = this;
-    const AIServiceCustomComponent = thirdPartyCustomUIComponents.componentFor(org_id, service_id);
-    const modelsIds = this.getModelsIds();
-
-    return (
-      <div className={classes.serviceDetailsTab}>
-        <Suspense fallback={<div>Loading Service...</div>}>
-          <ThirdPartyServiceErrorBoundary stopLoader={stopLoader}>
-            <AIServiceCustomComponent
-              serviceClient={serviceClient}
-              isComplete={isServiceExecutionComplete}
-              sliderWidth="550px"
-              modelsIds={modelsIds}
-              selectedModelId={selectedModelId}
-            />
-          </ThirdPartyServiceErrorBoundary>
-        </Suspense>
-        <CompletedActions
-          isComplete={isServiceExecutionComplete}
-          feedback={feedback}
-          orgId={org_id}
-          serviceId={service_id}
-          refetchFeedback={this.fetchUserFeedback}
-          handleResetAndRun={handleResetAndRun}
-          callType={callType}
-        />
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = (state) => ({
-  selectedModelId: state.serviceTrainingReducer.currentModel.modelId,
-  modelsList: state.serviceTrainingReducer.modelsList,
-  isComplete: state.serviceReducer.serviceMethodExecution.isComplete,
-  email: state.userReducer.email,
-  wallet: state.userReducer.wallet,
-  channelInfo: channelInfo(state.userReducer.walletList),
-  groupInfo: groupInfo(state),
-  freeCallsAvailable: state.serviceDetailsReducer.freeCalls.freeCallsAvailable,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  fetchFeedback: (orgId, serviceId) => dispatch(serviceActions.fetchFeedback(orgId, serviceId)),
-  stopLoader: () => dispatch(loaderActions.startAppLoader),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(ThirdPartyAIService));
+export default withStyles(useStyles)(ThirdPartyAIService);

@@ -46,7 +46,6 @@ export const useStyles = (theme) => ({
     },
   },
   walletId: {
-    fontSize: "14px !important",
     wordBreak: "break-all",
   },
   bgBox: {

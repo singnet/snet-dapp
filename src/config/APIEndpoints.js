@@ -32,16 +32,16 @@ export const APIEndpoints = {
 };
 
 export const APIPaths = {
+  USER: "/user",
+  UPDATE_USER_ALERTS: "/user/alerts",
+  FEEDBACK: "/user/review",
+
   SIGNUP: "/signup",
-  GET_USER_PROFILE: "/profile",
-  UPDATE_USER_PROFILE: "/profile",
-  DELETE_USER: "/user/delete",
-  FEEDBACK: "/feedback",
-  GET_SERVICE_LIST: "/service",
-  FILTER_DATA: "/service?attribute=",
+  GET_SERVICE_LIST: "/services",
+  FILTER_DATA: "/service-filters?attribute=",
   SERVICE_DETAILS: (orgId, serviceId) => `/org/${orgId}/service/${serviceId}`,
   UPDATE_CHANNEL_BALANCE: (channelId) => `/channel/${channelId}/balance`,
-  LINKED_PROVIDERS: "/v2/channel",
+  LINKED_PROVIDERS: "/channel",
   SIGNER_FREE_CALL: "/freecall",
   SIGNER_STATE_SERVICE: "/state-service",
   SIGNER_REGULAR_CALL: "/regular-call",
