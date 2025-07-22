@@ -12,13 +12,13 @@ const sandboxState = {
   },
   serviceDetailsReducer: {
     details: {
-      org_id: process.env.REACT_APP_SANDBOX_ORG_ID,
-      service_id: process.env.REACT_APP_SANDBOX_SERVICE_ID,
-      display_name: "Example Service",
+      orgId: process.env.REACT_APP_SANDBOX_ORG_ID,
+      serviceId: process.env.REACT_APP_SANDBOX_SERVICE_ID,
+      displayName: "Example Service",
       description: "Simple example service.",
       url: "https://github.com/singnet/example-service",
       tags: [{ tag_name: "example" }, { tag_name: "tutorial" }],
-      is_available: 1,
+      isAvailable: 1,
       groups: [
         {
           pricing: [
@@ -31,7 +31,7 @@ const sandboxState = {
           endpoints: [
             {
               endpoint: process.env.REACT_APP_SANDBOX_SERVICE_ENDPOINT,
-              is_available: 1,
+              isAvailable: 1,
             },
           ],
         },

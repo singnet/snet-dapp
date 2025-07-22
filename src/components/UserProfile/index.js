@@ -9,7 +9,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import UserProfileSettings from "./UserProfileSettings";
 import UserProfileHeader from "./UserProfileHeader";
 import UserProfileAccount from "./UserProfileAccount";
-import UserProfileTransactionHistory from "./UserProfileTransactionHistory";
+// import UserProfileTransactionHistory from "./UserProfileTransactionHistory";
 // import UserProfileModels from "./UserProfileModels";
 import { useStyles } from "./styles";
 import Routes from "../../utility/constants/Routes";
@@ -36,12 +36,12 @@ const UserProfile = ({ classes, nickname, email }) => {
         path: userProfileRoutes.SETTINGS,
         component: <UserProfileSettings />,
       },
-      transactions: {
-        name: "Transactions",
-        index: 2,
-        path: userProfileRoutes.TRANSACTIONS,
-        component: <UserProfileTransactionHistory />,
-      },
+      // transactions: {
+      //   name: "PayPal Transactions",
+      //   index: 2,
+      //   path: userProfileRoutes.TRANSACTIONS,
+      //   component: <UserProfileTransactionHistory />,
+      // },
     }),
     []
   );
@@ -50,7 +50,7 @@ const UserProfile = ({ classes, nickname, email }) => {
     () => ({
       [`${tabs.account.path}`]: "account",
       [`${tabs.settings.path}`]: "settings",
-      [`${tabs.transactions.path}`]: "transactions",
+      // [`${tabs.transactions.path}`]: "transactions",
     }),
     [tabs]
   );

@@ -6,7 +6,6 @@ import StyledButton from "../../../../../../common/StyledButton";
 import PaymentInfoCard from "../../PaymentInfoCard";
 import AlertBox, { alertTypes } from "../../../../../../common/AlertBox";
 import { cogsToToken } from "../../../../../../../utility/PricingStrategy";
-import { pricing as getPricing } from "../../../../../../../Redux/reducers/ServiceDetailsReducer";
 import { loaderActions } from "../../../../../../../Redux/actionCreators";
 import { LoaderContent } from "../../../../../../../utility/constants/LoaderContent";
 import { useStyles } from "./style";
@@ -20,12 +19,16 @@ import ContinueButton from "./ContinueButton";
 import DepositButton from "./DepositButton";
 import PaymentOptions from "./PaymentOptions";
 
-const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, isServiceAvailable }) => {
+const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall }) => {
   const dispatch = useDispatch();
   const paymentChannelManagementRef = useRef();
-  const { price_in_cogs } = useSelector((state) => getPricing(state));
-  const { org_id, service_id } = useSelector((state) => state.serviceDetailsReducer.details);
-
+  const {
+    orgId,
+    serviceId,
+    pricing,
+    isAvailable: isServiceAvailable,
+  } = useSelector((state) => state.serviceDetailsReducer.details);
+  const { price_in_cogs } = pricing;
   const servicePriceInToken = useMemo(() => cogsToToken(price_in_cogs), [price_in_cogs]);
   const [mpeBalance, setMpeBalance] = useState("");
   const [selectedPayType, setSelectedPayType] = useState(payTypes.CHANNEL_BALANCE);
@@ -90,7 +93,7 @@ const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, isServiceAva
     try {
       setAlert({});
       dispatch(loaderActions.startAppLoader(LoaderContent.SETUP_CHANNEL_FOR_SERV_EXEC));
-      paymentChannelManagementRef.current = await dispatch(createPaymentChannelManagement(org_id, service_id));
+      paymentChannelManagementRef.current = await dispatch(createPaymentChannelManagement(orgId, serviceId));
       await paymentChannelManagementRef.current.updateChannelInfo();
       await getBalanceData();
       const sdk = await dispatch(getSdk());
@@ -104,7 +107,7 @@ const MetamaskFlow = ({ classes, handleContinue, setIsLastPaidCall, isServiceAva
     } finally {
       dispatch(loaderActions.stopAppLoader());
     }
-  }, [dispatch, getBalanceData, org_id, service_id]);
+  }, [dispatch, getBalanceData, orgId, serviceId]);
 
   const handleSubmit = useCallback(async () => {
     dispatch(loaderActions.startAppLoader(LoaderContent.SETUP_CHANNEL_FOR_SERV_EXEC));
@@ -193,5 +196,4 @@ MetamaskFlow.propTypes = {
   classes: PropTypes.object.isRequired,
   handleContinue: PropTypes.func.isRequired,
   setIsLastPaidCall: PropTypes.func.isRequired,
-  isServiceAvailable: PropTypes.bool.isRequired,
 };

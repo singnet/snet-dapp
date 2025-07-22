@@ -55,13 +55,13 @@ const parseFreeCallMetadata = (data) => {
   return MetadataGenerator.generateMetadata(metadataFields);
 };
 
-export const createFreecallStrategy = async (org_id, service_id, group_name, options) => {
+export const createFreecallStrategy = async (orgId, serviceId, groupName, options) => {
   if (
     !serviceMetadataProvider ||
-    serviceMetadataProvider.serviceMetadata.orgId !== org_id ||
-    serviceMetadataProvider.serviceMetadata.serviceId !== service_id
+    serviceMetadataProvider.serviceMetadata.orgId !== orgId ||
+    serviceMetadataProvider.serviceMetadata.serviceId !== serviceId
   ) {
-    await createMetadataProvider(org_id, service_id, group_name, options);
+    await createMetadataProvider(orgId, serviceId, groupName, options);
   }
 
   const paymentStrategy = new FreeCallPaymentStrategy(sdk.account, serviceMetadataProvider);
@@ -125,7 +125,7 @@ const generateOptions = (callType, wallet, serviceRequestErrorHandler, groupInfo
     };
   }
   if (callType === callTypes.FREE) {
-    return { ...defaultOptions, metadataGenerator: metadataGenerator(serviceRequestErrorHandler, groupInfo.group_id) };
+    return { ...defaultOptions, metadataGenerator: metadataGenerator(serviceRequestErrorHandler, groupInfo.groupId) };
   }
   console.log("wallet: ", wallet);
 
@@ -205,13 +205,13 @@ const getMethodNames = (service) => {
   });
 };
 
-const createMetadataProvider = async (org_id, service_id, groupName, options) => {
-  serviceMetadataProvider = await sdk.createServiceMetadataProvider(org_id, service_id, groupName, options);
+const createMetadataProvider = async (orgId, serviceId, groupName, options) => {
+  serviceMetadataProvider = await sdk.createServiceMetadataProvider(orgId, serviceId, groupName, options);
 };
 
 export const createServiceClient = async (
-  org_id,
-  service_id,
+  orgId,
+  serviceId,
   groupInfo,
   serviceRequestStartHandler,
   serviceRequestCompleteHandler,
@@ -220,7 +220,7 @@ export const createServiceClient = async (
   wallet
 ) => {
   const options = generateOptions(callType, wallet, serviceRequestErrorHandler, groupInfo);
-  await createMetadataProvider(org_id, service_id, groupInfo.group_name, options);
+  await createMetadataProvider(orgId, serviceId, groupInfo.groupName, options);
   const serviceClient = await sdk.createServiceClient({
     paymentStrategy: new PaidPaymentStrategy(sdk.account, serviceMetadataProvider),
     serviceMetadataProvider,

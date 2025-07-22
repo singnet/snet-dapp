@@ -14,7 +14,6 @@ import { isEmpty } from "lodash";
 import PaymentInfoCard from "../../PaymentInfoCard";
 import AlertBox, { alertTypes } from "../../../../../../common/AlertBox";
 import { userActions } from "../../../../../../../Redux/actionCreators";
-import { groupInfo } from "../../../../../../../Redux/reducers/ServiceDetailsReducer";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { initPaypalSdk } from "../../../../../../../utility/sdk";
 
@@ -31,7 +30,7 @@ const GeneralAccountWallet = ({ classes, handleContinue }) => {
   const dispatch = useDispatch();
   const { orgId } = useParams();
 
-  const group = useSelector((state) => groupInfo(state));
+  const group = useSelector((state) => state.serviceDetailsReducer.details.groupInfo);
   const inProgressOrderType = useSelector((state) => state.paymentReducer.paypalInProgress.orderType);
   const walletList = useSelector((state) => state.userReducer.walletList);
   const channelInfo = getChannelInfo(walletList);
@@ -74,7 +73,7 @@ const GeneralAccountWallet = ({ classes, handleContinue }) => {
     const getWalletInfo = async () => {
       try {
         setLoadingChannelInfo(true);
-        await dispatch(userActions.fetchWallet(orgId, group.group_id));
+        await dispatch(userActions.fetchWallet(orgId, group.groupId));
       } catch (error) {
         console.error("error: ", error);
       } finally {
@@ -82,7 +81,7 @@ const GeneralAccountWallet = ({ classes, handleContinue }) => {
       }
     };
     getWalletInfo();
-  }, [dispatch, orgId, group.group_id]);
+  }, [dispatch, orgId, group.groupId]);
 
   const setCreateWalletType = () => {
     setPaymentPopupVisibile(orderTypes.CREATE_WALLET);

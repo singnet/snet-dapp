@@ -1,24 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { withStyles } from "@mui/styles";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import { useDispatch } from "react-redux";
 
 import StyledButton from "../../common/StyledButton";
 import { useStyles } from "./styles";
 import PrivacyTerms from "./PrivacyTerms";
-import { userActions } from "../../../Redux/actionCreators";
+import { updateUserAttributes } from "aws-amplify/auth";
 import Routes from "../../../utility/constants/Routes";
 import AlertBox, { alertTypes } from "../../common/AlertBox";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getIsTermsAcceptedInfo } from "../../../Redux/actionCreators/UserActions";
 
 const TermsOfUse = ({ classes }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
+  const isTermsAcceptedPrev = useSelector((state) => state.userReducer.isTermsAccepted.accepted);
 
   const [isTermsAccepted, setIsTermsAccepted] = useState(false);
   const [alertMessage, setAlertMessage] = useState();
+
+  useEffect(() => {
+    if (isTermsAcceptedPrev) {
+      const newLocation =
+        location?.state && location?.state?.sourcePath ? location.state.sourcePath : `/${Routes.AI_MARKETPLACE}`;
+      navigate(newLocation, { replace: true });
+    }
+  }, [navigate, isTermsAcceptedPrev]);
 
   const handleChange = (event) => {
     setIsTermsAccepted(event.target.checked);
@@ -26,15 +36,19 @@ const TermsOfUse = ({ classes }) => {
 
   const handleSubmit = async () => {
     setAlertMessage();
-    const updatedUserData = { is_terms_accepted: isTermsAccepted, email_alerts: false };
+    const tncValue = { ver: "1", accepted: isTermsAccepted };
+    const userAttributes = { "custom:publisher_tnc": JSON.stringify(tncValue) };
     try {
-      await dispatch(userActions.updateUserProfile(updatedUserData));
+      await updateUserAttributes({ userAttributes });
+      dispatch(getIsTermsAcceptedInfo());
+
       if (location.state && location.state.sourcePath) {
         navigate(location.state.sourcePath);
         return;
       }
       navigate(`/${Routes.AI_MARKETPLACE}`);
     } catch (error) {
+      console.error("Error updating user attributes:", error);
       if (error.response && error.response.data && error.response.data.error) {
         setAlertMessage(error.response.data.error);
         return;

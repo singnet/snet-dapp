@@ -7,14 +7,16 @@ import Avatar from "@mui/material/Avatar";
 import SingularityLogo from "../../../assets/images/avatar.png";
 import { useStyles } from "./styles";
 import Contacts from "./Contacts";
+import { useSelector } from "react-redux";
 
-const CreatorDetails = ({ classes, organizationName, orgImg, contacts }) => {
+const CreatorDetails = ({ classes }) => {
   const [showContacts, setShowContacts] = useState(false);
+  const { organizationName, orgImageUrl } = useSelector((state) => state.serviceDetailsReducer.details);
 
   return (
     <div className={classes.content}>
       <div className={classes.companyInfo}>
-        <Avatar alt="Singularity" src={orgImg || SingularityLogo} className={classes.avatar} />
+        <Avatar alt="Singularity" src={orgImageUrl || SingularityLogo} className={classes.avatar} />
         <div className={classes.companyName}>
           <h3>{organizationName}</h3>
         </div>
@@ -25,21 +27,13 @@ const CreatorDetails = ({ classes, organizationName, orgImg, contacts }) => {
           <ChatBubbleOutlineIcon fontSize="small" /> Contact
         </span>
       </div>
-      <Contacts contacts={contacts} show={showContacts} handleClose={() => setShowContacts(false)} />
+      <Contacts show={showContacts} handleClose={() => setShowContacts(false)} />
     </div>
   );
 };
 
 CreatorDetails.propTypes = {
-  orgImg: PropTypes.string,
-  organizationName: PropTypes.string,
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      phone: PropTypes.string,
-      email_id: PropTypes.string,
-      contact_type: PropTypes.string,
-    })
-  ),
+  classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(useStyles)(CreatorDetails);

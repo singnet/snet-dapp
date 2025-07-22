@@ -43,11 +43,9 @@ export const useStyles = makeStyles((theme) => ({
   },
   buttonsContainer: {
     marginTop: 10,
-    textAlign: "center",
-    "& button": {
-      padding: "15px 60px",
-      marginTop: 10,
-    },
+    display: "flex",
+    justifyContent: "center",
+    gap: 12,
   },
   InputWrapper: {
     "& span": {

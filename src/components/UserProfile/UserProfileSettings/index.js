@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { withStyles } from "@mui/styles";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { useDispatch, useSelector } from "react-redux";
+import PropTypes from "prop-types";
 
 import StyledButton from "../../common/StyledButton";
 import { useStyles } from "./styles";
@@ -22,16 +23,16 @@ const UserProfileSettings = ({ classes }) => {
   const userEmail = useSelector((state) => state.userReducer.email);
   const nickname = useSelector((state) => state.userReducer.nickname);
   const emailAlerts = useSelector((state) => state.userReducer.emailAlerts);
-  const isTermsAccepted = useSelector((state) => state.userReducer.isTermsAccepted);
 
-  const [isEmailAlerts, setIsEmailAlerts] = useState(emailAlerts);
+  const [isEmailAlerts, setIsEmailAlerts] = useState(emailAlerts || false);
   const [alert, setAlert] = useState({ message: "", type: alertTypes.ERROR });
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const [confirmDeleteError, setConfirmDeleteError] = useState();
 
-  // const handleEmailChange = (event) => {
-  //     setEmail(event.target.value);
-  // };
+  useEffect(() => {
+    setIsEmailAlerts(emailAlerts);
+    dispatch(userActions.fetchUserAlerts());
+  }, [dispatch, emailAlerts]);
 
   const handleEmailAlerts = () => {
     setIsEmailAlerts(!isEmailAlerts);
@@ -47,9 +48,8 @@ const UserProfileSettings = ({ classes }) => {
 
   const handleSubmit = async () => {
     setAlert({});
-    const updatedUserData = { email_alerts: isEmailAlerts, is_terms_accepted: isTermsAccepted };
     try {
-      await dispatch(userActions.updateUserProfile(updatedUserData));
+      await dispatch(userActions.updateUserProfile(isEmailAlerts));
       setAlert({ type: alertTypes.SUCCESS, message: "Changes saved successfully" });
     } catch (error) {
       setAlert({ type: alertTypes.ERROR, message: String(error) });
@@ -150,3 +150,7 @@ const UserProfileSettings = ({ classes }) => {
 };
 
 export default withStyles(useStyles)(UserProfileSettings);
+
+UserProfileSettings.propTypes = {
+  classes: PropTypes.object.isRequired,
+};

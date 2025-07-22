@@ -55,7 +55,7 @@
   },
   "resolutions": {
     "concat-stream": "github:singnet/concat-stream",
-    "zod": "3.21.4" 
+    "zod": "3.21.4"
   },
   "overrides": {
     "rimraf": "^4.0.0",

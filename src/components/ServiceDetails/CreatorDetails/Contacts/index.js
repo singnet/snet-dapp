@@ -1,6 +1,5 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
-import isEmpty from "lodash/isEmpty";
 import Modal from "@mui/material/Modal";
 import Card from "@mui/material/Card";
 import { withStyles } from "@mui/styles";
@@ -13,20 +12,12 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import { useStyles } from "./styles";
 import AlertBox from "../../../common/AlertBox";
+import { useSelector } from "react-redux";
 
-const ContactTypes = {
-  SUPPORT: "support",
-};
+const Contacts = ({ show, handleClose, classes }) => {
+  const supportContacts = useSelector((state) => state.serviceDetailsReducer.details.supportContacts);
 
-const Contacts = ({ contacts, show, handleClose, classes }) => {
-  if (isEmpty(contacts)) {
-    return null;
-  }
-  const supportContact = contacts.find((el) =>
-    el.contact_type ? el.contact_type.toLowerCase().trim() === ContactTypes.SUPPORT : null
-  );
-
-  if (!supportContact) {
+  if (!supportContacts) {
     return (
       <Modal open={show} onClose={handleClose}>
         <Card className={classes.card}>
@@ -55,10 +46,10 @@ const Contacts = ({ contacts, show, handleClose, classes }) => {
             <ListItem alignItems="flex-start" divider>
               <ListItemText
                 primary="Support email"
-                secondary={supportContact.email}
+                secondary={supportContacts.email}
                 secondaryTypographyProps={{
                   component: "a",
-                  href: `mailTo:${supportContact.email}`,
+                  href: `mailTo:${supportContacts.email}`,
                   target: "_blank",
                   rel: "noopener noreferrer",
                   className: classes.anchor,
@@ -69,7 +60,7 @@ const Contacts = ({ contacts, show, handleClose, classes }) => {
             <ListItem>
               <ListItemText
                 primary="Support phone"
-                secondary={supportContact.phone}
+                secondary={supportContacts.phone}
                 secondaryTypographyProps={{ component: "span", className: classes.phoneNo }}
                 className={classes.listItemText}
               />
@@ -84,13 +75,6 @@ const Contacts = ({ contacts, show, handleClose, classes }) => {
 Contacts.propTypes = {
   show: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      phone: PropTypes.string,
-      email_id: PropTypes.string,
-      contact_type: PropTypes.string,
-    })
-  ),
   classes: PropTypes.object.isRequired,
 };
 

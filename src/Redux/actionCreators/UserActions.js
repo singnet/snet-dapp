@@ -5,6 +5,7 @@ import {
   resetPassword,
   confirmResetPassword,
   deleteUser,
+  fetchUserAttributes,
 } from "aws-amplify/auth";
 import isEmpty from "lodash/isEmpty";
 import moment from "moment";
@@ -13,7 +14,7 @@ import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { parseError } from "../../utility/ErrorHandling";
 import { errorActions, loaderActions } from "./";
 import { LoaderContent } from "../../utility/constants/LoaderContent";
-import { getAPI, initializeAPIOptions, postAPI } from "../../utility/API";
+import { getAPI, initializeAPIOptions, postAPI, deleteAPI, putAPI } from "../../utility/API";
 import Routes from "../../utility/constants/Routes";
 import { getSdk } from "./SDKActions";
 
@@ -51,14 +52,6 @@ const NEXT_SIGN_IN_STEP = {
 const setJWTExp = (exp) => ({ type: SET_JWT_EXP, payload: exp });
 
 export const fetchAuthenticatedUser = () => async (dispatch) => {
-  // let bypassCache = false;
-  // const { exp } = getState().userReducer.jwt;
-  // const currentEpochInUTC = getCurrentUTCEpoch();
-  // if (!exp || currentEpochInUTC >= Number(exp)) {
-  //   bypassCache = true;
-  // }
-
-  // const currentUser = await getCurrentUser(); //currentAuthenticatedUser({ bypassCache });
   const { userAttributes, idToken } = await getCurrentUser();
   const newExp = idToken.payload.exp;
   dispatch(setJWTExp(newExp));
@@ -96,24 +89,18 @@ const updateIsTermsAccepted = (isTermsAccepted) => (dispatch) => {
   dispatch({ type: UPDATE_IS_TERMS_ACCEPTED, payload: isTermsAccepted });
 };
 
-const fetchUserProfile = (token) => async (dispatch) => {
+export const fetchUserAlerts = () => async (dispatch) => {
+  const { token } = await dispatch(fetchAuthenticatedUser());
   const apiName = APIEndpoints.USER.name;
-  const path = APIPaths.GET_USER_PROFILE;
+  const path = APIPaths.USER;
   const apiOptions = initializeAPIOptions(token);
   try {
     const userProfile = await getAPI(apiName, path, apiOptions);
-
-    if (userProfile.data.data.length === 0) {
-      dispatch(registerInMarketplace(token));
-      return;
-    }
-    const userProfileData = userProfile.data.data[0];
-    const isTermsAccepted = Boolean(userProfileData.is_terms_accepted);
-    const emailAlerts = Boolean(userProfileData.email_alerts);
+    const emailAlerts = Boolean(userProfile.data.emailAlerts);
 
     dispatch(updateEmailAlertsSubscription(emailAlerts));
-    dispatch(updateIsTermsAccepted(isTermsAccepted));
   } catch (err) {
+    console.error("Error fetching user alerts", err);
     return;
   }
 };
@@ -191,9 +178,7 @@ const fetchUserDetailsError = (err) => (dispatch) => {
 export const fetchUserDetails = () => async (dispatch) => {
   dispatch(loaderActions.startAppLoader(LoaderContent.APP_INIT));
   try {
-    const { nickname, token, email, email_verified } = await dispatch(fetchAuthenticatedUser());
-
-    await dispatch(fetchUserProfile(token));
+    const { nickname, email, email_verified } = await dispatch(fetchAuthenticatedUser());
     if (!email) {
       dispatch(noAuthenticatedUser());
       return;
@@ -208,13 +193,13 @@ export const fetchUserDetails = () => async (dispatch) => {
 
 export const updateUserProfileInit = (token, updatedUserData) => {
   const apiName = APIEndpoints.USER.name;
-  const path = APIPaths.UPDATE_USER_PROFILE;
+  const path = APIPaths.UPDATE_USER_ALERTS;
   const apiOptions = initializeAPIOptions(token, updatedUserData);
-  return postAPI(apiName, path, apiOptions);
+  return putAPI(apiName, path, apiOptions);
 };
 
-const updateUserProfileSuccess = (token) => (dispatch) => {
-  dispatch(fetchUserProfile(token));
+const updateUserProfileSuccess = () => (dispatch) => {
+  dispatch(fetchAuthenticatedUser());
   dispatch(loaderActions.stopAppLoader());
 };
 
@@ -222,18 +207,28 @@ const updateUserProfileFailure = (err) => (dispatch) => {
   dispatch(errorActions.updateProfileSettingsError(String(err)));
   dispatch(loaderActions.stopAppLoader());
 };
+export const getIsTermsAcceptedInfo = () => async (dispatch) => {
+  const newAttributes = await fetchUserAttributes();
+  const checkIsTermsAccepted = newAttributes?.["custom:publisher_tnc"]
+    ? JSON.parse(newAttributes?.["custom:publisher_tnc"])
+    : { ver: "1", accepted: false };
 
-export const updateUserProfile = (updatedUserData) => async (dispatch) => {
+  dispatch(updateIsTermsAccepted(checkIsTermsAccepted));
+};
+
+export const updateUserProfile = (isEmailAlerts) => async (dispatch) => {
   dispatch(loaderActions.startAppLoader(LoaderContent.UPDATE_PROFILE));
   try {
     const { token } = await dispatch(fetchAuthenticatedUser());
-    const response = await updateUserProfileInit(token, updatedUserData);
+    const response = await updateUserProfileInit(token, { emailAlerts: isEmailAlerts });
     if (response.status === "success") {
       return dispatch(updateUserProfileSuccess(token));
     }
   } catch (err) {
     dispatch(updateUserProfileFailure(err));
     throw err;
+  } finally {
+    dispatch(loaderActions.stopAppLoader());
   }
 };
 
@@ -260,9 +255,11 @@ const getCurrentUser = async () => {
 
 export const loginSuccess =
   ({ route }) =>
-  async (dispatch, getState) => {
-    const { userAttributes, idToken } = await getCurrentUser();
-
+  async (dispatch) => {
+    const { userAttributes } = await getCurrentUser();
+    const checkIsTermsAccepted = userAttributes?.["custom:publisher_tnc"]
+      ? JSON.parse(userAttributes?.["custom:publisher_tnc"])
+      : { ver: "1", accepted: false };
     const userDetails = {
       type: LOGIN_SUCCESS,
       payload: {
@@ -270,13 +267,12 @@ export const loginSuccess =
         email: userAttributes.email,
         nickname: userAttributes.nickname,
         isEmailVerified: userAttributes.email_verified,
+        isTermsAccepted: checkIsTermsAccepted,
       },
     };
 
     dispatch(userDetails);
-    await dispatch(fetchUserProfile(idToken.toString()));
-    const isTermsAccepted = getState().userReducer.isTermsAccepted;
-    if (!isTermsAccepted) {
+    if (!checkIsTermsAccepted) {
       route = `/${Routes.ONBOARDING}`;
     }
     History.navigate(route);
@@ -293,12 +289,14 @@ export const login =
 
       if (loginRequest?.isSignedIn) {
         dispatch(loginSuccess({ route }));
+        return;
       }
       if (loginRequest?.nextStep?.signInStep === NEXT_SIGN_IN_STEP.CONFIRM_SIGN_UP) {
         throw new Error("User does not exist.");
       }
       throw new Error("Something went wrong. Please, try again later");
     } catch (err) {
+      console.error("login error", err);
       if (err?.code === "PasswordResetRequiredException") {
         dispatch(updateEmail(email));
         History.navigate(`/${Routes.RESET_PASSWORD}`);
@@ -327,19 +325,19 @@ export const login =
     }
   };
 
-const registrationAPI = (token) => {
-  const apiName = APIEndpoints.USER.name;
-  const apiPath = APIPaths.SIGNUP;
-  const apiOptions = initializeAPIOptions(token);
-  return getAPI(apiName, apiPath, apiOptions);
-};
+// const registrationAPI = (token) => {
+//   const apiName = APIEndpoints.USER.name;
+//   const apiPath = APIPaths.SIGNUP;
+//   const apiOptions = initializeAPIOptions(token);
+//   return getAPI(apiName, apiPath, apiOptions);
+// };
 
-const registerInMarketplace = (token) => async (dispatch) => {
-  const response = await registrationAPI(token);
-  if (response.data === "success") {
-    dispatch(fetchUserProfile(token));
-  }
-};
+// const registerInMarketplace = (token) => async (dispatch) => {
+//   const response = await registrationAPI(token);
+//   if (response.data === "success") {
+//     dispatch(fetchAuthenticatedUser());
+//   }
+// };
 
 export const signOut = () => (dispatch) => {
   dispatch(loaderActions.startAppLoader(LoaderContent.SIGN_OUT));
@@ -387,9 +385,9 @@ const userDeleted = (route) => (dispatch) => {
 
 const deleteUserFromMarketPlace = (token) => {
   const apiName = APIEndpoints.USER.name;
-  const path = APIPaths.DELETE_USER;
+  const path = APIPaths.USER;
   const apiOptions = initializeAPIOptions(token);
-  return getAPI(apiName, path, apiOptions);
+  return deleteAPI(apiName, path, apiOptions);
 };
 
 const deleteUserFromCognito = (route) => (dispatch) => {
@@ -407,9 +405,10 @@ export const deleteUserAccount = (route) => async (dispatch) => {
     const currentUser = await getCurrentUser();
     await deleteUserFromMarketPlace(currentUser.idToken.toString());
     dispatch(deleteUserFromCognito(route));
-    dispatch(loaderActions.stopAppLoader());
   } catch (error) {
     console.log(error);
+  } finally {
+    dispatch(loaderActions.stopAppLoader());
   }
 };
 
@@ -497,10 +496,9 @@ export const updateChannelBalanceAPI =
     const apiName = APIEndpoints.CONTRACT.name;
     const apiPath = APIPaths.UPDATE_CHANNEL_BALANCE(channelId);
     const payload = {
-      signed_amount: signedAmount,
-      channel_id: channelId,
-      org_id: orgId,
-      service_id: serviceId,
+      signedAmount,
+      orgId,
+      serviceId,
     };
     const apiOptions = initializeAPIOptions(token, payload);
     return postAPI(apiName, apiPath, apiOptions);
@@ -510,8 +508,8 @@ const fetchWalletAPI = (token, orgId, groupId) => {
   const apiName = APIEndpoints.ORCHESTRATOR.name;
   const apiPath = APIPaths.WALLET;
   const queryStringParameters = {
-    org_id: orgId,
-    group_id: groupId,
+    orgId,
+    groupId,
   };
   const apiOptions = initializeAPIOptions(token, null, queryStringParameters);
   return getAPI(apiName, apiPath, apiOptions);
@@ -537,9 +535,9 @@ export const fetchAvailableUserWallets = () => async (dispatch) => {
 };
 
 export const fetchWalletLinkedProviders = async (address) => {
-  const url = `${APIEndpoints.CONTRACT.endpoint}${APIPaths.LINKED_PROVIDERS}?wallet_address=${address}`;
+  const url = `${APIEndpoints.CONTRACT.endpoint}${APIPaths.LINKED_PROVIDERS}?walletAddress=${address}`;
   const response = await fetch(url).then((res) => res.json());
-  return response.organizations || [];
+  return response.data.organizations || [];
 };
 
 export const startWalletDetailsPolling = (orgId, groupId) => (dispatch) => {

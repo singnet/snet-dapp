@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { withStyles } from "@mui/styles";
 import Typography from "@mui/material/Typography";
 import { useDispatch, useSelector } from "react-redux";
-import isEmpty from "lodash/isEmpty";
 
 import StyledButton from "../../../../../../../../common/StyledButton";
 import { useStyles } from "./styles";
@@ -35,11 +34,7 @@ const Details = ({ classes, handleClose, orderType, handleNextSection }) => {
   const walletList = useSelector((state) => state.userReducer.walletList);
   const generalWallet = walletList.find((wallet) => wallet.type === walletTypes.GENERAL);
   const { usd_agi_rate } = useSelector((state) => state.paymentReducer);
-  const groupInfo = useSelector((state) => {
-    return state.serviceDetailsReducer.details.groups.find((group) => {
-      return !isEmpty(group.endpoints.find((endpoint) => endpoint.is_available === 1));
-    });
-  });
+  const groupInfo = useSelector((state) => state.serviceDetailsReducer.details.groupInfo);
 
   useEffect(() => {
     dispatch(paymentActions.fetchUSDConversionRate());
@@ -56,9 +51,9 @@ const Details = ({ classes, handleClose, orderType, handleNextSection }) => {
     const itemDetails = {
       item,
       quantity: Number(quantity),
-      org_id: orgId,
-      service_id: serviceId,
-      group_id: groupInfo.group_id,
+      orgId,
+      serviceId,
+      groupId: groupInfo.groupId,
       recipient: groupInfo.payment.payment_address,
       order_type: orderPayloadTypes[orderType],
       wallet_address: address,
@@ -93,7 +88,7 @@ const Details = ({ classes, handleClose, orderType, handleNextSection }) => {
 
   let initiateInProcess = false;
   const handleContinue = async () => {
-    if (!groupInfo?.group_id) {
+    if (!groupInfo?.groupId) {
       setAlert({ type: alertTypes.ERROR, message: "The group id is undefined. Please try later" });
       return;
     }

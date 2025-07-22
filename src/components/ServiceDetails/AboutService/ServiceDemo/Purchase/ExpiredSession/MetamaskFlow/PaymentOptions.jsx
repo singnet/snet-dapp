@@ -109,7 +109,7 @@ PaymentOptions.propTypes = {
     classes: PropTypes.object.isRequired,
     setNoOfServiceCalls: PropTypes.func.isRequired,
     setSelectedPayType: PropTypes.func.isRequired,
-    noOfServiceCalls: PropTypes.number.isRequired,
+    noOfServiceCalls: PropTypes.string.isRequired,
     totalPrice: PropTypes.string.isRequired,
     mpeBalance: PropTypes.string.isRequired,
     servicePrice: PropTypes.string.isRequired,

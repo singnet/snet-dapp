@@ -1,8 +1,7 @@
 import { APIEndpoints, APIPaths } from "../../config/APIEndpoints";
 import { loaderActions, userActions } from "./";
 import { getAPI, postAPI, initializeAPIOptions } from "../../utility/API";
-import { generateOrganizationsFilterObject } from "../../utility/constants/Pagination";
-// import { cacheS3Url } from "../../utility/image";
+import { defaultActiveFilterItem } from "../../utility/constants/Pagination";
 
 export const UPDATE_SERVICE_LIST = "SET_SERVICE_LIST";
 export const UPDATE_PAGINATION_DETAILS = "SET_PAGINATION_DETAILS";
@@ -13,9 +12,14 @@ export const UPDATE_FILTER_DATA = "UPDATE_FILTER_DATA";
 export const UPDATE_ACTIVE_FILTER_ITEM = "UPDATE_ACTIVE_FILTER_ITEM";
 export const RESET_FILTER_ITEM = "RESET_FILTER_ITEM";
 export const UPDATE_FEEDBACK = "UPDATE_FEEDBACK";
+export const UPDATE_SRVICE_COUNT = "UPDATE_SRVICE_COUNT";
 
 export const updateActiveFilterItem = (activeFilterItem) => (dispatch) => {
   dispatch({ type: UPDATE_ACTIVE_FILTER_ITEM, payload: { ...activeFilterItem } });
+};
+
+const updateServicesTotalCount = (totalCount) => (dispatch) => {
+  dispatch({ type: UPDATE_SRVICE_COUNT, payload: totalCount });
 };
 
 export const resetFilterItem = (dispatch) => {
@@ -23,8 +27,8 @@ export const resetFilterItem = (dispatch) => {
 };
 
 export const fetchServiceSuccess = (res) => (dispatch) => {
-  dispatch(updatePagination({ total_count: res.data.total_count }));
-  dispatch({ type: UPDATE_SERVICE_LIST, payload: res.data.result });
+  dispatch(updateServicesTotalCount(res.totalCount));
+  dispatch({ type: UPDATE_SERVICE_LIST, payload: res.services });
   dispatch(loaderActions.stopAIServiceListLoader());
 };
 
@@ -38,29 +42,26 @@ export const fetchUserOrganizationsList = () => async (dispatch) => {
 
 const onlyUserOrgsFilter = () => async (dispatch) => {
   const userOrganizations = await dispatch(fetchUserOrganizationsList());
-  const userOrganizationsId = userOrganizations.data.map((organization) => organization.org_id);
-  const filterObj = generateOrganizationsFilterObject([
-    ...userOrganizationsId,
-    process.env.REACT_APP_EXAMPLE_SERVICE_ORG_ID,
-  ]);
+  const userOrganizationsId = userOrganizations.data.map((organization) => organization.orgId);
+  const filterObj = { orgId: [...userOrganizationsId, process.env.REACT_APP_EXAMPLE_SERVICE_ORG_ID] };
   return filterObj;
 };
 
 export const fetchService =
-  (pagination, filters = []) =>
+  (pagination, filter = defaultActiveFilterItem) =>
   async (dispatch) => {
     // env variable is string
     if (process.env.REACT_APP_IS_ALL_SERVICES_AVAILIBLE !== "true") {
-      filters = await dispatch(onlyUserOrgsFilter());
+      filter = await dispatch(onlyUserOrgsFilter());
     }
     dispatch(loaderActions.startAIServiceListLoader());
     const url = new URL(APIEndpoints.CONTRACT.endpoint + APIPaths.GET_SERVICE_LIST);
     return fetch(url, {
       method: "POST",
-      body: JSON.stringify({ ...pagination, filters }),
+      body: JSON.stringify({ ...pagination, filter }),
     })
       .then((res) => res.json())
-      .then((res) => dispatch(fetchServiceSuccess(res)))
+      .then((res) => dispatch(fetchServiceSuccess(res.data)))
       .catch(() => dispatch(loaderActions.stopAIServiceListLoader()));
   };
 
@@ -80,18 +81,14 @@ export const fetchFilterData = (attribute) => (dispatch) => {
     });
 };
 
-export const handleFilterChange =
-  ({ pagination, filterObj, currentActiveFilterData }) =>
-  (dispatch) => {
-    dispatch(loaderActions.startAIServiceListLoader());
-    Promise.all([
-      dispatch(updatePagination(pagination)),
-      dispatch(fetchService(pagination, filterObj)),
-      dispatch(updateActiveFilterItem(currentActiveFilterData)),
-    ])
-      .then(() => dispatch(loaderActions.stopAIServiceListLoader()))
-      .catch(() => dispatch(loaderActions.stopAIServiceListLoader()));
-  };
+export const handleFilterChange = (pagination, filter) => async (dispatch) => {
+  dispatch(loaderActions.startAIServiceListLoader());
+  dispatch(updatePagination(pagination));
+  dispatch(updateActiveFilterItem(filter));
+
+  await dispatch(fetchService(pagination, filter));
+  dispatch(loaderActions.stopAIServiceListLoader());
+};
 
 export const resetFilter =
   ({ pagination }) =>
@@ -104,7 +101,7 @@ export const resetFilter =
 
 const fetchFeedbackAPI = (orgId, serviceId, token) => {
   const apiName = APIEndpoints.USER.name;
-  const path = `${APIPaths.FEEDBACK}?org_id=${orgId}&service_id=${serviceId}`;
+  const path = `${APIPaths.FEEDBACK}?orgId=${orgId}&serviceId=${serviceId}`;
   const apiOptions = initializeAPIOptions(token);
   return getAPI(apiName, path, apiOptions);
 };
@@ -125,12 +122,10 @@ const submitFeedbackAPI = (feedbackObj, token) => {
 export const submitFeedback = (orgId, serviceId, feedback) => async (dispatch) => {
   const { token } = await dispatch(userActions.fetchAuthenticatedUser());
   const feedbackObj = {
-    feedback: {
-      org_id: orgId,
-      service_id: serviceId,
-      user_rating: parseFloat(feedback.rating).toFixed(1),
-      comment: feedback.comment,
-    },
+    orgId,
+    serviceId,
+    userRating: Number(parseFloat(feedback.rating).toFixed(1)),
+    comment: feedback.comment,
   };
   return submitFeedbackAPI(feedbackObj, token);
 };

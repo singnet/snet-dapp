@@ -10,27 +10,25 @@ import { useStyles } from "./styles";
 import FeedbackFormModal from "../../FeedbackFormModal/FeedbackFormModal";
 import { sendFeedbackProviderAPI } from "../../../config/SupportAPI";
 import UnauthenticatedDummyToggler from "../../common/UnauthenticatedDummyToggler";
+import { useSelector } from "react-redux";
 
-const DemoToggler = ({
-  classes,
-  service,
-  serviceAvailable,
-  // scrollToView,
-  demoComponentRequired,
-}) => {
+const DemoToggler = ({ classes }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const providerSupport = service.contacts.find((contact) => contact.contact_type === "support");
+  const { serviceId, supportContacts, demoComponentRequired, isAvailable } = useSelector(
+    (state) => state.serviceDetailsReducer.details
+  );
+  const supportContactEmail = supportContacts.email;
 
   const sendFeedback = (messageBody) => {
     sendFeedbackProviderAPI({
       ...messageBody,
-      providerEmail: providerSupport.email,
-      serviceId: service.service_id,
+      providerEmail: supportContactEmail,
+      serviceId,
     });
   };
 
   const getServiceOrPlaceHolder = () => {
-    if (!serviceAvailable) {
+    if (!isAvailable) {
       return (
         <Fragment>
           <FeedbackFormModal
@@ -68,7 +66,7 @@ const DemoToggler = ({
       return <NoDemoComponent />;
     }
 
-    return <ServiceDemo service={service} />;
+    return <ServiceDemo />;
   };
 
   return (

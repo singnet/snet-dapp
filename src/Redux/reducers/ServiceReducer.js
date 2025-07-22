@@ -4,8 +4,11 @@ import { defaultListingConfig, defaultActiveFilterItem } from "../../utility/con
 const InitialServiceList = {
   services: [],
   pagination: { ...defaultListingConfig },
+  totalCount: 0,
   filterData: {
-    org_id: [],
+    orgId: [],
+    tagName: [],
+    onlyAvailable: true,
   },
   activeFilterItem: { ...defaultActiveFilterItem },
   serviceMethodExecution: {
@@ -18,6 +21,9 @@ const serviceReducer = (state = InitialServiceList, action) => {
   switch (action.type) {
     case serviceActions.UPDATE_PAGINATION_DETAILS: {
       return { ...state, pagination: { ...state.pagination, ...action.payload } };
+    }
+    case serviceActions.UPDATE_SRVICE_COUNT: {
+      return { ...state, totalCount: action.payload };
     }
     case serviceActions.UPDATE_SERVICE_LIST: {
       return { ...state, services: action.payload };

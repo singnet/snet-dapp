@@ -12,7 +12,7 @@ import { isUndefined } from "lodash";
 import StyledButton from "../../common/StyledButton";
 
 const ExistingModel = ({ classes, openEditModel }) => {
-  const { org_id, service_id } = useSelector((state) => state.serviceDetailsReducer.details);
+  const { orgId, serviceId } = useSelector((state) => state.serviceDetailsReducer.details);
   const { modelsList } = useSelector((state) => state.serviceTrainingReducer);
   const { address } = useSelector((state) => state.userReducer.wallet);
 
@@ -29,7 +29,7 @@ const ExistingModel = ({ classes, openEditModel }) => {
     try {
       dispatch(loaderActions.startAppLoader(LoaderContent.CONNECT_METAMASK));
       const address = await dispatch(userActions.updateMetamaskWallet());
-      await dispatch(getTrainingModels(org_id, service_id, address));
+      await dispatch(getTrainingModels(orgId, serviceId, address));
     } catch (error) {
       setAlert({ type: alertTypes.ERROR, message: "Unable to fetch existing models. Please try again" });
       dispatch(loaderActions.stopAppLoader());

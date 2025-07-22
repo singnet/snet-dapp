@@ -1,6 +1,12 @@
 import { makeStyles } from "@mui/styles";
 
 export const useStyles = makeStyles((theme) => ({
+  formControl: {
+    "& .MuiFormLabel-root": {
+      backgroundColor: theme.palette.text.white,
+      padding: "0 4px",
+    },
+  },
   selectEmpty: {
     fontFamily: theme.typography.primary.main,
     color: `${theme.palette.text.dialogTitle} !important`,
