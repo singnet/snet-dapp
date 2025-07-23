@@ -52,7 +52,7 @@ export const fetchService =
   (pagination, filter = defaultActiveFilterItem) =>
   async (dispatch) => {
     // env variable is string
-    if (process.env.x !== "true") {
+    if (process.env.REACT_APP_IS_ALL_SERVICES_AVAILIBLE !== "true") {
       filter = await dispatch(onlyUserOrgsFilter());
     }
     dispatch(loaderActions.startAIServiceListLoader());
