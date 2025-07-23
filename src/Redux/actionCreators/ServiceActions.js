@@ -42,8 +42,9 @@ export const fetchUserOrganizationsList = () => async (dispatch) => {
 
 const onlyUserOrgsFilter = () => async (dispatch) => {
   const userOrganizations = await dispatch(fetchUserOrganizationsList());
-  const userOrganizationsId = userOrganizations.data.map((organization) => organization.orgId);
+  const userOrganizationsId = userOrganizations.data.map((organization) => organization.org_id);
   const filterObj = { orgId: [...userOrganizationsId, process.env.REACT_APP_EXAMPLE_SERVICE_ORG_ID] };
+
   return filterObj;
 };
 
