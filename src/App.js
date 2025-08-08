@@ -61,7 +61,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(userActions.fetchUserDetails());
-    dispatch(userActions.getIsTermsAcceptedInfo());
+    isLoggedIn && dispatch(userActions.getIsTermsAcceptedInfo());
   }, [dispatch]);
 
   const Loader = () => {
@@ -170,17 +170,7 @@ const App = () => {
                 />
               }
             />
-            <Route
-              path="/"
-              element={
-                <PrivateRoute
-                  isAllowed={isLoggedInAndTermsAccepted}
-                  component={withInAppWrapper(AiMarketplace)}
-                  redirectTo={`/${Routes.ONBOARDING}`}
-                  path="/"
-                />
-              }
-            />
+            <Route path="/" Component={withInAppWrapper(AiMarketplace)} />
             <Route path={`/${Routes.AI_REQUEST_FORM}`} Component={AiRequestForm} />
             <Route path={`/${Routes.GET_STARTED}`} Component={withInAppWrapper(GetStarted)} />
             <Route path="*" Component={PageNotFound} />
