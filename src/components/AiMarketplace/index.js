@@ -6,7 +6,7 @@ import PromoComponent from "../PromoComponent";
 import { Helmet } from "react-helmet";
 
 const seoData = {
-  title: "SingularityNET Beta Dapp",
+  title: "SingularityNET AI Merketplace",
   description: `The SingularityNET Marketplace hosts AI services. Services offer free calls to try before you use ${process.env.REACT_APP_TOKEN_NAME} or Paypal to purchase`,
   image: `${process.env.REACT_APP_SNET_CDN}/dapp/assets/images/SEO/singularitynet-marketplace.png`,
   twitterImage: `${process.env.REACT_APP_SNET_CDN}/dapp/assets/images/SEO/singularitynet-marketplace-twitter.png`,
