@@ -7,6 +7,8 @@ import { isEmpty } from "lodash";
 import { resetCurrentModelDetails, resetModelList } from "./ServiceTrainingActions";
 import { createFreecallStrategy } from "../../utility/sdk";
 import { initializingSdk } from "./SDKActions";
+import { configuration } from "../../components/ServiceDetails/AboutService/ServiceDemo/mock/configuration";
+import { mockServiceDetails } from "../../components/ServiceDetails/AboutService/ServiceDemo/mock/mockServiceDetails";
 
 export const UPDATE_SERVICE_DETAILS = "UPDATE_SERVICE_DETAILS";
 export const RESET_SERVICE_DETAILS = "RESET_SERVICE_DETAILS";
@@ -95,7 +97,9 @@ export const fetchServiceDetails = (orgId, serviceId) => async (dispatch) => {
     dispatch(resetServiceDetails());
     dispatch(resetCurrentModelDetails());
     dispatch(resetModelList());
-    const { data: serviceDetails } = await fetchServiceDetailsAPI(orgId, serviceId);
+    const { data: serviceDetails } = configuration.debug.useMockServiceDetails
+      ? mockServiceDetails
+      : await fetchServiceDetailsAPI(orgId, serviceId);
     const parsedServiceDetails = parseServiceDetails(serviceDetails);
     dispatch(fetchServiceDetailsSuccess(parsedServiceDetails));
     dispatch(fetchTrainingModelSuccess(serviceDetails));

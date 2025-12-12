@@ -10,6 +10,7 @@ import ThirdPartyServiceErrorBoundary from "./ThirdPartyServiceErrorBoundary";
 import { isEmpty } from "lodash";
 import { modelStatus } from "../../../../Redux/reducers/ServiceTrainingReducer";
 import { fetchFeedback } from "../../../../Redux/actionCreators/ServiceActions";
+import { configuration } from "./mock/configuration";
 
 const ThirdPartyAIService = ({
   classes,
@@ -35,16 +36,9 @@ const ThirdPartyAIService = ({
   useEffect(() => {
     const getServiceClient = async () => {
       const callType = freeCallsAvailable > 0 ? callTypes.FREE : callTypes.REGULAR;
-      const newServiceClient = await createServiceClient(
-        orgId,
-        serviceId,
-        groupInfo,
-        onStart,
-        onComplete,
-        onError,
-        callType,
-        wallet
-      );
+      const newServiceClient = configuration.debug.skipPurchase
+        ? "dummy client"
+        : await createServiceClient(orgId, serviceId, groupInfo, onStart, onComplete, onError, callType, wallet);
       setServiceClient(newServiceClient);
     };
     getServiceClient();

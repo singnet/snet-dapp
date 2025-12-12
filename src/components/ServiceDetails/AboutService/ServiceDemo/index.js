@@ -14,6 +14,7 @@ import { progressTabStatus } from "../../../common/ProgressBar";
 import { useLocation } from "react-router-dom";
 import Purchase from "./Purchase";
 import ThirdPartyAIService from "./ThirdPartyAIService";
+import { configuration } from "./mock/configuration";
 
 const demoProgressStatus = {
   purchasing: 0,
@@ -30,7 +31,7 @@ const ServiceDemo = ({ classes }) => {
   const serviceName = useSelector((state) => state.serviceDetailsReducer.details.displayName);
 
   const [progressText, setProgressText] = useState(progressList);
-  const [purchaseCompleted, setPurchaseCompleted] = useState(false);
+  const [purchaseCompleted, setPurchaseCompleted] = useState(configuration.debug.skipPurchase ? true : false);
   const [isServiceExecutionComplete, setIsServiceExecutionComplete] = useState(false);
   const [alert, setAlert] = useState({});
   const [isLastPaidCall, setIsLastPaidCall] = useState(false);
@@ -48,9 +49,11 @@ const ServiceDemo = ({ classes }) => {
   }, [location.hash]);
 
   const computeActiveSection = useCallback(() => {
+    //eslint-disable-next-line
     const { purchasing, executingAIservice, displayingResponse } = demoProgressStatus;
 
-    return purchaseCompleted ? (isServiceExecutionComplete ? displayingResponse : executingAIservice) : purchasing;
+    // return purchaseCompleted ? (isServiceExecutionComplete ? displayingResponse : executingAIservice) : purchasing;
+    return executingAIservice;
   }, [purchaseCompleted, isServiceExecutionComplete]);
 
   const serviceRequestStartHandler = () => {

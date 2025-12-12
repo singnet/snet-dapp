@@ -65,4 +65,7 @@ thirdPartyCustomUIComponents.addCustomUIComponent("Naint1", "ServNaint7", ServNa
 thirdPartyCustomUIComponents.addCustomUIComponent("Naint1", "ProblemService", ProblemService);
 
 thirdPartyCustomUIComponents.addCustomUIComponent("egor-sing-test", "hate-detection", HateDetection);
+
+thirdPartyCustomUIComponents.addCustomUIComponent("haasorg", "haas10", HateDetection); //test
+
 export default thirdPartyCustomUIComponents;
