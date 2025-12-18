@@ -1,0 +1,27 @@
+iframe {
+  width: 500px;
+  height: 300px;
+}
+.good, .bad {
+  font-weight: 700;
+}
+.good {
+  color: green;
+}
+.bad {
+  color: red;
+}
+
+.service-iframe {
+  --sanbox-border-color: #ff0000aa;
+  display: inline-flex;
+  border: 20px solid transparent;
+  border-image: repeating-linear-gradient(
+      45deg,
+      var(--sanbox-border-color),
+      var(--sanbox-border-color) 20px,
+      transparent 20px,
+      transparent 40px
+    )
+    20;
+}

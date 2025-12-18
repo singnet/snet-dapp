@@ -12,6 +12,8 @@ import { modelStatus } from "../../../../Redux/reducers/ServiceTrainingReducer";
 import { fetchFeedback } from "../../../../Redux/actionCreators/ServiceActions";
 import { configuration } from "./mock/configuration";
 
+import { Sandbox } from "./Sandbox/Sandbox";
+
 const ThirdPartyAIService = ({
   classes,
   isServiceExecutionComplete,
@@ -77,6 +79,9 @@ const ThirdPartyAIService = ({
       });
   };
 
+  /**
+   * lazy load
+   */
   const AIServiceCustomComponent = thirdPartyCustomUIComponents.componentFor(orgId, serviceId);
   const modelsIds = getModelsIds();
   if (isEmpty(serviceClient) || !serviceClient) {
@@ -85,6 +90,8 @@ const ThirdPartyAIService = ({
 
   return (
     <div className={classes.serviceDetailsTab}>
+      <Sandbox serviceUrl={"http://localhost:3001"} />
+
       <Suspense fallback={<div>Loading Service...</div>}>
         <ThirdPartyServiceErrorBoundary>
           <AIServiceCustomComponent
@@ -96,6 +103,7 @@ const ThirdPartyAIService = ({
           />
         </ThirdPartyServiceErrorBoundary>
       </Suspense>
+
       <CompletedActions
         isComplete={isServiceExecutionComplete}
         feedback={feedback}
