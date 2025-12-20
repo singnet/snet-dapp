@@ -1,4 +1,5 @@
 export function unaryDynamic(serviceClient, root, serviceFqn, methodName, requestObj, onActionEnd) {
+  console.log(serviceClient);
   const svc = root.lookupService(serviceFqn);
   const m = svc.methods[methodName];
 

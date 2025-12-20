@@ -17,7 +17,8 @@ export function Sandbox({ serviceClient, serviceUrl, serviceFdsUrl }) {
     /**
      * @param {*} send - from usePostMessageChannel; request - TODO: describe request
      */
-    ({ send, payload }) => {
+    (fds, { send, payload }) => {
+      console.log("callGrpc: payload=", payload, "fds=", fds);
       //TODO: unart args by fds and request
       const onActionEnd = (response) => {
         const { message, status, statusMessage } = response;
@@ -30,7 +31,7 @@ export function Sandbox({ serviceClient, serviceUrl, serviceFdsUrl }) {
       };
       unaryDynamic(serviceClient, fds, payload.serviceFqn, payload.methodName, payload.requestObj, onActionEnd);
     },
-    [serviceClient, fds]
+    [serviceClient]
   );
   const { addRequest } = useGrpcRequestQueue(fds, callGrpc);
 
@@ -49,6 +50,7 @@ export function Sandbox({ serviceClient, serviceUrl, serviceFdsUrl }) {
       },
       CALL_GRPC_REQUEST(send, payload) {
         console.log("[Sandbox outer] CALL_GRPC_REQUEST: payload=", payload);
+        console.log(payload);
         addRequest({ send, payload });
       },
     },

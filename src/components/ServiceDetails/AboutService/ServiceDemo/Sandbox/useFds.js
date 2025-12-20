@@ -28,7 +28,7 @@ export function useFds(fdsUrl) {
       try {
         setFdsLoadState({ state: FDS_LOAD_STATE.PENDING });
         const result = await fetch(fdsUrl);
-        setFds(fdsFromFile(result));
+        setFds(await fdsFromFile(result));
         setFdsLoadState({ state: FDS_LOAD_STATE.FULFILLED });
       } catch (error) {
         console.error(error);

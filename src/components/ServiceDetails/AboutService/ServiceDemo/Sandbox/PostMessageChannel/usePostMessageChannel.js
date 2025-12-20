@@ -118,7 +118,7 @@ export function usePostMessageChannel(options) {
         const handler = handlersRef.current[data.eventType];
         log(`received EVENT`, data.eventType, data.payload);
         if (handler) {
-          handler(data.payload, event);
+          handler(send, data.payload, event);
         }
       }
     };
