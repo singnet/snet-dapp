@@ -90,7 +90,12 @@ const ThirdPartyAIService = ({
 
   return (
     <div className={classes.serviceDetailsTab}>
-      <Sandbox serviceUrl={"http://localhost:3001"} />
+      <Sandbox
+        serviceUrl="http://localhost:3001"
+        serviceFdsUrl="http://localhost:3003/service.fds"
+        serviceClient={serviceClient}
+        isComplete={isServiceExecutionComplete}
+      />
 
       <Suspense fallback={<div>Loading Service...</div>}>
         <ThirdPartyServiceErrorBoundary>

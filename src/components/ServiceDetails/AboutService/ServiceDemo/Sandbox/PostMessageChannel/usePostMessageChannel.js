@@ -2,6 +2,9 @@ import * as React from "react";
 
 const INTERVAL = 300; //ms
 
+/**
+ * @param {*} options handlers - handler(send, payload, event)
+ */
 export function usePostMessageChannel(options) {
   const { channel, getTargetWindow, targetOrigin = "*", handlers = {}, debug = false, debugPrefix } = options;
 
@@ -31,7 +34,7 @@ export function usePostMessageChannel(options) {
 
     target.postMessage(envelope, targetOrigin);
     log(`sent READY`);
-  }, [getTargetWindow, targetOrigin, log]);
+  }, [getTargetWindow, targetOrigin, log, channel]);
 
   // We update handlersRef so that the listener always has the latest version.
   React.useEffect(() => {
@@ -122,7 +125,7 @@ export function usePostMessageChannel(options) {
 
     window.addEventListener("message", handleMessage);
     return () => window.removeEventListener("message", handleMessage);
-  }, [channel, targetOrigin, flushQueue, log]);
+  }, [channel, targetOrigin, flushQueue, log, isConnected, sendReadyEvent]);
 
   // Handshake: we periodically send READY until we receive READY from the other side.
   React.useEffect(() => {
@@ -138,7 +141,7 @@ export function usePostMessageChannel(options) {
     }, INTERVAL);
 
     return () => window.clearInterval(id);
-  }, [channel, getTargetWindow, targetOrigin, log]);
+  }, [channel, getTargetWindow, targetOrigin, log, sendReadyEvent]);
 
   return { send, isConnected };
 }
