@@ -11,9 +11,9 @@ export function useGrpcRequestQueue(fds, callGrpc) {
       if (!queue.length) {
         return;
       }
-      while (queue.length) {
-        const [item, ...tail] = queue;
-        setQueue(tail);
+      const items = queue;
+      setQueue([]);
+      for (const item of items) {
         await callGrpc(fds, item);
       }
     }

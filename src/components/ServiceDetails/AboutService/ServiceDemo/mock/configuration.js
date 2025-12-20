@@ -3,10 +3,10 @@ export const configuration = {
     /**
      * For the convenience of debugging services inside the sandbox, we make the purchase of a skippable
      */
-    skipPurchase: true,
+    skipPurchase: false,
     /**
      * Skip getting service details
      */
-    useMockServiceDetails: true,
+    useMockServiceDetails: false,
   },
 };
