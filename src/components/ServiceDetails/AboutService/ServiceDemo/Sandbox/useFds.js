@@ -31,6 +31,7 @@ export function useFds(fdsUrl) {
         setFds(fdsFromFile(result));
         setFdsLoadState({ state: FDS_LOAD_STATE.FULFILLED });
       } catch (error) {
+        console.error(error);
         setFdsLoadState({ state: FDS_LOAD_STATE.REJECTED, error });
       }
     }

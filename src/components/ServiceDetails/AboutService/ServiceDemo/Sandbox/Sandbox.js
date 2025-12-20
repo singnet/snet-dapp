@@ -60,7 +60,7 @@ export function Sandbox({ serviceClient, serviceUrl, serviceFdsUrl }) {
     <>
       fdsLoadState: <span className={isFdsLoadStateErrored ? "bad" : "good"}>{fdsLoadStateId}</span>
       <br />
-      {isFdsLoadStateErrored && <span className="good">Error: {fdsLoadStateError}</span>}
+      {isFdsLoadStateErrored && <span className="bad">Error: {fdsLoadStateError.toString()}</span>}
       <br />
       isConnected: <span className={isConnected ? "good" : "bad"}>{isConnected.toString()}</span>
       <iframe
