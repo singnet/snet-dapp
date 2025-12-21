@@ -12,7 +12,7 @@ import { modelStatus } from "../../../../Redux/reducers/ServiceTrainingReducer";
 import { fetchFeedback } from "../../../../Redux/actionCreators/ServiceActions";
 import { configuration } from "./mock/configuration";
 
-import { Sandbox } from "./Sandbox/Sandbox";
+import Sandbox from "./Sandbox/Sandbox";
 
 const ThirdPartyAIService = ({
   classes,
@@ -95,6 +95,7 @@ const ThirdPartyAIService = ({
         serviceFdsUrl="http://localhost:3003/service.fds"
         serviceClient={serviceClient}
         isComplete={isServiceExecutionComplete}
+        onError={onError}
       />
 
       <Suspense fallback={<div>Loading Service...</div>}>

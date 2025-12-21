@@ -19,7 +19,7 @@ const FDS_LOAD_STATE = {
 /**
  * use File Descriptor Set
  */
-export function useFds(fdsUrl) {
+export function useFds(fdsUrl, onError) {
   const [fds, setFds] = useState();
   const [fdsLoadState, setFdsLoadState] = useState({ state: FDS_LOAD_STATE.BEFORE_LOAD });
 
@@ -33,6 +33,7 @@ export function useFds(fdsUrl) {
       } catch (error) {
         console.error(error);
         setFdsLoadState({ state: FDS_LOAD_STATE.REJECTED, error });
+        onError(`[useFds] ${error}`);
       }
     }
     fetchFds();

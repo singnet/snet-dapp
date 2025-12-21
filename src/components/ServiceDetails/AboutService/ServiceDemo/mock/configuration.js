@@ -8,5 +8,9 @@ export const configuration = {
      * Skip getting service details
      */
     useMockServiceDetails: false,
+    /**
+     * Adds some debug info to ui
+     */
+    showConnectionInfo: false,
   },
 };

@@ -12,23 +12,24 @@ This Dapp allows you to browse the list of AI services from the SingularityNET R
 6. Follow the service execution steps on the service details page
 7. The result from the operation is displayed in the result tab
 
-## Development instructions
+## Install and run
 
 Install [Node.js and npm](https://nodejs.org/)
 
 - node version 20 || >= 22
 
-For getting dependencies:
-```
-npm install --force
-```
-or
+To get dependencies:
 ```
 yarn install
 ```
-To serve the application locally and watch source files for modifications:
+Be careful: on Node 20, npm install or npm install --force will result in an error. Use only yarn.
+<code>~~npm install~~ //Causes an error. Do not use.</code>
+<code>~~npm install --force~~ //Also causes an error. Do not use.</code>
+
+To run an application locally and whatch changes in source files:
+
 ```
-npm run start
+yarn start
 ```
 ## UI for Services
 

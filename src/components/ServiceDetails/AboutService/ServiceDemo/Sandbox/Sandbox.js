@@ -1,18 +1,21 @@
 import { useRef, useCallback } from "react";
 import { SANDBOX_CONFIG } from "./data";
-import "./Sandbox.css";
 import { usePostMessageChannel } from "./PostMessageChannel/usePostMessageChannel";
 import { useFds } from "./useFds";
 import { useGrpcRequestQueue } from "./useGrpcRequestQueue";
 import { unaryDynamic } from "./grpcUtils";
+import { configuration } from "../mock/configuration";
 
-export function Sandbox({ serviceClient, serviceUrl, serviceFdsUrl }) {
+import { withStyles } from "@mui/styles";
+import { useStyles } from "./styles";
+// import "./Sandbox.css";
+
+function Sandbox({ classes, serviceClient, serviceUrl, serviceFdsUrl, onError }) {
   const iframeRef = useRef(null);
   const url = new URL(serviceUrl);
   const serviceOrigin = url.origin;
 
-  const { fds, isFdsLoadStateErrored, fdsLoadStateId, fdsLoadStateError } = useFds(serviceFdsUrl);
-
+  const { fds, isFdsLoadStateErrored, fdsLoadStateId } = useFds(serviceFdsUrl, onError);
   const callGrpc = useCallback(
     /**
      * @param {*} send - from usePostMessageChannel; request - TODO: describe request
@@ -60,14 +63,22 @@ export function Sandbox({ serviceClient, serviceUrl, serviceFdsUrl }) {
 
   return (
     <>
-      fdsLoadState: <span className={isFdsLoadStateErrored ? "bad" : "good"}>{fdsLoadStateId}</span>
-      <br />
-      {isFdsLoadStateErrored && <span className="bad">Error: {fdsLoadStateError.toString()}</span>}
-      <br />
-      isConnected: <span className={isConnected ? "good" : "bad"}>{isConnected.toString()}</span>
+      {configuration.debug.showConnectionInfo && (
+        <>
+          fdsLoadState: <span className={isFdsLoadStateErrored ? classes.bad : classes.good}>{fdsLoadStateId}</span>
+          <br />
+        </>
+      )}
+
+      {configuration.debug.showConnectionInfo && (
+        <>
+          isConnected: <span className={isConnected ? classes.good : classes.bad}>{isConnected.toString()}</span>
+          <br />
+        </>
+      )}
       <iframe
         title="service"
-        className="service-iframe"
+        className={classes.serviceIframe}
         ref={iframeRef}
         src={serviceUrl}
         sandbox={SANDBOX_CONFIG.SANDBOX_ATTRIBUTE}
@@ -76,3 +87,4 @@ export function Sandbox({ serviceClient, serviceUrl, serviceFdsUrl }) {
     </>
   );
 }
+export default withStyles(useStyles)(Sandbox);
