@@ -1,4 +1,4 @@
-import { useRef, useCallback } from "react";
+import { useRef, useCallback, useEffect } from "react";
 import { SANDBOX_CONFIG } from "./data";
 import { usePostMessageChannel } from "./PostMessageChannel/usePostMessageChannel";
 import { useFds } from "./useFds";
@@ -10,7 +10,7 @@ import { withStyles } from "@mui/styles";
 import { useStyles } from "./styles";
 // import "./Sandbox.css";
 
-function Sandbox({ classes, serviceClient, serviceUrl, serviceFdsUrl, onError }) {
+function Sandbox({ classes, serviceClient, serviceUrl, serviceFdsUrl, onError, isComplete }) {
   const iframeRef = useRef(null);
   const url = new URL(serviceUrl);
   const serviceOrigin = url.origin;
@@ -18,18 +18,27 @@ function Sandbox({ classes, serviceClient, serviceUrl, serviceFdsUrl, onError })
   const { fds, isFdsLoadStateErrored, fdsLoadStateId } = useFds(serviceFdsUrl, onError);
   const callGrpc = useCallback(
     /**
-     * @param {*} send - from usePostMessageChannel; request - TODO: describe request
+     *
+     * @param {*} fds the root of reflection tree created by protobufjs from FileDescriptorSet. Contains the described types (messages, services). Provides methods for encoding and decoding gRPC binary requests/responses.
+     * @param {*} send from usePostMessageChannel. Allows sending messages to sandboxed iframe.
+     * @param {Object} payload payload from sandboxed iframe
+     * @param payload.serviceFqn service Full Qualified Name for grpc
+     * @param payload.methodName grpc method name
+     * @param payload.requestObj js plain object which is used to build grpc request
+     * @param payload.postMessageMetadata metadata which is used by postMessage channel for consistency. This is not related to grpc.
+     * @param payload.options grpc options (not implemented yet)
      */
     (fds, { send, payload }) => {
       console.log("callGrpc: payload=", payload, "fds=", fds);
       //TODO: unart args by fds and request
       const onActionEnd = (response) => {
+        console.log("onActionEnd: response=", response);
         const { message, status, statusMessage } = response;
         send("CALL_GRPC_RESPONSE", {
           correlationId: payload.postMessageMetadata.correlationId, //must be presented in response
           status, //must be presented in response
           statusMessage,
-          data: message.getValue(),
+          messageAsObject: message, //plain js object representing a grpc response for further transmission via postMessage
         });
       };
       unaryDynamic(serviceClient, fds, payload.serviceFqn, payload.methodName, payload.requestObj, onActionEnd);
@@ -40,7 +49,7 @@ function Sandbox({ classes, serviceClient, serviceUrl, serviceFdsUrl, onError })
 
   /* /fds loading */
 
-  const { isConnected } = usePostMessageChannel({
+  const { isConnected, send } = usePostMessageChannel({
     channel: "sandbox-channel",
     getTargetWindow: () => iframeRef.current?.contentWindow ?? null,
     targetOrigin: serviceOrigin,
@@ -60,6 +69,10 @@ function Sandbox({ classes, serviceClient, serviceUrl, serviceFdsUrl, onError })
     debug: true,
     debugPrefix: "Parent-",
   });
+
+  useEffect(() => {
+    send("SET_IS_COMPLETE", isComplete);
+  }, [isComplete, send]);
 
   return (
     <>

@@ -69,4 +69,6 @@ thirdPartyCustomUIComponents.addCustomUIComponent("egor-sing-test", "hate-detect
 //endpoint https://ai-ui-service.singularitynet.io:8000
 thirdPartyCustomUIComponents.addCustomUIComponent("SNet", "example-service-constructor", HateDetection); //test
 
+thirdPartyCustomUIComponents.addCustomUIComponent("190625", "190625_2", HateDetection); //test
+
 export default thirdPartyCustomUIComponents;

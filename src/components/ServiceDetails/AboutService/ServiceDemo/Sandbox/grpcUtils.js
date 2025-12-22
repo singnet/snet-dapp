@@ -14,7 +14,11 @@ export function unaryDynamic(serviceClient, root, serviceFqn, methodName, reques
 
     // responseType is needed by grpc-web to parse the response:
     responseType: {
-      deserializeBinary: (bytes) => Res.decode(new Uint8Array(bytes)),
+      deserializeBinary: (bytes) => {
+        const message = Res.decode(new Uint8Array(bytes));
+        const object = Res.toObject(message);
+        return object;
+      },
     },
   };
 

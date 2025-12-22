@@ -1,4 +1,5 @@
 import * as React from "react";
+import { configuration } from "./configuration";
 
 const INTERVAL = 300; //ms
 
@@ -94,7 +95,11 @@ export function usePostMessageChannel(options) {
   // Event listener
   React.useEffect(() => {
     const handleMessage = (event) => {
-      log(`handleMessage: event=`, event, event.data.kind);
+      if (!configuration.filterByPm) {
+        log(`handleMessage: event=`, event, event.data.kind);
+      } else if (event.data.__pm__) {
+        log(`handleMessage: event=`, event, event.data.kind);
+      }
       const data = event.data;
 
       if (!data || data.__pm__ !== true) return;

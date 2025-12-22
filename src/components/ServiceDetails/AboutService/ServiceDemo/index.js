@@ -49,11 +49,8 @@ const ServiceDemo = ({ classes }) => {
   }, [location.hash]);
 
   const computeActiveSection = useCallback(() => {
-    //eslint-disable-next-line
     const { purchasing, executingAIservice, displayingResponse } = demoProgressStatus;
-
-    // return purchaseCompleted ? (isServiceExecutionComplete ? displayingResponse : executingAIservice) : purchasing;
-    return executingAIservice;
+    return purchaseCompleted ? (isServiceExecutionComplete ? displayingResponse : executingAIservice) : purchasing;
   }, [purchaseCompleted, isServiceExecutionComplete]);
 
   const serviceRequestStartHandler = () => {
