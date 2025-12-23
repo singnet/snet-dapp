@@ -8,7 +8,17 @@ import { configuration } from "../mock/configuration";
 
 import { withStyles } from "@mui/styles";
 import { useStyles } from "./styles";
-// import "./Sandbox.css";
+
+function setHeightOfIframe(iframeRef, iframeMaxHeight) {
+  const iframeStyles = window.getComputedStyle(iframeRef.current);
+  const height =
+    iframeMaxHeight +
+    Number(iframeStyles.borderTopWidth.slice(0, -2)) +
+    Number(iframeStyles.borderBottomWidth.slice(0, -2)) +
+    Number(iframeStyles.paddingTop.slice(0, -2)) +
+    Number(iframeStyles.paddingBottom.slice(0, -2));
+  iframeRef.current.style.height = `${height}px`;
+}
 
 function Sandbox({ classes, serviceClient, serviceUrl, serviceFdsUrl, onError, isComplete }) {
   const iframeRef = useRef(null);
@@ -51,19 +61,16 @@ function Sandbox({ classes, serviceClient, serviceUrl, serviceFdsUrl, onError, i
 
   const { isConnected, send } = usePostMessageChannel({
     channel: "sandbox-channel",
-    getTargetWindow: () => iframeRef.current?.contentWindow ?? null,
+    getTargetWindow: useCallback(() => iframeRef.current?.contentWindow ?? null, []),
     targetOrigin: serviceOrigin,
     handlers: {
-      PING_FROM_IFRAME(send, payload) {
-        console.log("Parent received PING_FROM_IFRAME:", payload);
-      },
-      SOME_EVENT(send, payload) {
-        console.log("Parent received SOME_EVENT:", payload);
-      },
       CALL_GRPC_REQUEST(send, payload) {
         console.log("[Sandbox outer] CALL_GRPC_REQUEST: payload=", payload);
         console.log(payload);
         addRequest({ send, payload });
+      },
+      SET_IFRAME_HEIGHT(send, payload) {
+        setHeightOfIframe(iframeRef, payload);
       },
     },
     debug: true,
