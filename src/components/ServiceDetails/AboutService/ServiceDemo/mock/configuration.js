@@ -3,7 +3,7 @@ export const configuration = {
     /**
      * For the convenience of debugging services inside the sandbox, we make the purchase of a skippable
      */
-    skipPurchase: false,
+    skipPurchase: true,
     /**
      * Skip getting service details
      */

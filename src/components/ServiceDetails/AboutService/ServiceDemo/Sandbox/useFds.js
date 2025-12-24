@@ -37,7 +37,7 @@ export function useFds(fdsUrl, onError) {
       }
     }
     fetchFds();
-  }, [fdsUrl]);
+  }, [fdsUrl, onError]);
 
   const isFdsLoadStateErrored = fdsLoadState.state === "REJECTED" ? true : false;
   const fdsLoadStateError = fdsLoadState.error;

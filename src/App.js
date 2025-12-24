@@ -9,7 +9,7 @@ import { createBrowserHistory } from "history";
 import Routes from "./utility/constants/Routes";
 import NavigateSetter from "./utility/HistoryHelper";
 import { aws_config } from "./config/aws_config";
-import theme from "./assets/Theme";
+import { theme } from "sandbox-common/src/theme";
 import withRegistrationHeader from "./components/HOC/WithRegistrationHeader";
 import { headerData } from "./utility/constants/Header";
 import withInAppWrapper from "./components/HOC/WithInAppHeader";

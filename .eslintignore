@@ -86,3 +86,5 @@ src/assets/externalScripts
 
 #services demo components
 src/assets/thirdPartyServices
+
+public/index.html

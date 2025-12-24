@@ -4,7 +4,7 @@ import { ThemeProvider } from "@mui/styles";
 import { connect } from "react-redux";
 
 import Routes from "../utility/constants/Routes";
-import theme from "../assets/Theme";
+import { theme } from "sandbox-common/src/theme";
 import withInAppWrapper from "../components/HOC/WithInAppHeader";
 
 const ServiceDetails = lazy(() => import("../components/ServiceDetails"));

@@ -3,6 +3,7 @@ const path = require("path");
 const { aliasWebpack, configPaths } = require("react-app-alias");
 
 const aliasMap = configPaths("./jsconfig.json");
+const { mixinCommonFonts } = require("./node_modules/sandbox-common/webpackUtils/mixinCommonFonts");
 
 const options = {
   alias: {
@@ -21,6 +22,8 @@ const options = {
 };
 
 module.exports = function override(config) {
+  mixinCommonFonts(config, path.resolve(__dirname, "./node_modules/sandbox-common/templates/common-fonts.html"));
+
   const modifiedConfig = aliasWebpack(options)(config);
   let fallback = config.resolve.fallback || {};
   fallback = { ...fallback, fs: false };

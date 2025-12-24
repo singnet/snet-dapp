@@ -47,6 +47,7 @@
     "recharts": "^2.13.3",
     "redux": "^5.0.1",
     "redux-thunk": "^3.1.0",
+    "sandbox-common": "file:../sandbox/sandbox-common",
     "singularitynet-platform-contracts": "2.1.0",
     "slick-carousel": "^1.8.1",
     "snet-sdk-web": "5.0.4",

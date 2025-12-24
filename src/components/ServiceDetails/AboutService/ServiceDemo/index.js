@@ -75,17 +75,20 @@ const ServiceDemo = ({ classes }) => {
     setProgressText(progressList);
   };
 
-  const serviceRequestErrorHandler = (error) => {
-    const alert = { type: alertTypes.ERROR };
-    if (error.response && error.response.data && error.response.data.error) {
-      alert.message = error.response.data.error;
-    } else {
-      alert.message = error.message || error;
-    }
-    setIsServiceExecutionComplete(false);
-    setAlert(alert);
-    dispatch(loaderActions.stopAppLoader());
-  };
+  const serviceRequestErrorHandler = useCallback(
+    (error) => {
+      const alert = { type: alertTypes.ERROR };
+      if (error.response && error.response.data && error.response.data.error) {
+        alert.message = error.response.data.error;
+      } else {
+        alert.message = error.message || error;
+      }
+      setIsServiceExecutionComplete(false);
+      setAlert(alert);
+      dispatch(loaderActions.stopAppLoader());
+    },
+    [dispatch]
+  );
 
   const handlePurchaseComplete = () => {
     setPurchaseCompleted(true);

@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import { Provider as ReduxProvider } from "react-redux";
 import * as Sentry from "@sentry/react";
 
-import "./index.css";
+import "sandbox-common/src/theme/common.css";
 import "./assets/icomoon.css";
 import configureStore from "./Redux/Store";
 import SnetApp from "./SnetApp";

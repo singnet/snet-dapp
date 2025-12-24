@@ -1,6 +1,6 @@
 import { useRef, useCallback, useEffect } from "react";
 import { SANDBOX_CONFIG } from "./data";
-import { usePostMessageChannel } from "./PostMessageChannel/usePostMessageChannel";
+import { usePostMessageChannel } from "sandbox-common/src/PostMessageChannel/usePostMessageChannel";
 import { useFds } from "./useFds";
 import { useGrpcRequestQueue } from "./useGrpcRequestQueue";
 import { unaryDynamic } from "./grpcUtils";
@@ -96,6 +96,7 @@ function Sandbox({ classes, serviceClient, serviceUrl, serviceFdsUrl, onError, i
           <br />
         </>
       )}
+      <h2>h2 Test</h2>
       <iframe
         title="service"
         className={classes.serviceIframe}
