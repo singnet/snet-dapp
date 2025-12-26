@@ -120,6 +120,7 @@ const ServiceDemo = ({ classes }) => {
           onComplete={serviceRequestCompleteHandler}
           onError={serviceRequestErrorHandler}
           handleResetAndRun={handleResetAndRun}
+          serviceName={serviceName}
         />
       ) : (
         <Purchase

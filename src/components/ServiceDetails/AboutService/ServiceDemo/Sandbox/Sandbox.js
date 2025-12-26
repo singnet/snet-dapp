@@ -9,6 +9,8 @@ import { configuration } from "../mock/configuration";
 import { withStyles } from "@mui/styles";
 import { useStyles } from "./styles";
 
+import ServiceLoadingProgress from "./ServiceLoadingProgress";
+
 function setHeightOfIframe(iframeRef, iframeMaxHeight) {
   const iframeStyles = window.getComputedStyle(iframeRef.current);
   const height =
@@ -20,7 +22,7 @@ function setHeightOfIframe(iframeRef, iframeMaxHeight) {
   iframeRef.current.style.height = `${height}px`;
 }
 
-function Sandbox({ classes, serviceClient, serviceUrl, serviceFdsUrl, onError, isComplete }) {
+function Sandbox({ classes, serviceClient, serviceUrl, serviceFdsUrl, onError, isComplete, serviceName }) {
   const iframeRef = useRef(null);
   const url = new URL(serviceUrl);
   const serviceOrigin = url.origin;
@@ -97,14 +99,17 @@ function Sandbox({ classes, serviceClient, serviceUrl, serviceFdsUrl, onError, i
         </>
       )}
       <h2>h2 Test</h2>
-      <iframe
-        title="service"
-        className={classes.serviceIframe}
-        ref={iframeRef}
-        src={serviceUrl}
-        sandbox={SANDBOX_CONFIG.SANDBOX_ATTRIBUTE}
-        allow={SANDBOX_CONFIG.ALLOW_ATTRIBUTE}
-      />
+      <div className={classes.iframeWrapper}>
+        <iframe
+          title="service"
+          className={classes.serviceIframe}
+          ref={iframeRef}
+          src={serviceUrl}
+          sandbox={SANDBOX_CONFIG.SANDBOX_ATTRIBUTE}
+          allow={SANDBOX_CONFIG.ALLOW_ATTRIBUTE}
+        />
+        {!isConnected && <ServiceLoadingProgress serviceName={serviceName} />}
+      </div>
     </>
   );
 }

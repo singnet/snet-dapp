@@ -21,6 +21,7 @@ const ThirdPartyAIService = ({
   onComplete,
   onError,
   handleResetAndRun,
+  serviceName,
 }) => {
   const dispatch = useDispatch();
   const { serviceId, orgId, groupInfo } = useSelector((state) => state.serviceDetailsReducer.details);
@@ -96,6 +97,7 @@ const ThirdPartyAIService = ({
         serviceClient={serviceClient}
         isComplete={isServiceExecutionComplete}
         onError={onError}
+        serviceName={serviceName}
       />
 
       <Suspense fallback={<div>Loading Service...</div>}>

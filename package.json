@@ -72,7 +72,7 @@
     "lint:fix": "eslint . --fix",
     "sitemap": "babel-node scripts/sitemap-generator.js",
     "zip-components": "babel-node scripts/zip-components.js",
-    "generate-stubs": "babel-node scripts/generate-stubs.js example_service.proto",
+    "generate-stubs": "babel-node scripts/generate-stubs.js service.proto",
     "prepare": "husky install"
   },
   "lint-staged": {

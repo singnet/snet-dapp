@@ -6,6 +6,9 @@ export const useStyles = (theme) => {
     bad: {
       color: theme.palette.error.main,
     },
+    iframeWrapper: {
+      position: "relative",
+    },
     serviceIframe: {
       "--sanbox-border-color": theme.palette.error.light,
       boxSizing: "border-box",
@@ -20,6 +23,16 @@ export const useStyles = (theme) => {
           transparent 40px
         )
         20`,
+    },
+    serviceLoadingProgress: {
+      position: "absolute",
+      width: "100%",
+      height: "100%",
+      inset: "0",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
     },
   };
 };
