@@ -13,6 +13,7 @@ import { fetchFeedback } from "../../../../Redux/actionCreators/ServiceActions";
 import { configuration } from "./mock/configuration";
 
 import Sandbox from "./Sandbox/Sandbox";
+import { mockData } from "./mock/mockData";
 
 const ThirdPartyAIService = ({
   classes,
@@ -92,8 +93,8 @@ const ThirdPartyAIService = ({
   return (
     <div className={classes.serviceDetailsTab}>
       <Sandbox
-        serviceUrl="http://localhost:3001"
-        serviceFdsUrl="http://localhost:3003/service.fds"
+        serviceUrl={mockData.serviceUrl}
+        serviceFdsUrl={mockData.serviceFdsUrl}
         serviceClient={serviceClient}
         isComplete={isServiceExecutionComplete}
         onError={onError}
