@@ -23,7 +23,7 @@ export const sendFeedbackSnetAPI = ({ name, email, category, feedback, attachmen
       attachment_urls: attachmentUrls,
     }),
   };
-  const feedbackUrl = process?.env?.REACT_APP_FEEDBACK_ENDPOINT + "err";
+  const feedbackUrl = process?.env?.REACT_APP_FEEDBACK_ENDPOINT;
   if (!feedbackUrl) {
     throw new Error("Cannot start the application! process.env.REACT_APP_FEEDBACK_ENDPOINT is undefined");
   }
