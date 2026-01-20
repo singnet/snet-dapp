@@ -38,10 +38,10 @@ const FeedbackForm = ({ closeForm, sendFeedbackAPI }) => {
     } catch (error) {
       setAlert({ type: alertTypes.ERROR, message: error?.message });
     } finally {
+      dispatch(loaderActions.stopAppLoader());
       await new Promise((resolve) => setTimeout(resolve, 3000));
       resetForm();
       setIsRequestHandling(false);
-      dispatch(loaderActions.stopAppLoader());
       closeForm();
     }
   };
