@@ -7,7 +7,8 @@ export const getCaptchaFetch = () => {
   };
 
   if (!keys.CAPTCHA_TOKEN || !keys.JSAPI_URL) {
-    throw new Error("Tokens undefined");
+    console.warn("Captcha configuration is not provided");
+    return fetch;
   }
 
   const captchaFetch = createCaptchaFetchHandler({
