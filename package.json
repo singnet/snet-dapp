@@ -51,6 +51,7 @@
     "snet-sdk-web": "5.0.4",
     "utf8": "^3.0.0",
     "validate.js": "^0.13.1",
+    "waf-captcha-frontend": "0.0.7",
     "web3": "^4.11.1"
   },
   "resolutions": {

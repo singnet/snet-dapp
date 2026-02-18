@@ -1,6 +1,9 @@
 import axios from "axios";
+import { getCaptchaFetch } from "../utility/captchaFetch";
 
 const source = "MARKETPLACE";
+
+const captchaFetch = getCaptchaFetch();
 
 export const sendFeedbackSnetAPI = async ({ name, email, category, feedback, attachmentUrls }) => {
   const options = {
@@ -26,7 +29,7 @@ export const sendFeedbackSnetAPI = async ({ name, email, category, feedback, att
   if (!feedbackUrl) {
     throw new Error("Cannot start the application! process.env.REACT_APP_FEEDBACK_ENDPOINT is undefined");
   }
-  await fetch(feedbackUrl + "/user/message", options);
+  await captchaFetch(feedbackUrl + "/user/message", options);
 };
 
 const ENTER_CODE = "%0D%0A";

@@ -9,6 +9,7 @@ const FeedbackForm = () => {
 
   return (
     <Fragment>
+      <div id="captchaContainer" />
       <FeedbackFormModal
         sendFeedbackAPI={sendFeedbackSnetAPI}
         isModalVisible={isModalVisible}
