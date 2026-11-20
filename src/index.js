@@ -1,27 +1,20 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { Provider as ReduxProvider } from "react-redux";
-import * as Sentry from "@sentry/react";
 
 import "./index.css";
-import "./assets/icomoon.css";
-import configureStore from "./Redux/Store";
-import SnetApp from "./SnetApp";
-
-if (process.env.NODE_ENV === "production") {
-  Sentry.init({
-    dsn: process.env.REACT_APP_SENTRY_DSN,
-    integrations: [Sentry.replayIntegration()],
-    replaysSessionSampleRate: 0.1,
-    replaysOnErrorSampleRate: 1.0,
-  });
-}
-
-export const store = configureStore();
+import logo from "./assets/images/Logo_Header_Black.svg";
 
 const root = createRoot(document.getElementById("root"));
-root.render(
-  <ReduxProvider store={store}>
-    <SnetApp />
-  </ReduxProvider>
-);
+
+if (process.env.REACT_APP_MAINTENANCE_MODE === "true") {
+  document.title = "Scheduled maintenance | SingularityNET AI Marketplace";
+  root.render(
+    <main className="maintenance-page">
+      <img src={logo} alt="SingularityNET" width="230" height="60" />
+      <h1>Scheduled maintenance</h1>
+      <p>The AI Marketplace is temporarily unavailable. Please check back later.</p>
+    </main>
+  );
+} else {
+  import("./startApp").then(({ startApp }) => startApp(root));
+}

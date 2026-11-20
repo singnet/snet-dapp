@@ -14,6 +14,26 @@ h2 {
   margin: 0;
 }
 
+.maintenance-page {
+  box-sizing: border-box;
+  min-height: 100vh;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 16px;
+  padding: 24px;
+  text-align: center;
+}
+
+.maintenance-page img {
+  max-width: 100%;
+  height: auto;
+}
+
+.maintenance-page p {
+  margin: 0;
+}
+
 /* GDPR QuantCast Notification */
 .qc-cmp-persistent-link {
   display: none !important;

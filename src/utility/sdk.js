@@ -7,7 +7,7 @@ import { APIEndpoints, APIPaths } from "../config/APIEndpoints";
 import { initializeAPIOptions, postAPI } from "./API";
 import { fetchAuthenticatedUser, walletTypes } from "../Redux/actionCreators/UserActions";
 import PaypalPaymentMgmtStrategy from "./PaypalPaymentMgmtStrategy";
-import { store } from "../";
+import { store } from "../startApp";
 import { getFreeCallSign } from "../Redux/actionCreators/ServiceDetailsActions";
 
 const DEFAULT_GAS_PRICE = 4700000;
